@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-SEC-PLAN-001",
+  "baseRef": "main",
+  "baseSha": "e1237cda839829a6a4eedba3b9917d6ee45c6352",
+  "criticalSources": {
+    "AGENTS.md": "4c5509df8eaf7f85adc79e8972652cc9c7f40d59",
+    ".engineering/CHECKPOINT.json": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    ".engineering/SECURITY.md": "5548533571cc987590d086da608586ff55b5e3a9",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "ac2b80e379fbebb48ced7ff09afaa098b22e4f41",
+    ".engineering/DEFINITION-OF-DONE.md": "b8db56c16bc80eec337ad49d6af7fa087b510af2",
+    ".engineering/DECISIONS-LEDGER.md": "ddbe74d0a99b0f54b2589b18da96c03469d6f9cf",
+    ".engineering/SOURCE-HIERARCHY.md": "71f13c5ab18855c952025f8dcb44bb23017711d6",
+    ".engineering/work-orders/PH-M01-WO-001.md": "34facef3f3eafff34b11dbcec2857a85b2081103"
+  },
+  "stalePolicy": "Any semantic change to the bound security/governance sources requires recompile/rebase before owner decision.",
+  "executor": "ChatGPT-connected-tools",
+  "risk": "HIGH_ASSURANCE_GOVERNANCE",
+  "canonicalMutationAuthorized": false
+}
