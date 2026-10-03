@@ -52,3 +52,12 @@ Development-only topology:
 The local Docker stack is separate from PH-M11 production deployment/orchestration. Production image hardening, reverse proxying, hosted secrets, persistence and infrastructure remain owned by PH-M11.
 
 Developer feedback target: source edits should become visible without rebuilding the entire image when only application/package source changed. Dependency/package-manifest changes may require an explicit rebuild.
+
+## PH-M01 identity and tenancy boundary
+- `packages/db` owns PostgreSQL schema, migrations and server-only repositories.
+- `IdentityPort` isolates the selected auth provider from domain/application authorization.
+- Pilot identity provider is Supabase Auth; provider-specific SSR/session code stays in the web identity adapter.
+- `TenantContext` is created server-side from authenticated identity plus active membership and is required by tenant-scoped repositories/actions.
+- Client-provided tenant identifiers are selectors only, never authorization proof.
+- Local development adds PostgreSQL 17 to the existing Docker Compose stack.
+- Secret encryption is application-level and server-only; encrypted persistence is introduced in PH-M01-WO-003, not in the tenancy foundation.
