@@ -26,3 +26,22 @@ npm run validate
 ```
 
 The web and worker workspaces are engineering shells only. Product behavior is not part of PH-M00.
+
+### Local Docker runtime
+
+With Docker Desktop using the Linux Engine, start the local web and worker services:
+
+```sh
+npm run docker:up
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the web shell. Both services use the same Node.js 24 development image, and source edits under `apps/` and `packages/` are mounted into the running containers.
+
+```sh
+npm run docker:ps
+npm run docker:logs
+npm run docker:rebuild
+npm run docker:down
+```
+
+`docker:logs` follows recent logs from both services. Rebuild after changing a package manifest or the lockfile. `docker:down` stops and removes the Compose containers while preserving the Next.js cache volume.

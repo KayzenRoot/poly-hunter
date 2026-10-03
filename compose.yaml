@@ -1,0 +1,95 @@
+name: polyhunter-local
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: polyhunter-dev:local
+    container_name: polyhunter-web
+    init: true
+    restart: unless-stopped
+    command:
+      - npm
+      - run
+      - dev
+      - --workspace
+      - '@polyhunter/web'
+      - --
+      - --webpack
+      - --hostname
+      - 0.0.0.0
+    environment:
+      NODE_ENV: development
+      NEXT_TELEMETRY_DISABLED: '1'
+      POLYHUNTER_DOCKER_DEV: '1'
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - type: bind
+        source: ./apps/web
+        target: /workspace/apps/web
+      - type: bind
+        source: ./packages/contracts
+        target: /workspace/packages/contracts
+      - type: bind
+        source: ./packages/domain
+        target: /workspace/packages/domain
+      - type: bind
+        source: ./packages/testkit
+        target: /workspace/packages/testkit
+      - type: volume
+        source: web_next
+        target: /workspace/apps/web/.next
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: polyhunter-dev:local
+    container_name: polyhunter-worker
+    init: true
+    restart: unless-stopped
+    command:
+      - ./node_modules/.bin/nodemon
+      - --legacy-watch
+      - --polling-interval
+      - '1000'
+      - --watch
+      - apps/worker
+      - --watch
+      - packages
+      - --ext
+      - ts,json
+      - --exec
+      - node
+      - apps/worker/src/index.ts
+    environment:
+      NODE_ENV: development
+    volumes:
+      - type: bind
+        source: ./apps/worker
+        target: /workspace/apps/worker
+      - type: bind
+        source: ./packages/contracts
+        target: /workspace/packages/contracts
+      - type: bind
+        source: ./packages/domain
+        target: /workspace/packages/domain
+      - type: bind
+        source: ./packages/testkit
+        target: /workspace/packages/testkit
+
+volumes:
+  web_next:
+    name: polyhunter-local-web-next
