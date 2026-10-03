@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "gef.init.state",
+  "verb": "init",
+  "commandId": "gef.init.run",
+  "contractVersion": "1.0",
+  "productVersion": "1.1.2",
+  "runId": "run-1-ce47d1aa016b",
+  "planDigest": "8b15fc1521c0c681916dcae2e87836dc4a72758969069c0985dd0f36cedfd327",
+  "observationFingerprint": "53ef33c3172b6f2d474d1f4711152a83301f53e9c1c2e7bf66d81abd5f221d10",
+  "observationModel": "PROJECT_DRIFT_V1",
+  "transaction": {
+    "planDigest": "8b15fc1521c0c681916dcae2e87836dc4a72758969069c0985dd0f36cedfd327",
+    "outcome": "APPLIED"
+  }
+}
