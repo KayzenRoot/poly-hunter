@@ -14,6 +14,23 @@ jobs:
     name: Node 24 validation
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+        env:
+          POSTGRES_USER: polyhunter
+          POSTGRES_PASSWORD: polyhunter-ci-only
+          POSTGRES_DB: polyhunter_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U polyhunter -d polyhunter_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+          --health-start-period 10s
+    env:
+      DATABASE_URL: postgresql://polyhunter:polyhunter-ci-only@localhost:5432/polyhunter_test
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -29,3 +46,9 @@ jobs:
 
       - name: Run required validation gates
         run: npm run validate
+
+      - name: Apply versioned PostgreSQL migrations
+        run: npm run db:migrate --workspace @polyhunter/db
+
+      - name: Run PostgreSQL tenancy integration tests
+        run: npm run test:integration

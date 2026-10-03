@@ -1,6 +1,25 @@
 name: polyhunter-local
 
 services:
+  postgres:
+    image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    container_name: polyhunter-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-polyhunter}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-polyhunter-local-only}
+      POSTGRES_DB: ${POSTGRES_DB:-polyhunter_dev}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
   web:
     build:
       context: .
@@ -23,9 +42,13 @@ services:
       NODE_ENV: development
       NEXT_TELEMETRY_DISABLED: '1'
       POLYHUNTER_DOCKER_DEV: '1'
+      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD:-polyhunter-local-only}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
     ports:
       - 127.0.0.1:3000:3000
     volumes:
+      - type: bind
+        source: ./vitest.integration.config.ts
+        target: /workspace/vitest.integration.config.ts
       - type: bind
         source: ./apps/web
         target: /workspace/apps/web
@@ -38,6 +61,9 @@ services:
       - type: bind
         source: ./packages/testkit
         target: /workspace/packages/testkit
+      - type: bind
+        source: ./packages/db
+        target: /workspace/packages/db
       - type: volume
         source: web_next
         target: /workspace/apps/web/.next
@@ -51,6 +77,9 @@ services:
       timeout: 5s
       retries: 20
       start_period: 30s
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   worker:
     build:
@@ -76,6 +105,7 @@ services:
       - apps/worker/src/index.ts
     environment:
       NODE_ENV: development
+      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD:-polyhunter-local-only}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
     volumes:
       - type: bind
         source: ./apps/worker
@@ -89,7 +119,15 @@ services:
       - type: bind
         source: ./packages/testkit
         target: /workspace/packages/testkit
+      - type: bind
+        source: ./packages/db
+        target: /workspace/packages/db
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   web_next:
     name: polyhunter-local-web-next
+  postgres_data:
+    name: polyhunter-local-postgres17

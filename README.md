@@ -25,17 +25,26 @@ npm ci
 npm run validate
 ```
 
-The web and worker workspaces are engineering shells only. Product behavior is not part of PH-M00.
+The web and worker workspaces remain engineering shells in this increment. PH-M01-WO-001 adds the persistence boundary only; authentication, secrets and product behavior are outside its scope.
 
 ### Local Docker runtime
 
-With Docker Desktop using the Linux Engine, start the local web and worker services:
+With Docker Desktop using the Linux Engine, copy `.env.example` to `.env` if you want to make the local-only PostgreSQL defaults explicit, then start the web, worker and PostgreSQL services:
 
 ```sh
 npm run docker:up
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the web shell. Both services use the same Node.js 24 development image, and source edits under `apps/` and `packages/` are mounted into the running containers.
+Open [http://localhost:3000](http://localhost:3000) to view the web shell. The PostgreSQL 17 service is reachable only on the Compose network; it has a persistent named volume and is not published to the host. Both Node services receive `DATABASE_URL` inside the container only. Local defaults are development-only and must never be reused in production.
+
+Apply the checked-in Drizzle migrations and run the real PostgreSQL isolation suite from the web container:
+
+```sh
+npm run db:migrate
+npm run db:test:integration
+```
+
+The integration suite creates two disposable databases, applies migrations from empty state, re-applies them to verify repeatability, then checks constraints, deletion behavior, membership revocation and tenant A/B isolation. CI performs the migration and suite against a PostgreSQL 17 service.
 
 ```sh
 npm run docker:ps
@@ -44,4 +53,4 @@ npm run docker:rebuild
 npm run docker:down
 ```
 
-`docker:logs` follows recent logs from both services. Rebuild after changing a package manifest or the lockfile. `docker:down` stops and removes the Compose containers while preserving the Next.js cache volume.
+`docker:logs` follows recent logs from all services. Rebuild after changing a package manifest or the lockfile. `docker:down` stops and removes the Compose containers while preserving the Next.js cache and PostgreSQL data volumes.

@@ -51,6 +51,27 @@ describe("workspace boundaries", () => {
     expect(Object.keys(dependencies)).toEqual(["@polyhunter/contracts"]);
   });
 
+  it("exposes persistence only through a guarded server entry point", async () => {
+    const manifest = await manifestAt(
+      resolve(repositoryRoot, "packages/db/package.json"),
+    );
+    const exports = (manifest.exports ?? {}) as Record<string, unknown>;
+    const serverEntry = await readFile(
+      resolve(repositoryRoot, "packages/db/src/server/index.ts"),
+      "utf8",
+    );
+    const webSources = await sourceFiles(
+      resolve(repositoryRoot, "apps/web/app"),
+    );
+
+    expect(Object.keys(exports)).toEqual(["./server"]);
+    expect(serverEntry).toContain('typeof window !== "undefined"');
+    for (const path of webSources) {
+      const source = await readFile(path, "utf8");
+      expect(source).not.toContain("@polyhunter/db");
+    }
+  });
+
   it("keeps web, worker and provider imports out of domain", async () => {
     const paths = await sourceFiles(
       resolve(repositoryRoot, "packages/domain/src"),
