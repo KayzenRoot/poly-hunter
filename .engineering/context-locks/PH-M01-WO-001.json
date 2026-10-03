@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-M01-WO-001",
+  "admissionIssue": 14,
+  "baseRef": "main",
+  "baseSha": "e1237cda839829a6a4eedba3b9917d6ee45c6352",
+  "executionBranch": "feat/ph-m01-tenancy-persistence",
+  "criticalSources": {
+    "AGENTS.md": "4c5509df8eaf7f85adc79e8972652cc9c7f40d59",
+    ".engineering/CHECKPOINT.json": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/SCOPE.md": "510e4bbf60bd34bb4e8b2273c08cad16d3662ccd",
+    ".engineering/ARCHITECTURE.md": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+    ".engineering/SECURITY.md": "5548533571cc987590d086da608586ff55b5e3a9",
+    ".engineering/DATA-MODEL.md": "e5521176052159b13fa8d2875a485002a5b7a7ce",
+    ".engineering/INTEGRATION-CONTRACTS.md": "0d0d85db742d938a47334409703a10e2ae525248",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "ac2b80e379fbebb48ced7ff09afaa098b22e4f41",
+    ".engineering/DEFINITION-OF-DONE.md": "b8db56c16bc80eec337ad49d6af7fa087b510af2",
+    ".engineering/DECISIONS-LEDGER.md": "ddbe74d0a99b0f54b2589b18da96c03469d6f9cf",
+    ".engineering/modules/PH-M01-IDENTITY-TENANCY-SECRETS.md": "1073525b2258e947d382a428e77e4fd0af5c2249",
+    ".engineering/decisions/ADR-0004-PERSISTENCE-IDENTITY-BOUNDARY.md": "4f40d7c48dcced3d99196eae01bc4eb849b7dbe5",
+    ".engineering/decisions/ADR-0005-TENANT-AUTHORIZATION.md": "998d1178cc87a24ce186fd8802b482ce1da036c4",
+    ".engineering/decisions/ADR-0006-SECRET-ENVELOPE.md": "c5952b6c0580ed7720988e64fa9c2d19559c4d9b",
+    ".engineering/work-orders/PH-M01-WO-001.md": "34facef3f3eafff34b11dbcec2857a85b2081103"
+  },
+  "stalePolicy": "Any semantic change to the bound base or critical sources requires STOP, rebase/recompile and renewed admission before implementation continues.",
+  "executor": "Codex",
+  "risk": "HIGH_ASSURANCE",
+  "liveTradingAuthorized": false,
+  "leaveDockerRunning": true,
+  "requiredIndependentAudit": true
+}
