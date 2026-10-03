@@ -1,13 +1,13 @@
 # ADR-0007 — VEX-based disposition for third-party vulnerability findings
 
-Status: PROPOSED / OWNER_APPROVAL_REQUIRED.
+Status: APPROVED upon merge of PH-SEC-PLAN-001.
 
 ## Context
 PH-M01-WO-001 is blocked because exact Docker Scout scans of official Node 24 and PostgreSQL 17 images report HIGH/CRITICAL findings while tested upstream image variants do not provide a zero-finding alternative.
 
 The existing rule "never advance with a known HIGH/CRITICAL defect" remains correct. The unresolved question is when a scanner finding is demonstrably NOT_AFFECTED rather than an exploitable defect in the exact PolyHunter runtime.
 
-## Proposed decision
+## Decision
 Adopt the policy in `.engineering/proposals/PH-SEC-VEX-POLICY.md`.
 
 A scanner HIGH/CRITICAL defaults to UNDER_INVESTIGATION and blocks. It stops blocking only after FIXED or evidence-backed VEX NOT_AFFECTED disposition.
