@@ -1,6 +1,6 @@
 # PH-M00 — Local Docker Development Runtime
 
-Status: PLANNING_CANDIDATE in PH-M00-PLAN-002.
+Status: FROZEN upon merge of PH-M00-PLAN-002.
 
 ## Purpose
 Make the local runnable PolyHunter environment predictable and visible while development proceeds. The owner should be able to open http://localhost:3000 at any time and follow the current web build while the worker runs beside it.
