@@ -16,7 +16,10 @@ Operate 1–2 tenants at minimal cost, targeting free tiers where practical whil
 Implementation may target a free-tier stack such as Supabase for Postgres/Auth, a free web-hosting tier for the dashboard and a free/always-free compatible VM/container host for the worker. Provider availability and terms are external and must be revalidated at deployment time. Architecture must not depend on a free tier existing forever.
 
 ## Environments
-local -> test/replay -> staging/paper -> production/live.
+local Docker Compose -> test/replay -> staging/paper -> production/live.
+
+## Local development
+Docker Compose is the canonical runnable local environment from PH-M00 onward. It must provide the web service on http://localhost:3000 and a continuously running worker, with a single documented start/stop/log workflow. Local Docker is a development contract, not the production deployment design.
 
 LIVE production credentials are prohibited from non-production environments.
 
