@@ -1,6 +1,6 @@
 # PH-M01-WO-001 Evidence Bundle
 
-Status: IMPLEMENTATION_COMPLETE / READY_FOR_INDEPENDENT_HIGH_ASSURANCE_AUDIT.
+Status: CORRECTION_DELTA_COMPLETE / PROMOTION_BLOCKED_BY_KNOWN_CONTAINER_CVES.
 
 ## Repository and lineage
 
@@ -21,7 +21,7 @@ Status: IMPLEMENTATION_COMPLETE / READY_FOR_INDEPENDENT_HIGH_ASSURANCE_AUDIT.
 - Added tenant role/status contracts and opaque domain `TenantContext` type. The server entry point is the only package export, has a browser runtime guard and issues frozen contexts held in a private `WeakSet` only after active user, tenant and membership validation.
 - Tenant repositories derive scope only from a validated context. Reads include the tenant predicate and live active-membership checks; rename re-checks owner/admin authority under a row lock and writes only to the context tenant. Revoked/suspended membership fails closed for already-issued contexts.
 - Added real PostgreSQL migration, constraint, delete behavior, forged-context, revocation and tenant A/B integration coverage. No DB client or database URL is imported by web source.
-- Added PostgreSQL 17 to Compose on an internal-only network with a named persistent volume and healthcheck; web and worker wait for PostgreSQL health. The database URL is server-container-only. Local startup reads the ignored `.env` copied from `.env.example`; Compose has no password fallback.
+- Added PostgreSQL 17 to the project-scoped Compose network, with its port not published on the host, a named persistent volume and healthcheck; web and worker wait for PostgreSQL health. The database URL is server-container-only. Local startup reads the ignored `.env` copied from `.env.example`; Compose has no password fallback.
 - Added a PostgreSQL-backed Node 24 GitHub Actions job. Its disposable CI password is derived from the workflow run id/attempt and repository id rather than stored as a static credential.
 
 ## Versions and migration integrity
@@ -55,9 +55,28 @@ At implementation head `0a2a1a8e91bd7f86ebc947b8b1323fdcd86f56bd`:
 - Socket Security: Project Report PASS; Pull Request Alerts PASS, no new dependency alerts.
 - CodeRabbit did not review because PR #15 is draft. This is not an independent audit.
 
+## Correction Delta CR-01 — container vulnerability scans
+
+- Scanner: Docker Scout CLI `v1.24.0` (`b1c9331b2166aef7ec690aa16fd655b8798ea4c6`), invoked with `docker scout cves --format sarif --output <receipt> local://<image>` against the exact local images used by Compose. Both scans completed and wrote SARIF; Scout's command exit code was 0. Trivy was not installed.
+- Scan timestamp: 2026-10-03 UTC. The SARIF receipts below preserve all scanner result records; severity counts are unique CVE IDs, so repeated findings against bundled Go runtimes are counted once per image.
+
+| Image | Immutable image digest | Indexed packages | Scout summary | Critical | High | Medium | Low | Unspecified | Result |
+| --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| `polyhunter-dev:local` | `sha256:7b9974f05b1b85d6c665470c0574c014d1ab74fb3993481ef1db790008dbc02f` | 548 | 26 vulnerable packages; 154 unique CVEs | 6 | 50 | 58 | 35 | 5 | **BLOCKS PROMOTION** |
+| `postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | `sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | 66 | 3 vulnerable packages; 57 unique CVEs | 2 | 22 | 26 | 7 | 0 | **BLOCKS PROMOTION** |
+
+- Neither SARIF report marks any result suppressed. The dev image's High/Critical findings include bundled Go standard libraries, Debian packages and npm packages; the PostgreSQL image's High/Critical findings include its bundled Go standard library (`gosu`) and Alpine `libxml2`.
+- Raw receipts: [polyhunter-dev SARIF](PH-M01-WO-001-container-scans/polyhunter-dev-local.sarif), SHA-256 `8598EE724CAB6D05402392EB5F79B9C7EC9B95EF3414EC1F7D72DB9703BEA934`; [PostgreSQL SARIF](PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24.sarif), SHA-256 `44A3C64B51E25C8E6AA08B0DDB95C0980A0A0A20060662A02E47CD2A28ACF3C9`.
+- Docker Scout emitted a non-fatal Windows temporary-archive cleanup warning after each successful report; both images were indexed and both SARIF reports were written with exit code 0. This does not change the findings.
+- **Promotion gate:** known High/Critical findings remain in both pinned images. Keep PR #15 draft; do not promote, merge, or advance until the selected images are remediated or replaced within an authorized correction and rescanned with zero High/Critical findings. This correction records and blocks on the findings; it does not suppress or claim to fix them.
+
+## Correction Delta CR-02 — Compose network wording
+
+- The Compose network is `polyhunter-local_default`, a project-scoped bridge network (`Internal=false`). PostgreSQL has no published host port (`5432/tcp` is container-only). This describes the Compose wiring and does not claim broader network isolation.
+
 ## Running local stack at stop condition
 
-- `polyhunter-postgres`: `Up (healthy)`, PostgreSQL `17.11`, named volume `polyhunter-local-postgres17`; port `5432` is not published to the host.
+- `polyhunter-postgres`: `Up (healthy)`, PostgreSQL `17.11`, named volume `polyhunter-local-postgres17`; its port `5432` is not published to the host and the service is attached to the project-scoped Compose network.
 - `polyhunter-web`: `Up (healthy)`; `http://localhost:3000` returned HTTP `200`.
 - `polyhunter-worker`: container and `nodemon` process remain `Up`. The current worker shell intentionally exits after its startup message and is restarted/held by nodemon; no trading or product worker loop is implemented in this Work Order.
 - Stack remains running for owner inspection.
@@ -66,9 +85,9 @@ At implementation head `0a2a1a8e91bd7f86ebc947b8b1323fdcd86f56bd`:
 
 - No authentication provider is included. `resolveTenantContext` accepts an `authenticatedUserId` contract argument; future call sites must supply it only from a verified server identity. There are no web route call sites in this increment. Membership and tenant status are checked in PostgreSQL before context issuance and on each repository operation.
 - The local `.env.example` password is explicitly development-only; `.env` is ignored by Git. Local Postgres is not host-published. Do not reuse these values outside local development.
-- The local Compose bootstrap role is privileged and is shared by the development web/worker and migration/test commands. This is confined to the internal-only development network; production role separation and least-privilege grants remain required before deployment.
+- The local Compose bootstrap role is privileged and is shared by the development web/worker and migration/test commands. PostgreSQL is attached to the project-scoped Compose network with no host-published port; production role separation and least-privilege grants remain required before deployment.
 - npm audit retains four moderate development-tool advisories described above. Sonar retains two non-security maintainability findings for enum literals required inline by the SQL migration syntax.
-- HIGH_ASSURANCE independent-from-executor audit is still required before promotion. Keep PR #15 draft; do not merge or advance to another Work Order here.
+- Docker Scout found High/Critical vulnerabilities in both scanned images, recorded above. Promotion is blocked until remediation and a clean rescan; do not merge or advance to another Work Order here. Independent HIGH_ASSURANCE audit remains required after the promotion-blocking findings are resolved.
 
 ## Proposed checkpoint delta
 
@@ -76,4 +95,4 @@ The canonical checkpoint was not changed. After independent exact-head approval 
 
 ## STOP
 
-PH-M01-WO-001 is implemented and validated. Stop here; do not start PH-M01-WO-002, secret storage, Polymarket or trading.
+PH-M01-WO-001 and CR-01/CR-02 evidence are recorded; promotion is blocked by the image scan results. Stop here; do not start PH-M01-WO-002, secret storage, Polymarket or trading.
