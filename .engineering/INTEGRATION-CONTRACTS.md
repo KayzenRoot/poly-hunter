@@ -49,3 +49,8 @@ Current official guidance revalidated on 2026-10-03:
 - Browser configuration may contain only publishable/public project values. Server-only secret/service credentials must never enter client bundles.
 
 PH-M01-WO-002 owns the provider integration and must capability-test the selected package versions at execution time.
+
+Supabase Auth references:
+- https://supabase.com/docs/guides/auth
+- https://supabase.com/docs/guides/auth/server-side
+- https://supabase.com/docs/guides/auth/quickstarts/nextjs
