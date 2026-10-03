@@ -257,7 +257,7 @@ describe("PostgreSQL tenancy persistence", () => {
           "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = ANY($1) AND column_name IN ('created_at', 'updated_at')",
           [["tenants", "users", "identity_links", "tenant_memberships"]],
         );
-        expect(timestampColumns.rows.length).toBe(6);
+        expect(timestampColumns.rows).toHaveLength(6);
         expect(
           timestampColumns.rows.every(
             (column) => column.data_type === "timestamp with time zone",

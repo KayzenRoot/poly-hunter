@@ -1,5 +1,4 @@
-import type { Result } from "@polyhunter/contracts";
-import type { TenantRole } from "@polyhunter/contracts";
+import type { Result, TenantRole } from "@polyhunter/contracts";
 
 export type DomainResult<TValue, TError> = Result<TValue, TError>;
 

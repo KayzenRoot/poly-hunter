@@ -12,7 +12,7 @@ import {
 } from "../schema/index.js";
 
 if (typeof window !== "undefined") {
-  throw new Error(
+  throw new TypeError(
     "@polyhunter/db/server cannot be imported by a browser bundle.",
   );
 }
@@ -223,75 +223,79 @@ export function createTenantDataAccess(
     return tenant ?? null;
   }
 
-  async function renameCurrent(context: TenantContext, name: string) {
-    assertTrustedContext(context);
-    const normalizedName = name.trim();
+  function renameCurrent(context: TenantContext, name: string) {
+    return Promise.resolve().then(() => {
+      assertTrustedContext(context);
+      const normalizedName = name.trim();
 
-    if (!normalizedName || normalizedName.length > 120) {
-      throw new RangeError(
-        "Tenant name must contain between 1 and 120 characters.",
-      );
-    }
-
-    return db.transaction(async (transaction) => {
-      const [membership] = await transaction
-        .select({ role: tenantMemberships.role })
-        .from(tenantMemberships)
-        .innerJoin(users, eq(tenantMemberships.userId, users.id))
-        .innerJoin(tenants, eq(tenantMemberships.tenantId, tenants.id))
-        .where(
-          and(
-            eq(tenantMemberships.tenantId, context.tenantId),
-            eq(tenantMemberships.userId, context.userId),
-            eq(tenantMemberships.status, "active"),
-            eq(users.status, "active"),
-            eq(tenants.status, "active"),
-          ),
-        )
-        .for("update", { of: tenantMemberships });
-
-      if (
-        !membership ||
-        (membership.role !== "owner" && membership.role !== "admin")
-      ) {
-        return null;
+      if (!normalizedName || normalizedName.length > 120) {
+        throw new RangeError(
+          "Tenant name must contain between 1 and 120 characters.",
+        );
       }
 
-      const [tenant] = await transaction
-        .update(tenants)
-        .set({ name: normalizedName, updatedAt: new Date() })
-        .where(
-          and(eq(tenants.id, context.tenantId), eq(tenants.status, "active")),
-        )
-        .returning({
-          id: tenants.id,
-          name: tenants.name,
-          updatedAt: tenants.updatedAt,
-        });
+      return db.transaction(async (transaction) => {
+        const [membership] = await transaction
+          .select({ role: tenantMemberships.role })
+          .from(tenantMemberships)
+          .innerJoin(users, eq(tenantMemberships.userId, users.id))
+          .innerJoin(tenants, eq(tenantMemberships.tenantId, tenants.id))
+          .where(
+            and(
+              eq(tenantMemberships.tenantId, context.tenantId),
+              eq(tenantMemberships.userId, context.userId),
+              eq(tenantMemberships.status, "active"),
+              eq(users.status, "active"),
+              eq(tenants.status, "active"),
+            ),
+          )
+          .for("update", { of: tenantMemberships });
 
-      return tenant ?? null;
+        if (
+          !membership ||
+          (membership.role !== "owner" && membership.role !== "admin")
+        ) {
+          return null;
+        }
+
+        const [tenant] = await transaction
+          .update(tenants)
+          .set({ name: normalizedName, updatedAt: new Date() })
+          .where(
+            and(eq(tenants.id, context.tenantId), eq(tenants.status, "active")),
+          )
+          .returning({
+            id: tenants.id,
+            name: tenants.name,
+            updatedAt: tenants.updatedAt,
+          });
+
+        return tenant ?? null;
+      });
     });
   }
 
-  async function listMemberships(context: TenantContext) {
-    assertTrustedContext(context);
+  function listMemberships(context: TenantContext) {
+    return Promise.resolve().then(() => {
+      assertTrustedContext(context);
 
-    return db
-      .select({
-        id: tenantMemberships.id,
-        userId: tenantMemberships.userId,
-        role: tenantMemberships.role,
-        status: tenantMemberships.status,
-        createdAt: tenantMemberships.createdAt,
-      })
-      .from(tenantMemberships)
-      .where(
-        and(
-          eq(tenantMemberships.tenantId, context.tenantId),
-          activeTenantMembership(context),
-        ),
-      )
-      .orderBy(tenantMemberships.createdAt, tenantMemberships.id);
+      return db
+        .select({
+          id: tenantMemberships.id,
+          userId: tenantMemberships.userId,
+          role: tenantMemberships.role,
+          status: tenantMemberships.status,
+          createdAt: tenantMemberships.createdAt,
+        })
+        .from(tenantMemberships)
+        .where(
+          and(
+            eq(tenantMemberships.tenantId, context.tenantId),
+            activeTenantMembership(context),
+          ),
+        )
+        .orderBy(tenantMemberships.createdAt, tenantMemberships.id);
+    });
   }
 
   async function findMembershipById(

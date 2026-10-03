@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-polyhunter}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-polyhunter-local-only}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (copy .env.example)}
       POSTGRES_DB: ${POSTGRES_DB:-polyhunter_dev}
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -42,7 +42,7 @@ services:
       NODE_ENV: development
       NEXT_TELEMETRY_DISABLED: '1'
       POLYHUNTER_DOCKER_DEV: '1'
-      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD:-polyhunter-local-only}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
     ports:
       - 127.0.0.1:3000:3000
     volumes:
@@ -105,7 +105,7 @@ services:
       - apps/worker/src/index.ts
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD:-polyhunter-local-only}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
     volumes:
       - type: bind
         source: ./apps/worker

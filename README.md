@@ -29,7 +29,7 @@ The web and worker workspaces remain engineering shells in this increment. PH-M0
 
 ### Local Docker runtime
 
-With Docker Desktop using the Linux Engine, copy `.env.example` to `.env` if you want to make the local-only PostgreSQL defaults explicit, then start the web, worker and PostgreSQL services:
+With Docker Desktop using the Linux Engine, copy `.env.example` to the ignored local `.env` file, then start the web, worker and PostgreSQL services. Compose requires this local-only configuration and does not contain a password fallback:
 
 ```sh
 npm run docker:up
