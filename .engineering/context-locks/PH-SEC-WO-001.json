@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-SEC-WO-001",
+  "issue": 18,
+  "analysisBranch": "security/ph-m01-wo001-vex-analysis",
+  "blockedImplementationBranch": "feat/ph-m01-tenancy-persistence",
+  "blockedImplementationHead": "3ad44a62bbcc00abdc61b34efd6983a2e765aca9",
+  "canonicalPolicyMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+  "exactImages": {
+    "polyhunter-dev:local": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+    "postgres:17.11-alpine3.24": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+  },
+  "criticalSources": {
+    "main:.engineering/proposals/PH-SEC-VEX-POLICY.md": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+    "main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+    "main:.engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "blocked:.engineering/evidence/PH-M01-WO-001-EVIDENCE.md": "ae9b70956b875ce49acc86cb4f496ddb2fb21664",
+    "blocked:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif": "63052aca98c6162904f1c27033a92319d4e90734",
+    "blocked:.engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif": "daa12f4610944c01b8e3a5f028b495eecddeda43"
+  },
+  "stalePolicy": "Any change to canonical VEX policy/security sources, blocked implementation head, final image digests, or final SARIF receipts requires STOP and Context Lock recompilation.",
+  "executor": "Codex",
+  "independentAuditor": "ChatGPT/planning auditor",
+  "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_RESOLUTION",
+  "productMutationAuthorized": false,
+  "liveTradingAuthorized": false
+}
