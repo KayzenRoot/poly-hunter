@@ -1,6 +1,6 @@
 # MVP Traceability
 
-Status: CANDIDATE in PH-PLAN-001.
+Status: FROZEN upon merge of PH-PLAN-001.
 
 | Requirements | Scope / module owner | Architecture / contract anchor | Validation / completion |
 |---|---|---|---|
