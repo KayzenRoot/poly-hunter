@@ -30,3 +30,11 @@ Browser <-> Web/API <-> Postgres <-> Worker <-> Polymarket APIs/streams <-> AI p
 
 ## Threat focus
 Cross-tenant data access, credential theft, duplicate order submission, stale-book execution, race conditions, worker split-brain, admin privilege misuse, malicious AI output, provider outage and mistaken eligibility assumptions.
+
+## PH-M01 identity, tenancy and secret invariants
+- SEC-019 Authenticated user identity is derived from a verified server-side session/provider subject, never from client JSON.
+- SEC-020 TenantContext is derived from an active membership on the server; a submitted tenant_id is never sufficient authorization.
+- SEC-021 Tenant role values are constrained; platform_admin is separately authorized and audited.
+- SEC-022 Session invalidation or membership removal must fail closed on the next authoritative request check.
+- SEC-023 Application secret encryption uses authenticated encryption with unique nonces and explicit key-version metadata; master key material never persists in Postgres/Git/client bundles.
+- SEC-024 Authentication/session/secret values are covered by redaction and leak-detection tests.

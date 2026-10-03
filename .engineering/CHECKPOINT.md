@@ -5,36 +5,30 @@ Status: SOURCE_PACK_FROZEN.
 ## Current promoted state
 - GEF Bootstrap 1.1.2: APPROVED and merged via PH-BS-001.
 - Canonical Source Pack: FROZEN via PH-PLAN-001.
-- PH-M00 Governance & Harness plan: FROZEN via PH-M00-PLAN-001.
-- PH-M00 base harness implementation: APPROVED and merged via PH-M00-WO-001.
-- PH-M00 Local Docker development plan: FROZEN via PH-M00-PLAN-002.
-- PH-M00 Local Docker development implementation: APPROVED for promotion in PH-M00-WO-002; this branch carries the promoted state for merge.
-- Product behavior: NOT_STARTED beyond engineering shells/harness.
+- PH-M00 Governance & Harness: COMPLETE and merged.
+- PH-M00 Local Docker development runtime: COMPLETE and merged via PH-M00-WO-002.
+- PH-M01 Identity, Tenancy & Secrets plan: APPROVED for promotion in PH-M01-PLAN-001; this branch carries the promoted state for merge.
+- Product behavior beyond engineering foundation: NOT_STARTED.
 - LIVE trading: NOT_AUTHORIZED.
 - Active Work Order after merge: NONE.
-- Prepared Work Order after merge: NONE.
-- Next legal stage after merge: AWAIT_OWNER_DIRECTION.
+- Prepared Work Order after merge: PH-M01-WO-001.
+- Next legal stage after merge: COMPILE_PH_M01_WO_001_CONTEXT_LOCK.
 
-## Completed PH-M00 foundation
-- npm workspaces and strict TypeScript foundation
-- Biome + Vitest validation harness
-- GitHub Actions Node 24 validation
-- minimal Next.js web engineering shell
-- minimal Node worker engineering shell
-- canonical local Docker Compose development runtime
-- web locally observable at http://localhost:3000
-- worker continuously running in the same local stack
-- web hot reload and worker restart/reload proven on Windows Docker Desktop
-- non-root containers, no privileged mode, no docker.sock mount
-- local Docker kept distinct from PH-M11 production deployment
+## Frozen PH-M01 direction
+- PostgreSQL durable store; PostgreSQL 17 local Docker service.
+- Drizzle owns application schema/migrations.
+- Supabase Auth is the pilot identity provider behind IdentityPort.
+- TenantContext is server-derived from authenticated identity + active membership.
+- owner/admin/member are tenant roles; platform_admin is separate.
+- Tenant secrets use server-side authenticated encryption with version/rotation metadata.
+- PH-M01 is split into four HIGH_ASSURANCE increments; only PH-M01-WO-001 is prepared.
 
 ## Validation summary
-PH-M00-WO-002 pre-promotion head `6af0b596c9812bcafa80074e48e2422deb5c7d96` passed GitHub Actions run `37141322730`: clean install, lint, format, typecheck, 3 files / 6 tests, all workspace builds and high-severity npm audit with 0 vulnerabilities. SonarQube Quality Gate passed with 0 new issues and 0 security hotspots. Socket Security reported no vulnerability finding for the new direct nodemon dependency. The executor's local runtime evidence records Docker Engine 29.7.2 / Compose v5.4.0, web HEALTHY with HTTP 200, worker running as UID 1000, web hot reload, worker restart/reload and the stack left running.
+PH-M01-PLAN-001 candidate head `927583dfb774b22b9207d1a662013372961189cb` passed GitHub Actions run `37145212050`; SonarQube Quality Gate passed with 0 new issues and 0 security hotspots. Planning audit found no runtime scope drift and confirmed independent-from-Codex HIGH_ASSURANCE review obligations.
 
 ## Explicit non-claims
-No Polymarket integration exists. No database/auth/tenancy runtime exists. No trading strategy/risk/execution behavior exists. No profitability proof exists. No live-readiness proof exists. No production deployment exists.
+No PH-M01 runtime exists yet. No Postgres service/schema/migration exists yet. No Supabase Auth integration exists yet. No encrypted secret vault exists yet. No Polymarket integration, profitability proof, live-readiness proof or production deployment exists.
 
 ## Lineage
-- PH-M00 base harness merge: main@0a464c460d8d198a4e08bf687ae61be77116621d
-- PH-M00 local-Docker planning merge: main@518aef27896cfb83257c60bfa8baa90636e08588
-- PH-M00-WO-002 pre-promotion audited candidate: 6af0b596c9812bcafa80074e48e2422deb5c7d96
+- PH-M00 complete merge: main@5377ed44bcd1f962a5c121acf2e85495b991f7a7
+- PH-M01-PLAN-001 pre-promotion audited candidate: 927583dfb774b22b9207d1a662013372961189cb

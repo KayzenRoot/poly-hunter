@@ -1,11 +1,17 @@
 # Data Model
 
-Status: FROZEN upon merge of PH-PLAN-001.
+Status: FROZEN upon merge of PH-PLAN-001; refined by PH-M01-PLAN-001 upon merge.
 
-## Core entities
-- tenants(id, name, status, created_at)
-- users(id, status)
-- tenant_memberships(user_id, tenant_id, role)
+## Identity and tenancy entities
+- tenants(id, name, slug, status, created_at, updated_at)
+- users(id, status, created_at, updated_at)
+- identity_links(id, user_id, provider, subject, created_at), unique(provider, subject)
+- tenant_memberships(id, tenant_id, user_id, role, status, created_at), unique(tenant_id, user_id)
+- platform_roles(id, user_id, role, created_at), unique(user_id, role)
+
+Tenant roles are owner/admin/member. platform_admin is a separate platform authorization represented by platform_roles, never by a tenant-membership shortcut.
+
+## Remaining core entities
 - trading_accounts(id, tenant_id, provider, wallet_address, auth_mode, status)
 - encrypted_secrets(id, tenant_id, purpose, ciphertext, key_version, rotated_at)
 - strategy_configs(id, tenant_id, strategy_id, version, config, enabled)
@@ -24,4 +30,4 @@ Status: FROZEN upon merge of PH-PLAN-001.
 - audit_logs(id, tenant_id nullable, actor, action, resource, result, timestamp)
 
 ## Rules
-Every tenant-owned table carries tenant_id. Provider IDs are unique within provider scope. Money/price/size use exact decimal/numeric types, never binary float. Secret plaintext is never persisted. Journal/audit records are append-oriented. Global/system rows are the only records allowed to use a null tenant_id where the schema explicitly permits it.
+Every tenant-owned table carries tenant_id. Provider IDs are unique within provider scope. Money/price/size use exact decimal/numeric types, never binary float. Secret plaintext is never persisted. Journal/audit records are append-oriented. Global/system rows are the only records allowed to use a null tenant_id where the schema explicitly permits it. PH-M01 migrations use UUID primary keys, UTC timestamps, explicit foreign keys and explicit delete behavior.
