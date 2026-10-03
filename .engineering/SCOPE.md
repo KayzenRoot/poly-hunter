@@ -17,9 +17,9 @@ Status: FROZEN upon merge of PH-PLAN-001.
 - Observability, audit and recovery.
 - Pilot deployment.
 - Geographic eligibility guard.
-- Replaceable AI adapter with safe no-AI fallback.
 
 ## IMPORTANT AFTER MVP ACCEPTANCE
+- Replaceable DeepSeek-compatible AI intelligence adapter with safe no-AI fallback.
 - Richer AI market intelligence.
 - Advanced maker inventory models.
 - Cross-market graph analytics.
