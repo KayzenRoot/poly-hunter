@@ -84,6 +84,7 @@ HIGH_ASSURANCE.
 - identity_links(id, user_id, provider, subject, created_at), unique(provider, subject)
 - tenants(id, name, slug, status, created_at, updated_at)
 - tenant_memberships(id, tenant_id, user_id, role, status, created_at), unique(tenant_id, user_id)
+- platform_roles(id, user_id, role, created_at), introduced in WO-002; platform_admin is the only MVP platform role.
 - encrypted_secrets is deferred to WO-003.
 
 IDs are UUIDs. Tenant-owned tables carry tenant_id. Timestamps are UTC. Roles/status values use constrained DB representations plus TypeScript unions.
