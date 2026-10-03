@@ -43,3 +43,11 @@ For identity/tenancy/secrets increments, required evidence additionally includes
 - secret redaction/leak tests and encryption tamper tests when the vault is introduced;
 - exact-head dependency/security scan evidence;
 - audit by an agent/reviewer independent from the Codex executor before promotion.
+
+## HIGH/CRITICAL vulnerability disposition evidence
+When a container/dependency scanner reports HIGH/CRITICAL:
+- default status is `UNDER_INVESTIGATION`;
+- FIXED requires a re-scan receipt on the exact final artifact;
+- NOT_AFFECTED requires a per-CVE VEX receipt bound to exact image/component/environment, including exploit prerequisites, reachability, privilege/network context, KEV status, and expiry;
+- HIGH/CRITICAL NOT_AFFECTED requires independent-from-executor audit plus owner approval;
+- AFFECTED/UNDER_INVESTIGATION remains a release blocker.
