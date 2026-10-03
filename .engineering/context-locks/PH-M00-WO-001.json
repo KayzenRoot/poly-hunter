@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-M00-WO-001",
+  "admissionIssue": 6,
+  "baseRef": "main",
+  "baseSha": "b0d63d3b889f0a495313414c6e789ccade93251a",
+  "executionBranch": "feat/ph-m00-governance-harness",
+  "criticalSources": {
+    "AGENTS.md": "4c5509df8eaf7f85adc79e8972652cc9c7f40d59",
+    ".engineering/CHECKPOINT.json": "d85b7dd220ea94775647c97cce967ff39ffaaa87",
+    ".engineering/SCOPE.md": "730c6a1fe033c096a68c8c5c1e4a0ea7dd7df799",
+    ".engineering/REQUIREMENTS.md": "c65fbf7465b4f06c22bad45ae939d0d0f55f19ee",
+    ".engineering/ARCHITECTURE.md": "720337b3e1f52ed4bdea9a9dde8b955a5c808f04",
+    ".engineering/SECURITY.md": "f5dbe913210f5139b733912e50d992b65ae4e8bd",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "56fb13db0def67b5e5020f4de0c775b3004e2311",
+    ".engineering/DEFINITION-OF-DONE.md": "cc9f36a1cf3c225457c503c6bcd75e487e0e4835",
+    ".engineering/BACKLOG.md": "95038296b523c09b8d38515a75646dd8dd661ebd",
+    ".engineering/modules/PH-M00-GOVERNANCE-HARNESS.md": "46bbf11b7a4713cac7d1957ce3ab2991d36e9204",
+    ".engineering/work-orders/PH-M00-WO-001.md": "21abfd1954f0e6edf1c4817df3df16611fd33fbd"
+  },
+  "stalePolicy": "Any semantic change to the bound main base or critical sources requires STOP, rebase/recompile, and renewed admission before implementation continues.",
+  "executor": "Codex",
+  "risk": "STANDARD",
+  "liveTradingAuthorized": false
+}
