@@ -15,6 +15,11 @@
     "apps/web"
   ],
   "scripts": {
+    "docker:up": "docker compose --project-name polyhunter-local up -d",
+    "docker:down": "docker compose --project-name polyhunter-local down",
+    "docker:rebuild": "docker compose --project-name polyhunter-local up -d --build --force-recreate",
+    "docker:ps": "docker compose --project-name polyhunter-local ps",
+    "docker:logs": "docker compose --project-name polyhunter-local logs --follow --tail=100",
     "lint": "biome lint .",
     "format:check": "biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .",
     "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json",
@@ -28,8 +33,14 @@
     "@types/node": "24.19.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "nodemon": "3.1.14",
     "typescript": "7.0.2",
     "vite": "6.4.3",
     "vitest": "4.1.11"
+  },
+  "overrides": {
+    "nodemon": {
+      "chokidar": "4.0.3"
+    }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-M00-WO-002",
+  "admissionIssue": 10,
+  "baseRef": "main",
+  "baseSha": "518aef27896cfb83257c60bfa8baa90636e08588",
+  "executionBranch": "feat/ph-m00-local-docker",
+  "criticalSources": {
+    "AGENTS.md": "4c5509df8eaf7f85adc79e8972652cc9c7f40d59",
+    ".engineering/CHECKPOINT.json": "22b3e7a1c9a301b669ea751a8e8e91794685bc40",
+    ".engineering/DECISIONS-LEDGER.md": "f86d1d0c97689558987863d5c32042046045ce57",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/SCOPE.md": "510e4bbf60bd34bb4e8b2273c08cad16d3662ccd",
+    ".engineering/ARCHITECTURE.md": "d7bb83d3d7c1ec6290e5d5672695c57870820b44",
+    ".engineering/DEPLOYMENT.md": "51c92e77cee5672b7c76a2cb40021b2dde34e950",
+    ".engineering/SECURITY.md": "f5dbe913210f5139b733912e50d992b65ae4e8bd",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "6d7fed36d570d803b9e317d02a8adec679acb263",
+    ".engineering/DEFINITION-OF-DONE.md": "b8db56c16bc80eec337ad49d6af7fa087b510af2",
+    ".engineering/modules/PH-M00-GOVERNANCE-HARNESS.md": "46bbf11b7a4713cac7d1957ce3ab2991d36e9204",
+    ".engineering/modules/PH-M00-LOCAL-DOCKER.md": "827847f6a9172cd0ab2847f648684da6a4893874",
+    ".engineering/work-orders/PH-M00-WO-002.md": "7b1862c69f0bcc4485d6997ad2d1bb015711cd36"
+  },
+  "stalePolicy": "Any semantic change to the bound main base or critical sources requires STOP, rebase/recompile and renewed admission before implementation continues.",
+  "executor": "Codex",
+  "risk": "STANDARD",
+  "liveTradingAuthorized": false,
+  "leaveDockerRunning": true
+}
