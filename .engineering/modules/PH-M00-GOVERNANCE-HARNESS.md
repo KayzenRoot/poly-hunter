@@ -14,7 +14,7 @@ Create the smallest professional engineering foundation that lets later PolyHunt
 - Unit/integration test runner: Vitest.
 - Web shell: Next.js App Router, minimal non-product shell only.
 - Worker shell: plain Node.js TypeScript process with no provider/trading logic.
-- Contracts: runtime schemas + TypeScript types owned by packages/contracts. Exact schema library selection is allowed in M00 implementation only if justified by the Work Order and kept minimal.
+- Contracts: TypeScript-only foundation contracts owned by packages/contracts. Runtime schema-library selection is deferred to the first owning product module that proves it necessary.
 - CI: GitHub Actions single primary validation workflow.
 - Containers: deferred to PH-M11; M00 must keep apps containerizable but does not add production container orchestration.
 
@@ -47,10 +47,11 @@ npm run validate is the canonical local pre-PR aggregate and must fail if any re
 4. Tests use deterministic clocks/randomness where behavior depends on time/randomness.
 5. No network call is required by the unit test suite.
 6. No real secret is required by build/test.
-7. .env.example contains names/documentation only.
-8. CI runs from a clean checkout with npm ci.
-9. Dependency audit at HIGH severity is part of validation evidence.
-10. Build/test output must be compact enough for executor review.
+7. M00 introduces no external runtime-schema library; contracts remain TypeScript-only at this foundation stage.
+8. .env.example contains names/documentation only.
+9. CI runs from a clean checkout with npm ci.
+10. Dependency audit at HIGH severity is part of validation evidence.
+11. Build/test output must be compact enough for executor review.
 
 ## CI contract
 Reference CI steps:
