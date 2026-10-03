@@ -15,3 +15,14 @@ The MVP targets frequent, small, maker-first trades with strict risk controls ra
 Live trading is HIGH_ASSURANCE. No implementation increment may activate live order submission until the Source Pack, paper/replay acceptance gates, tenant isolation, secret handling, geographic eligibility checks, kill switches and recovery obligations are objectively satisfied.
 
 See `.engineering/SOURCE-HIERARCHY.md` for authority and `.engineering/BACKLOG.md` for the module map.
+
+## Development
+
+Use Node.js `>=22 <27` and npm. CI uses Node.js 24 LTS.
+
+```sh
+npm ci
+npm run validate
+```
+
+The web and worker workspaces are engineering shells only. Product behavior is not part of PH-M00.
