@@ -9,6 +9,7 @@ Status: FROZEN upon merge of PH-PLAN-001.
 - HIGH_ASSURANCE live-money/signing/risk: ELEVATED + state-machine/property tests, replay regression, fault injection, exact-head security evidence and rollback/roll-forward proof.
 
 ## Required harnesses
+0. Local Docker Compose smoke harness: config validation, image build, service startup, web health on localhost:3000, worker-running assertion and clean shutdown.
 1. Deterministic fake clock/randomness.
 2. Recorded/synthetic order-book replay.
 3. Polymarket adapter simulator for success, reject, timeout, duplicate, partial fill, cancel race and reconnect.
