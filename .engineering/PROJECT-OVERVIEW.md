@@ -14,8 +14,10 @@ For pilot users with limited capital, scan many markets and act only on bounded 
 - Modes: REPLAY, PAPER and LIVE.
 - Tenant dashboard: account status, autopilot, exposure/PnL, trades, strategy/risk settings and connection health.
 - Admin dashboard: tenants, engine health, exposure, errors, versions and tenant/global kill switches.
-- AI: DeepSeek-compatible advisory context only, outside the order-critical path.
 - Pilot scale: 1–2 tenants initially, multi-tenant architecture from day one.
+
+## Important post-MVP capability
+A DeepSeek-compatible intelligence adapter may add market classification/context behind a replaceable AIProviderPort. It remains advisory only and outside the order-critical path; the system must stay safe without it.
 
 ## Success definition
 Safe, measurable, maintainable automation with statistically credible replay/paper evidence. A fixed US$5–10/day outcome is not an acceptance criterion.
