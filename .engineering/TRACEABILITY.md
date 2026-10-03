@@ -4,7 +4,7 @@ Status: FROZEN upon merge of PH-PLAN-001.
 
 | Requirements | Scope / module owner | Architecture / contract anchor | Validation / completion |
 |---|---|---|---|
-| REQ-001, REQ-002, REQ-011, REQ-020 | PH-M01 Identity, Tenancy & Secrets | tenant execution model, DATA-MODEL, API-CONTRACTS, SECURITY | tenant isolation, RBAC, secret-handling tests; DoD Security |
+| REQ-001, REQ-002, REQ-011, REQ-020 | PH-M01 Identity, Tenancy & Secrets | PH-M01 module plan, ADR-0004/0005/0006, DATA-MODEL, API-CONTRACTS, SECURITY | WO-001 tenant persistence/isolation; WO-002 identity/RBAC; WO-003 secret vault; WO-004 adversarial security acceptance |
 | REQ-003 | PH-M00 + PH-M07 + PH-M12 | mode control API, worker state, live gate | mode/state-machine tests; LIVE gate |
 | REQ-004 | PH-M02 + PH-M03 | Polymarket adapter + market-data path | provider integration/reconnect/staleness tests |
 | REQ-005 | PH-M04 | Strategy Proposal boundary | replay/paper strategy evidence |
