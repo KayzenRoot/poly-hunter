@@ -22,7 +22,7 @@ PolyHunter MVP is complete only when every NECESSARY item is objectively satisfi
 - Tenant isolation and RBAC tests pass.
 - Geoblock/eligibility fails closed.
 - Kill switches and least-authority authorization evidence pass.
-- No unresolved HIGH/CRITICAL issue.
+- No unresolved HIGH/CRITICAL issue. Scanner findings may be considered resolved only when FIXED or independently verified as VEX NOT_AFFECTED under ADR-0007; AFFECTED/UNDER_INVESTIGATION remains blocking.
 
 ## Quality
 - Unit/lint/typecheck/build/integration required by risk pass.

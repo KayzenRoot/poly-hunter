@@ -38,3 +38,12 @@ Cross-tenant data access, credential theft, duplicate order submission, stale-bo
 - SEC-022 Session invalidation or membership removal must fail closed on the next authoritative request check.
 - SEC-023 Application secret encryption uses authenticated encryption with unique nonces and explicit key-version metadata; master key material never persists in Postgres/Git/client bundles.
 - SEC-024 Authentication/session/secret values are covered by redaction and leak-detection tests.
+
+## Vulnerability disposition gate
+Canonical policy: `.engineering/proposals/PH-SEC-VEX-POLICY.md` and ADR-0007.
+
+A HIGH/CRITICAL scanner finding defaults to `UNDER_INVESTIGATION` and blocks promotion. It ceases blocking only when:
+- the vulnerable component/path is FIXED; or
+- the exact finding is independently verified as VEX `NOT_AFFECTED` under the canonical policy, with explicit owner approval.
+
+`AFFECTED` and `UNDER_INVESTIGATION` HIGH/CRITICAL findings remain blockers. Generic suppression, wildcard ignore and scanner-disable shortcuts are prohibited. HIGH/CRITICAL dispositions are bound to exact CVE, image digest, component/version and environment, expire/fail closed, and require KEV/reachability/privilege evidence.

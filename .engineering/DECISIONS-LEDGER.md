@@ -23,3 +23,4 @@ Status: ACTIVE.
 - D-0019 APPROVED — Tenant authorization derives server-side from authenticated identity plus active membership; owner/admin/member are tenant roles and platform_admin is separate.
 - D-0020 APPROVED — Tenant secrets use a server-side AES-256-GCM envelope with key versioning/rotation metadata; plaintext is never persisted or returned in normal read flows.
 - D-0021 APPROVED — PH-M01 is split into four HIGH_ASSURANCE increments: persistence/isolation, identity/RBAC, encrypted secret vault, and security acceptance.
+- D-0022 APPROVED — HIGH/CRITICAL scanner findings default to UNDER_INVESTIGATION and block. Only FIXED or exact evidence-backed VEX NOT_AFFECTED findings may cease blocking; AFFECTED/UNDER_INVESTIGATION remain blockers. HIGH/CRITICAL NOT_AFFECTED requires independent audit, explicit owner approval, exact artifact binding and expiry/revalidation under ADR-0007.
