@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-PLAN-001",
+  "baseRef": "main",
+  "baseSha": "3c942ff68a174ff0d71afcde21bacafe86f5fe89",
+  "criticalSources": {
+    ".gef/init-state.json": "24fb953e98a65b97f5ce5b72781f55951315490b",
+    "sourcePackAtBase": "ABSENT"
+  },
+  "stalePolicy": "Any change to main base, GEF init state, owner product intent or current official Polymarket integration constraints that materially contradicts this pack requires revalidation before promotion.",
+  "executor": "ChatGPT-connected-tools",
+  "codexAllowed": false
+}
