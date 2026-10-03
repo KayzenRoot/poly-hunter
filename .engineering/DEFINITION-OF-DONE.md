@@ -26,6 +26,7 @@ PolyHunter MVP is complete only when every NECESSARY item is objectively satisfi
 
 ## Quality
 - Unit/lint/typecheck/build/integration required by risk pass.
+- Canonical local Docker Compose development stack starts successfully, exposes the web app on localhost:3000 and keeps the worker healthy/running.
 - Replay/paper evidence is reproducible.
 - Fault-injection/recovery tests pass for live-money paths.
 - Observability detects stale data, provider disconnect, split-brain and reconciliation drift.
