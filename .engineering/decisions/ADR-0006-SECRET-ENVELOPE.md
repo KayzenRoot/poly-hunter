@@ -1,6 +1,6 @@
 # ADR-0006 — Application-level encrypted secret envelope
 
-Status: CANDIDATE in PH-M01-PLAN-001; APPROVED upon merge.
+Status: APPROVED upon merge of PH-M01-PLAN-001.
 
 ## Decision
 Sensitive tenant credentials are encrypted server-side with Node.js built-in AES-256-GCM before persistence. The master/wrapping key is never stored in Postgres or Git. Records carry tenant, purpose, key version, nonce/IV, authentication tag and ciphertext.
