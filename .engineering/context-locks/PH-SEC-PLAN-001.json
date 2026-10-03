@@ -16,5 +16,5 @@
   "stalePolicy": "Any semantic change to the bound security/governance sources requires recompile/rebase before owner decision.",
   "executor": "ChatGPT-connected-tools",
   "risk": "HIGH_ASSURANCE_GOVERNANCE",
-  "canonicalMutationAuthorized": false
+  "canonicalMutationAuthorized": true
 }
