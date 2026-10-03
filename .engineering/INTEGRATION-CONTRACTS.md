@@ -39,3 +39,13 @@ AIProviderPort supports DeepSeek first. Contract: structured input/output, timeo
 - https://docs.polymarket.com/trading/session-keys
 - https://docs.polymarket.com/programs/builders/overview
 - https://docs.polymarket.com/api-reference/geoblock
+
+## Supabase Auth
+Pilot authentication uses Supabase Auth behind `IdentityPort`.
+
+Current official guidance revalidated on 2026-10-03:
+- Next.js App Router supports cookie-based server-side auth with the Supabase SSR helper.
+- `@supabase/ssr` is currently documented as beta/unstable, so it must remain isolated in the provider adapter rather than leaking into domain/application contracts.
+- Browser configuration may contain only publishable/public project values. Server-only secret/service credentials must never enter client bundles.
+
+PH-M01-WO-002 owns the provider integration and must capability-test the selected package versions at execution time.
