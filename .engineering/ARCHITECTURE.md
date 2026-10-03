@@ -38,3 +38,17 @@ No LLM calls on tick/order critical paths. Real-time processing keeps compact in
 
 ## Portability
 All services are containerizable. Provider-specific adapters/configuration stay outside domain packages.
+
+## Local development runtime
+Before PH-M01, the canonical runnable developer environment is Docker Compose.
+
+Development-only topology:
+- web: Node.js 24 development container running the Next.js App Router shell and later UI/API code, published on host port 3000.
+- worker: Node.js 24 development container running the worker continuously with source-change restart support.
+- shared source: packages and TypeScript configuration are visible to both services.
+- dependencies: installed inside the development image; host node_modules is not required.
+- safety: no privileged containers, no Docker socket mount and no real credential requirement for base startup.
+
+The local Docker stack is separate from PH-M11 production deployment/orchestration. Production image hardening, reverse proxying, hosted secrets, persistence and infrastructure remain owned by PH-M11.
+
+Developer feedback target: source edits should become visible without rebuilding the entire image when only application/package source changed. Dependency/package-manifest changes may require an explicit rebuild.

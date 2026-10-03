@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-M00-PLAN-002",
+  "baseRef": "main",
+  "baseSha": "0a464c460d8d198a4e08bf687ae61be77116621d",
+  "criticalSources": {
+    ".engineering/CHECKPOINT.json": "ab552cda8026a8f8a2ae89ae2be1da2a4a18da5d",
+    ".engineering/DECISIONS-LEDGER.md": "33a67b9ba0f5810a2f01ca4e905b570924d3cf57",
+    ".engineering/REQUIREMENTS.md": "c65fbf7465b4f06c22bad45ae939d0d0f55f19ee",
+    ".engineering/SCOPE.md": "730c6a1fe033c096a68c8c5c1e4a0ea7dd7df799",
+    ".engineering/ARCHITECTURE.md": "720337b3e1f52ed4bdea9a9dde8b955a5c808f04",
+    ".engineering/DEPLOYMENT.md": "97916ce84c35b21b6273a5cd932a2e72b700aa5f",
+    ".engineering/BACKLOG.md": "95038296b523c09b8d38515a75646dd8dd661ebd",
+    ".engineering/DEFINITION-OF-DONE.md": "cc9f36a1cf3c225457c503c6bcd75e487e0e4835",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "56fb13db0def67b5e5020f4de0c775b3004e2311"
+  },
+  "stalePolicy": "Any semantic change to main or the bound canonical sources requires recompile/rebase before promotion.",
+  "executor": "ChatGPT-connected-tools",
+  "codexAllowed": false
+}

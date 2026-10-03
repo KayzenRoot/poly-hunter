@@ -17,3 +17,4 @@ Status: ACTIVE.
 - D-0013 APPROVED — Pilot deployment should minimize cost and use free tiers where practical; portability/safety outrank zero-cost hosting.
 - D-0014 APPROVED — HIGH_ASSURANCE applies to live money, signing, secrets, risk and irreversible trading actions.
 - D-0015 APPROVED — Codex is sole product implementation/test/CI/migration executor; ChatGPT owns planning/GitHub coordination/audit.
+- D-0016 APPROVED — Local Docker Compose is the standard runnable development environment before PH-M01. The web service must remain observable at http://localhost:3000 and the worker must run in the same local stack. This does not move production deployment/orchestration out of PH-M11.

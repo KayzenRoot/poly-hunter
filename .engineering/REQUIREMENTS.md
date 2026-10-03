@@ -28,3 +28,4 @@ Status: FROZEN upon merge of PH-PLAN-001.
 - REQ-023 Free-tier-first deployment is supported for pilot scale when provider capacity/terms allow; portability is required.
 - REQ-024 Logs/telemetry redact secrets and sensitive credential material.
 - REQ-025 The product never represents expected or historical returns as guaranteed future income.
+- REQ-026 Local development must be runnable through Docker Compose before PH-M01, with the web service reachable at http://localhost:3000, the worker continuously running, source-change feedback suitable for active development, and no real credentials required for startup.

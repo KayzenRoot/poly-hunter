@@ -18,5 +18,6 @@ Status: FROZEN upon merge of PH-PLAN-001.
 | REQ-023 | PH-M11 | DEPLOYMENT portability contract | pilot deployment/runbook evidence |
 | REQ-024 | PH-M01 + PH-M11 | SECURITY redaction + observability boundary | secret-redaction tests/telemetry review |
 | REQ-025 | PH-M08 + docs | UI-UX safety/copy contract | UI/copy audit and DoD trading acceptance |
+| REQ-026 | PH-M00 Governance & Harness | local-development Architecture + Deployment contract | docker compose config/build/up, localhost:3000 health, worker-running and shutdown evidence |
 
 All NECESSARY scope items map to PH-M00..PH-M12 in BACKLOG.md. IMPORTANT/FUTURE items do not enter the MVP completion denominator unless explicitly promoted. No requirement is considered implemented by this planning document; this matrix assigns future proof ownership only.

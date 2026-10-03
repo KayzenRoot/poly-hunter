@@ -4,6 +4,7 @@ Status: FROZEN upon merge of PH-PLAN-001.
 
 ## NECESSARY MVP
 - GEF governance and engineering harness.
+- Local Docker Compose development runtime for the runnable web/worker stack.
 - Multi-tenant core, auth/authorization and tenant isolation.
 - Secure Polymarket account/session integration.
 - Market discovery and real-time market/order-book data.
