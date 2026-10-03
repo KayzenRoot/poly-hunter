@@ -1,6 +1,6 @@
 # PH-SEC VEX / Exploitability Disposition Policy
 
-Status: PROPOSED / NOT_CANONICAL.
+Status: CANONICAL upon merge of PH-SEC-PLAN-001.
 Work Order: PH-SEC-PLAN-001.
 Purpose: blocker-resolution planning only.
 
@@ -62,7 +62,7 @@ Every HIGH/CRITICAL disposition is keyed by:
 A HIGH/CRITICAL finding cannot be NOT_AFFECTED when:
 - it is in CISA KEV and the exact product/runtime is exposed to the exploited path;
 - exploit prerequisites are satisfied and no effective inline mitigation exists;
-- vulnerable code is reachable from untrusted input in the assessed environment;
+- an attacker can control the vulnerable operation through an exploit path that satisfies its prerequisites, and no effective inline mitigation prevents exploitation;
 - evidence is incomplete or contradictory;
 - image/component identity is ambiguous;
 - the finding remains UNDER_INVESTIGATION.
