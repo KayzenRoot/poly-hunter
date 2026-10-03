@@ -1,6 +1,6 @@
 # PH-M00 — Governance & Harness Foundation
 
-Status: PLANNING_CANDIDATE in PH-M00-PLAN-001.
+Status: FROZEN upon merge of PH-M00-PLAN-001.
 
 ## Purpose
 Create the smallest professional engineering foundation that lets later PolyHunter modules ship quickly without rediscovering repository layout, test commands, type boundaries, evidence format or CI expectations.
