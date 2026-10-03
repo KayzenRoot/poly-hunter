@@ -1,6 +1,6 @@
 # ADR-0005 — Tenant authorization derives from server identity + membership
 
-Status: CANDIDATE in PH-M01-PLAN-001; APPROVED upon merge.
+Status: APPROVED upon merge of PH-M01-PLAN-001.
 
 ## Decision
 A tenant context is created only on the server from an authenticated identity and an active tenant membership. Client-provided tenant identifiers are selectors at most, never authorization proof.
