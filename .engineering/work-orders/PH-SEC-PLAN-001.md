@@ -40,7 +40,7 @@ Exact diff/path audit; cross-check against existing Security/DoD; verify no cano
 Policy proposal, candidate ADR, Context Lock, Evidence Bundle and owner decision request.
 
 ## REVIEW FORMAT
-APPROVE POLICY / REVISE POLICY / REJECT POLICY.
+APPROVED / CORRECTION REQUIRED / BLOCKED after owner approval.
 
 ## STOP CONDITION
-Stop before changing canonical Security/DoD or reinterpreting PR #15 CVEs. Explicit owner approval is required.
+After owner-approved canonical promotion, stop after exact-head audit/merge. Do not reinterpret PR #15 CVEs in this Work Order.
