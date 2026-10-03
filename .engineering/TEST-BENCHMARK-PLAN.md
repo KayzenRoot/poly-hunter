@@ -33,3 +33,13 @@ LIVE remains disabled until:
 - geographic eligibility and credential model are verified at exact implementation state.
 
 No single profit threshold is frozen at Source Pack time. PH-M12 must derive thresholds from measured evidence.
+
+## PH-M01 HIGH_ASSURANCE proof set
+For identity/tenancy/secrets increments, required evidence additionally includes:
+- two-or-more tenant adversarial isolation tests;
+- role escalation/authorization-denial tests;
+- session/membership revocation behavior tests when identity is introduced;
+- migration from empty database plus recovery/roll-forward evidence;
+- secret redaction/leak tests and encryption tamper tests when the vault is introduced;
+- exact-head dependency/security scan evidence;
+- audit by an agent/reviewer independent from the Codex executor before promotion.
