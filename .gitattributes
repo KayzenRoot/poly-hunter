@@ -1,0 +1,13 @@
+/.gitattributes text eol=lf
+/README.md text eol=lf
+/.env.example text eol=lf
+/.gitignore text eol=lf
+/.github/** text eol=lf
+/apps/** text eol=lf
+/packages/** text eol=lf
+/tests/** text eol=lf
+/biome.json text eol=lf
+/package.json text eol=lf
+/package-lock.json text eol=lf
+/tsconfig.base.json text eol=lf
+/vitest.config.ts text eol=lf
