@@ -1,7 +1,5 @@
 FROM node:24-bookworm-slim
 
-ENV NODE_ENV=development
-
 WORKDIR /workspace
 
 RUN mkdir -p /workspace && chown node:node /workspace
@@ -17,6 +15,6 @@ RUN mkdir -p apps/web/.next && chown -R node:node /workspace
 
 USER node
 
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 COPY --chown=node:node tsconfig.base.json ./
