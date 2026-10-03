@@ -7,8 +7,9 @@ Status: FROZEN upon merge of PH-PLAN-001; refined by PH-M01-PLAN-001 upon merge.
 - users(id, status, created_at, updated_at)
 - identity_links(id, user_id, provider, subject, created_at), unique(provider, subject)
 - tenant_memberships(id, tenant_id, user_id, role, status, created_at), unique(tenant_id, user_id)
+- platform_roles(id, user_id, role, created_at), unique(user_id, role)
 
-Tenant roles are owner/admin/member. platform_admin is a separate platform authorization and is not stored as a tenant-membership shortcut.
+Tenant roles are owner/admin/member. platform_admin is a separate platform authorization represented by platform_roles, never by a tenant-membership shortcut.
 
 ## Remaining core entities
 - trading_accounts(id, tenant_id, provider, wallet_address, auth_mode, status)
