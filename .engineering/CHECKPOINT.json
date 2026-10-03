@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
   "project": "PolyHunter",
-  "status": "SOURCE_PACK_CANDIDATE",
+  "status": "SOURCE_PACK_FROZEN",
   "phase": "PRE_IMPLEMENTATION_PLANNING",
-  "stopState": "PH_PLAN_001_AUDIT_REQUIRED",
+  "stopState": "READY_FOR_MODULE_PLANNING",
   "completedThroughModule": "PH-BS-001",
   "mainProductionDenominatorWeight": 0,
   "earnedProductionWeight": 0,
   "overallCompletionPercent": 0,
-  "nextLegalStage": "AUDIT_PH_PLAN_001",
-  "activeWorkOrder": "PH-PLAN-001",
+  "nextLegalStage": "PH-M00_MODULE_PLANNING",
+  "activeWorkOrder": "NONE",
   "liveTradingAuthorized": false,
   "v11": null
 }
