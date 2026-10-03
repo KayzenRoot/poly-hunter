@@ -1,6 +1,6 @@
 # PH-M01 — Identity, Tenancy & Secrets
 
-Status: PLANNING_CANDIDATE in PH-M01-PLAN-001.
+Status: FROZEN upon merge of PH-M01-PLAN-001.
 
 ## Purpose
 Establish the security boundary that every later PolyHunter module depends on: authenticated identity, server-derived tenant context, explicit RBAC, tenant-scoped persistence, and encrypted storage for sensitive tenant credentials.
