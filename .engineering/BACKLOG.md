@@ -4,7 +4,7 @@ Status: FROZEN upon merge of PH-PLAN-001.
 
 | Module | Classification | Purpose |
 |---|---|---|
-| PH-M00 Governance & Harness Foundation | NECESSARY | repo layout, contracts, CI/test harness, config |
+| PH-M00 Governance & Harness Foundation | NECESSARY | repo layout, contracts, CI/test harness, config, local Docker development runtime |
 | PH-M01 Identity, Tenancy & Secrets | NECESSARY | auth, RBAC, tenant isolation, secret vault/encryption |
 | PH-M02 Polymarket Integration | NECESSARY | market data, auth/session, geoblock, order adapter |
 | PH-M03 Market Scanner & Data Engine | NECESSARY | book state, filters, stale-data guard |
