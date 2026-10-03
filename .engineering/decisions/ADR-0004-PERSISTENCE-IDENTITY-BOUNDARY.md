@@ -1,6 +1,6 @@
 # ADR-0004 — PH-M01 persistence and identity boundary
 
-Status: CANDIDATE in PH-M01-PLAN-001; APPROVED upon merge.
+Status: APPROVED upon merge of PH-M01-PLAN-001.
 
 ## Decision
 Use PostgreSQL as the application durable store, Drizzle for code-owned schema/migrations, and Supabase Auth as the pilot identity provider behind a provider adapter.
