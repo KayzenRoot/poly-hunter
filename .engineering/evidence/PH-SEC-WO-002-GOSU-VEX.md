@@ -1,6 +1,6 @@
 # PH-SEC-WO-002 — PostgreSQL gosu / Go stdlib VEX
 
-**Resultado: `READY_FOR_INDEPENDENT_AUDIT`.** 23 propostas NOT_AFFECTED, aguardando auditoria independente e aprovação do owner. Nenhuma autoaprovação.
+**Resultado: `OWNER_APPROVED_CLUSTER`.** As 23 disposições `NOT_AFFECTED / vulnerable_code_not_present` foram auditadas de forma independente e aprovadas explicitamente pelo owner para o artefato/ambiente exato deste Work Order.
 
 - Branch `security/ph-m01-postgres-gosu-vex`; snapshot analisado `dcbadf0d81d729564e66b25eeb692c407b7e5c40`; parent PR #15 head `e6a9457e8d8ff60341c6db90346d5916ee13fa61`; PR #21.
 - Imagem `{image}@{digest}`. gosu `/usr/local/bin/gosu`, SHA-256 `{binary_sha}`, ELF64 x86_64, Go 1.24.6, módulo `github.com/tianon/gosu@v1.19.0`. O SHA coincide com o asset oficial gosu 1.19 amd64.
@@ -48,6 +48,6 @@ A análise não classifica NOT_AFFECTED por gosu sair rápido: para cada CVE, as
 - A entrada de cada advisory é listada individualmente na tabela e detalhada em `prerequisites.authoritativeText` no JSON. Runtime do PolyHunter passa apenas usuário `postgres`, caminho do entrypoint e argv `postgres` ao gosu; nenhum payload de rede/SQL é passado ao helper.
 - O PostgreSQL permanece acessível aos peers da bridge de projeto não interna; 5432 não tem publish no host. Isso é contexto, não mitigação.
 - Não foi capturado `/proc` do gosu na janela transitória; seu CapEff durante a execução não é inferido. Sem ptrace/capabilities extras.
-- Propostas expiram em 2026-10-11T00:55:45Z ou antes se houver mudança material. A auditoria independente e a aprovação do owner são necessárias antes de atualizar o gate da PR #15.
+- Propostas expiram em 2026-10-11T00:55:45Z ou antes se houver mudança material. A auditoria independente e a aprovação do owner foram concluídas para este cluster. A PR #15 continua bloqueada pelos demais findings fora do escopo deste Work Order.
 
 Refs e receipts brutos: `PH-SEC-WO-002-EVIDENCE.md` e `.engineering/evidence/PH-SEC-WO-002/`.
