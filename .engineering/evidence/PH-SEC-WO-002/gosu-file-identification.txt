@@ -1,0 +1,8 @@
+path=/usr/local/bin/gosu
+magic=7f454c46
+class=ELF64
+endianness=little
+machine=62
+architecture=x86_64
+bytes=1769900
+sha256=52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0

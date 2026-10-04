@@ -1,20 +1,45 @@
-# PH-SEC-WO-002 Evidence Bundle
+# PH-SEC-WO-002 — Evidence Bundle
 
-Status: PREPARED / EXECUTION_NOT_STARTED.
+**Resultado: `READY_FOR_INDEPENDENT_AUDIT`.** O executor propõe 23 NOT_AFFECTED; auditor independente e owner ainda precisam aprovar. PR #15 permanece bloqueada até essa aprovação.
 
-## Authority
-- Issue: #20
-- Parent implementation: PR #15
-- Parent head: e6a9457e8d8ff60341c6db90346d5916ee13fa61
-- Canonical VEX policy: main@771f75bbd23fd458e67be1d34024e78e39f5b8af
+## Binding / Context Lock
 
-## Exact target
-`postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24`
+- Branch `security/ph-m01-postgres-gosu-vex`; PR #21; snapshot de produto avaliado: `dcbadf0d81d729564e66b25eeb692c407b7e5c40`.
+- Parent PR #15 continua OPEN no head travado `e6a9457e8d8ff60341c6db90346d5916ee13fa61`; esse parent é ancestral. Canonical policy main `771f75bbd23fd458e67be1d34024e78e39f5b8af`.
+- Context Lock PASS: 9 fingerprints conferem, imagem Compose/local e digest exatos conferem, e as 23 linhas Go stdlib reconciliam com o Work Order. Receipt `context-lock-validation.json`; SHA-256 `17378e284e8fd5860e541b00829f31fcd21d3d8c0b6ab78b3f67de7664dc1a6e`.
+- Escopo: apenas os 23 CVEs Go stdlib/gosu da imagem PostgreSQL exata. Libxml2, dev image, código de produto, Dockerfile, Compose, dependências, schema e migrations não foram alterados/analisados.
 
-Target cluster: 23 HIGH/CRITICAL Go stdlib findings attributed to gosu.
+## Artifact e ferramenta
 
-## Scope guard
-Evidence/security analysis only. No product/runtime mutation authorized.
+- Imagem: `postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24`, `linux/amd64`; pull e inspect registrados.
+- gosu `/usr/local/bin/gosu`: ELF64 x86_64, 1,769,900 bytes, root:root 0755, SHA-256 `52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0`. Go `1.24.6`; módulo `github.com/tianon/gosu v1.19.0`, build GOOS linux/GOARCH amd64/CGO_ENABLED=0. Hash casa com asset oficial da release 1.19 `gosu-amd64`.
+- govulncheck `v1.8.0`, construído com Go 1.26.8 em container oficial `golang:1.25.13-alpine3.24` (digest `sha256:1e0126852075c9c60731c8ba49088448b91f63e2aed97ca9d1a9791622a05946`). Vulnerability DB `https://vuln.go.dev`, atualizado `2026-10-01 20:24:15 +0000 UTC`.
+- Binário: `govulncheck -mode=binary -show verbose /evidence/gosu`, exit 0. Os 23 advisory IDs aparecem no raw; 0 resultados Symbol, 1 Package e 22 Module. O output diz zero chamadas reportadas, mas mantém achados de pacote/módulo sem chamada aparente; isso não foi descrito como “nenhuma vulnerabilidade”.
+- `go tool nm`: exit 0, tabela completa preservada (2.614 linhas/2.613 nomes únicos). Comparação com os nomes listados por 23 advisories Go revisados: 249 símbolos verificados, zero presentes no gosu exato.
 
-## Expected result
-READY_FOR_INDEPENDENT_AUDIT only if every one of the 23 CVEs is FIXED or proposed NOT_AFFECTED with complete exact evidence. Otherwise BLOCKED_UNRESOLVED.
+## Execução e dados
+
+- Configuração exata: entrypoint `docker-entrypoint.sh`, `Cmd=["postgres"]`, `Config.User` vazio/default root. `_pg_want_help` é falso para `postgres`; o script exato executa `exec gosu postgres "$BASH_SOURCE" "$@"` na linha 343.
+- Gosu chama `SetupUser` (Setgroups/Setgid/Setuid), depois `exec.LookPath` e `syscall.Exec`; o processo é substituído pelo entrypoint, que termina com `exec "$@"`. Argumentos do gosu: usuário `postgres`, script do entrypoint, comando `postgres`. Sem SQL/request body como entrada do gosu.
+- Em steady state healthy: PID 1 postgres UID/GID 70:70, `CapEff=0000000000000000`, nenhum processo gosu. Listeners `0.0.0.0:5432` e `:::5432`. Porta não publicada no host; bridge project-scoped `polyhunter-local_default`, `Internal=false`, peers web/worker. Isso é contexto, não mitigação usada na decisão.
+- Limitação: não foi capturado `/proc` do gosu transitório nem seu CapEff; nenhum ptrace/capability extra foi usado. A chamada real é determinada pela imagem/argv/script exatos, e a substituição pelo source release-matched; ausência de processo em steady state não é base isolada para NOT_AFFECTED.
+
+## Resultado VEX
+
+- 21 HIGH + 2 CRITICAL, 23 linhas individualizadas. Cada linha contém pacote/símbolos do Go VDB, entrada/pré-requisito, controle no runtime, símbolo presente/ausente, caminho real, contexto de rede/privilégio, fontes, evidence refs e expiry.
+- Todas as 23 são propostas `NOT_AFFECTED / vulnerable_code_not_present`, sustentadas pela ausência exata dos 249 símbolos vulneráveis listados. Nenhuma linha é FIXED e nenhuma proposta foi aprovada. Expiry máximo: `2026-10-11T00:55:45Z` ou antes por mudança material.
+- Result: `READY_FOR_INDEPENDENT_AUDIT`, não aprovação do owner nem liberação do gate da PR #15.
+
+## Deliverables
+
+- `.engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json` — VEX individual/machine-readable.
+- `.engineering/evidence/PH-SEC-WO-002-GOSU-VEX.md` — revisão humana por CVE.
+- `.engineering/evidence/PH-SEC-WO-002-EVIDENCE.md` — este bundle.
+- `.engineering/evidence/PH-SEC-WO-002/` — raw outputs, 23 advisories Go, source, image/runtime receipts e scripts reproduzíveis. `receipts-sha256.txt` lista hashes e tamanhos de todos os receipts/deliverables, excluindo o próprio manifest.
+
+## Riscos restantes
+
+- Requer auditoria de segurança independente e aprovação explícita do owner antes de alterar o gate.
+- PostgreSQL aceita conexões dos peers da bridge não interna e escuta em todas as interfaces do container; 5432 não está publicada no host.
+- O gosu transitório corre no início como root para o drop de privilégios; sua capability efetiva não foi amostrada diretamente.
+- Nenhuma implementação de produto ou alteração de runtime foi feita; PR #15 não foi mergeada e PH-M01-WO-002 não foi iniciada.

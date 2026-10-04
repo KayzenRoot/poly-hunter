@@ -1,0 +1,7 @@
+PASS exact Work Order CVE set: 23/23
+PASS severity reconciliation: HIGH=21 CRITICAL=2
+PASS per-CVE required fields/status/evidence/expiry: 23/23; all approval fields pending
+PASS advisory symbol matrix: checked=249 present=0 across 23 CVEs
+PASS govulncheck matrix: 23 raw advisories; 0 symbol results
+PASS Markdown CVE rows: 23
+PASS current git modifications limited to evidence paths: 4 paths

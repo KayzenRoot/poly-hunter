@@ -1,0 +1,7 @@
+PID                 PPID                UID                 GID                 USER                COMMAND
+51312               51288               70                  70                  70                  postgres
+51354               51312               70                  70                  70                  postgres: checkpointer
+51355               51312               70                  70                  70                  postgres: background writer
+51357               51312               70                  70                  70                  postgres: walwriter
+51358               51312               70                  70                  70                  postgres: autovacuum launcher
+51359               51312               70                  70                  70                  postgres: logical replication launcher

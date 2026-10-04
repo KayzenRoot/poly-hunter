@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-002",
+  "validatedAtUtc": "2026-10-04T00:32:55Z",
+  "result": "PASS",
+  "checks": {
+    "analysisBranch": {
+      "expected": "security/ph-m01-postgres-gosu-vex",
+      "actual": "security/ph-m01-postgres-gosu-vex",
+      "head": "dcbadf0d81d729564e66b25eeb692c407b7e5c40",
+      "pr21Head": "dcbadf0d81d729564e66b25eeb692c407b7e5c40",
+      "match": true
+    },
+    "parentPr15": {
+      "state": "OPEN",
+      "head": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
+      "base": "main",
+      "workOrderParentHead": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
+      "match": true
+    },
+    "parentHeadAncestor": true,
+    "canonicalPolicy": {
+      "lockedMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "originMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "canonicalCommitAncestorOfOriginMain": true
+    },
+    "lockedFingerprints": {
+      ".engineering/proposals/PH-SEC-VEX-POLICY.md": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      ".engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      ".engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+      ".engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "parent:.engineering/evidence/PH-SEC-WO-001-VEX.json": "a5ce65a282817d1ae55b237e1eef0ed496584c7c",
+      "parent:.engineering/evidence/PH-SEC-WO-001-VEX.md": "9d8e0b46f64fcb9d9bbb5cfaeaa1480a0bba12d9",
+      "parent:.engineering/evidence/PH-SEC-WO-001-EVIDENCE.md": "3e39a7dfd051d9b6c3077929a70465d660312396",
+      "parent:compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0"
+    },
+    "exactImage": {
+      "reference": "postgres:17.11-alpine3.24",
+      "digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "localRepoDigest": "postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "composeReferenceMatches": true
+    },
+    "parentCveReconciliation": {
+      "gosuStdlibRows": 23,
+      "workOrderCves": 23,
+      "uniqueSetMatches": true,
+      "statuses": "all UNDER_INVESTIGATION at parent head"
+    },
+    "stalePolicyTriggers": []
+  }
+}
