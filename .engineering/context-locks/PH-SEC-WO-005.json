@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-SEC-WO-005",
+  "issue": 28,
+  "analysisBranch": "security/ph-m01-dev-go-remediation",
+  "parentPr": 15,
+  "parentHead": "fa3e7c5272f4d04f31189867dc324a838279b8be",
+  "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
+  "target": {
+    "image": "polyhunter-dev:local",
+    "originalGoUniqueCves": 35,
+    "originalGoOccurrences": 64,
+    "originalBinaryPaths": [
+      "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+    ]
+  },
+  "criticalSources": {
+    "main:AGENTS.md": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    "main:.engineering/CHECKPOINT.json": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    "main:.engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "main:.engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    "main:.engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    "main:.engineering/REVIEW-PROGRESS-REPORTING.md": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+    "parent:package.json": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+    "parent:package-lock.json": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+    "parent:Dockerfile.dev": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    "parent:compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+    "parent:packages/db/package.json": "43982009e4c4cbd1475ffd555d3b6021693db245",
+    "parent:.engineering/evidence/PH-SEC-WO-004-EVIDENCE.md": "cd8fc0181a30964ceda24b898765c7442f490cd9",
+    "parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif": "63052aca98c6162904f1c27033a92319d4e90734"
+  },
+  "stalePolicy": "Any change to parent head, canonical Security/DoD/Test/Checkpoint/AGENTS, package graph, Dockerfile, Compose topology, or original dev-image scan requires STOP and Context Lock recompilation.",
+  "executor": "Codex",
+  "independentAuditor": "ChatGPT/planning auditor",
+  "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_REMEDIATION",
+  "productBehaviorMutationAuthorized": false,
+  "toolingDependencyMutationAuthorized": true,
+  "prereleaseDependencyAuthorized": false,
+  "liveTradingAuthorized": false
+}
