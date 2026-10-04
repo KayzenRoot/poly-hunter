@@ -10,7 +10,7 @@
     "ownerApprovalRequired": true,
     "executorSelfApproval": false
   },
-  "result": "READY_FOR_INDEPENDENT_AUDIT",
+  "result": "OWNER_APPROVED_FINDING",
   "analysisTimestampUtc": "2026-10-04T02:51:08Z",
   "analysisBranch": "security/ph-m01-postgres-libxml2-vex",
   "pr": {
@@ -551,8 +551,8 @@
           "sha256": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f"
         }
       ],
-      "independentAuditor": "PENDING — independent audit required; executor does not self-approve",
-      "ownerApproval": "PENDING — explicit owner approval required after independent audit",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T02:51:08Z",
       "expiry": {
@@ -569,7 +569,19 @@
           "before promotion or any non-local-dev use"
         ]
       },
-      "dispositionState": "PROPOSED_NOT_AFFECTED_PENDING_AUDIT_AND_OWNER"
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     }
-  ]
+  ],
+  "resultRationale": "CVE-2026-86140 is independently audited and explicitly owner-approved as NOT_AFFECTED / vulnerable_code_not_in_execute_path for the exact locked PostgreSQL local-development image and environment. This approval is limited to this finding and does not unblock the parent PR while dev-image HIGH/CRITICAL findings remain.",
+  "ownerApproval": {
+    "status": "APPROVED",
+    "scope": "PH-SEC-WO-003 single NOT_AFFECTED disposition for CVE-2026-86140",
+    "statement": "APROVO A DISPOSIÇÃO NOT_AFFECTED DO PH-SEC-WO-003"
+  },
+  "independentAudit": {
+    "status": "APPROVED",
+    "reviewPr": 23,
+    "reviewedHead": "e3748820d399fb38da6a0922eeda412cc00bff12",
+    "auditor": "ChatGPT/planning auditor"
+  }
 }
