@@ -1,0 +1,92 @@
+{
+  "workOrder": "PH-SEC-WO-001",
+  "validatedAtUtc": "2026-10-04T00:08:11Z",
+  "branch": "security/ph-m01-wo001-vex-analysis",
+  "headBeforeGeneration": "e4ae81487abb5dfb31632eb07a25b01dd1950f9b",
+  "currentHead": "e4ae81487abb5dfb31632eb07a25b01dd1950f9b",
+  "originMain": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+  "blockedBase": "3ad44a62bbcc00abdc61b34efd6983a2e765aca9",
+  "contextLockSha256": "7BDEC9A139EE65726F9CF08602C12228F56C00AEF6778607C32D90D76291B504",
+  "lockedSourceChecks": [
+    {
+      "path": ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+      "sourceCommit": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedGitBlobSha1": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "actualGitBlobSha1": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "localGitBlobSha1": null,
+      "pass": true
+    },
+    {
+      "path": ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+      "sourceCommit": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedGitBlobSha1": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "actualGitBlobSha1": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "localGitBlobSha1": null,
+      "pass": true
+    },
+    {
+      "path": ".engineering/SECURITY.md",
+      "sourceCommit": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedGitBlobSha1": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "actualGitBlobSha1": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "localGitBlobSha1": null,
+      "pass": true
+    },
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-EVIDENCE.md",
+      "sourceCommit": "3ad44a62bbcc00abdc61b34efd6983a2e765aca9",
+      "expectedGitBlobSha1": "ae9b70956b875ce49acc86cb4f496ddb2fb21664",
+      "actualGitBlobSha1": "ae9b70956b875ce49acc86cb4f496ddb2fb21664",
+      "localGitBlobSha1": null,
+      "pass": true
+    },
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+      "sourceCommit": "3ad44a62bbcc00abdc61b34efd6983a2e765aca9",
+      "expectedGitBlobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+      "actualGitBlobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+      "localGitBlobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+      "pass": true
+    },
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif",
+      "sourceCommit": "3ad44a62bbcc00abdc61b34efd6983a2e765aca9",
+      "expectedGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+      "actualGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+      "localGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+      "pass": true
+    }
+  ],
+  "runtimeDigests": {
+    "dev": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+    "postgres": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+  },
+  "sourceReceiptSha256": {
+    ".engineering/evidence/PH-SEC-WO-001/runtime-context.json": "1DAB17E24E179D7679AD53E2EFD51D71E858A166FCD375587AFD99EF4DC4965D",
+    ".engineering/evidence/PH-SEC-WO-001/runtime-command-output.txt": "1696EF1E01376B998611384CA4419D9536E569CDD67796B90CF0135576443761",
+    ".engineering/evidence/PH-SEC-WO-001/runtime-component-inspection.txt": "AEBAE672C6A4631503A3EBE1E4B8E17AAD54CA6EA94E7BCD206F8B4F5B49D9E9",
+    ".engineering/evidence/PH-SEC-WO-001/cisa-kev-2026-10-03.json": "D2C8C6CB23291B46FF2B086197641A6B1FA35E6B746BBA714CC280A1778F9E48",
+    ".engineering/evidence/PH-SEC-WO-001/first-epss-2026-10-03.json": "2E2134A732ED9DECD137A41EB78A81B09B62BB21BE7110336D27974833D310D3",
+    ".engineering/evidence/PH-SEC-WO-001/cve-program-records-2026-10-03.json": "3AC60AA883C3452F7793ADD04D49D0BC8A3E2D90B95DA2D66762CBD9D2A05729",
+    ".engineering/evidence/PH-SEC-WO-001/osv-cve-records-2026-10-03.json": "B99C94F391B7FC2BEF6F1CF4419D4013B3A5B56E6C08FAF0A84A0001CB7EC9A7"
+  },
+  "priorEvidenceSha256Audit": [
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+      "publishedSha256": "E703FF5206493044293AB3EE0A54502223DD0BFFA5C8972BEE0F8F131E96B86D",
+      "recomputedSha256": "E811C090D0748D3EBAC6AB550E186B6480252E7D63B1733265E25F1561E3C372",
+      "lockedGitBlobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+      "localGitBlobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+      "publishedMatches": false
+    },
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif",
+      "publishedSha256": "44A3C64B51E25C8E6AA08B0DDB95C0980A0A0A20060662A02E47CD2A28ACF3C9",
+      "recomputedSha256": "AC3C326013B99367935A02E4F9747E417C007B4FB3DE70048972ED1FA2764139",
+      "lockedGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+      "localGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+      "publishedMatches": false
+    }
+  ],
+  "result": "PASS"
+}

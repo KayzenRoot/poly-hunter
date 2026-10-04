@@ -1,0 +1,73 @@
+capturedAtUtc=2026-10-03T23:46:12Z
+--- container-identities-and-controls
+400be4851f4d8024edd5e29c4da9bb6d5f763a703da8e2b4205411a4b01481f6 image=sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa user=node privileged=false capAdd=null capDrop=null readonlyRootfs=false securityOpt=null ports={"3000/tcp":[{"HostIp":"127.0.0.1","HostPort":"3000"}]}
+4c8cb80f59c6153d3afbda07bc3ddff8bc041092d782b2cff90cda444c0a4fc4 image=sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa user=node privileged=false capAdd=null capDrop=null readonlyRootfs=false securityOpt=null ports={}
+6bccd0740d06b0701321bf3cefce1850b4ebab36c227a9ba6161abfd0e759514 image=sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 user= privileged=false capAdd=null capDrop=null readonlyRootfs=false securityOpt=null ports={"5432/tcp":null}
+--- dev-package-and-binary-check
+perl=/usr/bin/perl
+
+gcc=absent
+gcc-12=absent
+pcre2grep=absent
+su=/usr/bin/su
+
+mount=/usr/bin/mount
+
+lsblk=/usr/bin/lsblk
+
+bsdutils	1:2.38.1-5+deb12u3
+gcc-12-base:amd64	12.2.0-14+deb12u1
+libpcre2-8-0:amd64	10.42-1+deb12u1
+perl-base	5.36.0-7+deb12u3
+util-linux	2.38.1-5+deb12u3
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json=5.0.7
+/usr/local/lib/node_modules/npm/node_modules/http-cache-semantics/package.json=4.2.0
+/usr/local/lib/node_modules/npm/node_modules/ip-address/package.json=10.2.0
+/usr/local/lib/node_modules/npm/node_modules/tar/package.json=7.5.19
+/usr/local/lib/node_modules/npm/node_modules/undici/package.json=6.27.0
+--- postgres-process-and-components
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+-rwxr-xr-x    1 root     root       1072096 May 28 09:40 /usr/lib/libxml2.so.2.13.9
+-rwxr-xr-x    1 root     root       1769900 Sep 17 21:29 /usr/local/bin/gosu
+/usr/lib/libxml2.so.2.13.9
+libxml2: XML parsing library, version 2
+libxml2: https://gitlab.gnome.org/GNOME/libxml2
+libxml2: 1046 KiB
+capturedAtUtc=2026-10-03T23:49:19Z
+--- polyhunter-web PID1
+Name:	docker-init
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+--- polyhunter-worker PID1
+Name:	docker-init
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+--- polyhunter-postgres PID1
+Name:	postgres
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
