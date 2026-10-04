@@ -29,14 +29,24 @@
     "parent:compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
     "parent:packages/db/package.json": "43982009e4c4cbd1475ffd555d3b6021693db245",
     "parent:.engineering/evidence/PH-SEC-WO-004-EVIDENCE.md": "cd8fc0181a30964ceda24b898765c7442f490cd9",
-    "parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif": "63052aca98c6162904f1c27033a92319d4e90734"
+    "parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif": "63052aca98c6162904f1c27033a92319d4e90734",
+    "branch:apps/web/next.config.ts": "21d65077d6708954f69607a38d6b79e625ead85e"
   },
-  "stalePolicy": "Any change to parent head, canonical Security/DoD/Test/Checkpoint/AGENTS, package graph, Dockerfile, Compose topology, or original dev-image scan requires STOP and Context Lock recompilation.",
+  "stalePolicy": "Any change to parent head, canonical Security/DoD/Test/Checkpoint/AGENTS, package graph, Dockerfile, Compose topology, or original dev-image scan requires STOP and Context Lock recompilation. Any unexpected change to apps/web/next.config.ts outside PH-SEC-WO-005-CR-01 requires STOP.",
   "executor": "Codex",
   "independentAuditor": "ChatGPT/planning auditor",
   "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_REMEDIATION",
   "productBehaviorMutationAuthorized": false,
   "toolingDependencyMutationAuthorized": true,
   "prereleaseDependencyAuthorized": false,
-  "liveTradingAuthorized": false
+  "liveTradingAuthorized": false,
+  "correction": {
+    "id": "PH-SEC-WO-005-CR-01",
+    "reason": "Windows Docker bind-mount host edits are visible in-container but do not trigger automatic webpack recompilation.",
+    "allowedAdditionalPath": "apps/web/next.config.ts",
+    "allowedPurpose": "Development-only webpack polling while POLYHUNTER_DOCKER_DEV=1",
+    "composeMutationAuthorized": false,
+    "dockerfileMutationAuthorized": false,
+    "applicationRouteMutationAuthorized": false
+  }
 }
