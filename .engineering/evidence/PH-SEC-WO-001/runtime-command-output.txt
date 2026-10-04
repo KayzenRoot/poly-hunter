@@ -1,0 +1,25 @@
+docker top polyhunter-web
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+1000                31286               31262               0                   22:14               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0
+1000                31346               31286               0                   22:14               ?                   00:00:01            npm run dev --webpack --hostname 0.0.0.0
+1000                31390               31346               0                   22:14               ?                   00:00:00            sh -c next dev --webpack --hostname 0.0.0.0
+1000                31391               31390               0                   22:14               ?                   00:00:02            node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0
+1000                31403               31391               7                   22:14               ?                   00:05:46            next-server (v16.3.8)
+docker top polyhunter-worker
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+1000                31246               31220               0                   22:14               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+1000                31331               31246               4                   22:14               ?                   00:03:24            node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+docker top polyhunter-postgres
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+70                  51312               51288               0                   19:38               ?                   00:00:08            postgres
+70                  51354               51312               0                   19:38               ?                   00:00:01            postgres: checkpointer
+70                  51355               51312               0                   19:38               ?                   00:00:00            postgres: background writer
+70                  51357               51312               0                   19:38               ?                   00:00:00            postgres: walwriter
+70                  51358               51312               0                   19:38               ?                   00:00:00            postgres: autovacuum launcher
+70                  51359               51312               0                   19:38               ?                   00:00:00            postgres: logical replication launcher
+docker exec polyhunter-postgres pg_isready
+/var/run/postgresql:5432 - accepting connections
+read-only SQL: SHOW listen_addresses; SELECT current_user, current_database(); SELECT xml_is_well_formed('<vex/>');
+*
+polyhunter|polyhunter_dev
+t

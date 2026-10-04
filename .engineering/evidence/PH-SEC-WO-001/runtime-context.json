@@ -1,0 +1,188 @@
+{
+  "capturedAtUtc": "2026-10-03T23:33:35Z",
+  "workOrder": "PH-SEC-WO-001",
+  "imageDigests": {
+    "dev": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+    "postgres": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+  },
+  "containers": [
+    {
+      "name": "polyhunter-web",
+      "imageId": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+      "state": "running",
+      "health": "healthy",
+      "configuredUser": "node",
+      "privileged": false,
+      "capAdd": [
+        null
+      ],
+      "capDrop": [
+        null
+      ],
+      "noNewPrivileges": false,
+      "readOnlyRootFilesystem": false,
+      "networkMode": "polyhunter-local_default",
+      "networks": [
+        "polyhunter-local_default"
+      ],
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "3000"
+          }
+        ]
+      },
+      "mountTargets": [
+        {
+          "type": "bind",
+          "destination": "/workspace/vitest.integration.config.ts",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/apps/web",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/contracts",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/domain",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/testkit",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/db",
+          "readWrite": true
+        },
+        {
+          "type": "volume",
+          "destination": "/workspace/apps/web/.next",
+          "readWrite": true
+        }
+      ],
+      "processes": "UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD\r\n1000                31286               31262               0                   22:14               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0\r\n1000                31346               31286               0                   22:14               ?                   00:00:01            npm run dev --webpack --hostname 0.0.0.0\r\n1000                31390               31346               0                   22:14               ?                   00:00:00            sh -c next dev --webpack --hostname 0.0.0.0\r\n1000                31391               31390               0                   22:14               ?                   00:00:02            node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0\r\n1000                31403               31391               7                   22:14               ?                   00:05:46            next-server (v16.3.8)"
+    },
+    {
+      "name": "polyhunter-worker",
+      "imageId": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+      "state": "running",
+      "health": "no healthcheck",
+      "configuredUser": "node",
+      "privileged": false,
+      "capAdd": [
+        null
+      ],
+      "capDrop": [
+        null
+      ],
+      "noNewPrivileges": false,
+      "readOnlyRootFilesystem": false,
+      "networkMode": "polyhunter-local_default",
+      "networks": [
+        "polyhunter-local_default"
+      ],
+      "ports": {},
+      "mountTargets": [
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/testkit",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/db",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/apps/worker",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/contracts",
+          "readWrite": true
+        },
+        {
+          "type": "bind",
+          "destination": "/workspace/packages/domain",
+          "readWrite": true
+        }
+      ],
+      "processes": "UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD\r\n1000                31246               31220               0                   22:14               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts\r\n1000                31331               31246               4                   22:14               ?                   00:03:24            node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts"
+    },
+    {
+      "name": "polyhunter-postgres",
+      "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "state": "running",
+      "health": "healthy",
+      "configuredUser": "",
+      "privileged": false,
+      "capAdd": [
+        null
+      ],
+      "capDrop": [
+        null
+      ],
+      "noNewPrivileges": false,
+      "readOnlyRootFilesystem": false,
+      "networkMode": "polyhunter-local_default",
+      "networks": [
+        "polyhunter-local_default"
+      ],
+      "ports": {
+        "5432/tcp": null
+      },
+      "mountTargets": [
+        {
+          "type": "volume",
+          "destination": "/var/lib/postgresql/data",
+          "readWrite": true
+        }
+      ],
+      "processes": "UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD\r\n70                  51312               51288               0                   19:38               ?                   00:00:08            postgres\r\n70                  51354               51312               0                   19:38               ?                   00:00:01            postgres: checkpointer\r\n70                  51355               51312               0                   19:38               ?                   00:00:00            postgres: background writer\r\n70                  51357               51312               0                   19:38               ?                   00:00:00            postgres: walwriter\r\n70                  51358               51312               0                   19:38               ?                   00:00:00            postgres: autovacuum launcher\r\n70                  51359               51312               0                   19:38               ?                   00:00:00            postgres: logical replication launcher"
+    }
+  ],
+  "network": {
+    "name": "polyhunter-local_default",
+    "driver": "bridge",
+    "internal": false,
+    "attachable": false,
+    "scope": "local",
+    "containers": [
+      {
+        "name": "polyhunter-web",
+        "ipv4Address": "172.24.0.4/16"
+      },
+      {
+        "name": "polyhunter-worker",
+        "ipv4Address": "172.24.0.3/16"
+      },
+      {
+        "name": "polyhunter-postgres",
+        "ipv4Address": "172.24.0.2/16"
+      }
+    ]
+  },
+  "web": {
+    "url": "http://localhost:3000",
+    "statusCode": 200
+  },
+  "postgresReadiness": "/var/run/postgresql:5432 - accepting connections",
+  "postgresReadOnlySql": "*\r\npolyhunter|polyhunter_dev\r\nt",
+  "scopeLimits": [
+    "Observed only the local-dev Compose deployment and its exact image digests.",
+    "CI, staging, and production-live reachability were not exercised.",
+    "Loopback binding, non-root users, and lack of published ports are contextual controls, not standalone proof that any vulnerable function is unreachable."
+  ]
+}
