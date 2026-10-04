@@ -1,0 +1,18 @@
+{
+  "capturedAtUtc": "2026-10-04T03:29:21.2710201Z",
+  "tag": "polyhunter-dev:local",
+  "imageId": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+  "repoDigests": [
+    "polyhunter-dev@sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa"
+  ],
+  "created": "2026-10-03T22:09:00.612028557Z",
+  "os": "linux",
+  "architecture": "amd64",
+  "size": 369863051,
+  "labels": {
+    "com.docker.compose.project": "polyhunter-local",
+    "com.docker.compose.service": "web",
+    "com.docker.compose.version": "5.4.0"
+  },
+  "containerUse": "Image metadata only; no binaries were copied or executed."
+}

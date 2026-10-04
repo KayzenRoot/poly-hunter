@@ -1,0 +1,11 @@
+PH-SEC-WO-004 SHA-256 evidence receipt index
+Generated UTC: 2026-10-04T03:31:31.6332429Z
+Coverage: three PH-SEC-WO-004 root deliverables and every receipt under .engineering/evidence/PH-SEC-WO-004/
+The index excludes itself to avoid a self-referential digest.
+aecc67a8730d32b559a65fb1121b046b804b2ab17289e5050b0253698082b02f  PH-SEC-WO-004-DEV-GO-VEX.json  (123040 bytes)
+ba71da3d69f7a97882be6ae24e946acfdda274bf63e599516a7815021aee9d3d  PH-SEC-WO-004-DEV-GO-VEX.md  (3837 bytes)
+b58d55f17848d77a9fb1305c6e3a099e24d9e980a25a9f6b241abf0de7407f76  PH-SEC-WO-004-EVIDENCE.md  (3343 bytes)
+d3655dcbfeade9de715e0053e81e002125496464b36b55e90d320f5f11e01fa2  PH-SEC-WO-004/context-lock-validation.json  (4245 bytes)
+b26fa44f6aeac2d6ac07d5606fece6707d70640a27b1cde5cba952f8ef56870b  PH-SEC-WO-004/local-image-metadata.json  (657 bytes)
+6837c4f313cc0039ec56f5abc072e1129e851b8d9c248fe984f1a7066404ae2f  PH-SEC-WO-004/sarif-reconciliation.json  (121626 bytes)
+e1bbaa856095fa2ae7b192d037036155ae7e03380c720413f5dc3f3795269b73  PH-SEC-WO-004/sarif-reconciliation.txt  (1184 bytes)

@@ -1,0 +1,2694 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-004",
+  "result": "BLOCKED_UNRESOLVED",
+  "executionGate": "BLOCKED_STALE_CONTEXT",
+  "analysisBranch": "security/ph-m01-dev-go-vex",
+  "preAnalysisHead": "b6531aa015cba78313309d977e8c86b3ddd14acc",
+  "pr": {
+    "number": 25,
+    "state": "OPEN",
+    "draft": true,
+    "headBranch": "security/ph-m01-dev-go-vex",
+    "headSha": "b6531aa015cba78313309d977e8c86b3ddd14acc",
+    "baseBranch": "feat/ph-m01-tenancy-persistence",
+    "baseSha": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+    "url": "https://github.com/KayzenRoot/poly-hunter/pull/25"
+  },
+  "contextLock": {
+    "pass": true,
+    "fingerprintsPassed": 11,
+    "fingerprintsExpected": 11,
+    "lockedParentHead": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+    "canonicalPolicyMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af"
+  },
+  "reconciliation": {
+    "uniqueHighCriticalAll": 56,
+    "high": 50,
+    "critical": 6,
+    "goStdlibUniqueCves": 35,
+    "goStdlibOccurrences": 64,
+    "distinctLockedBinaryPaths": 3
+  },
+  "scannerVersions": {
+    "locked": [
+      "1.20.7",
+      "1.26.4"
+    ],
+    "observed": [
+      "1.20.7",
+      "1.23.12",
+      "1.26.4"
+    ],
+    "unexpected": [
+      "1.23.12"
+    ],
+    "pass": false
+  },
+  "blockingFinding": "Locked SARIF reports 1.23.12 for 23 in-scope occurrences in /workspace/node_modules/@esbuild/linux-x64/bin/esbuild, while the Context Lock and execution brief list only 1.20.7 and 1.26.4. The execution brief mandates STOP STALE/BLOCKED on any mismatch.",
+  "perBinary": [
+    {
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "scannerOccurrenceCount": 34,
+      "scannerReportedGoStdlibVersions": [
+        "1.20.7"
+      ],
+      "sha256": null,
+      "fileMetadata": null,
+      "goVersionM": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "packageLockfileLineage": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "govulncheck": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "codePresenceAndSymbolMap": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "dockerExecutionPath": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "attackerControlAndPrerequisites": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT"
+    },
+    {
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "scannerOccurrenceCount": 23,
+      "scannerReportedGoStdlibVersions": [
+        "1.23.12"
+      ],
+      "sha256": null,
+      "fileMetadata": null,
+      "goVersionM": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "packageLockfileLineage": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "govulncheck": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "codePresenceAndSymbolMap": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "dockerExecutionPath": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "attackerControlAndPrerequisites": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT"
+    },
+    {
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "scannerOccurrenceCount": 7,
+      "scannerReportedGoStdlibVersions": [
+        "1.26.4"
+      ],
+      "sha256": null,
+      "fileMetadata": null,
+      "goVersionM": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "packageLockfileLineage": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "govulncheck": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "codePresenceAndSymbolMap": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "dockerExecutionPath": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "attackerControlAndPrerequisites": "NOT_RUN_STOPPED_AT_STALE_CONTEXT_PREFLIGHT"
+    }
+  ],
+  "perOccurrence": [
+    {
+      "occurrenceId": "SARIF-0127-CVE-2022-30635",
+      "cve": "CVE-2022-30635",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.22.7",
+      "scannerFixedVersion": "1.22.7",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 126,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 126,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0128-CVE-2023-39325",
+      "cve": "CVE-2023-39325",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.20.10",
+      "scannerFixedVersion": "1.20.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 127,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 127,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0129-CVE-2023-44487",
+      "cve": "CVE-2023-44487",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.20.10",
+      "scannerFixedVersion": "1.20.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 128,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 128,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0130-CVE-2023-45283",
+      "cve": "CVE-2023-45283",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.20.11",
+      "scannerFixedVersion": "1.20.11",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 129,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 129,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0131-CVE-2023-45288",
+      "cve": "CVE-2023-45288",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.21.9",
+      "scannerFixedVersion": "1.21.9",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 130,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 130,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0132-CVE-2024-24784",
+      "cve": "CVE-2024-24784",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.21.8",
+      "scannerFixedVersion": "1.21.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 131,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 131,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0206-CVE-2024-24790",
+      "cve": "CVE-2024-24790",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.21.11",
+      "scannerFixedVersion": "1.21.11",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 205,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 205,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0133-CVE-2024-24791",
+      "cve": "CVE-2024-24791",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.21.12",
+      "scannerFixedVersion": "1.21.12",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 132,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 132,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0134-CVE-2024-34156",
+      "cve": "CVE-2024-34156",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.22.7",
+      "scannerFixedVersion": "1.22.7",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 133,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 133,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0135-CVE-2024-34158",
+      "cve": "CVE-2024-34158",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.22.7",
+      "scannerFixedVersion": "1.22.7",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 134,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 134,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0200-CVE-2025-22871",
+      "cve": "CVE-2025-22871",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.23.8",
+      "scannerFixedVersion": "1.23.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 199,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 199,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0137-CVE-2025-58187",
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.9",
+      "scannerFixedVersion": "1.24.9",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 136,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 136,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0136-CVE-2025-58187",
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.9",
+      "scannerFixedVersion": "1.24.9",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 135,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 135,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0138-CVE-2025-58188",
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 137,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 137,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0139-CVE-2025-58188",
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 138,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 138,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0141-CVE-2025-61723",
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 140,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 140,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0140-CVE-2025-61723",
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 139,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 139,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0142-CVE-2025-61725",
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 141,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 141,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0143-CVE-2025-61725",
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.8",
+      "scannerFixedVersion": "1.24.8",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 142,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 142,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0144-CVE-2025-61726",
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.12",
+      "scannerFixedVersion": "1.24.12",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 143,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 143,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0145-CVE-2025-61726",
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.12",
+      "scannerFixedVersion": "1.24.12",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 144,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 144,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0146-CVE-2025-61729",
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.11",
+      "scannerFixedVersion": "1.24.11",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 145,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 145,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0147-CVE-2025-61729",
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.11",
+      "scannerFixedVersion": "1.24.11",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 146,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 146,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0207-CVE-2025-68121",
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.24.13",
+      "scannerFixedVersion": "1.24.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 206,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 206,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0208-CVE-2025-68121",
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.24.13",
+      "scannerFixedVersion": "1.24.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 207,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 207,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0152-CVE-2026-25679",
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.8",
+      "scannerFixedVersion": "1.25.8",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 151,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 151,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0153-CVE-2026-25679",
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.8",
+      "scannerFixedVersion": "1.25.8",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 152,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 152,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0154-CVE-2026-32280",
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 153,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 153,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0155-CVE-2026-32280",
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 154,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 154,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0157-CVE-2026-32281",
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 156,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 156,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0156-CVE-2026-32281",
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 155,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 155,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0158-CVE-2026-32283",
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 157,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 157,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0159-CVE-2026-32283",
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.9",
+      "scannerFixedVersion": "1.25.9",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 158,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 158,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0161-CVE-2026-33811",
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 160,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 160,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0160-CVE-2026-33811",
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 159,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 159,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0162-CVE-2026-33814",
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 161,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 161,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0163-CVE-2026-33814",
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 162,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 162,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0164-CVE-2026-33818",
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 163,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 163,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0166-CVE-2026-33818",
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 165,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 165,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0165-CVE-2026-33818",
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 164,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 164,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0167-CVE-2026-39820",
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 166,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 166,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0168-CVE-2026-39820",
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 167,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 167,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0205-CVE-2026-39821",
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 204,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 204,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0204-CVE-2026-39821",
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 203,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 203,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0203-CVE-2026-39821",
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 202,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 202,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0192-CVE-2026-39822",
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.12",
+      "scannerFixedVersion": "1.25.12",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 191,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 191,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0194-CVE-2026-39822",
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.12",
+      "scannerFixedVersion": "1.25.12",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 193,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 193,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0193-CVE-2026-39822",
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.5",
+      "scannerFixedVersion": "1.26.5",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 192,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 192,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0170-CVE-2026-39836",
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 169,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 169,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0169-CVE-2026-39836",
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 168,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 168,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0171-CVE-2026-42499",
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 170,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 170,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0172-CVE-2026-42499",
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.10",
+      "scannerFixedVersion": "1.25.10",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 171,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 171,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0173-CVE-2026-42504",
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.11",
+      "scannerFixedVersion": "1.25.11",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 172,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 172,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0174-CVE-2026-42504",
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.11",
+      "scannerFixedVersion": "1.25.11",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 173,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 173,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0175-CVE-2026-46600",
+      "cve": "CVE-2026-46600",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 174,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 174,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0177-CVE-2026-56853",
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 176,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 176,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0179-CVE-2026-56853",
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 178,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 178,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0178-CVE-2026-56853",
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 177,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 177,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0180-CVE-2026-56859",
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 179,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 179,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0182-CVE-2026-56859",
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 181,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 181,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0181-CVE-2026-56859",
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 180,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 180,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0183-CVE-2026-56862",
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.20.7",
+      "scannerGoStdlibVersion": "1.20.7",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 182,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 182,
+          "binaryPath": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0184-CVE-2026-56862",
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.23.12",
+      "scannerGoStdlibVersion": "1.23.12",
+      "scannerAffectedRange": "<1.25.13",
+      "scannerFixedVersion": "1.25.13",
+      "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sarifResultIndex": 183,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 183,
+          "binaryPath": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild"
+        }
+      ]
+    },
+    {
+      "occurrenceId": "SARIF-0185-CVE-2026-56862",
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "scannerPurl": "pkg:golang/stdlib@1.26.4",
+      "scannerGoStdlibVersion": "1.26.4",
+      "scannerAffectedRange": ">=1.26.0-0,<1.26.6",
+      "scannerFixedVersion": "1.26.6",
+      "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sarifResultIndex": 184,
+      "status": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "technicalAssessment": "NOT_PERFORMED_STOPPED_AT_STALE_CONTEXT_PREFLIGHT",
+      "missingProof": [
+        "exact executable SHA-256 and metadata",
+        "go version -m",
+        "npm package and lockfile lineage",
+        "govulncheck binary-mode output",
+        "vulnerable package/symbol map and code-presence proof",
+        "actual Docker invocation path",
+        "attacker-controlled input and exploit prerequisites",
+        "KEV/EPSS per CVE"
+      ],
+      "blockingReason": "SARIF reports scanner Go stdlib 1.23.12 for this occurrence; Context Lock permits only 1.20.7 and 1.26.4. Execution brief requires STOP STALE/BLOCKED for any mismatch.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+          "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+          "resultIndex": 184,
+          "binaryPath": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+        }
+      ]
+    }
+  ],
+  "perCve": [
+    {
+      "cve": "CVE-2022-30635",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0127-CVE-2022-30635"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2023-39325",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0128-CVE-2023-39325"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2023-44487",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0129-CVE-2023-44487"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2023-45283",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0130-CVE-2023-45283"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2023-45288",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0131-CVE-2023-45288"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2024-24784",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0132-CVE-2024-24784"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2024-24790",
+      "severity": "CRITICAL",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0206-CVE-2024-24790"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2024-24791",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0133-CVE-2024-24791"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2024-34156",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0134-CVE-2024-34156"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2024-34158",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0135-CVE-2024-34158"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-22871",
+      "severity": "CRITICAL",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0200-CVE-2025-22871"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0137-CVE-2025-58187",
+        "SARIF-0136-CVE-2025-58187"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0138-CVE-2025-58188",
+        "SARIF-0139-CVE-2025-58188"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0141-CVE-2025-61723",
+        "SARIF-0140-CVE-2025-61723"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0142-CVE-2025-61725",
+        "SARIF-0143-CVE-2025-61725"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0144-CVE-2025-61726",
+        "SARIF-0145-CVE-2025-61726"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0146-CVE-2025-61729",
+        "SARIF-0147-CVE-2025-61729"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0207-CVE-2025-68121",
+        "SARIF-0208-CVE-2025-68121"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0152-CVE-2026-25679",
+        "SARIF-0153-CVE-2026-25679"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0154-CVE-2026-32280",
+        "SARIF-0155-CVE-2026-32280"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0157-CVE-2026-32281",
+        "SARIF-0156-CVE-2026-32281"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0158-CVE-2026-32283",
+        "SARIF-0159-CVE-2026-32283"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0161-CVE-2026-33811",
+        "SARIF-0160-CVE-2026-33811"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0162-CVE-2026-33814",
+        "SARIF-0163-CVE-2026-33814"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0164-CVE-2026-33818",
+        "SARIF-0166-CVE-2026-33818",
+        "SARIF-0165-CVE-2026-33818"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0167-CVE-2026-39820",
+        "SARIF-0168-CVE-2026-39820"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0205-CVE-2026-39821",
+        "SARIF-0204-CVE-2026-39821",
+        "SARIF-0203-CVE-2026-39821"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0192-CVE-2026-39822",
+        "SARIF-0194-CVE-2026-39822",
+        "SARIF-0193-CVE-2026-39822"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0170-CVE-2026-39836",
+        "SARIF-0169-CVE-2026-39836"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0171-CVE-2026-42499",
+        "SARIF-0172-CVE-2026-42499"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "occurrenceCount": 2,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0173-CVE-2026-42504",
+        "SARIF-0174-CVE-2026-42504"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-46600",
+      "severity": "HIGH",
+      "occurrenceCount": 1,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0175-CVE-2026-46600"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0177-CVE-2026-56853",
+        "SARIF-0179-CVE-2026-56853",
+        "SARIF-0178-CVE-2026-56853"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0180-CVE-2026-56859",
+        "SARIF-0182-CVE-2026-56859",
+        "SARIF-0181-CVE-2026-56859"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "occurrenceCount": 3,
+      "aggregateStatus": "UNDER_INVESTIGATION",
+      "blocking": true,
+      "occurrenceIds": [
+        "SARIF-0183-CVE-2026-56862",
+        "SARIF-0184-CVE-2026-56862",
+        "SARIF-0185-CVE-2026-56862"
+      ],
+      "aggregationRule": "Any occurrence UNDER_INVESTIGATION keeps the unique CVE blocking.",
+      "reason": "Analysis was not started because the locked scanner Go stdlib version set conflicts with the locked SARIF evidence."
+    }
+  ],
+  "vulnerabilityAnalysis": {
+    "started": false,
+    "reason": "Preflight mismatch; no binary extraction, hash, go version -m, govulncheck, source/symbol mapping, runtime tracing, attacker-input analysis, KEV or EPSS analysis was performed."
+  },
+  "dispositionPolicy": {
+    "default": "UNDER_INVESTIGATION",
+    "executorSelfApproval": false,
+    "independentAuditRequired": true,
+    "ownerApprovalRequired": true,
+    "all35AggregateBlocking": true
+  },
+  "evidenceRefs": [
+    {
+      "path": ".engineering/context-locks/PH-SEC-WO-004.json",
+      "evidencePath": ".engineering\\evidence\\PH-SEC-WO-004\\context-lock-validation.json",
+      "sha256": "65cf04db3e9c30e110897c97304245f800b9aa8d25b13451df8e7acf69cfd28c"
+    },
+    {
+      "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+      "sha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372"
+    },
+    {
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\sarif-reconciliation.json",
+      "note": "Deterministic preflight parse with result indexes and per-occurrence facts."
+    },
+    {
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\local-image-metadata.json",
+      "note": "Tag/image metadata only; no binary content was read."
+    }
+  ],
+  "expiry": null,
+  "revalidationTrigger": "Planning must correct/recompile the Context Lock and execution brief to include the third observed version 1.23.12, then revalidate branch/base/SARIF fingerprints before any executable analysis.",
+  "executorSelfApproval": false
+}

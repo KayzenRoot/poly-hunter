@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-004",
+  "validatedAtUtc": "2026-10-04T03:29:21.1518664Z",
+  "analysisBranch": "security/ph-m01-dev-go-vex",
+  "analysisHead": "b6531aa015cba78313309d977e8c86b3ddd14acc",
+  "workingTreeClean": true,
+  "pr25": {
+    "number": 25,
+    "state": "OPEN",
+    "draft": true,
+    "headBranch": "security/ph-m01-dev-go-vex",
+    "headSha": "b6531aa015cba78313309d977e8c86b3ddd14acc",
+    "baseBranch": "feat/ph-m01-tenancy-persistence",
+    "baseSha": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+    "url": "https://github.com/KayzenRoot/poly-hunter/pull/25"
+  },
+  "parentPr15": {
+    "number": 15,
+    "state": "OPEN",
+    "mergedAt": null,
+    "headSha": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0"
+  },
+  "lockedParentHead": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+  "parentAncestor": true,
+  "canonicalPolicyMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+  "criticalFingerprints": [
+    {
+      "source": "main:.engineering/proposals/PH-SEC-VEX-POLICY.md",
+      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedBlob": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "actualBlob": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "pass": true
+    },
+    {
+      "source": "main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedBlob": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "actualBlob": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "pass": true
+    },
+    {
+      "source": "main:.engineering/SECURITY.md",
+      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedBlob": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "actualBlob": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "pass": true
+    },
+    {
+      "source": "main:.engineering/TEST-BENCHMARK-PLAN.md",
+      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedBlob": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "actualBlob": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "pass": true
+    },
+    {
+      "source": "main:.engineering/DEFINITION-OF-DONE.md",
+      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+      "expectedBlob": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "actualBlob": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "pass": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
+      "actualBlob": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
+      "pass": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-003-EVIDENCE.md",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "95c637deac0528148f9eeb1815072d431b793127",
+      "actualBlob": "95c637deac0528148f9eeb1815072d431b793127",
+      "pass": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "63052aca98c6162904f1c27033a92319d4e90734",
+      "actualBlob": "63052aca98c6162904f1c27033a92319d4e90734",
+      "pass": true
+    },
+    {
+      "source": "parent:Dockerfile.dev",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "actualBlob": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "pass": true
+    },
+    {
+      "source": "parent:package-lock.json",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+      "actualBlob": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+      "pass": true
+    },
+    {
+      "source": "parent:package.json",
+      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "expectedBlob": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+      "actualBlob": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+      "pass": true
+    }
+  ],
+  "validationPass": true
+}
