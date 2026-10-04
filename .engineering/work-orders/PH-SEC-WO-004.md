@@ -16,7 +16,7 @@ The locked dev-image SARIF contains 56 unique HIGH/CRITICAL CVEs: 50 HIGH and 6 
 - /workspace/node_modules/@esbuild/linux-x64/bin/esbuild
 - /workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc
 
-The scanner reports Go stdlib versions 1.20.7 and 1.26.4 for this cluster. A unique CVE may appear in more than one binary.
+The scanner reports Go stdlib versions 1.20.7, 1.23.12 and 1.26.4 for this cluster. A unique CVE may appear in more than one binary.
 
 ## IN-SCOPE UNIQUE CVES
 CVE-2022-30635, CVE-2023-39325, CVE-2023-44487, CVE-2023-45283, CVE-2023-45288,
