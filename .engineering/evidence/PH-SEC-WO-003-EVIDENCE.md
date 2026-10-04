@@ -58,3 +58,11 @@ O arquivo receipt-sha256.txt lista os SHA-256 de todos os artefatos coletados e 
 ## STOP CONDITION
 
 Work Order concluído para revisão independente. Não iniciar PH-M01-WO-002, não alterar ou analisar a imagem dev, e não mergear PR #15. A PR #23 contém apenas a análise/evidência desse finding.
+
+
+## Owner approval
+- Independent audit: APPROVED for head `e3748820d399fb38da6a0922eeda412cc00bff12`.
+- Owner decision: APPROVED.
+- Owner statement: `APROVO A DISPOSIÇÃO NOT_AFFECTED DO PH-SEC-WO-003`.
+- Final disposition for this finding: `NOT_AFFECTED / vulnerable_code_not_in_execute_path`.
+- This approval is limited to the exact local-dev PostgreSQL artifact and does not approve remaining dev-image findings, PR #15 merge, or PH-M01-WO-002.
