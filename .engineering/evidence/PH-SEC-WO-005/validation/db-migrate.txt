@@ -1,0 +1,7 @@
+
+> @polyhunter/db@0.0.0 db:migrate
+> drizzle-kit migrate --config drizzle.config.ts
+
+Reading config file 'C:\Users\csn19\.codex\worktrees\ph-sec-wo005-dev-go-remediation\poly-hunter\packages\db\drizzle.config.ts'
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[⡿] applying migrations...[2K[1G[✓] migrations applied successfully!

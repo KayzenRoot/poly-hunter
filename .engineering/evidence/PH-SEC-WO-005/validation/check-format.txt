@@ -1,0 +1,6 @@
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+
+[0m[36mChecked 36 files in 72[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m

@@ -1,0 +1,12 @@
+
+> polyhunter@0.1.0 test:integration
+> vitest run --config vitest.integration.config.ts
+
+
+ RUN  v4.1.11 C:/Users/csn19/.codex/worktrees/ph-sec-wo005-dev-go-remediation/poly-hunter
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  13:22:21
+   Duration  11.05s (transform 322ms, setup 0ms, import 2.02s, tests 7.76s, environment 0ms)

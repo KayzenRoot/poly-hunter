@@ -1,0 +1,15 @@
+go version go1.26.4 linux/amd64
+====/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild
+e1698a3d5c6c0798fee4fd3b5cc816651f460c63d390a7a26ea4beb0b1884100  /workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild
+/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild: could not read Go build info from /workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild: not a Go executable
+====/workspace/node_modules/tsx/node_modules/@esbuild/linux-x64/bin/esbuild
+e1698a3d5c6c0798fee4fd3b5cc816651f460c63d390a7a26ea4beb0b1884100  /workspace/node_modules/tsx/node_modules/@esbuild/linux-x64/bin/esbuild
+/workspace/node_modules/tsx/node_modules/@esbuild/linux-x64/bin/esbuild: could not read Go build info from /workspace/node_modules/tsx/node_modules/@esbuild/linux-x64/bin/esbuild: not a Go executable
+====/workspace/node_modules/vite/node_modules/@esbuild/linux-x64/bin/esbuild
+e1698a3d5c6c0798fee4fd3b5cc816651f460c63d390a7a26ea4beb0b1884100  /workspace/node_modules/vite/node_modules/@esbuild/linux-x64/bin/esbuild
+/workspace/node_modules/vite/node_modules/@esbuild/linux-x64/bin/esbuild: could not read Go build info from /workspace/node_modules/vite/node_modules/@esbuild/linux-x64/bin/esbuild: not a Go executable
+====/workspace/node_modules/drizzle-kit/node_modules/@esbuild/linux-x64/bin/esbuild
+e1698a3d5c6c0798fee4fd3b5cc816651f460c63d390a7a26ea4beb0b1884100  /workspace/node_modules/drizzle-kit/node_modules/@esbuild/linux-x64/bin/esbuild
+/workspace/node_modules/drizzle-kit/node_modules/@esbuild/linux-x64/bin/esbuild: could not read Go build info from /workspace/node_modules/drizzle-kit/node_modules/@esbuild/linux-x64/bin/esbuild: not a Go executable
+====/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc
+ABSENT
