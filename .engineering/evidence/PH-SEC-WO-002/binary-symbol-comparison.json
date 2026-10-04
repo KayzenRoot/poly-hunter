@@ -1,0 +1,3059 @@
+[
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "CertPool.AppendCertsFromPEM",
+    "candidates": [
+      "crypto/x509.(*CertPool).AppendCertsFromPEM",
+      "crypto/x509.(CertPool).AppendCertsFromPEM",
+      "crypto/x509.CertPool.AppendCertsFromPEM"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "Certificate.CheckCRLSignature",
+    "candidates": [
+      "crypto/x509.(*Certificate).CheckCRLSignature",
+      "crypto/x509.(Certificate).CheckCRLSignature",
+      "crypto/x509.Certificate.CheckCRLSignature"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "Certificate.CheckSignature",
+    "candidates": [
+      "crypto/x509.(*Certificate).CheckSignature",
+      "crypto/x509.(Certificate).CheckSignature",
+      "crypto/x509.Certificate.CheckSignature"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "Certificate.CheckSignatureFrom",
+    "candidates": [
+      "crypto/x509.(*Certificate).CheckSignatureFrom",
+      "crypto/x509.(Certificate).CheckSignatureFrom",
+      "crypto/x509.Certificate.CheckSignatureFrom"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "Certificate.CreateCRL",
+    "candidates": [
+      "crypto/x509.(*Certificate).CreateCRL",
+      "crypto/x509.(Certificate).CreateCRL",
+      "crypto/x509.Certificate.CreateCRL"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "Certificate.Verify",
+    "candidates": [
+      "crypto/x509.(*Certificate).Verify",
+      "crypto/x509.(Certificate).Verify",
+      "crypto/x509.Certificate.Verify"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "CertificateRequest.CheckSignature",
+    "candidates": [
+      "crypto/x509.(*CertificateRequest).CheckSignature",
+      "crypto/x509.(CertificateRequest).CheckSignature",
+      "crypto/x509.CertificateRequest.CheckSignature"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "CreateCertificate",
+    "candidates": [
+      "crypto/x509.CreateCertificate"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "CreateCertificateRequest",
+    "candidates": [
+      "crypto/x509.CreateCertificateRequest"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "CreateRevocationList",
+    "candidates": [
+      "crypto/x509.CreateRevocationList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "DecryptPEMBlock",
+    "candidates": [
+      "crypto/x509.DecryptPEMBlock"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "EncryptPEMBlock",
+    "candidates": [
+      "crypto/x509.EncryptPEMBlock"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "MarshalECPrivateKey",
+    "candidates": [
+      "crypto/x509.MarshalECPrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "MarshalPKCS1PrivateKey",
+    "candidates": [
+      "crypto/x509.MarshalPKCS1PrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "MarshalPKCS1PublicKey",
+    "candidates": [
+      "crypto/x509.MarshalPKCS1PublicKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "MarshalPKCS8PrivateKey",
+    "candidates": [
+      "crypto/x509.MarshalPKCS8PrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "MarshalPKIXPublicKey",
+    "candidates": [
+      "crypto/x509.MarshalPKIXPublicKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseCRL",
+    "candidates": [
+      "crypto/x509.ParseCRL"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseCertificate",
+    "candidates": [
+      "crypto/x509.ParseCertificate"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseCertificateRequest",
+    "candidates": [
+      "crypto/x509.ParseCertificateRequest"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseCertificates",
+    "candidates": [
+      "crypto/x509.ParseCertificates"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseDERCRL",
+    "candidates": [
+      "crypto/x509.ParseDERCRL"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseECPrivateKey",
+    "candidates": [
+      "crypto/x509.ParseECPrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParsePKCS1PrivateKey",
+    "candidates": [
+      "crypto/x509.ParsePKCS1PrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParsePKCS1PublicKey",
+    "candidates": [
+      "crypto/x509.ParsePKCS1PublicKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParsePKCS8PrivateKey",
+    "candidates": [
+      "crypto/x509.ParsePKCS8PrivateKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParsePKIXPublicKey",
+    "candidates": [
+      "crypto/x509.ParsePKIXPublicKey"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "ParseRevocationList",
+    "candidates": [
+      "crypto/x509.ParseRevocationList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "RevocationList.CheckSignatureFrom",
+    "candidates": [
+      "crypto/x509.(*RevocationList).CheckSignatureFrom",
+      "crypto/x509.(RevocationList).CheckSignatureFrom",
+      "crypto/x509.RevocationList.CheckSignatureFrom"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "SetFallbackRoots",
+    "candidates": [
+      "crypto/x509.SetFallbackRoots"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "SystemCertPool",
+    "candidates": [
+      "crypto/x509.SystemCertPool"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "domainToReverseLabels",
+    "candidates": [
+      "crypto/x509.domainToReverseLabels"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "package": "crypto/x509",
+    "symbol": "parseSANExtension",
+    "candidates": [
+      "crypto/x509.parseSANExtension"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58188",
+    "goId": "GO-2025-4013",
+    "package": "crypto/x509",
+    "symbol": "Certificate.Verify",
+    "candidates": [
+      "crypto/x509.(*Certificate).Verify",
+      "crypto/x509.(Certificate).Verify",
+      "crypto/x509.Certificate.Verify"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-58188",
+    "goId": "GO-2025-4013",
+    "package": "crypto/x509",
+    "symbol": "alreadyInChain",
+    "candidates": [
+      "crypto/x509.alreadyInChain"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61723",
+    "goId": "GO-2025-4009",
+    "package": "encoding/pem",
+    "symbol": "Decode",
+    "candidates": [
+      "encoding/pem.Decode"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61723",
+    "goId": "GO-2025-4009",
+    "package": "encoding/pem",
+    "symbol": "getLine",
+    "candidates": [
+      "encoding/pem.getLine"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "AddressParser.Parse",
+    "candidates": [
+      "net/mail.(*AddressParser).Parse",
+      "net/mail.(AddressParser).Parse",
+      "net/mail.AddressParser.Parse"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "AddressParser.ParseList",
+    "candidates": [
+      "net/mail.(*AddressParser).ParseList",
+      "net/mail.(AddressParser).ParseList",
+      "net/mail.AddressParser.ParseList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "Header.AddressList",
+    "candidates": [
+      "net/mail.(*Header).AddressList",
+      "net/mail.(Header).AddressList",
+      "net/mail.Header.AddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "ParseAddress",
+    "candidates": [
+      "net/mail.ParseAddress"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "ParseAddressList",
+    "candidates": [
+      "net/mail.ParseAddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "package": "net/mail",
+    "symbol": "addrParser.consumeDomainLiteral",
+    "candidates": [
+      "net/mail.(*addrParser).consumeDomainLiteral",
+      "net/mail.(addrParser).consumeDomainLiteral",
+      "net/mail.addrParser.consumeDomainLiteral"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61726",
+    "goId": "GO-2026-4341",
+    "package": "net/url",
+    "symbol": "ParseQuery",
+    "candidates": [
+      "net/url.ParseQuery"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61726",
+    "goId": "GO-2026-4341",
+    "package": "net/url",
+    "symbol": "URL.Query",
+    "candidates": [
+      "net/url.(*URL).Query",
+      "net/url.(URL).Query",
+      "net/url.URL.Query"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61726",
+    "goId": "GO-2026-4341",
+    "package": "net/url",
+    "symbol": "parseQuery",
+    "candidates": [
+      "net/url.parseQuery"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61729",
+    "goId": "GO-2025-4155",
+    "package": "crypto/x509",
+    "symbol": "Certificate.Verify",
+    "candidates": [
+      "crypto/x509.(*Certificate).Verify",
+      "crypto/x509.(Certificate).Verify",
+      "crypto/x509.Certificate.Verify"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-61729",
+    "goId": "GO-2025-4155",
+    "package": "crypto/x509",
+    "symbol": "Certificate.VerifyHostname",
+    "candidates": [
+      "crypto/x509.(*Certificate).VerifyHostname",
+      "crypto/x509.(Certificate).VerifyHostname",
+      "crypto/x509.Certificate.VerifyHostname"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Conn.Handshake",
+    "candidates": [
+      "crypto/tls.(*Conn).Handshake",
+      "crypto/tls.(Conn).Handshake",
+      "crypto/tls.Conn.Handshake"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Conn.HandshakeContext",
+    "candidates": [
+      "crypto/tls.(*Conn).HandshakeContext",
+      "crypto/tls.(Conn).HandshakeContext",
+      "crypto/tls.Conn.HandshakeContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Conn.Read",
+    "candidates": [
+      "crypto/tls.(*Conn).Read",
+      "crypto/tls.(Conn).Read",
+      "crypto/tls.Conn.Read"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Conn.Write",
+    "candidates": [
+      "crypto/tls.(*Conn).Write",
+      "crypto/tls.(Conn).Write",
+      "crypto/tls.Conn.Write"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Conn.handshakeContext",
+    "candidates": [
+      "crypto/tls.(*Conn).handshakeContext",
+      "crypto/tls.(Conn).handshakeContext",
+      "crypto/tls.Conn.handshakeContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Dial",
+    "candidates": [
+      "crypto/tls.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "DialWithDialer",
+    "candidates": [
+      "crypto/tls.DialWithDialer"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Dialer.Dial",
+    "candidates": [
+      "crypto/tls.(*Dialer).Dial",
+      "crypto/tls.(Dialer).Dial",
+      "crypto/tls.Dialer.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "Dialer.DialContext",
+    "candidates": [
+      "crypto/tls.(*Dialer).DialContext",
+      "crypto/tls.(Dialer).DialContext",
+      "crypto/tls.Dialer.DialContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "package": "crypto/tls",
+    "symbol": "QUICConn.Start",
+    "candidates": [
+      "crypto/tls.(*QUICConn).Start",
+      "crypto/tls.(QUICConn).Start",
+      "crypto/tls.QUICConn.Start"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "JoinPath",
+    "candidates": [
+      "net/url.JoinPath"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "Parse",
+    "candidates": [
+      "net/url.Parse"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "ParseRequestURI",
+    "candidates": [
+      "net/url.ParseRequestURI"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "URL.Parse",
+    "candidates": [
+      "net/url.(*URL).Parse",
+      "net/url.(URL).Parse",
+      "net/url.URL.Parse"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "URL.UnmarshalBinary",
+    "candidates": [
+      "net/url.(*URL).UnmarshalBinary",
+      "net/url.(URL).UnmarshalBinary",
+      "net/url.URL.UnmarshalBinary"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "package": "net/url",
+    "symbol": "parseHost",
+    "candidates": [
+      "net/url.parseHost"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32280",
+    "goId": "GO-2026-4947",
+    "package": "crypto/x509",
+    "symbol": "Certificate.Verify",
+    "candidates": [
+      "crypto/x509.(*Certificate).Verify",
+      "crypto/x509.(Certificate).Verify",
+      "crypto/x509.Certificate.Verify"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32280",
+    "goId": "GO-2026-4947",
+    "package": "crypto/x509",
+    "symbol": "Certificate.buildChains",
+    "candidates": [
+      "crypto/x509.(*Certificate).buildChains",
+      "crypto/x509.(Certificate).buildChains",
+      "crypto/x509.Certificate.buildChains"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32281",
+    "goId": "GO-2026-4946",
+    "package": "crypto/x509",
+    "symbol": "Certificate.Verify",
+    "candidates": [
+      "crypto/x509.(*Certificate).Verify",
+      "crypto/x509.(Certificate).Verify",
+      "crypto/x509.Certificate.Verify"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32281",
+    "goId": "GO-2026-4946",
+    "package": "crypto/x509",
+    "symbol": "policiesValid",
+    "candidates": [
+      "crypto/x509.policiesValid"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Conn.Handshake",
+    "candidates": [
+      "crypto/tls.(*Conn).Handshake",
+      "crypto/tls.(Conn).Handshake",
+      "crypto/tls.Conn.Handshake"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Conn.HandshakeContext",
+    "candidates": [
+      "crypto/tls.(*Conn).HandshakeContext",
+      "crypto/tls.(Conn).HandshakeContext",
+      "crypto/tls.Conn.HandshakeContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Conn.Read",
+    "candidates": [
+      "crypto/tls.(*Conn).Read",
+      "crypto/tls.(Conn).Read",
+      "crypto/tls.Conn.Read"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Conn.Write",
+    "candidates": [
+      "crypto/tls.(*Conn).Write",
+      "crypto/tls.(Conn).Write",
+      "crypto/tls.Conn.Write"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Conn.handleKeyUpdate",
+    "candidates": [
+      "crypto/tls.(*Conn).handleKeyUpdate",
+      "crypto/tls.(Conn).handleKeyUpdate",
+      "crypto/tls.Conn.handleKeyUpdate"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Dial",
+    "candidates": [
+      "crypto/tls.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "DialWithDialer",
+    "candidates": [
+      "crypto/tls.DialWithDialer"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Dialer.Dial",
+    "candidates": [
+      "crypto/tls.(*Dialer).Dial",
+      "crypto/tls.(Dialer).Dial",
+      "crypto/tls.Dialer.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "Dialer.DialContext",
+    "candidates": [
+      "crypto/tls.(*Dialer).DialContext",
+      "crypto/tls.(Dialer).DialContext",
+      "crypto/tls.Dialer.DialContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "QUICConn.HandleData",
+    "candidates": [
+      "crypto/tls.(*QUICConn).HandleData",
+      "crypto/tls.(QUICConn).HandleData",
+      "crypto/tls.QUICConn.HandleData"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "QUICConn.Start",
+    "candidates": [
+      "crypto/tls.(*QUICConn).Start",
+      "crypto/tls.(QUICConn).Start",
+      "crypto/tls.QUICConn.Start"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "clientHandshakeStateTLS13.establishHandshakeKeys",
+    "candidates": [
+      "crypto/tls.(*clientHandshakeStateTLS13).establishHandshakeKeys",
+      "crypto/tls.(clientHandshakeStateTLS13).establishHandshakeKeys",
+      "crypto/tls.clientHandshakeStateTLS13.establishHandshakeKeys"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "clientHandshakeStateTLS13.readServerFinished",
+    "candidates": [
+      "crypto/tls.(*clientHandshakeStateTLS13).readServerFinished",
+      "crypto/tls.(clientHandshakeStateTLS13).readServerFinished",
+      "crypto/tls.clientHandshakeStateTLS13.readServerFinished"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "serverHandshakeStateTLS13.readClientFinished",
+    "candidates": [
+      "crypto/tls.(*serverHandshakeStateTLS13).readClientFinished",
+      "crypto/tls.(serverHandshakeStateTLS13).readClientFinished",
+      "crypto/tls.serverHandshakeStateTLS13.readClientFinished"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "package": "crypto/tls",
+    "symbol": "serverHandshakeStateTLS13.sendServerParameters",
+    "candidates": [
+      "crypto/tls.(*serverHandshakeStateTLS13).sendServerParameters",
+      "crypto/tls.(serverHandshakeStateTLS13).sendServerParameters",
+      "crypto/tls.serverHandshakeStateTLS13.sendServerParameters"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33811",
+    "goId": "GO-2026-4981",
+    "package": "net",
+    "symbol": "LookupCNAME",
+    "candidates": [
+      "net.LookupCNAME"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33811",
+    "goId": "GO-2026-4981",
+    "package": "net",
+    "symbol": "Resolver.LookupCNAME",
+    "candidates": [
+      "net.(*Resolver).LookupCNAME",
+      "net.(Resolver).LookupCNAME",
+      "net.Resolver.LookupCNAME"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33811",
+    "goId": "GO-2026-4981",
+    "package": "net",
+    "symbol": "cgoResSearch",
+    "candidates": [
+      "net.cgoResSearch"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "Transport.NewClientConn",
+    "candidates": [
+      "golang.org/x/net/http2.(*Transport).NewClientConn",
+      "golang.org/x/net/http2.(Transport).NewClientConn",
+      "golang.org/x/net/http2.Transport.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "Transport.RoundTrip",
+    "candidates": [
+      "golang.org/x/net/http2.(*Transport).RoundTrip",
+      "golang.org/x/net/http2.(Transport).RoundTrip",
+      "golang.org/x/net/http2.Transport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "Transport.RoundTripOpt",
+    "candidates": [
+      "golang.org/x/net/http2.(*Transport).RoundTripOpt",
+      "golang.org/x/net/http2.(Transport).RoundTripOpt",
+      "golang.org/x/net/http2.Transport.RoundTripOpt"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "clientConnPool.GetClientConn",
+    "candidates": [
+      "golang.org/x/net/http2.(*clientConnPool).GetClientConn",
+      "golang.org/x/net/http2.(clientConnPool).GetClientConn",
+      "golang.org/x/net/http2.clientConnPool.GetClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "clientConnReadLoop.processSettingsNoWrite",
+    "candidates": [
+      "golang.org/x/net/http2.(*clientConnReadLoop).processSettingsNoWrite",
+      "golang.org/x/net/http2.(clientConnReadLoop).processSettingsNoWrite",
+      "golang.org/x/net/http2.clientConnReadLoop.processSettingsNoWrite"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "noDialClientConnPool.GetClientConn",
+    "candidates": [
+      "golang.org/x/net/http2.(*noDialClientConnPool).GetClientConn",
+      "golang.org/x/net/http2.(noDialClientConnPool).GetClientConn",
+      "golang.org/x/net/http2.noDialClientConnPool.GetClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "noDialH2RoundTripper.NewClientConn",
+    "candidates": [
+      "golang.org/x/net/http2.(*noDialH2RoundTripper).NewClientConn",
+      "golang.org/x/net/http2.(noDialH2RoundTripper).NewClientConn",
+      "golang.org/x/net/http2.noDialH2RoundTripper.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "noDialH2RoundTripper.RoundTrip",
+    "candidates": [
+      "golang.org/x/net/http2.(*noDialH2RoundTripper).RoundTrip",
+      "golang.org/x/net/http2.(noDialH2RoundTripper).RoundTrip",
+      "golang.org/x/net/http2.noDialH2RoundTripper.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "golang.org/x/net/http2",
+    "symbol": "unencryptedTransport.RoundTrip",
+    "candidates": [
+      "golang.org/x/net/http2.(*unencryptedTransport).RoundTrip",
+      "golang.org/x/net/http2.(unencryptedTransport).RoundTrip",
+      "golang.org/x/net/http2.unencryptedTransport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.CloseIdleConnections",
+    "candidates": [
+      "net/http.(*Client).CloseIdleConnections",
+      "net/http.(Client).CloseIdleConnections",
+      "net/http.Client.CloseIdleConnections"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.Do",
+    "candidates": [
+      "net/http.(*Client).Do",
+      "net/http.(Client).Do",
+      "net/http.Client.Do"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.Get",
+    "candidates": [
+      "net/http.(*Client).Get",
+      "net/http.(Client).Get",
+      "net/http.Client.Get"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.Head",
+    "candidates": [
+      "net/http.(*Client).Head",
+      "net/http.(Client).Head",
+      "net/http.Client.Head"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.Post",
+    "candidates": [
+      "net/http.(*Client).Post",
+      "net/http.(Client).Post",
+      "net/http.Client.Post"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Client.PostForm",
+    "candidates": [
+      "net/http.(*Client).PostForm",
+      "net/http.(Client).PostForm",
+      "net/http.Client.PostForm"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "ClientConn.Close",
+    "candidates": [
+      "net/http.(*ClientConn).Close",
+      "net/http.(ClientConn).Close",
+      "net/http.ClientConn.Close"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "ClientConn.RoundTrip",
+    "candidates": [
+      "net/http.(*ClientConn).RoundTrip",
+      "net/http.(ClientConn).RoundTrip",
+      "net/http.ClientConn.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Get",
+    "candidates": [
+      "net/http.Get"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Head",
+    "candidates": [
+      "net/http.Head"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Post",
+    "candidates": [
+      "net/http.Post"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "PostForm",
+    "candidates": [
+      "net/http.PostForm"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Transport.CloseIdleConnections",
+    "candidates": [
+      "net/http.(*Transport).CloseIdleConnections",
+      "net/http.(Transport).CloseIdleConnections",
+      "net/http.Transport.CloseIdleConnections"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Transport.NewClientConn",
+    "candidates": [
+      "net/http.(*Transport).NewClientConn",
+      "net/http.(Transport).NewClientConn",
+      "net/http.Transport.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "Transport.RoundTrip",
+    "candidates": [
+      "net/http.(*Transport).RoundTrip",
+      "net/http.(Transport).RoundTrip",
+      "net/http.Transport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http1ClientConn.Close",
+    "candidates": [
+      "net/http.(*http1ClientConn).Close",
+      "net/http.(http1ClientConn).Close",
+      "net/http.http1ClientConn.Close"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http1ClientConn.RoundTrip",
+    "candidates": [
+      "net/http.(*http1ClientConn).RoundTrip",
+      "net/http.(http1ClientConn).RoundTrip",
+      "net/http.http1ClientConn.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2Transport.NewClientConn",
+    "candidates": [
+      "net/http.(*http2Transport).NewClientConn",
+      "net/http.(http2Transport).NewClientConn",
+      "net/http.http2Transport.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2Transport.RoundTrip",
+    "candidates": [
+      "net/http.(*http2Transport).RoundTrip",
+      "net/http.(http2Transport).RoundTrip",
+      "net/http.http2Transport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2Transport.RoundTripOpt",
+    "candidates": [
+      "net/http.(*http2Transport).RoundTripOpt",
+      "net/http.(http2Transport).RoundTripOpt",
+      "net/http.http2Transport.RoundTripOpt"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2clientConnPool.GetClientConn",
+    "candidates": [
+      "net/http.(*http2clientConnPool).GetClientConn",
+      "net/http.(http2clientConnPool).GetClientConn",
+      "net/http.http2clientConnPool.GetClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2clientConnReadLoop.processSettingsNoWrite",
+    "candidates": [
+      "net/http.(*http2clientConnReadLoop).processSettingsNoWrite",
+      "net/http.(http2clientConnReadLoop).processSettingsNoWrite",
+      "net/http.http2clientConnReadLoop.processSettingsNoWrite"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2noDialClientConnPool.GetClientConn",
+    "candidates": [
+      "net/http.(*http2noDialClientConnPool).GetClientConn",
+      "net/http.(http2noDialClientConnPool).GetClientConn",
+      "net/http.http2noDialClientConnPool.GetClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2noDialH2RoundTripper.NewClientConn",
+    "candidates": [
+      "net/http.(*http2noDialH2RoundTripper).NewClientConn",
+      "net/http.(http2noDialH2RoundTripper).NewClientConn",
+      "net/http.http2noDialH2RoundTripper.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2noDialH2RoundTripper.RoundTrip",
+    "candidates": [
+      "net/http.(*http2noDialH2RoundTripper).RoundTrip",
+      "net/http.(http2noDialH2RoundTripper).RoundTrip",
+      "net/http.http2noDialH2RoundTripper.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "package": "net/http",
+    "symbol": "http2unencryptedTransport.RoundTrip",
+    "candidates": [
+      "net/http.(*http2unencryptedTransport).RoundTrip",
+      "net/http.(http2unencryptedTransport).RoundTrip",
+      "net/http.http2unencryptedTransport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "package": "encoding/asn1",
+    "symbol": "Unmarshal",
+    "candidates": [
+      "encoding/asn1.Unmarshal"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "package": "encoding/asn1",
+    "symbol": "UnmarshalWithParams",
+    "candidates": [
+      "encoding/asn1.UnmarshalWithParams"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "package": "encoding/asn1",
+    "symbol": "parseField",
+    "candidates": [
+      "encoding/asn1.parseField"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "package": "encoding/asn1",
+    "symbol": "parseSequenceOf",
+    "candidates": [
+      "encoding/asn1.parseSequenceOf"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "AddressParser.Parse",
+    "candidates": [
+      "net/mail.(*AddressParser).Parse",
+      "net/mail.(AddressParser).Parse",
+      "net/mail.AddressParser.Parse"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "AddressParser.ParseList",
+    "candidates": [
+      "net/mail.(*AddressParser).ParseList",
+      "net/mail.(AddressParser).ParseList",
+      "net/mail.AddressParser.ParseList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "Header.AddressList",
+    "candidates": [
+      "net/mail.(*Header).AddressList",
+      "net/mail.(Header).AddressList",
+      "net/mail.Header.AddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "Header.Date",
+    "candidates": [
+      "net/mail.(*Header).Date",
+      "net/mail.(Header).Date",
+      "net/mail.Header.Date"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "ParseAddress",
+    "candidates": [
+      "net/mail.ParseAddress"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "ParseAddressList",
+    "candidates": [
+      "net/mail.ParseAddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "ParseDate",
+    "candidates": [
+      "net/mail.ParseDate"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "package": "net/mail",
+    "symbol": "addrParser.consumeComment",
+    "candidates": [
+      "net/mail.(*addrParser).consumeComment",
+      "net/mail.(addrParser).consumeComment",
+      "net/mail.addrParser.consumeComment"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.CloseIdleConnections",
+    "candidates": [
+      "net/http.(*Client).CloseIdleConnections",
+      "net/http.(Client).CloseIdleConnections",
+      "net/http.Client.CloseIdleConnections"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.Do",
+    "candidates": [
+      "net/http.(*Client).Do",
+      "net/http.(Client).Do",
+      "net/http.Client.Do"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.Get",
+    "candidates": [
+      "net/http.(*Client).Get",
+      "net/http.(Client).Get",
+      "net/http.Client.Get"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.Head",
+    "candidates": [
+      "net/http.(*Client).Head",
+      "net/http.(Client).Head",
+      "net/http.Client.Head"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.Post",
+    "candidates": [
+      "net/http.(*Client).Post",
+      "net/http.(Client).Post",
+      "net/http.Client.Post"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Client.PostForm",
+    "candidates": [
+      "net/http.(*Client).PostForm",
+      "net/http.(Client).PostForm",
+      "net/http.Client.PostForm"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "ClientConn.Close",
+    "candidates": [
+      "net/http.(*ClientConn).Close",
+      "net/http.(ClientConn).Close",
+      "net/http.ClientConn.Close"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "ClientConn.RoundTrip",
+    "candidates": [
+      "net/http.(*ClientConn).RoundTrip",
+      "net/http.(ClientConn).RoundTrip",
+      "net/http.ClientConn.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Get",
+    "candidates": [
+      "net/http.Get"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Head",
+    "candidates": [
+      "net/http.Head"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Post",
+    "candidates": [
+      "net/http.Post"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "PostForm",
+    "candidates": [
+      "net/http.PostForm"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Transport.CloseIdleConnections",
+    "candidates": [
+      "net/http.(*Transport).CloseIdleConnections",
+      "net/http.(Transport).CloseIdleConnections",
+      "net/http.Transport.CloseIdleConnections"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Transport.NewClientConn",
+    "candidates": [
+      "net/http.(*Transport).NewClientConn",
+      "net/http.(Transport).NewClientConn",
+      "net/http.Transport.NewClientConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "Transport.RoundTrip",
+    "candidates": [
+      "net/http.(*Transport).RoundTrip",
+      "net/http.(Transport).RoundTrip",
+      "net/http.Transport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "http1ClientConn.Close",
+    "candidates": [
+      "net/http.(*http1ClientConn).Close",
+      "net/http.(http1ClientConn).Close",
+      "net/http.http1ClientConn.Close"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "http1ClientConn.RoundTrip",
+    "candidates": [
+      "net/http.(*http1ClientConn).RoundTrip",
+      "net/http.(http1ClientConn).RoundTrip",
+      "net/http.http1ClientConn.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "http2ClientConn.RoundTrip",
+    "candidates": [
+      "net/http.(*http2ClientConn).RoundTrip",
+      "net/http.(http2ClientConn).RoundTrip",
+      "net/http.http2ClientConn.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "http2RoundTripper.RoundTrip",
+    "candidates": [
+      "net/http.(*http2RoundTripper).RoundTrip",
+      "net/http.(http2RoundTripper).RoundTrip",
+      "net/http.http2RoundTripper.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http",
+    "symbol": "idnaASCII",
+    "candidates": [
+      "net/http.idnaASCII"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http/internal/http2",
+    "symbol": "Transport.AddConn",
+    "candidates": [
+      "net/http/internal/http2.(*Transport).AddConn",
+      "net/http/internal/http2.(Transport).AddConn",
+      "net/http/internal/http2.Transport.AddConn"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http/internal/http2",
+    "symbol": "Transport.RoundTrip",
+    "candidates": [
+      "net/http/internal/http2.(*Transport).RoundTrip",
+      "net/http/internal/http2.(Transport).RoundTrip",
+      "net/http/internal/http2.Transport.RoundTrip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http/internal/http2",
+    "symbol": "Transport.RoundTripOpt",
+    "candidates": [
+      "net/http/internal/http2.(*Transport).RoundTripOpt",
+      "net/http/internal/http2.(Transport).RoundTripOpt",
+      "net/http/internal/http2.Transport.RoundTripOpt"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "net/http/internal/http2",
+    "symbol": "authorityAddr",
+    "candidates": [
+      "net/http/internal/http2.authorityAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "golang.org/x/net/idna",
+    "symbol": "Profile.ToASCII",
+    "candidates": [
+      "golang.org/x/net/idna.(*Profile).ToASCII",
+      "golang.org/x/net/idna.(Profile).ToASCII",
+      "golang.org/x/net/idna.Profile.ToASCII"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "golang.org/x/net/idna",
+    "symbol": "Profile.ToUnicode",
+    "candidates": [
+      "golang.org/x/net/idna.(*Profile).ToUnicode",
+      "golang.org/x/net/idna.(Profile).ToUnicode",
+      "golang.org/x/net/idna.Profile.ToUnicode"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "golang.org/x/net/idna",
+    "symbol": "Profile.process",
+    "candidates": [
+      "golang.org/x/net/idna.(*Profile).process",
+      "golang.org/x/net/idna.(Profile).process",
+      "golang.org/x/net/idna.Profile.process"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "golang.org/x/net/idna",
+    "symbol": "ToASCII",
+    "candidates": [
+      "golang.org/x/net/idna.ToASCII"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "package": "golang.org/x/net/idna",
+    "symbol": "ToUnicode",
+    "candidates": [
+      "golang.org/x/net/idna.ToUnicode"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "OpenInRoot",
+    "candidates": [
+      "os.OpenInRoot"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.Create",
+    "candidates": [
+      "os.(*Root).Create",
+      "os.(Root).Create",
+      "os.Root.Create"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.Open",
+    "candidates": [
+      "os.(*Root).Open",
+      "os.(Root).Open",
+      "os.Root.Open"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.OpenFile",
+    "candidates": [
+      "os.(*Root).OpenFile",
+      "os.(Root).OpenFile",
+      "os.Root.OpenFile"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.OpenRoot",
+    "candidates": [
+      "os.(*Root).OpenRoot",
+      "os.(Root).OpenRoot",
+      "os.Root.OpenRoot"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.ReadFile",
+    "candidates": [
+      "os.(*Root).ReadFile",
+      "os.(Root).ReadFile",
+      "os.Root.ReadFile"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "Root.WriteFile",
+    "candidates": [
+      "os.(*Root).WriteFile",
+      "os.(Root).WriteFile",
+      "os.Root.WriteFile"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "openRootInRoot",
+    "candidates": [
+      "os.openRootInRoot"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "rootFS.Open",
+    "candidates": [
+      "os.(*rootFS).Open",
+      "os.(rootFS).Open",
+      "os.rootFS.Open"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "rootFS.ReadDir",
+    "candidates": [
+      "os.(*rootFS).ReadDir",
+      "os.(rootFS).ReadDir",
+      "os.rootFS.ReadDir"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "rootFS.ReadFile",
+    "candidates": [
+      "os.(*rootFS).ReadFile",
+      "os.(rootFS).ReadFile",
+      "os.rootFS.ReadFile"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "package": "os",
+    "symbol": "rootOpenFileNolog",
+    "candidates": [
+      "os.rootOpenFileNolog"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Dial",
+    "candidates": [
+      "net.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "DialTimeout",
+    "candidates": [
+      "net.DialTimeout"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Dialer.Dial",
+    "candidates": [
+      "net.(*Dialer).Dial",
+      "net.(Dialer).Dial",
+      "net.Dialer.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Dialer.DialContext",
+    "candidates": [
+      "net.(*Dialer).DialContext",
+      "net.(Dialer).DialContext",
+      "net.Dialer.DialContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Listen",
+    "candidates": [
+      "net.Listen"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ListenConfig.Listen",
+    "candidates": [
+      "net.(*ListenConfig).Listen",
+      "net.(ListenConfig).Listen",
+      "net.ListenConfig.Listen"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ListenConfig.ListenPacket",
+    "candidates": [
+      "net.(*ListenConfig).ListenPacket",
+      "net.(ListenConfig).ListenPacket",
+      "net.ListenConfig.ListenPacket"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ListenPacket",
+    "candidates": [
+      "net.ListenPacket"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupAddr",
+    "candidates": [
+      "net.LookupAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupCNAME",
+    "candidates": [
+      "net.LookupCNAME"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupHost",
+    "candidates": [
+      "net.LookupHost"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupIP",
+    "candidates": [
+      "net.LookupIP"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupMX",
+    "candidates": [
+      "net.LookupMX"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupNS",
+    "candidates": [
+      "net.LookupNS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupPort",
+    "candidates": [
+      "net.LookupPort"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupSRV",
+    "candidates": [
+      "net.LookupSRV"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "LookupTXT",
+    "candidates": [
+      "net.LookupTXT"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ResolveIPAddr",
+    "candidates": [
+      "net.ResolveIPAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ResolveTCPAddr",
+    "candidates": [
+      "net.ResolveTCPAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "ResolveUDPAddr",
+    "candidates": [
+      "net.ResolveUDPAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupAddr",
+    "candidates": [
+      "net.(*Resolver).LookupAddr",
+      "net.(Resolver).LookupAddr",
+      "net.Resolver.LookupAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupCNAME",
+    "candidates": [
+      "net.(*Resolver).LookupCNAME",
+      "net.(Resolver).LookupCNAME",
+      "net.Resolver.LookupCNAME"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupHost",
+    "candidates": [
+      "net.(*Resolver).LookupHost",
+      "net.(Resolver).LookupHost",
+      "net.Resolver.LookupHost"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupIP",
+    "candidates": [
+      "net.(*Resolver).LookupIP",
+      "net.(Resolver).LookupIP",
+      "net.Resolver.LookupIP"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupIPAddr",
+    "candidates": [
+      "net.(*Resolver).LookupIPAddr",
+      "net.(Resolver).LookupIPAddr",
+      "net.Resolver.LookupIPAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupMX",
+    "candidates": [
+      "net.(*Resolver).LookupMX",
+      "net.(Resolver).LookupMX",
+      "net.Resolver.LookupMX"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupNS",
+    "candidates": [
+      "net.(*Resolver).LookupNS",
+      "net.(Resolver).LookupNS",
+      "net.Resolver.LookupNS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupNetIP",
+    "candidates": [
+      "net.(*Resolver).LookupNetIP",
+      "net.(Resolver).LookupNetIP",
+      "net.Resolver.LookupNetIP"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupPort",
+    "candidates": [
+      "net.(*Resolver).LookupPort",
+      "net.(Resolver).LookupPort",
+      "net.Resolver.LookupPort"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupSRV",
+    "candidates": [
+      "net.(*Resolver).LookupSRV",
+      "net.(Resolver).LookupSRV",
+      "net.Resolver.LookupSRV"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.LookupTXT",
+    "candidates": [
+      "net.(*Resolver).LookupTXT",
+      "net.(Resolver).LookupTXT",
+      "net.Resolver.LookupTXT"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupAddr",
+    "candidates": [
+      "net.(*Resolver).lookupAddr",
+      "net.(Resolver).lookupAddr",
+      "net.Resolver.lookupAddr"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupMX",
+    "candidates": [
+      "net.(*Resolver).lookupMX",
+      "net.(Resolver).lookupMX",
+      "net.Resolver.lookupMX"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupNS",
+    "candidates": [
+      "net.(*Resolver).lookupNS",
+      "net.(Resolver).lookupNS",
+      "net.Resolver.lookupNS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupPort",
+    "candidates": [
+      "net.(*Resolver).lookupPort",
+      "net.(Resolver).lookupPort",
+      "net.Resolver.lookupPort"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupSRV",
+    "candidates": [
+      "net.(*Resolver).lookupSRV",
+      "net.(Resolver).lookupSRV",
+      "net.Resolver.lookupSRV"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "package": "net",
+    "symbol": "Resolver.lookupTXT",
+    "candidates": [
+      "net.(*Resolver).lookupTXT",
+      "net.(Resolver).lookupTXT",
+      "net.Resolver.lookupTXT"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "AddressParser.Parse",
+    "candidates": [
+      "net/mail.(*AddressParser).Parse",
+      "net/mail.(AddressParser).Parse",
+      "net/mail.AddressParser.Parse"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "AddressParser.ParseList",
+    "candidates": [
+      "net/mail.(*AddressParser).ParseList",
+      "net/mail.(AddressParser).ParseList",
+      "net/mail.AddressParser.ParseList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "Header.AddressList",
+    "candidates": [
+      "net/mail.(*Header).AddressList",
+      "net/mail.(Header).AddressList",
+      "net/mail.Header.AddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "ParseAddress",
+    "candidates": [
+      "net/mail.ParseAddress"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "ParseAddressList",
+    "candidates": [
+      "net/mail.ParseAddressList"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "package": "net/mail",
+    "symbol": "addrParser.consumePhrase",
+    "candidates": [
+      "net/mail.(*addrParser).consumePhrase",
+      "net/mail.(addrParser).consumePhrase",
+      "net/mail.addrParser.consumePhrase"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-42504",
+    "goId": "GO-2026-5038",
+    "package": "mime",
+    "symbol": "WordDecoder.DecodeHeader",
+    "candidates": [
+      "mime.(*WordDecoder).DecodeHeader",
+      "mime.(WordDecoder).DecodeHeader",
+      "mime.WordDecoder.DecodeHeader"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "ListenAndServe",
+    "candidates": [
+      "net/http.ListenAndServe"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "ListenAndServeTLS",
+    "candidates": [
+      "net/http.ListenAndServeTLS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "Serve",
+    "candidates": [
+      "net/http.Serve"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "ServeTLS",
+    "candidates": [
+      "net/http.ServeTLS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "Server.ListenAndServe",
+    "candidates": [
+      "net/http.(*Server).ListenAndServe",
+      "net/http.(Server).ListenAndServe",
+      "net/http.Server.ListenAndServe"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "Server.ListenAndServeTLS",
+    "candidates": [
+      "net/http.(*Server).ListenAndServeTLS",
+      "net/http.(Server).ListenAndServeTLS",
+      "net/http.Server.ListenAndServeTLS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "Server.Serve",
+    "candidates": [
+      "net/http.(*Server).Serve",
+      "net/http.(Server).Serve",
+      "net/http.Server.Serve"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "Server.ServeTLS",
+    "candidates": [
+      "net/http.(*Server).ServeTLS",
+      "net/http.(Server).ServeTLS",
+      "net/http.Server.ServeTLS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "conn.readRequest",
+    "candidates": [
+      "net/http.(*conn).readRequest",
+      "net/http.(conn).readRequest",
+      "net/http.conn.readRequest"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "package": "net/http",
+    "symbol": "conn.serve",
+    "candidates": [
+      "net/http.(*conn).serve",
+      "net/http.(conn).serve",
+      "net/http.conn.serve"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.Decode",
+    "candidates": [
+      "encoding/xml.(*Decoder).Decode",
+      "encoding/xml.(Decoder).Decode",
+      "encoding/xml.Decoder.Decode"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.DecodeElement",
+    "candidates": [
+      "encoding/xml.(*Decoder).DecodeElement",
+      "encoding/xml.(Decoder).DecodeElement",
+      "encoding/xml.Decoder.DecodeElement"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.RawToken",
+    "candidates": [
+      "encoding/xml.(*Decoder).RawToken",
+      "encoding/xml.(Decoder).RawToken",
+      "encoding/xml.Decoder.RawToken"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.Skip",
+    "candidates": [
+      "encoding/xml.(*Decoder).Skip",
+      "encoding/xml.(Decoder).Skip",
+      "encoding/xml.Decoder.Skip"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.Token",
+    "candidates": [
+      "encoding/xml.(*Decoder).Token",
+      "encoding/xml.(Decoder).Token",
+      "encoding/xml.Decoder.Token"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.pop",
+    "candidates": [
+      "encoding/xml.(*Decoder).pop",
+      "encoding/xml.(Decoder).pop",
+      "encoding/xml.Decoder.pop"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.push",
+    "candidates": [
+      "encoding/xml.(*Decoder).push",
+      "encoding/xml.(Decoder).push",
+      "encoding/xml.Decoder.push"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.unmarshal",
+    "candidates": [
+      "encoding/xml.(*Decoder).unmarshal",
+      "encoding/xml.(Decoder).unmarshal",
+      "encoding/xml.Decoder.unmarshal"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Decoder.unmarshalPath",
+    "candidates": [
+      "encoding/xml.(*Decoder).unmarshalPath",
+      "encoding/xml.(Decoder).unmarshalPath",
+      "encoding/xml.Decoder.unmarshalPath"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "package": "encoding/xml",
+    "symbol": "Unmarshal",
+    "candidates": [
+      "encoding/xml.Unmarshal"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Conn.Handshake",
+    "candidates": [
+      "crypto/tls.(*Conn).Handshake",
+      "crypto/tls.(Conn).Handshake",
+      "crypto/tls.Conn.Handshake"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Conn.HandshakeContext",
+    "candidates": [
+      "crypto/tls.(*Conn).HandshakeContext",
+      "crypto/tls.(Conn).HandshakeContext",
+      "crypto/tls.Conn.HandshakeContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Conn.Read",
+    "candidates": [
+      "crypto/tls.(*Conn).Read",
+      "crypto/tls.(Conn).Read",
+      "crypto/tls.Conn.Read"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Conn.Write",
+    "candidates": [
+      "crypto/tls.(*Conn).Write",
+      "crypto/tls.(Conn).Write",
+      "crypto/tls.Conn.Write"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Conn.readRecordOrCCS",
+    "candidates": [
+      "crypto/tls.(*Conn).readRecordOrCCS",
+      "crypto/tls.(Conn).readRecordOrCCS",
+      "crypto/tls.Conn.readRecordOrCCS"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Dial",
+    "candidates": [
+      "crypto/tls.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "DialWithDialer",
+    "candidates": [
+      "crypto/tls.DialWithDialer"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Dialer.Dial",
+    "candidates": [
+      "crypto/tls.(*Dialer).Dial",
+      "crypto/tls.(Dialer).Dial",
+      "crypto/tls.Dialer.Dial"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "Dialer.DialContext",
+    "candidates": [
+      "crypto/tls.(*Dialer).DialContext",
+      "crypto/tls.(Dialer).DialContext",
+      "crypto/tls.Dialer.DialContext"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "QUICConn.HandleData",
+    "candidates": [
+      "crypto/tls.(*QUICConn).HandleData",
+      "crypto/tls.(QUICConn).HandleData",
+      "crypto/tls.QUICConn.HandleData"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "package": "crypto/tls",
+    "symbol": "QUICConn.Start",
+    "candidates": [
+      "crypto/tls.(*QUICConn).Start",
+      "crypto/tls.(QUICConn).Start",
+      "crypto/tls.QUICConn.Start"
+    ],
+    "binarySymbolPresent": false,
+    "matches": []
+  }
+]

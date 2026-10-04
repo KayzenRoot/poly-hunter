@@ -1,0 +1,186 @@
+[
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-58188",
+    "goId": "GO-2025-4013",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-61723",
+    "goId": "GO-2025-4009",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-61726",
+    "goId": "GO-2026-4341",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-61729",
+    "goId": "GO-2025-4155",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-32280",
+    "goId": "GO-2026-4947",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-32281",
+    "goId": "GO-2026-4946",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-33811",
+    "goId": "GO-2026-4981",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": true,
+    "inModuleResults": false
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-42504",
+    "goId": "GO-2026-5038",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "presentInRaw": true,
+    "inSymbolResults": false,
+    "inPackageResults": false,
+    "inModuleResults": true
+  }
+]

@@ -1,0 +1,75 @@
+ 314: # check arguments for an option that would cause postgres to stop
+ 315: # return true if there is one
+ 316: _pg_want_help() {
+ 317: 	local arg
+ 318: 	for arg; do
+ 319: 		case "$arg" in
+ 320: 			# postgres --help | grep 'then exit'
+ 321: 			# leaving out -C on purpose since it always fails and is unhelpful:
+ 322: 			# postgres: could not access the server configuration file "/var/lib/postgresql/data/postgresql.conf": No such file or directory
+ 323: 			-'?'|--help|--describe-config|-V|--version)
+ 324: 				return 0
+ 325: 				;;
+ 326: 		esac
+ 327: 	done
+ 328: 	return 1
+ 329: }
+ 330:
+ 331: _main() {
+ 332: 	# if first arg looks like a flag, assume we want to run postgres server
+ 333: 	if [ "${1:0:1}" = '-' ]; then
+ 334: 		set -- postgres "$@"
+ 335: 	fi
+ 336:
+ 337: 	if [ "$1" = 'postgres' ] && ! _pg_want_help "$@"; then
+ 338: 		docker_setup_env
+ 339: 		# setup data directories and permissions (when run as root)
+ 340: 		docker_create_db_directories
+ 341: 		if [ "$(id -u)" = '0' ]; then
+ 342: 			# then restart script as postgres user
+ 343: 			exec gosu postgres "$BASH_SOURCE" "$@"
+ 344: 		fi
+ 345:
+ 346: 		# only run initialization on an empty data directory
+ 347: 		if [ -z "$DATABASE_ALREADY_EXISTS" ]; then
+ 348: 			docker_verify_minimum_env
+ 349: 			docker_error_old_databases
+ 350:
+ 351: 			# check dir permissions to reduce likelihood of half-initialized database
+ 352: 			ls /docker-entrypoint-initdb.d/ > /dev/null
+ 353:
+ 354: 			docker_init_database_dir
+ 355: 			pg_setup_hba_conf "$@"
+ 356:
+ 357: 			# PGPASSWORD is required for psql when authentication is required for 'local' connections via pg_hba.conf and is otherwise harmless
+ 358: 			# e.g. when '--auth=md5' or '--auth-local=md5' is used in POSTGRES_INITDB_ARGS
+ 359: 			export PGPASSWORD="${PGPASSWORD:-$POSTGRES_PASSWORD}"
+ 360: 			docker_temp_server_start "$@"
+ 361:
+ 362: 			docker_setup_db
+ 363: 			docker_process_init_files /docker-entrypoint-initdb.d/*
+ 364:
+ 365: 			docker_temp_server_stop
+ 366: 			unset PGPASSWORD
+ 367:
+ 368: 			cat <<-'EOM'
+ 369:
+ 370: 				PostgreSQL init process complete; ready for start up.
+ 371:
+ 372: 			EOM
+ 373: 		else
+ 374: 			cat <<-'EOM'
+ 375:
+ 376: 				PostgreSQL Database directory appears to contain a database; Skipping initialization
+ 377:
+ 378: 			EOM
+ 379: 		fi
+ 380:
+ 381: 		unset "${!POSTGRES_@}"
+ 382: 	fi
+ 383:
+ 384: 	exec "$@"
+ 385: }
+ 386:
+ 387: if ! _is_sourced; then
+ 388: 	_main "$@"

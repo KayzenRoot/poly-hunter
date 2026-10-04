@@ -1,0 +1,663 @@
+[
+  {
+    "cve": "CVE-2025-58187",
+    "goId": "GO-2025-4007",
+    "url": "https://vuln.go.dev/ID/GO-2025-4007.json",
+    "sha256": "0F07506EAD47D85DCFD4F66C0A779EDA0EFA89F3CA80771F61FA69A01E815346",
+    "aliases": [
+      "CVE-2025-58187",
+      "CVE-2025-58187"
+    ],
+    "modified": "2025-11-20T22:03:19Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/x509",
+        "symbols": [
+          "CertPool.AppendCertsFromPEM",
+          "Certificate.CheckCRLSignature",
+          "Certificate.CheckSignature",
+          "Certificate.CheckSignatureFrom",
+          "Certificate.CreateCRL",
+          "Certificate.Verify",
+          "CertificateRequest.CheckSignature",
+          "CreateCertificate",
+          "CreateCertificateRequest",
+          "CreateRevocationList",
+          "DecryptPEMBlock",
+          "EncryptPEMBlock",
+          "MarshalECPrivateKey",
+          "MarshalPKCS1PrivateKey",
+          "MarshalPKCS1PublicKey",
+          "MarshalPKCS8PrivateKey",
+          "MarshalPKIXPublicKey",
+          "ParseCRL",
+          "ParseCertificate",
+          "ParseCertificateRequest",
+          "ParseCertificates",
+          "ParseDERCRL",
+          "ParseECPrivateKey",
+          "ParsePKCS1PrivateKey",
+          "ParsePKCS1PublicKey",
+          "ParsePKCS8PrivateKey",
+          "ParsePKIXPublicKey",
+          "ParseRevocationList",
+          "RevocationList.CheckSignatureFrom",
+          "SetFallbackRoots",
+          "SystemCertPool",
+          "domainToReverseLabels",
+          "parseSANExtension"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-58188",
+    "goId": "GO-2025-4013",
+    "url": "https://vuln.go.dev/ID/GO-2025-4013.json",
+    "sha256": "738C2D1997104469B33CF5D8FE13DFAE88123521EF226A114B2BCAD45B8B4C1D",
+    "aliases": [
+      "CVE-2025-58188",
+      "CVE-2025-58188"
+    ],
+    "modified": "2025-10-29T21:50:08Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/x509",
+        "symbols": [
+          "Certificate.Verify",
+          "alreadyInChain"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-61723",
+    "goId": "GO-2025-4009",
+    "url": "https://vuln.go.dev/ID/GO-2025-4009.json",
+    "sha256": "61E850B8A350228D8337E88C7AB3CB40FF260F7771DF6228922F9CC96EB46A8C",
+    "aliases": [
+      "CVE-2025-61723",
+      "CVE-2025-61723"
+    ],
+    "modified": "2025-10-29T21:49:55Z",
+    "packageSymbols": [
+      {
+        "path": "encoding/pem",
+        "symbols": [
+          "Decode",
+          "getLine"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-61725",
+    "goId": "GO-2025-4006",
+    "url": "https://vuln.go.dev/ID/GO-2025-4006.json",
+    "sha256": "BAB8CB1833750D2B8B6C575B2DFE9521DC13087F5A17481E1F8CDF32E8A2EB6B",
+    "aliases": [
+      "CVE-2025-61725",
+      "CVE-2025-61725"
+    ],
+    "modified": "2025-12-09T17:20:47Z",
+    "packageSymbols": [
+      {
+        "path": "net/mail",
+        "symbols": [
+          "AddressParser.Parse",
+          "AddressParser.ParseList",
+          "Header.AddressList",
+          "ParseAddress",
+          "ParseAddressList",
+          "addrParser.consumeDomainLiteral"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-61726",
+    "goId": "GO-2026-4341",
+    "url": "https://vuln.go.dev/ID/GO-2026-4341.json",
+    "sha256": "793C9ED07E9CB09703932118676B276891394C3AD607C89D0A627FEB7C3BF109",
+    "aliases": [
+      "CVE-2025-61726",
+      "CVE-2025-61726"
+    ],
+    "modified": "2026-01-28T19:08:18Z",
+    "packageSymbols": [
+      {
+        "path": "net/url",
+        "symbols": [
+          "ParseQuery",
+          "URL.Query",
+          "parseQuery"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-61729",
+    "goId": "GO-2025-4155",
+    "url": "https://vuln.go.dev/ID/GO-2025-4155.json",
+    "sha256": "49C2EDCBAAC29E167A8D893D952C598EDC41A6ADBAE36D4952A985B125A0C74D",
+    "aliases": [
+      "CVE-2025-61729",
+      "CVE-2025-61729"
+    ],
+    "modified": "2025-12-03T17:43:24Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/x509",
+        "symbols": [
+          "Certificate.Verify",
+          "Certificate.VerifyHostname"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2025-68121",
+    "goId": "GO-2026-4337",
+    "url": "https://vuln.go.dev/ID/GO-2026-4337.json",
+    "sha256": "DF1A6110A54BB08C2D5C8726971CD51069A30F48DEEA2CACE5E5CF97893DEF37",
+    "aliases": [
+      "CVE-2025-68121"
+    ],
+    "modified": "2026-02-05T17:23:09Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/tls",
+        "symbols": [
+          "Conn.Handshake",
+          "Conn.HandshakeContext",
+          "Conn.Read",
+          "Conn.Write",
+          "Conn.handshakeContext",
+          "Dial",
+          "DialWithDialer",
+          "Dialer.Dial",
+          "Dialer.DialContext",
+          "QUICConn.Start"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-25679",
+    "goId": "GO-2026-4601",
+    "url": "https://vuln.go.dev/ID/GO-2026-4601.json",
+    "sha256": "4FF9E79CC2660CA42160C072879B402164EA3240301F47D86B18C13579090B4F",
+    "aliases": [
+      "CVE-2026-25679"
+    ],
+    "modified": "2026-03-06T21:03:42Z",
+    "packageSymbols": [
+      {
+        "path": "net/url",
+        "symbols": [
+          "JoinPath",
+          "Parse",
+          "ParseRequestURI",
+          "URL.Parse",
+          "URL.UnmarshalBinary",
+          "parseHost"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-32280",
+    "goId": "GO-2026-4947",
+    "url": "https://vuln.go.dev/ID/GO-2026-4947.json",
+    "sha256": "769B4DC8C0ABC8B137EB055F9F58CDC8361182447E42EAD392E0528EB05222E7",
+    "aliases": [
+      "CVE-2026-32280"
+    ],
+    "modified": "2026-04-07T22:53:49Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/x509",
+        "symbols": [
+          "Certificate.Verify",
+          "Certificate.buildChains"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-32281",
+    "goId": "GO-2026-4946",
+    "url": "https://vuln.go.dev/ID/GO-2026-4946.json",
+    "sha256": "632DAF59E86D28EB2B53D8F75ADFC832C389213F0926DB50F5F41404511CC596",
+    "aliases": [
+      "CVE-2026-32281"
+    ],
+    "modified": "2026-04-07T22:53:49Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/x509",
+        "symbols": [
+          "Certificate.Verify",
+          "policiesValid"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-32283",
+    "goId": "GO-2026-4870",
+    "url": "https://vuln.go.dev/ID/GO-2026-4870.json",
+    "sha256": "21DE62394B41F5E008C751414BFAD65492E114E9B2186E13FBF83D72E1B3F808",
+    "aliases": [
+      "CVE-2026-32283"
+    ],
+    "modified": "2026-04-07T22:53:49Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/tls",
+        "symbols": [
+          "Conn.Handshake",
+          "Conn.HandshakeContext",
+          "Conn.Read",
+          "Conn.Write",
+          "Conn.handleKeyUpdate",
+          "Dial",
+          "DialWithDialer",
+          "Dialer.Dial",
+          "Dialer.DialContext",
+          "QUICConn.HandleData",
+          "QUICConn.Start",
+          "clientHandshakeStateTLS13.establishHandshakeKeys",
+          "clientHandshakeStateTLS13.readServerFinished",
+          "serverHandshakeStateTLS13.readClientFinished",
+          "serverHandshakeStateTLS13.sendServerParameters"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-33811",
+    "goId": "GO-2026-4981",
+    "url": "https://vuln.go.dev/ID/GO-2026-4981.json",
+    "sha256": "0B014F31A74551871FEFCC920E8CF20DA279874FB5A28F2EC9089BCE533E0EF8",
+    "aliases": [
+      "CVE-2026-33811"
+    ],
+    "modified": "2026-05-07T19:21:40Z",
+    "packageSymbols": [
+      {
+        "path": "net",
+        "symbols": [
+          "LookupCNAME",
+          "Resolver.LookupCNAME",
+          "cgoResSearch"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-33814",
+    "goId": "GO-2026-4918",
+    "url": "https://vuln.go.dev/ID/GO-2026-4918.json",
+    "sha256": "CF690FF9AFFE270DBA8096B45883BB17DD8AC6CE43CFDF031BC218E3A54E2BC4",
+    "aliases": [
+      "CVE-2026-33814"
+    ],
+    "modified": "2026-05-07T19:21:40Z",
+    "packageSymbols": [
+      {
+        "path": "golang.org/x/net/http2",
+        "symbols": [
+          "Transport.NewClientConn",
+          "Transport.RoundTrip",
+          "Transport.RoundTripOpt",
+          "clientConnPool.GetClientConn",
+          "clientConnReadLoop.processSettingsNoWrite",
+          "noDialClientConnPool.GetClientConn",
+          "noDialH2RoundTripper.NewClientConn",
+          "noDialH2RoundTripper.RoundTrip",
+          "unencryptedTransport.RoundTrip"
+        ]
+      },
+      {
+        "path": "net/http",
+        "symbols": [
+          "Client.CloseIdleConnections",
+          "Client.Do",
+          "Client.Get",
+          "Client.Head",
+          "Client.Post",
+          "Client.PostForm",
+          "ClientConn.Close",
+          "ClientConn.RoundTrip",
+          "Get",
+          "Head",
+          "Post",
+          "PostForm",
+          "Transport.CloseIdleConnections",
+          "Transport.NewClientConn",
+          "Transport.RoundTrip",
+          "http1ClientConn.Close",
+          "http1ClientConn.RoundTrip",
+          "http2Transport.NewClientConn",
+          "http2Transport.RoundTrip",
+          "http2Transport.RoundTripOpt",
+          "http2clientConnPool.GetClientConn",
+          "http2clientConnReadLoop.processSettingsNoWrite",
+          "http2noDialClientConnPool.GetClientConn",
+          "http2noDialH2RoundTripper.NewClientConn",
+          "http2noDialH2RoundTripper.RoundTrip",
+          "http2unencryptedTransport.RoundTrip"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-33818",
+    "goId": "GO-2026-5972",
+    "url": "https://vuln.go.dev/ID/GO-2026-5972.json",
+    "sha256": "0A5DECF07D8113EBBBD7D126D55D5D463DF99FA02DC965D6BE252DEE342339C6",
+    "aliases": [
+      "CVE-2026-33818"
+    ],
+    "modified": "2026-08-13T21:43:54Z",
+    "packageSymbols": [
+      {
+        "path": "encoding/asn1",
+        "symbols": [
+          "Unmarshal",
+          "UnmarshalWithParams",
+          "parseField",
+          "parseSequenceOf"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-39820",
+    "goId": "GO-2026-4986",
+    "url": "https://vuln.go.dev/ID/GO-2026-4986.json",
+    "sha256": "9E7FC34D023A7639568470E63F5CD4C2B59ECBE8ABD14835F3F7240924FA7E79",
+    "aliases": [
+      "CVE-2026-39820"
+    ],
+    "modified": "2026-05-07T19:21:40Z",
+    "packageSymbols": [
+      {
+        "path": "net/mail",
+        "symbols": [
+          "AddressParser.Parse",
+          "AddressParser.ParseList",
+          "Header.AddressList",
+          "Header.Date",
+          "ParseAddress",
+          "ParseAddressList",
+          "ParseDate",
+          "addrParser.consumeComment"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-39821",
+    "goId": "GO-2026-5026",
+    "url": "https://vuln.go.dev/ID/GO-2026-5026.json",
+    "sha256": "6C8AED80AE71362EE6A2C4CA36ACE9D5F6D991040D5242FFC4713E2A7A9A750C",
+    "aliases": [
+      "CVE-2026-39821"
+    ],
+    "modified": "2026-08-21T20:38:00Z",
+    "packageSymbols": [
+      {
+        "path": "net/http",
+        "symbols": [
+          "Client.CloseIdleConnections",
+          "Client.Do",
+          "Client.Get",
+          "Client.Head",
+          "Client.Post",
+          "Client.PostForm",
+          "ClientConn.Close",
+          "ClientConn.RoundTrip",
+          "Get",
+          "Head",
+          "Post",
+          "PostForm",
+          "Transport.CloseIdleConnections",
+          "Transport.NewClientConn",
+          "Transport.RoundTrip",
+          "http1ClientConn.Close",
+          "http1ClientConn.RoundTrip",
+          "http2ClientConn.RoundTrip",
+          "http2RoundTripper.RoundTrip",
+          "idnaASCII"
+        ]
+      },
+      {
+        "path": "net/http/internal/http2",
+        "symbols": [
+          "Transport.AddConn",
+          "Transport.RoundTrip",
+          "Transport.RoundTripOpt",
+          "authorityAddr"
+        ]
+      },
+      {
+        "path": "golang.org/x/net/idna",
+        "symbols": [
+          "Profile.ToASCII",
+          "Profile.ToUnicode",
+          "Profile.process",
+          "ToASCII",
+          "ToUnicode"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-39822",
+    "goId": "GO-2026-4970",
+    "url": "https://vuln.go.dev/ID/GO-2026-4970.json",
+    "sha256": "7CD0F040D0F20A62A8535191C5078A0602FE21EEB8348CA61A3115AED239BEA9",
+    "aliases": [
+      "CVE-2026-39822"
+    ],
+    "modified": "2026-07-07T21:34:47Z",
+    "packageSymbols": [
+      {
+        "path": "os",
+        "symbols": [
+          "OpenInRoot",
+          "Root.Create",
+          "Root.Open",
+          "Root.OpenFile",
+          "Root.OpenRoot",
+          "Root.ReadFile",
+          "Root.WriteFile",
+          "openRootInRoot",
+          "rootFS.Open",
+          "rootFS.ReadDir",
+          "rootFS.ReadFile",
+          "rootOpenFileNolog"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-39836",
+    "goId": "GO-2026-4971",
+    "url": "https://vuln.go.dev/ID/GO-2026-4971.json",
+    "sha256": "B8F9BBFE15AF49DB7BFF521201E4ACBFBEA4B5D652149A23137BA222693B7421",
+    "aliases": [
+      "CVE-2026-39836"
+    ],
+    "modified": "2026-05-07T19:21:40Z",
+    "packageSymbols": [
+      {
+        "path": "net",
+        "symbols": [
+          "Dial",
+          "DialTimeout",
+          "Dialer.Dial",
+          "Dialer.DialContext",
+          "Listen",
+          "ListenConfig.Listen",
+          "ListenConfig.ListenPacket",
+          "ListenPacket",
+          "LookupAddr",
+          "LookupCNAME",
+          "LookupHost",
+          "LookupIP",
+          "LookupMX",
+          "LookupNS",
+          "LookupPort",
+          "LookupSRV",
+          "LookupTXT",
+          "ResolveIPAddr",
+          "ResolveTCPAddr",
+          "ResolveUDPAddr",
+          "Resolver.LookupAddr",
+          "Resolver.LookupCNAME",
+          "Resolver.LookupHost",
+          "Resolver.LookupIP",
+          "Resolver.LookupIPAddr",
+          "Resolver.LookupMX",
+          "Resolver.LookupNS",
+          "Resolver.LookupNetIP",
+          "Resolver.LookupPort",
+          "Resolver.LookupSRV",
+          "Resolver.LookupTXT",
+          "Resolver.lookupAddr",
+          "Resolver.lookupMX",
+          "Resolver.lookupNS",
+          "Resolver.lookupPort",
+          "Resolver.lookupSRV",
+          "Resolver.lookupTXT"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-42499",
+    "goId": "GO-2026-4977",
+    "url": "https://vuln.go.dev/ID/GO-2026-4977.json",
+    "sha256": "0E4AC0B5BE17849FD6DECAC446F67F762B03080EB217C17A980AAE33E82536C0",
+    "aliases": [
+      "CVE-2026-42499"
+    ],
+    "modified": "2026-05-07T19:21:40Z",
+    "packageSymbols": [
+      {
+        "path": "net/mail",
+        "symbols": [
+          "AddressParser.Parse",
+          "AddressParser.ParseList",
+          "Header.AddressList",
+          "ParseAddress",
+          "ParseAddressList",
+          "addrParser.consumePhrase"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-42504",
+    "goId": "GO-2026-5038",
+    "url": "https://vuln.go.dev/ID/GO-2026-5038.json",
+    "sha256": "D37C57CCEA415D869B2CAA229819269FCCE06829BA618129B07A6028D7BBA6B9",
+    "aliases": [
+      "CVE-2026-42504"
+    ],
+    "modified": "2026-06-02T21:39:47Z",
+    "packageSymbols": [
+      {
+        "path": "mime",
+        "symbols": [
+          "WordDecoder.DecodeHeader"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-56853",
+    "goId": "GO-2026-6089",
+    "url": "https://vuln.go.dev/ID/GO-2026-6089.json",
+    "sha256": "A2B4097DE79210E5AAABB90365A70657A6FB19811FE3B6F093F7EE78EFB728F5",
+    "aliases": [
+      "CVE-2026-56853"
+    ],
+    "modified": "2026-08-13T21:43:54Z",
+    "packageSymbols": [
+      {
+        "path": "net/http",
+        "symbols": [
+          "ListenAndServe",
+          "ListenAndServeTLS",
+          "Serve",
+          "ServeTLS",
+          "Server.ListenAndServe",
+          "Server.ListenAndServeTLS",
+          "Server.Serve",
+          "Server.ServeTLS",
+          "conn.readRequest",
+          "conn.serve"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-56859",
+    "goId": "GO-2026-6088",
+    "url": "https://vuln.go.dev/ID/GO-2026-6088.json",
+    "sha256": "8A0A8B03822E77AEB92698759ED61A6EAC38DE4F58E1205419D13A22758F9836",
+    "aliases": [
+      "CVE-2026-56859"
+    ],
+    "modified": "2026-08-13T21:43:54Z",
+    "packageSymbols": [
+      {
+        "path": "encoding/xml",
+        "symbols": [
+          "Decoder.Decode",
+          "Decoder.DecodeElement",
+          "Decoder.RawToken",
+          "Decoder.Skip",
+          "Decoder.Token",
+          "Decoder.pop",
+          "Decoder.push",
+          "Decoder.unmarshal",
+          "Decoder.unmarshalPath",
+          "Unmarshal"
+        ]
+      }
+    ]
+  },
+  {
+    "cve": "CVE-2026-56862",
+    "goId": "GO-2026-6090",
+    "url": "https://vuln.go.dev/ID/GO-2026-6090.json",
+    "sha256": "A095CE22D74407D8422F4214AA9193527771A036A19FF4099990106F28FB2CB7",
+    "aliases": [
+      "CVE-2026-56862"
+    ],
+    "modified": "2026-08-13T21:43:54Z",
+    "packageSymbols": [
+      {
+        "path": "crypto/tls",
+        "symbols": [
+          "Conn.Handshake",
+          "Conn.HandshakeContext",
+          "Conn.Read",
+          "Conn.Write",
+          "Conn.readRecordOrCCS",
+          "Dial",
+          "DialWithDialer",
+          "Dialer.Dial",
+          "Dialer.DialContext",
+          "QUICConn.HandleData",
+          "QUICConn.Start"
+        ]
+      }
+    ]
+  }
+]
