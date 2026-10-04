@@ -31,9 +31,10 @@ Allowed files:
 - `packages/db/package.json`
 - `Dockerfile.dev` only if dependency composition cannot be remediated safely without it
 - narrowly scoped tooling scripts/configuration required to preserve current migration/typecheck/test contracts
+- `apps/web/next.config.ts` strictly for development-only hot-reload polling under `POLYHUNTER_DOCKER_DEV=1`
 - Work Order evidence/receipts
 
-No application/domain/schema/migration-data/TenantContext behavior change is authorized.
+No application/domain/schema/migration-data/TenantContext behavior change is authorized. A development-only webpack watch configuration in `apps/web/next.config.ts` is explicitly authorized by CR-01 because the canonical Docker hot-reload acceptance gate failed on Windows bind mounts.
 
 ## OUT OF SCOPE
 - Any PH-M01-WO-002 identity/auth work.
@@ -177,7 +178,22 @@ HIGH_ASSURANCE:
 - BLOCKED_OPTION_REQUIRED;
 - BLOCKED.
 
+## CORRECTION DELTA CR-01 — Windows Docker web hot reload
+The initial remediation eliminated the 35 Go blockers but failed the mandatory web hot-reload gate on the Windows host bind mount. The host edit was visible inside the container but webpack did not recompile until an in-container `touch`.
+
+Authorized correction:
+- modify only `apps/web/next.config.ts` in addition to already-authorized dependency/evidence files;
+- keep the current `--webpack` Docker dev mode;
+- configure webpack dev `watchOptions.poll` (or an equivalent narrowly scoped webpack polling option supported by the installed Next.js/webpack stack) only when `POLYHUNTER_DOCKER_DEV=1`;
+- preserve normal non-Docker Next.js configuration behavior;
+- do not modify application components/routes, Compose, Dockerfile, or product behavior;
+- prove automatic host-Windows edit -> container watcher -> recompilation -> HTTP response change without manual `touch`;
+- restore the probe file and prove zero application diff after the test;
+- rerun typecheck/build/validate, Docker runtime health, hot reload, worker restart, and final Scout scan.
+
+If a config-only webpack polling fix cannot satisfy the gate without Compose/Dockerfile/product changes, STOP `BLOCKED_OPTION_REQUIRED`.
+
 ## STOP CONDITION
-Stop with `READY_FOR_INDEPENDENT_AUDIT` only if the original 35 Go CVEs are eliminated from HIGH/CRITICAL status with all regression/security gates green.
+Stop with `READY_FOR_INDEPENDENT_AUDIT` only if the original 35 Go CVEs are eliminated from HIGH/CRITICAL status, no new HIGH/CRITICAL is introduced, the web host-edit hot-reload gate passes automatically, and all regression/security gates are green.
 Otherwise stop `BLOCKED_OPTION_REQUIRED` or `BLOCKED_UNRESOLVED`.
 Do not start PH-M01-WO-002.
