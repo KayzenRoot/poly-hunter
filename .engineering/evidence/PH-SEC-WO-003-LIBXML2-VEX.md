@@ -51,3 +51,11 @@ Não foram testados payloads de exploração, XML malformado, corrupção de mem
 - Evidence Bundle: .engineering/evidence/PH-SEC-WO-003-EVIDENCE.md
 - Context Lock validado e receipts completos: .engineering/evidence/PH-SEC-WO-003/
 - Alterações de produto/runtime: nenhuma.
+
+
+## Owner approval
+- Independent audit: APPROVED for head `e3748820d399fb38da6a0922eeda412cc00bff12`.
+- Owner decision: APPROVED.
+- Owner statement: `APROVO A DISPOSIÇÃO NOT_AFFECTED DO PH-SEC-WO-003`.
+- Final disposition for this exact local-dev artifact: `NOT_AFFECTED / vulnerable_code_not_in_execute_path`.
+- Scope remains limited to CVE-2026-86140 on the exact locked PostgreSQL image. Dev-image findings, PR #15 merge, and PH-M01-WO-002 are not approved by this decision.
