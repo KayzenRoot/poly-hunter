@@ -1,0 +1,5 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    v SBOM of image already cached, 528 packages indexed
+    x Detected 21 vulnerable packages with a total of 76 vulnerabilities
+    v Report written to .engineering\evidence\PH-SEC-WO-005\validation\CR-01\polyhunter-dev-cr01.sarif
+EXIT_CODE=0

@@ -1,0 +1,4 @@
+NAME                  IMAGE                                                                                               COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+polyhunter-postgres   postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24   "docker-entrypoint.s…"   postgres   2 hours ago      Up 2 hours (healthy)      5432/tcp
+polyhunter-web        polyhunter-dev:local                                                                                "docker-entrypoint.s…"   web        45 seconds ago   Up 39 seconds (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local                                                                                "docker-entrypoint.s…"   worker     2 hours ago      Up 3 seconds

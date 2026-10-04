@@ -1,0 +1,20 @@
+{
+  "baseline": {
+    "sha256": "0dd7542f4b06cce787b4fa9aacb6b81961cc7b039f8c098a9d6ff2035422fcf6",
+    "totalResults": 208,
+    "highOccurrences": 77,
+    "criticalOccurrences": 9,
+    "highCriticalUniqueCves": 57
+  },
+  "final": {
+    "sha256": "ae4819ad65096ee74634c7987540eda82837e3ca280ac7d692e5b6f2245d278d",
+    "totalResults": 76,
+    "highOccurrences": 20,
+    "criticalOccurrences": 2,
+    "highCriticalUniqueCves": 22,
+    "originalGoUniqueCves": 35,
+    "originalGoHighCriticalOccurrences": 0,
+    "originalGoHighCriticalUniqueCves": 0,
+    "newHighCriticalTuplesComparedToBaseline": 0
+  }
+}

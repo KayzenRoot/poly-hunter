@@ -1,0 +1,17 @@
+[
+  {
+    "Check": "typecheck",
+    "ExitCode": 0,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-typecheck.log"
+  },
+  {
+    "Check": "build",
+    "ExitCode": 0,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-build.log"
+  },
+  {
+    "Check": "validate",
+    "ExitCode": 1,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-validate.log"
+  }
+]
