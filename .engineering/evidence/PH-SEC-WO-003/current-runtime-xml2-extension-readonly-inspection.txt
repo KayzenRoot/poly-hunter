@@ -1,0 +1,10 @@
+Exact-image PostgreSQL xml2 extension inspection (read-only)
+PostgreSQL role superuser: true (returned by current connection; no role name or environment values recorded)
+Loaded extensions: plpgsql only
+Available xml2 extension version 1.1; installed in current database: no
+Exact module /usr/local/lib/postgresql/pgxml.so SHA256 f94c9865d35c693b5cecaf7a2112009e369fd511a051a9e061a8309e719911b9; DT_NEEDED libxslt.so.1, libxml2.so.2, libc.musl-x86_64.so.1
+xml2.control maps module_pathname to $libdir/pgxml
+Exact xml2--1.1.sql maps xml_valid(text) to internal xml_is_well_formed; it is a compatibility alias, not DTD validation
+The exact module imports xmlReadMemory; scanelf shows no imports named xmlValidateDocument or xmlValidateElementContent
+Official PostgreSQL REL_17_11 contrib/xml2 source was fetched and hashed; xpath and xslt document reads use XML_PARSE_NOENT without XML_PARSE_DTDVALID
+Disposable CREATE EXTENSION xml2 check is recorded separately; no extension was installed in the persistent Compose database

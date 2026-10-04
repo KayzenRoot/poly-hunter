@@ -1,0 +1,11 @@
+CREATE EXTENSION
+ xpath_result 
+--------------
+ benign
+(1 row)
+
+ xslt_result 
+-------------
+ benign-xslt
+(1 row)
+

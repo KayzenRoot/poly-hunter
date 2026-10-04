@@ -1,0 +1,1 @@
+{"Id":"00741434dc250192bd0bd84f287380df6af7954ceefbd72ce8696e48cb8040ee","ImageId":"sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24","State":"running","NetworkMode":"none","Ports":{},"Mounts":{"/var/lib/postgresql/data":"rw,nosuid,size=128m"}}

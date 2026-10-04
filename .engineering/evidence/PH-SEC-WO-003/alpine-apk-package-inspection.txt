@@ -1,0 +1,60 @@
+=== APK package signature verification ===
+apk-tools 3.0.8-r0, compiled for x86_64.
+
+Usage: apk verify [<OPTIONS>...] FILES...
+
+Description:
+  apk verify verifies the integrity of the package files specified,
+  validating the checksums and cryptographic signature.
+
+Global options:
+  --allow-untrusted     Install packages with untrusted signature or no
+                        signature
+  --arch ARCH           Temporarily override architectures
+  --cache[=BOOL]        When disabled, prevents using any local cache paths
+  --cache-dir CACHEDIR  Temporarily override the cache directory
+  --cache-max-age AGE   Maximum AGE (in minutes) for index in cache before
+                        it's refreshed
+  --cache-packages[=BOOL]
+                        Store a copy of packages at installation time to
+                        cache
+  --cache-predownload[=BOOL]
+                        Download needed packages to cache before starting to
+                        commit a transaction
+  --check-certificate[=BOOL]
+                        When disabled, omits the validation of the HTTPS
+                        server certificate
+  --force, -f           Enable selected --force-* options (deprecated)
+  --force-binary-stdout
+                        Continue even if binary data will be printed to the
+                        terminal
+  --force-broken-world  DANGEROUS: Delete world constraints until a solution
+                        without conflicts is found
+  --force-missing-repositories
+                        Continue even if some of the repository indexes are
+                        not available
+  --force-no-chroot     Disable chroot for scripts
+/evidence/sources/alpine-v3.24-libxml2-apk: OK
+verify_exit=0
+=== package file listing ===
+.SIGN.RSA.alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub
+.PKGINFO
+usr/
+usr/lib/
+usr/lib/libxml2.so.2
+usr/lib/libxml2.so.2.13.9
+=== debug package file listing ===
+.SIGN.RSA.alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub
+.PKGINFO
+usr/
+usr/lib/
+usr/lib/debug/
+usr/lib/debug/usr/
+usr/lib/debug/usr/bin/
+usr/lib/debug/usr/bin/xmlcatalog.debug
+usr/lib/debug/usr/bin/xmllint.debug
+usr/lib/debug/usr/lib/
+usr/lib/debug/usr/lib/libxml2.so.2.13.9.debug
+usr/lib/debug/usr/lib/python3.14/
+usr/lib/debug/usr/lib/python3.14/site-packages/
+usr/lib/debug/usr/lib/python3.14/site-packages/libxml2mod.so.debug

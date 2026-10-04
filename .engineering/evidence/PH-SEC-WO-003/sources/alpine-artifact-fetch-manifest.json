@@ -1,0 +1,55 @@
+{
+  "fetchedAtUtc": "2026-10-04T02:07:01.992779+00:00",
+  "records": [
+    {
+      "file": "alpine-v3.24-main-APKINDEX.tar.gz",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/APKINDEX.tar.gz",
+      "finalUrl": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/APKINDEX.tar.gz",
+      "httpStatus": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 528370,
+      "sha256": "ea1722957448032530273eeae1a584416cad4ed367f0a0816c338dc034a22d57"
+    },
+    {
+      "file": "alpine-v3.24-libxml2-apk",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/libxml2-2.13.9-r2.apk",
+      "finalUrl": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/libxml2-2.13.9-r2.apk",
+      "httpStatus": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 495342,
+      "sha256": "4b2f986159c659f014b942fe8a5d70c67af475153ca826c3dd53389eea46a300"
+    },
+    {
+      "file": "alpine-v3.24-libxml2-dbg-apk",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/libxml2-dbg-2.13.9-r2.apk",
+      "finalUrl": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/libxml2-dbg-2.13.9-r2.apk",
+      "httpStatus": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 1632334,
+      "sha256": "3b46688f1d173934e734e32237028f00acb0260cedf130952213ddb662601471"
+    },
+    {
+      "file": "alpine-archive-libxml2-dbg-apk",
+      "url": "https://archive.alpinelinux.org/alpine/v3.24/main/x86_64/libxml2-dbg-2.13.9-r2.apk",
+      "error": "URLError(gaierror(11001, 'getaddrinfo failed'))"
+    },
+    {
+      "file": "alpine-package-page.html",
+      "url": "https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/libxml2",
+      "finalUrl": "https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/libxml2",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 174048,
+      "sha256": "5af031f6cc2789276e4b116d4bc7b866d9fce0c88b91fd67dc9d69fc67a3adcb"
+    },
+    {
+      "file": "alpine-aports-APKBUILD",
+      "url": "https://git.alpinelinux.org/aports/plain/main/libxml2/APKBUILD",
+      "finalUrl": "https://git.alpinelinux.org/aports/plain/main/libxml2/APKBUILD?__goaway_challenge=cookie&__goaway_id=f8c63d1158168a3d737f9bd7f58b62ac",
+      "httpStatus": 403,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 2177,
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ]
+}

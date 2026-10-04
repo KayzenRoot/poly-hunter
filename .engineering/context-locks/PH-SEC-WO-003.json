@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-SEC-WO-003",
+  "issue": 22,
+  "analysisBranch": "security/ph-m01-postgres-libxml2-vex",
+  "parentPr": 15,
+  "parentHead": "c04af277990272310ed86eeb9dce02e74e4df523",
+  "canonicalPolicyMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+  "exactImage": {
+    "name": "postgres:17.11-alpine3.24",
+    "digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+  },
+  "targetFinding": {
+    "cve": "CVE-2026-86140",
+    "severity": "HIGH",
+    "component": "libxml2 2.13.9-r2"
+  },
+  "criticalSources": {
+    "main:.engineering/proposals/PH-SEC-VEX-POLICY.md": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+    "main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+    "main:.engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "main:.engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    "main:.engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    "parent:.engineering/evidence/PH-SEC-WO-001-VEX.json": "a5ce65a282817d1ae55b237e1eef0ed496584c7c",
+    "parent:.engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json": "7d1ff7662c6c9fedcd327fa417026de8c2ada7db",
+    "parent:.engineering/evidence/PH-SEC-WO-002-EVIDENCE.md": "e811af271fccd22cb313b222d037f6956c173243",
+    "parent:.engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+    "parent:compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0"
+  },
+  "stalePolicy": "Any change to canonical VEX/security sources, parent head, exact image digest, target scan receipt, or Compose topology requires STOP and Context Lock recompilation.",
+  "executor": "Codex",
+  "independentAuditor": "ChatGPT/planning auditor",
+  "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_RESOLUTION",
+  "productMutationAuthorized": false,
+  "ownerApprovalRequiredForNotAffected": true,
+  "liveTradingAuthorized": false
+}

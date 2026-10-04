@@ -1,0 +1,11 @@
+CREATE EXTENSION
+ xml2_xml_valid_alias 
+----------------------
+ t
+(1 row)
+
+ builtin_well_formed 
+---------------------
+ t
+(1 row)
+

@@ -1,0 +1,40 @@
+    <5d75d>   DW_AT_decl_column : 11
+    <5d75e>   DW_AT_type        : <0x5d764>
+ <3><5d762>: Abbrev Number: 0
+ <2><5d763>: Abbrev Number: 0
+ <1><5d764>: Abbrev Number: 73 (DW_TAG_array_type)
+    <5d765>   DW_AT_type        : <0x5763d>
+    <5d769>   DW_AT_sibling     : <0x5d775>
+ <2><5d76d>: Abbrev Number: 112 (DW_TAG_subrange_type)
+    <5d76e>   DW_AT_type        : <0x575bd>
+    <5d772>   DW_AT_upper_bound : 4999
+ <2><5d774>: Abbrev Number: 0
+ <1><5d775>: Abbrev Number: 57 (DW_TAG_subprogram)
+    <5d776>   DW_AT_name        : (indirect string, offset: 0xd71c): xmlSnprintfElements
+    <5d77a>   DW_AT_decl_file   : 1
+    <5d77a>   DW_AT_decl_line   : 4994
+    <5d77c>   DW_AT_decl_column : 1
+    <5d77c>   DW_AT_prototyped  : 1
+    <5d77c>   DW_AT_inline      : 1	(inlined)
+    <5d77c>   DW_AT_sibling     : <0x5d7d7>
+ <2><5d780>: Abbrev Number: 47 (DW_TAG_formal_parameter)
+    <5d781>   DW_AT_name        : buf
+    <5d785>   DW_AT_decl_file   : 1
+    <5d785>   DW_AT_decl_line   : 4994
+    <5d787>   DW_AT_decl_column : 27
+    <5d788>   DW_AT_type        : <0x576b1>
+ <2><5d78c>: Abbrev Number: 19 (DW_TAG_formal_parameter)
+    <5d78d>   DW_AT_name        : (indirect string, offset: 0x121f3): size
+    <5d791>   DW_AT_decl_file   : 1
+    <5d791>   DW_AT_decl_line   : 4994
+    <5d793>   DW_AT_decl_column : 36
+    <5d794>   DW_AT_type        : <0x575c4>
+ <2><5d798>: Abbrev Number: 19 (DW_TAG_formal_parameter)
+    <5d799>   DW_AT_name        : (indirect string, offset: 0x1423a): node
+    <5d79d>   DW_AT_decl_file   : 1
+    <5d79d>   DW_AT_decl_line   : 4994
+    <5d79f>   DW_AT_decl_column : 53
+    <5d7a0>   DW_AT_type        : <0x5a443>
+ <2><5d7a4>: Abbrev Number: 19 (DW_TAG_formal_parameter)
+=== DWARF abbrev/function references ===
+5515:xmlSnprintfElements

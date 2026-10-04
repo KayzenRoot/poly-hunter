@@ -1,0 +1,303 @@
+[
+  {
+    "source": "Context Lock validation and all ten locked source Git blob fingerprints",
+    "path": ".engineering/evidence/PH-SEC-WO-003/context-lock-validation.json",
+    "expected": "38b937759750fb4218ff1fbbb9573ea17a388d51947532bf51de4edc1c362e1d",
+    "actual": "38b937759750fb4218ff1fbbb9573ea17a388d51947532bf51de4edc1c362e1d",
+    "pass": true
+  },
+  {
+    "source": "Locked exact-image Docker Scout SARIF finding",
+    "path": ".engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif",
+    "expected": "ac3c326013b99367935a02e4f9747e417c007b4fb3de70048972ed1fa2764139",
+    "actual": "ac3c326013b99367935a02e4f9747e417c007b4fb3de70048972ed1fa2764139",
+    "pass": true
+  },
+  {
+    "source": "Exact image identity and architecture",
+    "path": ".engineering/evidence/PH-SEC-WO-003/exact-image-identity.txt",
+    "expected": "ff8982a933870d3b528cda2460a8a987fe1f4c2154fe85af6a6f62057f7eb03e",
+    "actual": "ff8982a933870d3b528cda2460a8a987fe1f4c2154fe85af6a6f62057f7eb03e",
+    "pass": true
+  },
+  {
+    "source": "Installed package record and exact libxml2 library SHA-256",
+    "path": ".engineering/evidence/PH-SEC-WO-003/exact-image-static-inspection.txt",
+    "expected": "be6311ec12a1a98f5ba718d1dccce0b8bd80e9031ec242281684b1eb7b6be723",
+    "actual": "be6311ec12a1a98f5ba718d1dccce0b8bd80e9031ec242281684b1eb7b6be723",
+    "pass": true
+  },
+  {
+    "source": "Alpine signed package and Build ID match verification",
+    "path": ".engineering/evidence/PH-SEC-WO-003/alpine-apk-package-inspection.txt",
+    "expected": "179df5a234e191dda747ef55119697ffbddf22ba058eac0bff72703cacf83145",
+    "actual": "179df5a234e191dda747ef55119697ffbddf22ba058eac0bff72703cacf83145",
+    "pass": true
+  },
+  {
+    "source": "Exact vulnerable inlined code and machine-code proof",
+    "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-proof.txt",
+    "expected": "ef736cdcfa7d9136616118f9a6a7abc2c5f25409fdb8cfc3fe132f49e96c3550",
+    "actual": "ef736cdcfa7d9136616118f9a6a7abc2c5f25409fdb8cfc3fe132f49e96c3550",
+    "pass": true
+  },
+  {
+    "source": "Exact ELF DWARF inline callsite at vulnerable source line",
+    "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-inline-die.txt",
+    "expected": "a39486aa52794b645f364690e6aa7ea091cf8d1c1705e44625de02260611976b",
+    "actual": "a39486aa52794b645f364690e6aa7ea091cf8d1c1705e44625de02260611976b",
+    "pass": true
+  },
+  {
+    "source": "Exact-image function address/source map/disassembly",
+    "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-address-evidence.txt",
+    "expected": "2add221174cd9d12ec1d62224ac714f7a18062aae6cb779d1c8d614a76e3e716",
+    "actual": "2add221174cd9d12ec1d62224ac714f7a18062aae6cb779d1c8d614a76e3e716",
+    "pass": true
+  },
+  {
+    "source": "libxml2 vulnerable source and validation callsite excerpts",
+    "path": ".engineering/evidence/PH-SEC-WO-003/libxml2-vulnerable-source-excerpts.txt",
+    "expected": "223afc731da483ff9c7280c482504d0a6ad6cee75213a8280dedee87f93a287d",
+    "actual": "223afc731da483ff9c7280c482504d0a6ad6cee75213a8280dedee87f93a287d",
+    "pass": true
+  },
+  {
+    "source": "GNOME/libxml2 fix source excerpts",
+    "path": ".engineering/evidence/PH-SEC-WO-003/libxml2-fixed-source-excerpts.txt",
+    "expected": "b8d0425ba81945ab77d5764ecb58810c28428710b87c42a8232970179c1f7dfb",
+    "actual": "b8d0425ba81945ab77d5764ecb58810c28428710b87c42a8232970179c1f7dfb",
+    "pass": true
+  },
+  {
+    "source": "PostgreSQL REL_17_11 parser flags, XMLVALIDATE stub and parser calls",
+    "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml-source-excerpts.txt",
+    "expected": "74fb4e588f1903da4c58073ffdb1a807b6855346e1365e1e17ff9f2606607498",
+    "actual": "74fb4e588f1903da4c58073ffdb1a807b6855346e1365e1e17ff9f2606607498",
+    "pass": true
+  },
+  {
+    "source": "Consolidated vulnerable-path analysis",
+    "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-call-path-analysis.txt",
+    "expected": "14cd988fe2759c854a0831a483935821995dee4bd3d5b65768560aaa62539f42",
+    "actual": "14cd988fe2759c854a0831a483935821995dee4bd3d5b65768560aaa62539f42",
+    "pass": true
+  },
+  {
+    "source": "Exact-runtime PostgreSQL UID, capabilities and loaded-library maps",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-process-safe.txt",
+    "expected": "0ad1602ead1513f22a305aad95adf4f0bb5662ba519b40a3fa4e9b17b9866b84",
+    "actual": "0ad1602ead1513f22a305aad95adf4f0bb5662ba519b40a3fa4e9b17b9866b84",
+    "pass": true
+  },
+  {
+    "source": "Exact-runtime PostgreSQL parser settings",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-postgres-settings.txt",
+    "expected": "dd7116625c5ab54ab727e1110ccf62f9d7f417a9983843cc058a828b49dda6f6",
+    "actual": "dd7116625c5ab54ab727e1110ccf62f9d7f417a9983843cc058a828b49dda6f6",
+    "pass": true
+  },
+  {
+    "source": "Exact-runtime Compose network and host port bindings",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-network-safe.txt",
+    "expected": "58405d356814fb8bacf4ef06bf674482c70e3de7c53f6b102abac95b7a550cc0",
+    "actual": "58405d356814fb8bacf4ef06bf674482c70e3de7c53f6b102abac95b7a550cc0",
+    "pass": true
+  },
+  {
+    "source": "Project network peer membership",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-network-peers.json",
+    "expected": "cd3c9a9d628f3ab2d9187887980d8100d6b7b10d29d27c30634708ef0ec14004",
+    "actual": "cd3c9a9d628f3ab2d9187887980d8100d6b7b10d29d27c30634708ef0ec14004",
+    "pass": true
+  },
+  {
+    "source": "Application source search for XML paths",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-application-xml-search.txt",
+    "expected": "2889bac9362e4a46e0f0eb344c38e46f95103fce7b82c9f5000fd99775b28553",
+    "actual": "2889bac9362e4a46e0f0eb344c38e46f95103fce7b82c9f5000fd99775b28553",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-digest benign DTD test SQL",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-dtd-benign-test.sql",
+    "expected": "b2abaa0f60903a9cc83cb699dcc9c1dec49007454bd67c955a0f3ca761d2005d",
+    "actual": "b2abaa0f60903a9cc83cb699dcc9c1dec49007454bd67c955a0f3ca761d2005d",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-digest benign DTD test raw output",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-dtd-benign-test-output.txt",
+    "expected": "7ff7f5af593976f0a77d8b321ad43956285fcf4f16e1bc7474e49be97a4be0dc",
+    "actual": "7ff7f5af593976f0a77d8b321ad43956285fcf4f16e1bc7474e49be97a4be0dc",
+    "pass": true
+  },
+  {
+    "source": "Disposable database isolation and cleanup receipts",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-db-isolation.json",
+    "expected": "01bed6134cba797f4b3443ba9184295d4fe3b2bfac3bd4273c5923cb3c28c159",
+    "actual": "01bed6134cba797f4b3443ba9184295d4fe3b2bfac3bd4273c5923cb3c28c159",
+    "pass": true
+  },
+  {
+    "source": "MITRE CVE record snapshot",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/mitre-cve-record.json",
+    "expected": "06f103128bfe8550affdd5648c21447edda379c948f3ac98081d6d74314cfd6d",
+    "actual": "06f103128bfe8550affdd5648c21447edda379c948f3ac98081d6d74314cfd6d",
+    "pass": true
+  },
+  {
+    "source": "FIRST EPSS snapshot",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/first-epss-2026-10-03.json",
+    "expected": "c47df6250e4b0dc25a5a28501dc9a61029e8746eb1b66d19df5ee8806f28b640",
+    "actual": "c47df6250e4b0dc25a5a28501dc9a61029e8746eb1b66d19df5ee8806f28b640",
+    "pass": true
+  },
+  {
+    "source": "CISA KEV catalog snapshot",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/cisa-kev.json",
+    "expected": "d2c8c6cb23291b46ff2b086197641a6b1fa35e6b746bba714cc280a1778f9e48",
+    "actual": "d2c8c6cb23291b46ff2b086197641a6b1fa35e6b746bba714cc280a1778f9e48",
+    "pass": true
+  },
+  {
+    "source": "Official Alpine v3.24 package index and security database",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/alpine-v3.24-main-APKINDEX.tar.gz",
+    "expected": "ea1722957448032530273eeae1a584416cad4ed367f0a0816c338dc034a22d57",
+    "actual": "ea1722957448032530273eeae1a584416cad4ed367f0a0816c338dc034a22d57",
+    "pass": true
+  },
+  {
+    "source": "Official Alpine libxml2 package and debug package fetch hashes",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/alpine-artifact-fetch-manifest.json",
+    "expected": "a31562ce242e00dcedb50ebf7920a55e025ddd456f89220d1041d2f334372dd0",
+    "actual": "a31562ce242e00dcedb50ebf7920a55e025ddd456f89220d1041d2f334372dd0",
+    "pass": true
+  },
+  {
+    "source": "Official source retrieval URLs, timestamps and hashes",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/official-source-fetch-manifest.json",
+    "expected": "9d3d8d2c29a21117063dc946c5d787c471bb67928a3e861783e93d4ef7e0ec88",
+    "actual": "9d3d8d2c29a21117063dc946c5d787c471bb67928a3e861783e93d4ef7e0ec88",
+    "pass": true
+  },
+  {
+    "source": "Live database role, installed extensions and available xml2 version",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-extensions.txt",
+    "expected": "144d528fa30886f0eb3cd633154754a9b1602c831c69fa9077cce28e371beb69",
+    "actual": "144d528fa30886f0eb3cd633154754a9b1602c831c69fa9077cce28e371beb69",
+    "pass": true
+  },
+  {
+    "source": "Exact image xml2 extension static metadata and current state",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-xml2-extension-readonly-inspection.txt",
+    "expected": "b03c74b9a3aab9999c6ca83300a319e4312dd02bdc8ac5a79f89ac01444a440a",
+    "actual": "b03c74b9a3aab9999c6ca83300a319e4312dd02bdc8ac5a79f89ac01444a440a",
+    "pass": true
+  },
+  {
+    "source": "Exact image xml2 module hash and dependency list",
+    "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-xml2-binary-inspection.txt",
+    "expected": "83242be09d0a88e9bd796982ad5519198a3a3b77b55957afebc9f37fb1f9736c",
+    "actual": "83242be09d0a88e9bd796982ad5519198a3a3b77b55957afebc9f37fb1f9736c",
+    "pass": true
+  },
+  {
+    "source": "Exact image xml2 module imported validator/parser symbols",
+    "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml2-link-symbols.txt",
+    "expected": "68d339c52e49850b0a8efad46b8b1295d42506dca2509bd2cf633c7e34356d2d",
+    "actual": "68d339c52e49850b0a8efad46b8b1295d42506dca2509bd2cf633c7e34356d2d",
+    "pass": true
+  },
+  {
+    "source": "xml2 extension SQL, PostgreSQL REL_17_11 source and exact parser flags",
+    "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml2-source-analysis.txt",
+    "expected": "591d8e08f2c9cc3339a78514f4ed974973c967e93d0aef3bcf951a5ece72f361",
+    "actual": "591d8e08f2c9cc3339a78514f4ed974973c967e93d0aef3bcf951a5ece72f361",
+    "pass": true
+  },
+  {
+    "source": "Exact shipped xml2 extension SQL binding",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-xml2--1.1.sql",
+    "expected": "287954e902826960e9dec8f7e86bc0e39ca1e257fe25c0641f9f9fd5a4594e0d",
+    "actual": "287954e902826960e9dec8f7e86bc0e39ca1e257fe25c0641f9f9fd5a4594e0d",
+    "pass": true
+  },
+  {
+    "source": "Official PostgreSQL REL_17_11 xml2 XPath implementation",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-REL_17_11-contrib-xml2-xpath.c",
+    "expected": "90294e35170c02d189be840f06656d652f8bb20bdcdb808dcb8b6d4892a30d15",
+    "actual": "90294e35170c02d189be840f06656d652f8bb20bdcdb808dcb8b6d4892a30d15",
+    "pass": true
+  },
+  {
+    "source": "Official PostgreSQL REL_17_11 xml2 XSLT implementation",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-REL_17_11-contrib-xml2-xslt_proc.c",
+    "expected": "060fa6afd37b8c464ade61cf4ec066482c8f2d612565ba577e563c96aac19d83",
+    "actual": "060fa6afd37b8c464ade61cf4ec066482c8f2d612565ba577e563c96aac19d83",
+    "pass": true
+  },
+  {
+    "source": "Official PostgreSQL xml2 source fetch manifest",
+    "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-xml2-source-fetch-manifest.json",
+    "expected": "253b7464fc24637180f3b671b9bcc8fa2d31c22e042be3d547b142dfa1333c3a",
+    "actual": "253b7464fc24637180f3b671b9bcc8fa2d31c22e042be3d547b142dfa1333c3a",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 benign DTD SQL",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test.sql",
+    "expected": "68fb8897208a15a9104f67d2e26d787373ef385a8e19fd857d011377791d7c50",
+    "actual": "68fb8897208a15a9104f67d2e26d787373ef385a8e19fd857d011377791d7c50",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 benign DTD raw result",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test-output.txt",
+    "expected": "a9112a4f768f2eb0ab79d3b6b02bd6065b0ac43748f6725e160bc03bed1d4d1b",
+    "actual": "a9112a4f768f2eb0ab79d3b6b02bd6065b0ac43748f6725e160bc03bed1d4d1b",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 test safety result",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test-result.txt",
+    "expected": "a6cbe3964f394cdc87400efacaab7d708a906e96ac45e7f06c8eb0df2463b0ba",
+    "actual": "a6cbe3964f394cdc87400efacaab7d708a906e96ac45e7f06c8eb0df2463b0ba",
+    "pass": true
+  },
+  {
+    "source": "Disposable xml2 test cleanup",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-cleanup.txt",
+    "expected": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f",
+    "actual": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 XPath/XSLT benign SQL",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test.sql",
+    "expected": "9a602814b058649dbf0bf93d6029e8206c922b6cef653556c7fe3e086c5b0ed0",
+    "actual": "9a602814b058649dbf0bf93d6029e8206c922b6cef653556c7fe3e086c5b0ed0",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 XPath/XSLT raw output",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test-output.txt",
+    "expected": "9c765efa9de24b5cd0b0e630355607ee87cb3152e38ee649a9f67f3fd5c43f2b",
+    "actual": "9c765efa9de24b5cd0b0e630355607ee87cb3152e38ee649a9f67f3fd5c43f2b",
+    "pass": true
+  },
+  {
+    "source": "Disposable exact-image xml2 XPath/XSLT safety result",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test-result.txt",
+    "expected": "1d7318426f555e7441fde25b04d1ab0587c0e00d55b74ff975cfd5683e2cd55d",
+    "actual": "1d7318426f555e7441fde25b04d1ab0587c0e00d55b74ff975cfd5683e2cd55d",
+    "pass": true
+  },
+  {
+    "source": "Disposable xml2 XPath/XSLT test cleanup",
+    "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-cleanup.txt",
+    "expected": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f",
+    "actual": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f",
+    "pass": true
+  }
+]

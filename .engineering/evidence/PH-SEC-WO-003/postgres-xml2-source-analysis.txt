@@ -1,0 +1,53 @@
+378:
+379:	workspace->doctree = NULL;
+380:	workspace->ctxt = NULL;
+381:	workspace->res = NULL;
+382:
+383:	xmlerrcxt = pgxml_parser_init(PG_XML_STRICTNESS_LEGACY);
+384:
+385:	PG_TRY();
+386:	{
+387:		workspace->doctree = xmlReadMemory((char *) VARDATA_ANY(document),
+388:										   docsize, NULL, NULL,
+389:										   XML_PARSE_NOENT);
+390:		if (workspace->doctree != NULL)
+391:		{
+392:			workspace->ctxt = xmlXPathNewContext(workspace->doctree);
+393:			workspace->ctxt->node = xmlDocGetRootElement(workspace->doctree);
+394:
+395:			/* compile the path */
+396:			comppath = xmlXPathCtxtCompile(workspace->ctxt, xpath);
+397:			if (comppath == NULL)
+398:				xml_ereport(xmlerrcxt, ERROR, ERRCODE_EXTERNAL_ROUTINE_EXCEPTION,
+399:							"XPath Syntax Error");
+400:
+---
+627:			/* Insert primary key */
+628:			values[0] = pkey;
+629:
+630:			/* Parse the document */
+631:			if (xmldoc)
+632:				doctree = xmlReadMemory(xmldoc, strlen(xmldoc),
+633:										NULL, NULL,
+634:										XML_PARSE_NOENT);
+635:			else				/* treat NULL as not well-formed */
+636:				doctree = NULL;
+637:
+638:			if (doctree == NULL)
+639:			{
+640:				/* not well-formed, so output all-NULL tuple */
+641:				ret_tuple = BuildTupleFromCStrings(attinmeta, values);
+642:				tuplestore_puttuple(rsinfo->setResult, ret_tuple);
+643:				heap_freetuple(ret_tuple);
+644:			}
+645:			else
+---
+--- extension SQL xml_valid binding ---
+7:
+8:-- deprecated old name for xml_is_well_formed
+9:CREATE FUNCTION xml_valid(text) RETURNS bool
+10:AS 'xml_is_well_formed'
+11:LANGUAGE INTERNAL STRICT STABLE PARALLEL SAFE;
+12:
+--- static source search ---
+validator_search_exit_code=1 (1 means no validator call/DTDVALID flag in inspected contrib sources)
