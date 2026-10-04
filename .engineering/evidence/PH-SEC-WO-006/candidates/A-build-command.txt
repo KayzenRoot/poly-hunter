@@ -1,0 +1,4 @@
+TEMP_DOCKERFILE=C:\Users\csn19\AppData\Local\Temp\ph-sec-wo006-candidate-dockerfiles\Dockerfile.A
+BASE=node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+COMMAND=docker build --pull --no-cache -f C:\Users\csn19\AppData\Local\Temp\ph-sec-wo006-candidate-dockerfiles\Dockerfile.A -t polyhunter-ph-sec-wo006-a:local .
+EXIT_CODE=0

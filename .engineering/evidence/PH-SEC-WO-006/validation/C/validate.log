@@ -1,0 +1,107 @@
+
+> polyhunter@0.1.0 validate
+> npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high
+
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+Checked 36 files in 924ms. No fixes applied.
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+
+[0m[34mChecked 36 files in 1238[0m[0m[2m[34mms[0m[0m[34m.[0m[0m[34m No fixes applied.[0m
+
+> polyhunter@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json
+
+
+> @polyhunter/contracts@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/workspace[39m
+
+ [32m✓[39m tests/environment-example.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m tests/workspace-boundaries.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 167[2mms[22m[39m
+ [32m✓[39m tests/fixed-clock.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+[2m   Start at [22m 21:14:54
+[2m   Duration [22m 1.04s[2m (transform 691ms, setup 0ms, import 951ms, tests 231ms, environment 1ms)[22m
+
+
+> polyhunter@0.1.0 build
+> npm run build --workspaces --if-present
+
+
+> @polyhunter/contracts@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 266ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.7s
+  Running TypeScript ...
+  Finished TypeScript in 5.6s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 3.1s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+found 0 vulnerabilities

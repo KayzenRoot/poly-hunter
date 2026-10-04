@@ -1,0 +1,99 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from D.Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 899B 0.1s done
+#1 DONE 0.5s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#2 DONE 4.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 226B 0.1s done
+#4 DONE 0.5s
+
+#5 [internal] load build context
+#5 transferring context: 638B 0.1s done
+#5 DONE 0.8s
+
+#6 [ 1/13] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#6 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#6 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 1.0s done
+#6 DONE 1.2s
+
+#6 [ 1/13] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#6 DONE 4.7s
+
+#7 [ 2/13] WORKDIR /workspace
+#7 DONE 1.6s
+
+#8 [ 3/13] RUN mkdir -p /workspace && chown node:node /workspace
+#8 DONE 4.1s
+
+#9 [ 4/13] COPY --chown=node:node package.json package-lock.json ./
+#9 DONE 12.3s
+
+#10 [ 5/13] COPY --chown=node:node apps/web/package.json apps/web/package.json
+#10 DONE 2.4s
+
+#11 [ 6/13] COPY --chown=node:node apps/worker/package.json apps/worker/package.json
+#11 DONE 3.4s
+
+#12 [ 7/13] COPY --chown=node:node packages/contracts/package.json packages/contracts/package.json
+#12 DONE 2.6s
+
+#13 [ 8/13] COPY --chown=node:node packages/domain/package.json packages/domain/package.json
+#13 DONE 4.1s
+
+#14 [ 9/13] COPY --chown=node:node packages/db/package.json packages/db/package.json
+#14 DONE 2.6s
+
+#15 [10/13] COPY --chown=node:node packages/testkit/package.json packages/testkit/package.json
+#15 DONE 2.6s
+
+#16 [11/13] RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+#16 DONE 4.8s
+
+#17 [12/13] RUN npm ci --ignore-scripts
+#17 27.04 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+#17 27.09 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+#17 121.0 
+#17 121.0 added 121 packages, and audited 128 packages in 2m
+#17 121.0 
+#17 121.0 26 packages are looking for funding
+#17 121.0   run `npm fund` for details
+#17 121.0 
+#17 121.0 found 0 vulnerabilities
+#17 121.1 npm notice
+#17 121.1 npm notice New major version of npm available! 11.19.0 -> 12.2.0
+#17 121.1 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+#17 121.1 npm notice To update run: npm install -g npm@12.2.0
+#17 121.1 npm notice
+#17 DONE 126.5s
+
+#18 [13/13] COPY --chown=node:node tsconfig.base.json ./
+#18 DONE 3.1s
+
+#19 exporting to image
+#19 exporting layers
+#19 exporting layers 75.5s done
+#19 exporting manifest sha256:487cccbd4bc366a11bb5081251616ccdf6ccbabbbc7c75bbb444fa7a083e54ba
+#19 exporting manifest sha256:487cccbd4bc366a11bb5081251616ccdf6ccbabbbc7c75bbb444fa7a083e54ba 0.5s done
+#19 exporting config sha256:451a20c5ec29b22a73e8a9bed39a0e8a3c81f187a3931300b6ee01a0d1c80024
+#19 exporting config sha256:451a20c5ec29b22a73e8a9bed39a0e8a3c81f187a3931300b6ee01a0d1c80024 0.5s done
+#19 exporting attestation manifest sha256:6e3a6cc39ed4d63c8f20a4d6004aaea68085f95848fde21b3792d135b093ce86
+#19 exporting attestation manifest sha256:6e3a6cc39ed4d63c8f20a4d6004aaea68085f95848fde21b3792d135b093ce86 0.6s done
+#19 exporting manifest list sha256:ee1670ffc4c39ddf183e74883746b6ca5464308901994bbccd7e96cc206f0e55
+#19 exporting manifest list sha256:ee1670ffc4c39ddf183e74883746b6ca5464308901994bbccd7e96cc206f0e55 0.5s done
+#19 naming to docker.io/library/polyhunter-ph-sec-wo006-d:local
+#19 naming to docker.io/library/polyhunter-ph-sec-wo006-d:local 0.1s done
+#19 unpacking to docker.io/library/polyhunter-ph-sec-wo006-d:local
+#19 unpacking to docker.io/library/polyhunter-ph-sec-wo006-d:local 27.6s done
+#19 DONE 106.2s
