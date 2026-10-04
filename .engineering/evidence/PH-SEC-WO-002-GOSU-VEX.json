@@ -119,8 +119,8 @@
       "UNDER_INVESTIGATION": 0
     }
   },
-  "result": "READY_FOR_INDEPENDENT_AUDIT",
-  "resultRationale": "All 23 findings have reviewed official Go advisory symbol lists and exact gosu binary symbol comparisons. Every one of 249 advisory symbols is absent from the release-matched gosu ELF; govulncheck reports no symbol-level finding. These are proposals only; independent audit and owner approval remain required. PR #15 gate is unchanged.",
+  "result": "OWNER_APPROVED_CLUSTER",
+  "resultRationale": "All 23 gosu/Go stdlib findings are independently audited and explicitly owner-approved as NOT_AFFECTED / vulnerable_code_not_present for the exact locked local-development image, digest, binary and environment. This approval applies only to this cluster and does not unblock the parent PR while other HIGH/CRITICAL findings remain.",
   "items": [
     {
       "cve": "CVE-2025-58187",
@@ -703,8 +703,8 @@
           "jsonPointer": "/items/56"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -719,7 +719,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-58188",
@@ -978,8 +979,8 @@
           "jsonPointer": "/items/57"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -994,7 +995,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-61723",
@@ -1251,8 +1253,8 @@
           "jsonPointer": "/items/58"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -1267,7 +1269,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-61725",
@@ -1572,8 +1575,8 @@
           "jsonPointer": "/items/59"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -1588,7 +1591,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-61726",
@@ -1857,8 +1861,8 @@
           "jsonPointer": "/items/60"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -1873,7 +1877,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-61729",
@@ -2134,8 +2139,8 @@
           "jsonPointer": "/items/61"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -2150,7 +2155,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-25679",
@@ -2451,8 +2457,8 @@
           "jsonPointer": "/items/62"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -2467,7 +2473,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-32280",
@@ -2728,8 +2735,8 @@
           "jsonPointer": "/items/63"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -2744,7 +2751,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-32281",
@@ -3003,8 +3011,8 @@
           "jsonPointer": "/items/64"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -3019,7 +3027,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-32283",
@@ -3432,8 +3441,8 @@
           "jsonPointer": "/items/65"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -3448,7 +3457,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-33811",
@@ -3717,8 +3727,8 @@
           "jsonPointer": "/items/66"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -3733,7 +3743,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-33814",
@@ -4395,8 +4406,8 @@
           "jsonPointer": "/items/67"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -4411,7 +4422,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-33818",
@@ -4688,8 +4700,8 @@
           "jsonPointer": "/items/68"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -4704,7 +4716,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-39820",
@@ -5031,8 +5044,8 @@
           "jsonPointer": "/items/69"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -5047,7 +5060,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-39836",
@@ -5696,8 +5710,8 @@
           "jsonPointer": "/items/70"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -5712,7 +5726,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-42499",
@@ -6017,8 +6032,8 @@
           "jsonPointer": "/items/71"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -6033,7 +6048,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-42504",
@@ -6282,8 +6298,8 @@
           "jsonPointer": "/items/72"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -6298,7 +6314,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-56853",
@@ -6647,8 +6664,8 @@
           "jsonPointer": "/items/73"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -6663,7 +6680,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-56859",
@@ -7018,8 +7036,8 @@
           "jsonPointer": "/items/74"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -7034,7 +7052,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-56862",
@@ -7399,8 +7418,8 @@
           "jsonPointer": "/items/75"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -7415,7 +7434,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-39822",
@@ -7790,8 +7810,8 @@
           "jsonPointer": "/items/76"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -7806,7 +7826,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2026-39821",
@@ -8393,8 +8414,8 @@
           "jsonPointer": "/items/78"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -8409,7 +8430,8 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     },
     {
       "cve": "CVE-2025-68121",
@@ -8762,8 +8784,8 @@
           "jsonPointer": "/items/79"
         }
       ],
-      "independentAuditor": "PENDING",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-04T00:55:45Z",
       "expiry": {
@@ -8778,7 +8800,20 @@
           "stale evidence",
           "before promotion"
         ]
-      }
+      },
+      "dispositionState": "APPROVED_NOT_AFFECTED"
     }
-  ]
+  ],
+  "ownerApproval": {
+    "status": "APPROVED",
+    "scope": "All 23 NOT_AFFECTED dispositions in PH-SEC-WO-002",
+    "approvedAtConversationLocal": "2026-10-03T22:26:00-03:00",
+    "statement": "APROVO AS 23 DISPOSIÇÕES NOT_AFFECTED DO PH-SEC-WO-002"
+  },
+  "independentAudit": {
+    "status": "APPROVED",
+    "reviewPr": 21,
+    "reviewedHead": "f31981da3ff5d9cd1d6b7d461455b2e1b9a353a7",
+    "auditor": "ChatGPT/planning auditor"
+  }
 }
