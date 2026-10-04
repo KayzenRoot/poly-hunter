@@ -90,3 +90,36 @@ Keep Docker stack running at the end if validation succeeds.
 - Keep PR #15 unmerged.
 - Do not start PH-M01-WO-002.
 - Final report in Brazilian Portuguese.
+
+
+## CORRECTION DELTA CR-01 — Windows host hot reload
+
+The Go-CVE remediation itself passed: the original 35 Go HIGH/CRITICAL findings are absent and no new HIGH/CRITICAL tuple was introduced. Do not redo candidate selection unless the dependency graph changes.
+
+Correct only the failed web hot-reload gate.
+
+1. Re-read the updated Work Order and Context Lock.
+2. Verify the current branch/head and the locked `apps/web/next.config.ts` blob.
+3. Inspect the installed Next.js 16 / webpack dev configuration.
+4. Modify only `apps/web/next.config.ts` to enable development-only webpack polling when `POLYHUNTER_DOCKER_DEV=1`.
+5. Prefer a webpack callback that preserves existing config and sets `config.watchOptions.poll` to a conservative interval such as 1000 ms only in dev/Docker mode. Preserve `allowedDevOrigins`.
+6. Do not modify Compose, Dockerfile, application pages/routes/components, dependencies, schema or migrations.
+7. Rebuild/recreate only as required to load config.
+8. Prove this exact sequence without manual container touch:
+   - establish original HTTP content;
+   - edit a harmless visible marker in `apps/web/app/page.tsx` from the Windows host checkout;
+   - confirm the edit appears inside the container;
+   - wait for automatic webpack recompilation;
+   - confirm HTTP response changes;
+   - restore the original file from the host;
+   - confirm automatic recompilation restores HTTP output;
+   - confirm `git diff -- apps/web/app/page.tsx` is empty.
+9. Rerun typecheck, build, validate, Docker Compose health, web HTTP 200, worker restart smoke, and a fresh Docker Scout scan.
+10. Reconcile that original Go blockers remain zero and no new HIGH/CRITICAL appears.
+11. Update PH-SEC-WO-005 Evidence Bundle and receipts.
+
+Result:
+- hot reload PASS + all other gates green => `READY_FOR_INDEPENDENT_AUDIT`
+- config-only polling cannot pass => `BLOCKED_OPTION_REQUIRED`
+
+Stay on PR #29. Do not merge PR #15 and do not begin PH-M01-WO-002.
