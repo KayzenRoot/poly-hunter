@@ -1,6 +1,6 @@
 # PH-SEC-WO-002 — Evidence Bundle
 
-**Resultado: `READY_FOR_INDEPENDENT_AUDIT`.** O executor propõe 23 NOT_AFFECTED; auditor independente e owner ainda precisam aprovar. PR #15 permanece bloqueada até essa aprovação.
+**Resultado: `OWNER_APPROVED_CLUSTER`.** As 23 disposições `NOT_AFFECTED / vulnerable_code_not_present` receberam auditoria independente e aprovação explícita do owner. PR #15 continua bloqueada pelos findings restantes fora deste cluster.
 
 ## Binding / Context Lock
 
@@ -27,7 +27,7 @@
 ## Resultado VEX
 
 - 21 HIGH + 2 CRITICAL, 23 linhas individualizadas. Cada linha contém pacote/símbolos do Go VDB, entrada/pré-requisito, controle no runtime, símbolo presente/ausente, caminho real, contexto de rede/privilégio, fontes, evidence refs e expiry.
-- Todas as 23 são propostas `NOT_AFFECTED / vulnerable_code_not_present`, sustentadas pela ausência exata dos 249 símbolos vulneráveis listados. Nenhuma linha é FIXED e nenhuma proposta foi aprovada. Expiry máximo: `2026-10-11T00:55:45Z` ou antes por mudança material.
+- Todas as 23 estão `NOT_AFFECTED / vulnerable_code_not_present`, sustentadas pela ausência exata dos 249 símbolos vulneráveis listados. A auditoria independente aprovou o cluster e o owner aprovou explicitamente as 23 disposições. Expiry máximo: `2026-10-11T00:55:45Z` ou antes por mudança material.
 - Result: `READY_FOR_INDEPENDENT_AUDIT`, não aprovação do owner nem liberação do gate da PR #15.
 
 ## Deliverables
@@ -43,3 +43,9 @@
 - PostgreSQL aceita conexões dos peers da bridge não interna e escuta em todas as interfaces do container; 5432 não está publicada no host.
 - O gosu transitório corre no início como root para o drop de privilégios; sua capability efetiva não foi amostrada diretamente.
 - Nenhuma implementação de produto ou alteração de runtime foi feita; PR #15 não foi mergeada e PH-M01-WO-002 não foi iniciada.
+
+## Owner approval
+- Status: APPROVED.
+- Scope: all 23 PH-SEC-WO-002 NOT_AFFECTED dispositions only.
+- Statement: `APROVO AS 23 DISPOSIÇÕES NOT_AFFECTED DO PH-SEC-WO-002`.
+- This does not approve libxml2, dev-image findings, PR #15 merge, or PH-M01-WO-002.
