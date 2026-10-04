@@ -1,0 +1,3 @@
+2026-10-04T18:55:57.751740596Z  GET / 200 in 482ms (next.js: 384ms, application-code: 98ms)
+2026-10-04T18:55:59.362503404Z  GET / 200 in 382ms (next.js: 34ms, application-code: 348ms)
+2026-10-04T18:56:02.931511133Z  GET / 200 in 99ms (next.js: 25ms, application-code: 74ms)

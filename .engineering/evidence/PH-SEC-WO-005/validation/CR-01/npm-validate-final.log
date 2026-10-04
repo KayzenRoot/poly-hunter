@@ -1,0 +1,106 @@
+COMMAND=npm run validate
+
+> polyhunter@0.1.0 validate
+> npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high
+
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+Checked 36 files in 67ms. No fixes applied.
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+
+[0m[36mChecked 36 files in 138[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m
+
+> polyhunter@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json
+
+
+> @polyhunter/contracts@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 C:/Users/csn19/.codex/worktrees/ph-sec-wo005-dev-go-remediation/poly-hunter
+
+
+ Test Files  3 passed (3)
+      Tests  7 passed (7)
+   Start at  15:52:20
+   Duration  1.41s (transform 617ms, setup 0ms, import 867ms, tests 148ms, environment 2ms)
+
+
+> polyhunter@0.1.0 build
+> npm run build --workspaces --if-present
+
+
+> @polyhunter/contracts@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 122ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1200ms
+  Running TypeScript ...
+  Finished TypeScript in 11.9s ...
+  Collecting page data using 4 workers ...
+  Generating static pages using 4 workers (0/3) ...
+✓ Generating static pages using 4 workers (3/3) in 3.2s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+└ ○ /_not-found
+
+
+○  (Static)  prerendered as static content
+
+found 0 vulnerabilities
+EXIT_CODE=0

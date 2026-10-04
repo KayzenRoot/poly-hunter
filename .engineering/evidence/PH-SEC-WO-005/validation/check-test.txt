@@ -1,0 +1,14 @@
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 C:/Users/csn19/.codex/worktrees/ph-sec-wo005-dev-go-remediation/poly-hunter
+
+
+ Test Files  3 passed (3)
+      Tests  7 passed (7)
+   Start at  13:16:46
+   Duration  1.52s (transform 685ms, setup 0ms, import 939ms, tests 129ms, environment 1ms)
+
+exit_code=0

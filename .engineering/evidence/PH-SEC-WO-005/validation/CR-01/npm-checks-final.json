@@ -1,0 +1,17 @@
+[
+  {
+    "Check": "typecheck-final",
+    "ExitCode": 0,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-typecheck-final.log"
+  },
+  {
+    "Check": "build-final",
+    "ExitCode": 0,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-build-final.log"
+  },
+  {
+    "Check": "validate-final",
+    "ExitCode": 0,
+    "Log": ".engineering\\evidence\\PH-SEC-WO-005\\validation\\CR-01\\npm-validate-final.log"
+  }
+]

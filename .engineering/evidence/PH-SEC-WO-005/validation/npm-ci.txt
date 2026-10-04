@@ -1,0 +1,6 @@
+command=npm ci
+node=26.4.0
+npm=11.17.0
+exit_code=0
+result=added 121 packages; audited 128 packages; found 0 vulnerabilities
+notes=4 esbuild@0.28.2 install scripts were warned as not covered by allowScripts; Docker Node 24 build installs with --ignore-scripts and passed all runtime/build gates

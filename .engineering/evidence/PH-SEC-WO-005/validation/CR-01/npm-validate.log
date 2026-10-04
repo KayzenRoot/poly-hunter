@@ -1,0 +1,29 @@
+COMMAND=npm run validate
+
+> polyhunter@0.1.0 validate
+> npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high
+
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+Checked 36 files in 179ms. No fixes applied.
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+[0mreporter/format[0m[0m [0m[0m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[0m
+
+[0m[0m  [0m[0m[1m[36mi[0m[0m [0m[0m[36mThe following files need to be formatted:[0m[0m
+[0m[0m  [0m[0m
+[0m[0m  [0m[0m- [0m[0m]8;;file://C:\Users\csn19\.codex\worktrees\ph-sec-wo005-dev-go-remediation\poly-hunter\apps\web\next.config.ts\apps\web\next.config.ts]8;;\[0m[0m
+[0m[0m  [0m[0m
+[0m
+[0m[36mChecked 36 files in 66[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m[0m
+[0m[0m[31mFound [0m[0m[31m1[0m[0m[31m error.[0m
+ci ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+
+
+EXIT_CODE=1

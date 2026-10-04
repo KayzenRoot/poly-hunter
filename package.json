@@ -38,13 +38,21 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "nodemon": "3.1.14",
-    "typescript": "7.0.2",
-    "vite": "6.4.3",
+    "typescript": "6.0.3",
+    "vite": "7.3.6",
     "vitest": "4.1.11"
   },
   "overrides": {
     "nodemon": {
       "chokidar": "4.0.3"
+    },
+    "drizzle-kit": {
+      "esbuild": "0.28.2",
+      "@esbuild-kit/esm-loader": {
+        "@esbuild-kit/core-utils": {
+          "esbuild": "0.28.2"
+        }
+      }
     }
   }
 }
