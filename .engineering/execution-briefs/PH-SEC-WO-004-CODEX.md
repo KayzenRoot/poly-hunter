@@ -11,6 +11,7 @@ Execute only PH-SEC-WO-004 on branch `security/ph-m01-dev-go-vex`.
    - 56 unique HIGH/CRITICAL CVEs total;
    - 35 unique Go stdlib CVEs;
    - 64 Go stdlib scanner occurrences;
+   - scanner stdlib versions exactly `1.20.7`, `1.23.12`, `1.26.4`;
    - exactly the three locked binary paths.
 6. Any mismatch => STOP STALE/BLOCKED.
 
