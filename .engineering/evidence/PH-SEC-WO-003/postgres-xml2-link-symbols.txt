@@ -1,0 +1,8 @@
+ TYPE   SYM FILE 
+ET_DYN  -  /usr/local/lib/postgresql/pgxml.so 
+ TYPE   SYM FILE 
+ET_DYN  -  /usr/local/lib/postgresql/pgxml.so 
+ TYPE   SYM FILE 
+ET_DYN  -  /usr/local/lib/postgresql/pgxml.so 
+ TYPE   SYM FILE 
+ET_DYN xmlReadMemory@LIBXML2_2.6.0 /usr/local/lib/postgresql/pgxml.so 

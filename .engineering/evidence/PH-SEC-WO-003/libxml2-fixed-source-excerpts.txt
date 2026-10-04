@@ -1,0 +1,40 @@
+Upstream libxml2 fix commit d1686f91dbda141a752200419d35639fd6b38340 valid.c SHA256: cd6633e52070f2bcd808b745ef55ae7fa2569fb6eb48c672615744d50b09e21a
+4623:xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
+4624:    xmlNodePtr cur;
+4625:    int len;
+4626:
+4627:    if (node == NULL) return;
+4628:    len = strlen(buf);
+4629:    if (glob) {
+4630:        if (size - len < 50) {
+4631:            if ((size - len > 4) && (buf[len - 1] != '.'))
+4632:                strcat(buf, " ...");
+4633:            return;
+4634:        }
+4635:        strcat(buf, "(");
+4636:    }
+4637:    cur = node;
+4638:    while (cur != NULL) {
+4639:	len = strlen(buf);
+4640:	if (size - len < 50) {
+4641:	    if ((size - len > 4) && (buf[len - 1] != '.'))
+4642:		strcat(buf, " ...");
+4643:	    return;
+4644:	}
+4645:        switch (cur->type) {
+4947:    if ((warn) && ((ret != 1) && (ret != -3))) {
+4948:	if (ctxt != NULL) {
+4949:	    char expr[5000];
+4950:	    char list[5000];
+4951:
+4952:	    expr[0] = 0;
+4953:	    xmlSnprintfElementContent(&expr[0], 5000, cont, 1);
+4954:	    list[0] = 0;
+4955:#ifndef LIBXML_REGEXP_ENABLED
+4956:	    if (repl != NULL)
+4957:		xmlSnprintfElements(&list[0], 5000, repl, 1);
+4958:	    else
+4959:#endif /* LIBXML_REGEXP_ENABLED */
+4960:		xmlSnprintfElements(&list[0], 5000, child, 1);
+4961:
+4962:	    if (name != NULL) {

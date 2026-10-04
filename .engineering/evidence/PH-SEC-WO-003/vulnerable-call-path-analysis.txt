@@ -1,0 +1,32 @@
+PH-SEC-WO-003 vulnerable-path applicability receipt
+
+Target CVE: CVE-2026-86140
+Exact image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+
+Vulnerable operation and trigger
+- MITRE CVE record identifies xmlSnprintfElements in valid.c and a stack-based strcat overflow for libxml2 versions before 2.15.4.
+- The upstream fix commit d1686f91dbda141a752200419d35639fd6b38340 adds capacity checks around the opening and closing parenthesis concatenations in xmlSnprintfElements. The fix source and commit metadata are preserved under sources/ and the relevant lines in libxml2-fixed-source-excerpts.txt.
+- Exact installed code is PRESENT: signed Alpine debug APK Build ID matches the exact installed library Build ID; its DWARF maps xmlSnprintfElements to valid.c, line 4998, with the inlined callsite at line 5312; machine code in the exact stripped library contains the corresponding strcat imports/call sites. See vulnerable-function-proof.txt, vulnerable-function-inline-die.txt, vulnerable-function-address-evidence.txt and the exact library hash in exact-image-static-inspection.txt.
+- In upstream v2.13.9 source, xmlSnprintfElements is called only at the DTD-validation diagnostic site in xmlValidateElementContent when validation found a content-model mismatch and warning output is requested. The caller is itself a validator routine; xmlValidateOneElement calls it. The source excerpt and raw source are preserved.
+
+PostgreSQL route assessment
+- PostgreSQL 17.11 is built with --with-libxml. The postgres ELF has DT_NEEDED libxml2.so.2 and imports xmlCtxtReadMemory. In the live PostgreSQL process, /usr/lib/libxml2.so.2.13.9 is mapped. XML parsing, XML type, XPath and XMLTABLE support are compiled/enabled; no application-level XML/XPath/XMLTABLE calls were found in apps/web, apps/worker or packages at this head.
+- PostgreSQL REL_17_11 parser source sets XML_PARSE_NOENT | XML_PARSE_DTDATTR | optional XML_PARSE_NOBLANKS for its document-parse route; the XMLTABLE and XPath parser calls use options 0. The inspected PostgreSQL call sites do not set XML_PARSE_DTDVALID and do not call the libxml2 validation APIs.
+- PostgreSQL source has xmlvalidate as an explicit stub that raises FEATURE_NOT_SUPPORTED with the message xmlvalidate is not implemented. PostgreSQL 17 XML documentation states input is not validated against a DTD, even where a DTD is present.
+- Benign disposable-database test on the exact digest parsed an XML document with an internal DTD declaring root EMPTY while the instance contained a child. xml_is_well_formed_document returned true and XMLPARSE returned the document. This demonstrates the available parser does not enforce DTD validity. No malformed or exploit payload was used. The disposable container used network=none, no published ports, and a 128 MiB tmpfs and was removed after the check.
+
+Disposition reasoning
+- XML parser features are enabled and attacker-controlled SQL XML values are possible for database clients. The disposition does not rely on the library being absent, on network binding, user/capabilities, KEV absence, low EPSS, or the process lifetime.
+- The specific vulnerable formatter is on the XML DTD validation failure-reporting path. The exact PostgreSQL runtime does not expose or enable DTD validation through its built-in XML SQL implementation: source call flags omit DTDVALID, the XMLVALIDATE entry point is unimplemented, the PostgreSQL XML 17 documentation disclaims DTD validation, and the benign DTD-invalid document was accepted as well-formed. Therefore the CVE-specific operation cannot be reached through the current PostgreSQL XML API and configuration observed here.
+- Proposed single status: NOT_AFFECTED, justification vulnerable_code_not_in_execute_path. This is an executor proposal only. Independent auditor and owner approval remain PENDING; the executor does not approve the proposal.
+
+Boundaries and revalidation
+- This is a local-development disposition for this exact image digest and PostgreSQL 17.11 runtime only. It expires within seven days and must be reopened on image/package/source change, XML parser option or PostgreSQL XML implementation change, introduction of an extension or SQL interface that enables DTD validation, change in attacker-controlled input path, new upstream advisory/fix, KEV status change, or stale evidence.
+- No exploit, malformed XML, memory-corruption, or denial-of-service behavior was tested. The conclusion depends on the reviewed exact source and current runtime staying aligned; a different PostgreSQL build or enabled validator path is out of scope and must be reassessed.
+
+Optional contrib/xml2 path checked after finding the image exposes the extension
+- The live database reports only plpgsql installed; xml2 version 1.1 is available in the image but is not installed. The current database role is superuser=true, so the extension must not be dismissed only because it is not installed.
+- The exact shipped xml2--1.1.sql maps legacy xml_valid(text) directly to the built-in internal xml_is_well_formed routine. It does not perform DTD validation. In an isolated disposable database on the exact image, CREATE EXTENSION xml2 succeeded and xml_valid returned true for the same well-formed document that contradicts its internal DTD; the builtin xml_is_well_formed predicate also returned true.
+- The official PostgreSQL REL_17_11 contrib/xml2 source is preserved and hashed. Its XPath and xpath_table document reads use xmlReadMemory with XML_PARSE_NOENT, and XSLT parser calls do not set XML_PARSE_DTDVALID. Static source search found no xmlValidate* calls or XML_PARSE_DTDVALID in these extension sources. The exact pgxml module SHA-256 is f94c9865d35c693b5cecaf7a2112009e369fd511a051a9e061a8309e719911b9; it links libxml2.so.2 and libxslt.so.1 and imports xmlReadMemory, not xmlValidateDocument/xmlValidateElementContent.
+- Thus even the currently installable shipped extension does not expose this DTD-validation formatter. Any custom extension, native code, or future path that enables DTD validation invalidates this proposal and requires a new analysis.
+- A second disposable exact-image test created xml2 and passed the same DTD-inconsistent but well-formed benign document through xpath_string and xslt_process. Both returned their expected benign outputs; the isolated container was removed. This supports the static XML_PARSE_NOENT-only path assessment for the shipped XPath/XSLT extension functions.

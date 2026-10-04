@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-003",
+  "validatedAtUtc": "2026-10-04T02:54:13.2407711Z",
+  "analysisBranch": "security/ph-m01-postgres-libxml2-vex",
+  "analysisHead": "f477907ec890175631c6742e83fba35681806d38",
+  "result": "READY_FOR_INDEPENDENT_AUDIT",
+  "vexStatus": "NOT_AFFECTED",
+  "contextLock": {
+    "contextLockPass": true,
+    "lockedFingerprintCount": 10,
+    "branchPass": true,
+    "parentAncestor": true,
+    "prPass": true,
+    "exactImage": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+    "singleSarifFindingAt54": true
+  },
+  "checks": {
+    "contextLockPass": true,
+    "lockedFingerprintsPass": true,
+    "targetImageIdentityPass": true,
+    "vexSingleDispositionPass": true,
+    "noSelfApprovalPass": true,
+    "evidenceReferencesPass": true,
+    "exactLibraryHashPass": true,
+    "affectedCodePresentPass": true,
+    "officialAlpineSignaturePass": true,
+    "postgresCoreSourcePass": true,
+    "xml2ExtensionReviewPass": true,
+    "benignCoreDtdCheckPass": true,
+    "benignXml2DtdCheckPass": true,
+    "benignXml2XpathXsltCheckPass": true,
+    "disposableCleanupPass": true,
+    "persistentPostgresUnaffectedAndHealthy": true,
+    "onlyEvidencePathsChanged": true,
+    "libraryAndDebugBuildIdMatchPass": true
+  },
+  "outOfScopeGitPaths": [],
+  "overallPass": true
+}

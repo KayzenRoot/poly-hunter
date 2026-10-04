@@ -1,0 +1,192 @@
+=== ranges list entry for vulnerable inlined function ===
+    00000f3a 000000000004b556 000000000004b7fb 
+    00000f3f 000000000004b7fe 000000000004b805 
+    00000f44 <End of list>
+    00000f45 000000000004b584 000000000004b587 
+    00000f4a 000000000004b58f 000000000004b7be 
+    00000f4f <End of list>
+    00000f50 000000000004b595 000000000004b5b2 
+    00000f55 000000000004b5b9 000000000004b5bf 
+    00000f5a <End of list>
+    00000f5b 000000000004b619 000000000004b61d 
+    00000f60 000000000004b624 000000000004b721 
+    00000f65 000000000004b77c 000000000004b78c 
+    00000f6a <End of list>
+    00000f6b 000000000004b666 000000000004b684 
+--
+    00001f30 0000000000077591 0000000000077831 
+    00001f37 00000000000779d7 00000000000779d9 
+    00001f3e 0000000000077aaa 0000000000077ab1 
+    00001f45 0000000000077ac2 0000000000077ac5 
+    00001f4c <End of list>
+    00001f4d 00000000000776a8 00000000000776ad 
+    00001f54 00000000000776b2 00000000000776b7 
+    00001f5b 00000000000776e4 000000000007779e 
+    00001f62 <End of list>
+    00001f63 0000000000077ac0 0000000000077ac2 
+    00001f6a 0000000000077af9 0000000000077b24 
+    00001f71 <End of list>
+    00001f72 0000000000077d29 0000000000077d2c 
+    00001f79 0000000000077d52 0000000000077d57 
+--
+    000037ed 00000000000ad1ed 00000000000ad22e 
+    000037f2 00000000000ad233 00000000000ad3f5 
+    000037f7 <End of list>
+    000037f8 00000000000acf45 00000000000acf51 
+    000037fd 00000000000acf54 00000000000ad03b 
+    00003802 <End of list>
+    00003803 00000000000ad03b 00000000000ad044 
+    00003808 00000000000ad04c 00000000000ad0b8 
+    0000380d 00000000000ad0ba 00000000000ad0cc 
+    00003812 <End of list>
+    00003813 00000000000ad0e1 00000000000ad12c 
+    00003818 00000000000ad131 00000000000ad14c 
+    0000381d <End of list>
+    0000381e 00000000000ad151 00000000000ad1e8 
+=== source mapping for exact inlined entry ===
+xmlSnprintfElements
+/home/buildozer/aports/main/libxml2/src/libxml2-2.13.9/valid.c:4998
+=== disassembly around exact entry ===
+
+/evidence/libxml2.so.2.13.9:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000004b540 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x37c>:
+   4b540:	ef                   	out    %eax,(%dx)
+   4b541:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+   4b547:	ff 15 03 82 0b 00    	call   *0xb8203(%rip)        # 103750 <xmlRegFreeExecCtxt@@LIBXML2_2.4.30+0x8cb81>
+   4b54d:	83 e3 fb             	and    $0xfffffffb,%ebx
+   4b550:	0f 84 af 02 00 00    	je     4b805 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x641>
+   4b556:	48 8d 44 24 28       	lea    0x28(%rsp),%rax
+   4b55b:	c6 44 24 28 00       	movb   $0x0,0x28(%rsp)
+   4b560:	48 8b 54 24 18       	mov    0x18(%rsp),%rdx
+   4b565:	b9 01 00 00 00       	mov    $0x1,%ecx
+   4b56a:	48 89 04 24          	mov    %rax,(%rsp)
+   4b56e:	be 88 13 00 00       	mov    $0x1388,%esi
+   4b573:	48 89 c7             	mov    %rax,%rdi
+   4b576:	48 8d 9c 24 b0 13 00 	lea    0x13b0(%rsp),%rbx
+   4b57d:	00 
+   4b57e:	ff 15 c4 7b 0b 00    	call   *0xb7bc4(%rip)        # 103148 <xmlSnprintfElementContent@@LIBXML2_2.4.30+0xb81ca>
+   4b584:	48 85 ed             	test   %rbp,%rbp
+   4b587:	c6 84 24 b0 13 00 00 	movb   $0x0,0x13b0(%rsp)
+   4b58e:	00 
+   4b58f:	0f 84 29 02 00 00    	je     4b7be <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5fa>
+   4b595:	48 89 df             	mov    %rbx,%rdi
+   4b598:	ff 15 92 98 0b 00    	call   *0xb9892(%rip)        # 104e30 <strlen@Base>
+   4b59e:	48 3d 87 13 00 00    	cmp    $0x1387,%rax
+   4b5a4:	75 02                	jne    4b5a8 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e4>
+   4b5a6:	0f 0b                	ud2
+   4b5a8:	48 8d 35 10 b9 07 00 	lea    0x7b910(%rip),%rsi        # c6ebf <xmlIsPubidChar_tab@@LIBXML2_2.6.0+0xa95f>
+   4b5af:	48 89 df             	mov    %rbx,%rdi
+   4b5b2:	4c 8d 2d ab 6c 08 00 	lea    0x86cab(%rip),%r13        # d2264 <xmlStringText@@LIBXML2_2.4.30+0x2a>
+   4b5b9:	ff 15 59 80 0b 00    	call   *0xb8059(%rip)        # 103618 <strcat@Base>
+   4b5bf:	48 89 df             	mov    %rbx,%rdi
+   4b5c2:	ff 15 68 98 0b 00    	call   *0xb9868(%rip)        # 104e30 <strlen@Base>
+   4b5c8:	49 89 c7             	mov    %rax,%r15
+   4b5cb:	48 3d 56 13 00 00    	cmp    $0x1356,%rax
+   4b5d1:	76 29                	jbe    4b5fc <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x438>
+   4b5d3:	3d 83 13 00 00       	cmp    $0x1383,%eax
+   4b5d8:	0f 8f e0 01 00 00    	jg     4b7be <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5fa>
+   4b5de:	4c 63 f8             	movslq %eax,%r15
+   4b5e1:	42 80 bc 3c af 13 00 	cmpb   $0x2e,0x13af(%rsp,%r15,1)
+   4b5e8:	00 2e 
+   4b5ea:	0f 84 ce 01 00 00    	je     4b7be <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5fa>
+   4b5f0:	48 8d 35 e6 3c 07 00 	lea    0x73ce6(%rip),%rsi        # bf2dd <xmlIsPubidChar_tab@@LIBXML2_2.6.0+0x2d7d>
+   4b5f7:	e9 b9 01 00 00       	jmp    4b7b5 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5f1>
+   4b5fc:	8b 45 08             	mov    0x8(%rbp),%eax
+   4b5ff:	ff c8                	dec    %eax
+   4b601:	83 f8 11             	cmp    $0x11,%eax
+   4b604:	0f 87 82 01 00 00    	ja     4b78c <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5c8>
+   4b60a:	49 63 44 85 00       	movslq 0x0(%r13,%rax,4),%rax
+   4b60f:	4c 01 e8             	add    %r13,%rax
+   4b612:	ff e0                	jmp    *%rax
+   4b614:	b8 88 13 00 00       	mov    $0x1388,%eax
+   4b619:	48 8b 7d 10          	mov    0x10(%rbp),%rdi
+   4b61d:	44 29 f8             	sub    %r15d,%eax
+   4b620:	89 44 24 18          	mov    %eax,0x18(%rsp)
+   4b624:	ff 15 46 83 0b 00    	call   *0xb8346(%rip)        # 103970 <xmlStrlen@@LIBXML2_2.4.30+0xb10ca>
+   4b62a:	41 89 c6             	mov    %eax,%r14d
+   4b62d:	48 8b 45 48          	mov    0x48(%rbp),%rax
+   4b631:	48 85 c0             	test   %rax,%rax
+   4b634:	74 14                	je     4b64a <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x486>
+   4b636:	48 8b 78 18          	mov    0x18(%rax),%rdi
+   4b63a:	48 85 ff             	test   %rdi,%rdi
+   4b63d:	74 0b                	je     4b64a <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x486>
+   4b63f:	ff 15 2b 83 0b 00    	call   *0xb832b(%rip)        # 103970 <xmlStrlen@@LIBXML2_2.4.30+0xb10ca>
+   4b645:	45 8d 74 06 01       	lea    0x1(%r14,%rax,1),%r14d
+   4b64a:	41 8d 56 09          	lea    0x9(%r14),%edx
+   4b64e:	39 54 24 18          	cmp    %edx,0x18(%rsp)
+   4b652:	7f 30                	jg     4b684 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x4c0>
+   4b654:	4d 63 ff             	movslq %r15d,%r15
+   4b657:	42 80 bc 3c af 13 00 	cmpb   $0x2e,0x13af(%rsp,%r15,1)
+   4b65e:	00 2e 
+   4b660:	0f 84 58 01 00 00    	je     4b7be <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5fa>
+   4b666:	48 89 df             	mov    %rbx,%rdi
+   4b669:	ff 15 c1 97 0b 00    	call   *0xb97c1(%rip)        # 104e30 <strlen@Base>
+   4b66f:	48 83 c0 05          	add    $0x5,%rax
+   4b673:	48 3d 88 13 00 00    	cmp    $0x1388,%rax
+   4b679:	0f 86 71 ff ff ff    	jbe    4b5f0 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x42c>
+   4b67f:	e9 22 ff ff ff       	jmp    4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b684:	48 8b 45 48          	mov    0x48(%rbp),%rax
+   4b688:	48 85 c0             	test   %rax,%rax
+   4b68b:	74 60                	je     4b6ed <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x529>
+   4b68d:	4c 8b 70 18          	mov    0x18(%rax),%r14
+   4b691:	4d 85 f6             	test   %r14,%r14
+   4b694:	74 57                	je     4b6ed <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x529>
+   4b696:	48 89 df             	mov    %rbx,%rdi
+   4b699:	ff 15 91 97 0b 00    	call   *0xb9791(%rip)        # 104e30 <strlen@Base>
+   4b69f:	4c 89 f7             	mov    %r14,%rdi
+   4b6a2:	49 89 c7             	mov    %rax,%r15
+   4b6a5:	ff 15 85 97 0b 00    	call   *0xb9785(%rip)        # 104e30 <strlen@Base>
+   4b6ab:	49 8d 44 07 01       	lea    0x1(%r15,%rax,1),%rax
+   4b6b0:	48 3d 88 13 00 00    	cmp    $0x1388,%rax
+   4b6b6:	0f 87 ea fe ff ff    	ja     4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b6bc:	48 89 df             	mov    %rbx,%rdi
+   4b6bf:	4c 89 f6             	mov    %r14,%rsi
+   4b6c2:	ff 15 50 7f 0b 00    	call   *0xb7f50(%rip)        # 103618 <strcat@Base>
+   4b6c8:	48 89 df             	mov    %rbx,%rdi
+   4b6cb:	ff 15 5f 97 0b 00    	call   *0xb975f(%rip)        # 104e30 <strlen@Base>
+   4b6d1:	48 3d 87 13 00 00    	cmp    $0x1387,%rax
+   4b6d7:	0f 84 c9 fe ff ff    	je     4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b6dd:	48 8d 35 e6 5f 08 00 	lea    0x85fe6(%rip),%rsi        # d16ca <xmlIsPubidChar_tab@@LIBXML2_2.6.0+0x1516a>
+   4b6e4:	48 89 df             	mov    %rbx,%rdi
+   4b6e7:	ff 15 2b 7f 0b 00    	call   *0xb7f2b(%rip)        # 103618 <strcat@Base>
+   4b6ed:	4c 8b 75 10          	mov    0x10(%rbp),%r14
+   4b6f1:	4d 85 f6             	test   %r14,%r14
+   4b6f4:	74 6a                	je     4b760 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x59c>
+   4b6f6:	48 89 df             	mov    %rbx,%rdi
+   4b6f9:	ff 15 31 97 0b 00    	call   *0xb9731(%rip)        # 104e30 <strlen@Base>
+   4b6ff:	4c 89 f7             	mov    %r14,%rdi
+   4b702:	49 89 c7             	mov    %rax,%r15
+   4b705:	ff 15 25 97 0b 00    	call   *0xb9725(%rip)        # 104e30 <strlen@Base>
+   4b70b:	49 8d 44 07 01       	lea    0x1(%r15,%rax,1),%rax
+   4b710:	48 3d 88 13 00 00    	cmp    $0x1388,%rax
+   4b716:	0f 87 8a fe ff ff    	ja     4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b71c:	4c 89 f6             	mov    %r14,%rsi
+   4b71f:	eb 36                	jmp    4b757 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x593>
+   4b721:	48 89 ef             	mov    %rbp,%rdi
+   4b724:	ff 15 36 87 0b 00    	call   *0xb8736(%rip)        # 103e60 <xmlIsBlankNode@@LIBXML2_2.4.30+0xbf050>
+   4b72a:	85 c0                	test   %eax,%eax
+   4b72c:	75 5e                	jne    4b78c <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5c8>
+   4b72e:	48 89 df             	mov    %rbx,%rdi
+   4b731:	ff 15 f9 96 0b 00    	call   *0xb96f9(%rip)        # 104e30 <strlen@Base>
+   4b737:	48 83 c0 06          	add    $0x6,%rax
+   4b73b:	48 3d 88 13 00 00    	cmp    $0x1388,%rax
+   4b741:	0f 87 5f fe ff ff    	ja     4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b747:	48 8d 35 30 5f 07 00 	lea    0x75f30(%rip),%rsi        # c167e <xmlIsPubidChar_tab@@LIBXML2_2.6.0+0x511e>
+   4b74e:	eb 07                	jmp    4b757 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x593>
+   4b750:	48 8d 35 c9 3b 07 00 	lea    0x73bc9(%rip),%rsi        # bf320 <xmlIsPubidChar_tab@@LIBXML2_2.6.0+0x2dc0>
+   4b757:	48 89 df             	mov    %rbx,%rdi
+   4b75a:	ff 15 b8 7e 0b 00    	call   *0xb7eb8(%rip)        # 103618 <strcat@Base>
+   4b760:	48 83 7d 30 00       	cmpq   $0x0,0x30(%rbp)
+   4b765:	74 25                	je     4b78c <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x5c8>
+   4b767:	48 89 df             	mov    %rbx,%rdi
+   4b76a:	ff 15 c0 96 0b 00    	call   *0xb96c0(%rip)        # 104e30 <strlen@Base>
+   4b770:	48 3d 87 13 00 00    	cmp    $0x1387,%rax
+   4b776:	0f 84 2a fe ff ff    	je     4b5a6 <xmlValidBuildContentModel@@LIBXML2_2.4.30+0x3e2>
+   4b77c:	48                   	rex.W
+   4b77d:	8d                   	.byte 0x8d
+   4b77e:	35                   	.byte 0x35
+   4b77f:	ff                   	.byte 0xff

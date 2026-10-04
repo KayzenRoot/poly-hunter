@@ -1,0 +1,11 @@
+uid=70(postgres) gid=70(postgres) groups=70(postgres)
+postgres 
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+716ce99f3000-716ce9a13000 r--p 00000000 00:56 290241                     /usr/lib/libxml2.so.2.13.9
+716ce9a13000-716ce9aaf000 r-xp 00020000 00:56 290241                     /usr/lib/libxml2.so.2.13.9
+716ce9aaf000-716ce9aed000 r--p 000bc000 00:56 290241                     /usr/lib/libxml2.so.2.13.9
+sh: ss: not found

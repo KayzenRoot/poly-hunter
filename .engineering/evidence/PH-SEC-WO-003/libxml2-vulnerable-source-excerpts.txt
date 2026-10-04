@@ -1,0 +1,94 @@
+Upstream libxml2 v2.13.9 valid.c SHA256: 8161b7d1e1a7db380dc9bec14debbdcb06635e740ad5f08f01b5d3aa4fe49cf5
+4993:static void
+4994:xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
+4995:    xmlNodePtr cur;
+4996:    int len;
+4997:
+4998:    if (node == NULL) return;
+4999:    if (glob) strcat(buf, "(");
+5000:    cur = node;
+5001:    while (cur != NULL) {
+5002:	len = strlen(buf);
+5003:	if (size - len < 50) {
+5004:	    if ((size - len > 4) && (buf[len - 1] != '.'))
+5005:		strcat(buf, " ...");
+5006:	    return;
+5007:	}
+5008:        switch (cur->type) {
+5009:            case XML_ELEMENT_NODE: {
+5010:                int qnameLen = xmlStrlen(cur->name);
+5011:
+5012:                if ((cur->ns != NULL) && (cur->ns->prefix != NULL))
+5013:                    qnameLen += xmlStrlen(cur->ns->prefix) + 1;
+5014:                if (size - len < qnameLen + 10) {
+5015:                    if ((size - len > 4) && (buf[len - 1] != '.'))
+5016:                        strcat(buf, " ...");
+5017:                    return;
+5018:                }
+5019:		if ((cur->ns != NULL) && (cur->ns->prefix != NULL)) {
+5020:		    strcat(buf, (char *) cur->ns->prefix);
+5021:		    strcat(buf, ":");
+5022:		}
+5023:                if (cur->name != NULL)
+5024:	            strcat(buf, (char *) cur->name);
+5025:		if (cur->next != NULL)
+5026:		    strcat(buf, " ");
+5027:		break;
+5079:static int
+5080:xmlValidateElementContent(xmlValidCtxtPtr ctxt, xmlNodePtr child,
+5081:       xmlElementPtr elemDecl, int warn, xmlNodePtr parent) {
+5082:    int ret = 1;
+5083:#ifndef  LIBXML_REGEXP_ENABLED
+5084:    xmlNodePtr repl = NULL, last = NULL, tmp;
+5085:#endif
+5086:    xmlNodePtr cur;
+5087:    xmlElementContentPtr cont;
+5088:    const xmlChar *name;
+5089:
+5090:    if ((elemDecl == NULL) || (parent == NULL) || (ctxt == NULL))
+5091:	return(-1);
+5092:    cont = elemDecl->content;
+5093:    name = elemDecl->name;
+5094:
+5095:#ifdef LIBXML_REGEXP_ENABLED
+5096:    /* Build the regexp associated to the content model */
+5097:    if (elemDecl->contModel == NULL)
+5098:	ret = xmlValidBuildContentModel(ctxt, elemDecl);
+5099:    if (elemDecl->contModel == NULL) {
+5100:	return(-1);
+5101:    } else {
+5102:	xmlRegExecCtxtPtr exec;
+5103:
+5104:	if (!xmlRegexpIsDeterminist(elemDecl->contModel)) {
+5105:	    return(-1);
+5106:	}
+5299:    if ((warn) && ((ret != 1) && (ret != -3))) {
+5300:	if (ctxt != NULL) {
+5301:	    char expr[5000];
+5302:	    char list[5000];
+5303:
+5304:	    expr[0] = 0;
+5305:	    xmlSnprintfElementContent(&expr[0], 5000, cont, 1);
+5306:	    list[0] = 0;
+5307:#ifndef LIBXML_REGEXP_ENABLED
+5308:	    if (repl != NULL)
+5309:		xmlSnprintfElements(&list[0], 5000, repl, 1);
+5310:	    else
+5311:#endif /* LIBXML_REGEXP_ENABLED */
+5312:		xmlSnprintfElements(&list[0], 5000, child, 1);
+5313:
+5314:	    if (name != NULL) {
+5315:		xmlErrValidNode(ctxt, parent, XML_DTD_CONTENT_MODEL,
+5316:	   "Element %s content does not follow the DTD, expecting %s, got %s\n",
+5317:		       name, BAD_CAST expr, BAD_CAST list);
+5318:	    } else {
+5319:		xmlErrValidNode(ctxt, parent, XML_DTD_CONTENT_MODEL,
+5320:	   "Element content does not follow the DTD, expecting %s, got %s\n",
+5321:		       BAD_CAST expr, BAD_CAST list, NULL);
+5987:	    }
+5988:	    child = elem->children;
+5989:	    cont = elemDecl->content;
+5990:	    tmp = xmlValidateElementContent(ctxt, child, elemDecl, 1, elem);
+5991:	    if (tmp <= 0)
+5992:		ret = 0;
+5993:	    break;

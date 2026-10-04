@@ -1,0 +1,575 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-003",
+  "policy": {
+    "canonicalMain": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+    "policyPath": ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+    "adrPath": ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+    "highCriticalDefault": "UNDER_INVESTIGATION",
+    "independentAuditorRequired": true,
+    "ownerApprovalRequired": true,
+    "executorSelfApproval": false
+  },
+  "result": "READY_FOR_INDEPENDENT_AUDIT",
+  "analysisTimestampUtc": "2026-10-04T02:51:08Z",
+  "analysisBranch": "security/ph-m01-postgres-libxml2-vex",
+  "pr": {
+    "number": 23,
+    "url": "https://github.com/KayzenRoot/poly-hunter/pull/23",
+    "stateAtPreflight": "OPEN",
+    "draftAtPreflight": true,
+    "baseBranch": "feat/ph-m01-tenancy-persistence"
+  },
+  "analysisBase": {
+    "canonicalMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
+    "parentPr": 15,
+    "parentHeadSha": "c04af277990272310ed86eeb9dce02e74e4df523",
+    "preEvidenceAnalysisHead": "f477907ec890175631c6742e83fba35681806d38",
+    "contextLockValidation": ".engineering/evidence/PH-SEC-WO-003/context-lock-validation.json"
+  },
+  "scope": "Evidence-only applicability analysis for CVE-2026-86140 in the exact PostgreSQL 17 local-development image. No product, runtime, Dockerfile, Compose, dependency, schema, migration or application files changed.",
+  "sourceSnapshots": {
+    "mitreCve": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/mitre-cve-record.json",
+      "sha256": "06f103128bfe8550affdd5648c21447edda379c948f3ac98081d6d74314cfd6d",
+      "retrievedAtUtc": "2026-10-04T01:57:56Z",
+      "url": "https://cveawg.mitre.org/api/cve/CVE-2026-86140"
+    },
+    "libxml2VulnerableSource": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/libxml2-v2.13.9-valid.c",
+      "sha256": "8161b7d1e1a7db380dc9bec14debbdcb06635e740ad5f08f01b5d3aa4fe49cf5",
+      "url": "https://raw.githubusercontent.com/GNOME/libxml2/v2.13.9/valid.c"
+    },
+    "libxml2FixSource": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/libxml2-fix-valid.c",
+      "sha256": "cd6633e52070f2bcd808b745ef55ae7fa2569fb6eb48c672615744d50b09e21a",
+      "fixCommit": "d1686f91dbda141a752200419d35639fd6b38340",
+      "fixVersionUpstream": "2.15.4",
+      "commitSignatureStatus": "GitHub API reports unsigned; source snapshot is from the GNOME/libxml2 read-only GitHub mirror",
+      "url": "https://github.com/GNOME/libxml2/commit/d1686f91dbda141a752200419d35639fd6b38340"
+    },
+    "alpine": {
+      "branch": "v3.24",
+      "architecture": "x86_64",
+      "packageVersion": "2.13.9-r2",
+      "packageSha256": "4b2f986159c659f014b942fe8a5d70c67af475153ca826c3dd53389eea46a300",
+      "debugPackageSha256": "3b46688f1d173934e734e32237028f00acb0260cedf130952213ddb662601471",
+      "packageSignatureVerification": "PASS with Alpine trusted keys",
+      "apkIndexSha256": "ea1722957448032530273eeae1a584416cad4ed367f0a0816c338dc034a22d57",
+      "secdbSha256": "af9c850ac2173e4c7d17b934c5c6852ab4ae9fd4a9ebb89fd668e9c1d50c3548",
+      "currentIndexedVersion": "2.13.9-r2; no CVE-2026-86140 fixed package was present in the captured index/secdb snapshots",
+      "packageUrl": "https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/libxml2",
+      "secdbUrl": "https://secdb.alpinelinux.org/v3.24/main.json"
+    },
+    "firstEpss": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/first-epss-2026-10-03.json",
+      "sha256": "c47df6250e4b0dc25a5a28501dc9a61029e8746eb1b66d19df5ee8806f28b640",
+      "asOfDate": "2026-10-03",
+      "score": 0.00157,
+      "percentile": 0.04255,
+      "use": "Prioritization context only; not reachability or disposition evidence.",
+      "url": "https://api.first.org/data/v1/epss?cve=CVE-2026-86140&date=2026-10-03"
+    },
+    "cisaKev": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/cisa-kev.json",
+      "sha256": "d2c8c6cb23291b46ff2b086197641a6b1fa35e6b746bba714cc280a1778f9e48",
+      "catalogVersion": "2026.10.02",
+      "releaseDate": "2026-10-02T15:19:38.2945Z",
+      "listed": false,
+      "use": "Prioritization context only; absence is not NOT_AFFECTED evidence.",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+    },
+    "postgresXml2": {
+      "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-xml2-source-fetch-manifest.json",
+      "sha256": "253b7464fc24637180f3b671b9bcc8fa2d31c22e042be3d547b142dfa1333c3a",
+      "retrievedAtUtc": "2026-10-04T02:46:20Z"
+    }
+  },
+  "items": [
+    {
+      "cve": "CVE-2026-86140",
+      "image": "postgres:17.11-alpine3.24",
+      "imageDigest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "environment": "local-dev",
+      "severity": "HIGH",
+      "component": "apk:alpine/libxml2@2.13.9-r2",
+      "version": [
+        "2.13.9-r2"
+      ],
+      "components": [
+        {
+          "type": "apk",
+          "name": "alpine/libxml2",
+          "version": "2.13.9-r2",
+          "purls": [
+            "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24"
+          ],
+          "locations": [
+            "/lib/apk/db/installed",
+            "/usr/lib/libxml2.so.2.13.9"
+          ],
+          "affectedRanges": [
+            "<=2.13.9-r2"
+          ],
+          "fixes": [],
+          "presenceEvidence": {
+            "assessment": "PRESENT",
+            "verification": "Exact image APK database identifies libxml2 2.13.9-r2; trusted Alpine APK signature passes; installed library SHA-256 matches the library extracted from that signed APK.",
+            "exactLocations": [
+              "/lib/apk/db/installed",
+              "/usr/lib/libxml2.so.2.13.9"
+            ],
+            "installedLibrarySha256": "c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7",
+            "signedPackageSha256": "4b2f986159c659f014b942fe8a5d70c67af475153ca826c3dd53389eea46a300"
+          }
+        }
+      ],
+      "scanner": {
+        "name": "Docker Scout CLI",
+        "version": "1.24.0",
+        "sarifPath": ".engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif",
+        "sarifGitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+        "sarifSha256": "ac3c326013b99367935a02e4f9747e417c007b4fb3de70048972ed1fa2764139",
+        "occurrenceCount": 1,
+        "findings": [
+          {
+            "sarifResultIndex": 54,
+            "severity": "HIGH",
+            "purls": [
+              "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24"
+            ],
+            "affectedRange": "<=2.13.9-r2",
+            "fixedVersionReportedByScout": "not fixed",
+            "scannerEpssScore": "0.001570",
+            "scannerEpssPercentile": "0.042490",
+            "cvssScore": 8,
+            "cvssVector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L",
+            "locations": [
+              "/lib/apk/db/installed",
+              "/usr/lib/libxml2.so.2.13.9"
+            ],
+            "scoutReference": "https://scout.docker.com/v/CVE-2026-86140?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2"
+          }
+        ]
+      },
+      "vulnerability": {
+        "title": "Stack-based buffer overflow in xmlSnprintfElements",
+        "upstreamDescription": "In libxml2 before 2.15.4, xmlSnprintfElements in valid.c has a strcat stack-based buffer overflow.",
+        "cna": "mitre",
+        "cnaPublishedAt": "2026-09-05T04:26:13.86Z",
+        "cnaUpdatedAt": "2026-09-05T04:26:13.86Z",
+        "cwe": "CWE-121",
+        "affectedVersionStatements": [
+          {
+            "defaultStatus": "unaffected",
+            "product": "libxml2",
+            "vendor": "xmlsoft",
+            "versions": [
+              {
+                "lessThan": "2.15.4",
+                "status": "affected",
+                "version": "0",
+                "versionType": "semver"
+              }
+            ]
+          }
+        ],
+        "cveProgramReferences": [
+          {
+            "url": "https://github.com/GNOME/libxml2/compare/v2.15.3...v2.15.4"
+          },
+          {
+            "url": "https://github.com/GNOME/libxml2/commit/d1686f91dbda141a752200419d35639fd6b38340"
+          }
+        ]
+      },
+      "upstreamFix": {
+        "availableUpstream": true,
+        "fixedVersion": "2.15.4",
+        "fixCommit": "d1686f91dbda141a752200419d35639fd6b38340",
+        "exactImageStatus": "not fixed; exact package is 2.13.9-r2 and exact library bytes match Alpine's signed 2.13.9-r2 package",
+        "alpineBackportEvidence": "Captured official v3.24 x86_64 APKINDEX and secdb identify 2.13.9-r2 and contain no fixed package/advisory for this CVE.",
+        "fixPresentInExactDigest": false
+      },
+      "kev": {
+        "listed": false,
+        "catalogVersion": "2026.10.02",
+        "catalogReleaseDate": "2026-10-02T15:19:38.2945Z",
+        "entry": null,
+        "absenceMeaning": "Prioritization only; absence is not NOT_AFFECTED evidence."
+      },
+      "epss": {
+        "score": 0.00157,
+        "percentile": 0.04255,
+        "asOfDate": "2026-10-03",
+        "source": "FIRST",
+        "scannerReportedValues": [
+          [
+            "0.001570",
+            "0.042490"
+          ]
+        ],
+        "use": "Prioritization only; low EPSS is not NOT_AFFECTED evidence."
+      },
+      "componentPresence": {
+        "assessment": "PRESENT",
+        "installedLibrary": "/usr/lib/libxml2.so.2.13.9",
+        "sha256": "c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7",
+        "codePresence": "xmlSnprintfElements is present in the exact library. The Alpine debug package has the same GNU Build ID as the installed binary; DWARF maps the inlined routine/callsite and exact-library disassembly shows its strcat call sites."
+      },
+      "postgresLinkage": {
+        "configure": "--with-libxml",
+        "elfNeeded": "libxml2.so.2",
+        "importedSymbol": "xmlCtxtReadMemory",
+        "runtimeLoaded": true,
+        "runtimeMap": "/usr/lib/libxml2.so.2.13.9",
+        "exactPostgresVersion": "17.11",
+        "exactPostgresSourceRef": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-REL_17_11-xml.c"
+      },
+      "prerequisites": {
+        "cveRecordSpecificExploitPrerequisites": "MITRE describes a stack-based strcat overflow in xmlSnprintfElements and gives CVSS local/low-complexity/no-privileges/no-user-interaction; it does not enumerate a complete exploit payload prerequisite.",
+        "codePathPrerequisitesFromSource": "DTD validation reaches xmlValidateElementContent; a content-model mismatch with diagnostic formatting reaches xmlSnprintfElements at valid.c callsite line 5312. No exploit-specific input was generated or tested.",
+        "targetAssessment": "PostgreSQL accepts SQL/XML input from authenticated database clients; the current database role is superuser and can install shipped extensions. Core parser calls omit XML_PARSE_DTDVALID, xmlvalidate is a not-implemented stub, and optional xml2 1.1 is not currently installed. Its shipped xml_valid(text) binds directly to xml_is_well_formed; its XPath/XSLT parse paths do not set XML_PARSE_DTDVALID. A disposable CREATE EXTENSION xml2 test returned true for the well-formed XML document that violates its internal DTD."
+      },
+      "reachability": {
+        "xmlFeatureEnabled": true,
+        "libraryLinkedAndLoaded": true,
+        "vulnerableCodePresent": true,
+        "vulnerableOperationAssessment": "NOT_REACHABLE_THROUGH_CURRENT_POSTGRESQL_BUILTIN_XML_API",
+        "evidence": "The vulnerable routine is called from the DTD-validation error-reporting path. PostgreSQL REL_17_11 parser options contain XML_PARSE_NOENT and XML_PARSE_DTDATTR (plus optional XML_PARSE_NOBLANKS), not XML_PARSE_DTDVALID. XPath/XMLTABLE parser calls use options 0. The xmlvalidate implementation raises FEATURE_NOT_SUPPORTED. A benign document that violated its internal DTD content declaration was accepted as well-formed and XMLPARSE returned it. Optional xml2 extension review: exact extension SQL and REL_17_11 sources show the same non-validating behavior, and a benign disposable test with CREATE EXTENSION xml2 returned true for a DTD-invalid but well-formed document. Benign disposable XML2 tests additionally passed the same DTD-inconsistent document through the shipped xpath_string and xslt_process functions.",
+        "applicationXmlReferences": "No XML, XPath, XMLTABLE, XMLPARSE or XMLSERIALIZE references were found in apps/web, apps/worker or packages at pre-evidence analysis head.",
+        "qualification": "XML parsing remains enabled and reachable; only the DTD validation operation required by this vulnerable reporting path is unavailable in the current PostgreSQL SQL implementation.",
+        "extensionAssessment": "xml2 1.1 is available but not installed in the live database; only plpgsql is loaded. Current SQL role is superuser, so the extension was tested on a disposable exact-image database. Shipped xml_valid aliases xml_is_well_formed; XML2 XPath/XSLT parser paths omit XML_PARSE_DTDVALID; its module imports xmlReadMemory and has no direct imports of libxml2 validator functions. The exact-image disposable tests also ran xml2 xpath_string and xslt_process on DTD-inconsistent but well-formed input; both returned expected outputs."
+      },
+      "attackerControl": {
+        "assessment": "The current database role is superuser=true and can issue arbitrary SQL, XML values, and install the shipped xml2 extension. Core PostgreSQL and the shipped xml2 extension still provide only well-formedness parsing/XPath/XSLT paths in this exact runtime; the xml2 xml_valid alias is xml_is_well_formed and no inspected path enables DTD validation. A custom extension/native code path is a material revalidation trigger.",
+        "targetInputControl": "Authenticated current SQL role can control XML and can install xml2; its shipped validation-like function is only a well-formedness alias, and its parser code does not set XML_PARSE_DTDVALID, so inputs do not reach the vulnerable DTD-validation formatter through these current built-in/shipped paths."
+      },
+      "networkPrivilegeContext": {
+        "services": [
+          "polyhunter-postgres"
+        ],
+        "user": "Steady-state PostgreSQL process UID/GID 70:70; image Config.User is empty and entrypoint establishes postgres user",
+        "privileged": false,
+        "CapEff": "0000000000000000",
+        "CapBnd": "00000000a80425fb",
+        "NoNewPrivs": false,
+        "network": {
+          "name": "polyhunter-local_default",
+          "driver": "bridge",
+          "internal": false,
+          "peers": [
+            "polyhunter-web",
+            "polyhunter-worker",
+            "polyhunter-postgres"
+          ],
+          "hostPublishedPort": false,
+          "listenAddresses": "*",
+          "port": 5432
+        },
+        "assessment": "PostgreSQL is reachable by authenticated peers on the project-scoped Compose bridge; its port is not published on the host. User, capabilities and topology are recorded as context and are not the VEX justification.",
+        "databaseRoleSuperuser": true,
+        "loadedExtensions": [
+          "plpgsql"
+        ],
+        "xml2AvailableButNotInstalled": "1.1"
+      },
+      "mitigation": {
+        "verifiedCveSpecificInlineMitigations": [],
+        "reachabilityConstraint": "The core PostgreSQL XML SQL implementation and shipped xml2 1.1 extension do not expose DTD validation in the exact parser paths inspected. xml2 xml_valid is an alias to xml_is_well_formed; XPath/XSLT parser calls omit XML_PARSE_DTDVALID. This is a current API/call-path constraint, not a claim that the vulnerable component is absent or patched.",
+        "contextualControls": [
+          "PostgreSQL port 5432 has no host publication; bridge network is project-scoped and Internal=false."
+        ],
+        "notClaimedAsMitigations": [
+          "low EPSS",
+          "absence from KEV",
+          "no host-published port",
+          "non-root steady state",
+          "CapEff=0",
+          "lack of XML application references"
+        ]
+      },
+      "status": "NOT_AFFECTED",
+      "proposedDisposition": true,
+      "justification": {
+        "code": "vulnerable_code_not_in_execute_path",
+        "rationale": "The exact vulnerable code is present, linked and loaded, and PostgreSQL XML parsing is enabled. The vulnerable formatter is called on DTD-validation content-model diagnostic paths. Exact PostgreSQL 17.11 core source omits XML_PARSE_DTDVALID, uses options 0 for XPath/XMLTABLE reads, and leaves xmlvalidate unimplemented. The live database role is superuser and may install the shipped xml2 extension, so that path was also evaluated: current DB has only plpgsql installed; exact xml2 SQL binds xml_valid directly to xml_is_well_formed, its REL_17_11 XPath/XSLT code uses XML_PARSE_NOENT without XML_PARSE_DTDVALID, and a benign exact-image disposable test accepted a well-formed document violating its internal DTD through xml_valid. PostgreSQL 17 documentation says XML input is not validated against DTDs. This supports a proposal that the DTD-validation formatter is outside the current core and shipped-extension execution paths; it does not cover custom extensions/native code, and it is not self-approved. Benign disposable tests also passed that DTD-inconsistent but well-formed document through xml2 xpath_string and xslt_process."
+      },
+      "authoritativeRefs": [
+        {
+          "source": "MITRE CVE Program record",
+          "url": "https://cveawg.mitre.org/api/cve/CVE-2026-86140"
+        },
+        {
+          "source": "GNOME/libxml2 fix commit",
+          "url": "https://github.com/GNOME/libxml2/commit/d1686f91dbda141a752200419d35639fd6b38340"
+        },
+        {
+          "source": "Alpine v3.24 x86_64 libxml2 package",
+          "url": "https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/libxml2"
+        },
+        {
+          "source": "PostgreSQL 17 XML type documentation",
+          "url": "https://www.postgresql.org/docs/17/datatype-xml.html"
+        },
+        {
+          "source": "PostgreSQL 17 XML functions documentation",
+          "url": "https://www.postgresql.org/docs/17/functions-xml.html"
+        },
+        {
+          "source": "FIRST EPSS API record",
+          "url": "https://api.first.org/data/v1/epss?cve=CVE-2026-86140&date=2026-10-03"
+        },
+        {
+          "source": "CISA KEV catalog feed",
+          "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+        }
+      ],
+      "parentFinding": {
+        "title": "Stack-based buffer overflow in libxml2 xmlSnprintfElements",
+        "scanner": "Docker Scout CLI 1.24.0",
+        "scannerSarifResultIndex": 54,
+        "upstreamSeverity": "HIGH",
+        "fixVersion": "2.15.4"
+      },
+      "evidenceRefs": [
+        {
+          "source": "Context Lock validation and all ten locked source Git blob fingerprints",
+          "path": ".engineering/evidence/PH-SEC-WO-003/context-lock-validation.json",
+          "sha256": "38b937759750fb4218ff1fbbb9573ea17a388d51947532bf51de4edc1c362e1d"
+        },
+        {
+          "source": "Locked exact-image Docker Scout SARIF finding",
+          "path": ".engineering/evidence/PH-M01-WO-001-container-scans/postgres-17.11-alpine3.24-final.sarif",
+          "sha256": "ac3c326013b99367935a02e4f9747e417c007b4fb3de70048972ed1fa2764139",
+          "gitBlobSha1": "daa12f4610944c01b8e3a5f028b495eecddeda43",
+          "jsonPointer": "/runs/0/results/54"
+        },
+        {
+          "source": "Exact image identity and architecture",
+          "path": ".engineering/evidence/PH-SEC-WO-003/exact-image-identity.txt",
+          "sha256": "ff8982a933870d3b528cda2460a8a987fe1f4c2154fe85af6a6f62057f7eb03e"
+        },
+        {
+          "source": "Installed package record and exact libxml2 library SHA-256",
+          "path": ".engineering/evidence/PH-SEC-WO-003/exact-image-static-inspection.txt",
+          "sha256": "be6311ec12a1a98f5ba718d1dccce0b8bd80e9031ec242281684b1eb7b6be723"
+        },
+        {
+          "source": "Alpine signed package and Build ID match verification",
+          "path": ".engineering/evidence/PH-SEC-WO-003/alpine-apk-package-inspection.txt",
+          "sha256": "179df5a234e191dda747ef55119697ffbddf22ba058eac0bff72703cacf83145"
+        },
+        {
+          "source": "Exact vulnerable inlined code and machine-code proof",
+          "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-proof.txt",
+          "sha256": "ef736cdcfa7d9136616118f9a6a7abc2c5f25409fdb8cfc3fe132f49e96c3550"
+        },
+        {
+          "source": "Exact ELF DWARF inline callsite at vulnerable source line",
+          "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-inline-die.txt",
+          "sha256": "a39486aa52794b645f364690e6aa7ea091cf8d1c1705e44625de02260611976b"
+        },
+        {
+          "source": "Exact-image function address/source map/disassembly",
+          "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-function-address-evidence.txt",
+          "sha256": "2add221174cd9d12ec1d62224ac714f7a18062aae6cb779d1c8d614a76e3e716"
+        },
+        {
+          "source": "libxml2 vulnerable source and validation callsite excerpts",
+          "path": ".engineering/evidence/PH-SEC-WO-003/libxml2-vulnerable-source-excerpts.txt",
+          "sha256": "223afc731da483ff9c7280c482504d0a6ad6cee75213a8280dedee87f93a287d"
+        },
+        {
+          "source": "GNOME/libxml2 fix source excerpts",
+          "path": ".engineering/evidence/PH-SEC-WO-003/libxml2-fixed-source-excerpts.txt",
+          "sha256": "b8d0425ba81945ab77d5764ecb58810c28428710b87c42a8232970179c1f7dfb"
+        },
+        {
+          "source": "PostgreSQL REL_17_11 parser flags, XMLVALIDATE stub and parser calls",
+          "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml-source-excerpts.txt",
+          "sha256": "74fb4e588f1903da4c58073ffdb1a807b6855346e1365e1e17ff9f2606607498"
+        },
+        {
+          "source": "Consolidated vulnerable-path analysis",
+          "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-call-path-analysis.txt",
+          "sha256": "14cd988fe2759c854a0831a483935821995dee4bd3d5b65768560aaa62539f42"
+        },
+        {
+          "source": "Exact-runtime PostgreSQL UID, capabilities and loaded-library maps",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-process-safe.txt",
+          "sha256": "0ad1602ead1513f22a305aad95adf4f0bb5662ba519b40a3fa4e9b17b9866b84"
+        },
+        {
+          "source": "Exact-runtime PostgreSQL parser settings",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-postgres-settings.txt",
+          "sha256": "dd7116625c5ab54ab727e1110ccf62f9d7f417a9983843cc058a828b49dda6f6"
+        },
+        {
+          "source": "Exact-runtime Compose network and host port bindings",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-network-safe.txt",
+          "sha256": "58405d356814fb8bacf4ef06bf674482c70e3de7c53f6b102abac95b7a550cc0"
+        },
+        {
+          "source": "Project network peer membership",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-network-peers.json",
+          "sha256": "cd3c9a9d628f3ab2d9187887980d8100d6b7b10d29d27c30634708ef0ec14004"
+        },
+        {
+          "source": "Application source search for XML paths",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-application-xml-search.txt",
+          "sha256": "2889bac9362e4a46e0f0eb344c38e46f95103fce7b82c9f5000fd99775b28553"
+        },
+        {
+          "source": "Disposable exact-digest benign DTD test SQL",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-dtd-benign-test.sql",
+          "sha256": "b2abaa0f60903a9cc83cb699dcc9c1dec49007454bd67c955a0f3ca761d2005d"
+        },
+        {
+          "source": "Disposable exact-digest benign DTD test raw output",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-dtd-benign-test-output.txt",
+          "sha256": "7ff7f5af593976f0a77d8b321ad43956285fcf4f16e1bc7474e49be97a4be0dc"
+        },
+        {
+          "source": "Disposable database isolation and cleanup receipts",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-db-isolation.json",
+          "sha256": "01bed6134cba797f4b3443ba9184295d4fe3b2bfac3bd4273c5923cb3c28c159"
+        },
+        {
+          "source": "MITRE CVE record snapshot",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/mitre-cve-record.json",
+          "sha256": "06f103128bfe8550affdd5648c21447edda379c948f3ac98081d6d74314cfd6d"
+        },
+        {
+          "source": "FIRST EPSS snapshot",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/first-epss-2026-10-03.json",
+          "sha256": "c47df6250e4b0dc25a5a28501dc9a61029e8746eb1b66d19df5ee8806f28b640"
+        },
+        {
+          "source": "CISA KEV catalog snapshot",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/cisa-kev.json",
+          "sha256": "d2c8c6cb23291b46ff2b086197641a6b1fa35e6b746bba714cc280a1778f9e48"
+        },
+        {
+          "source": "Official Alpine v3.24 package index and security database",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/alpine-v3.24-main-APKINDEX.tar.gz",
+          "sha256": "ea1722957448032530273eeae1a584416cad4ed367f0a0816c338dc034a22d57"
+        },
+        {
+          "source": "Official Alpine libxml2 package and debug package fetch hashes",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/alpine-artifact-fetch-manifest.json",
+          "sha256": "a31562ce242e00dcedb50ebf7920a55e025ddd456f89220d1041d2f334372dd0"
+        },
+        {
+          "source": "Official source retrieval URLs, timestamps and hashes",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/official-source-fetch-manifest.json",
+          "sha256": "9d3d8d2c29a21117063dc946c5d787c471bb67928a3e861783e93d4ef7e0ec88"
+        },
+        {
+          "source": "Live database role, installed extensions and available xml2 version",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-extensions.txt",
+          "sha256": "144d528fa30886f0eb3cd633154754a9b1602c831c69fa9077cce28e371beb69"
+        },
+        {
+          "source": "Exact image xml2 extension static metadata and current state",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-xml2-extension-readonly-inspection.txt",
+          "sha256": "b03c74b9a3aab9999c6ca83300a319e4312dd02bdc8ac5a79f89ac01444a440a"
+        },
+        {
+          "source": "Exact image xml2 module hash and dependency list",
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-xml2-binary-inspection.txt",
+          "sha256": "83242be09d0a88e9bd796982ad5519198a3a3b77b55957afebc9f37fb1f9736c"
+        },
+        {
+          "source": "Exact image xml2 module imported validator/parser symbols",
+          "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml2-link-symbols.txt",
+          "sha256": "68d339c52e49850b0a8efad46b8b1295d42506dca2509bd2cf633c7e34356d2d"
+        },
+        {
+          "source": "xml2 extension SQL, PostgreSQL REL_17_11 source and exact parser flags",
+          "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml2-source-analysis.txt",
+          "sha256": "591d8e08f2c9cc3339a78514f4ed974973c967e93d0aef3bcf951a5ece72f361"
+        },
+        {
+          "source": "Exact shipped xml2 extension SQL binding",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-xml2--1.1.sql",
+          "sha256": "287954e902826960e9dec8f7e86bc0e39ca1e257fe25c0641f9f9fd5a4594e0d"
+        },
+        {
+          "source": "Official PostgreSQL REL_17_11 xml2 XPath implementation",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-REL_17_11-contrib-xml2-xpath.c",
+          "sha256": "90294e35170c02d189be840f06656d652f8bb20bdcdb808dcb8b6d4892a30d15"
+        },
+        {
+          "source": "Official PostgreSQL REL_17_11 xml2 XSLT implementation",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-REL_17_11-contrib-xml2-xslt_proc.c",
+          "sha256": "060fa6afd37b8c464ade61cf4ec066482c8f2d612565ba577e563c96aac19d83"
+        },
+        {
+          "source": "Official PostgreSQL xml2 source fetch manifest",
+          "path": ".engineering/evidence/PH-SEC-WO-003/sources/postgres-xml2-source-fetch-manifest.json",
+          "sha256": "253b7464fc24637180f3b671b9bcc8fa2d31c22e042be3d547b142dfa1333c3a"
+        },
+        {
+          "source": "Disposable exact-image xml2 benign DTD SQL",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test.sql",
+          "sha256": "68fb8897208a15a9104f67d2e26d787373ef385a8e19fd857d011377791d7c50"
+        },
+        {
+          "source": "Disposable exact-image xml2 benign DTD raw result",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test-output.txt",
+          "sha256": "a9112a4f768f2eb0ab79d3b6b02bd6065b0ac43748f6725e160bc03bed1d4d1b"
+        },
+        {
+          "source": "Disposable exact-image xml2 test safety result",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test-result.txt",
+          "sha256": "a6cbe3964f394cdc87400efacaab7d708a906e96ac45e7f06c8eb0df2463b0ba"
+        },
+        {
+          "source": "Disposable xml2 test cleanup",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-cleanup.txt",
+          "sha256": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f"
+        },
+        {
+          "source": "Disposable exact-image xml2 XPath/XSLT benign SQL",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test.sql",
+          "sha256": "9a602814b058649dbf0bf93d6029e8206c922b6cef653556c7fe3e086c5b0ed0"
+        },
+        {
+          "source": "Disposable exact-image xml2 XPath/XSLT raw output",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test-output.txt",
+          "sha256": "9c765efa9de24b5cd0b0e630355607ee87cb3152e38ee649a9f67f3fd5c43f2b"
+        },
+        {
+          "source": "Disposable exact-image xml2 XPath/XSLT safety result",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test-result.txt",
+          "sha256": "1d7318426f555e7441fde25b04d1ab0587c0e00d55b74ff975cfd5683e2cd55d"
+        },
+        {
+          "source": "Disposable xml2 XPath/XSLT test cleanup",
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-cleanup.txt",
+          "sha256": "52a98ad9ca98d19964fa2860349f51e77d8b1e8c9b39525d77c983e296b7404f"
+        }
+      ],
+      "independentAuditor": "PENDING — independent audit required; executor does not self-approve",
+      "ownerApproval": "PENDING — explicit owner approval required after independent audit",
+      "executorSelfApproval": false,
+      "dispositionTimestampUtc": "2026-10-04T02:51:08Z",
+      "expiry": {
+        "expiresAt": "2026-10-11T02:51:08Z",
+        "policy": "Local-dev NOT_AFFECTED proposals expire within seven days at latest.",
+        "revalidateOn": [
+          "image digest, PostgreSQL build, package version or installed library hash changes",
+          "XML parser flags or PostgreSQL XML implementation changes",
+          "an extension or SQL/API path enabling DTD validation is introduced",
+          "attacker-controlled input path changes",
+          "new upstream advisory or fix data",
+          "KEV status changes",
+          "evidence becomes stale",
+          "before promotion or any non-local-dev use"
+        ]
+      },
+      "dispositionState": "PROPOSED_NOT_AFFECTED_PENDING_AUDIT_AND_OWNER"
+    }
+  ]
+}
