@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrderId": "PH-SEC-WO-006",
+  "issue": 30,
+  "remediationBranch": "security/ph-m01-dev-nongo-remediation",
+  "parentPr": 15,
+  "parentHead": "6c6c05fc5d332a88b70cd5778ac9bba91df798df",
+  "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
+  "target": {
+    "runtimeNodeMajor": 24,
+    "remainingHighCriticalUniqueCves": 22,
+    "high": 20,
+    "critical": 2,
+    "goHighCriticalMustRemainZero": true
+  },
+  "criticalSources": {
+    "main:AGENTS.md": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    "main:.engineering/CHECKPOINT.json": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    "main:.engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "main:.engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    "main:.engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    "main:.engineering/REVIEW-PROGRESS-REPORTING.md": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+    "parent:Dockerfile.dev": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    "parent:compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+    "parent:package.json": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "parent:package-lock.json": "5c36ff1b825e7087114b83cf01ba8b128cfae484",
+    "parent:apps/web/next.config.ts": "a01a26ded167d3dc306056330492b08db85681c2",
+    "parent:.engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+    "parent:.engineering/evidence/PH-SEC-WO-005-EVIDENCE.md": "06aeba60702f0c0243c107a1706014e617c63de8"
+  },
+  "stalePolicy": "Any change to parent head, canonical governance/security sources, Dockerfile, Compose, dependency graph, Next hot-reload config, or locked final scan requires STOP and Context Lock recompilation.",
+  "executor": "Codex",
+  "independentAuditor": "ChatGPT/planning auditor",
+  "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_REMEDIATION",
+  "productBehaviorMutationAuthorized": false,
+  "dockerfileMutationAuthorized": true,
+  "nodeMajorChangeAuthorized": false,
+  "alpineAdoptionAuthorized": false,
+  "liveTradingAuthorized": false
+}
