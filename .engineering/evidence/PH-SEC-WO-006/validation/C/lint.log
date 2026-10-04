@@ -1,0 +1,5 @@
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+Checked 36 files in 521ms. No fixes applied.

@@ -1,0 +1,5 @@
+command=docker compose -f compose.yaml -f .engineering/evidence/PH-SEC-WO-006/candidates/C-compose.override.yaml config --quiet
+COMPOSE_PROJECT_NAME=polyhunter-local
+POSTGRES_PASSWORD=provided as local environment input
+exit_code=0
+result=PASS

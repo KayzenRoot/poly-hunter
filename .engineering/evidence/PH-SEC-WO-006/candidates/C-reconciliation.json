@@ -1,0 +1,102 @@
+{
+  "sarifResults": 64,
+  "uniqueHC": 13,
+  "high": 13,
+  "critical": 0,
+  "missingBaseline": [
+    "CVE-2026-12087",
+    "CVE-2026-13221",
+    "CVE-2026-48959",
+    "CVE-2026-48962",
+    "CVE-2026-57432",
+    "CVE-2026-76642",
+    "CVE-2026-78408",
+    "CVE-2026-78409",
+    "CVE-2026-78410",
+    "CVE-2026-82560"
+  ],
+  "newHC": [
+    "CVE-2026-84782"
+  ],
+  "priorGoPresent": [],
+  "packages": [
+    {
+      "CVE": "CVE-2026-102010",
+      "Severity": "HIGH",
+      "Score": 7.0,
+      "Purl": "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13"
+    },
+    {
+      "CVE": "CVE-2026-102276",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.7"
+    },
+    {
+      "CVE": "CVE-2026-102278",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.7"
+    },
+    {
+      "CVE": "CVE-2026-14257",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.7"
+    },
+    {
+      "CVE": "CVE-2026-19534",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/undici@6.27.0"
+    },
+    {
+      "CVE": "CVE-2026-69152",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.7"
+    },
+    {
+      "CVE": "CVE-2026-73566",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/tar@7.5.19"
+    },
+    {
+      "CVE": "CVE-2026-103111",
+      "Severity": "HIGH",
+      "Score": 7.6,
+      "Purl": "pkg:deb/debian/pcre2@10.46-1~deb13u2?os_distro=trixie&os_name=debian&os_version=13"
+    },
+    {
+      "CVE": "CVE-2026-69192",
+      "Severity": "HIGH",
+      "Score": 7.7,
+      "Purl": "pkg:npm/ip-address@10.2.0"
+    },
+    {
+      "CVE": "CVE-2026-95619",
+      "Severity": "HIGH",
+      "Score": 7.7,
+      "Purl": "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13"
+    },
+    {
+      "CVE": "CVE-2026-84782",
+      "Severity": "HIGH",
+      "Score": 8.2,
+      "Purl": "pkg:deb/debian/openssl@3.5.7-1~deb13u2?os_distro=trixie&os_name=debian&os_version=13"
+    },
+    {
+      "CVE": "CVE-2026-85091",
+      "Severity": "HIGH",
+      "Score": 8.3,
+      "Purl": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13"
+    },
+    {
+      "CVE": "CVE-2026-93748",
+      "Severity": "HIGH",
+      "Score": 8.7,
+      "Purl": "pkg:npm/http-cache-semantics@4.2.0"
+    }
+  ]
+}

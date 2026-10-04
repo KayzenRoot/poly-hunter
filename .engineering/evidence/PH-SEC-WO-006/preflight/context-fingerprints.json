@@ -1,0 +1,80 @@
+[
+  {
+    "source": "main:AGENTS.md",
+    "expected": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    "actual": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    "match": true
+  },
+  {
+    "source": "main:.engineering/CHECKPOINT.json",
+    "expected": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    "actual": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+    "match": true
+  },
+  {
+    "source": "main:.engineering/SECURITY.md",
+    "expected": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "actual": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    "match": true
+  },
+  {
+    "source": "main:.engineering/TEST-BENCHMARK-PLAN.md",
+    "expected": "f4c775d76a6660c5545def14c5f38afa98013818",
+    "actual": "f4c775d76a6660c5545def14c5f38afa98013818",
+    "match": true
+  },
+  {
+    "source": "main:.engineering/DEFINITION-OF-DONE.md",
+    "expected": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    "actual": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    "match": true
+  },
+  {
+    "source": "main:.engineering/REVIEW-PROGRESS-REPORTING.md",
+    "expected": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+    "actual": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+    "match": true
+  },
+  {
+    "source": "parent:Dockerfile.dev",
+    "expected": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    "actual": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    "match": true
+  },
+  {
+    "source": "parent:compose.yaml",
+    "expected": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+    "actual": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+    "match": true
+  },
+  {
+    "source": "parent:package.json",
+    "expected": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "actual": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "match": true
+  },
+  {
+    "source": "parent:package-lock.json",
+    "expected": "5c36ff1b825e7087114b83cf01ba8b128cfae484",
+    "actual": "5c36ff1b825e7087114b83cf01ba8b128cfae484",
+    "match": true
+  },
+  {
+    "source": "parent:apps/web/next.config.ts",
+    "expected": "a01a26ded167d3dc306056330492b08db85681c2",
+    "actual": "a01a26ded167d3dc306056330492b08db85681c2",
+    "match": true
+  },
+  {
+    "source": "parent:.engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif",
+    "expected": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+    "actual": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+    "match": true
+  },
+  {
+    "source": "parent:.engineering/evidence/PH-SEC-WO-005-EVIDENCE.md",
+    "expected": "06aeba60702f0c0243c107a1706014e617c63de8",
+    "actual": "06aeba60702f0c0243c107a1706014e617c63de8",
+    "match": true
+  }
+]

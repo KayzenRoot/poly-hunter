@@ -1,0 +1,144 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from B2.Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.09kB 0.1s done
+#1 DONE 0.5s
+
+#2 [internal] load metadata for docker.io/library/node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+#2 DONE 0.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 226B 0.1s done
+#3 DONE 0.6s
+
+#4 [internal] load build context
+#4 transferring context: 638B 0.0s done
+#4 DONE 0.7s
+
+#5 [ 1/15] FROM docker.io/library/node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+#5 resolve docker.io/library/node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+#5 resolve docker.io/library/node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 1.1s done
+#5 DONE 1.2s
+
+#5 [ 1/15] FROM docker.io/library/node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+#5 CACHED
+
+#6 [ 2/15] RUN apt-get update && apt-get install -y --only-upgrade --no-install-recommends libpcre2-8-0 && rm -rf /var/lib/apt/lists/*
+#6 3.874 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#6 4.138 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#6 4.151 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#6 4.998 Get:4 http://deb.debian.org/debian bookworm/main amd64 Packages [8790 kB]
+#6 10.28 Get:5 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [6924 B]
+#6 10.34 Get:6 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [346 kB]
+#6 14.89 Fetched 9384 kB in 11s (831 kB/s)
+#6 14.89 Reading package lists...
+#6 19.52 Reading package lists...
+#6 23.58 Building dependency tree...
+#6 24.50 Reading state information...
+#6 26.41 The following packages will be upgraded:
+#6 26.41   libpcre2-8-0
+#6 26.71 1 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+#6 26.71 Need to get 262 kB of archives.
+#6 26.71 After this operation, 0 B of additional disk space will be used.
+#6 26.71 Get:1 http://deb.debian.org/debian-security bookworm-security/main amd64 libpcre2-8-0 amd64 10.42-1+deb12u2 [262 kB]
+#6 28.83 debconf: delaying package configuration, since apt-utils is not installed
+#6 29.25 Fetched 262 kB in 0s (709 kB/s)
+#6 30.34 (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 6096 files and directories currently installed.)
+#6 30.63 Preparing to unpack .../libpcre2-8-0_10.42-1+deb12u2_amd64.deb ...
+#6 31.26 Unpacking libpcre2-8-0:amd64 (10.42-1+deb12u2) over (10.42-1+deb12u1) ...
+#6 32.65 Setting up libpcre2-8-0:amd64 (10.42-1+deb12u2) ...
+#6 33.41 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+#6 DONE 35.6s
+
+#7 [ 3/15] RUN npm install --global npm@12.2.0
+#7 219.4 
+#7 219.4 removed 8 packages, and changed 76 packages in 4m
+#7 219.4 
+#7 219.4 15 packages are looking for funding
+#7 219.4   run `npm fund` for details
+#7 DONE 221.5s
+
+#8 [ 4/15] WORKDIR /workspace
+#8 DONE 2.6s
+
+#9 [ 5/15] RUN mkdir -p /workspace && chown node:node /workspace
+#9 DONE 3.2s
+
+#10 [ 6/15] COPY --chown=node:node package.json package-lock.json ./
+#10 DONE 2.7s
+
+#11 [ 7/15] COPY --chown=node:node apps/web/package.json apps/web/package.json
+#11 DONE 2.4s
+
+#12 [ 8/15] COPY --chown=node:node apps/worker/package.json apps/worker/package.json
+#12 DONE 2.5s
+
+#13 [ 9/15] COPY --chown=node:node packages/contracts/package.json packages/contracts/package.json
+#13 DONE 2.6s
+
+#14 [10/15] COPY --chown=node:node packages/domain/package.json packages/domain/package.json
+#14 DONE 2.5s
+
+#15 [11/15] COPY --chown=node:node packages/db/package.json packages/db/package.json
+#15 DONE 2.6s
+
+#16 [12/15] COPY --chown=node:node packages/testkit/package.json packages/testkit/package.json
+#16 DONE 2.4s
+
+#17 [13/15] RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+#17 DONE 3.9s
+
+#18 [14/15] RUN npm ci --ignore-scripts
+#18 14.25 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+#18 14.50 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+#18 82.39 
+#18 82.39 added 122 packages, and audited 129 packages in 1m
+#18 82.39 
+#18 82.39 26 packages are looking for funding
+#18 82.39   run `npm fund` for details
+#18 82.40 
+#18 82.40 found 0 vulnerabilities
+#18 DONE 91.4s
+
+#19 [15/15] COPY --chown=node:node tsconfig.base.json ./
+#19 DONE 3.1s
+
+#20 exporting to image
+#20 exporting layers
+#20 exporting layers 87.8s done
+#20 exporting manifest sha256:0315e43294a64c96812c126330bda8070400e400f648bb915f8dbfbecc93bd6a
+#20 exporting manifest sha256:0315e43294a64c96812c126330bda8070400e400f648bb915f8dbfbecc93bd6a 0.5s done
+#20 exporting config sha256:94f2741fb77890d1711132cb4a991b30dff73b5f9260a18a7115b8f8a9e1257a
+#20 exporting config sha256:94f2741fb77890d1711132cb4a991b30dff73b5f9260a18a7115b8f8a9e1257a 0.5s done
+#20 exporting attestation manifest sha256:32d3de93f8ccd3412081d8e47ea9146c3b6e96b3ce191f3713fcba5d767629bc
+#20 exporting attestation manifest sha256:32d3de93f8ccd3412081d8e47ea9146c3b6e96b3ce191f3713fcba5d767629bc 0.6s done
+#20 exporting manifest list sha256:2d1ca11281d8cc8a1fae1c54a06fda3a486e8034638e3b52353a8a774b7a2f15
+#20 exporting manifest list sha256:2d1ca11281d8cc8a1fae1c54a06fda3a486e8034638e3b52353a8a774b7a2f15 0.5s done
+#20 naming to docker.io/library/polyhunter-ph-sec-wo006-b2:local
+#20 naming to docker.io/library/polyhunter-ph-sec-wo006-b2:local 0.1s done
+#20 unpacking to docker.io/library/polyhunter-ph-sec-wo006-b2:local
+#20 unpacking to docker.io/library/polyhunter-ph-sec-wo006-b2:local 32.0s done
+#20 DONE 122.7s

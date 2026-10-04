@@ -1,0 +1,143 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from C.Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 904B 0.0s done
+#1 DONE 0.4s
+
+#2 [internal] load metadata for docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#2 DONE 5.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 226B 0.0s done
+#4 DONE 0.4s
+
+#5 [internal] load build context
+#5 transferring context: 638B 0.1s done
+#5 DONE 0.8s
+
+#6 [ 1/13] FROM docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 resolve docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 resolve docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe 1.0s done
+#6 DONE 5.6s
+
+#6 [ 1/13] FROM docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4 0B / 1.72MB 0.2s
+#6 sha256:d12b5b80b6664a33b721468ab84fd31e7b92f69f61e34b1077f889e2d3662ab0 0B / 3.31kB 0.2s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 0B / 50.91MB 0.2s
+#6 sha256:fb41dc018e8efd2afea805c0e06f80dd58a35a7ec2aff5a3c22ac01ad181f528 0B / 446B 0.2s
+#6 sha256:d12b5b80b6664a33b721468ab84fd31e7b92f69f61e34b1077f889e2d3662ab0 3.31kB / 3.31kB 1.2s done
+#6 sha256:fb41dc018e8efd2afea805c0e06f80dd58a35a7ec2aff5a3c22ac01ad181f528 446B / 446B 0.6s
+#6 sha256:fb41dc018e8efd2afea805c0e06f80dd58a35a7ec2aff5a3c22ac01ad181f528 446B / 446B 0.9s done
+#6 sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4 1.05MB / 1.72MB 2.1s
+#6 extracting sha256:d12b5b80b6664a33b721468ab84fd31e7b92f69f61e34b1077f889e2d3662ab0
+#6 sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4 1.72MB / 1.72MB 2.7s
+#6 sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4 1.72MB / 1.72MB 3.1s done
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 3.15MB / 50.91MB 2.9s
+#6 extracting sha256:d12b5b80b6664a33b721468ab84fd31e7b92f69f61e34b1077f889e2d3662ab0 1.2s done
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 6.29MB / 50.91MB 3.9s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 9.44MB / 50.91MB 5.4s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 12.58MB / 50.91MB 6.6s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 15.73MB / 50.91MB 7.4s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 18.87MB / 50.91MB 8.3s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 22.02MB / 50.91MB 9.3s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 25.17MB / 50.91MB 10.2s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 28.31MB / 50.91MB 11.1s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 31.46MB / 50.91MB 12.0s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 34.60MB / 50.91MB 13.1s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 37.75MB / 50.91MB 13.8s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 40.89MB / 50.91MB 14.8s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 44.04MB / 50.91MB 15.9s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 47.19MB / 50.91MB 16.8s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 50.33MB / 50.91MB 17.7s
+#6 sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 50.91MB / 50.91MB 19.0s done
+#6 DONE 26.0s
+
+#6 [ 1/13] FROM docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 extracting sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283
+#6 extracting sha256:f753d0b35e55df56cff64bb6b9fa1b36e1c9b403a852bcc0622840d660fc0283 8.8s done
+#6 DONE 34.8s
+
+#6 [ 1/13] FROM docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 extracting sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4
+#6 extracting sha256:c47263c28cb3ee0382861344bd34c1a3a2a6f7273c4abcf1f923724a5125e1d4 0.9s done
+#6 DONE 35.7s
+
+#6 [ 1/13] FROM docker.io/library/node:24-trixie-slim@sha256:8ec5d7557396cfe32d21c3f9c13072355ceab22b584578ca4bb28af31120cffe
+#6 extracting sha256:fb41dc018e8efd2afea805c0e06f80dd58a35a7ec2aff5a3c22ac01ad181f528
+#6 extracting sha256:fb41dc018e8efd2afea805c0e06f80dd58a35a7ec2aff5a3c22ac01ad181f528 0.6s done
+#6 DONE 36.3s
+
+#7 [ 2/13] WORKDIR /workspace
+#7 DONE 5.6s
+
+#8 [ 3/13] RUN mkdir -p /workspace && chown node:node /workspace
+#8 DONE 4.0s
+
+#9 [ 4/13] COPY --chown=node:node package.json package-lock.json ./
+#9 DONE 2.8s
+
+#10 [ 5/13] COPY --chown=node:node apps/web/package.json apps/web/package.json
+#10 DONE 2.4s
+
+#11 [ 6/13] COPY --chown=node:node apps/worker/package.json apps/worker/package.json
+#11 DONE 3.2s
+
+#12 [ 7/13] COPY --chown=node:node packages/contracts/package.json packages/contracts/package.json
+#12 DONE 2.6s
+
+#13 [ 8/13] COPY --chown=node:node packages/domain/package.json packages/domain/package.json
+#13 DONE 2.6s
+
+#14 [ 9/13] COPY --chown=node:node packages/db/package.json packages/db/package.json
+#14 DONE 2.6s
+
+#15 [10/13] COPY --chown=node:node packages/testkit/package.json packages/testkit/package.json
+#15 DONE 4.2s
+
+#16 [11/13] RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+#16 DONE 4.0s
+
+#17 [12/13] RUN npm ci --ignore-scripts
+#17 15.49 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+#17 15.60 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+#17 83.61 
+#17 83.61 added 122 packages, and audited 129 packages in 1m
+#17 83.61 
+#17 83.61 26 packages are looking for funding
+#17 83.61   run `npm fund` for details
+#17 83.62 
+#17 83.62 found 0 vulnerabilities
+#17 83.63 npm notice
+#17 83.63 npm notice New major version of npm available! 11.19.0 -> 12.2.0
+#17 83.63 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+#17 83.63 npm notice To update run: npm install -g npm@12.2.0
+#17 83.63 npm notice
+#17 DONE 89.5s
+
+#18 [13/13] COPY --chown=node:node tsconfig.base.json ./
+#18 DONE 3.0s
+
+#19 exporting to image
+#19 exporting layers
+#19 exporting layers 86.9s done
+#19 exporting manifest sha256:a6c3c251ca6f9d60f9ceabf5fa170decf943993f53bc96d53247890d1a58d96b
+#19 exporting manifest sha256:a6c3c251ca6f9d60f9ceabf5fa170decf943993f53bc96d53247890d1a58d96b 0.5s done
+#19 exporting config sha256:761a704c6a06e834ac925850696f2647c6a28f1467e1a1f47b900ef19e91f85c
+#19 exporting config sha256:761a704c6a06e834ac925850696f2647c6a28f1467e1a1f47b900ef19e91f85c 0.5s done
+#19 exporting attestation manifest sha256:a3f87873025f154e1ce9f7ad44e40f1829dd666dda0a8fdf8f7c598c1656d87f
+#19 exporting attestation manifest sha256:a3f87873025f154e1ce9f7ad44e40f1829dd666dda0a8fdf8f7c598c1656d87f 0.6s done
+#19 exporting manifest list sha256:e30713eb9b3fb07c9404dd9ed07388b8d9d104881c7919c074f11351b2c058a4
+#19 exporting manifest list sha256:e30713eb9b3fb07c9404dd9ed07388b8d9d104881c7919c074f11351b2c058a4 0.5s done
+#19 naming to docker.io/library/polyhunter-ph-sec-wo006-c:local
+#19 naming to docker.io/library/polyhunter-ph-sec-wo006-c:local 0.1s done
+#19 unpacking to docker.io/library/polyhunter-ph-sec-wo006-c:local
+#19 unpacking to docker.io/library/polyhunter-ph-sec-wo006-c:local 31.0s done
+#19 DONE 120.7s
