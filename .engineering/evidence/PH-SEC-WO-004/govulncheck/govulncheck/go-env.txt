@@ -1,0 +1,3 @@
+go1.26.8
+https://proxy.golang.org,direct
+sum.golang.org

@@ -1,0 +1,7 @@
+capturedAtUtc=2026-10-04T10:14:52.1767132Z
+createCommand=docker create --network none --read-only --entrypoint /bin/true polyhunter-dev:local
+containerId=341adf5731cd2ca973be52a27a7b85da2b089cc58abc0a3ac83efe7ff34e36f3
+COPIED /workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild -> esbuild-nested length=9347072 sha256=82afa0d18098bef823ba5b5c89bb5cfbea1a25f0721416d29a9dd7ba73fd237d
+COPIED /workspace/node_modules/@esbuild/linux-x64/bin/esbuild -> esbuild-top length=10358936 sha256=bab29b2ca7a9e89b67cf720b77b2d743f9f31f5cf0d5bd74ee8c8de30ced7014
+COPIED /workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc -> tsc-native length=24101026 sha256=4f2de678286401759b3fb4475bafe35b8f32b4b3a07d92642bbf37eadc9b34a4
+removedContainer=341adf5731cd2ca973be52a27a7b85da2b089cc58abc0a3ac83efe7ff34e36f3

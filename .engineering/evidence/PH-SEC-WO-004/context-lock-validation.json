@@ -1,107 +1,805 @@
 {
   "schemaVersion": "1.0.0",
+  "capturedAtUtc": "2026-10-04T11:21:20.155373+00:00",
   "workOrder": "PH-SEC-WO-004",
-  "validatedAtUtc": "2026-10-04T03:29:21.1518664Z",
-  "analysisBranch": "security/ph-m01-dev-go-vex",
-  "analysisHead": "b6531aa015cba78313309d977e8c86b3ddd14acc",
-  "workingTreeClean": true,
-  "pr25": {
+  "branch": "security/ph-m01-dev-go-vex",
+  "preAnalysisHead": "1023a02a201d9e1dc347645c83c686e59d783eac",
+  "parentHead": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+  "baseBranchRef": "feat/ph-m01-tenancy-persistence",
+  "pullRequest": {
+    "baseRefName": "feat/ph-m01-tenancy-persistence",
+    "baseRefOid": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+    "headRefName": "security/ph-m01-dev-go-vex",
+    "headRefOid": "1023a02a201d9e1dc347645c83c686e59d783eac",
+    "isDraft": true,
     "number": 25,
     "state": "OPEN",
-    "draft": true,
-    "headBranch": "security/ph-m01-dev-go-vex",
-    "headSha": "b6531aa015cba78313309d977e8c86b3ddd14acc",
-    "baseBranch": "feat/ph-m01-tenancy-persistence",
-    "baseSha": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
     "url": "https://github.com/KayzenRoot/poly-hunter/pull/25"
   },
-  "parentPr15": {
-    "number": 15,
-    "state": "OPEN",
-    "mergedAt": null,
-    "headSha": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0"
-  },
-  "lockedParentHead": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-  "parentAncestor": true,
   "canonicalPolicyMainSha": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-  "criticalFingerprints": [
+  "counts": {
+    "rawSarifResults": 208,
+    "uniqueHighCriticalCves": 56,
+    "uniqueSeverityCounts": {
+      "HIGH": 50,
+      "CRITICAL": 6
+    },
+    "goStdlibUniqueCves": 35,
+    "goStdlibOccurrences": 64,
+    "goOccurrencesByVersion": {
+      "1.20.7": 34,
+      "1.23.12": 23,
+      "1.26.4": 7
+    },
+    "goOccurrencesByBinaryPath": {
+      "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild": 34,
+      "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild": 23,
+      "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc": 7
+    },
+    "occurrenceSeverityCounts": {
+      "HIGH": 57,
+      "CRITICAL": 7
+    },
+    "goOccurrencesByBinary": {
+      "nested-esbuild": 34,
+      "top-level-esbuild": 23,
+      "native-tsc": 7
+    },
+    "govulnSymbolCoverage": {
+      "symbolMatchedOccurrences": 61,
+      "noExactSymbolMatchOccurrences": 3
+    }
+  },
+  "checks": [
     {
-      "source": "main:.engineering/proposals/PH-SEC-VEX-POLICY.md",
-      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-      "expectedBlob": "3e1b20cbe164d655379a5b93e360186dd14daac7",
-      "actualBlob": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "name": "analysis branch",
+      "expected": "security/ph-m01-dev-go-vex",
+      "actual": "security/ph-m01-dev-go-vex",
       "pass": true
     },
     {
-      "source": "main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
-      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-      "expectedBlob": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
-      "actualBlob": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "name": "remote analysis head",
+      "expected": "1023a02a201d9e1dc347645c83c686e59d783eac",
+      "actual": "1023a02a201d9e1dc347645c83c686e59d783eac",
       "pass": true
     },
     {
-      "source": "main:.engineering/SECURITY.md",
-      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-      "expectedBlob": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
-      "actualBlob": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "name": "locked parent commit exists",
+      "expected": "commit",
+      "actual": "commit",
       "pass": true
     },
     {
-      "source": "main:.engineering/TEST-BENCHMARK-PLAN.md",
-      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-      "expectedBlob": "f4c775d76a6660c5545def14c5f38afa98013818",
-      "actualBlob": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "name": "locked parent head ancestor",
+      "expected": true,
+      "actual": true,
       "pass": true
     },
     {
-      "source": "main:.engineering/DEFINITION-OF-DONE.md",
-      "revision": "771f75bbd23fd458e67be1d34024e78e39f5b8af",
-      "expectedBlob": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
-      "actualBlob": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "name": "live PR base branch head",
+      "expected": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "actual": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
       "pass": true
     },
     {
-      "source": "parent:.engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
-      "actualBlob": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
+      "name": "PR identity",
+      "expected": 25,
+      "actual": 25,
       "pass": true
     },
     {
-      "source": "parent:.engineering/evidence/PH-SEC-WO-003-EVIDENCE.md",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "95c637deac0528148f9eeb1815072d431b793127",
-      "actualBlob": "95c637deac0528148f9eeb1815072d431b793127",
+      "name": "PR state",
+      "expected": "OPEN",
+      "actual": "OPEN",
       "pass": true
     },
     {
-      "source": "parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "63052aca98c6162904f1c27033a92319d4e90734",
-      "actualBlob": "63052aca98c6162904f1c27033a92319d4e90734",
+      "name": "PR head branch",
+      "expected": "security/ph-m01-dev-go-vex",
+      "actual": "security/ph-m01-dev-go-vex",
       "pass": true
     },
     {
-      "source": "parent:Dockerfile.dev",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
-      "actualBlob": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "name": "PR head SHA",
+      "expected": "1023a02a201d9e1dc347645c83c686e59d783eac",
+      "actual": "1023a02a201d9e1dc347645c83c686e59d783eac",
       "pass": true
     },
     {
-      "source": "parent:package-lock.json",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
-      "actualBlob": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+      "name": "PR base branch",
+      "expected": "feat/ph-m01-tenancy-persistence",
+      "actual": "feat/ph-m01-tenancy-persistence",
       "pass": true
     },
     {
-      "source": "parent:package.json",
-      "revision": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
-      "expectedBlob": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
-      "actualBlob": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+      "name": "PR base SHA",
+      "expected": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "actual": "339ef9ae3100b022623dfd0cfaa49b66a56cb7f0",
+      "pass": true
+    },
+    {
+      "name": "locked canonical main commit exists",
+      "expected": "commit",
+      "actual": "commit",
+      "pass": true
+    },
+    {
+      "name": "blob main:.engineering/proposals/PH-SEC-VEX-POLICY.md",
+      "expected": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "actual": "3e1b20cbe164d655379a5b93e360186dd14daac7",
+      "pass": true
+    },
+    {
+      "name": "blob main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+      "expected": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "actual": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "pass": true
+    },
+    {
+      "name": "blob main:.engineering/SECURITY.md",
+      "expected": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "actual": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "pass": true
+    },
+    {
+      "name": "blob main:.engineering/TEST-BENCHMARK-PLAN.md",
+      "expected": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "actual": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "pass": true
+    },
+    {
+      "name": "blob main:.engineering/DEFINITION-OF-DONE.md",
+      "expected": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "actual": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "pass": true
+    },
+    {
+      "name": "blob parent:.engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",
+      "expected": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
+      "actual": "73c209383e3cac6a525e2f0f3164908a7cca40ff",
+      "pass": true
+    },
+    {
+      "name": "blob parent:.engineering/evidence/PH-SEC-WO-003-EVIDENCE.md",
+      "expected": "95c637deac0528148f9eeb1815072d431b793127",
+      "actual": "95c637deac0528148f9eeb1815072d431b793127",
+      "pass": true
+    },
+    {
+      "name": "blob parent:.engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+      "expected": "63052aca98c6162904f1c27033a92319d4e90734",
+      "actual": "63052aca98c6162904f1c27033a92319d4e90734",
+      "pass": true
+    },
+    {
+      "name": "blob parent:Dockerfile.dev",
+      "expected": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "actual": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "pass": true
+    },
+    {
+      "name": "blob parent:package-lock.json",
+      "expected": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+      "actual": "9ca8e55576ed302ebd97a513b57b1f01bf9939ad",
+      "pass": true
+    },
+    {
+      "name": "blob parent:package.json",
+      "expected": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+      "actual": "8764a0810a6b31e277d4e8b6b97f5c2a67fefdb8",
+      "pass": true
+    },
+    {
+      "name": "locked SARIF blob SHA",
+      "expected": "63052aca98c6162904f1c27033a92319d4e90734",
+      "actual": "63052aca98c6162904f1c27033a92319d4e90734",
+      "pass": true
+    },
+    {
+      "name": "SARIF worktree normalized to parent blob",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "name": "SARIF worktree SHA-256",
+      "expected": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+      "actual": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+      "pass": true
+    },
+    {
+      "name": "unique HIGH/CRITICAL CVEs",
+      "expected": 56,
+      "actual": 56,
+      "pass": true
+    },
+    {
+      "name": "unique CVE severity counts",
+      "expected": {
+        "HIGH": 50,
+        "CRITICAL": 6
+      },
+      "actual": {
+        "HIGH": 50,
+        "CRITICAL": 6
+      },
+      "pass": true
+    },
+    {
+      "name": "unique Go stdlib CVEs",
+      "expected": 35,
+      "actual": 35,
+      "pass": true
+    },
+    {
+      "name": "Go stdlib occurrences",
+      "expected": 64,
+      "actual": 64,
+      "pass": true
+    },
+    {
+      "name": "scanner Go stdlib versions",
+      "expected": [
+        "1.20.7",
+        "1.23.12",
+        "1.26.4"
+      ],
+      "actual": [
+        "1.20.7",
+        "1.23.12",
+        "1.26.4"
+      ],
+      "pass": true
+    },
+    {
+      "name": "locked executable paths",
+      "expected": [
+        "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+        "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+        "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+      ],
+      "actual": [
+        "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+        "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+        "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc"
+      ],
+      "pass": true
+    },
+    {
+      "name": "exact expected Go CVE identifiers",
+      "expected": [
+        "CVE-2022-30635",
+        "CVE-2023-39325",
+        "CVE-2023-44487",
+        "CVE-2023-45283",
+        "CVE-2023-45288",
+        "CVE-2024-24784",
+        "CVE-2024-24790",
+        "CVE-2024-24791",
+        "CVE-2024-34156",
+        "CVE-2024-34158",
+        "CVE-2025-22871",
+        "CVE-2025-58187",
+        "CVE-2025-58188",
+        "CVE-2025-61723",
+        "CVE-2025-61725",
+        "CVE-2025-61726",
+        "CVE-2025-61729",
+        "CVE-2025-68121",
+        "CVE-2026-25679",
+        "CVE-2026-32280",
+        "CVE-2026-32281",
+        "CVE-2026-32283",
+        "CVE-2026-33811",
+        "CVE-2026-33814",
+        "CVE-2026-33818",
+        "CVE-2026-39820",
+        "CVE-2026-39821",
+        "CVE-2026-39822",
+        "CVE-2026-39836",
+        "CVE-2026-42499",
+        "CVE-2026-42504",
+        "CVE-2026-46600",
+        "CVE-2026-56853",
+        "CVE-2026-56859",
+        "CVE-2026-56862"
+      ],
+      "actual": [
+        "CVE-2022-30635",
+        "CVE-2023-39325",
+        "CVE-2023-44487",
+        "CVE-2023-45283",
+        "CVE-2023-45288",
+        "CVE-2024-24784",
+        "CVE-2024-24790",
+        "CVE-2024-24791",
+        "CVE-2024-34156",
+        "CVE-2024-34158",
+        "CVE-2025-22871",
+        "CVE-2025-58187",
+        "CVE-2025-58188",
+        "CVE-2025-61723",
+        "CVE-2025-61725",
+        "CVE-2025-61726",
+        "CVE-2025-61729",
+        "CVE-2025-68121",
+        "CVE-2026-25679",
+        "CVE-2026-32280",
+        "CVE-2026-32281",
+        "CVE-2026-32283",
+        "CVE-2026-33811",
+        "CVE-2026-33814",
+        "CVE-2026-33818",
+        "CVE-2026-39820",
+        "CVE-2026-39821",
+        "CVE-2026-39822",
+        "CVE-2026-39836",
+        "CVE-2026-42499",
+        "CVE-2026-42504",
+        "CVE-2026-46600",
+        "CVE-2026-56853",
+        "CVE-2026-56859",
+        "CVE-2026-56862"
+      ],
       "pass": true
     }
   ],
-  "validationPass": true
+  "pass": true,
+  "occurrenceMatrix": [
+    {
+      "cve": "CVE-2022-30635",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 126
+    },
+    {
+      "cve": "CVE-2023-39325",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 127
+    },
+    {
+      "cve": "CVE-2023-44487",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 128
+    },
+    {
+      "cve": "CVE-2023-45283",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 129
+    },
+    {
+      "cve": "CVE-2023-45288",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 130
+    },
+    {
+      "cve": "CVE-2024-24784",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 131
+    },
+    {
+      "cve": "CVE-2024-24791",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 132
+    },
+    {
+      "cve": "CVE-2024-34156",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 133
+    },
+    {
+      "cve": "CVE-2024-34158",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 134
+    },
+    {
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 135
+    },
+    {
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 136
+    },
+    {
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 137
+    },
+    {
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 138
+    },
+    {
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 139
+    },
+    {
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 140
+    },
+    {
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 141
+    },
+    {
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 142
+    },
+    {
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 143
+    },
+    {
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 144
+    },
+    {
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 145
+    },
+    {
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 146
+    },
+    {
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 151
+    },
+    {
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 152
+    },
+    {
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 153
+    },
+    {
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 154
+    },
+    {
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 155
+    },
+    {
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 156
+    },
+    {
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 157
+    },
+    {
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 158
+    },
+    {
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 159
+    },
+    {
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 160
+    },
+    {
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 161
+    },
+    {
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 162
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 163
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 164
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 165
+    },
+    {
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 166
+    },
+    {
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 167
+    },
+    {
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 168
+    },
+    {
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 169
+    },
+    {
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 170
+    },
+    {
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 171
+    },
+    {
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 172
+    },
+    {
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 173
+    },
+    {
+      "cve": "CVE-2026-46600",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 174
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 176
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 177
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 178
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 179
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 180
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 181
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 182
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 183
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 184
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 191
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 192
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 193
+    },
+    {
+      "cve": "CVE-2025-22871",
+      "severity": "CRITICAL",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 199
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "version": "1.26.4",
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "index": 202
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 203
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 204
+    },
+    {
+      "cve": "CVE-2024-24790",
+      "severity": "CRITICAL",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 205
+    },
+    {
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "version": "1.20.7",
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 206
+    },
+    {
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "version": "1.23.12",
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "index": 207
+    }
+  ],
+  "sarif": {
+    "path": ".engineering/evidence/PH-M01-WO-001-container-scans/polyhunter-dev-final.sarif",
+    "blobSha1": "63052aca98c6162904f1c27033a92319d4e90734",
+    "worktreeSha256": "e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372",
+    "parentSha256": "e703ff5206493044293ab3ee0a54502223dd0bffa5c8972bee0f8f131e96b86d",
+    "normalizedWorktreeMatchesParentBlob": true
+  }
 }
