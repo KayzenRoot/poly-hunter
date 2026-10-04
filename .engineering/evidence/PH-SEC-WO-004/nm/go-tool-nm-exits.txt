@@ -1,0 +1,3 @@
+esbuild-nested exit=1
+esbuild-top exit=1
+tsc-native exit=1

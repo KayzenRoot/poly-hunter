@@ -1,0 +1,16 @@
+{
+	"Path": "golang.org/x/vuln",
+	"Version": "v1.8.0",
+	"Info": "/go/pkg/mod/cache/download/golang.org/x/vuln/@v/v1.8.0.info",
+	"GoMod": "/go/pkg/mod/cache/download/golang.org/x/vuln/@v/v1.8.0.mod",
+	"Zip": "/go/pkg/mod/cache/download/golang.org/x/vuln/@v/v1.8.0.zip",
+	"Dir": "/go/pkg/mod/golang.org/x/vuln@v1.8.0",
+	"Sum": "h1:clG4qBU6zH5VKjti8n5j8BBuYzoSha392xXMkXS351U=",
+	"GoModSum": "h1:Fzm4XK3Hbl1ZvZ7JpNTEWb7CJWOZ7m2LX0GLu4Fsrwo=",
+	"Origin": {
+		"VCS": "git",
+		"URL": "https://go.googlesource.com/vuln",
+		"Hash": "709015412431dd2b5b28a53c06c70bc02d49074c",
+		"Ref": "refs/tags/v1.8.0"
+	}
+}

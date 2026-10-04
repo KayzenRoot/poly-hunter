@@ -1,0 +1,236 @@
+{
+  "capturedAtUtc": "2026-10-04T10:56:01.410Z",
+  "container": "polyhunter-web; image sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa; user node (uid 1000); no effective Linux capabilities observed",
+  "probes": [
+    {
+      "label": "nested-esbuild",
+      "esbuildVersion": "0.18.20",
+      "benignInput": "in-memory TypeScript transform only",
+      "contextCreated": true,
+      "processes": [
+        {
+          "pid": 109778,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.18.20 --ping",
+          "exe": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+          "socketInodes": [
+            "2748373",
+            "2748375"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748373",
+              "raw": "00000000159c8102: 00000003 00000000 00000000 0001 03 2748373"
+            },
+            {
+              "inode": "2748375",
+              "raw": "00000000589da73b: 00000003 00000000 00000000 0001 03 2748375"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "top-level-esbuild",
+      "esbuildVersion": "0.25.12",
+      "benignInput": "in-memory TypeScript transform only",
+      "contextCreated": true,
+      "processes": [
+        {
+          "pid": 109778,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.18.20 --ping",
+          "exe": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+          "socketInodes": [
+            "2748373",
+            "2748375"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748373",
+              "raw": "00000000159c8102: 00000003 00000000 00000000 0001 03 2748373"
+            },
+            {
+              "inode": "2748375",
+              "raw": "00000000589da73b: 00000003 00000000 00000000 0001 03 2748375"
+            }
+          ]
+        },
+        {
+          "pid": 109783,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.25.12 --ping",
+          "exe": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+          "socketInodes": [
+            "2748391",
+            "2748393"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748391",
+              "raw": "0000000036140861: 00000003 00000000 00000000 0001 03 2748391"
+            },
+            {
+              "inode": "2748393",
+              "raw": "000000008ca7f0d2: 00000003 00000000 00000000 0001 03 2748393"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "command": "/workspace/node_modules/.bin/tsc --help",
+      "benignInput": "help request; no compilation or filesystem output",
+      "exitCode": 0,
+      "signal": null,
+      "stdoutHead": "tsc: The TypeScript Compiler - Version 7.0.2\n\nCOMMON COMMANDS\n\n  tsc\n  Compiles the current project (tsconfig.json in the working directory.)\n\n  tsc app.ts util.ts\n  Ignoring tsconfig.json, compiles the specified files with default compiler options.\n\n  tsc -b\n  Build a composite project in the working directory.\n\n  tsc --init\n  Creates a tsconfig.json with the recommended settings in the working directory.\n\n  tsc -p ./path/to/tsconfig.json\n  Compiles the TypeScript project located at the specifi",
+      "stderrHead": "",
+      "processes": [
+        {
+          "pid": 109778,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.18.20 --ping",
+          "exe": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+          "socketInodes": [
+            "2748373",
+            "2748375"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748373",
+              "raw": "00000000159c8102: 00000003 00000000 00000000 0001 03 2748373"
+            },
+            {
+              "inode": "2748375",
+              "raw": "00000000589da73b: 00000003 00000000 00000000 0001 03 2748375"
+            }
+          ]
+        },
+        {
+          "pid": 109783,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.25.12 --ping",
+          "exe": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+          "socketInodes": [
+            "2748391",
+            "2748393"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748391",
+              "raw": "0000000036140861: 00000003 00000000 00000000 0001 03 2748391"
+            },
+            {
+              "inode": "2748393",
+              "raw": "000000008ca7f0d2: 00000003 00000000 00000000 0001 03 2748393"
+            }
+          ]
+        },
+        {
+          "pid": 109788,
+          "ppid": "109766",
+          "uid": "1000\t1000\t1000\t1000",
+          "capEff": "0000000000000000",
+          "cmdline": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc --help",
+          "exe": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+          "socketInodes": [
+            "2748406",
+            "2748408"
+          ],
+          "tcpSockets": [],
+          "unixSockets": [
+            {
+              "inode": "2748406",
+              "raw": "000000003d17a156: 00000003 00000000 00000000 0001 03 2748406"
+            },
+            {
+              "inode": "2748408",
+              "raw": "0000000099483c36: 00000003 00000000 00000000 0001 03 2748408"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "wrapperFiles": [
+    {
+      "path": "/workspace/node_modules/.bin/tsc",
+      "realpath": "/workspace/node_modules/typescript/bin/tsc",
+      "bytes": 44,
+      "sha256": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+      "relevantLines": [
+        {
+          "line": 2,
+          "text": "import \"../lib/tsc.js\";"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/node_modules/typescript/bin/tsc",
+      "realpath": "/workspace/node_modules/typescript/bin/tsc",
+      "bytes": 44,
+      "sha256": "2219f428a7e55aaf1f7ad85b9b0f0cf5078aeb76ccc9a7c6036c92d48f492ffd",
+      "relevantLines": [
+        {
+          "line": 2,
+          "text": "import \"../lib/tsc.js\";"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/node_modules/typescript/lib/tsc.js",
+      "realpath": "/workspace/node_modules/typescript/lib/tsc.js",
+      "bytes": 609,
+      "sha256": "cbdfbf11c26ed00dfc073155e316a42d6d6d8a387be61006b82fa9aa93ac572e",
+      "relevantLines": [
+        {
+          "line": 4,
+          "text": "import { execFileSync } from \"node:child_process\";"
+        },
+        {
+          "line": 8,
+          "text": "if (process.platform !== \"win32\" && typeof process.execve === \"function\") {"
+        },
+        {
+          "line": 11,
+          "text": "        process.execve(exe, [exe, ...process.argv.slice(2)]);"
+        },
+        {
+          "line": 19,
+          "text": "    execFileSync(exe, process.argv.slice(2), { stdio: \"inherit\" });"
+        }
+      ]
+    },
+    {
+      "path": "/workspace/node_modules/typescript/lib/getExePath.js",
+      "realpath": "/workspace/node_modules/typescript/lib/getExePath.js",
+      "bytes": 3051,
+      "sha256": "96c10fd3a18e165d7323de8e314ac8d755ad96811f9fbc304a5b3ba4e05285cc",
+      "relevantLines": [
+        {
+          "line": 14,
+          "text": "    const expectedBinName = baseName === \"typescript\" ? \"tsc\" : \"tsgo\";"
+        },
+        {
+          "line": 66,
+          "text": "        throw new Error(\"Executable not found: \" + exe);"
+        }
+      ]
+    }
+  ]
+}

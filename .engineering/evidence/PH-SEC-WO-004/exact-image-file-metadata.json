@@ -1,0 +1,63 @@
+{
+  "capturedAtUtc": "2026-10-04T10:39:27.680Z",
+  "containerImage": "polyhunter-dev:local",
+  "metadata": {
+    "packageLock": {
+      "path": "/workspace/package-lock.json",
+      "sizeBytes": 148454,
+      "mode": "0o755",
+      "uid": 1000,
+      "gid": 1000,
+      "mtimeUtc": "2026-10-03T19:19:17.000Z",
+      "sha256": "4cb034134a9ced361b4aec887cfa8209ca3cde7e49b914983d460e11d22bb7e1"
+    },
+    "nestedEsbuild": {
+      "path": "/workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sizeBytes": 9347072,
+      "mode": "0o755",
+      "uid": 1000,
+      "gid": 1000,
+      "mtimeUtc": "2026-10-03T22:07:48.000Z",
+      "sha256": "82afa0d18098bef823ba5b5c89bb5cfbea1a25f0721416d29a9dd7ba73fd237d",
+      "elf": {
+        "magic": "7f454c46",
+        "class": 2,
+        "endianness": 1,
+        "machine": 62,
+        "architecture": "x86_64"
+      }
+    },
+    "topEsbuild": {
+      "path": "/workspace/node_modules/@esbuild/linux-x64/bin/esbuild",
+      "sizeBytes": 10358936,
+      "mode": "0o755",
+      "uid": 1000,
+      "gid": 1000,
+      "mtimeUtc": "2026-10-03T22:07:49.000Z",
+      "sha256": "bab29b2ca7a9e89b67cf720b77b2d743f9f31f5cf0d5bd74ee8c8de30ced7014",
+      "elf": {
+        "magic": "7f454c46",
+        "class": 2,
+        "endianness": 1,
+        "machine": 62,
+        "architecture": "x86_64"
+      }
+    },
+    "nativeTsc": {
+      "path": "/workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc",
+      "sizeBytes": 24101026,
+      "mode": "0o755",
+      "uid": 1000,
+      "gid": 1000,
+      "mtimeUtc": "2026-10-03T22:07:53.000Z",
+      "sha256": "4f2de678286401759b3fb4475bafe35b8f32b4b3a07d92642bbf37eadc9b34a4",
+      "elf": {
+        "magic": "7f454c46",
+        "class": 2,
+        "endianness": 1,
+        "machine": 62,
+        "architecture": "x86_64"
+      }
+    }
+  }
+}

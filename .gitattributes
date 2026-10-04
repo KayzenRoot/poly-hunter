@@ -11,3 +11,8 @@
 /package-lock.json text eol=lf
 /tsconfig.base.json text eol=lf
 /vitest.config.ts text eol=lf
+# Preserve exact bytes for PH-SEC-WO-004 security-analysis receipts and deliverables.
+/.engineering/evidence/PH-SEC-WO-004/** -text
+/.engineering/evidence/PH-SEC-WO-004-DEV-GO-VEX.json -text
+/.engineering/evidence/PH-SEC-WO-004-DEV-GO-VEX.md -text
+/.engineering/evidence/PH-SEC-WO-004-EVIDENCE.md -text

@@ -1,0 +1,53 @@
+{
+  "capturedAtUtc": "2026-10-04T10:39:57.714Z",
+  "processes": [
+    {
+      "pid": 107335,
+      "ppid": "0",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "MainThread",
+      "cmdline": "node -"
+    },
+    {
+      "pid": 19,
+      "ppid": "7",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "sh",
+      "cmdline": "sh -c next dev --webpack --hostname 0.0.0.0"
+    },
+    {
+      "pid": 20,
+      "ppid": "19",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "MainThread",
+      "cmdline": "node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0"
+    },
+    {
+      "pid": 32,
+      "ppid": "20",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "next-server (v1",
+      "cmdline": "next-server (v16.3.8)"
+    }
+  ],
+  "listeningSockets": [
+    {
+      "family": "tcp",
+      "localAddressHex": "00000000:0BB8",
+      "localPortHex": "0BB8",
+      "uid": "1000",
+      "inode": "1062539"
+    },
+    {
+      "family": "tcp",
+      "localAddressHex": "0B00007F:AFAD",
+      "localPortHex": "AFAD",
+      "uid": "0",
+      "inode": "1065994"
+    }
+  ]
+}

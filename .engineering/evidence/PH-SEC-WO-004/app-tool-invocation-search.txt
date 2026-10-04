@@ -1,0 +1,4 @@
+command: rg -n -S -g '*.ts' -g '*.tsx' -g '*.js' -g '*.mjs' 'child_process|execFile|spawn\(|esbuild|typescript-linux-x64' apps packages
+exit: 1
+
+

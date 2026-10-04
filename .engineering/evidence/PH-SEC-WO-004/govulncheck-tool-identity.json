@@ -1,0 +1,22 @@
+{
+  "capturedAtUtc": "2026-10-04T11:09:53.928784+00:00",
+  "tool": "golang.org/x/vuln/cmd/govulncheck",
+  "version": "Go: go1.26.8\nScanner: govulncheck@v1.8.0\nDB: https://vuln.go.dev\nDB updated: 2026-10-01 20:24:15 +0000 UTC",
+  "binarySha256": "0f5cad04c333d9e2b563dfb9d45b66700fc67ab70ee0adcf28b9622d938bae75",
+  "binaryBytes": 15050565,
+  "moduleVersion": "v1.8.0",
+  "moduleSum": "h1:clG4qBU6zH5VKjti8n5j8BBuYzoSha392xXMkXS351U=",
+  "moduleGoModSum": "h1:Fzm4XK3Hbl1ZvZ7JpNTEWb7CJWOZ7m2LX0GLu4Fsrwo=",
+  "goToolchain": "go version go1.26.8 linux/amd64",
+  "toolImage": {
+    "tag": "golang:1.26-bookworm",
+    "imageId": "sha256:a688600ca24f8a4d3ca77f95b0dd40704a9fc787c826660eb7ba0b641b8b175d",
+    "repoDigest": "golang@sha256:a688600ca24f8a4d3ca77f95b0dd40704a9fc787c826660eb7ba0b641b8b175d",
+    "created": "2026-09-19T02:17:12.395665498Z",
+    "architecture": "amd64",
+    "os": "linux"
+  },
+  "database": "https://vuln.go.dev",
+  "databaseLastModified": "2026-10-01T20:24:15Z",
+  "runtimeReceipt": "govulncheck-runner.json"
+}

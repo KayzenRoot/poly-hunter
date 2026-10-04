@@ -1,0 +1,72 @@
+{
+  "capturedAtUtc": "2026-10-04T10:57:07.0683596Z",
+  "services": {
+    "web": {
+      "status": "running",
+      "healthy": "healthy",
+      "image": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+      "user": "node",
+      "entrypoint": [
+        "docker-entrypoint.sh"
+      ],
+      "command": [
+        "npm",
+        "run",
+        "dev",
+        "--workspace",
+        "@polyhunter/web",
+        "--",
+        "--webpack",
+        "--hostname",
+        "0.0.0.0"
+      ],
+      "privileged": false,
+      "readonlyRootfs": false,
+      "capAdd": null,
+      "capDrop": null,
+      "securityOpt": null,
+      "networkMode": "polyhunter-local_default",
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "3000"
+          }
+        ]
+      }
+    },
+    "worker": {
+      "status": "running",
+      "image": "sha256:6c8701d8141745e1625c392da42ff643389ed1dab1fcddd13d8dcff704180caa",
+      "user": "node",
+      "entrypoint": [
+        "docker-entrypoint.sh"
+      ],
+      "command": [
+        "./node_modules/.bin/nodemon",
+        "--legacy-watch",
+        "--polling-interval",
+        "1000",
+        "--watch",
+        "apps/worker",
+        "--watch",
+        "packages",
+        "--ext",
+        "ts,json",
+        "--exec",
+        "node",
+        "apps/worker/src/index.ts"
+      ],
+      "privileged": false,
+      "readonlyRootfs": false,
+      "capAdd": null,
+      "capDrop": null,
+      "securityOpt": null,
+      "networkMode": "polyhunter-local_default",
+      "ports": {}
+    }
+  },
+  "webProcessReceipt": "polyhunter-web-runtime-processes.json",
+  "workerProcessReceipt": "polyhunter-worker-runtime-processes.json",
+  "workerLogReceipt": "polyhunter-worker-last-30.log"
+}
