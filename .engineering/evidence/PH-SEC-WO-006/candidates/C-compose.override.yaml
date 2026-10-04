@@ -3,9 +3,9 @@ services:
     image: polyhunter-ph-sec-wo006-c:local
     build:
       context: .
-      dockerfile: .engineering/evidence/PH-SEC-WO-006/candidates/C.Dockerfile
+      dockerfile: .engineering/evidence/PH-SEC-WO-006/candidates/C.Dockerfile.txt
   worker:
     image: polyhunter-ph-sec-wo006-c:local
     build:
       context: .
-      dockerfile: .engineering/evidence/PH-SEC-WO-006/candidates/C.Dockerfile
+      dockerfile: .engineering/evidence/PH-SEC-WO-006/candidates/C.Dockerfile.txt

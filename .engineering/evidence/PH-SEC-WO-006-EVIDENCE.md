@@ -74,7 +74,11 @@ The complete C functional matrix passed on Node v24.21.0. The security acceptanc
 | Worker restart smoke | PASS; container returned to running | validation/C/worker-restart.txt and worker-restart-logs.txt |
 | Final Docker Scout on the same C image digest | FAIL security gate; 13 HIGH, 0 CRITICAL, including new CVE-2026-84782 | candidates/C-final-scan.sarif and C-final-reconciliation.json |
 
-The Compose candidate overlay and Dockerfiles A/B1/B2/C/D exist only as test receipts under candidates/. The original Dockerfile.dev and Compose topology are unchanged.
+The Compose candidate overlay and candidate build inputs A/B1/B2/C/D exist only as test receipts under candidates/. The original Dockerfile.dev and Compose topology are unchanged.
+
+### CI evidence-input handling
+
+The first PR CI run found SonarCloud security-quality-gate annotations only on the five test-only candidate build recipes (`A.Dockerfile` through `D.Dockerfile`), which were being treated as source files. Their byte-for-byte contents are now preserved as `A.Dockerfile.txt` through `D.Dockerfile.txt`; this changes receipt filenames only and does not suppress or alter any image scan. Candidate C's Compose overlay points to the preserved `.txt` Dockerfile input, which Docker accepts by explicit path. The raw SARIF scans and their SHA-256 receipts remain unchanged. The pre-correction check and annotations are preserved under `ci/`; the corrected head is queued for CI revalidation.
 
 ## Exact unresolved security findings
 
