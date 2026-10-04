@@ -52,7 +52,7 @@ Candidate C received the full requested matrix. Results are in PH-SEC-WO-006/val
 - PASS: worker restart smoke; worker returned to running. Final Scout scan of the same C image digest reproduced 13 HIGH / 0 CRITICAL, including new OpenSSL CVE-2026-84782.
 - The first format check found a pre-existing whitespace-only issue in vitest.integration.config.ts. Biome formatting fixed whitespace only; its committed blob hash is unchanged. The full suite was rerun and passed.
 
-The candidate Dockerfile build inputs are retained verbatim as `.Dockerfile.txt` receipts to keep test-only recipes out of source-code analysis. Candidate C's Compose override references `C.Dockerfile.txt`; Docker uses the explicit path. Scan results and SARIF hashes are unchanged.
+The candidate Dockerfile build inputs are retained verbatim as `.Dockerfile.txt` receipts to keep test-only recipes out of source-code analysis. Git blob comparisons confirm all five files are byte-for-byte unchanged; Candidate C's Compose override references `C.Dockerfile.txt`, and the post-rename Compose config check passed. Scan results and SARIF hashes are unchanged. Corrected-head SonarCloud and both Socket checks passed; receipts are in `PH-SEC-WO-006/ci/`.
 
 ## Selection / stop result
 

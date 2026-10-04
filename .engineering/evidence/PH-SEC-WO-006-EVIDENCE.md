@@ -78,7 +78,9 @@ The Compose candidate overlay and candidate build inputs A/B1/B2/C/D exist only 
 
 ### CI evidence-input handling
 
-The first PR CI run found SonarCloud security-quality-gate annotations only on the five test-only candidate build recipes (`A.Dockerfile` through `D.Dockerfile`), which were being treated as source files. Their byte-for-byte contents are now preserved as `A.Dockerfile.txt` through `D.Dockerfile.txt`; this changes receipt filenames only and does not suppress or alter any image scan. Candidate C's Compose overlay points to the preserved `.txt` Dockerfile input, which Docker accepts by explicit path. The raw SARIF scans and their SHA-256 receipts remain unchanged. The pre-correction check and annotations are preserved under `ci/`; the corrected head is queued for CI revalidation.
+The first PR CI run found SonarCloud security-quality-gate annotations only on the five test-only candidate build recipes (`A.Dockerfile` through `D.Dockerfile`), which were being treated as source files. Their byte-for-byte contents are now preserved as `A.Dockerfile.txt` through `D.Dockerfile.txt`; the recorded Git blob comparison confirms all five are identical to their pre-rename contents. Candidate C's Compose overlay points to the preserved `.txt` Dockerfile input; `docker compose config --quiet` passed with that path. This changes receipt filenames only and does not suppress or alter any image scan. The raw SARIF scans and their SHA-256 receipts remain unchanged.
+
+On corrected head `114bb13f854d41a1c48bdf0e33a4facd77c5dbef`, SonarCloud Code Analysis passed (check run `111543109636`, zero annotations); Socket Project Report and Pull Request Alerts also passed. Raw check-run data, the empty Sonar annotation result, and pre-correction failure annotations are preserved under `ci/`. The current commit adds only these CI/config receipts and their checksums; no product or executable inputs changed.
 
 ## Exact unresolved security findings
 
