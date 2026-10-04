@@ -24,3 +24,15 @@ Any live order placement, signing authority, credential handling, kill-switch be
 - Never claim profitability from a backtest alone.
 - Never advance with a known HIGH/CRITICAL defect.
 - Never force-push or rewrite history without separate explicit owner authorization.
+
+## Mandatory post-review progress snapshot
+After every review/audit verdict, append the Project Progress Snapshot defined in `.engineering/REVIEW-PROGRESS-REPORTING.md`.
+
+At minimum report:
+- estimated MVP % complete and % remaining;
+- what is proven done and what remains;
+- estimated time to next milestone and to MVP when responsibly estimable;
+- estimated remaining Codex/executor prompts and review/correction cycles;
+- confidence and assumptions.
+
+Repository/Checkpoint evidence controls factual state. Percentages, time and prompt counts are estimates unless explicitly canonicalized. Never report an estimate as proof of completion.
