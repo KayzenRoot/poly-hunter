@@ -1,7 +1,7 @@
 # PH-M01-WO-001 Evidence Bundle
 
 Status: READY_FOR_FINAL_INDEPENDENT_AUDIT.
-Current as of parent HEAD `75d83d813d018a19bee03f50656a4e0155a49899` (artifact `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`).
+Security-closure basis head: `75d83d813d018a19bee03f50656a4e0155a49899` (artifact `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`). The exact final-audit candidate is the current PR HEAD recorded in PR metadata/checks; this bundle intentionally avoids a self-referential current-commit claim.
 
 The earlier status `CR-03_CANDIDATES_TESTED / BLOCKED_NO_CLEAN_OFFICIAL_POSTGRESQL_17_IMAGE` is **historical**. It described the state at Correction Delta CR-03 (2026-10-03), when no tested official PostgreSQL 17 image and the then-current dev image had zero High/Critical findings. Every blocker reported in the CR-01/CR-02/CR-03 scans below was subsequently resolved through the security increments PH-SEC-WO-004 through PH-SEC-WO-008 via exact-artifact VEX analysis under ADR-0007 — no image was replaced, no finding was suppressed, and the canonical artifact digest was re-pinned. See the **Security Gate Closure** section at the end of this bundle for the authoritative current state.
 
@@ -225,7 +225,7 @@ The original stop condition below recorded the CR-01/CR-02/CR-03 state truthfull
 
 This section records the completed ADR-0007 disposition chain for the exact parent artifact and is the authoritative security state of PH-M01-WO-001, superseding the historical CR-01/CR-02/CR-03 gate verdicts above.
 
-- **Parent HEAD:** `75d83d813d018a19bee03f50656a4e0155a49899`
+- **Security-closure basis head:** `75d83d813d018a19bee03f50656a4e0155a49899`
 - **Artifact:** `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
 - **Security-gate chain:** PH-SEC-WO-004 -> PH-SEC-WO-005 -> PH-SEC-WO-006 -> PH-SEC-WO-007 -> PH-SEC-WO-008
 
@@ -258,8 +258,10 @@ Both dispositions:
 
 ### Exact-head CI (parent)
 
-- GitHub Actions **Validate**: run **#48** (`37353632952`), result **SUCCESS**, HEAD `75d83d813d018a19bee03f50656a4e0155a49899` (exact current parent head; Node 24 install, required validation gates, versioned migration, PostgreSQL integration).
-- CodeRabbit: **SUCCESS** on the same head.
+- GitHub Actions **Validate**: run **#48** (`37353632952`), result **SUCCESS**, HEAD `75d83d813d018a19bee03f50656a4e0155a49899` (security-closure basis head; Node 24 install, required validation gates, versioned migration, PostgreSQL integration).
+- Metadata-only correction head `8cb7e8c42ed6798825b1851e6369cc93bcbaee28`: Validate run **#49** (`37354702772`) **SUCCESS**.
+- Final governance-correction candidate `fccb85db5c4b74126d1e2e0661f85c90512cfa70`: Validate run **#50** (`37355677505`) **SUCCESS** before this wording-only closure delta.
+- CodeRabbit: **SUCCESS** on the audited metadata lineage.
 - SonarCloud Quality Gate: PASS; Socket Security (Project Report and PR Alerts): PASS.
 - PR #15 remains OPEN + DRAFT and mergeable.
 
