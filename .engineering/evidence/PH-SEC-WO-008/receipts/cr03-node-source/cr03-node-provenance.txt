@@ -1,0 +1,13 @@
+# query: sh -c git log -1 --format="commit=%H%ntag=v24.21.0%nsubject=%s%nauthor=%an%ndate=%aI"; echo; git rev-parse HEAD; echo; git describe --tags --exact-match HEAD 2>/dev/null
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:45Z
+
+commit=955266bfdd854cd280dffd47548673914484e4c0
+tag=v24.21.0
+subject=2026-09-08, Version 24.21.0 'Krypton' (LTS)
+author=Antoine du Hamel
+date=2026-09-07T11:54:53+02:00
+
+955266bfdd854cd280dffd47548673914484e4c0
+
+v24.21.0

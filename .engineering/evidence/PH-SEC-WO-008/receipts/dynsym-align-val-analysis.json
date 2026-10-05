@@ -1,0 +1,84 @@
+{
+ "node": {
+  "align_val": [
+   [
+    "_ZnamSt11align_val_t",
+    "UNDEF(import)"
+   ],
+   [
+    "_ZdaPvSt11align_val_t",
+    "UNDEF(import)"
+   ],
+   [
+    "_ZN5cppgc8internal33MakeGarbageCollectedTraitInternal8AllocateERNS_16AllocationHandleEmSt11align_val_tt",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZN5cppgc8internal33MakeGarbageCollectedTraitInternal8AllocateERNS_16AllocationHandleEmSt11align_val_ttNS_16CustomSpaceIndexE",
+    "DEFINED(shndx=13)"
+   ]
+  ],
+  "pb_ds": [],
+  "binary_heap": []
+ },
+ "libstdc++": {
+  "align_val": [
+   [
+    "_ZnamSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZnwmSt11align_val_tRKSt9nothrow_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZnwmSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdlPvSt11align_val_tRKSt9nothrow_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdaPvSt11align_val_tRKSt9nothrow_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdlPvmSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZnamSt11align_val_tRKSt9nothrow_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdlPvSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdaPvSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ],
+   [
+    "_ZdaPvmSt11align_val_t",
+    "DEFINED(shndx=13)"
+   ]
+  ],
+  "pb_ds": [],
+  "binary_heap": []
+ },
+ "libvips-cpp": {
+  "align_val": [
+   [
+    "_ZdaPvSt11align_val_t",
+    "UNDEF(import)"
+   ],
+   [
+    "_ZnamSt11align_val_t",
+    "UNDEF(import)"
+   ]
+  ],
+  "pb_ds": [],
+  "binary_heap": []
+ }
+}

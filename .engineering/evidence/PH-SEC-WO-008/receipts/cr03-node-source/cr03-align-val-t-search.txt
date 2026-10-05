@@ -1,0 +1,6 @@
+# query: sh -c grep -rn "align_val_t" src/ deps/v8/src deps/v8/include 2>/dev/null | grep -v test | grep -v Test
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:48Z
+
+deps/v8/src/heap/cppgc/object-allocator.h:42:  using AlignVal = std::align_val_t;
+deps/v8/include/cppgc/allocation.h:47:using AlignVal = std::align_val_t;

@@ -1,0 +1,6 @@
+# libultrahdr v2.0.2 provenance
+commit=e5f5a022fe96fc4dc2ee35c19f733a50df807abe
+tag=v2.0.2
+subject=release: Bump version to v2.0.2
+author=Dichen Zhang
+date=2026-08-13T00:21:49Z

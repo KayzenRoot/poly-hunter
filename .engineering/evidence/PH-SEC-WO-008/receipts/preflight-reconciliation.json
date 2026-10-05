@@ -1,0 +1,97 @@
+{
+ "workOrder": "PH-SEC-WO-008",
+ "revision": "post CR-05 (canonical evidence consistency)",
+ "timestamp": "2026-10-05",
+ "head": "02e9f96a28eda91bf3d4a8bd813df1e76315e178",
+ "checks": [
+  {
+   "id": "P0",
+   "check": "exact HEAD recorded",
+   "result": "PASS",
+   "detail": "02e9f96a28eda91bf3d4a8bd813df1e76315e178"
+  },
+  {
+   "id": "P1",
+   "check": "branch equals lock branch",
+   "result": "PASS",
+   "detail": "security/ph-m01-libstdcpp-final-two"
+  },
+  {
+   "id": "P1",
+   "check": "parent head 5cf4c2f is ancestor of HEAD",
+   "result": "PASS",
+   "detail": "merge-base --is-ancestor"
+  },
+  {
+   "id": "P2",
+   "check": "PR #15 OPEN+DRAFT+unmerged at 5cf4c2f; PR #35 open",
+   "result": "PASS",
+   "detail": "gh pr view: 15 OPEN/draft/unmerged headRefOid=5cf4c2f...; 35 OPEN"
+  },
+  {
+   "id": "P3",
+   "check": "Context Lock criticalSources fingerprints",
+   "result": "PASS",
+   "detail": "19/19"
+  },
+  {
+   "id": "P4",
+   "check": "artifact digest",
+   "result": "PASS",
+   "detail": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+  },
+  {
+   "id": "P4",
+   "check": "locked SARIF blob",
+   "result": "PASS",
+   "detail": "d3999a56..."
+  },
+  {
+   "id": "P5",
+   "check": "exactly 22 HIGH/CRITICAL rows / 22 distinct CVEs",
+   "result": "PASS",
+   "detail": "22 rows, 22 CVEs"
+  },
+  {
+   "id": "P6",
+   "check": "WO-007 20 approved NOT_AFFECTED + exactly 2 unresolved; Go HIGH/CRITICAL = 0",
+   "result": "PASS",
+   "detail": "20/2; 0 Go rules in locked SARIF"
+  },
+  {
+   "id": "P7",
+   "check": "CISA KEV snapshot",
+   "result": "PASS",
+   "detail": "2026.10.04; neither target CVE in KEV"
+  },
+  {
+   "id": "P7",
+   "check": "FIRST EPSS snapshot",
+   "result": "PASS",
+   "detail": "2026-10-05, 2 rows"
+  },
+  {
+   "id": "P8",
+   "check": "Node/V8 identity",
+   "result": "PASS",
+   "detail": "node=24.21.0"
+  },
+  {
+   "id": "E1",
+   "check": "SHA256SUMS verify (evidence integrity)",
+   "result": "PASS",
+   "detail": "101 entries; OK"
+  },
+  {
+   "id": "E2",
+   "check": "git diff --check",
+   "result": "PASS",
+   "detail": "clean"
+  }
+ ],
+ "summary": {
+  "total": 14,
+  "pass": 14,
+  "fail": 0
+ }
+}

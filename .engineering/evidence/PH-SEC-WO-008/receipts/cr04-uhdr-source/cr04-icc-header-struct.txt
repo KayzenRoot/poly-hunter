@@ -1,0 +1,44 @@
+# query: ICCHeader struct definition (alignof source)
+e5f5a022fe96fc4dc2ee35c19f733a50df807abe
+
+struct ICCHeader {
+  // Size of the profile (computed)
+  uint32_t size;
+  // Preferred CMM type (ignored)
+  uint32_t cmm_type = 0;
+  // Version 4.3 or 4.4 if CICP is included.
+  uint32_t version = Endian_SwapBE32(0x04300000);
+  // Display device profile
+  uint32_t profile_class = Endian_SwapBE32(kDisplay_Profile);
+  // RGB input color space;
+  uint32_t data_color_space = Endian_SwapBE32(kRGB_ColorSpace);
+  // Profile connection space.
+  uint32_t pcs = Endian_SwapBE32(kXYZ_PCSSpace);
+  // Date and time (ignored)
+  uint8_t creation_date_time[12] = {0};
+  // Profile signature
+  uint32_t signature = Endian_SwapBE32(kACSP_Signature);
+  // Platform target (ignored)
+  uint32_t platform = 0;
+  // Flags: not embedded, can be used independently
+  uint32_t flags = 0x00000000;
+  // Device manufacturer (ignored)
+  uint32_t device_manufacturer = 0;
+  // Device model (ignored)
+  uint32_t device_model = 0;
+  // Device attributes (ignored)
+  uint8_t device_attributes[8] = {0};
+  // Relative colorimetric rendering intent
+  uint32_t rendering_intent = Endian_SwapBE32(1);
+  // D50 standard illuminant (X, Y, Z)
+  uint32_t illuminant_X = Endian_SwapBE32(float_round_to_fixed(kD50_x));
+  uint32_t illuminant_Y = Endian_SwapBE32(float_round_to_fixed(kD50_y));
+  uint32_t illuminant_Z = Endian_SwapBE32(float_round_to_fixed(kD50_z));
+  // Profile creator (ignored)
+  uint32_t creator = 0;
+  // Profile id checksum (ignored)
+  uint8_t profile_id[16] = {0};
+  // Reserved (ignored)
+  uint8_t reserved[28] = {0};
+  // Technically not part of header, but required
+  uint32_t tag_count = 0;

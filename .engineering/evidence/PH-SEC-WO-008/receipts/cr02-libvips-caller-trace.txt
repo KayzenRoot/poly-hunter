@@ -1,0 +1,105 @@
+caller of ICC-profile fn at 0x3ef350
+0x3ef24c: add      byte ptr [rcx], al
+0x3ef24e: add      byte ptr [rax], al
+0x3ef250: add      byte ptr [rax - 0x77], cl
+0x3ef253: xchg     ebp, eax
+0x3ef254: sar      dh, 0xff
+0x3ef257: dec      dword ptr [rax - 0x73]
+0x3ef25a: adc      eax, 0x91eda9
+0x3ef25f: push     rax
+0x3ef260: xor      eax, eax
+0x3ef262: call     0xd40
+0x3ef267: mov      edx, 0x108
+0x3ef26c: mov      rdi, r15
+0x3ef26f: lea      rsi, [rbp - 0x140]
+0x3ef276: call     0x390
+0x3ef27b: pop      r9
+0x3ef27d: pop      r10
+0x3ef27f: mov      rdi, qword ptr [rbp - 0x198]
+0x3ef286: test     rdi, rdi
+0x3ef289: je       0x3ef29a
+0x3ef28b: mov      rsi, qword ptr [rbp - 0x188]
+0x3ef292: sub      rsi, rdi
+0x3ef295: call     0x420
+0x3ef29a: mov      rdi, qword ptr [rbp - 0x1b0]
+0x3ef2a1: test     rdi, rdi
+0x3ef2a4: je       0x3ef2b5
+0x3ef2a6: mov      rsi, qword ptr [rbp - 0x1a0]
+0x3ef2ad: sub      rsi, rdi
+0x3ef2b0: call     0x420
+0x3ef2b5: mov      rdi, qword ptr [rbp - 0x1c8]
+0x3ef2bc: test     rdi, rdi
+0x3ef2bf: je       0x3ef2d0
+0x3ef2c1: mov      rsi, qword ptr [rbp - 0x1b8]
+0x3ef2c8: sub      rsi, rdi
+0x3ef2cb: call     0x420
+0x3ef2d0: mov      rdi, qword ptr [rbp - 0x1e0]
+0x3ef2d7: test     rdi, rdi
+0x3ef2da: je       0x3ef2eb
+0x3ef2dc: mov      rsi, qword ptr [rbp - 0x1d0]
+0x3ef2e3: sub      rsi, rdi
+0x3ef2e6: call     0x420
+0x3ef2eb: mov      rdi, qword ptr [rbp - 0x1f8]
+0x3ef2f2: test     rdi, rdi
+0x3ef2f5: je       0x3ef306
+0x3ef2f7: mov      rsi, qword ptr [rbp - 0x1e8]
+0x3ef2fe: sub      rsi, rdi
+0x3ef301: call     0x420
+0x3ef306: lea      r12, [rbp - 0x1f8]
+0x3ef30d: mov      rdi, qword ptr [r12 - 8]
+0x3ef312: sub      r12, 8
+0x3ef316: test     rdi, rdi
+0x3ef319: je       0x3ef340
+0x3ef31b: call     0x9e0
+0x3ef320: cmp      r12, rbx
+0x3ef323: jne      0x3ef30d
+0x3ef325: lea      rsp, [rbp - 0x28]
+0x3ef329: mov      rax, r15
+0x3ef32c: pop      rbx
+0x3ef32d: pop      r12
+0x3ef32f: pop      r13
+0x3ef331: pop      r14
+0x3ef333: pop      r15
+0x3ef335: pop      rbp
+0x3ef336: ret
+0x3ef337: nop      word ptr [rax + rax]
+0x3ef340: cmp      r12, rbx
+0x3ef343: jne      0x3ef30d
+0x3ef345: jmp      0x3ef325
+0x3ef347: nop      word ptr [rax + rax]
+0x3ef350: call     0x403780  <<< call ICC_profile_fn
+0x3ef355: mov      ecx, dword ptr [r13 + 0x18]
+0x3ef359: mov      r8d, eax
+0x3ef35c: cmp      eax, -1
+0x3ef35f: je       0x3ef372
+0x3ef361: cmp      ecx, -1
+0x3ef364: je       0x3ef20b
+0x3ef36a: cmp      eax, ecx
+0x3ef36c: je       0x3ef20b
+
+enclosing function: (4124960, 1275)
+0x3ef21d: mov      eax, dword ptr [r12 + 0x14]
+0x3ef237: lea      rdi, [rbp - 0x138]
+0x3ef242: mov      esi, 0x100
+0x3ef26c: mov      rdi, r15
+0x3ef26f: lea      rsi, [rbp - 0x140]
+0x3ef27f: mov      rdi, qword ptr [rbp - 0x198]
+0x3ef28b: mov      rsi, qword ptr [rbp - 0x188]
+0x3ef292: sub      rsi, rdi
+0x3ef29a: mov      rdi, qword ptr [rbp - 0x1b0]
+0x3ef2a6: mov      rsi, qword ptr [rbp - 0x1a0]
+0x3ef2ad: sub      rsi, rdi
+0x3ef2b5: mov      rdi, qword ptr [rbp - 0x1c8]
+0x3ef2c1: mov      rsi, qword ptr [rbp - 0x1b8]
+0x3ef2c8: sub      rsi, rdi
+0x3ef2d0: mov      rdi, qword ptr [rbp - 0x1e0]
+0x3ef2dc: mov      rsi, qword ptr [rbp - 0x1d0]
+0x3ef2e3: sub      rsi, rdi
+0x3ef2eb: mov      rdi, qword ptr [rbp - 0x1f8]
+0x3ef2f7: mov      rsi, qword ptr [rbp - 0x1e8]
+0x3ef2fe: sub      rsi, rdi
+0x3ef306: lea      r12, [rbp - 0x1f8]
+0x3ef30d: mov      rdi, qword ptr [r12 - 8]
+0x3ef312: sub      r12, 8
+0x3ef329: mov      rax, r15
+0x3ef32d: pop      r12

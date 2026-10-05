@@ -1,0 +1,14 @@
+{
+  "supersededBy": "cr04-libvips-callsite-source-mapping.json (Correction Delta CR-04)",
+  "correction_history": "CR-02 fixed the ABI decoding (RSI=alignment, RDI=size). CR-04 now supersedes this receipt entirely: the callsite is identified as IccHelper::readIccColorGamut in libultrahdr v2.0.2 (lib/src/icc.cpp:657), and the size bound is proven from the JPEG marker 16-bit length cap.",
+  "withdrawn_claims": [
+    "runtime-unreachability of libvips/sharp based on point-in-time /proc/<pid>/maps — FALSIFIED by the CR-04 probe: a single benign /_next/image request lazily require('sharp') and mapped libvips-cpp + sharp addon into the running next-server process (before: 0/0; after: libvips=4, sharp=5).",
+    "'the size bound ... could not be mapped' — superseded: the TU is identified (uhdr icc.cpp readIccColorGamut) and the size is hard-bounded by the JPEG marker length field."
+  ],
+  "still_valid_facts": [
+    "ABI: RDI = size, RSI = alignment; mov esi,4 sets alignment = 4",
+    "R12 = icc_size - 14 (lea r12,[rsi-0xe])",
+    "verified PLT: 0x1f20 -> GOT 0x116be48 -> dynsym[532] _ZnamSt11align_val_t, 1 call site"
+  ],
+  "see": "receipts/cr04-libvips-callsite-source-mapping.json and receipts/cr04-uhdr-source/*"
+}

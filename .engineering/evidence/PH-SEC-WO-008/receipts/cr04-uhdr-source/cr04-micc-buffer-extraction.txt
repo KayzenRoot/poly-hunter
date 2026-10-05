@@ -1,0 +1,52 @@
+# query: mICCBuffer provenance (marker extraction)
+static void jpeg_extract_marker_payload(const j_decompress_ptr cinfo, const uint32_t marker_code,
+                                        const uint8_t* marker_fourcc_code,
+                                        const uint32_t fourcc_length,
+                                        std::vector<JOCTET>& destination,
+                                        long& markerPayloadOffsetRelativeToSourceBuffer) {
+  unsigned int pos = 2; /* position after reading SOI marker (0xffd8) */
+  markerPayloadOffsetRelativeToSourceBuffer = -1;
+
+  for (jpeg_marker_struct* marker = cinfo->marker_list; marker; marker = marker->next) {
+    pos += 4; /* position after reading next marker and its size (0xFFXX, [SIZE = 2 bytes]) */
+
+    if (marker->marker == marker_code && marker->data_length > fourcc_length &&
+        !memcmp(marker->data, marker_fourcc_code, fourcc_length)) {
+      destination.resize(marker->data_length);
+      memcpy(static_cast<void*>(destination.data()), marker->data, marker->data_length);
+      markerPayloadOffsetRelativeToSourceBuffer = pos;
+      return;
+    }
+    pos += marker->original_length; /* position after marker's payload */
+  }
+}
+...
+  myerr.output_message = output_message;
+
+  if (0 == setjmp(myerr.setjmp_buffer)) {
+    jpeg_create_decompress(&cinfo);
+    cinfo.src = &mgr;
+    jpeg_save_markers(&cinfo, kAPP0Marker, 0xFFFF);
+    jpeg_save_markers(&cinfo, kAPP1Marker, 0xFFFF);
+    jpeg_save_markers(&cinfo, kAPP2Marker, 0xFFFF);
+    int ret_val = jpeg_read_header(&cinfo, TRUE /* require an image to be present */);
+    if (JPEG_HEADER_OK != ret_val) {
+      status.error_code = UHDR_CODEC_ERROR;
+      status.has_detail = 1;
+      snprintf(status.detail, sizeof status.detail,
+               "jpeg_read_header(...) returned %d, expected %d", ret_val, JPEG_HEADER_OK);
+      jpeg_destroy_decompress(&cinfo);
+      return status;
+    }
+    long payloadOffset = -1;
+    jpeg_extract_marker_payload(&cinfo, kAPP1Marker, kXmpNameSpace,
+                                sizeof kXmpNameSpace / sizeof kXmpNameSpace[0], mXMPBuffer,
+                                payloadOffset);
+    jpeg_extract_marker_payload(&cinfo, kAPP1Marker, kExifIdCode,
+                                sizeof kExifIdCode / sizeof kExifIdCode[0], mEXIFBuffer,
+                                mExifPayLoadOffset);
+    jpeg_extract_marker_payload(&cinfo, kAPP2Marker, kICCSig, sizeof kICCSig / sizeof kICCSig[0],
+                                mICCBuffer, payloadOffset);
+    jpeg_extract_marker_payload(&cinfo, kAPP2Marker, kIsoMetadataNameSpace,
+                                sizeof kIsoMetadataNameSpace / sizeof kIsoMetadataNameSpace[0],
+                                mIsoMetadataBuffer, payloadOffset);

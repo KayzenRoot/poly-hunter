@@ -1,0 +1,11 @@
+# query: sh -c echo "ext/pb_ds:"; grep -rn "ext/pb_ds" src/ deps/ 2>/dev/null | head; echo "(exit above)"; echo; echo "__gnu_pbds:"; grep -rn "__gnu_pbds" src/ deps/ 2>/dev/null | head; echo; echo "pb_ds include:"; grep -rn "include.*pb_ds" src/ deps/ 2>/dev/null | head; echo DONE
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:56:04Z
+
+ext/pb_ds:
+(exit above)
+
+__gnu_pbds:
+
+pb_ds include:
+DONE

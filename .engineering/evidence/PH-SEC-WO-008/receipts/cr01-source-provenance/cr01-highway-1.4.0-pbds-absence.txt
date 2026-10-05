@@ -1,0 +1,6 @@
+=== highway (google/highway) v1.4.0 provenance — bundled C++ dep of libvips-cpp ===
+commit=2607d3b5b0113992fe84d3848859eae13b3b52c1
+tag=v1.4.0
+subject=Windows topology fix for AMD ThreadRipper
+=== search pb_ds | __gnu_pbds | binary_heap | ext/pb_ds ===
+NO MATCHES

@@ -1,0 +1,18 @@
+# query: sh -c grep -n -B2 -A4 "kMaxThreadPoolSize" deps/v8/src/libplatform/default-platform.cc
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:47Z
+
+31-}
+32-
+33:constexpr int kMaxThreadPoolSize = 16;
+34-
+35-int GetActualThreadPoolSize(int thread_pool_size) {
+36-  DCHECK_GE(thread_pool_size, 0);
+37-  if (thread_pool_size < 1) {
+38-    thread_pool_size = base::SysInfo::NumberOfProcessors() - 1;
+39-  }
+40:  return std::max(std::min(thread_pool_size, kMaxThreadPoolSize), 1);
+41-}
+42-
+43-}  // namespace
+44-

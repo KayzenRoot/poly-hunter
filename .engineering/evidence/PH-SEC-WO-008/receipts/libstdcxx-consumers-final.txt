@@ -1,0 +1,7 @@
+CAND: /etc/ld.so.cache
+CAND: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+CAND: /usr/lib/x86_64-linux-gnu/libapt-private.so.0.0
+CAND: /usr/lib/x86_64-linux-gnu/libapt-pkg.so.6.0
+CAND: /usr/lib/x86_64-linux-gnu/libapt-private.so.0.0.0
+CAND: /usr/lib/x86_64-linux-gnu/libapt-pkg.so.6.0.0
+CAND: /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7
