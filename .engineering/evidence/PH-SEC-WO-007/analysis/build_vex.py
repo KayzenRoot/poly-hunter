@@ -463,35 +463,75 @@ ROWS = [
         affected_condition=("erase_if() on a binary heap priority_queue "
                              "reallocates storage but fails to update its internal "
                              "entry pointer, a use-after-free reachable when an "
-                             "application calls erase_if on such a queue"),
-        vulnerable_code_present=False,
+                             "application calls erase_if on such a queue "
+                             "(libstdc++ <bits/stl_heap.h>/priority_queue header "
+                             "implementation)"),
+        vulnerable_code_present="NOT PROVEN EITHER WAY - header-only template; presence is not decidable from libstdc++.so's dynamic symbol table",
         presence_evidence=("std::erase_if is a HEADER-ONLY C++ template, inlined "
-                           "into the consuming translation unit, so it would only "
-                           "appear in libstdc++'s symbol table if libstdc++ "
-                           "explicitly instantiated it. Authoritative ELF scan of "
-                           "libstdc++.so.6.0.30 finds ZERO symbols containing "
-                           "'erase_if' while 3012 _ZNSt* template "
-                           "instantiations ARE exported - so template symbols are "
-                           "visible to this method and the absence is real, not a "
-                           "parser artefact. Separately, the image ships no C++ "
-                           "compiler (only gcc-12-base, libgcc-s1, libstdc++6), so "
-                           "no translation unit in this image can instantiate the "
-                           "template, and the runtime is Node.js/JavaScript."),
-        reachability=("no process in the runtime invokes std::erase_if on a "
-                      "std::priority_queue; node and nodemon are the only "
-                      "executables in the compose runtime and the application is "
-                      "TypeScript"),
-        attacker_prereq="a C++ caller must invoke std::erase_if on a binary heap priority_queue",
+                           "into each consuming translation unit at compile time. "
+                           "It therefore appears in libstdc++.so's symbol table "
+                           "ONLY if libstdc++ explicitly instantiated it; absence "
+                           "of an 'erase_if' symbol in libstdc++.so.6.0.30 does "
+                           "NOT prove the template's code is absent from the "
+                           "runtime, because header/template code can be "
+                           "instantiated or inlined into ALREADY-COMPILED C++ "
+                           "consumers - including Node/V8 or any other shipped "
+                           "binary - at the time those binaries were built. The "
+                           "earlier positive control (3012 _ZNSt* instantiations "
+                           "are exported while zero 'erase_if' symbols are) shows "
+                           "libstdc++ did not export this instantiation; it does "
+                           "NOT show no consumer binary contains it. Nor does the "
+                           "absence of a C++ compiler in the image prove absence "
+                           "of a PREVIOUSLY COMPILED instantiation: consumers are "
+                           "shipped as binaries, not compiled inside this image. "
+                           "The header-only nature of the fix code makes a .dynsym "
+                           "miss explicitly non-dispositive for presence/absence. "
+                           "An exhaustive consumer/call-site audit of Node/V8 and "
+                           "other relevant compiled binaries was NOT performed."),
+        reachability=("NOT ESTABLISHED. Reaching the use-after-free requires a "
+                      "C++ consumer to call std::erase_if on a std::priority_queue "
+                      "backed by a binary heap. Whether any shipped compiled C++ "
+                      "consumer (Node/V8 or another binary) instantiates and "
+                      "invokes that path with an attacker-influenced queue was not "
+                      "proven; the caller set across the image's compiled C++ "
+                      "binaries cannot be enumerated from libstdc++.so's exported "
+                      "symbols. That node and the application surface are "
+                      "JavaScript/TypeScript is context, not proof, because "
+                      "Node/V8 is itself a compiled C++ runtime that links this "
+                      "libstdc++."),
+        attacker_prereq=("an input path that causes a compiled C++ consumer to "
+                          "invoke std::erase_if on a binary-heap priority_queue "
+                          "with attacker-influenced contents - unproven either way"),
         privilege_prereq="none",
-        disposition="NOT_AFFECTED",
-        justification="vulnerable_code_not_present",
+        disposition="UNDER_INVESTIGATION",
+        justification=("not applicable - UNDER_INVESTIGATION carries no "
+                       "justification. The prior NOT_AFFECTED / "
+                       "vulnerable_code_not_present assertion was withdrawn by "
+                       "audit finding CR-04: a header-only template's absence from "
+                       "libstdc++.so's dynamic symbol table does not prove absence "
+                       "from already-compiled C++ consumers, and the absence of a "
+                       "compiler in the image does not prove no vulnerable "
+                       "instantiation was previously compiled. Presence/"
+                       "instantiation and reachability across the shipped C++ "
+                       "consumers are unproven, so ADR-0007 requires fail-closed."),
         receipts=[R_SYMPRES, R_DPKG, R_IDENT],
-        residual_risk=("the 3012-template positive control makes the symbol "
-                        "absence strong, but a header could still exist without "
-                        "an instantiated symbol; the no-compiler and "
-                        "JavaScript-only runtime facts are the decisive part"),
-        expiry=EXPIRY_7D,
-        confidence="medium-high",
+        residual_risk=("HIGH. The libstdc++ library is loaded by the running Node "
+                       "process and the CVE's affected code is a header-only "
+                       "template whose instantiation into shipped C++ consumers "
+                       "cannot be excluded from symbol evidence. Until the exact "
+                       "upstream fix/affected-code is analysed and the relevant "
+                       "compiled consumers are audited for a reachable vulnerable "
+                       "erase_if instantiation, this row must fail closed."),
+        expiry=("automatically UNDER_INVESTIGATION. Requires either an upstream "
+                "Debian fix for gcc-12/libstdc++6, or an independent auditor "
+                "determination - supported by analysis of upstream fix commit "
+                "aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6 (the exact priority_queue "
+                "implementation/API involved) plus an exhaustive-enough audit of "
+                "Node/V8 and other relevant compiled consumers showing the "
+                "vulnerable erase_if instantiation/call path is absent or "
+                "unreachable with attacker-controlled input - before this row may "
+                "be reclassified NOT_AFFECTED."),
+        confidence="not-assessed-blocking",
     ),
     dict(
         cve="CVE-2026-95619", severity=7.7, component="libstdc++6 (aligned operator new)",

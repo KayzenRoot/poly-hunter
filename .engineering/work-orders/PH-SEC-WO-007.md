@@ -172,3 +172,38 @@ self-approved. PR #15 is **not** merged.
 No product change was made to "fix" the CR-01 artifacts, because there is nothing
 in the product to fix: the parent exact head passes `npm run validate` on a clean
 checkout.
+
+### CD-002 — independent re-audit finding CR-04
+
+Issued by the independent re-audit recorded on PR #33 at head
+`457d5081de0fdf704add4a09300831e196f17917` and applied on the **same** Work Order,
+same branch and same PR. **Metadata-and-evidence correction only.** The prior
+CR-01 / CR-02 / CR-03 corrections are accepted and were not refetched.
+
+| Finding | Correction |
+|---|---|
+| CR-04 | **CVE-2026-102010** reclassified from `NOT_AFFECTED / vulnerable_code_not_present` to **`UNDER_INVESTIGATION`**. The `vulnerable_code_not_present` justification is removed (an `UNDER_INVESTIGATION` row carries no justification). The re-audit held that a header-only `std::erase_if` template's absence from `libstdc++.so`'s `.dynsym` does not prove absence from already-compiled C++ consumers (Node/V8 or other shipped binaries), and that the absence of a compiler in the image does not prove no previously compiled instantiation exists. Presence/instantiation and reachability across the shipped C++ consumers are recorded as **unproven**. The **conservative path** was chosen because no strong ADR-0007-satisfying proof was obtained. |
+
+**Counts after CD-002:**
+
+| Metric | Before CD-002 | After CD-002 |
+|---|---|---|
+| Proposed `NOT_AFFECTED` | 21 | **20** |
+| `AFFECTED` | 0 | 0 |
+| `UNDER_INVESTIGATION` | 1 (CVE-2026-95619) | **2 (CVE-2026-102010, CVE-2026-95619)** |
+| Unique HIGH/CRITICAL reconciled | 22 | 22 |
+
+**Unchanged by CD-002 — asserted and independently re-verified:**
+
+| Item | Value | Status |
+|---|---|---|
+| Parent exact head | `7d5be250255bd20cb0b20d6713f6f41c52c73b47` | unchanged |
+| Target image digest | `sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3` | unchanged |
+| Locked SARIF | blob `d3999a5664ec91e2b555d468b6e85c8d04aaabe9` | unchanged |
+| Locked CVE set | 22 unique findings, 20 HIGH + 2 CRITICAL | unchanged |
+| Every other row's analysis/disposition | 20 proposed `NOT_AFFECTED` | unchanged |
+| Dockerfile / Compose / dependencies / product / runtime / schema / migrations / TenantContext / trading | no change | unchanged |
+
+**Result remains `BLOCKED_UNRESOLVED`** while any HIGH/CRITICAL row is
+`UNDER_INVESTIGATION`. `PH-M01-WO-002` is **not** started. No `NOT_AFFECTED` was
+self-approved. PR #15 is **not** merged.

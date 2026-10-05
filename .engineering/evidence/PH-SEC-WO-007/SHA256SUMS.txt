@@ -28,7 +28,7 @@ cd47edfaabc81ff1d068484f76cb29ed4a43d386b2a60b83f181e4554021a175  .engineering/e
 9bd4eda66c15856bf8187fe493289eb86e88fd7e414434cda907e5cbc33f177c  .engineering/evidence/PH-SEC-WO-007/analysis/08-brace-pattern-sources.sh
 6b60233dbfce71edaa345a76f895834c25b2b8985aa545aa55773a4f547ef304  .engineering/evidence/PH-SEC-WO-007/analysis/09-container-context.py
 6c8e43b5df005f2631b8332e2ed6e77accf234355e0df27363d2a0b41891995b  .engineering/evidence/PH-SEC-WO-007/analysis/10-sha256sums.py
-7a5413b67ae370def5726ef184c6c26dae30337f84c0c248fb4f5f541e9b7282  .engineering/evidence/PH-SEC-WO-007/analysis/build_vex.py
+0d7d67097d439413906caf4705706899f1a1c5ef74b6fb04fe4c6985708f2558  .engineering/evidence/PH-SEC-WO-007/analysis/build_vex.py
 362fe3c15cf56381b432671bf1737c34f690ba16818e50c20a2ed5e96dae5753  .engineering/evidence/PH-SEC-WO-007/analysis/elf_dynsym.py
 5b8f9e1c4c86b3b553b3cdb0932f16c1c5ee8e521876f1c48fff7229043edb2b  .engineering/evidence/PH-SEC-WO-007/analysis/pcre2_jit_importers.py
 70455633299168a2d597784f400e8566aa9dc3ca04a04dcd28e62876c068b904  .engineering/evidence/PH-SEC-WO-007/analysis/preflight.py

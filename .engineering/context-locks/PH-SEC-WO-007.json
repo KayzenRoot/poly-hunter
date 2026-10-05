@@ -59,6 +59,27 @@
       "phaseM01Wo002Started": false,
       "selfApprovedNotAffected": false,
       "parentPr15Merged": false
+    },
+    {
+      "id": "CD-002",
+      "trigger": "Independent re-audit finding CR-04 recorded on PR #33 at head 457d5081de0fdf704add4a09300831e196f17917",
+      "classification": "METADATA_AND_EVIDENCE_ONLY",
+      "authorisesProductChange": false,
+      "findings": {
+        "CR-04": "CVE-2026-102010 reclassified from NOT_AFFECTED / vulnerable_code_not_present to UNDER_INVESTIGATION; the vulnerable_code_not_present justification is removed. A header-only std::erase_if template's absence from libstdc++.so's .dynsym does not prove absence from already-compiled C++ consumers (Node/V8 or other shipped binaries), and the absence of a compiler in the image does not prove no previously compiled instantiation exists. Presence/instantiation and reachability across the shipped C++ consumers are recorded as unproven. Conservative path chosen because no strong ADR-0007-satisfying proof was obtained. Counts after CD-002: 20 proposed NOT_AFFECTED, 0 AFFECTED, 2 UNDER_INVESTIGATION (CVE-2026-102010 and CVE-2026-95619)."
+      },
+      "unchanged": {
+        "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+        "targetImageDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+        "lockedSarif": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+        "lockedCveSet": "22 unique findings (20 HIGH + 2 CRITICAL)",
+        "otherRowsAnalysis": "unchanged: 20 rows remain proposed NOT_AFFECTED, none refetched",
+        "productRuntimeDependency": "unchanged"
+      },
+      "result": "BLOCKED_UNRESOLVED",
+      "phaseM01Wo002Started": false,
+      "selfApprovedNotAffected": false,
+      "parentPr15Merged": false
     }
   ],
   "ownerApprovalRequiredForHighCriticalNotAffected": true,

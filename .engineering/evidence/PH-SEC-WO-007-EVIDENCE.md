@@ -3,7 +3,7 @@
 **Work Order:** PH-SEC-WO-007 — exact-image VEX disposition for the remaining 22 development-image HIGH/CRITICAL findings
 **Branch:** `security/ph-m01-dev-nongo-vex` · **PR:** #33 (draft → base `feat/ph-m01-tenancy-persistence`)
 **Risk class:** HIGH_ASSURANCE / SECURITY_BLOCKER_DISPOSITION
-**Result:** `BLOCKED_UNRESOLVED` — 22/22 reconciled, 21 proposed `NOT_AFFECTED`, 1 `UNDER_INVESTIGATION` (CVE-2026-95619)
+**Result:** `BLOCKED_UNRESOLVED` — 22/22 reconciled, 20 proposed `NOT_AFFECTED`, 2 `UNDER_INVESTIGATION` (CVE-2026-102010 and CVE-2026-95619)
 
 Executor: Codex (proposes dispositions only). Independent audit and owner approval are **PENDING**.
 
@@ -150,7 +150,7 @@ Full structured evidence for all 22 rows is in [`PH-SEC-WO-007-VEX.json`](PH-SEC
 | CVE-2026-48959 | `IO/Uncompress/Unzip.pm` absent image-wide | `perl-component-presence.txt` |
 | CVE-2026-82560 | `Pod/Text.pm` and `Podlators.pm` absent image-wide | `perl-component-presence.txt` |
 
-### 6.2 Vulnerable code present, trigger prerequisites positively disproven (12)
+### 6.2 Vulnerable code present, trigger prerequisites positively disproven (11)
 
 | CVE | Disproved prerequisite |
 |---|---|
@@ -159,7 +159,6 @@ Full structured evidence for all 22 rows is in [`PH-SEC-WO-007-VEX.json`](PH-SEC
 | CVE-2026-13221 | Needs a regex with >65535 fixed-string alternation branches. None exists in the image and perl is never executed by the runtime. The advisory's `Introduced with` annotation (commit `acababb4…`, v5.37.10) postdates the image's 5.36.0, which *would* imply absence — but that was **not** verified against perl 5.36.0, so the row stays on reachability and is **not** reclassified `vulnerable_code_not_present`. See §6.5. |
 | CVE-2026-76642 / 78409 / 78410 | `/etc/fstab` is the stock file whose entire content is `# UNCONFIGURED FSTAB FOR BASE SYSTEM` (sha256 `a6b093c9…fbd17`) — **zero mount entries**, so no `X-mount.*` option can exist. No `mount.*` helpers shipped. `CAP_SYS_ADMIN` unavailable. |
 | CVE-2026-78408 | `nsenter --join-cgroup` requires a privileged operator. npm never invokes `nsenter`; `CAP_SYS_ADMIN` unavailable. |
-| CVE-2026-102010 | `std::erase_if` is header-only. Zero `erase_if` symbols exist while 3012 `_ZNSt*` template instantiations *are* exported — template symbols are visible, so the absence is real. The image also ships no C++ compiler (only `gcc-12-base`, `libgcc-s1`, `libstdc++6`) and the runtime is JavaScript. |
 | CVE-2026-19534 | undici's WebSocket client exists, but the **only** undici importer in npm is `node-gyp/lib/download.js`, which imports `{ Agent, EnvHttpProxyAgent, RetryAgent, fetch }` — HTTP only. `WebSocket` appears **zero** times across npm outside undici's own code and docs. |
 | CVE-2026-73566 | `mapHas` is present and uncapped, but node-tar installs the filter only under `if (files?.length)` (`list.js:140-141`, `extract.js:86`). All six npm tar call sites were read: `pacote` uses full `tar.x`; `node-gyp` (×2) and `libnpmdiff` pass a boolean `filter`; `lib/utils/tar.js` and `stage/download.js` pass only `onentry`. No `files:` option exists at any call site. |
 | CVE-2026-93748 | Requires a shared multi-user cache **and** a client sending `max-stale`. npm's cache is single-user on local disk at `/home/node/.npm` (owner `node`); npm emits `max-stale` **nowhere**; npm runs no HTTP cache server. |
@@ -191,11 +190,15 @@ The **application tree is separately patched**: `/workspace/node_modules/brace-e
 
 This is the weakest `NOT_AFFECTED` in the bundle and is flagged for explicit auditor attention: an operator running `grep -P` over untrusted or network-fetched content inside this container would reach it. That is a shell-access precondition, not a remote one.
 
-### 6.4 Not disposed — `UNDER_INVESTIGATION` (1)
+### 6.4 Not disposed — `UNDER_INVESTIGATION` (2)
 
 **CVE-2026-95619** — libstdc++6 aligned operator new.
 
 Vulnerable symbols confirmed present (`_ZnwmSt11align_val_t`, `_ZnamSt11align_val_t`, `_ZdlPvSt11align_val_t`, `_ZdaPvSt11align_val_t`), and `node` links that exact `libstdc++.so.6`. Triggering the overflow needs a caller to pass a large enough size to `operator new(size_t, align_val_t)`; the caller set across V8 and libstdc++ cannot be enumerated from inside this container, and the upstream commit was not read to establish the threshold. ADR-0007 treats "evidence is incomplete" as a hard blocker, so the row fails closed rather than being asserted `NOT_AFFECTED`.
+
+**CVE-2026-102010** — libstdc++6 `std::erase_if` on a binary-heap `priority_queue` (reclassified by audit finding **CR-04**).
+
+The bundle previously proposed `NOT_AFFECTED / vulnerable_code_not_present`, resting on the absence of an `erase_if` symbol from `libstdc++.so.6.0.30` (with a 3012-instantiation positive control), the image shipping no C++ compiler, and the runtime being JavaScript. The re-audit rejected that proof: `std::erase_if` is a **header-only template**, so it appears in `libstdc++.so`'s symbol table only if libstdc++ explicitly instantiated it — header/template code can be instantiated or inlined into **already-compiled C++ consumers** (including Node/V8 or any other shipped binary), and the absence of a compiler in the image does not prove absence of a previously compiled instantiation. "the runtime is JavaScript" is also insufficient because **Node/V8 is itself a compiled C++ runtime** linking this `libstdc++`. No exhaustive consumer/call-site audit of Node/V8 and other relevant binaries was performed, so presence/instantiation and reachability are **unproven**. The `vulnerable_code_not_present` justification is removed and the row fails closed to `UNDER_INVESTIGATION`; no NOT_AFFECTED justification is attached.
 
 ### 6.5 Correction made after the independent audit — CVE-2026-13221
 
@@ -214,6 +217,52 @@ Both citations were extracted mechanically from that SARIF rule and were **not**
 **The disposition is deliberately unchanged.** It remains proposed `NOT_AFFECTED` / `vulnerable_code_not_in_execute_path` on the reachability basis. It was **not** converted to `vulnerable_code_not_present`, because no objective upstream or version-history evidence for Perl **5.36.0** was obtained — the `Introduced with` annotation is an upstream assertion about a commit, not a verified reading of the 5.36.0 source tree. The contradiction is removed by treating the row's `vulnerableCodePresent` as the **fail-closed** reading (`true`) and stating that the annotation is an unverified inference toward absence.
 
 The precise auditor action that would permit the stronger classification is recorded in the row's `residualRisk`: confirm that commit `acababb4…` introduced the 16-bit trie delta **and** that 5.36.0 predates it.
+
+### 6.6 Correction made after the independent re-audit — CVE-2026-102010 (CR-04)
+
+The independent re-audit recorded on PR #33, on exact head
+`457d5081de0fdf704add4a09300831e196f17917`, accepted **CR-01 / CR-02 / CR-03** and
+issued a new finding, **CR-04**, against this row. It is corrected by the
+**conservative path**.
+
+**What was rejected.** The prior row proposed
+`NOT_AFFECTED / vulnerable_code_not_present`. The proof was: zero `erase_if`
+symbols in `libstdc++.so.6.0.30` while 3012 `_ZNSt*` template instantiations are
+exported (a positive control), no C++ compiler in the image, and a
+JavaScript/TypeScript runtime. The re-audit held that this cannot support
+`vulnerable_code_not_present`:
+
+| Re-audit objection | Why the prior proof fails |
+|---|---|
+| Header-only template | `std::erase_if` appears in `libstdc++.so`'s symbol table only if libstdc++ **explicitly instantiated** it. A `.dynsym` miss does not prove the template's code is absent. |
+| Already-compiled consumers | Header/template code can be **instantiated or inlined into already-compiled C++ consumers**, including **Node/V8** or any other shipped binary, when those binaries were built. |
+| No compiler in image | That the image contains no C++ compiler does not prove no **previously compiled** instantiation exists; consumers ship as binaries. |
+| "the runtime is JavaScript" | Node/V8 is itself a **compiled C++ runtime** linking this `libstdc++`. |
+| No consumer audit | No exhaustive consumer/call-site audit of Node/V8 or other relevant binaries was performed. |
+
+Under ADR-0007 / PH-SEC-VEX-POLICY, incomplete presence/reachability evidence
+cannot support `NOT_AFFECTED`.
+
+**What changed.**
+
+| Field | Before | After |
+|---|---|---|
+| `vex.status` | `NOT_AFFECTED` | **`UNDER_INVESTIGATION`** |
+| `vex.justification` | `vulnerable_code_not_present` | **removed** — `UNDER_INVESTIGATION` carries no justification |
+| `vulnerableCodePresent` | `false` | **not decidable** — `"NOT PROVEN EITHER WAY - header-only template; presence is not decidable from libstdc++.so's dynamic symbol table"` |
+| `presenceEvidence` / `reachabilityEvidence` | symbol absence + no-compiler + JS runtime | explicit statement that instantiation/reachability in shipped C++ consumers is **unproven** and that a `.dynsym` miss is non-dispositive |
+| summary counts | 21 NOT_AFFECTED + 1 UNDER_INVESTIGATION | **20 NOT_AFFECTED + 2 UNDER_INVESTIGATION** |
+
+**Path A (conservative) was chosen** because no strong proof satisfying ADR-0007
+was obtained: the exact upstream fix/affected-code was not analysed to identify
+the specific `priority_queue` implementation/API, and no exhaustive
+consumer/call-site audit of Node/V8 or other relevant compiled binaries was
+performed.
+
+**Unchanged.** Parent exact head, target image digest, locked SARIF, the locked
+22-CVE set (20 HIGH + 2 CRITICAL), every other row's analysis, and the product /
+Dockerfile / Compose / dependencies / schema / migrations / TenantContext /
+trading state. Result remains `BLOCKED_UNRESOLVED`.
 
 ---
 
@@ -309,23 +358,30 @@ which is outside this Work Order's authority — reported, not made.
 |---|---|---|
 | 1 | 22/22 findings have individual exact-artifact rows | **MET** — 22 rows, one CVE each, no grouping |
 | 2 | No row silently omitted or untraceably grouped | **MET** — machine-readable, one `cve` key per row |
-| 3 | Every proposed `NOT_AFFECTED` satisfies ADR-0007 evidence requirements | **MET for the 21 proposed** — each cites the missing prerequisite with positive evidence; `UNDER_INVESTIGATION` correctly carries no justification |
+| 3 | Every proposed `NOT_AFFECTED` satisfies ADR-0007 evidence requirements | **MET for the 20 proposed** — each cites the missing prerequisite with positive evidence; both `UNDER_INVESTIGATION` rows correctly carry no justification |
 | 4 | No scanner suppression/ignore introduced | **MET** — zero suppressions |
 | 5 | Exact target image/digest and locked scan unchanged | **MET** — digest identical; SARIF blob `d3999a56…` |
 | 6 | Original 35 Go HIGH/CRITICAL remain zero | **MET** — 0 Go rules at any severity |
 | 7 | No product, Dockerfile, Compose, dependency, schema, migration, TenantContext or trading changes | **MET** — evidence-only diff |
-| 8 | Bundle sufficient for independent HIGH_ASSURANCE audit | **MET**, with method limits and the three corrections disclosed in §5 |
+| 8 | Bundle sufficient for independent HIGH_ASSURANCE audit | **MET**, with method limits and the corrections disclosed in §5 and §6.6 |
 | 9 | If any AFFECTED/UNDER_INVESTIGATION remains, report an exact minimal remediation delta and remain BLOCKED | **MET** — see below |
 
 ---
 
-## 9. Minimal remediation delta for the blocking row
+## 9. Minimal remediation delta for the blocking rows
 
-CVE-2026-95619 has **no upstream fix** for `gcc-12` (`gcc-14`, `gcc-15`, `gcc-16` are also `<unfixed>`), so no version bump clears it today. Exactly one of:
+Two rows remain `UNDER_INVESTIGATION` (both libstdc++ / gcc-12), and neither has an upstream fix for `gcc-12` (`gcc-14`, `gcc-15`, `gcc-16` are also `<unfixed>`), so no version bump clears them today.
+
+**CVE-2026-95619** (aligned `operator new`) — exactly one of:
 
 1. **Wait for a Debian `libstdc++6` fix** carrying commit `59d235ffa5a69231eb42e5290d52dc8c90d28b7a`, then rebuild the dev image and re-run this analysis. Trigger: `libstdc++6` version change in the base image.
 2. **Move the dev base image** to a Debian release whose `libstdc++6` is unaffected, once one exists.
 3. **Independent auditor determination**, supported by reading upstream commit `59d235ff` for the exact overflow threshold and auditing V8's aligned-allocation call sites for attacker-derived sizes. This is the only path that can close the row without waiting on Debian.
+
+**CVE-2026-102010** (`std::erase_if` on a binary-heap `priority_queue`, reclassified by CR-04) — exactly one of:
+
+1. **Wait for a Debian `libstdc++6` fix** carrying commit `aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6`, then rebuild the dev image and re-run this analysis. Trigger: `libstdc++6` version change in the base image.
+2. **Independent auditor determination**, supported by analysis of upstream fix commit `aaa8351f` (identifying the specific `priority_queue` implementation/API involved) **and** an exhaustive-enough audit of Node/V8 and other relevant compiled consumers showing the vulnerable `erase_if` instantiation/call path is absent or unreachable with attacker-controlled input. A mere `.dynsym` miss in `libstdc++.so` is **not** sufficient (that was the CR-04 defect).
 
 No Dockerfile, Compose, dependency or base-image change is authorised by this Work Order, so none was made.
 
@@ -384,6 +440,9 @@ Top-level deliverables: `PH-SEC-WO-007-EVIDENCE.md`, `PH-SEC-WO-007-VEX.md`, `PH
 
 **`BLOCKED_UNRESOLVED`**
 
-All 22 findings are individually reconciled against the exact artifact. Twenty-one are proposed `NOT_AFFECTED` with positive exact-artifact evidence. One — **CVE-2026-95619** — remains `UNDER_INVESTIGATION` because the vulnerable symbol is confirmed present in a library the running Node process links, and the caller set cannot be enumerated from inside this container.
+All 22 findings are individually reconciled against the exact artifact. Twenty are proposed `NOT_AFFECTED` with positive exact-artifact evidence. Two remain `UNDER_INVESTIGATION`:
+
+- **CVE-2026-95619** — the vulnerable symbol is confirmed present in a library the running Node process links, and the caller set cannot be enumerated from inside this container.
+- **CVE-2026-102010** — reclassified by audit finding **CR-04**: the vulnerable code is a header-only template, so `.dynsym` absence from `libstdc++.so` is non-dispositive, and instantiation/reachability in shipped C++ consumers (Node/V8 or other binaries) is unproven. No policy-complete `NOT_AFFECTED` proof was obtained, so the row fails closed.
 
 Because the STOP CONDITION permits `READY_FOR_INDEPENDENT_AUDIT` only at zero `AFFECTED`/`UNDER_INVESTIGATION`, this Work Order stops blocked. `PH-M01-WO-002` is **not** started. No disposition here is approved; independent audit and explicit owner approval remain mandatory.
