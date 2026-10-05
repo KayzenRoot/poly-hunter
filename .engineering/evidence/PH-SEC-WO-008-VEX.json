@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-SEC-WO-008",
-  "title": "PH-SEC-WO-008 - final two libstdc++ blocker resolution (proposed dispositions; post CR-01/CR-02/CR-03 correction delta)",
+  "title": "PH-SEC-WO-008 - final two libstdc++ blocker resolution (independently audited + owner-approved)",
   "branch": "security/ph-m01-libstdcpp-final-two",
   "parentHead": "5cf4c2ffe7b5365ca4941253f92b612f0322a83d",
   "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
@@ -48,13 +48,14 @@
     "byStatus": {
       "NOT_AFFECTED": 2
     },
-    "reviewFormat": "READY_FOR_INDEPENDENT_AUDIT (proposed; executor cannot self-approve)"
+    "reviewFormat": "APPROVED_BY_INDEPENDENT_AUDIT_AND_OWNER"
   },
   "approvalState": {
-    "executor": "Codex - proposing only",
-    "independentAuditor": "PENDING",
-    "ownerApproval": "PENDING",
-    "note": "Under ADR-0007/PH-SEC-VEX-POLICY these proposed NOT_AFFECTED dispositions block until independently audited and explicitly owner-approved for the exact artifact digest."
+    "executor": "Codex - proposed dispositions",
+    "independentAuditor": "APPROVED at audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df; review 5418683462",
+    "ownerApproval": "APPROVED 2026-10-05 by KayzenRoot for exact artifact sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3 and audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df",
+    "receipt": ".engineering/evidence/PH-SEC-WO-008-OWNER-APPROVAL.md",
+    "note": "ADR-0007 approval chain complete for exactly these two NOT_AFFECTED dispositions on the exact artifact/audit head. Revalidation/expiry rules remain in force."
   },
   "upstreamFixCommits": {
     "CVE-2026-102010": "aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6",
@@ -130,8 +131,8 @@
       "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; libstdc++6/gcc-12 package version change; any consumer version change (node/apt/libvips/sharp) or new compiled consumer; new upstream advisory; KEV status change.",
       "dispositionTimestamp": "2026-10-05T17:30:00Z",
       "confidence": "high",
-      "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED — audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df; review 5418683462",
+      "ownerApproval": "APPROVED — 2026-10-05; exact artifact sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3; exact audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df; receipt PH-SEC-WO-008-OWNER-APPROVAL.md",
       "receipts": [
         "receipts/upstream/cve-2026-102010-commit-meta.txt",
         "receipts/upstream/cve-2026-102010-binary_heap.diff",
@@ -278,8 +279,8 @@
       "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; node/V8 change; libstdc++6/gcc-12 package version change (a Debian fix moves this row to FIXED); any consumer version change (next/sharp/libvips/uhdr) or new compiled consumer linking libstdc++.so.6; a consumer change that removes the JPEG 16-bit marker cap from the icc_size path; new upstream advisory; KEV status change.",
       "dispositionTimestamp": "2026-10-05T17:30:00Z",
       "confidence": "high (both paths closed by source/type-level mathematical bounds; libvips reachability confirmed by probe but bounded >= 2^48 below threshold)",
-      "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
-      "ownerApproval": "PENDING",
+      "independentAuditor": "APPROVED — audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df; review 5418683462",
+      "ownerApproval": "APPROVED — 2026-10-05; exact artifact sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3; exact audit head 1deee1e5d4e6984ae61a0883d2fc2fca46d912df; receipt PH-SEC-WO-008-OWNER-APPROVAL.md",
       "receipts": [
         "receipts/cr04-libvips-callsite-source-mapping.json",
         "receipts/cr04-uhdr-source/cr04-uhdr-provenance.txt",
@@ -320,5 +321,6 @@
         "receipts/artifact-identity.txt"
       ]
     }
-  ]
+  ],
+  "ownerApprovalReceipt": ".engineering/evidence/PH-SEC-WO-008-OWNER-APPROVAL.md"
 }
