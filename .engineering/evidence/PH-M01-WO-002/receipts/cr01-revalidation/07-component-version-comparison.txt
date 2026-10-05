@@ -1,0 +1,137 @@
+# Exact component / version comparison: prior artifact vs FINAL artifact
+#
+# Method: like-for-like. The same scanner (docker scout v1.24.0) ran the same
+# command with the same unfiltered severity scope on both artifacts, and the two
+# SARIF documents were compared row by row on (CVE, package purl including the
+# exact version, affected range, fixed version, severity).
+#
+# prior artifact = sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538 (prior WO-002 artifact)
+# FINAL artifact = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c (FINAL artifact)
+#
+# rows(prior) = 80   rows(FINAL) = 80   identical = 80   added = 0   changed = 0   removed = 0
+#
+# The FINAL rebuild therefore introduces ZERO scanner delta against the artifact on
+# which every prior disposition was produced. Corroborated by:
+#   receipt 01 — Debian dpkg inventory of the FINAL image is byte-identical to the
+#               WO-007 artifact (88 packages, zero version differences);
+#   receipt 02 — SHA-256 of node, libstdc++.so.6.0.30, sharp-linux-x64-0.35.5.node
+#               and libvips-cpp.so.8.18.7 identical to the WO-008 baseline;
+#   receipt 06 — runtime assumptions (user, capabilities, ports, commands, absence
+#               of any perl process) identical to the prior artifacts.
+
+## Every HIGH/CRITICAL row of the FINAL artifact
+
+| # | CVE | severity | package (exact version) | affected range | fixed in | EPSS | prior disposition source |
+|---|---|---|---|---|---|---|---|
+| 1 | CVE-2026-102010 | HIGH | deb/debian/gcc-12@12.2.0-14%2Bdeb12u1 | >0 | not fixed | 0.002500 | PH-SEC-WO-007 |
+| 2 | CVE-2026-102276 | HIGH | npm/brace-expansion@5.0.7 | >=4.0.0,<5.0.10 | 5.0.10 | 0.003500 | PH-SEC-WO-007 |
+| 3 | CVE-2026-102278 | HIGH | npm/brace-expansion@5.0.7 | >=4.0.0,<5.0.11 | 5.0.11 | 0.003500 | PH-SEC-WO-007 |
+| 4 | CVE-2026-103111 | HIGH | deb/debian/pcre2@10.42-1%2Bdeb12u1 | <10.42-1+deb12u2 | 10.42-1+deb12u2 | 0.002140 | PH-SEC-WO-007 |
+| 5 | CVE-2026-12087 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.003740 | PH-SEC-WO-007 |
+| 6 | CVE-2026-13221 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.004320 | PH-SEC-WO-007 |
+| 7 | CVE-2026-14257 | HIGH | npm/brace-expansion@5.0.7 | >=4.0.0,<5.0.8 | 5.0.8 | 0.006430 | PH-SEC-WO-007 |
+| 8 | CVE-2026-19534 | HIGH | npm/undici@6.27.0 | >=6.7.0,<6.28.1 | 6.28.1 | 0.003940 | PH-SEC-WO-007 |
+| 9 | CVE-2026-42496 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.004300 | NEW (this delta) |
+| 10 | CVE-2026-42497 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.004710 | NEW (this delta) |
+| 11 | CVE-2026-48959 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.006090 | PH-SEC-WO-007 |
+| 12 | CVE-2026-48962 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.004950 | PH-SEC-WO-007 |
+| 13 | CVE-2026-57432 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.002110 | PH-SEC-WO-007 |
+| 14 | CVE-2026-69152 | HIGH | npm/brace-expansion@5.0.7 | >=4.0.0,<5.0.9 | 5.0.9 | 0.006470 | PH-SEC-WO-007 |
+| 15 | CVE-2026-69192 | HIGH | npm/ip-address@10.2.0 | <=10.3.0 | 10.3.1 | 0.006630 | PH-SEC-WO-007 |
+| 16 | CVE-2026-73566 | HIGH | npm/tar@7.5.19 | <=7.5.20 | 7.5.21 | 0.005310 | PH-SEC-WO-007 |
+| 17 | CVE-2026-76642 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 | >0 | not fixed | 0.002160 | PH-SEC-WO-007 |
+| 18 | CVE-2026-78408 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 | >0 | not fixed | 0.001860 | PH-SEC-WO-007 |
+| 19 | CVE-2026-78409 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 | >0 | not fixed | 0.001540 | PH-SEC-WO-007 |
+| 20 | CVE-2026-78410 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 | >0 | not fixed | 0.001560 | PH-SEC-WO-007 |
+| 21 | CVE-2026-82560 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 | >0 | not fixed | 0.006300 | PH-SEC-WO-007 |
+| 22 | CVE-2026-8376 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 | <5.36.0-7+deb12u4 | 5.36.0-7+deb12u4 | 0.004810 | NEW (this delta) |
+| 23 | CVE-2026-85091 | HIGH | deb/debian/zlib@1%3A1.2.13.dfsg-1 | >0 | not fixed | 0.005920 | PH-SEC-WO-007 |
+| 24 | CVE-2026-93748 | HIGH | npm/http-cache-semantics@4.2.0 | <=4.2.0 | not fixed | 0.005310 | PH-SEC-WO-007 |
+| 25 | CVE-2026-95619 | HIGH | deb/debian/gcc-12@12.2.0-14%2Bdeb12u1 | >0 | not fixed | 0.003630 | PH-SEC-WO-007 |
+
+Totals: 80 rows scanned, 25 HIGH/CRITICAL.
+
+## Every row of any severity (scope proof)
+
+| CVE | severity | package (exact version) |
+|---|---|---|
+| CVE-2005-2541 | LOW | deb/debian/tar@1.34%2Bdfsg-1.2%2Bdeb12u1 |
+| CVE-2007-5686 | LOW | deb/debian/shadow@1%3A4.13%2Bdfsg1-1%2Bdeb12u2 |
+| CVE-2010-4756 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2011-3374 | LOW | deb/debian/apt@2.6.1 |
+| CVE-2011-3389 | LOW | deb/debian/gnutls28@3.7.9-2%2Bdeb12u7 |
+| CVE-2011-4116 | LOW | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2013-4392 | LOW | deb/debian/systemd@252.39-1~deb12u2 |
+| CVE-2017-18018 | LOW | deb/debian/coreutils@9.1-1 |
+| CVE-2018-20796 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2018-6829 | LOW | deb/debian/libgcrypt20@1.10.1-3%2Bdeb12u1 |
+| CVE-2019-1010022 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2019-1010023 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2019-1010024 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2019-1010025 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2019-9192 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2022-0563 | LOW | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2022-27943 | LOW | deb/debian/gcc-12@12.2.0-14%2Bdeb12u1 |
+| CVE-2022-3219 | LOW | deb/debian/gnupg2@2.2.40-1.1%2Bdeb12u2 |
+| CVE-2023-31437 | LOW | deb/debian/systemd@252.39-1~deb12u2 |
+| CVE-2023-31438 | LOW | deb/debian/systemd@252.39-1~deb12u2 |
+| CVE-2023-31439 | LOW | deb/debian/systemd@252.39-1~deb12u2 |
+| CVE-2023-31486 | LOW | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2024-2236 | LOW | deb/debian/libgcrypt20@1.10.1-3%2Bdeb12u1 |
+| CVE-2025-14104 | LOW | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2025-15649 | MEDIUM | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2025-45582 | MEDIUM | deb/debian/tar@1.34%2Bdfsg-1.2%2Bdeb12u1 |
+| CVE-2025-5278 | LOW | deb/debian/coreutils@9.1-1 |
+| CVE-2026-101910 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-101911 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-101912 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-101913 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-102010 | HIGH | deb/debian/gcc-12@12.2.0-14%2Bdeb12u1 |
+| CVE-2026-102276 | HIGH | npm/brace-expansion@5.0.7 |
+| CVE-2026-102277 | MEDIUM | npm/brace-expansion@5.0.7 |
+| CVE-2026-102278 | HIGH | npm/brace-expansion@5.0.7 |
+| CVE-2026-102473 | LOW | deb/debian/dash@0.5.12-2 |
+| CVE-2026-102474 | LOW | deb/debian/dash@0.5.12-2 |
+| CVE-2026-103111 | HIGH | deb/debian/pcre2@10.42-1%2Bdeb12u1 |
+| CVE-2026-12087 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-13221 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-13595 | MEDIUM | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-14257 | HIGH | npm/brace-expansion@5.0.7 |
+| CVE-2026-15157 | MEDIUM | npm/undici@6.27.0 |
+| CVE-2026-15534 | MEDIUM | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-16728 | MEDIUM | npm/undici@6.27.0 |
+| CVE-2026-16729 | MEDIUM | npm/undici@6.27.0 |
+| CVE-2026-18540 | LOW | npm/undici@6.27.0 |
+| CVE-2026-19487 | MEDIUM | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-19534 | HIGH | npm/undici@6.27.0 |
+| CVE-2026-42496 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-42497 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-48959 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-48962 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-53613 | UNSPECIFIED | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-53615 | UNSPECIFIED | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-53910 | LOW | deb/debian/diffutils@1%3A3.8-4 |
+| CVE-2026-54272 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-56391 | LOW | deb/debian/coreutils@9.1-1 |
+| CVE-2026-56392 | LOW | deb/debian/coreutils@9.1-1 |
+| CVE-2026-57432 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-57433 | UNSPECIFIED | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-69152 | HIGH | npm/brace-expansion@5.0.7 |
+| CVE-2026-69192 | HIGH | npm/ip-address@10.2.0 |
+| CVE-2026-69198 | MEDIUM | npm/ip-address@10.2.0 |
+| CVE-2026-7010 | MEDIUM | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-7017 | UNSPECIFIED | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-73566 | HIGH | npm/tar@7.5.19 |
+| CVE-2026-76642 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-78408 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-78409 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-78410 | HIGH | deb/debian/util-linux@2.38.1-5%2Bdeb12u3 |
+| CVE-2026-82560 | HIGH | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-8376 | CRITICAL | deb/debian/perl@5.36.0-7%2Bdeb12u3 |
+| CVE-2026-85024 | MEDIUM | npm/undici@6.27.0 |
+| CVE-2026-85091 | HIGH | deb/debian/zlib@1%3A1.2.13.dfsg-1 |
+| CVE-2026-86805 | MEDIUM | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2026-93748 | HIGH | npm/http-cache-semantics@4.2.0 |
+| CVE-2026-95619 | HIGH | deb/debian/gcc-12@12.2.0-14%2Bdeb12u1 |
+| CVE-2026-95818 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |
+| CVE-2026-97399 | LOW | deb/debian/glibc@2.36-9%2Bdeb12u14 |

@@ -1,0 +1,108 @@
+# Final security reconciliation — PH-M01-WO-002 correction delta CR-01
+#
+# Every HIGH/CRITICAL finding reported on the FINAL artifact, its provenance and its
+# policy status on the exact digest below. Nothing in this file is approved: the
+# executor may propose a disposition, never approve one (PH-SEC-VEX-POLICY / ADR-0007).
+
+artifact       = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+head           = 7a54bb76170eff2e6fb50bbd1472ccc83ff15b82
+branch         = feat/ph-m01-identity-rbac
+scanner        = docker scout 1.24.0 (go1.26.3, windows/amd64) (Docker Engine 29.7.2)
+sarif receipt  = receipts/runtime/final-image-scan.sarif
+sarif sha256   = 9153fc1bf029b57ab285778c067f3b780504a13735558e3281369acc9991f3ff
+
+## Why nothing is APPROVED
+
+PH-SEC-VEX-POLICY expires a NOT_AFFECTED disposition at a new image digest. The CR-02/
+CR-03/CR-04 corrections changed application code, so the digest necessarily changed and
+every disposition produced on sha256:4cb8f254...83d538 expired. Each row below was
+therefore re-derived on sha256:eddda17a...cb7c and reset to UNDER_INVESTIGATION.
+The prior owner approvals (PH-SEC-WO-007, PH-SEC-WO-008) are historical records of the
+PRIOR digest and do NOT approve this one.
+
+## Disposition ledger (25 HIGH/CRITICAL rows)
+
+| # | CVE | sev | component (exact version) | proposed | justification | carried from |
+|---|---|---|---|---|---|---|
+| 1 | CVE-2026-102010 | HIGH | libstdc++6 / __gnu_pbds detail::binary_heap erase_if (header-only template) | NOT_AFFECTED | vulnerable_code_not_present | PH-SEC-WO-008 |
+| 2 | CVE-2026-102276 | HIGH | npm brace-expansion | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-SEC-WO-007 |
+| 3 | CVE-2026-102278 | HIGH | npm brace-expansion | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-SEC-WO-007 |
+| 4 | CVE-2026-103111 | HIGH | pcre2 | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 5 | CVE-2026-12087 | CRITICAL | perl (Socket 2.033) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 6 | CVE-2026-13221 | CRITICAL | perl core (regex trie optimiser) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 7 | CVE-2026-14257 | HIGH | npm brace-expansion | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-SEC-WO-007 |
+| 8 | CVE-2026-19534 | HIGH | npm undici | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 9 | CVE-2026-42496 | CRITICAL | Perl Archive::Tar < 3.08 (symlink extraction path escape) | NOT_AFFECTED | vulnerable_code_not_present | PH-M01-WO-002 (this delta) |
+| 10 | CVE-2026-42497 | HIGH | Perl Archive::Tar < 3.08 (hardlink extraction path escape) | NOT_AFFECTED | vulnerable_code_not_present | PH-M01-WO-002 (this delta) |
+| 11 | CVE-2026-48959 | HIGH | perl (IO::Uncompress::Unzip) | NOT_AFFECTED | vulnerable_code_not_present | PH-SEC-WO-007 |
+| 12 | CVE-2026-48962 | HIGH | perl (IO::Compress) | NOT_AFFECTED | vulnerable_code_not_present | PH-SEC-WO-007 |
+| 13 | CVE-2026-57432 | HIGH | perl core (pack/unpack) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 14 | CVE-2026-69152 | HIGH | npm brace-expansion | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-SEC-WO-007 |
+| 15 | CVE-2026-69192 | HIGH | npm ip-address | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 16 | CVE-2026-73566 | HIGH | npm tar (node-tar) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 17 | CVE-2026-76642 | HIGH | util-linux (mount) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 18 | CVE-2026-78408 | HIGH | util-linux (nsenter --join-cgroup) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 19 | CVE-2026-78409 | HIGH | util-linux (mount X-mount.subdir) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 20 | CVE-2026-78410 | HIGH | util-linux (restricted bind mount) | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 21 | CVE-2026-82560 | HIGH | perl (Pod::Text) | NOT_AFFECTED | vulnerable_code_not_present | PH-SEC-WO-007 |
+| 22 | CVE-2026-8376 | CRITICAL | Perl interpreter < 5.40.5-RC1, heap buffer overflow in Perl_study_chunk | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-M01-WO-002 (this delta) |
+| 23 | CVE-2026-85091 | HIGH | zlib | NOT_AFFECTED | vulnerable_code_not_present | PH-SEC-WO-007 |
+| 24 | CVE-2026-93748 | HIGH | npm http-cache-semantics | NOT_AFFECTED | vulnerable_code_not_in_execute_path | PH-SEC-WO-007 |
+| 25 | CVE-2026-95619 | HIGH | libstdc++6 aligned operator new(size_t, align_val_t) integer overflow (libsupc++/new_opa.cc) | NOT_AFFECTED | vulnerable_code_cannot_be_controlled_by_adversary | PH-SEC-WO-008 |
+
+## Summary counts
+
+- HIGH/CRITICAL rows on the FINAL artifact: **25**
+- proposed NOT_AFFECTED: **25**
+- actually approved: **0** — every row is UNDER_INVESTIGATION
+- carried over from PH-SEC-WO-007 (prior digest): 20
+- carried over from PH-SEC-WO-008 (prior digest): 2
+- first analysed on this digest: 3
+
+## The three rows with no prior disposition
+
+These are new relative to the prior scan and were analysed from scratch on the FINAL
+artifact — no prior analysis exists to carry over.
+
+### CVE-2026-42496 — proposed NOT_AFFECTED (vulnerable_code_not_present)
+
+- Component: Perl Archive::Tar < 3.08 (symlink extraction path escape)
+- Proof receipts: `receipts/cr01-revalidation/04-perl-archive-tar-absence.txt`, `receipts/cr01-revalidation/03-final-perl-and-toolchain-packages.txt`
+- Re-proven on the FINAL artifact by three independent methods: (1) `dpkg -S Archive/Tar.pm` returns 'no path found' and `perl-modules`/`perl` are dpkg status 'not-installed', so no installed package provides the module; (2) `find / -name Tar.pm -path '*Archive*'` returns zero hits on every mount of the image; (3) the image's own perl cannot load it — `perl -MArchive::Tar` fails with "Can't locate Archive/Tar.pm in @INC" enumerating all 10 @INC roots. Only perl-base 5.36.0-7+deb12u3 is installed, and Archive::Tar is not part of perl-base. Receipt 04.
+
+### CVE-2026-42497 — proposed NOT_AFFECTED (vulnerable_code_not_present)
+
+- Component: Perl Archive::Tar < 3.08 (hardlink extraction path escape)
+- Proof receipts: `receipts/cr01-revalidation/04-perl-archive-tar-absence.txt`, `receipts/cr01-revalidation/03-final-perl-and-toolchain-packages.txt`
+- Same component and same absence proof as CVE-2026-42496, re-run on the FINAL artifact: the hardlink extraction path lives in the same absent module. Receipt 04.
+
+### CVE-2026-8376 — proposed NOT_AFFECTED (vulnerable_code_cannot_be_controlled_by_adversary)
+
+- Component: Perl interpreter < 5.40.5-RC1, heap buffer overflow in Perl_study_chunk
+- Proof receipts: `receipts/cr01-revalidation/05-perl-bitness-ivsize.txt`, `receipts/cr01-revalidation/06-runtime-assumptions.txt`
+- The advisory scopes the defect to 32-BIT (ILP32) Perl builds. That prerequisite is unsatisfiable on the FINAL artifact and was re-measured directly: the installed perl-base is 5.36.0-7+deb12u3 amd64; the container kernel is x86_64; the perl binary's ELF header has EI_CLASS=0x02 (ELF64) and e_machine=0x3e (x86-64), so the interpreter cannot even be loaded as a 32-bit build; and the interpreter itself reports Config{ivsize}=8 bytes (64-bit IV), Config{longsize}=8 (LONG_BIT=64), Config{ptrsize}=8 (64-bit pointers), ivtype=long, use64bitint=define. The overflow therefore has no reachable arithmetic precondition. This disposition rests on the impossible 32-bit prerequisite, not on perl being unexecuted. Receipt 05.
+
+## The three Perl advisories carried from the review
+
+The independent review required the CR-01 revalidation to preserve a
+`vulnerable_code_not_present` disposition ONLY if the absence is re-proven on the FINAL
+artifact, and required CVE-2026-8376 to rest on exact component/version/architecture
+evidence rather than primarily on "perl is never executed". Both requirements are met
+on the FINAL digest:
+
+- `Archive::Tar` absence re-proven by three independent methods on sha256:eddda17a...cb7c
+  (dpkg -S, filesystem find across every mount, and the image perl failing to load it).
+- CVE-2026-8376 now rests on a measured, unsatisfiable 32-bit prerequisite: perl-base
+  5.36.0-7+deb12u3 **amd64**, ELF EI_CLASS=0x02 (ELF64), e_machine=0x3e (x86-64),
+  Config{ivsize}=8 bytes (64-bit IV), LONG_BIT=64, Config{ptrsize}=8 bytes.
+  "perl is not executed" is recorded only as a secondary defence-in-depth
+  observation, not as the justification.
+
+## Policy compliance statement
+
+- No suppression, ignore file, waiver or severity downgrade was used.
+- Justifications are limited to the ADR-0007 permitted set.
+- No prior owner approval was reused as approval of the new digest.
+- No owner approval has been requested for this delta; the audit request is still open.
+- The OPEN governance item is the 25 dispositions above, which require a NEW
+  independent audit plus owner approval before promotion.

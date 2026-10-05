@@ -1,0 +1,36 @@
+=== runtime assumptions re-verified on the FINAL artifact ===
+artifact=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+--- 1. image-level runtime config ---
+user=node entrypoint=[docker-entrypoint.sh] cmd=[node]
+
+--- 2. RUNNING containers: user, capabilities, privileged flag, network ---
+container=polyhunter-web
+  image=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+  user=node privileged=false pidMode= networkMode=polyhunter-local_default
+  capAdd=[] capDrop=[]
+  ports=map[3000/tcp:[{127.0.0.1 3000}]]
+container=polyhunter-worker
+  image=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+  user=node privileged=false pidMode= networkMode=polyhunter-local_default
+  capAdd=[] capDrop=[]
+  ports=map[]
+container=polyhunter-postgres
+  image=sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+  user= privileged=false pidMode= networkMode=polyhunter-local_default
+  capAdd=[] capDrop=[]
+  ports=map[5432/tcp:[]]
+
+--- 3. is perl ever spawned by the running stack? (process tree of web + worker) ---
+container=polyhunter-web perl-pids=[]
+container=polyhunter-worker perl-pids=[]
+
+--- 4. does the application source reference a perl subprocess anywhere? ---
+  (no child_process/exec/spawn call site anywhere in apps/ or packages/)
+
+--- 5. does any manifest declare a perl lifecycle hook? ---
+  (no perl invocation in any package.json lifecycle script)
+
+--- 6. runtime uid of the app process ---
+uid=1000(node) gid=1000(node) groups=1000(node)
+uid=1000(node) gid=1000(node) groups=1000(node)

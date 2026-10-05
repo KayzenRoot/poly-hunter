@@ -1,0 +1,16 @@
+# CR-01 revalidation bundle — PH-M01-WO-002
+# Artifact under revalidation: the FINAL rebuilt image.
+
+=== final image identity ===
+image_ref=polyhunter-dev:local
+image_id=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+created=2026-10-05T21:49:23.406848986Z
+os_arch=linux/amd64
+config_user=node
+entrypoint=[docker-entrypoint.sh]
+cmd=[node]
+inspected_at_utc=2026-10-05T22:26:11Z
+
+=== scanner identity ===
+scout_version=v1.24.0 (go1.26.3 - windows/amd64) git=b1c9331b2166aef7ec690aa16fd655b8798ea4c6
+scout_docker_version=29.7.2

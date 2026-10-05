@@ -1,0 +1,33 @@
+=== dpkg: gcc / libstdc++ / perl families in the FINAL artifact ===
+gcc-12-base:amd64 12.2.0-14+deb12u1
+libgcc-s1:amd64 12.2.0-14+deb12u1
+libstdc++6:amd64 12.2.0-14+deb12u1
+perl-base:amd64 5.36.0-7+deb12u3
+util-linux-extra:amd64 2.38.1-5+deb12u3
+util-linux:amd64 2.38.1-5+deb12u3
+zlib1g:amd64 1:1.2.13.dfsg-1
+
+=== perl package census (perl-base only? any perl-modules / full perl?) ===
+kio-perldoc   unknown ok not-installed
+libdevel-mat-dumper-perl   unknown ok not-installed
+libencode-arabic-perl   unknown ok not-installed
+libexception-class-perl   unknown ok not-installed
+libfile-path-perl   unknown ok not-installed
+libfile-spec-perl   unknown ok not-installed
+libfile-temp-perl   unknown ok not-installed
+libgtk3-perl   unknown ok not-installed
+libio-socket-ip-perl   unknown ok not-installed
+liblocale-gettext-perl   unknown ok not-installed
+libmath-gmp-perl   unknown ok not-installed
+libmath-prime-util-gmp-perl   unknown ok not-installed
+libmp3-tag-perl   unknown ok not-installed
+libnet-ldap-perl   unknown ok not-installed
+libsbuild-perl   unknown ok not-installed
+libscalar-list-utils-perl   unknown ok not-installed
+libsocket-perl   unknown ok not-installed
+libterm-readline-gnu-perl   unknown ok not-installed
+libxsloader-perl   unknown ok not-installed
+perl   unknown ok not-installed
+perl-base 5.36.0-7+deb12u3 amd64 install ok installed
+perl-modules   unknown ok not-installed
+perlapi-5.36.0   unknown ok not-installed

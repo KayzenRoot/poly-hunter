@@ -1,0 +1,17 @@
+# Validation gates — PH-M01-WO-002 CR delta (CR-01..CR-04)
+captured_at_utc=2026-10-05T22:34:59Z
+
+=== npm run validate (lint + format:check + typecheck + test + build + audit --audit-level=high) ===
+see receipts/validation-gates.txt for the verbatim tail of each gate
+
+=== git diff --check (whitespace/conflict markers) ===
+warning: in the working copy of '.engineering/evidence/PH-M01-WO-002/receipts/runtime/final-image-scan.sarif', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.engineering/evidence/PH-M01-WO-002/receipts/secret-leak-scan.txt', LF will be replaced by CRLF the next time Git touches it
+  clean (no output)
+
+=== git diff --check against base ===
+  clean (no output)
+
+=== node/npm versions ===
+v26.4.0
+11.17.0

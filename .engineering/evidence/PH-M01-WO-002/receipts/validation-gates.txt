@@ -1,0 +1,65 @@
+# Validation gates — PH-M01-WO-002 correction delta (CR-01..CR-04)
+captured_at_utc=2026-10-05T22:52:31Z
+head=7a54bb76170eff2e6fb50bbd1472ccc83ff15b82
+artifact=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+=== 1. npm ci ===
+  added 131 packages, and audited 138 packages in 2m
+  found 0 vulnerabilities
+
+=== 2. npm run format:check ===
+  
+  [0m[36mChecked 57 files in 153[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m
+
+=== 3. npm run lint ===
+  > polyhunter@0.1.0 lint
+  > biome lint .
+  
+  Checked 57 files in 197ms. No fixes applied.
+
+=== 4. npm run typecheck ===
+  (no TypeScript diagnostics)
+
+=== 5. npm test (unit) ===
+  [2m Test Files [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+
+=== 6. npm run build (next build) ===
+  ✓ Compiled successfully in 697ms
+    Finished TypeScript in 5.0s ...
+  Route (app)
+
+=== 7. npm audit --audit-level=high ===
+  found 0 vulnerabilities
+
+=== 8. DB migrations from empty + integration suite (in-container) ===
+  [2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+
+=== 9. npm run db:migrate (dev DB) ===
+  [⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!
+
+=== 10. runtime health ===
+polyhunter-postgres | postgres | Up About an hour (healthy)
+polyhunter-web | web | Up 4 minutes (healthy)
+polyhunter-worker | worker | Up About an hour
+  GET http://localhost:3000/ -> HTTP 200
+
+=== 11. image identity agreement ===
+  polyhunter-dev:local        = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+  polyhunter-web  (running)   = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+  polyhunter-worker(running)   = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+=== 12. git diff --check ===
+
+=== test counts (ANSI-stripped) ===
+  unit        : 105 passed (6 files)
+  integration : 14 passed (2 files)
+  unit breakdown:
+   ✓ tests/environment-example.test.ts (2 tests) 44ms
+   ✓ tests/workspace-boundaries.test.ts (4 tests) 74ms
+   ✓ tests/fixed-clock.test.ts (2 tests) 18ms
+   ✓ tests/identity-rbac-adversarial.test.ts (21 tests) 36ms
+   ✓ tests/app-origin-csrf.test.ts (43 tests) 71ms
+   ✓ tests/route-handler-security.test.ts (33 tests) 318ms
+  integration breakdown:
+   ✓ packages/db/tests/identity-rbac.integration.test.ts (10 tests) 5174ms
+   ✓ packages/db/tests/tenancy.integration.test.ts (4 tests) 5020ms

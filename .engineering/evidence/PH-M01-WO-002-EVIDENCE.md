@@ -3,7 +3,12 @@
 **Work Order:** PH-M01-WO-002 — Identity & RBAC
 **Branch:** `feat/ph-m01-identity-rbac` · **PR:** #37 (OPEN, DRAFT, base `main@cd3e00475f434be6c358fff89e82965370cc6c70`) · **Issue:** #36
 **Risk class:** HIGH_ASSURANCE
-**Status:** `READY_FOR_INDEPENDENT_AUDIT` (proposed; see §10 for the one open VEX approval item)
+**Status:** `READY_FOR_INDEPENDENT_AUDIT` (proposed; see §10 and §11 — all 25 HIGH/CRITICAL rows are `UNDER_INVESTIGATION` on the FINAL digest)
+
+> **Revision 2 — correction delta.** Independent audit `5420502909` of `sha256:4cb8f254…83d538` returned **CORRECTION REQUIRED** with CR-01..CR-04. This revision records those corrections. Sections 1–5 and 8–9 describe the original WO-002 delivery and are unchanged except where noted. Sections 6, 7 and 10 are superseded by §11.
+
+**Audited code head:** `7a54bb76170eff2e6fb50bbd1472ccc83ff15b82`
+**FINAL artifact:** `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c`
 
 Executor: Codex. No disposition is self-approved. PH-M01-WO-003 was **not** started; the canonical checkpoint was **not** modified.
 
@@ -61,15 +66,20 @@ browser ──(publishable key only)──▶ proxy.ts (session refresh via getC
    domain evaluateTenantResolution ── fail-closed issuance policy (pure, unit-tested)
 ```
 
-Key files: `packages/contracts/src/index.ts` (VerifiedIdentity, IdentityUnavailabilityReason, PlatformRole), `packages/domain/src/index.ts` (IdentityPort, PlatformContext, `evaluateTenantResolution`, `tenantRoleHasCapability`, `isPlatformAdmin`), `packages/db/src/server/identity.ts`, `packages/db/src/schema/index.ts` (+`platform_roles`), `apps/web/proxy.ts`, `apps/web/src/identity/{supabase-adapter,session-service,open-redirect,identity-sanitizer}.ts`, routes under `apps/web/app/{api/me,api/auth/*,auth/*}`.
+Key files: `packages/contracts/src/index.ts` (VerifiedIdentity, IdentityUnavailabilityReason, PlatformRole), `packages/domain/src/index.ts` (IdentityPort, PlatformContext, `evaluateTenantResolution`, `tenantRoleHasCapability`, `isPlatformAdmin`), `packages/db/src/server/identity.ts`, `packages/db/src/schema/index.ts` (+`platform_roles`), `apps/web/proxy.ts`, `apps/web/src/identity/{supabase-adapter,session-service,open-redirect,identity-sanitizer,app-origin,csrf-guard}.ts`, routes under `apps/web/app/{api/me,api/auth/*,auth/*}`.
+
+Correction-delta files: `apps/web/src/identity/app-origin.ts`, `apps/web/src/identity/csrf-guard.ts`, `apps/web/app/api/auth/select-tenant/handler.ts`, `apps/web/app/api/auth/logout/handler.ts`. Both handlers are pure dependency-injection units; `route.ts` stays a thin wrapper that wires the production service, so the security logic is testable without a provider or database.
 
 Security invariants:
 - Identity derives only from signature-verified provider claims (`getClaims()`; `getUser()` fallback). `getSession().user` is never read for authorization.
 - `user_metadata` is structurally ignored by the identity sanitizer (unit-proven: injected `platform_admin`/`role`/`tenant_id` metadata fields are dropped).
 - Internal user + identity_link provisioning is transactional and race-safe: `FOR UPDATE` on the identity_link row, unique `(provider, subject)`, and a 23505 race-loss path that re-reads the winner after ROLLBACK.
 - Tenant roles come only from active `tenant_memberships` rows; `platform_admin` comes only from persisted `platform_roles` (enum admits only `platform_admin`; unique `(user_id, role)`; cascade delete).
-- The tenant selector cookie (`ph-active-tenant`, httpOnly, SameSite=Lax, Secure in production) is a selector only; every authoritative operation re-reads membership.
+- The tenant selector cookie (`ph-active-tenant`, httpOnly, SameSite=Lax, Secure in production) is a selector only; every authoritative operation re-reads membership. The write is **awaited** before the response is produced, so a successful response always implies a written cookie.
 - Absent Supabase configuration → explicit fail-closed states (`provider_not_configured`), never a fabricated user.
+- **State-changing Route Handlers enforce Origin explicitly** (`apps/web/src/identity/csrf-guard.ts`). Next.js applies automatic Origin protection to Server Actions, **not** to custom Route Handlers — so `POST /api/auth/select-tenant` and `POST /api/auth/logout` call `assertSameOrigin()` themselves as the first statement, before any state is read or written. Cross-origin fails closed with 403.
+- The trusted origin comes only from `NEXT_PUBLIC_APP_ORIGIN` (`apps/web/src/identity/app-origin.ts`). The request `Host`, `X-Forwarded-Host` and the client-supplied `Origin` are **never** used to derive it. Forwarded headers are deliberately ignored for security decisions (reverse-proxy policy). SameSite cookies are defense-in-depth, not the primary proof.
+- Every redirect target is built by `appUrlFor()` from the configured origin. `returnTo` remains a sanitized **relative** path only.
 
 ## 4. Migration
 
@@ -80,12 +90,14 @@ Security invariants:
 
 ## 5. Tests (all PASS)
 
-**Unit (28/28, `npm test`)** — includes new `tests/identity-rbac-adversarial.test.ts` (21 cases):
+**Unit (105/105 across 6 files, `npm test`)** — the correction delta added `tests/app-origin-csrf.test.ts` (43) and `tests/route-handler-security.test.ts` (33); `tests/identity-rbac-adversarial.test.ts` contributes 21.
 - tenant resolution policy: unauthenticated / no membership / suspended membership / invited membership / suspended user / suspended tenant all fail closed; issuance only for the fully active row (frozen context).
 - RBAC matrix: owner/admin capabilities vs member denials (member cannot rename/invite/remove).
 - platform_admin separation: `isPlatformAdmin(null)` is false for every tenant role; authority comes only from the authoritative value.
 - open-redirect guard: same-origin relative paths accepted; absolute, protocol-relative, encoded-slash, backslash and oversized values rejected.
 - identity shape: malformed subjects fail closed; forged `user_metadata` (`platform_admin`, `tenant_id`, `role`) is structurally dropped from the verified identity.
+- **app origin + CSRF (43, CR-02/CR-04):** local `http://localhost:3000` and production `https://app.example.test` both accepted; missing, malformed, relative, bare-host, `ftp:` and `javascript:` origins rejected; production requires `https` and otherwise throws `InvalidAppOriginError`; the CSRF guard fails closed on that error; a spoofed `Host` is ignored while an exact-match `Origin` is allowed; foreign, sibling-subdomain, parent-lookalike, different-protocol, different-port, `null`, malformed, whitespace and missing origins all rejected; `Host`-only and `X-Forwarded-Host`-only requests rejected; `appUrlFor` rejects `//evil.example`, absolute URLs, `…localhost:3000.evil.example` and backslash paths.
+- **route handler security (33, CR-02/CR-03):** ten hostile header shapes × both endpoints return 403 with the session resolver, cookie writer, `signOut` and `clearSelection` all proven never called; the cookie write is proven **awaited** (a held-open promise leaves the handler unsettled); foreign, suspended, inactive-tenant, malformed-selector, unauthenticated and provider-unconfigured paths never write the cookie; cookie attributes captured through a mocked `next/headers` prove `ph-active-tenant` is httpOnly, SameSite=Lax, path `/`, Secure in production and not Secure in development; logout returns 303 to the configured origin and never to `localhost`.
 
 **Integration (14/14, `npm run db:test:integration` inside the web container against disposable PostgreSQL databases)** — `packages/db/tests/identity-rbac.integration.test.ts` + WO-001 regression file:
 - migrations from empty DBs + repeat/disposable application (WO-001 regression); `platform_roles` present.
@@ -99,7 +111,9 @@ Security invariants:
 
 ## 6. Runtime evidence (Docker, no Supabase credentials)
 
-Receipts: `receipts/runtime/fail-closed-probes.txt`, `receipts/runtime/final-image-id.txt`.
+> Superseded by §11.4 — the digest below is the artifact the first audit scanned, and it is no longer the artifact under audit.
+
+Receipts: `receipts/runtime/fail-closed-probes.txt`, `receipts/runtime/prior-image-id.txt`.
 
 - Image rebuilt (`--pull --no-cache`) after the dependency change: `sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538`.
 - `polyhunter-web` healthy, `http://localhost:3000` → HTTP 200; `polyhunter-worker` running; `polyhunter-postgres` healthy.
@@ -107,6 +121,8 @@ Receipts: `receipts/runtime/fail-closed-probes.txt`, `receipts/runtime/final-ima
 - **Fail-closed probes with no Supabase credentials:** `/api/me` → `{"authenticated":false,"reason":"provider_not_configured"}`; `/api/auth/login` → 503 `identity_provider_unavailable`; `/api/auth/select-tenant` (unauthenticated) → 503; `/auth/callback?returnTo=https://evil.example&code=x` → 303 to same-origin `/?auth=failed` (no off-origin redirect; forged code rejected). No fabricated user anywhere.
 
 ## 7. Dependency/container/secret scans
+
+> Superseded by §11.5. The dispositions described below were valid only for the prior digest and have expired.
 
 - `npm ci`: PASS. `npm audit --audit-level=high`: **found 0 vulnerabilities**.
 - `npm run validate` (lint + format + typecheck + unit + build + audit): **PASS**.
@@ -140,6 +156,9 @@ Receipts: `receipts/runtime/fail-closed-probes.txt`, `receipts/runtime/final-ima
 | 22 | `npm ci`/lint/format/typecheck/test/build PASS | `npm run validate` PASS |
 | 23 | audit + container/dependency/secret scan | 0 npm vulns; SARIF receipt; leak scan 0 hits |
 | 24 | `git diff --check` | clean |
+| CR-02 | state-changing Route Handlers reject cross-origin | 43 unit + 33 handler tests + 13 live probes (`runtime/cr02-cr04-live-probes.txt`) |
+| CR-03 | tenant cookie is written before the response | handler tests prove the write is awaited and never runs on a failure path |
+| CR-04 | redirect target follows configuration, not a literal | live container with `NEXT_PUBLIC_APP_ORIGIN=http://configured-origin.test:4321` redirects there and rejects `localhost` as foreign |
 
 ## 9. Scope discipline
 
@@ -149,4 +168,138 @@ Receipts: `receipts/runtime/fail-closed-probes.txt`, `receipts/runtime/final-ima
 
 ## 10. STOP
 
-**`READY_FOR_INDEPENDENT_AUDIT`** — implementation, tests, evidence and Docker runtime complete. One governance item accompanies the audit: the three new perl findings in the rebuilt image carry PROPOSED `NOT_AFFECTED` dispositions (`receipts/vex-delta-3-perl-cves.json`) that require independent audit + owner approval under ADR-0007; until approved they are treated as blocking. No suppression/ignore/waiver/severity downgrade was used anywhere.
+**`READY_FOR_INDEPENDENT_AUDIT`** — CR-02, CR-03 and CR-04 are closed in code with adversarial unit coverage, live-container probes and a clean validation chain; CR-01 is closed with a full objective-equivalence revalidation on the FINAL digest. The audit request is therefore re-opened against `sha256:eddda17a…cb7c` at head `7a54bb7…`.
+
+One governance item accompanies the audit, and it is now larger than it was in Revision 1: because the corrections changed application code, the image digest necessarily changed, and under PH-SEC-VEX-POLICY that expires **every** prior `NOT_AFFECTED` disposition. All 25 HIGH/CRITICAL rows are therefore `UNDER_INVESTIGATION` on the FINAL digest with *proposed* dispositions only (see §11.5). The prior owner approvals are historical records of the prior digest and do not approve this one. A new independent audit plus owner approval is required.
+
+No suppression, ignore, waiver or severity downgrade was used anywhere.
+
+---
+
+## 11. Correction delta CR-01 … CR-04 (independent audit `5420502909`)
+
+### 11.1 CR-01 — final-digest VEX revalidation
+
+The audit found the WO-002 build produced `sha256:4cb8f254…83d538` while the approved artifact was `sha256:ed140fd5…9297ba3`. PH-SEC-VEX-POLICY expires a `NOT_AFFECTED` disposition at a new image digest, so **all** prior dispositions had lapsed.
+
+The FINAL artifact is `sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c` (`linux/amd64`, user `node`), scanned with Docker Scout v1.24.0 / Docker Engine 29.7.2. Every one of the 22 carried-over rows was revalidated across the six policy axes before being preserved by reference:
+
+| Axis | Result |
+|---|---|
+| component/package | 80/80 SARIF rows identical; 0 added, 0 changed, 0 removed |
+| exact version | Debian dpkg inventory byte-identical to the WO-007 artifact (88 packages); every npm purl version identical |
+| architecture | amd64 / x86-64 unchanged; `perl-base` amd64 |
+| installed files | `node`, `libstdc++.so.6.0.30`, `sharp-linux-x64-0.35.5.node`, `libvips-cpp.so.8.18.7` all SHA-256 identical to the WO-008 baseline |
+| runtime assumptions | uid 1000 `node`, not privileged, no cap add/drop, web on `127.0.0.1:3000` only, worker unpublished, no perl process in either container, no `child_process`/`exec`/`spawn` call site |
+| prior proof assumptions | every precondition quoted verbatim from the prior disposition and re-measured on the FINAL artifact |
+
+No axis changed, so no prior analysis had to be redone. Receipts: `receipts/cr01-revalidation/00`–`08`, `receipts/runtime/prior-image-scan.sarif`, `receipts/runtime/final-image-scan.sarif`.
+
+**The three Perl advisories.** `CVE-2026-42496`/`CVE-2026-42497` keep `vulnerable_code_not_present` only because the absence of `Archive::Tar` was **re-proven on the FINAL artifact** by three independent methods: `dpkg -S` finds no owning package (`perl`/`perl-modules` are `not-installed`), a filesystem `find` returns zero hits across every mount, and the image's own perl fails `perl -MArchive::Tar` while enumerating all ten `@INC` roots. `CVE-2026-8376` no longer rests primarily on "perl is never executed": it now rests on a measured, unsatisfiable 32-bit prerequisite — `perl-base` 5.36.0-7+deb12u3 amd64, ELF `EI_CLASS=0x02` (ELF64), `e_machine=0x3e` (x86-64), `Config{ivsize}=8` bytes, `LONG_BIT=64`, `Config{ptrsize}=8` bytes. "Perl is never executed" is retained only as secondary defense-in-depth.
+
+### 11.2 CR-02 — explicit same-origin protection on the Route Handlers
+
+The audit correctly noted that Next.js applies automatic Origin protection to Server Actions but **not** to custom Route Handlers. `apps/web/src/identity/csrf-guard.ts` now provides `assertSameOrigin()`, called as the first statement of both `POST /api/auth/select-tenant` and `POST /api/auth/logout` — before any session read, cookie write or sign-out. Cross-origin returns 403 and touches nothing.
+
+The trusted origin is taken **only** from `NEXT_PUBLIC_APP_ORIGIN`. The request `Host`, `X-Forwarded-Host` and the client `Origin` are never used to derive it. **Reverse-proxy policy:** forwarded headers are deliberately ignored for security decisions; if PolyHunter is ever deployed behind a proxy, the proxy must pass the real origin and `NEXT_PUBLIC_APP_ORIGIN` must be set to the public origin. SameSite cookies remain defense-in-depth only.
+
+Coverage: correct origin, `evil.example`, sibling subdomain, parent-lookalike subdomain, different protocol, different port, malformed, whitespace, `null`, missing, `Host` spoof, `X-Forwarded-Host` spoof — 43 unit cases, 33 handler cases and 13 live probes. **This bundle previously made no CSRF claim; it now states the protection explicitly and its actual mechanism.**
+
+### 11.3 CR-03 — the active-tenant cookie write is awaited
+
+`await writeActiveTenantSelection(resolution.tenantId)` now completes before the response is constructed, so a 200 always implies a written cookie. Tests prove the write is genuinely awaited (a held-open promise leaves the handler unsettled) and that foreign, suspended, inactive-tenant, malformed-selector, unauthenticated and provider-unconfigured paths never write it. Cookie attributes are captured through a mocked `next/headers`: `ph-active-tenant`, httpOnly, SameSite=Lax, path `/`, Secure in production and not Secure in development.
+
+### 11.4 CR-04 — centralized trusted app origin, no hard-coded redirects
+
+`apps/web/src/identity/app-origin.ts` is the single server-only source of truth. Every hard-coded `http://localhost` redirect in the auth callback (success/denied/invalid/failed) and in logout is gone; all now resolve through `appUrlFor()`, which builds from the configured origin and rejects anything that is not a relative path (`//evil.example`, absolute URLs, backslash forms, and any resolution whose origin differs from the configured one). `sanitizeReturnTo` validates against an RFC 2606 sentinel so no `localhost` literal remains in source.
+
+Validation: must be an absolute URL; only `http`/`https` allowed; `https` is **required** when `NODE_ENV=production`; an absent or invalid production configuration throws `InvalidAppOriginError`, which `originMatchesTrusted` converts into a denial of every request. The origin is never derived from an arbitrary request `Host`.
+
+Live proof that no literal remains — a one-off container with `NEXT_PUBLIC_APP_ORIGIN=http://configured-origin.test:4321`:
+
+| | default origin | configured origin |
+|---|---|---|
+| callback `access_denied` redirect | `http://localhost:3000/?auth=denied` | `http://configured-origin.test:4321/?auth=denied` |
+| `Origin: http://localhost:3000` | allowed (503 = passed guard) | **403 rejected as foreign** |
+
+Changing only the configuration changed both behaviours, which a hard-coded literal could not do. `returnTo` stays a sanitized relative path; the open-redirect probe `?returnTo=https://evil.example&code=x` still lands on `/?auth=failed` on the configured origin.
+
+### 11.5 Final security reconciliation
+
+`receipts/cr01-revalidation/09-final-security-reconciliation.txt` and `receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json`:
+
+- 25 HIGH/CRITICAL rows on `sha256:eddda17a…cb7c` (21 HIGH, 4 CRITICAL).
+- 22 carried over from PH-SEC-WO-007 (20) and PH-SEC-WO-008 (2); 3 analysed from scratch in this delta.
+- **25 proposed `NOT_AFFECTED`, 0 approved.** Every row is `UNDER_INVESTIGATION`, with `approvalState.independentAuditor = null` and `ownerApproval = null`.
+- Every justification is inside the ADR-0007 permitted set. No suppression, ignore, waiver or severity downgrade.
+
+### 11.6 Validation chain after the corrections
+
+Full receipt: `receipts/validation-gates.txt`.
+
+| Gate | Result |
+|---|---|
+| `npm ci` | PASS, 0 vulnerabilities |
+| `npm run format:check` | PASS (57 files) |
+| `npm run lint` | PASS (57 files) |
+| `npm run typecheck` | PASS, no diagnostics |
+| `npm test` | **105 passed** (6 files) |
+| `npm run build` | PASS |
+| `npm audit --audit-level=high` | **0 vulnerabilities** |
+| DB migrations from empty + integration | **14 passed** (2 files), disposable empty databases, re-application idempotent |
+| `npm run db:migrate` (dev DB) | migrations applied |
+| Runtime | postgres healthy, web healthy `HTTP 200`, worker running — all three app containers on `sha256:eddda17a…cb7c` |
+| Container scan | SARIF on the FINAL digest, 80 rows, 25 HIGH/CRITICAL |
+| Secret pattern scan | 0 real hits (the 3 matches are a comment and a negative test assertion) |
+| Client bundle scan | 0 hits across 9 client chunks |
+| `git diff --check` | clean |
+
+One pre-existing test failure was found and fixed in passing: `tests/environment-example.test.ts` asserted an exact `.env.example` key set that commit `88bfa76` had already widened with `NEXT_PUBLIC_*` variables. Left alone it would have made CI red for a reason unrelated to these corrections.
+
+Docker is left running as required: `polyhunter-postgres` healthy, `polyhunter-web` healthy on `127.0.0.1:3000`, `polyhunter-worker` up.
+## 12. Receipt index
+
+All paths are relative to `.engineering/evidence/PH-M01-WO-002/`.
+
+**Correction delta — CR-01 revalidation on the FINAL digest**
+
+| Receipt | Content |
+|---|---|
+| `receipts/cr01-revalidation/00-final-image-identity.txt` | FINAL digest, os/arch, user, entrypoint/cmd, scanner version |
+| `receipts/cr01-revalidation/01-final-image-dpkg-inventory.txt` | 88-package Debian inventory, diffed byte-identical vs the WO-007 artifact |
+| `receipts/cr01-revalidation/02-final-artifact-sha256.txt` | SHA-256 of `node`, `libstdc++.so.6.0.30`, `sharp-linux-x64-0.35.5.node`, `libvips-cpp.so.8.18.7` |
+| `receipts/cr01-revalidation/03-final-perl-and-toolchain-packages.txt` | `perl`/`perl-modules` dpkg status; only `perl-base` installed |
+| `receipts/cr01-revalidation/04-perl-archive-tar-absence.txt` | three independent proofs of `Archive::Tar` absence on the FINAL image |
+| `receipts/cr01-revalidation/05-perl-bitness-ivsize.txt` | ELF64, `e_machine=0x3e`, `ivsize=8`, `LONG_BIT=64` |
+| `receipts/cr01-revalidation/06-runtime-assumptions.txt` | uid, capabilities, privileged flag, ports, commands, process table, subprocess call sites |
+| `receipts/cr01-revalidation/07-component-version-comparison.txt` | like-for-like SARIF row comparison, 80/80 identical |
+| `receipts/cr01-revalidation/08-prior-row-revalidation.md` | six-axis verdict per carried-over row, quoting each prior proof |
+| `receipts/cr01-revalidation/09-final-security-reconciliation.txt` | ledger of all 25 HIGH/CRITICAL rows and their policy status |
+| `receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json` | the VEX document itself — 25 findings, all `UNDER_INVESTIGATION` |
+| `receipts/cr01-revalidation/analysis/*.cjs` | the scripts that generated 07, 08, 09 and the VEX — kept so the results are reproducible |
+
+**Correction delta — CR-02 / CR-03 / CR-04 runtime and scans**
+
+| Receipt | Content |
+|---|---|
+| `receipts/runtime/cr02-cr04-live-probes.txt` | 13 live CSRF probes + the configured-origin container comparison |
+| `receipts/runtime/capture-cr02-cr04-probes.sh` | the script that produced the receipt above |
+| `receipts/runtime/final-image-id.txt` | FINAL digest |
+| `receipts/runtime/final-image-scan.sarif` | Docker Scout SARIF of the FINAL artifact |
+| `receipts/validation-gates.txt` | the full post-correction validation chain |
+| `receipts/client-bundle-secret-scan.txt` | credential scan of the built client bundle |
+| `receipts/secret-leak-scan.txt` | credential scan of the tracked source tree |
+
+**Original WO-002 delivery (still valid)**
+
+| Receipt | Content |
+|---|---|
+| `receipts/supabase-source-check.md` | official Supabase docs/changelog re-check |
+| `receipts/pinned-versions.json` | exact pinned dependency versions |
+| `receipts/migration-hashes.txt` | migration / snapshot / journal SHA-256 |
+| `receipts/runtime/fail-closed-probes.txt` | fail-closed probes with no provider credentials |
+| `receipts/runtime/prior-image-id.txt` | superseded digest scanned by audit `5420502909` |
+| `receipts/runtime/prior-image-scan.sarif` | SARIF of that superseded digest |
+| `receipts/vex-delta-3-perl-cves.json` | first-pass proposals for the 3 Perl rows |
+| `receipts/perl-cves-component-presence.txt`, `receipts/new-perl-cves-advisories.json` | Perl component presence and upstream advisory text |
+| `receipts/validation-summary.txt` | original validation summary |
