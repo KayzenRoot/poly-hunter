@@ -1,0 +1,17 @@
+PH-SEC-WO-004 deterministic SARIF reconciliation receipt
+Worktree branch: security/ph-m01-dev-go-vex
+Pre-analysis HEAD: b6531aa015cba78313309d977e8c86b3ddd14acc
+SARIF SHA-256: e811c090d0748d3ebac6ab550e186b6480252e7d63b1733265e25f1561e3c372
+Scanner: docker scout 1.24.0
+HIGH/CRITICAL unique CVEs: 56 (HIGH=50, CRITICAL=6)
+In-scope Go stdlib CVEs: 35 / expected 35
+In-scope Go stdlib occurrences: 64 / expected 64
+Occurrences by exact locked path and scanner Go stdlib version:
+  /workspace/node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64/bin/esbuild => 34 occurrences; Go versions: 1.20.7
+  /workspace/node_modules/@esbuild/linux-x64/bin/esbuild => 23 occurrences; Go versions: 1.23.12
+  /workspace/node_modules/@typescript/typescript-linux-x64/lib/tsc => 7 occurrences; Go versions: 1.26.4
+Expected Context Lock Go versions: 1.20.7, 1.26.4
+Observed versions across the 64 in-scope occurrences: 1.20.7, 1.23.12, 1.26.4
+Unexpected version: 1.23.12
+DECISION: STOP STALE/BLOCKED before executable inspection, govulncheck, runtime tracing, or CVE exploitability analysis.
+All 64 occurrences and 35 aggregate CVEs stay UNDER_INVESTIGATION / blocking.

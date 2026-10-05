@@ -1,0 +1,107 @@
+=== mozjpeg (libjpeg-turbo fork) marker length cap — hard 16-bit bound ===
+provenance: github.com/mozilla/mozjpeg commit 08265790774cd0714832c9e675522acbe5581437
+(matches sharp-libvips versions.json: mozjpeg = 0826579)
+
+--- save_marker() in jdmarker.c: length is read as 2 bytes (INPUT_2BYTES), max 65535; length -= 2 -> data_length <= 65533 ---
+METHODDEF(boolean)
+save_marker(j_decompress_ptr cinfo)
+/* Save an APPn or COM marker into the marker list */
+{
+  my_marker_ptr marker = (my_marker_ptr)cinfo->marker;
+  jpeg_saved_marker_ptr cur_marker = marker->cur_marker;
+  unsigned int bytes_read, data_length;
+  JOCTET *data;
+  JLONG length = 0;
+  INPUT_VARS(cinfo);
+
+  if (cur_marker == NULL) {
+    /* begin reading a marker */
+    INPUT_2BYTES(cinfo, length, return FALSE);
+    length -= 2;
+    if (length >= 0) {          /* watch out for bogus length word */
+      /* figure out how much we want to save */
+      unsigned int limit;
+      if (cinfo->unread_marker == (int)M_COM)
+        limit = marker->length_limit_COM;
+      else
+        limit = marker->length_limit_APPn[cinfo->unread_marker - (int)M_APP0];
+      if ((unsigned int)length < limit)
+        limit = (unsigned int)length;
+      /* allocate and initialize the marker item */
+      cur_marker = (jpeg_saved_marker_ptr)
+        (*cinfo->mem->alloc_large) ((j_common_ptr)cinfo, JPOOL_IMAGE,
+                                    sizeof(struct jpeg_marker_struct) + limit);
+      cur_marker->next = NULL;
+      cur_marker->marker = (UINT8)cinfo->unread_marker;
+      cur_marker->original_length = (unsigned int)length;
+      cur_marker->data_length = limit;
+      /* data area is just beyond the jpeg_marker_struct */
+      data = cur_marker->data = (JOCTET *)(cur_marker + 1);
+      marker->cur_marker = cur_marker;
+      marker->bytes_read = 0;
+      bytes_read = 0;
+      data_length = limit;
+    } else {
+      /* deal with bogus length word */
+      bytes_read = data_length = 0;
+      data = NULL;
+    }
+  } else {
+    /* resume reading a marker */
+
+--- jpeg_save_markers: uhdr calls with length_limit 0xFFFF ---
+
+GLOBAL(void)
+jpeg_save_markers(j_decompress_ptr cinfo, int marker_code,
+                  unsigned int length_limit)
+{
+  my_marker_ptr marker = (my_marker_ptr)cinfo->marker;
+  long maxlength;
+  jpeg_marker_parser_method processor;
+
+  /* Length limit mustn't be larger than what we can allocate
+   * (should only be a concern in a 16-bit environment).
+   */
+  maxlength = cinfo->mem->max_alloc_chunk - sizeof(struct jpeg_marker_struct);
+  if (((long)length_limit) > maxlength)
+    length_limit = (unsigned int)maxlength;
+
+  /* Choose processor routine to use.
+   * APP0/APP14 have special requirements.
+   */
+  if (length_limit) {
+    processor = save_marker;
+    /* If saving APP0/APP14, save at least enough for our internal use. */
+    if (marker_code == (int)M_APP0 && length_limit < APP0_DATA_LEN)
+      length_limit = APP0_DATA_LEN;
+    else if (marker_code == (int)M_APP14 && length_limit < APP14_DATA_LEN)
+      length_limit = APP14_DATA_LEN;
+  } else {
+    processor = skip_variable;
+    /* If discarding APP0/APP14, use our regular on-the-fly processor. */
+    if (marker_code == (int)M_APP0 || marker_code == (int)M_APP14)
+      processor = get_interesting_appn;
+  }
+
+  if (marker_code == (int)M_COM) {
+    marker->process_COM = processor;
+    marker->length_limit_COM = length_limit;
+  } else if (marker_code >= (int)M_APP0 && marker_code <= (int)M_APP15) {
+    marker->process_APPn[marker_code - (int)M_APP0] = processor;
+    marker->length_limit_APPn[marker_code - (int)M_APP0] = length_limit;
+      /* allocate and initialize the marker item */
+      cur_marker = (jpeg_saved_marker_ptr)
+        (*cinfo->mem->alloc_large) ((j_common_ptr)cinfo, JPOOL_IMAGE,
+                                    sizeof(struct jpeg_marker_struct) + limit);
+      cur_marker->next = NULL;
+      cur_marker->marker = (UINT8)cinfo->unread_marker;
+      cur_marker->original_length = (unsigned int)length;
+      cur_marker->data_length = limit;
+      /* data area is just beyond the jpeg_marker_struct */
+      data = cur_marker->data = (JOCTET *)(cur_marker + 1);
+      marker->cur_marker = cur_marker;
+      marker->bytes_read = 0;
+      bytes_read = 0;
+      data_length = limit;
+    } else {
+      /* deal with bogus length word */

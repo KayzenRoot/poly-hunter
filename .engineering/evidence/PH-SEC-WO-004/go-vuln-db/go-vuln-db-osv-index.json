@@ -1,0 +1,282 @@
+{
+  "source": "https://vuln.go.dev/index/vulns.json",
+  "indexSha256": "4d4dfe39f203372042af2f6eb92b0855ba8c43d2269e63eb0c3ae223119e8891",
+  "fetchedAtUtc": "2026-10-04",
+  "records": [
+    {
+      "cve": "CVE-2022-30635",
+      "id": "GO-2022-0526",
+      "url": "https://vuln.go.dev/ID/GO-2022-0526.json",
+      "bytes": 1070,
+      "sha256": "eb886b4e7b3ba095d7c306da53940e1720319154c0da10b26d3e28d16047923e",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2022-0526.json"
+    },
+    {
+      "cve": "CVE-2023-39325",
+      "id": "GO-2023-2102",
+      "url": "https://vuln.go.dev/ID/GO-2023-2102.json",
+      "bytes": 2580,
+      "sha256": "f66939d53445a4d7574d1e476d06cba4152b387b3b625ccb51c3ec542340ed84",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2023-2102.json"
+    },
+    {
+      "cve": "CVE-2023-45283",
+      "id": "GO-2023-2185",
+      "url": "https://vuln.go.dev/ID/GO-2023-2185.json",
+      "bytes": 2725,
+      "sha256": "ee7248ed0eb2a9c5c223268674ca926aa8d57ea897f966ea542c4283503e6648",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2023-2185.json"
+    },
+    {
+      "cve": "CVE-2023-45288",
+      "id": "GO-2024-2687",
+      "url": "https://vuln.go.dev/ID/GO-2024-2687.json",
+      "bytes": 8095,
+      "sha256": "2087502178f6fb312b3a77b5fa72bcb452172c2ec6800b56409e8331766feb16",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-2687.json"
+    },
+    {
+      "cve": "CVE-2024-24784",
+      "id": "GO-2024-2609",
+      "url": "https://vuln.go.dev/ID/GO-2024-2609.json",
+      "bytes": 1317,
+      "sha256": "a9edb9a4f9af54d7789abfd07b6347c51524ca0c4e90081b73aeab1d05cb41a6",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-2609.json"
+    },
+    {
+      "cve": "CVE-2024-24790",
+      "id": "GO-2024-2887",
+      "url": "https://vuln.go.dev/ID/GO-2024-2887.json",
+      "bytes": 1247,
+      "sha256": "394fb6e1bf6bf3922fd21169912aac667f4db26c767614b085d084759a7884e3",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-2887.json"
+    },
+    {
+      "cve": "CVE-2024-24791",
+      "id": "GO-2024-2963",
+      "url": "https://vuln.go.dev/ID/GO-2024-2963.json",
+      "bytes": 1732,
+      "sha256": "099f3bcc821ec9fa52dbc64414cccf3816edc363428cbf1a4d0140ef1cd7afa0",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-2963.json"
+    },
+    {
+      "cve": "CVE-2024-34156",
+      "id": "GO-2024-3106",
+      "url": "https://vuln.go.dev/ID/GO-2024-3106.json",
+      "bytes": 1096,
+      "sha256": "9db502b9fce8916d9b36fcca62c5ec1f207ddbfc71ee38ff47f7c020b9170189",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-3106.json"
+    },
+    {
+      "cve": "CVE-2024-34158",
+      "id": "GO-2024-3107",
+      "url": "https://vuln.go.dev/ID/GO-2024-3107.json",
+      "bytes": 932,
+      "sha256": "956d4fff54fb1f5afd39e1cc8ce24d8f2a8967ff467ba03994639de7d0bb5b15",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2024-3107.json"
+    },
+    {
+      "cve": "CVE-2025-22871",
+      "id": "GO-2025-3563",
+      "url": "https://vuln.go.dev/ID/GO-2025-3563.json",
+      "bytes": 1125,
+      "sha256": "a61707de4f4582af28b51a9d3a9404cc913151b7ae77504c2d01e7ce042f1c72",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-3563.json"
+    },
+    {
+      "cve": "CVE-2025-58187",
+      "id": "GO-2025-4007",
+      "url": "https://vuln.go.dev/ID/GO-2025-4007.json",
+      "bytes": 1827,
+      "sha256": "0f07506ead47d85dcfd4f66c0a779eda0efa89f3ca80771f61fa69a01e815346",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-4007.json"
+    },
+    {
+      "cve": "CVE-2025-58188",
+      "id": "GO-2025-4013",
+      "url": "https://vuln.go.dev/ID/GO-2025-4013.json",
+      "bytes": 1101,
+      "sha256": "738c2d1997104469b33cf5d8fe13dfae88123521ef226a114b2bcad45b8b4c1d",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-4013.json"
+    },
+    {
+      "cve": "CVE-2025-61723",
+      "id": "GO-2025-4009",
+      "url": "https://vuln.go.dev/ID/GO-2025-4009.json",
+      "bytes": 1023,
+      "sha256": "61e850b8a350228d8337e88c7ab3cb40ff260f7771df6228922f9cc96eb46a8c",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-4009.json"
+    },
+    {
+      "cve": "CVE-2025-61725",
+      "id": "GO-2025-4006",
+      "url": "https://vuln.go.dev/ID/GO-2025-4006.json",
+      "bytes": 1168,
+      "sha256": "bab8cb1833750d2b8b6c575b2dfe9521dc13087f5a17481e1f8cdf32e8a2eb6b",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-4006.json"
+    },
+    {
+      "cve": "CVE-2025-61726",
+      "id": "GO-2026-4341",
+      "url": "https://vuln.go.dev/ID/GO-2026-4341.json",
+      "bytes": 1220,
+      "sha256": "793c9ed07e9cb09703932118676b276891394c3ad607c89d0a627feb7c3bf109",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4341.json"
+    },
+    {
+      "cve": "CVE-2025-61729",
+      "id": "GO-2025-4155",
+      "url": "https://vuln.go.dev/ID/GO-2025-4155.json",
+      "bytes": 1280,
+      "sha256": "49c2edcbaac29e167a8d893d952c598edc41a6adbae36d4952a985b125a0c74d",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2025-4155.json"
+    },
+    {
+      "cve": "CVE-2025-68121",
+      "id": "GO-2026-4337",
+      "url": "https://vuln.go.dev/ID/GO-2026-4337.json",
+      "bytes": 1642,
+      "sha256": "df1a6110a54bb08c2d5c8726971cd51069a30f48deea2cace5e5cf97893def37",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4337.json"
+    },
+    {
+      "cve": "CVE-2026-25679",
+      "id": "GO-2026-4601",
+      "url": "https://vuln.go.dev/ID/GO-2026-4601.json",
+      "bytes": 1013,
+      "sha256": "4ff9e79cc2660ca42160c072879b402164ea3240301f47d86b18c13579090b4f",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4601.json"
+    },
+    {
+      "cve": "CVE-2026-32280",
+      "id": "GO-2026-4947",
+      "url": "https://vuln.go.dev/ID/GO-2026-4947.json",
+      "bytes": 1151,
+      "sha256": "769b4dc8c0abc8b137eb055f9f58cdc8361182447e42ead392e0528eb05222e7",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4947.json"
+    },
+    {
+      "cve": "CVE-2026-32281",
+      "id": "GO-2026-4946",
+      "url": "https://vuln.go.dev/ID/GO-2026-4946.json",
+      "bytes": 1208,
+      "sha256": "632daf59e86d28eb2b53d8f75adfc832c389213f0926db50f5f41404511cc596",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4946.json"
+    },
+    {
+      "cve": "CVE-2026-32283",
+      "id": "GO-2026-4870",
+      "url": "https://vuln.go.dev/ID/GO-2026-4870.json",
+      "bytes": 1503,
+      "sha256": "21de62394b41f5e008c751414bfad65492e114e9b2186e13fbf83d72e1b3f808",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4870.json"
+    },
+    {
+      "cve": "CVE-2026-33811",
+      "id": "GO-2026-4981",
+      "url": "https://vuln.go.dev/ID/GO-2026-4981.json",
+      "bytes": 970,
+      "sha256": "0b014f31a74551871fefcc920e8cf20da279874fb5a28f2ec9089bce533e0ef8",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4981.json"
+    },
+    {
+      "cve": "CVE-2026-33814",
+      "id": "GO-2026-4918",
+      "url": "https://vuln.go.dev/ID/GO-2026-4918.json",
+      "bytes": 2253,
+      "sha256": "cf690ff9affe270dba8096b45883bb17dd8ac6ce43cfdf031bc218e3a54e2bc4",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4918.json"
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "id": "GO-2026-5972",
+      "url": "https://vuln.go.dev/ID/GO-2026-5972.json",
+      "bytes": 1059,
+      "sha256": "0a5decf07d8113ebbbd7d126d55d5d463df99fa02dc965d6be252dee342339c6",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-5972.json"
+    },
+    {
+      "cve": "CVE-2026-39820",
+      "id": "GO-2026-4986",
+      "url": "https://vuln.go.dev/ID/GO-2026-4986.json",
+      "bytes": 1111,
+      "sha256": "9e7fc34d023a7639568470e63f5cd4c2b59ecbe8abd14835f3f7240924fa7e79",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4986.json"
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "id": "GO-2026-5026",
+      "url": "https://vuln.go.dev/ID/GO-2026-5026.json",
+      "bytes": 2435,
+      "sha256": "6c8aed80ae71362ee6a2c4ca36ace9d5f6d991040d5242ffc4713e2a7a9a750c",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-5026.json"
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "id": "GO-2026-4970",
+      "url": "https://vuln.go.dev/ID/GO-2026-4970.json",
+      "bytes": 1381,
+      "sha256": "7cd0f040d0f20a62a8535191c5078a0602fe21eeb8348ca61a3115aed239bea9",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4970.json"
+    },
+    {
+      "cve": "CVE-2026-39836",
+      "id": "GO-2026-4971",
+      "url": "https://vuln.go.dev/ID/GO-2026-4971.json",
+      "bytes": 1530,
+      "sha256": "b8f9bbfe15af49db7bff521201e4acbfbea4b5d652149a23137ba222693b7421",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4971.json"
+    },
+    {
+      "cve": "CVE-2026-42499",
+      "id": "GO-2026-4977",
+      "url": "https://vuln.go.dev/ID/GO-2026-4977.json",
+      "bytes": 1011,
+      "sha256": "0e4ac0b5be17849fd6decac446f67f762b03080eb217c17a980aae33e82536c0",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-4977.json"
+    },
+    {
+      "cve": "CVE-2026-42504",
+      "id": "GO-2026-5038",
+      "url": "https://vuln.go.dev/ID/GO-2026-5038.json",
+      "bytes": 962,
+      "sha256": "d37c57ccea415d869b2caa229819269fcce06829ba618129b07a6028d7bba6b9",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-5038.json"
+    },
+    {
+      "cve": "CVE-2026-46600",
+      "id": "GO-2026-5942",
+      "url": "https://vuln.go.dev/ID/GO-2026-5942.json",
+      "bytes": 1449,
+      "sha256": "0395782ca63c3ac9d29271da01eb582638a886911c7b682e36acef1690dbec16",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-5942.json"
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "id": "GO-2026-6089",
+      "url": "https://vuln.go.dev/ID/GO-2026-6089.json",
+      "bytes": 1228,
+      "sha256": "a2b4097de79210e5aaabb90365a70657a6fb19811fe3b6f093f7ee78efb728f5",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-6089.json"
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "id": "GO-2026-6088",
+      "url": "https://vuln.go.dev/ID/GO-2026-6088.json",
+      "bytes": 1115,
+      "sha256": "8a0a8b03822e77aeb92698759ed61a6eac38de4f58e1205419d13a22758f9836",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-6088.json"
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "id": "GO-2026-6090",
+      "url": "https://vuln.go.dev/ID/GO-2026-6090.json",
+      "bytes": 1364,
+      "sha256": "a095ce22d74407d8422f4214aa9193527771a036a19ff4099990106f28fb2cb7",
+      "path": ".engineering\\evidence\\PH-SEC-WO-004\\go-vuln-db\\osvs\\GO-2026-6090.json"
+    }
+  ],
+  "missingCves": [
+    "CVE-2023-44487"
+  ]
+}

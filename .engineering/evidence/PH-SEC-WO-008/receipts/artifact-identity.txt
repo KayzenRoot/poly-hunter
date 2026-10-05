@@ -1,0 +1,47 @@
+=== node identity ===
+v24.21.0
+{"node":"24.21.0","acorn":"8.18.0","ada":"4.0.0","amaro":"1.1.11","ares":"1.34.8","brotli":"1.2.0","cldr":"48.0","icu":"78.3","llhttp":"9.4.3","merve":"1.2.2","modules":"137","napi":"10","nbytes":"0.1.4","ncrypto":"0.0.1","nghttp2":"1.70.0","nghttp3":"","ngtcp2":"","openssl":"3.5.8","simdjson":"4.6.7","simdutf":"6.4.0","sqlite":"3.53.4","tz":"2026c","undici":"7.29.1","unicode":"17.0","uv":"1.52.1","uvwasi":"0.0.23","v8":"13.6.233.17-node.53","zlib":"1.3.2.1-motley-8002e91","zstd":"1.5.7"}
+=== node binary ===
+-rwxr-xr-x 1 root root 126595440 Sep  7 23:56 /usr/local/bin/node
+=== ldd node ===
+	linux-vdso.so.1 (0x0000764101100000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007641010f1000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000764100ed7000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000764100df7000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000764100dd7000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x0000764100dd2000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000764100bee000)
+	/lib64/ld-linux-x86-64.so.2 (0x0000764101102000)
+=== libstdc++ identity ===
+lrwxrwxrwx 1 root root      19 Apr  7  2025 /usr/lib/x86_64-linux-gnu/libstdc++.so.6 -> libstdc++.so.6.0.30
+-rw-r--r-- 1 root root 2190440 Apr  7  2025 /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+sh: 5: /usr/lib/x86_64-linux-gnu/libstdc++.so.6: Permission denied
+=== dpkg gcc/libstdc++ ===
+ii  gcc-12-base:amd64       12.2.0-14+deb12u1      amd64        GCC, the GNU Compiler Collection (base package)
+ii  libgcc-s1:amd64         12.2.0-14+deb12u1      amd64        GCC support library
+ii  libstdc++6:amd64        12.2.0-14+deb12u1      amd64        GNU Standard C++ Library v3
+=== compiled C++ binaries in image ===
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/usr/local/bin/node:
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/usr/local/bin/npm:
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/usr/local/bin/npx:
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/bin/grep:
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/bin/perl:
+tr: extra operand '"'
+Only one string may be given when deleting without squeezing repeats.
+Try 'tr --help' for more information.
+/usr/bin/perl:

@@ -1,0 +1,90 @@
+{
+  "capture": "GitHub Actions Validate run on the exact parent head of PH-SEC-WO-007",
+  "purpose": "Authoritative evidence that npm run validate passes on a clean checkout of the parent exact head. Supersedes in-container receipts as the gate verdict.",
+  "repository": "KayzenRoot/poly-hunter",
+  "run": {
+    "conclusion": "success",
+    "createdAt": "2026-10-04T23:18:26Z",
+    "databaseId": 37243275834,
+    "event": "pull_request",
+    "headSha": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+    "name": "Validate",
+    "status": "completed",
+    "updatedAt": "2026-10-04T23:19:18Z",
+    "url": "https://github.com/KayzenRoot/poly-hunter/actions/runs/37243275834",
+    "workflowName": "Validate"
+  },
+  "jobs": [
+    {
+      "databaseId": 111556071860,
+      "name": "Node 24 validation",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-04T23:18:29Z",
+      "completedAt": "2026-10-04T23:19:17Z",
+      "url": "https://github.com/KayzenRoot/poly-hunter/actions/runs/37243275834/job/111556071860",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "number": 2,
+          "name": "Initialize containers",
+          "conclusion": "success"
+        },
+        {
+          "number": 3,
+          "name": "Check out repository",
+          "conclusion": "success"
+        },
+        {
+          "number": 4,
+          "name": "Set up Node.js",
+          "conclusion": "success"
+        },
+        {
+          "number": 5,
+          "name": "Install from lockfile",
+          "conclusion": "success"
+        },
+        {
+          "number": 6,
+          "name": "Run required validation gates",
+          "conclusion": "success"
+        },
+        {
+          "number": 7,
+          "name": "Apply versioned PostgreSQL migrations",
+          "conclusion": "success"
+        },
+        {
+          "number": 8,
+          "name": "Run PostgreSQL tenancy integration tests",
+          "conclusion": "success"
+        },
+        {
+          "number": 14,
+          "name": "Post Set up Node.js",
+          "conclusion": "success"
+        },
+        {
+          "number": 15,
+          "name": "Post Check out repository",
+          "conclusion": "success"
+        },
+        {
+          "number": 16,
+          "name": "Stop containers",
+          "conclusion": "success"
+        },
+        {
+          "number": 17,
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}

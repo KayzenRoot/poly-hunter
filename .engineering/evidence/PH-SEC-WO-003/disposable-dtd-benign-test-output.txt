@@ -1,0 +1,15 @@
+ server_version 
+----------------
+ 17.11
+(1 row)
+
+ well_formed_but_dtd_invalid 
+-----------------------------
+ t
+(1 row)
+
+                       parsed_document                        
+--------------------------------------------------------------
+ <!DOCTYPE root [<!ELEMENT root EMPTY>]><root><child/></root>
+(1 row)
+

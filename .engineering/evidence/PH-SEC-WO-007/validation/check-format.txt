@@ -1,0 +1,15 @@
+[0m[0m  [0m[0m- [0m[0m]8;;file:///workspace/packages/testkit/package.json\packages/testkit/package.json]8;;\[0m[0m
+[0m[0m  [0m[0m- [0m[0m]8;;file:///workspace/packages/testkit/src/fixed-clock.ts\packages/testkit/src/fixed-clock.ts]8;;\[0m[0m
+[0m[0m  [0m[0m- [0m[0m]8;;file:///workspace/packages/testkit/tsconfig.json\packages/testkit/tsconfig.json]8;;\[0m[0m
+[0m[0m  [0m[0m- [0m[0m]8;;file:///workspace/tsconfig.base.json\tsconfig.base.json]8;;\[0m[0m
+[0m[0m  [0m[0m- [0m[0m]8;;file:///workspace/vitest.integration.config.ts\vitest.integration.config.ts]8;;\[0m[0m
+[0m[0m  [0m[0m
+[0m
+[0m[34mChecked 75 files in 1735[0m[0m[2m[34mms[0m[0m[34m.[0m[0m[34m No fixes applied.[0m[0m
+[0m[0m[31mFound [0m[0m[31m68[0m[0m[31m errors.[0m[0m
+[0m[0m[33mFound [0m[0m[33m2[0m[0m[33m warnings.[0m
+[0mci[0m[0m [0m[0mÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü[0m[0m
+
+[0m[0m  [0m[0m[1m[31mÔ£û[0m[0m [0m[0m[31mSome [0m[0m[1m[31merrors[0m[0m[31m were emitted while [0m[0m[1m[31mrunning checks[0m[0m[31m.[0m[0m
+[0m[0m  [0m[0m
+[0m

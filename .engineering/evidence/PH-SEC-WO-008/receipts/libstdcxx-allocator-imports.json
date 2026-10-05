@@ -1,0 +1,6 @@
+[
+ "aligned_alloc",
+ "free",
+ "malloc",
+ "realloc"
+]

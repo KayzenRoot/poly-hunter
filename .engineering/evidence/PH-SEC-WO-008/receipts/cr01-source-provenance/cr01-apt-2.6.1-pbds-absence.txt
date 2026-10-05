@@ -1,0 +1,10 @@
+=== apt source provenance ===
+commit=a626a66fece0a7d680e40b9e35b66e29fe9ae12c
+tag= (grafted, HEAD, tag: 2.6.1)
+subject=Release 2.6.1
+author=Julian Andres Klode
+date=2023-05-25T16:17:46+02:00
+=== deterministic search: pb_ds | __gnu_pbds | binary_heap | erase_if | priority_queue in *.cc *.h *.c ===
+NO MATCHES (exit 1)
+=== include set: does apt include any ext/ header? ===
+NO ext/ includes

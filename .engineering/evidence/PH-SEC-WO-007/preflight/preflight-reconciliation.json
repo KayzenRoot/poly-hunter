@@ -1,0 +1,196 @@
+{
+  "workOrder": "PH-SEC-WO-007",
+  "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
+  "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+  "targetDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+  "sarif": {
+    "path": ".engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif",
+    "blob": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+    "rules": 76,
+    "results": 76,
+    "tool": "docker scout",
+    "toolVersion": "1.24.0"
+  },
+  "fingerprints": [
+    {
+      "source": "main:.engineering/CHECKPOINT.json",
+      "expected": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+      "actual": "178d19df9d246b83374b70dddb5007ed6c2a2d81",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/DECISIONS-LEDGER.md",
+      "expected": "2b3db08377610ac70d9f228e6bdd5af818bb2e07",
+      "actual": "2b3db08377610ac70d9f228e6bdd5af818bb2e07",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/DEFINITION-OF-DONE.md",
+      "expected": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "actual": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/REVIEW-PROGRESS-REPORTING.md",
+      "expected": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+      "actual": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/SECURITY.md",
+      "expected": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "actual": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/TEST-BENCHMARK-PLAN.md",
+      "expected": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "actual": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "match": true
+    },
+    {
+      "source": "main:.engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+      "expected": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "actual": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+      "match": true
+    },
+    {
+      "source": "main:AGENTS.md",
+      "expected": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+      "actual": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+      "match": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-005-EVIDENCE.md",
+      "expected": "06aeba60702f0c0243c107a1706014e617c63de8",
+      "actual": "06aeba60702f0c0243c107a1706014e617c63de8",
+      "match": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif",
+      "expected": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+      "actual": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9",
+      "match": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-006-CANDIDATES.md",
+      "expected": "2aa920ea2aecf23a2c506c02fdd428997c75cff6",
+      "actual": "2aa920ea2aecf23a2c506c02fdd428997c75cff6",
+      "match": true
+    },
+    {
+      "source": "parent:.engineering/evidence/PH-SEC-WO-006-EVIDENCE.md",
+      "expected": "596236c67409787941c16107a85ae76286e97a06",
+      "actual": "596236c67409787941c16107a85ae76286e97a06",
+      "match": true
+    },
+    {
+      "source": "parent:Dockerfile.dev",
+      "expected": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "actual": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+      "match": true
+    },
+    {
+      "source": "parent:apps/web/next.config.ts",
+      "expected": "a01a26ded167d3dc306056330492b08db85681c2",
+      "actual": "a01a26ded167d3dc306056330492b08db85681c2",
+      "match": true
+    },
+    {
+      "source": "parent:compose.yaml",
+      "expected": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+      "actual": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+      "match": true
+    },
+    {
+      "source": "parent:package-lock.json",
+      "expected": "5c36ff1b825e7087114b83cf01ba8b128cfae484",
+      "actual": "5c36ff1b825e7087114b83cf01ba8b128cfae484",
+      "match": true
+    },
+    {
+      "source": "parent:package.json",
+      "expected": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+      "actual": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+      "match": true
+    }
+  ],
+  "kev": {
+    "catalogVersion": "2026.10.04",
+    "dateReleased": "2026-10-04T18:52:56.0635Z",
+    "catalogCount": 1734,
+    "targetsInKev": []
+  },
+  "epss": {
+    "date": "2026-10-04",
+    "rows": 22
+  },
+  "checks": [
+    {
+      "check": "P1_branch",
+      "result": "PASS",
+      "detail": "HEAD branch=security/ph-m01-dev-nongo-vex"
+    },
+    {
+      "check": "P1_parent_is_ancestor",
+      "result": "PASS",
+      "detail": "git merge-base --is-ancestor 7d5be250255bd20cb0b20d6713f6f41c52c73b47 HEAD -> rc=0"
+    },
+    {
+      "check": "P1_merge_base_is_parent_head",
+      "result": "PASS",
+      "detail": "merge-base=7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "check": "P2_fingerprints",
+      "result": "PASS",
+      "detail": "17/17 fingerprints match"
+    },
+    {
+      "check": "P3_target_digest_matches_lock",
+      "result": "PASS",
+      "detail": "lock=sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3 observed_file_contains=True"
+    },
+    {
+      "check": "P4_sarif_fingerprint",
+      "result": "PASS",
+      "detail": "blob=d3999a5664ec91e2b555d468b6e85c8d04aaabe9"
+    },
+    {
+      "check": "P4_unique_high_critical_22",
+      "result": "PASS",
+      "detail": "unique=22 total=22"
+    },
+    {
+      "check": "P4_high_20_critical_2",
+      "result": "PASS",
+      "detail": "HIGH=20 CRITICAL=2"
+    },
+    {
+      "check": "P4_no_duplicate_cve_rules",
+      "result": "PASS",
+      "detail": "rules=76 distinct_ids=76"
+    },
+    {
+      "check": "P5_go_high_critical_zero",
+      "result": "PASS",
+      "detail": "go_high_critical=0; golang rules at any severity=0"
+    },
+    {
+      "check": "P6_cve_set_exact_match",
+      "result": "PASS",
+      "detail": "in_sarif_not_wo=[] in_wo_not_sarif=[]"
+    },
+    {
+      "check": "P7_epss_complete_22",
+      "result": "PASS",
+      "detail": "rows=22/22"
+    },
+    {
+      "check": "P7_kev_snapshot_present",
+      "result": "PASS",
+      "detail": "catalogVersion=2026.10.04 dateReleased=2026-10-04T18:52:56.0635Z targets_in_kev=0"
+    }
+  ],
+  "result": "PASS"
+}

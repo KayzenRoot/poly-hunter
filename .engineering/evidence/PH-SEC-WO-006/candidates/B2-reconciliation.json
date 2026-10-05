@@ -1,0 +1,119 @@
+{
+  "sarifResults": 66,
+  "uniqueHC": 17,
+  "high": 15,
+  "critical": 2,
+  "missingBaseline": [
+    "CVE-2026-103111",
+    "CVE-2026-14257",
+    "CVE-2026-69152",
+    "CVE-2026-69192",
+    "CVE-2026-73566"
+  ],
+  "newHC": [],
+  "priorGoPresent": [],
+  "packages": [
+    {
+      "CVE": "CVE-2026-102010",
+      "Severity": "HIGH",
+      "Score": 7.0,
+      "Purl": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-78409",
+      "Severity": "HIGH",
+      "Score": 7.0,
+      "Purl": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-48962",
+      "Severity": "HIGH",
+      "Score": 7.3,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-102276",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.9"
+    },
+    {
+      "CVE": "CVE-2026-102278",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/brace-expansion@5.0.9"
+    },
+    {
+      "CVE": "CVE-2026-19534",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:npm/undici@6.28.0"
+    },
+    {
+      "CVE": "CVE-2026-48959",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-82560",
+      "Severity": "HIGH",
+      "Score": 7.5,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-95619",
+      "Severity": "HIGH",
+      "Score": 7.7,
+      "Purl": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-78410",
+      "Severity": "HIGH",
+      "Score": 7.8,
+      "Purl": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-78408",
+      "Severity": "HIGH",
+      "Score": 7.9,
+      "Purl": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-85091",
+      "Severity": "HIGH",
+      "Score": 8.3,
+      "Purl": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-57432",
+      "Severity": "HIGH",
+      "Score": 8.4,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-76642",
+      "Severity": "HIGH",
+      "Score": 8.5,
+      "Purl": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-93748",
+      "Severity": "HIGH",
+      "Score": 8.7,
+      "Purl": "pkg:npm/http-cache-semantics@4.2.0"
+    },
+    {
+      "CVE": "CVE-2026-12087",
+      "Severity": "CRITICAL",
+      "Score": 9.1,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    },
+    {
+      "CVE": "CVE-2026-13221",
+      "Severity": "CRITICAL",
+      "Score": 9.1,
+      "Purl": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12"
+    }
+  ]
+}

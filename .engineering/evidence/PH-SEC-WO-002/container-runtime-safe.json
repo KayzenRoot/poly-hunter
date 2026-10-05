@@ -1,0 +1,31 @@
+{
+  "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "configuredImage": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "entrypoint": "docker-entrypoint.sh",
+  "args": [
+    "postgres"
+  ],
+  "containerUser": "",
+  "envNames": [
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_DB",
+    "PATH",
+    "GOSU_VERSION",
+    "LANG",
+    "PG_MAJOR",
+    "PG_VERSION",
+    "PG_SHA256",
+    "DOCKER_PG_LLVM_DEPS",
+    "PGDATA"
+  ],
+  "envValues": "redacted/not recorded",
+  "privileged": false,
+  "capAdd": null,
+  "capDrop": null,
+  "portBindings": {
+    "5432/tcp": null
+  },
+  "state": "running",
+  "health": "healthy"
+}

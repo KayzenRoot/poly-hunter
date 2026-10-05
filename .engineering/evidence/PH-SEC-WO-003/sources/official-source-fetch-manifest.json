@@ -1,0 +1,85 @@
+{
+  "fetchedAtUtc": "2026-10-04T01:57:56.412276+00:00",
+  "records": [
+    {
+      "file": "mitre-cve-record.json",
+      "url": "https://cveawg.mitre.org/api/cve/CVE-2026-86140",
+      "finalUrl": "https://cveawg.mitre.org/api/cve/CVE-2026-86140",
+      "httpStatus": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 2150,
+      "sha256": "06f103128bfe8550affdd5648c21447edda379c948f3ac98081d6d74314cfd6d",
+      "error": null
+    },
+    {
+      "file": "first-epss-2026-10-03.json",
+      "url": "https://api.first.org/data/v1/epss?cve=CVE-2026-86140&date=2026-10-03",
+      "finalUrl": "https://api.first.org/data/v1/epss?cve=CVE-2026-86140&date=2026-10-03",
+      "httpStatus": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 203,
+      "sha256": "c47df6250e4b0dc25a5a28501dc9a61029e8746eb1b66d19df5ee8806f28b640",
+      "error": null
+    },
+    {
+      "file": "cisa-kev.json",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "finalUrl": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "bytes": 1765906,
+      "sha256": "d2c8c6cb23291b46ff2b086197641a6b1fa35e6b746bba714cc280a1778f9e48",
+      "error": null
+    },
+    {
+      "file": "alpine-v3.24-main-secdb.json",
+      "url": "https://secdb.alpinelinux.org/v3.24/main.json",
+      "finalUrl": "https://secdb.alpinelinux.org/v3.24/main.json",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "bytes": 90720,
+      "sha256": "af9c850ac2173e4c7d17b934c5c6852ab4ae9fd4a9ebb89fd668e9c1d50c3548",
+      "error": null
+    },
+    {
+      "file": "alpine-v3.24-community-secdb.json",
+      "url": "https://secdb.alpinelinux.org/v3.24/community.json",
+      "finalUrl": "https://secdb.alpinelinux.org/v3.24/community.json",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "bytes": 156667,
+      "sha256": "45ee560a4c004fa16775a11d318fb86e3874820a79f545e182492e2898def104",
+      "error": null
+    },
+    {
+      "file": "libxml2-v2.13.9-valid.c",
+      "url": "https://raw.githubusercontent.com/GNOME/libxml2/v2.13.9/valid.c",
+      "finalUrl": "https://raw.githubusercontent.com/GNOME/libxml2/v2.13.9/valid.c",
+      "httpStatus": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 187612,
+      "sha256": "8161b7d1e1a7db380dc9bec14debbdcb06635e740ad5f08f01b5d3aa4fe49cf5",
+      "error": null
+    },
+    {
+      "file": "libxml2-fix-valid.c",
+      "url": "https://raw.githubusercontent.com/GNOME/libxml2/d1686f91dbda141a752200419d35639fd6b38340/valid.c",
+      "finalUrl": "https://raw.githubusercontent.com/GNOME/libxml2/d1686f91dbda141a752200419d35639fd6b38340/valid.c",
+      "httpStatus": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 180445,
+      "sha256": "cd6633e52070f2bcd808b745ef55ae7fa2569fb6eb48c672615744d50b09e21a",
+      "error": null
+    },
+    {
+      "file": "libxml2-fix-commit.json",
+      "url": "https://api.github.com/repos/GNOME/libxml2/commits/d1686f91dbda141a752200419d35639fd6b38340",
+      "finalUrl": "https://api.github.com/repos/GNOME/libxml2/commits/d1686f91dbda141a752200419d35639fd6b38340",
+      "httpStatus": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 5037,
+      "sha256": "b10a9d52e88c27df7798901670760831e685dc17c93488b971631475c4f455a6",
+      "error": null
+    }
+  ]
+}

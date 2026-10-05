@@ -1,0 +1,15 @@
+host_edit_marker=CR01_FINAL_HOST_WINDOWS_POLL_20261004
+container_mount=PASS
+wait_after_edit_seconds=5
+http_after_edit=200,marker=PASS
+web_process_started_at_before=2026-10-04T18:54:18.631566522Z
+web_process_started_at_after_edit=2026-10-04T18:54:18.631566522Z
+next_access_logs=2026-10-04T18:55:57.751740596Z  GET / 200 in 482ms (next.js: 384ms, application-code: 98ms) | 2026-10-04T18:55:59.362503404Z  GET / 200 in 382ms (next.js: 34ms, application-code: 348ms) | 2026-10-04T18:56:02.931511133Z  GET / 200 in 99ms (next.js: 25ms, application-code: 74ms)
+container_host_restore=PASS
+wait_after_restore_seconds=5
+http_after_restore=200,original_content=PASS
+web_process_started_at_after_restore=2026-10-04T18:54:18.631566522Z
+next_restore_access_logs=2026-10-04T18:56:06.185066957Z  GET / 200 in 1303ms (next.js: 917ms, application-code: 386ms) | 2026-10-04T18:56:06.200706917Z  GET / 200 in 151ms (next.js: 35ms, application-code: 115ms) | 2026-10-04T18:56:10.944244936Z  GET / 200 in 91ms (next.js: 34ms, application-code: 57ms)
+page_sha256_before=ede0b86bb57e4d1fee6f78034ba7c455273caa4c77fca48b33e9e3434ca83579
+page_sha256_after=ede0b86bb57e4d1fee6f78034ba7c455273caa4c77fca48b33e9e3434ca83579
+git_diff_page_tsx=EMPTY

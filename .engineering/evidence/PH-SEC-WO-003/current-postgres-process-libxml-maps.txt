@@ -1,0 +1,9 @@
+=== PID 1 cmdline ===
+postgres 
+=== PID 1 identity ===
+Name:	postgres
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapEff:	0000000000000000
+=== loaded exact libxml2 mapping ===
+grep: /proc/1/maps: Permission denied

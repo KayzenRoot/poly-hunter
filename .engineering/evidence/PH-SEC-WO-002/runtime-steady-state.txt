@@ -1,0 +1,28 @@
+PID   PPID  USER     COMMAND
+    1     0 postgres postgres
+   26     1 postgres postgres: checkpointer
+   27     1 postgres postgres: background writer
+   29     1 postgres postgres: walwriter
+   30     1 postgres postgres: autovacuum launcher
+   31     1 postgres postgres: logical replication launcher
+26654     0 root     sh -c ps -o pid,ppid,user,args; printf "---PID1---\n"; tr "\000" " " </proc/1/cmdline; printf "\n"; readlink /proc/1/exe; grep -E "^(Name|Pid|PPid|Uid|Gid|CapInh|CapPrm|CapEff|CapBnd|CapAmb|NoNewPrivs):" /proc/1/status; printf "---SOCKETS---\n"; netstat -lntp 2>&1
+26660 26654 root     ps -o pid,ppid,user,args
+---PID1---
+postgres
+Name:	postgres
+Pid:	1
+PPid:	0
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+---SOCKETS---
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 127.0.0.11:38439        0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:5432            0.0.0.0:*               LISTEN      -
+tcp        0      0 :::5432                 :::*                    LISTEN      -

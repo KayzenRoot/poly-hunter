@@ -1,0 +1,35 @@
+# query: sh -c sed -n "120,150p" deps/v8/src/compiler-dispatcher/optimizing-compile-dispatcher.cc
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:46Z
+
+
+    // Wait for the job handle to complete, so that we know the queue
+    // pointers are safe.
+    job_handle_->Cancel();
+  }
+}
+
+void OptimizingCompileTaskExecutor::EnsureInitialized() {
+  if (is_initialized_) return;
+  is_initialized_ = true;
+
+  if (v8_flags.concurrent_recompilation ||
+      v8_flags.concurrent_builtin_generation) {
+    int max_tasks;
+
+    if (v8_flags.concurrent_turbofan_max_threads == 0) {
+      max_tasks = V8::GetCurrentPlatform()->NumberOfWorkerThreads();
+    } else {
+      max_tasks = v8_flags.concurrent_turbofan_max_threads;
+    }
+
+    task_states_ =
+        base::OwnedVector<OptimizingCompileTaskState>::New(max_tasks);
+    job_handle_ = V8::GetCurrentPlatform()->PostJob(
+        kTaskPriority, std::make_unique<CompileTask>(this));
+  }
+}
+
+TurbofanCompilationJob* OptimizingCompileTaskExecutor::NextInput(
+    OptimizingCompileTaskState& task_state) {
+  return input_queue_.Dequeue(task_state);

@@ -1,0 +1,67 @@
+=== Alpine release ===
+3.24.2
+=== exact installed apk database record ===
+C:Q1wsLLRGR93IyCrnjIrKm9StWnNto=
+P:libxml2
+V:2.13.9-r2
+A:x86_64
+S:495342
+I:1072096
+T:XML parsing library, version 2
+U:https://gitlab.gnome.org/GNOME/libxml2
+L:MIT
+o:libxml2
+m:Carlo Landmeter <clandmeter@alpinelinux.org>
+t:1779961238
+c:f1bd5b6767a0e7fdda380c95138a1c938eb6e102
+D:so:libc.musl-x86_64.so.1 so:liblzma.so.5 so:libz.so.1
+p:so:libxml2.so.2=2.13.9
+F:usr
+F:usr/lib
+R:libxml2.so.2
+a:0:0:777
+Z:Q1nn/3k7ysBIpnaHISfzrbzzszasY=
+R:libxml2.so.2.13.9
+a:0:0:755
+Z:Q1+WgkiOCKN7QT3LONJZAwqGEhD0I=
+=== owning package file records ===
+F:usr
+F:usr/lib
+R:libxml2.so.2
+R:libxml2.so.2.13.9
+=== library files and SHA-256 ===
+lrwxrwxrwx    1 root     root            17 Sep 17 21:29 /usr/lib/libxml2.so.2 -> libxml2.so.2.13.9
+-rwxr-xr-x    1 root     root       1072096 May 28 09:40 /usr/lib/libxml2.so.2.13.9
+c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7  /usr/lib/libxml2.so.2.13.9
+=== library ELF metadata tools ===
+/usr/bin/scanelf
+=== PostgreSQL exact build ===
+postgres (PostgreSQL) 17.11
+PostgreSQL 17.11
+ '--enable-option-checking=fatal' '--build=x86_64-linux-musl' '--enable-integer-datetimes' '--enable-tap-tests' '--disable-rpath' '--with-uuid=e2fs' '--with-pgport=5432' '--with-system-tzdata=/usr/share/zoneinfo' '--prefix=/usr/local' '--with-includes=/usr/local/include' '--with-libraries=/usr/local/lib' '--with-gssapi' '--with-icu' '--with-ldap' '--with-libxml' '--with-libxslt' '--with-llvm' '--with-lz4' '--with-openssl' '--with-perl' '--with-python' '--with-tcl' '--with-zstd' 'build_alias=x86_64-linux-musl' 'LLVM_CONFIG=/usr/lib/llvm21/bin/llvm-config' 'CLANG=clang-21'
+-D_GNU_SOURCE -I/usr/include/libxml2
+-L/usr/local/lib -Wl,--as-needed
+=== PostgreSQL dynamic dependencies ===
+	/lib/ld-musl-x86_64.so.1 (0x79dbfa83a000)
+	libzstd.so.1 => /usr/lib/libzstd.so.1 (0x79dbf9d88000)
+	liblz4.so.1 => /usr/lib/liblz4.so.1 (0x79dbf9d5d000)
+	libxml2.so.2 => /usr/lib/libxml2.so.2 (0x79dbf9c56000)
+	libssl.so.3 => /usr/lib/libssl.so.3 (0x79dbf9b88000)
+	libcrypto.so.3 => /usr/lib/libcrypto.so.3 (0x79dbf96c2000)
+	libgssapi_krb5.so.2 => /usr/lib/libgssapi_krb5.so.2 (0x79dbf967f000)
+	libz.so.1 => /usr/lib/libz.so.1 (0x79dbf9664000)
+	libldap.so.2 => /usr/lib/libldap.so.2 (0x79dbf9612000)
+	libicui18n.so.78 => /usr/lib/libicui18n.so.78 (0x79dbf9332000)
+	libicuuc.so.78 => /usr/lib/libicuuc.so.78 (0x79dbf917c000)
+	libc.musl-x86_64.so.1 => /lib/ld-musl-x86_64.so.1 (0x79dbfa83a000)
+	liblzma.so.5 => /usr/lib/liblzma.so.5 (0x79dbf9143000)
+	libkrb5.so.3 => /usr/lib/libkrb5.so.3 (0x79dbf9095000)
+	libk5crypto.so.3 => /usr/lib/libk5crypto.so.3 (0x79dbf906b000)
+	libcom_err.so.2 => /usr/lib/libcom_err.so.2 (0x79dbf9065000)
+	libkrb5support.so.0 => /usr/lib/libkrb5support.so.0 (0x79dbf905a000)
+	liblber.so.2 => /usr/lib/liblber.so.2 (0x79dbf904c000)
+	libsasl2.so.3 => /usr/lib/libsasl2.so.3 (0x79dbf9033000)
+	libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x79dbf8d81000)
+	libgcc_s.so.1 => /usr/lib/libgcc_s.so.1 (0x79dbf8d55000)
+	libicudata.so.78 => /usr/lib/libicudata.so.78 (0x79dbf8d52000)
+	libkeyutils.so.1 => /usr/lib/libkeyutils.so.1 (0x79dbf8d4c000)

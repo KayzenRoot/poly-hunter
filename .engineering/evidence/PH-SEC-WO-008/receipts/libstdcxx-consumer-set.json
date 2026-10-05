@@ -1,0 +1,21 @@
+{
+  "supersededBy": "cr01-cr02-complete-libstdcxx-consumers.txt and cr01-cve-2026-102010-presence-proof.json (Correction Delta CR-01/CR-02)",
+  "method": "SUPERSEDED enumeration. Whole-image scan for ELF files DT_NEEDED-ing libstdc++.so.6, including .node addons (the prior set missed /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node).",
+  "complete_consumer_set": {
+    "executables": ["/usr/local/bin/node (= /usr/local/bin/nodejs)", "/usr/bin/apt", "/usr/bin/apt-get", "/usr/bin/apt-cache, apt-config, apt-mark, apt-cdrom", "/usr/lib/apt/apt-helper and /usr/lib/apt/methods/*, /usr/lib/apt/solvers/dump"],
+    "shared_libraries": ["/usr/lib/x86_64-linux-gnu/libapt-pkg.so.6.0.0", "/usr/lib/x86_64-linux-gnu/libapt-private.so.0.0.0", "/workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7", "/workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node"]
+  },
+  "aligned_new_imports": {
+    "node": "_ZnamSt11align_val_t imported (1 PLT entry, 2 call sites in OptimizingCompileTaskExecutor::EnsureInitialized)",
+    "libvips-cpp": "_ZnamSt11align_val_t imported (1 call site at .text 0x403ab3) - CORRECTED: mov esi,4 sets alignment=4 (RSI), NOT size; size is in RDI from R12 = rsi-0xe (data-derived). See cr02-libvips-aligned-new-callsite-analysis.json.",
+    "sharp-linux-x64-0.35.5.node": "links libstdc++6 but ZERO align_val_t references",
+    "apt/libapt": "zero align_val_t references"
+  },
+  "pb_ds_presence": {
+    "note": "String/dynsym probes are CORROBORATION ONLY, not proof (Correction Delta CR-01). The dispositive proof is source-level absence at the exact consumer version: see cr01-cve-2026-102010-presence-proof.json.",
+    "node": "0 strings, 0 dynsym entries (corroboration)",
+    "libapt-pkg/private": "0 strings (corroboration)",
+    "libvips-cpp": "0 strings, 0 dynsym entries (corroboration)",
+    "libstdc++.so itself": "0 __gnu_pbds symbols"
+  }
+}

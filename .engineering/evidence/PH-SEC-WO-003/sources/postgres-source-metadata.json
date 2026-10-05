@@ -1,0 +1,9 @@
+{
+  "fetchedAtUtc": "2026-10-04T02:03:23.098202+00:00",
+  "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_11/src/backend/utils/adt/xml.c",
+  "finalUrl": "https://raw.githubusercontent.com/postgres/postgres/REL_17_11/src/backend/utils/adt/xml.c",
+  "httpStatus": 200,
+  "contentType": "text/plain; charset=utf-8",
+  "bytes": 134850,
+  "sha256": "d1fc4327575a525d069f884244b932e3de1a2bef1c534b84354cd33c3172b190"
+}

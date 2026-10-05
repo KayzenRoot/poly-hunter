@@ -1,0 +1,17 @@
+{
+  "finding": "Next.js 16.3.8 (exact parent version) exposes /_next/image with the default loader and images.unoptimized unset (apps/web/next.config.ts at parent head has no images config). The route lazily require('sharp') on the first valid request. Point-in-time /proc/<pid>/maps therefore CANNOT prove sharp/libvips unreachability.",
+  "parent_facts": {
+    "next_version": "16.3.8 (package-lock.json blob 5c36ff1b, node_modules/next)",
+    "sharp_version": "0.35.5 (node_modules/sharp; optional dep of next)",
+    "next_config": "apps/web/next.config.ts (blob a01a26de...) sets only allowedDevOrigins + webpack watchOptions; NO images.unoptimized, NO custom loader"
+  },
+  "call_chain": "handleNextImageRequest (next-server.ts, /_next/image) -> param validation -> this.imageOptimizer(...) -> optimizeImage(...) -> getSharp(...) -> require('sharp')",
+  "runtime_probe": {
+    "method": "benign GET /_next/image?url=%2Ficc-test.jpg&w=64&q=75 with a locally generated 297-byte JPEG containing an ICC_PROFILE APP2 marker; before/after /proc/72/maps (next-server)",
+    "before": {"libvips_mappings": 0, "sharp_mappings": 0},
+    "after": {"libvips_mappings": 4, "sharp_mappings": 5},
+    "response": "HTTP 200 image/jpeg 297 bytes (decoded + re-encoded through sharp/libvips)",
+    "conclusion": "LAZY LOADING CONFIRMED in the exact runtime. Runtime-unreachability WITHDRAWN as a proof. libvips-cpp and the sharp addon are mapped into the running dev server process."
+  },
+  "receipts": ["receipts/cr04-probe/probe-summary.txt", "receipts/cr04-probe/before-next72-maps.txt", "receipts/cr04-probe/after-next72-maps.txt", "receipts/cr04-probe/icc-test.jpg", "receipts/cr04-probe/optimized-output.jpg"]
+}

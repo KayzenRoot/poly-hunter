@@ -1,0 +1,4 @@
+WEB_HEALTH=healthy
+POSTGRES_HEALTH=healthy
+HTTP=200
+WORKER=running

@@ -1,0 +1,1 @@
+exit_code=0; exact_image=postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24; network=none; host_ports=none; tmpfs=128m; extension=xml2 installed only in disposable database; DTD-inconsistent but well-formed benign XML passed to XPath and XSLT paths; no malformed/exploit payload

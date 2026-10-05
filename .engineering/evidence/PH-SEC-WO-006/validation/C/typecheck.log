@@ -1,0 +1,28 @@
+
+> polyhunter@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json
+
+
+> @polyhunter/contracts@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+

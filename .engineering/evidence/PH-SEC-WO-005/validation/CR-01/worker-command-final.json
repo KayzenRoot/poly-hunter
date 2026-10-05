@@ -1,0 +1,1 @@
+["./node_modules/.bin/nodemon","--legacy-watch","--polling-interval","1000","--watch","apps/worker","--watch","packages","--ext","ts,json","--exec","node","apps/worker/src/index.ts"]

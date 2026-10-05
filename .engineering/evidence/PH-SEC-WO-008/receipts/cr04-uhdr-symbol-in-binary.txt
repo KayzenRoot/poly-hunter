@@ -1,0 +1,2 @@
+=== verify libultrahdr symbols in libvips-cpp (proving static linkage of icc.cpp) ===
+=== verify dynsym for readIccColorGamut ===

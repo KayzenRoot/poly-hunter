@@ -1,0 +1,18 @@
+PH-SEC-WO-002 command ledger (analysis of exact image only)
+
+1. docker pull postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+2. docker image inspect <exact-digest> --format RepoDigests,Id,Os/Architecture,Entrypoint,Cmd
+3. docker cp polyhunter-postgres:/usr/local/bin/gosu <temporary-analysis-path>/gosu
+4. docker cp polyhunter-postgres:/usr/local/bin/docker-entrypoint.sh <temporary-analysis-path>/docker-entrypoint.sh
+5. docker exec polyhunter-postgres sh -c 'ls -ln /usr/local/bin/gosu /usr/local/bin/docker-entrypoint.sh; stat -c path/mode/uid/gid/size ...'
+6. docker exec polyhunter-postgres /usr/local/bin/gosu --version
+7. Official analysis container golang:1.25.13-alpine3.24; go version -m /evidence/gosu
+8. Official analysis container; go tool nm /evidence/gosu
+9. GOTOOLCHAIN=auto go install golang.org/x/vuln/cmd/govulncheck@latest (resolved x/vuln v1.8.0, built with Go 1.26.8)
+10. /go/bin/govulncheck -mode=binary -show verbose /evidence/gosu
+11. GET https://vuln.go.dev/ID/<GO-ID>.json for the 23 Go VDB IDs mapped from locked parent CVE references; each raw response preserved and SHA-256 checked.
+12. GET https://api.github.com/repos/tianon/gosu/releases/tags/1.19; release asset digest compared against extracted gosu SHA-256.
+13. Runtime inspection was read-only: docker inspect allow-listed metadata; docker top; docker exec process/status/netstat; docker network inspect. No environment values were recorded.
+
+The exact PostgreSQL image was not rebuilt or modified. No ptrace, added capabilities, exploit payloads, or product/runtime file changes were used.
+Runtime process receipt formatting trims trailing terminal column padding; process and capability values are unchanged. govulncheck raw output is byte-preserved.

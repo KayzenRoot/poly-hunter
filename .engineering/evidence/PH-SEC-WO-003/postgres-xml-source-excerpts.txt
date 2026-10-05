@@ -1,0 +1,59 @@
+PostgreSQL REL_17_11 src/backend/utils/adt/xml.c SHA256: d1fc4327575a525d069f884244b932e3de1a2bef1c534b84354cd33c3172b190
+1110:/*
+1111: * Validate document (given as string) against DTD (given as external link)
+1112: *
+1113: * This has been removed because it is a security hole: unprivileged users
+1114: * should not be able to use Postgres to fetch arbitrary external files,
+1115: * which unfortunately is exactly what libxml is willing to do with the DTD
+1116: * parameter.
+1117: */
+1118:Datum
+1119:xmlvalidate(PG_FUNCTION_ARGS)
+1120:{
+1121:	ereport(ERROR,
+1122:			(errcode(ERRCODE_FEATURE_NOT_SUPPORTED),
+1123:			 errmsg("xmlvalidate is not implemented")));
+1124:	return 0;
+1125:}
+---
+1834:			/*
+1835:			 * Select parse options.
+1836:			 *
+1837:			 * Note that here we try to apply DTD defaults (XML_PARSE_DTDATTR)
+1838:			 * according to SQL/XML:2008 GR 10.16.7.d: 'Default values defined
+1839:			 * by internal DTD are applied'.  As for external DTDs, we try to
+1840:			 * support them too (see SQL/XML:2008 GR 10.16.7.e), but that
+1841:			 * doesn't really happen because xmlPgEntityLoader prevents it.
+1842:			 */
+1843:			options = XML_PARSE_NOENT | XML_PARSE_DTDATTR
+1844:				| (preserve_whitespace ? 0 : XML_PARSE_NOBLANKS);
+1845:
+1846:			doc = xmlCtxtReadDoc(ctxt, utf8string,
+1847:								 NULL,	/* no URL */
+1848:								 "UTF-8",
+1849:								 options);
+---
+4414:		 */
+4415:		ctxt = xmlNewParserCtxt();
+4416:		if (ctxt == NULL || xmlerrcxt->err_occurred)
+4417:			xml_ereport(xmlerrcxt, ERROR, ERRCODE_OUT_OF_MEMORY,
+4418:						"could not allocate parser context");
+4419:		doc = xmlCtxtReadMemory(ctxt, (char *) string + xmldecl_len,
+4420:								len - xmldecl_len, NULL, NULL, 0);
+4421:		if (doc == NULL || xmlerrcxt->err_occurred)
+4422:			xml_ereport(xmlerrcxt, ERROR, ERRCODE_INVALID_XML_DOCUMENT,
+4423:						"could not parse XML document");
+4424:		xpathctx = xmlXPathNewContext(doc);
+4425:		if (xpathctx == NULL || xmlerrcxt->err_occurred)
+---
+4753:	xstr = pg_xmlCharStrndup(str, length);
+4754:
+4755:	PG_TRY();
+4756:	{
+4757:		doc = xmlCtxtReadMemory(xtCxt->ctxt, (char *) xstr, length, NULL, NULL, 0);
+4758:		if (doc == NULL || xtCxt->xmlerrcxt->err_occurred)
+4759:			xml_ereport(xtCxt->xmlerrcxt, ERROR, ERRCODE_INVALID_XML_DOCUMENT,
+4760:						"could not parse XML document");
+4761:		xpathcxt = xmlXPathNewContext(doc);
+4762:		if (xpathcxt == NULL || xtCxt->xmlerrcxt->err_occurred)
+---

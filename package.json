@@ -10,6 +10,7 @@
   "workspaces": [
     "packages/contracts",
     "packages/domain",
+    "packages/db",
     "packages/testkit",
     "apps/worker",
     "apps/web"
@@ -20,10 +21,13 @@
     "docker:rebuild": "docker compose --project-name polyhunter-local up -d --build --force-recreate",
     "docker:ps": "docker compose --project-name polyhunter-local ps",
     "docker:logs": "docker compose --project-name polyhunter-local logs --follow --tail=100",
+    "db:migrate": "docker compose --project-name polyhunter-local exec -T web npm run db:migrate --workspace @polyhunter/db",
+    "db:test:integration": "docker compose --project-name polyhunter-local exec -T web npm run test:integration",
     "lint": "biome lint .",
     "format:check": "biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .",
     "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json",
     "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
     "build": "npm run build --workspaces --if-present",
     "validate": "npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high"
   },
@@ -34,13 +38,21 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "nodemon": "3.1.14",
-    "typescript": "7.0.2",
-    "vite": "6.4.3",
+    "typescript": "6.0.3",
+    "vite": "7.3.6",
     "vitest": "4.1.11"
   },
   "overrides": {
     "nodemon": {
       "chokidar": "4.0.3"
+    },
+    "drizzle-kit": {
+      "esbuild": "0.28.2",
+      "@esbuild-kit/esm-loader": {
+        "@esbuild-kit/core-utils": {
+          "esbuild": "0.28.2"
+        }
+      }
     }
   }
 }

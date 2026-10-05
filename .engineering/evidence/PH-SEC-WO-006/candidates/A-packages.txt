@@ -1,0 +1,6 @@
+gcc-12-base:amd64	12.2.0-14+deb12u1
+libpcre2-8-0:amd64	10.42-1+deb12u1
+perl-base	5.36.0-7+deb12u3
+util-linux	2.38.1-5+deb12u3
+util-linux-extra	2.38.1-5+deb12u3
+zlib1g:amd64	1:1.2.13.dfsg-1

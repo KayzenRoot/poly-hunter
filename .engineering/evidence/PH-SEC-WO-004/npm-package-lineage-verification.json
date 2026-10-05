@@ -1,0 +1,52 @@
+{
+  "capturedAtUtc": "2026-10-04T10:51:19.420504+00:00",
+  "source": "package-lock.json resolved URLs; npm registry tarballs; no install or dependency change",
+  "checksPassed": true,
+  "packages": [
+    {
+      "binary": "nested-esbuild",
+      "lockfileKey": "node_modules/@esbuild-kit/core-utils/node_modules/@esbuild/linux-x64",
+      "packageVersion": "0.18.20",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.18.20.tgz",
+      "lockfileIntegrity": "sha512-UYqiqemphJcNsFEskc73jQ7B9jgwjWrSayxawS6UVFZGWrAAtkzjxSqnoclCXxWtfwLdzU+vTpcNYhpn43uP1w==",
+      "downloadedTarballBytes": 3923240,
+      "downloadedTarballSha512Integrity": "sha512-UYqiqemphJcNsFEskc73jQ7B9jgwjWrSayxawS6UVFZGWrAAtkzjxSqnoclCXxWtfwLdzU+vTpcNYhpn43uP1w==",
+      "integrityMatchesLockfile": true,
+      "tarMember": "package/bin/esbuild",
+      "tarBinarySha256": "82afa0d18098bef823ba5b5c89bb5cfbea1a25f0721416d29a9dd7ba73fd237d",
+      "exactImageBinarySha256": "82afa0d18098bef823ba5b5c89bb5cfbea1a25f0721416d29a9dd7ba73fd237d",
+      "binaryMatchesExactImage": true,
+      "httpStatus": 200
+    },
+    {
+      "binary": "top-level-esbuild",
+      "lockfileKey": "node_modules/@esbuild/linux-x64",
+      "packageVersion": "0.25.12",
+      "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.25.12.tgz",
+      "lockfileIntegrity": "sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==",
+      "downloadedTarballBytes": 4395720,
+      "downloadedTarballSha512Integrity": "sha512-uqZMTLr/zR/ed4jIGnwSLkaHmPjOjJvnm6TVVitAa08SLS9Z0VM8wIRx7gWbJB5/J54YuIMInDquWyYvQLZkgw==",
+      "integrityMatchesLockfile": true,
+      "tarMember": "package/bin/esbuild",
+      "tarBinarySha256": "bab29b2ca7a9e89b67cf720b77b2d743f9f31f5cf0d5bd74ee8c8de30ced7014",
+      "exactImageBinarySha256": "bab29b2ca7a9e89b67cf720b77b2d743f9f31f5cf0d5bd74ee8c8de30ced7014",
+      "binaryMatchesExactImage": true,
+      "httpStatus": 200
+    },
+    {
+      "binary": "native-tsc",
+      "lockfileKey": "node_modules/@typescript/typescript-linux-x64",
+      "packageVersion": "7.0.2",
+      "resolved": "https://registry.npmjs.org/@typescript/typescript-linux-x64/-/typescript-linux-x64-7.0.2.tgz",
+      "lockfileIntegrity": "sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==",
+      "downloadedTarballBytes": 9669334,
+      "downloadedTarballSha512Integrity": "sha512-EYdf2cNg7rgCWJnxCdJ+F3V39O8ihb37eHAu1LK8oAFizgTQbPOK7zHHXbPt8rX24COqODXeI3sIf0fCXG7H/A==",
+      "integrityMatchesLockfile": true,
+      "tarMember": "package/lib/tsc",
+      "tarBinarySha256": "4f2de678286401759b3fb4475bafe35b8f32b4b3a07d92642bbf37eadc9b34a4",
+      "exactImageBinarySha256": "4f2de678286401759b3fb4475bafe35b8f32b4b3a07d92642bbf37eadc9b34a4",
+      "binaryMatchesExactImage": true,
+      "httpStatus": 200
+    }
+  ]
+}

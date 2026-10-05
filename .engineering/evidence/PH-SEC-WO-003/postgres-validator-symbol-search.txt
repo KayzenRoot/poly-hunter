@@ -1,0 +1,2 @@
+PostgreSQL REL_17_11 source SHA256: d1fc4327575a525d069f884244b932e3de1a2bef1c534b84354cd33c3172b190 Search: XML_PARSE_DTDVALID, xmlValidateElementContent, xmlValidateDocument, xmlValidateDtd
+search_exit_code=1 (1 means no exact validator symbols or DTDVALID parser flag in inspected PostgreSQL XML source)

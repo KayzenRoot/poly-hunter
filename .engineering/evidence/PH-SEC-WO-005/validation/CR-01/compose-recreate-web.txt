@@ -1,0 +1,7 @@
+ Container polyhunter-postgres Running
+ Container polyhunter-web Recreate
+ Container polyhunter-web Recreated
+ Container polyhunter-postgres Waiting
+ Container polyhunter-postgres Healthy
+ Container polyhunter-web Starting
+ Container polyhunter-web Started

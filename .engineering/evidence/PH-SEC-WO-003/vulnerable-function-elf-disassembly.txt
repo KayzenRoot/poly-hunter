@@ -1,0 +1,30 @@
+=== exact library build ID / debug link ===
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size 	Description
+  GNU                  0x00000020	NT_GNU_PROPERTY_TYPE_0
+      Properties: x86 feature used: x86, XMM
+	x86 ISA used: x86-64-baseline
+
+Displaying notes found in: .note.gnu.build-id
+  Owner                Data size 	Description
+  GNU                  0x00000014	NT_GNU_BUILD_ID (unique build ID bitstring)
+    Build ID: 24609b82dc7ae5127b0837ed706da464b8ed172a
+
+String dump of section '.gnu_debuglink':
+  [     0]  libxml2.so.2.13.9.debug
+  [    19]  i�;
+
+=== matching Alpine debug package build ID ===
+
+Displaying notes found in: .note.gnu.property
+  Owner                Data size 	Description
+  GNU                  0x00000020	NT_GNU_PROPERTY_TYPE_0
+      Properties: x86 feature used: x86, XMM
+	x86 ISA used: x86-64-baseline
+
+Displaying notes found in: .note.gnu.build-id
+  Owner                Data size 	Description
+  GNU                  0x00000014	NT_GNU_BUILD_ID (unique build ID bitstring)
+    Build ID: 24609b82dc7ae5127b0837ed706da464b8ed172a
+=== internal vulnerable function symbol from matching debug package ===

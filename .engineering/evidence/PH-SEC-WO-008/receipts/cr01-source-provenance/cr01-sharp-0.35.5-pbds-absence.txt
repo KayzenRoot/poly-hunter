@@ -1,0 +1,8 @@
+=== sharp v0.35.5 provenance — the addon that links libstdc++ (sharp-linux-x64.node) ===
+commit=51a990faa26ade5586a4934ac9673c98d8893326
+tag=v0.35.5
+subject=Release v0.35.5
+=== search pb_ds | __gnu_pbds | binary_heap | ext/pb_ds ===
+NO MATCHES
+=== alignas usage (potential over-aligned new) ===
+NO alignas

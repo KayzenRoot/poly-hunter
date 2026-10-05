@@ -1,0 +1,38 @@
+{
+  "capturedAtUtc": "2026-10-04T10:39:58.109Z",
+  "processes": [
+    {
+      "pid": 1,
+      "ppid": "0",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "docker-init",
+      "cmdline": "/sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts"
+    },
+    {
+      "pid": 162,
+      "ppid": "0",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "MainThread",
+      "cmdline": "node -"
+    },
+    {
+      "pid": 8,
+      "ppid": "1",
+      "uid": "1000\t1000\t1000\t1000",
+      "capEff": "0000000000000000",
+      "name": "MainThread",
+      "cmdline": "node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts"
+    }
+  ],
+  "listeningSockets": [
+    {
+      "family": "tcp",
+      "localAddressHex": "0B00007F:91A1",
+      "localPortHex": "91A1",
+      "uid": "0",
+      "inode": "1065208"
+    }
+  ]
+}

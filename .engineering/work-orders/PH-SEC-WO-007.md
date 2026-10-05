@@ -1,0 +1,220 @@
+# PH-SEC-WO-007 — Exact-image VEX disposition for remaining 22 dev CVEs
+
+Issue: #32
+Parent implementation: PH-M01-WO-001 / PR #15
+Parent head: 7d5be250255bd20cb0b20d6713f6f41c52c73b47
+Branch: security/ph-m01-dev-nongo-vex
+Risk: HIGH_ASSURANCE / SECURITY_BLOCKER_DISPOSITION.
+
+## OBJECTIVE
+Determine, for every one of the 22 remaining unique HIGH/CRITICAL findings in the exact restored PolyHunter development image, whether the exact artifact is FIXED, evidence-backed VEX NOT_AFFECTED, AFFECTED, or UNDER_INVESTIGATION under ADR-0007. Produce owner-reviewable evidence without weakening the no-known-HIGH/CRITICAL-defect rule.
+
+## CONTEXT
+PH-SEC-WO-005 removed the original 35 Go stdlib HIGH/CRITICAL findings and preserved Windows Docker hot reload. PH-SEC-WO-006 tested supported Node 24 candidates and was independently APPROVED AS EVIDENCE, but no candidate reached 0 HIGH/CRITICAL. The exact restored image remains:
+- polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
+- locked set: 22 unique findings, 20 HIGH + 2 CRITICAL
+- original 35 Go findings: 0 HIGH/CRITICAL
+
+The canonical VEX policy permits a scanner finding to cease blocking only when FIXED or independently verified NOT_AFFECTED with owner approval. AFFECTED and UNDER_INVESTIGATION remain blockers.
+
+## SCOPE
+Evidence-only exact-artifact applicability analysis of the locked 22 findings:
+- Perl: CVE-2026-48962, CVE-2026-48959, CVE-2026-82560, CVE-2026-57432, CVE-2026-12087, CVE-2026-13221
+- util-linux: CVE-2026-78409, CVE-2026-78410, CVE-2026-78408, CVE-2026-76642
+- gcc-12: CVE-2026-102010, CVE-2026-95619
+- pcre2: CVE-2026-103111
+- zlib: CVE-2026-85091
+- npm brace-expansion: CVE-2026-102276, CVE-2026-102278, CVE-2026-14257, CVE-2026-69152
+- npm undici: CVE-2026-19534
+- npm tar: CVE-2026-73566
+- npm ip-address: CVE-2026-69192
+- npm http-cache-semantics: CVE-2026-93748
+
+## OUT OF SCOPE
+- Product/domain/schema/migration/TenantContext changes.
+- Dockerfile or package dependency mutation.
+- Node major-version change.
+- Scanner suppression, ignore, waiver, severity downgrade, or wildcard VEX.
+- Self-approval of NOT_AFFECTED.
+- PH-M01-WO-002 identity/RBAC.
+- Polymarket/trading behavior.
+
+## FILES / SOURCES TO READ
+Canonical main:
+- AGENTS.md
+- .engineering/CHECKPOINT.json
+- .engineering/SECURITY.md
+- .engineering/TEST-BENCHMARK-PLAN.md
+- .engineering/DEFINITION-OF-DONE.md
+- .engineering/REVIEW-PROGRESS-REPORTING.md
+- .engineering/DECISIONS-LEDGER.md
+- .engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md
+
+Parent exact head:
+- Dockerfile.dev
+- compose.yaml
+- package.json
+- package-lock.json
+- apps/web/next.config.ts
+- .engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif
+- .engineering/evidence/PH-SEC-WO-005-EVIDENCE.md
+- .engineering/evidence/PH-SEC-WO-006-EVIDENCE.md
+- .engineering/evidence/PH-SEC-WO-006-CANDIDATES.md
+
+## ARCHITECTURE / SECURITY RULES
+1. Evidence binds to exact CVE + component/version + exact image digest + environment.
+2. Default disposition is UNDER_INVESTIGATION.
+3. NOT_AFFECTED requires a policy-valid justification and exact evidence of exploit prerequisites, reachability, privileges, network/input path, and runtime use.
+4. Absence from KEV or low EPSS alone never proves NOT_AFFECTED.
+5. If vulnerable code is present but not reachable, prove the exact missing execution/input prerequisite.
+6. If a component is build/install-only, prove it is not reachable in the relevant runtime or development threat model.
+7. npm-bundled findings must distinguish package-manager execution paths from application runtime paths.
+8. No malicious exploit payloads against external systems. Use static inspection, binary/package metadata, safe tracing, and benign disposable-container probes only.
+9. Any artifact/package/version drift => STOP STALE.
+10. No disposition becomes approved in this Work Order. ChatGPT independent audit + explicit owner approval are mandatory.
+
+## PREFLIGHT
+Before analysis:
+- verify branch, parent head, merge-base and PR #15 open/unmerged;
+- verify all Context Lock fingerprints;
+- verify exact target image digest;
+- deterministically parse the locked SARIF to exactly 22 unique HIGH/CRITICAL: 20 HIGH + 2 CRITICAL;
+- verify the original 35 Go findings remain absent at HIGH/CRITICAL;
+- reconcile the exact CVE/component set above;
+- capture current CISA KEV and FIRST EPSS/source timestamps for prioritization only.
+
+Any mismatch => STOP STALE/BLOCKED.
+
+## REQUIRED ANALYSIS PER CVE
+Record:
+- scanner tuple and package path/version;
+- upstream/advisory affected condition;
+- vulnerable code/function/module presence;
+- exact execution/reachability path in this image;
+- attacker-controlled input prerequisite;
+- privilege/capability/network/file-system prerequisite;
+- whether the component runs during npm install/build/dev runtime/worker/web runtime;
+- safe trace/static/symbol/package evidence;
+- KEV status and EPSS snapshot;
+- disposition: FIXED / proposed NOT_AFFECTED / AFFECTED / UNDER_INVESTIGATION;
+- policy justification;
+- exact receipts;
+- revalidation/expiry trigger.
+
+## TESTS / EVIDENCE
+- deterministic SARIF reconciliation;
+- package/binary/module inventory;
+- exact file hashes and versions;
+- process tree / runtime command evidence where relevant;
+- safe disposable-container traces/probes;
+- npm CLI dependency/reachability analysis for npm-bundled packages;
+- no product code modification;
+- git diff --check;
+- evidence manifest + SHA-256 index;
+- CI/security checks for evidence-only branch.
+
+## ACCEPTANCE CRITERIA
+1. 22/22 findings have individual exact-artifact rows.
+2. No row is silently omitted or grouped without traceable per-CVE identity.
+3. Every proposed NOT_AFFECTED satisfies ADR-0007 evidence requirements.
+4. No scanner suppression/ignore is introduced.
+5. Exact target image/digest and locked scan remain unchanged.
+6. Original 35 Go HIGH/CRITICAL remain zero.
+7. No product, Dockerfile, Compose, dependency, schema, migration, TenantContext or trading behavior changes.
+8. Evidence Bundle is sufficient for independent HIGH_ASSURANCE audit.
+9. If any AFFECTED/UNDER_INVESTIGATION remains, report an exact minimal remediation delta and remain BLOCKED.
+
+## DELIVERABLES
+- .engineering/evidence/PH-SEC-WO-007-EVIDENCE.md
+- .engineering/evidence/PH-SEC-WO-007-VEX.md
+- .engineering/evidence/PH-SEC-WO-007-VEX.json
+- .engineering/evidence/PH-SEC-WO-007/ receipts + SHA256SUMS.txt
+- updated PR body with exact-head result
+
+## REVIEW FORMAT
+- READY_FOR_INDEPENDENT_AUDIT
+- CORRECTION REQUIRED
+- BLOCKED_UNRESOLVED
+- BLOCKED_STALE_CONTEXT
+
+## STOP CONDITION
+READY_FOR_INDEPENDENT_AUDIT only when all 22 findings are fully reconciled and every row is either FIXED or a policy-complete proposed NOT_AFFECTED, with zero AFFECTED/UNDER_INVESTIGATION.
+If any row remains AFFECTED/UNDER_INVESTIGATION, stop BLOCKED_UNRESOLVED and do not start PH-M01-WO-002.
+
+## CORRECTION DELTA LOG
+
+### CD-001 — independent audit findings CR-01, CR-02, CR-03
+
+Issued by the independent audit recorded on PR #33 and applied on the same Work
+Order, same branch and same PR. **Metadata-and-evidence correction only.**
+
+| Finding | Correction |
+|---|---|
+| CR-01 | Validation-gate state corrected. The `lint` / `format:check` / `typecheck` failures recorded in the first submission were **container-context artifacts** of the compose `web` service, not defects of the parent head. The assertion that PR #15 and the parent head cannot pass `npm run validate` is **withdrawn**; GitHub Actions `Validate` run #46 / `37243275834` on the exact parent head `7d5be25…` concluded `success` with all steps green, including `npm run validate`. |
+| CR-02 | Linkage metadata fixed: `Issue: #undefined` → `Issue: #32`; `"issue": 32` added to `.engineering/context-locks/PH-SEC-WO-007.json`. |
+| CR-03 | CVE-2026-13221: the unsourced "introduced in 5.37.10" assertion replaced with the exact upstream commit citations transcribed from the locked SARIF, and the self-contradictory presence wording removed. **Not** reclassified `vulnerable_code_not_present`, because no objective upstream/version-history evidence for Perl 5.36.0 was obtained. The conservative reachability-based disposition is retained. |
+
+**Unchanged by this correction delta — asserted and independently re-verified:**
+
+| Item | Value | Status |
+|---|---|---|
+| Parent exact head | `7d5be250255bd20cb0b20d6713f6f41c52c73b47` | unchanged |
+| Target image digest | `sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3` | unchanged |
+| Locked CVE set | 22 unique findings, 20 HIGH + 2 CRITICAL | unchanged |
+| Technical analysis | per-CVE evidence, reachability and prerequisites | unchanged |
+| Security disposition | 21 proposed `NOT_AFFECTED`, 1 `UNDER_INVESTIGATION` (CVE-2026-95619) | unchanged |
+| Product / Dockerfile / Compose / dependencies / schema / migrations / TenantContext / trading | no change | unchanged |
+
+**Result remains `BLOCKED_UNRESOLVED`** while CVE-2026-95619 is
+`UNDER_INVESTIGATION`. `PH-M01-WO-002` is **not** started. No `NOT_AFFECTED` was
+self-approved. PR #15 is **not** merged.
+
+No product change was made to "fix" the CR-01 artifacts, because there is nothing
+in the product to fix: the parent exact head passes `npm run validate` on a clean
+checkout.
+
+### CD-002 — independent re-audit finding CR-04
+
+Issued by the independent re-audit recorded on PR #33 at head
+`457d5081de0fdf704add4a09300831e196f17917` and applied on the **same** Work Order,
+same branch and same PR. **Metadata-and-evidence correction only.** The prior
+CR-01 / CR-02 / CR-03 corrections are accepted and were not refetched.
+
+| Finding | Correction |
+|---|---|
+| CR-04 | **CVE-2026-102010** reclassified from `NOT_AFFECTED / vulnerable_code_not_present` to **`UNDER_INVESTIGATION`**. The `vulnerable_code_not_present` justification is removed (an `UNDER_INVESTIGATION` row carries no justification). The re-audit held that a header-only `std::erase_if` template's absence from `libstdc++.so`'s `.dynsym` does not prove absence from already-compiled C++ consumers (Node/V8 or other shipped binaries), and that the absence of a compiler in the image does not prove no previously compiled instantiation exists. Presence/instantiation and reachability across the shipped C++ consumers are recorded as **unproven**. The **conservative path** was chosen because no strong ADR-0007-satisfying proof was obtained. |
+
+**Counts after CD-002:**
+
+| Metric | Before CD-002 | After CD-002 |
+|---|---|---|
+| Proposed `NOT_AFFECTED` | 21 | **20** |
+| `AFFECTED` | 0 | 0 |
+| `UNDER_INVESTIGATION` | 1 (CVE-2026-95619) | **2 (CVE-2026-102010, CVE-2026-95619)** |
+| Unique HIGH/CRITICAL reconciled | 22 | 22 |
+
+**Unchanged by CD-002 — asserted and independently re-verified:**
+
+| Item | Value | Status |
+|---|---|---|
+| Parent exact head | `7d5be250255bd20cb0b20d6713f6f41c52c73b47` | unchanged |
+| Target image digest | `sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3` | unchanged |
+| Locked SARIF | blob `d3999a5664ec91e2b555d468b6e85c8d04aaabe9` | unchanged |
+| Locked CVE set | 22 unique findings, 20 HIGH + 2 CRITICAL | unchanged |
+| Every other row's analysis/disposition | 20 proposed `NOT_AFFECTED` | unchanged |
+| Dockerfile / Compose / dependencies / product / runtime / schema / migrations / TenantContext / trading | no change | unchanged |
+
+**Result remains `BLOCKED_UNRESOLVED`** while any HIGH/CRITICAL row is
+`UNDER_INVESTIGATION`. `PH-M01-WO-002` is **not** started. No `NOT_AFFECTED` was
+self-approved. PR #15 is **not** merged.
+
+
+### OA-001 — owner approval after independent audit
+
+Date: 2026-10-05
+
+The independent auditor approved as evidence the 20 `NOT_AFFECTED` dispositions at exact head `e57706460fdfe144924fa78f6c76d031ca5f0ab6`. The Project Owner then explicitly approved those same 20 dispositions for the exact artifact `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`.
+
+Receipt: `.engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md`.
+
+This approval excludes `CVE-2026-102010` and `CVE-2026-95619`. Both remain `UNDER_INVESTIGATION` and absolute blockers. Result remains `BLOCKED_UNRESOLVED`; PR #15 cannot be promoted and `PH-M01-WO-002` cannot start.

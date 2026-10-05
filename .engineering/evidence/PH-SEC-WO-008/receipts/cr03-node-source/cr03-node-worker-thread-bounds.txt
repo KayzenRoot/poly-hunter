@@ -1,0 +1,16 @@
+# query: sh -c grep -n -A6 "static int GetActualThreadPoolSize" src/node_platform.cc; echo; grep -n "NumberOfWorkerThreads()" src/node_platform.cc
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:47Z
+
+88:static int GetActualThreadPoolSize(int thread_pool_size) {
+89-  if (thread_pool_size < 1) {
+90-    thread_pool_size = uv_available_parallelism() - 1;
+91-  }
+92-  return std::max(thread_pool_size, 1);
+93-}
+94-
+
+315:int WorkerThreadsTaskRunner::NumberOfWorkerThreads() const {
+541:int NodePlatform::NumberOfWorkerThreads() {
+542:  return worker_thread_task_runner_->NumberOfWorkerThreads();
+740:      this, priority, std::move(job_task), NumberOfWorkerThreads());

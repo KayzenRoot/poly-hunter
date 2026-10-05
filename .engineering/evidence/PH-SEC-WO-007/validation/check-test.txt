@@ -1,0 +1,15 @@
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/workspace[39m
+
+ [32mÔ£ô[39m packages/db/tests/tenancy.integration.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 6919[2mms[22m[39m
+     [33m[2mÔ£ô[22m[39m enforces unique keys, enum domains, foreign keys and delete cascades [33m 474[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 12:59:25
+[2m   Duration [22m 10.81s[2m (transform 706ms, setup 0ms, import 3.30s, tests 6.92s, environment 0ms)[22m
+

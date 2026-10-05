@@ -1,0 +1,6 @@
+
+Algorithm : SHA256
+Hash      : E62D351C4DA8B5EB479E50D8C65EB7A97B4DFF7CEDA7BA69AF95D5BB2281AB8A
+Path      : C:\Users\csn19\.codex\worktrees\ph-sec-wo006-nongo\poly-hunter\.engineering\evidence\PH-SEC-WO-006\candidates\B2-scan.sarif
+
+

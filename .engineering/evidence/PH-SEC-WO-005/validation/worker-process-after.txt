@@ -1,0 +1,4 @@
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+1000                25023               25001               9                   16:41               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+1000                25048               25023               99                  16:41               ?                   00:00:01            node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+1000                25062               25048               70                  16:41               ?                   00:00:00            /usr/local/bin/node apps/worker/src/index.ts

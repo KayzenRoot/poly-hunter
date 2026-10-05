@@ -1,0 +1,10 @@
+{
+  "release": "1.19",
+  "published_at": "2025-09-23T19:10:36Z",
+  "asset": "gosu-amd64",
+  "digest": "sha256:52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+  "size": 1769900,
+  "browser_download_url": "https://github.com/tianon/gosu/releases/download/1.19/gosu-amd64",
+  "gosuExtractedSha256": "52C8749D0142EDD234E9D6BD5237DFF2D81E71F43537E2F4F66F75DD4B243DD0",
+  "shaMatch": true
+}

@@ -1,0 +1,34 @@
+# query: sh -c sed -n "20,50p" deps/v8/src/compiler-dispatcher/optimizing-compile-dispatcher.h
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:46Z
+
+
+class LocalHeap;
+class TurbofanCompilationJob;
+class RuntimeCallStats;
+class SharedFunctionInfo;
+
+// Align the structure to the cache line size to prevent false sharing. While a
+// task state is owned by a single thread, all tasks states are kept in a vector
+// in OptimizingCompileDispatcher::task_states.
+struct alignas(PROCESSOR_CACHE_LINE_SIZE) OptimizingCompileTaskState {
+  Isolate* isolate;
+};
+
+// Circular queue of incoming recompilation tasks (including OSR).
+class V8_EXPORT OptimizingCompileInputQueue {
+ public:
+  inline bool IsAvailable() {
+    base::MutexGuard access(&mutex_);
+    return queue_.size() < capacity_;
+  }
+
+  inline size_t Length() {
+    base::MutexGuard access_queue(&mutex_);
+    return queue_.size();
+  }
+
+  explicit OptimizingCompileInputQueue(int capacity) : capacity_(capacity) {}
+
+  TurbofanCompilationJob* Dequeue(OptimizingCompileTaskState& task_state);
+  TurbofanCompilationJob* DequeueIfIsolateMatches(Isolate* isolate);

@@ -1,0 +1,4 @@
+f94c9865d35c693b5cecaf7a2112009e369fd511a051a9e061a8309e719911b9  /usr/local/lib/postgresql/pgxml.so
+-rwxr-xr-x    1 root     root         33648 Sep 17 21:31 /usr/local/lib/postgresql/pgxml.so
+ TYPE   NEEDED FILE 
+ET_DYN libxslt.so.1,libxml2.so.2,libc.musl-x86_64.so.1 /usr/local/lib/postgresql/pgxml.so 

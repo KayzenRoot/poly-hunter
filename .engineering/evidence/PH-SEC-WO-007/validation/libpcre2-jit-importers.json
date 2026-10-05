@@ -1,0 +1,88 @@
+{
+  "question": "Does any ELF in the exact image import pcre2 JIT entry points?",
+  "cve": "CVE-2026-103111",
+  "advisory_condition": "out-of-bounds write requires an attacker-controlled regular expression AND certain pcre2 JIT API usage",
+  "libpcre2_exports_jit": true,
+  "binaries": {
+    "find": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "grep": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [
+        "pcre2_jit_compile_8",
+        "pcre2_jit_stack_assign_8",
+        "pcre2_jit_stack_create_8",
+        "pcre2_jit_stack_free_8"
+      ],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "id": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "install": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "libselinux.so.1": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "ls": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "mount": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "nsenter": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "sed": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    },
+    "tar": {
+      "imports_pcre2_total": 0,
+      "imports_pcre2": [],
+      "imports_pcre2_jit": [],
+      "exports_pcre2_jit": [],
+      "verdict": "no_pcre2_jit_import"
+    }
+  },
+  "summary": {
+    "binaries_examined": 10,
+    "binaries_importing_pcre2_jit": 0,
+    "binaries_importing_pcre2_jit_names": []
+  }
+}

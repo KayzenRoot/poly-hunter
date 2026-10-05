@@ -1,0 +1,197 @@
+=== [1] @tufjs/models role.js: where do its minimatch patterns come from? ===
+    "use strict";
+    var __importDefault = (this && this.__importDefault) || function (mod) {
+        return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.SuccinctRoles = exports.DelegatedRole = exports.Role = exports.TOP_LEVEL_ROLE_NAMES = void 0;
+    const crypto_1 = __importDefault(require("crypto"));
+    const minimatch_1 = require("minimatch");
+    const util_1 = __importDefault(require("util"));
+    const error_1 = require("./error");
+    const utils_1 = require("./utils");
+    exports.TOP_LEVEL_ROLE_NAMES = [
+        'root',
+        'targets',
+        'snapshot',
+        'timestamp',
+    ];
+    /**
+     * Container that defines which keys are required to sign roles metadata.
+     *
+     * Role defines how many keys are required to successfully sign the roles
+     * metadata, and which keys are accepted.
+     */
+    class Role {
+        keyIDs;
+        threshold;
+        unrecognizedFields;
+        constructor(options) {
+            const { keyIDs, threshold, unrecognizedFields } = options;
+            if (hasDuplicates(keyIDs)) {
+                throw new error_1.ValueError('duplicate key IDs found');
+            }
+            if (threshold < 1) {
+                throw new error_1.ValueError('threshold must be at least 1');
+            }
+            this.keyIDs = keyIDs;
+            this.threshold = threshold;
+            this.unrecognizedFields = unrecognizedFields || {};
+        }
+        equals(other) {
+            if (!(other instanceof Role)) {
+                return false;
+            }
+            return (this.threshold === other.threshold &&
+                util_1.default.isDeepStrictEqual(this.keyIDs, other.keyIDs) &&
+                util_1.default.isDeepStrictEqual(this.unrecognizedFields, other.unrecognizedFields));
+        }
+        toJSON() {
+            return {
+                keyids: this.keyIDs,
+                threshold: this.threshold,
+                ...this.unrecognizedFields,
+            };
+        }
+        static fromJSON(data) {
+            const { keyids, threshold, ...rest } = data;
+            if (!utils_1.guard.isStringArray(keyids)) {
+                throw new TypeError('keyids must be an array');
+            }
+            if (typeof threshold !== 'number') {
+                throw new TypeError('threshold must be a number');
+            }
+            return new Role({
+                keyIDs: keyids,
+                threshold,
+                unrecognizedFields: rest,
+            });
+        }
+    }
+    exports.Role = Role;
+    function hasDuplicates(array) {
+        return new Set(array).size !== array.length;
+    }
+    /**
+     * A container with information about a delegated role.
+     *
+     * A delegation can happen in two ways:
+     *   - ``paths`` is set: delegates targets matching any path pattern in ``paths``
+     *   - ``pathHashPrefixes`` is set: delegates targets whose target path hash
+     *      starts with any of the prefixes in ``pathHashPrefixes``
+
+=== [2] who constructs the TUF role objects that feed role.js? ===
+--- tuf client entrypoint in npm ---
+/usr/local/lib/node_modules/npm/node_modules/tuf-js
+/usr/local/lib/node_modules/npm/node_modules/@sigstore/tuf
+--- where does npm get TUF metadata from? ---
+
+=== [3] @npmcli/arborist release-age-exclude.js minimatch patterns ===
+    // Determine whether a package name is exempt from the `min-release-age` /
+    // `before` release-age filter, based on the `min-release-age-exclude` config.
+    //
+    // Patterns are exact package names or `minimatch` globs (e.g. `@myorg/*`), and
+    // match against the package name only. This is a "named-only" exemption: a
+    // matched package's own dependencies still follow the filter unless they match
+    // a pattern too.
+    //
+    // Callers must match against the resolved registry identity of a package, not
+    // the self-reported alias or dependency-edge name. For `npm:` aliases the
+    // fetched package is the alias target, so run specs through `trustedSpecName`
+    // first; otherwise an alias key could match an exclude pattern and turn the
+    // filter off for the unrelated package it resolves to.
+    const { minimatch } = require('minimatch')
+    
+    // This list only ever widens the exemption (turns the security filter off for a
+    // package), so disable pattern features that could silently turn it into a
+    // match-all: `nonegate` keeps a leading `!` literal (so a stray `!foo` exempts
+    // nothing instead of everything-but-foo), `nocomment` keeps a leading `#`
+    // literal, and `noext` disables extglobs.
+    const minimatchOptions = { nonegate: true, nocomment: true, noext: true }
+    
+    const isReleaseAgeExcluded = (name, patterns) => {
+      if (!name || !Array.isArray(patterns) || patterns.length === 0) {
+        return false
+      }
+      return patterns.some(pattern =>
+        name === pattern || minimatch(name, pattern, minimatchOptions))
+    }
+    
+    // Resolve the trusted registry name for an npa spec. For `npm:` aliases (e.g.
+    // `"x": "npm:other@1"`) the installed/fetched package is the alias target
+    // (`subSpec`), not the alias key, so the exemption must be keyed on the
+    // underlying package name. Mirrors `nameFromEdges` in script-allowed.js.
+    const trustedSpecName = (spec) => {
+      if (!spec) {
+        return undefined
+      }
+      if (spec.type === 'alias' && spec.subSpec && spec.subSpec.registry) {
+        return spec.subSpec.name
+      }
+      return spec.name
+    }
+    
+    module.exports = { isReleaseAgeExcluded, trustedSpecName }
+
+=== [4] query-selector-all.js: what strings are matched? ===
+    1-'use strict'
+    2-
+    3-const { resolve } = require('node:path')
+    4-const { parser, arrayDelimiter } = require('@npmcli/query')
+    5-const localeCompare = require('@isaacs/string-locale-compare')('en')
+    6-const { log } = require('proc-log')
+    7:const { minimatch } = require('minimatch')
+    8-const npa = require('npm-package-arg')
+    9-const pacote = require('pacote')
+    10-const semver = require('semver')
+    11-const npmFetch = require('npm-registry-fetch')
+    12-const { isReleaseAgeExcluded } = require('./release-age-exclude.js')
+    13-
+    14-// handle results for parsed query asts, results are stored in a map that has a
+    15-// key that points to each ast selector node and stores the resulting array of
+    --
+    288-    return this.initialItems.filter(node => node.overridden)
+    289-  }
+    290-
+    291-  pathPseudo () {
+    292-    return this.initialItems.filter(node => {
+    293-      if (!this.currentAstNode.pathValue) {
+    294-        return true
+    295-      }
+    296:      return minimatch(
+    297-        node.realpath.replace(/\\+/g, '/'),
+    298-        resolve(node.root.realpath, this.currentAstNode.pathValue).replace(/\\+/g, '/')
+    299-      )
+    300-    })
+    301-  }
+    302-
+    303-  privatePseudo () {
+    304-    return this.initialItems.filter(node => node.package.private)
+
+=== [5] map-workspaces: pattern source ===
+    4:const { minimatch } = require('minimatch')
+    35:        if (minimatch(pattern, negatedPattern)) {
+    46:    for (const pattern of minimatch.match(patterns, negated)) {
+    53:function getPatterns (workspaces) {
+    54:  const workspacesDeclaration =
+    55:    Array.isArray(workspaces.packages)
+    56:      ? workspaces.packages
+    57:      : workspaces
+    59:  if (!Array.isArray(workspacesDeclaration)) {
+    61:      message: 'workspaces config expects an Array',
+    66:  return appendNegatedPatterns(workspacesDeclaration)
+    100:  const { workspaces = [] } = opts.pkg
+    101:  const { patterns, negatedPatterns } = getPatterns(workspaces)
+    128:      return minimatch(m, pattern, { partial: true, windowsPathsNoEscape: true })
+    154:  const errorMessageArray = ['must not have multiple workspaces with the same name']
+    198:  const { workspaces = [] } = packages[''] || {}
+    201:  const { patterns, negatedPatterns } = getPatterns(workspaces)
+    209:    for (const packageKey of minimatch.match(packageKeys, pattern)) {
+    215:    for (const packageKey of minimatch.match(packageKeys, pattern)) {
+
+=== [6] Does npm enable TUF/signature verification in this image by default? ===
+--- npm config ---
+undefined
+  (no signature-related config)
+--- .npmrc files in image ---
+  (end npmrc scan)

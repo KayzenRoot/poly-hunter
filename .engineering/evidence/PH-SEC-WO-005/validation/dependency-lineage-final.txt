@@ -1,0 +1,16 @@
+polyhunter@0.1.0 /workspace
++-- @polyhunter/db@0.0.0 -> ./packages/db
+| `-- drizzle-kit@0.31.11
+|   +-- @esbuild-kit/esm-loader@2.6.5
+|   | `-- @esbuild-kit/core-utils@3.3.2
+|   |   `-- esbuild@0.28.2 overridden
+|   `-- esbuild@0.28.2 overridden
++-- typescript@6.0.3
++-- vite@7.3.6
+| +-- esbuild@0.28.2
+| `-- tsx@4.23.15
+|   `-- esbuild@0.28.2 overridden
+`-- vitest@4.1.11
+  +-- @vitest/mocker@4.1.11
+  | `-- vite@7.3.6 deduped
+  `-- vite@7.3.6 deduped

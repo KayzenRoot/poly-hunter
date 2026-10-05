@@ -1,0 +1,6 @@
+=== libultrahdr (google/libultrahdr) v2.0.2 provenance — bundled C++ dep of libvips-cpp ===
+commit=e5f5a022fe96fc4dc2ee35c19f733a50df807abe
+tag=v2.0.2
+subject=release: Bump version to v2.0.2
+=== search pb_ds | __gnu_pbds | binary_heap | ext/pb_ds ===
+NO MATCHES

@@ -1,0 +1,16 @@
+/binaries/esbuild-top: go1.23.12
+	path	github.com/evanw/esbuild/cmd/esbuild
+	mod	github.com/evanw/esbuild	(devel)	
+	dep	golang.org/x/sys	v0.0.0-20220715151400-c0bba94af5f8	h1:0A+M6Uqn+Eje4kHMK80dtF3JCXC4ykBgQG4Fe06QRhQ=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	-trimpath=true
+	build	DefaultGODEBUG=asynctimerchan=1,gotypesalias=0,httplaxcontentlength=1,httpmuxgo121=1,httpservecontentkeepheaders=1,netedns0=0,panicnil=1,tls10server=1,tls3des=1,tlskyber=0,tlsrsakex=1,tlsunsafeekm=1,winreadlinkvolume=0,winsymlink=0,x509keypairleaf=0,x509negativeserial=1
+	build	CGO_ENABLED=0
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1
+	build	vcs=git
+	build	vcs.revision=208f539945b145e7c9d6d844290f81c3fe5af320
+	build	vcs.time=2025-11-01T23:34:16Z
+	build	vcs.modified=false
