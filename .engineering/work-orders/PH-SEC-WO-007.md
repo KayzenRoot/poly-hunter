@@ -207,3 +207,14 @@ CR-01 / CR-02 / CR-03 corrections are accepted and were not refetched.
 **Result remains `BLOCKED_UNRESOLVED`** while any HIGH/CRITICAL row is
 `UNDER_INVESTIGATION`. `PH-M01-WO-002` is **not** started. No `NOT_AFFECTED` was
 self-approved. PR #15 is **not** merged.
+
+
+### OA-001 — owner approval after independent audit
+
+Date: 2026-10-05
+
+The independent auditor approved as evidence the 20 `NOT_AFFECTED` dispositions at exact head `e57706460fdfe144924fa78f6c76d031ca5f0ab6`. The Project Owner then explicitly approved those same 20 dispositions for the exact artifact `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`.
+
+Receipt: `.engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md`.
+
+This approval excludes `CVE-2026-102010` and `CVE-2026-95619`. Both remain `UNDER_INVESTIGATION` and absolute blockers. Result remains `BLOCKED_UNRESOLVED`; PR #15 cannot be promoted and `PH-M01-WO-002` cannot start.
