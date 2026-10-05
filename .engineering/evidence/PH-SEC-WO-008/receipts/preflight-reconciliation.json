@@ -1,8 +1,15 @@
 {
  "workOrder": "PH-SEC-WO-008",
- "revision": "post CR-04",
+ "revision": "post CR-05 (canonical evidence consistency)",
  "timestamp": "2026-10-05",
+ "head": "02e9f96a28eda91bf3d4a8bd813df1e76315e178",
  "checks": [
+  {
+   "id": "P0",
+   "check": "exact HEAD recorded",
+   "result": "PASS",
+   "detail": "02e9f96a28eda91bf3d4a8bd813df1e76315e178"
+  },
   {
    "id": "P1",
    "check": "branch equals lock branch",
@@ -13,13 +20,13 @@
    "id": "P1",
    "check": "parent head 5cf4c2f is ancestor of HEAD",
    "result": "PASS",
-   "detail": "HEAD=2c3718eb329c75bf05fb49c6c4f1951bd5665c2e"
+   "detail": "merge-base --is-ancestor"
   },
   {
    "id": "P2",
-   "check": "PR #15 OPEN+DRAFT+unmerged; PR #35 open",
+   "check": "PR #15 OPEN+DRAFT+unmerged at 5cf4c2f; PR #35 open",
    "result": "PASS",
-   "detail": "gh pr view: 15 OPEN/draft/unmerged; 35 OPEN"
+   "detail": "gh pr view: 15 OPEN/draft/unmerged headRefOid=5cf4c2f...; 35 OPEN"
   },
   {
    "id": "P3",
@@ -29,7 +36,7 @@
   },
   {
    "id": "P4",
-   "check": "image digest",
+   "check": "artifact digest",
    "result": "PASS",
    "detail": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
   },
@@ -41,33 +48,39 @@
   },
   {
    "id": "P5",
-   "check": "22 error rows / 22 CVEs",
+   "check": "exactly 22 HIGH/CRITICAL rows / 22 distinct CVEs",
    "result": "PASS",
-   "detail": "22"
+   "detail": "22 rows, 22 CVEs"
   },
   {
    "id": "P6",
-   "check": "WO-007 20 NA approved + 2 unresolved; Go=0",
+   "check": "WO-007 20 approved NOT_AFFECTED + exactly 2 unresolved; Go HIGH/CRITICAL = 0",
    "result": "PASS",
-   "detail": "20/2; 0 Go rules"
+   "detail": "20/2; 0 Go rules in locked SARIF"
   },
   {
    "id": "P7",
-   "check": "KEV snapshot",
+   "check": "CISA KEV snapshot",
    "result": "PASS",
-   "detail": "2026.10.04; neither CVE in KEV"
+   "detail": "2026.10.04; neither target CVE in KEV"
   },
   {
    "id": "P7",
-   "check": "EPSS snapshot",
+   "check": "FIRST EPSS snapshot",
    "result": "PASS",
    "detail": "2026-10-05, 2 rows"
   },
   {
-   "id": "E1",
-   "check": "SHA256SUMS verify",
+   "id": "P8",
+   "check": "Node/V8 identity",
    "result": "PASS",
-   "detail": "OK"
+   "detail": "node=24.21.0"
+  },
+  {
+   "id": "E1",
+   "check": "SHA256SUMS verify (evidence integrity)",
+   "result": "PASS",
+   "detail": "101 entries; OK"
   },
   {
    "id": "E2",
@@ -77,8 +90,8 @@
   }
  ],
  "summary": {
-  "total": 12,
-  "pass": 12,
+  "total": 14,
+  "pass": 14,
   "fail": 0
  }
 }
