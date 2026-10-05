@@ -1,0 +1,19 @@
+=== grep -P support (correct test: check stderr/helps text, not match exit code) ===
+  -P, --perl-regexp         PATTERNS are Perl regular expressions
+  grep -P MATCHES -> -P SUPPORTED
+  grep -P no-match exit=1 (1 = correctly no match, so -P works)
+
+=== which image binaries import pcre2_jit_compile_8 (authoritative) ===
+  checked: /usr/bin/grep
+  checked: /usr/bin/sed
+  checked: /usr/bin/find
+  checked: /usr/bin/awk
+  checked: /usr/bin/tar
+  checked: /usr/bin/ls
+  checked: /usr/bin/install
+  checked: /usr/bin/id
+  checked: /usr/bin/mount
+  checked: /usr/bin/nsenter
+  checked: /usr/bin/cp
+  checked: /usr/bin/mv
+  checked: /usr/bin/mkdir

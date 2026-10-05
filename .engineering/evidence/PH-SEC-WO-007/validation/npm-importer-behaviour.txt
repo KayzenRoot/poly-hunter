@@ -1,0 +1,122 @@
+=== [1] brace-expansion 5.0.7: who calls expand(), and from where? ===
+--- direct importers of brace-expansion inside npm ---
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/commonjs/index.js
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/esm/index.js
+--- minimatch's use of braceExpansion ---
+  minimatch_dir=/usr/local/lib/node_modules/npm/node_modules/minimatch
+    minimatch_version: 10.2.5
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/commonjs/index.js:4:const brace_expansion_1 = require("brace-expansion");
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/esm/index.js:1:import { expand } from 'brace-expansion';
+  --- MAX_PATTERN_LENGTH in minimatch ---
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/commonjs/assert-valid-pattern.js:4:const MAX_PATTERN_LENGTH = 1024 * 64;
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/commonjs/assert-valid-pattern.js:9:    if (pattern.length > MAX_PATTERN_LENGTH) {
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/esm/assert-valid-pattern.js:1:const MAX_PATTERN_LENGTH = 1024 * 64;
+/usr/local/lib/node_modules/npm/node_modules/minimatch/dist/esm/assert-valid-pattern.js:6:    if (pattern.length > MAX_PATTERN_LENGTH) {
+--- npm files that call minimatch ---
+/usr/local/lib/node_modules/npm/node_modules/ignore-walk/lib/index.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/pattern.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/index.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/has-magic.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/processor.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/glob.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/commonjs/ignore.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/pattern.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/index.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/has-magic.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/processor.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/glob.js
+/usr/local/lib/node_modules/npm/node_modules/glob/dist/esm/ignore.js
+/usr/local/lib/node_modules/npm/node_modules/@tufjs/models/dist/role.js
+/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/release-age-exclude.js
+/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/query-selector-all.js
+/usr/local/lib/node_modules/npm/node_modules/@npmcli/map-workspaces/lib/index.js
+/usr/local/lib/node_modules/npm/node_modules/libnpmdiff/lib/untar.js
+/usr/local/lib/node_modules/npm/lib/utils/get-workspaces.js
+
+=== [2] CVE-2026-73566 tar mapHas: does npm pass a MEMBER SELECTION LIST? ===
+--- every tar.t / tar.x call site in npm ---
+/usr/local/lib/node_modules/npm/node_modules/pacote/lib/fetcher.js:385:    const extractor = tar.x(this.#tarxOptions({ cwd: dest }))
+/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/install.js:211:          await tar.extract({
+/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/install.js:234:              tar.extract({
+/usr/local/lib/node_modules/npm/node_modules/libnpmdiff/lib/untar.js:11:  tar.list({
+/usr/local/lib/node_modules/npm/lib/commands/stage/download.js:48:    const stream = tar.t({
+/usr/local/lib/node_modules/npm/lib/utils/tar.js:57:  const stream = tar.t({
+--- pacote's tar usage (the real extraction path) ---
+  pacote_dir=/usr/local/lib/node_modules/npm/node_modules/pacote
+--- tar 7.5.19 filesFilter install site (the guard the CVE requires to be bypassed) ---
+        onReadEntry ?
+            e => {
+                onReadEntry(e);
+                e.resume();
+            }
+            : e => e.resume();
+};
+// construct a filter that limits the file entries listed
+// include child entries if a dir is included
+const filesFilter = (opt, files) => {
+    const map = new Map(files.map(f => [(0, strip_trailing_slashes_js_1.stripTrailingSlashes)(f), true]));
+    const filter = opt.filter;
+    const mapHas = (file, r = '') => {
+        const root = r || (0, path_1.parse)(file).root || '.';
+        let ret;
+        if (file === root)
+            ret = false;
+        else {
+            const m = map.get(file);
+            ret = m !== undefined ? m : mapHas((0, path_1.dirname)(file), root);
+        }
+        map.set(file, ret);
+        return ret;
+    };
+    opt.filter =
+        filter ?
+            (file, entry) => filter(file, entry) && mapHas((0, strip_trailing_slashes_js_1.stripTrailingSlashes)(file))
+            : file => mapHas((0, strip_trailing_slashes_js_1.stripTrailingSlashes)(file));
+};
+exports.filesFilter = filesFilter;
+const listFileSync = (opt) => {
+    const p = new parse_js_1.Parser(opt);
+    const file = opt.file;
+    let fd;
+    try {
+        fd = node_fs_1.default.openSync(file, 'r');
+        const stat = node_fs_1.default.fstatSync(fd);
+        const readSize = opt.maxReadSize || 16 * 1024 * 1024;
+        if (stat.size < readSize) {
+            const buf = Buffer.allocUnsafe(stat.size);
+            const read = node_fs_1.default.readSync(fd, buf, 0, stat.size, 0);
+
+=== [3] CVE-2026-19534 undici WebSocket: does any importer use WebSocket? ===
+--- undici importers inside npm (js only, no docs) ---
+/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/download.js
+--- node-gyp download.js: which undici APIs does it use? ---
+2:const { Agent, EnvHttpProxyAgent, RetryAgent, fetch } = require('undici')
+9:  const requestOpts = {
+19:    res = await fetch(url, requestOpts)
+21:    // Built-in fetch wraps low-level errors in "TypeError: fetch failed" with
+59:    // reads it from `requestTls` (origin) / `proxyTls` (proxy). Set all three
+60:    // so the custom CA is applied regardless of which path a request takes.
+62:    opts.requestTls = { ca }
+--- ANY WebSocket usage anywhere in npm ---
+
+=== [4] CVE-2026-69192 ip-address: which classifier APIs does socks call? ===
+/a.sh: 51: NMP: parameter not set
+  socks_dir=
+
+=== [5] CVE-2026-93748 http-cache-semantics: does npm run a SHARED cache honouring max-stale? ===
+--- make-fetch-happen policy.js: cache-zeroing + max-stale handling ---
+57:      // cache entry is likely to always identify itself as stale
+70:    if (options.cache === 'no-store') {
+137:    return !this.policy.satisfiesWithoutRevalidation(_req)
+--- make-fetch-happen cache directory ownership / sharing model ---
+42:  if (!options.cachePath) {
+--- does npm ever send a max-stale request header? ---
+
+=== [6] Application tree: is any of these in the APP runtime path? ===
+--- app brace-expansion version ---
+  5.0.12
+--- app-side copies of undici/ip-address/http-cache-semantics ---
+  undici:
+  ip-address:
+  http-cache-semantics:
+--- does the app import minimatch/glob/brace-expansion? ---

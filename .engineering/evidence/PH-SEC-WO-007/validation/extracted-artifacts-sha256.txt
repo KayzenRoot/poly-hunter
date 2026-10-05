@@ -1,0 +1,28 @@
+# PH-SEC-WO-007 / extracted-artifact receipt
+#
+# Libraries and binaries copied UNMODIFIED out of
+#   polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
+# via a disposable docker create + docker cp, then hashed on the host and
+# parsed by analysis/elf_dynsym.py. The copies themselves are NOT committed
+# (they are unmodified third-party binaries); the hashes below bind the
+# analysis to the exact bytes that were inspected.
+#
+# All inspected artifacts are stripped: .dynsym present, .symtab absent.
+
+7e2a72b4c4b38c61e6962de6e3f4a5e9ae692e732c68deead10a7ce2135a7f68  libz.so.1.2.13  (121280 bytes)  source_path_see_evidence
+e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  libstdc++.so.6.0.30  (2190440 bytes)  source_path_see_evidence
+44fcc2a56ee6e4aeb76f7cc46ba711555e15aef5fef86de00d3bf8b0c4d83c9c  libpcre2-8.so.0.11.2  (629384 bytes)  source_path_see_evidence
+f01fa7776dc21c9e4b5f60b2d231ca4d96dab958b8d06aff611cb1c16f871574  perl  (3804464 bytes)  source_path_see_evidence
+d9db357c0d0e3f085184e876a848ceea57d5251f44c0a85638946b8a2c1d1a35  Socket.so  (47640 bytes)  source_path_see_evidence
+
+# pcre2 JIT importer sample (analysis/pcre2_jit_importers.py input):
+c703b94ad3448bccc79cda80520964c8d371918a39eecc27f8d60f4e8891770a  find  (224848 bytes)
+9a9c5a0c3b5d1d78952252f7bcf4a992ab9ea1081c84861381380a835106b817  grep  (203152 bytes)
+a3d987dd3f9ec0610dc13b7fdccef84895628065434f44247a65ef0d2a341b3c  id  (48144 bytes)
+9848c092188028f520c3742c609f7fdf2b16cbf5b4ac128fbf69c13b9620f124  install  (159544 bytes)
+0207e4908ea384e186c75925b0e56996a3eccecd48c99252aeb757d0d3451c93  libselinux.so.1  (174312 bytes)
+cb30d69b24245bf2ecdc9e7f53bbad19159999970b6d82c0c00c7d32d9e37aa4  ls  (151344 bytes)
+18ca60a1e1c93f58fca00607ad32bf192fea00157eac73a5341f8bd1c2201403  mount  (59704 bytes)
+13a8e099cc1bb3d16336c044fc217f3b3fbd56279ebddcfbde8d12cff0c5aea0  nsenter  (35368 bytes)
+72dcf1ad8560de658e925dfee171565e0c3f3be38236cf725846bc44971cf4b0  sed  (126424 bytes)
+4e11647a9c86fb8857768bd622c43ed0662d7019f60f5bdd12fb15ac5f087070  tar  (531984 bytes)

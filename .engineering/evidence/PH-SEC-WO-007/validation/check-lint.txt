@@ -1,0 +1,367 @@
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+apps/web/.next/dev/server/app/page.js:192:26 lint/style/useNodejsImportProtocol  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i A Node.js builtin module should be imported with the node: protocol.
+  
+    191 Ôöé "use strict";
+  > 192 Ôöé module.exports = require("crypto");
+        Ôöé                          ^^^^^^^^
+    193 Ôöé 
+    194 Ôöé /***/ }),
+  
+  i Using the node: protocol is more explicit and signals that the imported module belongs to Node.js.
+  
+  i Unsafe fix: Add the node: protocol.
+  
+    190 190 Ôöé   
+    191 191 Ôöé   "use strict";
+    192     Ôöé - module.exports┬À=┬Àrequire("crypto");
+        192 Ôöé + module.exports┬À=┬Àrequire("node:crypto");
+    193 193 Ôöé   
+    194 194 Ôöé   /***/ }),
+  
+
+apps/web/.next/dev/server/app/page.js:203:26 lint/style/useNodejsImportProtocol  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i A Node.js builtin module should be imported with the node: protocol.
+  
+    202 Ôöé "use strict";
+  > 203 Ôöé module.exports = require("module");
+        Ôöé                          ^^^^^^^^
+    204 Ôöé 
+    205 Ôöé /***/ }),
+  
+  i Using the node: protocol is more explicit and signals that the imported module belongs to Node.js.
+  
+  i Unsafe fix: Add the node: protocol.
+  
+    201 201 Ôöé   
+    202 202 Ôöé   "use strict";
+    203     Ôöé - module.exports┬À=┬Àrequire("module");
+        203 Ôöé + module.exports┬À=┬Àrequire("node:module");
+    204 204 Ôöé   
+    205 205 Ôöé   /***/ }),
+  
+
+apps/web/.next/dev/server/app/page.js:236:26 lint/style/useNodejsImportProtocol  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i A Node.js builtin module should be imported with the node: protocol.
+  
+    235 Ôöé "use strict";
+  > 236 Ôöé module.exports = require("path");
+        Ôöé                          ^^^^^^
+    237 Ôöé 
+    238 Ôöé /***/ }),
+  
+  i Using the node: protocol is more explicit and signals that the imported module belongs to Node.js.
+  
+  i Unsafe fix: Add the node: protocol.
+  
+    234 234 Ôöé   
+    235 235 Ôöé   "use strict";
+    236     Ôöé - module.exports┬À=┬Àrequire("path");
+        236 Ôöé + module.exports┬À=┬Àrequire("node:path");
+    237 237 Ôöé   
+    238 238 Ôöé   /***/ }),
+  
+
+apps/web/.next/dev/server/app/page.js:247:26 lint/style/useNodejsImportProtocol  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i A Node.js builtin module should be imported with the node: protocol.
+  
+    246 Ôöé "use strict";
+  > 247 Ôöé module.exports = require("util");
+        Ôöé                          ^^^^^^
+    248 Ôöé 
+    249 Ôöé /***/ })
+  
+  i Using the node: protocol is more explicit and signals that the imported module belongs to Node.js.
+  
+  i Unsafe fix: Add the node: protocol.
+  
+    245 245 Ôöé   
+    246 246 Ôöé   "use strict";
+    247     Ôöé - module.exports┬À=┬Àrequire("util");
+        247 Ôöé + module.exports┬À=┬Àrequire("node:util");
+    248 248 Ôöé   
+    249 249 Ôöé   /***/ })
+  
+
+apps/web/.next/dev/static/chunks/app/layout.js:9:7 lint/complexity/useLiteralKeys  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+     7 Ôöé  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8 Ôöé  */
+   > 9 Ôöé (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/layout"],{
+       Ôöé       ^^^^^^^^^^^^^^^^^^
+    10 Ôöé 
+    11 Ôöé /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+  i Unsafe fix: Use a literal key instead.
+  
+     7  7 Ôöé    * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8  8 Ôöé    */
+     9    Ôöé - (self["webpackChunk_N_E"]┬À=┬Àself["webpackChunk_N_E"]┬À||┬À[]).push([["app/layout"],{
+        9 Ôöé + (self.webpackChunk_N_E┬À=┬Àself["webpackChunk_N_E"]┬À||┬À[]).push([["app/layout"],{
+    10 10 Ôöé   
+    11 11 Ôöé   /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+
+apps/web/.next/dev/static/chunks/app/layout.js:9:34 lint/complexity/useLiteralKeys  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+     7 Ôöé  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8 Ôöé  */
+   > 9 Ôöé (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/layout"],{
+       Ôöé                                  ^^^^^^^^^^^^^^^^^^
+    10 Ôöé 
+    11 Ôöé /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+  i Unsafe fix: Use a literal key instead.
+  
+     7  7 Ôöé    * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8  8 Ôöé    */
+     9    Ôöé - (self["webpackChunk_N_E"]┬À=┬Àself["webpackChunk_N_E"]┬À||┬À[]).push([["app/layout"],{
+        9 Ôöé + (self["webpackChunk_N_E"]┬À=┬Àself.webpackChunk_N_E┬À||┬À[]).push([["app/layout"],{
+    10 10 Ôöé   
+    11 11 Ôöé   /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+
+apps/web/.next/dev/static/chunks/app/page.js:9:7 lint/complexity/useLiteralKeys  FIXABLE  ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  i The computed expression can be simplified without the use of a string literal.
+  
+     7 Ôöé  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8 Ôöé  */
+   > 9 Ôöé (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/page"],{
+       Ôöé       ^^^^^^^^^^^^^^^^^^
+    10 Ôöé 
+    11 Ôöé /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+  i Unsafe fix: Use a literal key instead.
+  
+     7  7 Ôöé    * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8  8 Ôöé    */
+     9    Ôöé - (self["webpackChunk_N_E"]┬À=┬Àself["webpackChunk_N_E"]┬À||┬À[]).push([["app/page"],{
+        9 Ôöé + (self.webpackChunk_N_E┬À=┬Àself["webpackChunk_N_E"]┬À||┬À[]).push([["app/page"],{
+    10 10 Ôöé   
+    11 11 Ôöé   /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+
+apps/web/.next/dev/server/app/page.js:257:59 lint/suspicious/noAssignInExpressions ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù The assignment should not be in an expression.
+  
+    255 Ôöé var __webpack_require__ = require("../webpack-runtime.js");
+    256 Ôöé __webpack_require__.C(exports);
+  > 257 Ôöé var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+        Ôöé                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    258 Ôöé var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/@swc"], () =...
+    259 Ôöé module.exports = __webpack_exports__;
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+apps/web/.next/dev/server/app/page.js:22:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    21 Ôöé "use strict";
+  > 22 Ôöé eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webp...
+       Ôöé ^^^^
+    23 Ôöé 
+    24 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:32:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    30 Ôöé /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+    31 Ôöé 
+  > 32 Ôöé eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__webpack_require__, /*...
+       Ôöé ^^^^
+    33 Ôöé 
+    34 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:42:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    40 Ôöé /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+    41 Ôöé 
+  > 42 Ôöé eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__webpack_require__, /*...
+       Ôöé ^^^^
+    43 Ôöé 
+    44 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:63:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    62 Ôöé "use strict";
+  > 63 Ôöé eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webp...
+       Ôöé ^^^^
+    64 Ôöé 
+    65 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:74:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    73 Ôöé "use strict";
+  > 74 Ôöé eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webp...
+       Ôöé ^^^^
+    75 Ôöé 
+    76 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:84:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    82 Ôöé /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+    83 Ôöé 
+  > 84 Ôöé eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__webpack_require__, /*...
+       Ôöé ^^^^
+    85 Ôöé 
+    86 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/app/page.js:94:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    92 Ôöé /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+    93 Ôöé 
+  > 94 Ôöé eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__webpack_require__, /*...
+       Ôöé ^^^^
+    95 Ôöé 
+    96 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/vendor-chunks/@swc.js:20:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    18 Ôöé /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+    19 Ôöé 
+  > 20 Ôöé eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webp...
+       Ôöé ^^^^
+    21 Ôöé 
+    22 Ôöé /***/ }),
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/server/vendor-chunks/@swc.js:30:1 lint/security/noGlobalEval ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù eval() exposes to security risks and performance issues.
+  
+    28 Ôöé /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+    29 Ôöé 
+  > 30 Ôöé eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webp...
+       Ôöé ^^^^
+    31 Ôöé 
+    32 Ôöé /***/ })
+  
+  i See the MDN web docs for more details.
+  
+  i Refactor the code so that it doesn't need to call eval().
+  
+
+apps/web/.next/dev/static/chunks/app/layout.js:9:2 lint/suspicious/noAssignInExpressions ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù The assignment should not be in an expression.
+  
+     7 Ôöé  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8 Ôöé  */
+   > 9 Ôöé (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/layout"],{
+       Ôöé  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    10 Ôöé 
+    11 Ôöé /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+apps/web/.next/dev/static/chunks/app/layout.js:23:68 lint/suspicious/noAssignInExpressions ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù The assignment should not be in an expression.
+  
+    21 Ôöé },
+    22 Ôöé /******/ __webpack_require__ => { // webpackRuntimeModules
+  > 23 Ôöé /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+       Ôöé                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    24 Ôöé /******/ __webpack_require__.O(0, ["main-app"], () => (__webpack_exec__("(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!")));
+    25 Ôöé /******/ var __webpack_exports__ = __webpack_require__.O();
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+apps/web/.next/dev/static/chunks/app/page.js:9:2 lint/suspicious/noAssignInExpressions ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù The assignment should not be in an expression.
+  
+     7 Ôöé  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+     8 Ôöé  */
+   > 9 Ôöé (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([["app/page"],{
+       Ôöé  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    10 Ôöé 
+    11 Ôöé /***/ "(app-pages-browser)/../../node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?server=false!":
+  
+  i The use of assignments in expressions is confusing.
+    Expressions are often considered as side-effect free.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 2630.
+Checked 75 files in 3s. No fixes applied.
+Found 990 errors.
+Found 1555 warnings.
+Found 105 infos.
+lint ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü
+
+  ├ù Some errors were emitted while running checks.
+  
+

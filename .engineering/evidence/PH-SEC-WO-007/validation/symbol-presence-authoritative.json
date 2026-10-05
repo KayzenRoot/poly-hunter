@@ -1,0 +1,200 @@
+{
+  "tool": "PH-SEC-WO-007 symbol_presence_authoritative.py",
+  "supersedes": "first-pass table (invalid: st_shndx offset defect and unsuffixed pcre2 symbol query)",
+  "parser": "pure-python ELF64 .dynsym reader (analysis/elf_dynsym.py)",
+  "stripping_notice": {
+    "Socket.so": {
+      "dynsym_entries": 55,
+      "symtab_present": false,
+      "meaning": "stripped: .dynsym only. A miss proves absence solely for symbols that would have been exported."
+    },
+    "libpcre2-8.so.0.11.2": {
+      "dynsym_entries": 99,
+      "symtab_present": false,
+      "meaning": "stripped: .dynsym only. A miss proves absence solely for symbols that would have been exported."
+    },
+    "libstdc++.so.6.0.30": {
+      "dynsym_entries": 6165,
+      "symtab_present": false,
+      "meaning": "stripped: .dynsym only. A miss proves absence solely for symbols that would have been exported."
+    },
+    "libz.so.1.2.13": {
+      "dynsym_entries": 125,
+      "symtab_present": false,
+      "meaning": "stripped: .dynsym only. A miss proves absence solely for symbols that would have been exported."
+    },
+    "perl": {
+      "dynsym_entries": 2191,
+      "symtab_present": false,
+      "meaning": "stripped: .dynsym only. A miss proves absence solely for symbols that would have been exported."
+    }
+  },
+  "parser_selftest": {
+    "Socket.so": {
+      "control_symbols": {
+        "boot_Socket": true
+      },
+      "result": "PASS",
+      "why": "proves the parser sees this object's own export; Perl_xs_handshake is correctly UND (imported from the perl executable), which is why it is not used as a control here"
+    },
+    "libpcre2-8.so.0.11.2": {
+      "control_symbols": {
+        "pcre2_compile_8": true,
+        "pcre2_match_8": true
+      },
+      "result": "PASS",
+      "why": "proves the suffixed pcre2 API is visible, so the JIT result is real"
+    },
+    "libstdc++.so.6.0.30": {
+      "control_symbols": {
+        "_Znwm": true,
+        "_ZdlPv": true,
+        "_ZdaPv": true,
+        "_ZnwmSt11align_val_t": true
+      },
+      "result": "PASS",
+      "why": "proves the C++ new/delete ABI family, including the aligned variants, is visible to the parser"
+    },
+    "libz.so.1.2.13": {
+      "control_symbols": {
+        "inflate": true,
+        "deflate": true,
+        "gzwrite": true,
+        "gzprintf": true
+      },
+      "result": "PASS",
+      "why": "proves the parser really sees gz*/infl* exports, i.e. a negative result is not a parser artefact"
+    },
+    "perl": {
+      "control_symbols": {
+        "Perl_xs_handshake": true,
+        "Perl_croak_nocontext": true
+      },
+      "result": "PASS",
+      "why": "proves exported Perl_* ABI is visible even though internal Perl_* symbols are hidden"
+    }
+  },
+  "cves": {
+    "CVE-2026-102010": {
+      "library": "libstdc++.so.6.0.30",
+      "sink_symbols": [
+        "_ZSt20__erase_if",
+        "erase_if"
+      ],
+      "absence_is_proof": false,
+      "method_caveat": "std::erase_if is a HEADER-ONLY C++ template: it is inlined into the consuming translation unit and would only appear here if libstdc++ itself explicitly instantiated it. This build DOES export 3012 _ZNSt* template instantiations, so a total absence of any erase_if symbol is meaningful but still not conclusive on its own. Decided together with consumer analysis (no C++ compiler in the image; the runtime is Node/JavaScript).",
+      "sink_symbol_hits": {
+        "_ZSt20__erase_if": false,
+        "erase_if": false
+      },
+      "sink_present": false,
+      "sink_present_names": [],
+      "result": "NOT_DISPOSITIVE_BY_SYMBOLS"
+    },
+    "CVE-2026-103111": {
+      "library": "libpcre2-8.so.0.11.2",
+      "sink_symbols": [
+        "pcre2_jit_compile_8",
+        "pcre2_jit_match_8",
+        "pcre2_jit_stack_create_8"
+      ],
+      "absence_is_proof": true,
+      "method_caveat": "pcre2's public 8-bit API is fully exported. JIT symbols carry the _8 suffix; the suffixed names must be queried.",
+      "sink_symbol_hits": {
+        "pcre2_jit_compile_8": true,
+        "pcre2_jit_match_8": true,
+        "pcre2_jit_stack_create_8": true
+      },
+      "sink_present": true,
+      "sink_present_names": [
+        "pcre2_jit_compile_8",
+        "pcre2_jit_match_8",
+        "pcre2_jit_stack_create_8"
+      ],
+      "result": "VULNERABLE_SYMBOL_PRESENT"
+    },
+    "CVE-2026-12087": {
+      "library": "Socket.so",
+      "sink_symbols": [
+        "pack_ip_mreq_source",
+        "pack_ip_mreq"
+      ],
+      "absence_is_proof": false,
+      "method_caveat": "Socket's XS subs are registered at boot via newXS, NOT exported as ELF symbols, so a dynsym miss proves nothing. Runtime probe shows pack_ip_mreq_source IS callable at Socket 2.033.",
+      "sink_symbol_hits": {
+        "pack_ip_mreq_source": false,
+        "pack_ip_mreq": false
+      },
+      "sink_present": false,
+      "sink_present_names": [],
+      "result": "NOT_DISPOSITIVE_BY_SYMBOLS"
+    },
+    "CVE-2026-13221": {
+      "library": "perl",
+      "sink_symbols": [
+        "Perl_study_chunk"
+      ],
+      "absence_is_proof": false,
+      "method_caveat": "Same hidden-visibility limitation as CVE-2026-57432. Not decided by symbol evidence.",
+      "sink_symbol_hits": {
+        "Perl_study_chunk": false
+      },
+      "sink_present": false,
+      "sink_present_names": [],
+      "result": "NOT_DISPOSITIVE_BY_SYMBOLS"
+    },
+    "CVE-2026-57432": {
+      "library": "perl",
+      "sink_symbols": [
+        "Perl_pack"
+      ],
+      "absence_is_proof": false,
+      "method_caveat": "perl builds internal Perl_* entry points with hidden visibility and ships stripped, so they are absent from .dynsym regardless. Not decided by symbol evidence.",
+      "sink_symbol_hits": {
+        "Perl_pack": false
+      },
+      "sink_present": false,
+      "sink_present_names": [],
+      "result": "NOT_DISPOSITIVE_BY_SYMBOLS"
+    },
+    "CVE-2026-85091": {
+      "library": "libz.so.1.2.13",
+      "sink_symbols": [
+        "gz_vacate"
+      ],
+      "absence_is_proof": false,
+      "method_caveat": "gz_vacate() is a `local` (static) function in zlib's gzlib.c and would NOT be exported even in a vulnerable 1.3.x build, so a dynsym miss is not proof. This CVE is decided by version identity instead: the artifact self-reports zlib 1.2.13 and the advisory states the vulnerable non-blocking gzwrite path was INTRODUCED in 1.3.1.2.",
+      "sink_symbol_hits": {
+        "gz_vacate": false
+      },
+      "sink_present": false,
+      "sink_present_names": [],
+      "result": "NOT_DISPOSITIVE_BY_SYMBOLS"
+    },
+    "CVE-2026-95619": {
+      "library": "libstdc++.so.6.0.30",
+      "sink_symbols": [
+        "_ZnwmSt11align_val_t",
+        "_ZnamSt11align_val_t",
+        "_ZdlPvSt11align_val_t",
+        "_ZdaPvSt11align_val_t"
+      ],
+      "absence_is_proof": true,
+      "method_caveat": "C++ aligned operator new/delete are exported libstdc++ ABI symbols. Correct mangling confirmed empirically (align_val_t). They are PRESENT in libstdc++.6.0.30, so this CVE is NOT disposed by symbol absence and must be decided on reachability.",
+      "sink_symbol_hits": {
+        "_ZnwmSt11align_val_t": true,
+        "_ZnamSt11align_val_t": true,
+        "_ZdlPvSt11align_val_t": true,
+        "_ZdaPvSt11align_val_t": true
+      },
+      "sink_present": true,
+      "sink_present_names": [
+        "_ZnwmSt11align_val_t",
+        "_ZnamSt11align_val_t",
+        "_ZdlPvSt11align_val_t",
+        "_ZdaPvSt11align_val_t"
+      ],
+      "result": "VULNERABLE_SYMBOL_PRESENT"
+    }
+  }
+}
