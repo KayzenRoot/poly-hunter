@@ -19,6 +19,16 @@ Execute only PH-SEC-WO-007 on branch `security/ph-m01-dev-nongo-vex`.
 7. Capture current KEV/EPSS/source timestamps.
 8. Any mismatch => STOP BLOCKED_STALE_CONTEXT.
 
+## Validation gates: measure on a clean checkout, never inside the `web` container
+Do not run `npm run validate` (or `lint` / `format:check` / `typecheck`) inside the
+compose `web` container. That service does not bind-mount `apps/worker`, and
+neither `compose.yaml` nor `Dockerfile.dev` puts `biome.json`, `.gitignore` or
+`.git` into `/workspace`. Biome therefore runs on its defaults (tab indentation)
+and traverses generated `apps/web/.next/dev/**` output, producing failures that
+say nothing about the repository. Authoritative gate evidence is the GitHub
+Actions `Validate` run on the exact head, which does a full `actions/checkout`
+plus `npm ci`. See `validation/gates.md` and `analysis/09-container-context.py`.
+
 ## Analysis
 For every CVE, produce an individual machine-readable and human-readable row with:
 - component/version/path;

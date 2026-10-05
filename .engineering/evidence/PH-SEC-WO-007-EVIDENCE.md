@@ -156,7 +156,7 @@ Full structured evidence for all 22 rows is in [`PH-SEC-WO-007-VEX.json`](PH-SEC
 |---|---|
 | CVE-2026-12087 | Socket 2.033 **is** affected (`< 2.041`) and `pack_ip_mreq_source` **is** callable, but no caller exists. Only perl in the image is Debian's Debconf set, which never touches `Socket`. Debian's own note matches: "only reachable when a script passes attacker-controlled source". |
 | CVE-2026-57432 | Needs a pack/unpack template from untrusted input. No perl program in the image builds one; perl is never executed by the runtime. |
-| CVE-2026-13221 | Needs a regex with >65535 fixed-string alternation branches. None exists. Advisory also places introduction at 5.37.10 while the image ships 5.36.0. |
+| CVE-2026-13221 | Needs a regex with >65535 fixed-string alternation branches. None exists in the image and perl is never executed by the runtime. The advisory's `Introduced with` annotation (commit `acababb4…`, v5.37.10) postdates the image's 5.36.0, which *would* imply absence — but that was **not** verified against perl 5.36.0, so the row stays on reachability and is **not** reclassified `vulnerable_code_not_present`. See §6.5. |
 | CVE-2026-76642 / 78409 / 78410 | `/etc/fstab` is the stock file whose entire content is `# UNCONFIGURED FSTAB FOR BASE SYSTEM` (sha256 `a6b093c9…fbd17`) — **zero mount entries**, so no `X-mount.*` option can exist. No `mount.*` helpers shipped. `CAP_SYS_ADMIN` unavailable. |
 | CVE-2026-78408 | `nsenter --join-cgroup` requires a privileged operator. npm never invokes `nsenter`; `CAP_SYS_ADMIN` unavailable. |
 | CVE-2026-102010 | `std::erase_if` is header-only. Zero `erase_if` symbols exist while 3012 `_ZNSt*` template instantiations *are* exported — template symbols are visible, so the absence is real. The image also ships no C++ compiler (only `gcc-12-base`, `libgcc-s1`, `libstdc++6`) and the runtime is JavaScript. |
@@ -197,6 +197,24 @@ This is the weakest `NOT_AFFECTED` in the bundle and is flagged for explicit aud
 
 Vulnerable symbols confirmed present (`_ZnwmSt11align_val_t`, `_ZnamSt11align_val_t`, `_ZdlPvSt11align_val_t`, `_ZdaPvSt11align_val_t`), and `node` links that exact `libstdc++.so.6`. Triggering the overflow needs a caller to pass a large enough size to `operator new(size_t, align_val_t)`; the caller set across V8 and libstdc++ cannot be enumerated from inside this container, and the upstream commit was not read to establish the threshold. ADR-0007 treats "evidence is incomplete" as a hard blocker, so the row fails closed rather than being asserted `NOT_AFFECTED`.
 
+### 6.5 Correction made after the independent audit — CVE-2026-13221
+
+Audit finding **CR-03** rejected the wording of the CVE-2026-13221 row, which asserted the flaw was "introduced in 5.37.10" with no exact source, and was internally contradictory ("5.36.0 is within the introduced range … so 5.36.0 predates it"). Corrected as follows.
+
+**The claim now carries an exact upstream source**, transcribed from the locked SARIF advisory text for this CVE (`.engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif`, blob `d3999a5664ec91e2b555d468b6e85c8d04aaabe9`):
+
+| Field | Value |
+|---|---|
+| Introduced with | `https://github.com/Perl/perl5/commit/acababb42be12ff2986b73c1bfa963b70bb5d54e` (v5.37.10) |
+| Fixed by | `https://github.com/Perl/perl5/commit/03f74bbbd3a68350d926ee93d56ee4808c28c4c7` (v5.43.10) |
+| Debian bookworm | not fixed |
+
+Both citations were extracted mechanically from that SARIF rule and were **not** independently re-verified against the perl5 git history; the bundle says so explicitly rather than implying a check that was not performed.
+
+**The disposition is deliberately unchanged.** It remains proposed `NOT_AFFECTED` / `vulnerable_code_not_in_execute_path` on the reachability basis. It was **not** converted to `vulnerable_code_not_present`, because no objective upstream or version-history evidence for Perl **5.36.0** was obtained — the `Introduced with` annotation is an upstream assertion about a commit, not a verified reading of the 5.36.0 source tree. The contradiction is removed by treating the row's `vulnerableCodePresent` as the **fail-closed** reading (`true`) and stating that the annotation is an unverified inference toward absence.
+
+The precise auditor action that would permit the stronger classification is recorded in the row's `residualRisk`: confirm that commit `acababb4…` introduced the 16-bit trie delta **and** that 5.36.0 predates it.
+
 ---
 
 ## 7. Test and validation evidence
@@ -210,25 +228,78 @@ Vulnerable symbols confirmed present (`_ZnwmSt11align_val_t`, `_ZnamSt11align_va
 | Package inventory (88 packages) | recorded | `validation/image-dpkg-inventory.txt` |
 | Component presence / reachability probes | recorded | `validation/perl-component-presence.txt`, `perl-util-pcre-reachability.txt`, `util-pcre-prerequisites.txt`, `grep-pcre2-support.txt` |
 | npm importer behaviour and call sites | recorded | `validation/npm-bundled-inventory.txt`, `npm-importer-behaviour.txt`, `callsite-arguments.txt`, `brace-pattern-sources.txt` |
+| Container-context diagnosis (CR-01, 18 assertions) | **PASS 18/18** — 13/13 mandatory git/CI, 5/5 container probes | `validation/container-context-diagnosis.json` |
+| CI Validate run #46 on the exact parent head | **SUCCESS**, all 16 steps green | `validation/validate-ci-run-46.json`, `validation/validate-ci-parent.yml` |
 | Evidence manifest + SHA-256 index | generated | `PH-SEC-WO-007/SHA256SUMS.txt` |
 
-### Repository validation gates
+### Repository validation gates — corrected by audit finding CR-01
 
-Executed inside the canonical local Docker runtime. Full detail in [`validation/gates.md`](PH-SEC-WO-007/validation/gates.md).
+Full detail in [`validation/gates.md`](PH-SEC-WO-007/validation/gates.md).
 
-`git diff HEAD --stat` is **empty** — this Work Order modifies no tracked file, and every addition lives under `.engineering/`, which Biome explicitly excludes. The gate results are therefore definitionally identical to the parent head and cannot have been introduced here; no diagnostic references `.engineering` or any added file.
+**The authoritative verdict is that the parent exact head passes `npm run
+validate`.** GitHub Actions `Validate` run #46 / `37243275834` ran on
+`headSha` `7d5be250255bd20cb0b20d6713f6f41c52c73b47` — the exact parent head —
+and concluded `success`, with all 16 steps green including **`Run required
+validation gates` → `npm run validate`**. That job performs a full
+`actions/checkout` plus `npm ci`, so it evaluates the gates under the conditions
+the gates are defined for.
 
-| Gate | Result |
-|---|---|
-| `npm test` | **PASS** — 1 file, 4 tests passed |
-| `npm audit --audit-level=high` | **PASS** — 0 vulnerabilities |
-| `npm run lint` | **FAIL (pre-existing)** — 990 errors, all in generated `apps/web/.next/dev/**` dev-server output; source trees report 0 errors |
-| `npm run format:check` | **FAIL (pre-existing)** — 68 errors in `tsconfig.base.json`, `vitest.integration.config.ts`, `packages/testkit/*` |
-| `npm run typecheck` | **FAIL (pre-existing)** — `apps/worker/tsconfig.json` does not exist (`TS5058`) |
-| `git diff --check HEAD` | **PASS** |
-| Product / Dockerfile / Compose / dependency diff | **empty** |
+Receipts: [`validate-ci-run-46.json`](PH-SEC-WO-007/validation/validate-ci-run-46.json),
+[`validate-ci-parent.yml`](PH-SEC-WO-007/validation/validate-ci-parent.yml).
 
-**Material observation for the owner.** PR #15 carries pre-existing gate failures unrelated to the security blockers: `lint`, `format:check` and `typecheck` all fail at the parent head, so `npm run validate` cannot pass on this branch regardless of the VEX outcome. The lint noise is a tooling-configuration issue (Biome lints generated `.next/dev/**`), while the missing `apps/worker/tsconfig.json` and the five unformatted tracked files are genuine gaps. None is in scope for an evidence-only Work Order, so none was modified — reported, not fixed.
+| Gate | Verdict | Authority |
+|---|---|---|
+| `npm run validate` (lint + format:check + typecheck + test + build + audit) | **PASS** | CI run #46 on the exact parent head |
+| `npm run lint` | **PASS** | CI run #46 |
+| `npm run format:check` | **PASS** | CI run #46 |
+| `npm run typecheck` | **PASS** | CI run #46 |
+| `npm test` | **PASS** — 1 file, 4 tests | CI run #46 step `Run PostgreSQL tenancy integration tests` |
+| `npm audit --audit-level=high` | **PASS** — 0 vulnerabilities | CI run #46 step 6 |
+| `git diff --check HEAD` | **PASS** | in-container receipt; unchanged by this Work Order |
+| Product / Dockerfile / Compose / dependency diff | **empty** | in-container receipt; independently re-verified by the preflight |
+
+#### The earlier FAIL verdicts were container-context artifacts
+
+An earlier revision of this bundle recorded `lint`, `format:check` and `typecheck`
+as `FAIL (pre-existing)` and asserted that PR #15 and the parent head cannot pass
+`npm run validate`. The independent audit rejected that claim (CR-01), and the
+claim was wrong. Those failures were produced by running the validation **inside
+the compose `web` container**, whose `/workspace` is not a faithful view of the
+repository. The compose `web` service does not bind-mount `apps/worker`, and
+neither `compose.yaml` nor `Dockerfile.dev` provides `biome.json`, `.gitignore`
+or `.git` inside the container:
+
+- **`typecheck` `TS5058`** — `apps/worker/tsconfig.json` **is** tracked at the
+  parent exact head; the container simply has only `package.json` there.
+- **`format:check` 68 errors** — with no `biome.json`, Biome falls back to its
+  defaults, which indent with **tabs**, while the repository config mandates
+  `indentStyle: "space"`. The same `tsconfig.base.json` bytes pass on the host and
+  fail in the container, with Biome **2.5.15 in both** — so this is configuration
+  absence, not version drift.
+- **`lint` 990 errors** — with no `biome.json` the `!.engineering` exclusion is
+  gone, and with no `.gitignore` the `.next/` rule cannot apply, so Biome traverses
+  the generated `apps/web/.next/dev/**` dev-server output held in the `web_next`
+  volume.
+
+Confirmed by 18 deterministic assertions — 13 mandatory git/CI assertions that
+need no container and exit non-zero on drift, plus 5 container probes — in
+[`analysis/09-container-context.py`](PH-SEC-WO-007/analysis/09-container-context.py),
+**18/18 PASS**. Receipt:
+[`container-context-diagnosis.json`](PH-SEC-WO-007/validation/container-context-diagnosis.json).
+
+The in-container receipts are **retained as an observation of container
+behaviour**, no longer as evidence about the parent head and no longer described
+as pre-existing defects.
+
+#### This branch has no CI execution of its own
+
+`.github/workflows/validate.yml` triggers only on `pull_request` targeting `main`
+and `push` to `main`. PR #33 targets `feat/ph-m01-tenancy-persistence`, so **no
+Validate run exists for this branch**. Its gate state is therefore not
+CI-attested; it rests on the empty product diff, the deterministic preflight, and
+the fact that every added file is under `.engineering/`, which `biome.json`
+excludes. Branch-level attestation would need a workflow or branch-policy change,
+which is outside this Work Order's authority — reported, not made.
 
 ---
 
@@ -278,13 +349,18 @@ PH-SEC-WO-007/
 │   ├── 05-npm-bundled-inventory.sh
 │   ├── 06-npm-importer-behaviour.sh
 │   ├── 07-callsite-arguments.sh
-│   └── 08-brace-pattern-sources.sh
+│   ├── 08-brace-pattern-sources.sh
+│   └── 09-container-context.py        CR-01 gate-artifact diagnosis (18 assertions)
 ├── preflight/
 │   └── preflight-reconciliation.json
 ├── sources/
 │   ├── cisa-kev.json                  CISA KEV catalog 2026.10.04
 │   └── first-epss.json                FIRST EPSS 2026-10-04, 22 rows
 └── validation/
+    ├── gates.md                       validation gate state (CR-01 corrected)
+    ├── container-context-diagnosis.json  CR-01 mechanism, 18/18 PASS
+    ├── validate-ci-run-46.json        CI Validate run #46 on the exact parent head
+    ├── validate-ci-parent.yml         CI workflow at the parent head (blob-exact)
     ├── image-identity.txt
     ├── image-dpkg-inventory.txt
     ├── symbol-presence-authoritative.json
@@ -296,7 +372,8 @@ PH-SEC-WO-007/
     ├── npm-bundled-inventory.txt
     ├── npm-importer-behaviour.txt
     ├── callsite-arguments.txt
-    └── brace-pattern-sources.txt
+    ├── brace-pattern-sources.txt
+    └── check-*.txt                    retained in-container gate observations
 ```
 
 Top-level deliverables: `PH-SEC-WO-007-EVIDENCE.md`, `PH-SEC-WO-007-VEX.md`, `PH-SEC-WO-007-VEX.json`.

@@ -274,7 +274,15 @@ ROWS = [
         scanner_package="pkg:deb/debian/perl@5.36.0-7+deb12u3",
         detected_version="perl 5.36.0 (/usr/bin/perl, 3804464 bytes)",
         installed_binary_package="perl-base 5.36.0-7+deb12u3",
-        upstream_status="not fixed in Debian bookworm; fixed upstream in perl 5.43.10 (introduced 5.37.10)",
+        upstream_status=(
+            "not fixed in Debian bookworm; fixed upstream by commit "
+            "03f74bbbd3a68350d926ee93d56ee4808c28c4c7 (v5.43.10). The same advisory "
+            "records 'Introduced with' commit "
+            "acababb42be12ff2986b73c1bfa963b70bb5d54e (v5.37.10); both citations are "
+            "transcribed from the locked SARIF advisory text for this CVE "
+            "(.engineering/evidence/PH-SEC-WO-005/validation/CR-01/"
+            "polyhunter-dev-cr01.sarif, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9) "
+            "and were not independently re-verified against the perl5 git history."),
         affected_condition=("Perl_study_chunk stores the delta between the first "
                              "branch and the shared tail of a trie in a 16-bit "
                              "field; an alternation of more than 65535 fixed-string "
@@ -282,13 +290,15 @@ ROWS = [
                              "match decision table, producing both false positive "
                              "and false negative matches"),
         vulnerable_code_present=True,
-        presence_evidence=("perl 5.36.0 is within the introduced range "
-                           "(introduced in 5.37.10 per the advisory's own "
-                           "'Introduced with' link, so 5.36.0 predates it and the "
-                           "specific trie-delta code path as described may not "
-                           "even exist in this build). Presence is not "
-                           "disprovable from the artifact: perl is stripped and "
-                           "internal symbols are hidden. Decided on reachability."),
+        presence_evidence=(
+            "Treated as PRESENT, which is the fail-closed reading: perl is "
+            "stripped and its internal symbols have hidden visibility, so a "
+            ".dynsym miss proves nothing here and absence cannot be established "
+            "from the artifact. The advisory's 'Introduced with' annotation places "
+            "the flaw at v5.37.10, AFTER the 5.36.0 shipped in this image, which "
+            "would imply absence -- but that inference is NOT treated as proof, "
+            "because no version-history check against perl 5.36.0 was performed. "
+            "This row is therefore decided on reachability, not on presence."),
         reachability=("requires compiling a regular expression containing an "
                       "alternation of more than 65535 fixed-string branches. No "
                       "such pattern exists in the image; the only perl code is "
@@ -299,11 +309,15 @@ ROWS = [
         disposition="NOT_AFFECTED",
         justification="vulnerable_code_not_in_execute_path",
         receipts=[R_PERL, R_PERLREACH],
-        residual_risk=("advisory states the flaw was introduced in 5.37.10 while "
-                        "this image ships 5.36.0; the auditor should confirm "
-                        "whether Perl_study_chunk's 16-bit trie delta exists at "
-                        "all in 5.36.0, which would make this row "
-                        "vulnerable_code_not_present instead"),
+        residual_risk=(
+            "the advisory annotates 'Introduced with' v5.37.10 while this image "
+            "ships 5.36.0, so the vulnerable code may well be absent -- but that "
+            "was NOT verified against perl 5.36.0. Until an auditor confirms "
+            "commit acababb42be12ff2986b73c1bfa963b70bb5d54e introduced the 16-bit "
+            "trie delta and that 5.36.0 predates it, this row stays on the "
+            "conservative reachability basis and must not be read as "
+            "vulnerable_code_not_present. Core perl C code is present per the "
+            "fail-closed reading, so only unreachability protects it."),
         expiry=EXPIRY_7D,
         confidence="medium",
     ),

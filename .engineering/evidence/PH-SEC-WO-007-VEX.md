@@ -116,7 +116,8 @@ These are proposed `NOT_AFFECTED` but rest on a reachability argument rather tha
 | CVE-2026-103111 | Weakest `NOT_AFFECTED`. pcre2 JIT is present *and functional* via `grep -P`, which imports `pcre2_jit_compile_8`. Only the absence of any application subprocess channel keeps it unreachable — an operator running `grep -P` over untrusted content inside the container would reach it. Shell-access precondition, not remote. |
 | CVE-2026-14257 / 69152 / 102276 / 102278 | Vulnerable code present in npm's `brace-expansion@5.0.7`. Disposition turns on the finding that brace expansion applies to the **pattern**, and that every npm pattern source is local/trusted (repo manifests, npm config, operator CLI, signature-gated TUF). Enumeration was by grep over the installed npm tree, not a full control-flow audit. The application tree is separately patched at `5.0.12`. |
 | CVE-2026-69192 | `Address4` **is** executed by socks; the disposition turns on the absence of any classifier-based trust decision rather than on absence of execution. Re-open immediately if npm or a dependency ever uses `ip-address` as an SSRF guard. |
-| CVE-2026-57432 / 13221 | Core perl C code is present and cannot be disproven (perl is stripped with hidden visibility). Only non-execution protects them. |
+| CVE-2026-57432 | Core perl C code is present and cannot be disproven (perl is stripped with hidden visibility). Only non-execution protects it. |
+| CVE-2026-13221 | Core perl C code is treated as **present** (fail-closed) and cannot be disproven — perl is stripped with hidden visibility. Only non-execution protects it. The advisory's `Introduced with` commit `acababb42be12ff2986b73c1bfa963b70bb5d54e` (v5.37.10) postdates the image's 5.36.0, which would imply absence, but that was **not** verified against perl 5.36.0 and is therefore not treated as proof. Confirming both halves would allow `vulnerable_code_not_present`. Corrected per audit finding CR-03. |
 | CVE-2026-12087 | Vulnerable function is present and callable at Socket 2.033; only the absence of a caller protects it. |
 | CVE-2026-102010 | `std::erase_if` is header-only. Symbol absence is corroborated by a strong positive control (3012 `_ZNSt*` template instantiations *are* exported, and none is `erase_if`), plus the facts that the image ships no C++ compiler and the runtime is JavaScript. |
 
@@ -143,6 +144,21 @@ Two further methodology limits are load-bearing and are stated rather than paper
 - **XS subs are not ELF symbols.** `Socket::pack_ip_mreq_source` is registered at boot via `newXS`, so its absence from `Socket.so`'s `.dynsym` proves nothing. A runtime probe shows it **is** callable.
 
 `grep -P` support was also initially mis-detected: the first probe used a match exit code as a support test, and `grep` returns 1 on "no match". Re-tested positively, `-P` **is** supported and `grep` does import `pcre2_jit_compile_8`.
+
+## Corrections applied after the independent audit
+
+The independent audit issued three findings. All three are corrected in this
+bundle. **No disposition changed**, no CVE was added or removed, and no product,
+runtime or dependency was touched.
+
+| Finding | Correction | Disposition effect |
+|---|---|---|
+| **CR-01** | The recorded `lint` / `format:check` / `typecheck` failures were reclassified from "pre-existing defects of the parent head" to **container-context artifacts**. GitHub Actions `Validate` run #46 / `37243275834` on the exact parent head `7d5be25` concluded **success** with all 16 steps green, including `npm run validate`. Root cause: the compose `web` service does not bind-mount `apps/worker`, and neither `compose.yaml` nor `Dockerfile.dev` provides `biome.json`, `.gitignore` or `.git` in the container — so Biome ran on defaults (tab indentation) and traversed generated `.next/dev/**` output. Confirmed by 18 deterministic assertions, **18/18 PASS**. The claim that PR #15 and the parent head cannot pass `npm run validate` is **withdrawn**. | none |
+| **CR-02** | Linkage metadata: `Issue: #undefined` → `Issue: #32`, and `"issue": 32` added to the Context Lock. Recorded explicitly as a **metadata-only** correction. | none |
+| **CR-03** | CVE-2026-13221: the unsourced "introduced in 5.37.10" assertion now cites the exact upstream commits extracted from the locked SARIF (`Introduced with` `acababb4…` v5.37.10; `Fixed by` `03f74bbb…` v5.43.10), and the self-contradictory presence wording was replaced. The row was deliberately **not** reclassified `vulnerable_code_not_present`, because no objective upstream/version-history evidence for Perl 5.36.0 was obtained. | none — remains proposed `NOT_AFFECTED` on reachability |
+
+Detail: [`PH-SEC-WO-007-EVIDENCE.md`](PH-SEC-WO-007-EVIDENCE.md) §6.5 and §7;
+[`validation/gates.md`](PH-SEC-WO-007/validation/gates.md).
 
 ## Expiry
 

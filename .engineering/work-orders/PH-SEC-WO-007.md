@@ -1,6 +1,6 @@
 # PH-SEC-WO-007 — Exact-image VEX disposition for remaining 22 dev CVEs
 
-Issue: #undefined
+Issue: #32
 Parent implementation: PH-M01-WO-001 / PR #15
 Parent head: 7d5be250255bd20cb0b20d6713f6f41c52c73b47
 Branch: security/ph-m01-dev-nongo-vex
@@ -140,3 +140,35 @@ Record:
 ## STOP CONDITION
 READY_FOR_INDEPENDENT_AUDIT only when all 22 findings are fully reconciled and every row is either FIXED or a policy-complete proposed NOT_AFFECTED, with zero AFFECTED/UNDER_INVESTIGATION.
 If any row remains AFFECTED/UNDER_INVESTIGATION, stop BLOCKED_UNRESOLVED and do not start PH-M01-WO-002.
+
+## CORRECTION DELTA LOG
+
+### CD-001 — independent audit findings CR-01, CR-02, CR-03
+
+Issued by the independent audit recorded on PR #33 and applied on the same Work
+Order, same branch and same PR. **Metadata-and-evidence correction only.**
+
+| Finding | Correction |
+|---|---|
+| CR-01 | Validation-gate state corrected. The `lint` / `format:check` / `typecheck` failures recorded in the first submission were **container-context artifacts** of the compose `web` service, not defects of the parent head. The assertion that PR #15 and the parent head cannot pass `npm run validate` is **withdrawn**; GitHub Actions `Validate` run #46 / `37243275834` on the exact parent head `7d5be25…` concluded `success` with all steps green, including `npm run validate`. |
+| CR-02 | Linkage metadata fixed: `Issue: #undefined` → `Issue: #32`; `"issue": 32` added to `.engineering/context-locks/PH-SEC-WO-007.json`. |
+| CR-03 | CVE-2026-13221: the unsourced "introduced in 5.37.10" assertion replaced with the exact upstream commit citations transcribed from the locked SARIF, and the self-contradictory presence wording removed. **Not** reclassified `vulnerable_code_not_present`, because no objective upstream/version-history evidence for Perl 5.36.0 was obtained. The conservative reachability-based disposition is retained. |
+
+**Unchanged by this correction delta — asserted and independently re-verified:**
+
+| Item | Value | Status |
+|---|---|---|
+| Parent exact head | `7d5be250255bd20cb0b20d6713f6f41c52c73b47` | unchanged |
+| Target image digest | `sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3` | unchanged |
+| Locked CVE set | 22 unique findings, 20 HIGH + 2 CRITICAL | unchanged |
+| Technical analysis | per-CVE evidence, reachability and prerequisites | unchanged |
+| Security disposition | 21 proposed `NOT_AFFECTED`, 1 `UNDER_INVESTIGATION` (CVE-2026-95619) | unchanged |
+| Product / Dockerfile / Compose / dependencies / schema / migrations / TenantContext / trading | no change | unchanged |
+
+**Result remains `BLOCKED_UNRESOLVED`** while CVE-2026-95619 is
+`UNDER_INVESTIGATION`. `PH-M01-WO-002` is **not** started. No `NOT_AFFECTED` was
+self-approved. PR #15 is **not** merged.
+
+No product change was made to "fix" the CR-01 artifacts, because there is nothing
+in the product to fix: the parent exact head passes `npm run validate` on a clean
+checkout.

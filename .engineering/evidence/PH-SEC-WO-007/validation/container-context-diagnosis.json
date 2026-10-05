@@ -1,0 +1,162 @@
+{
+  "workOrder": "PH-SEC-WO-007",
+  "purpose": "CR-01 reclassification: prove the recorded validate failures are container-context artifacts of the compose web service, not defects of the parent exact head.",
+  "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+  "composeProject": "polyhunter-local",
+  "ciRunId": 37243275834,
+  "webRuntimeUp": true,
+  "checks": [
+    {
+      "id": "G1",
+      "assertion": "apps/worker/tsconfig.json is tracked at the parent exact head",
+      "expected": "present in git tree",
+      "observed": "present",
+      "result": "PASS",
+      "source": "git ls-tree -r 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "G2",
+      "assertion": "biome.json is tracked at the parent exact head",
+      "expected": "present in git tree",
+      "observed": "present",
+      "result": "PASS",
+      "source": "git ls-tree -r 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "G3",
+      "assertion": ".gitignore at the parent head ignores generated .next output",
+      "expected": ".next/ rule present",
+      "observed": ".next/ rule present",
+      "result": "PASS",
+      "source": "git show 7d5be250255bd20cb0b20d6713f6f41c52c73b47:.gitignore"
+    },
+    {
+      "id": "C1",
+      "assertion": "compose service 'web' bind-mounts apps/worker",
+      "expected": "apps/worker mounted (so the container would see host sources)",
+      "observed": "apps/worker NOT mounted",
+      "result": "PASS",
+      "source": "compose.yaml @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47 (service web volumes)"
+    },
+    {
+      "id": "C2",
+      "assertion": "compose service 'web' bind-mounts biome.json",
+      "expected": "biome.json mounted",
+      "observed": "biome.json NOT mounted",
+      "result": "PASS",
+      "source": "compose.yaml @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47 (service web volumes)"
+    },
+    {
+      "id": "C3",
+      "assertion": "apps/web/.next is a generated docker volume target in the web service",
+      "expected": "volume target present",
+      "observed": "volume target present",
+      "result": "PASS",
+      "source": "compose.yaml @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47 (service web volumes)"
+    },
+    {
+      "id": "D1",
+      "assertion": "Dockerfile.dev COPYs biome.json into the image",
+      "expected": "biome.json copied",
+      "observed": "biome.json NOT copied",
+      "result": "PASS",
+      "source": "Dockerfile.dev @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "D2",
+      "assertion": "Dockerfile.dev COPYs apps/worker/tsconfig.json into the image",
+      "expected": "tsconfig.json copied",
+      "observed": "NOT copied (only apps/worker/package.json)",
+      "result": "PASS",
+      "source": "Dockerfile.dev @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "D3",
+      "assertion": "Dockerfile.dev bakes node_modules via npm ci (biome version is image-fixed)",
+      "expected": "npm ci present",
+      "observed": "npm ci present",
+      "result": "PASS",
+      "source": "Dockerfile.dev @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "D4",
+      "assertion": "lockfile pins @biomejs/biome 2.5.15 (no version drift vs container)",
+      "expected": "2.5.15",
+      "observed": "2.5.15",
+      "result": "PASS",
+      "source": "package-lock.json @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "V1",
+      "assertion": "CI Validate workflow executes `npm run validate`",
+      "expected": "npm run validate present",
+      "observed": "present",
+      "result": "PASS",
+      "source": ".github/workflows/validate.yml @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "V2",
+      "assertion": "CI installs from the lockfile with a full checkout (no bind-mount gap)",
+      "expected": "npm ci + actions/checkout",
+      "observed": "npm ci + actions/checkout",
+      "result": "PASS",
+      "source": ".github/workflows/validate.yml @ 7d5be250255bd20cb0b20d6713f6f41c52c73b47"
+    },
+    {
+      "id": "V3",
+      "assertion": "GitHub Actions Validate run 37243275834 succeeded on the parent exact head",
+      "expected": "completed/success, all jobs and steps success",
+      "observed": "run 37243275834 headSha=7d5be25 completed/success, all jobs+steps success",
+      "result": "PASS",
+      "source": "validation/validate-ci-run-46.json"
+    },
+    {
+      "id": "X1",
+      "assertion": "biome.json is absent from /workspace inside the web container",
+      "expected": "see observed",
+      "observed": "absent",
+      "result": "PASS",
+      "source": "docker compose exec web"
+    },
+    {
+      "id": "X2",
+      "assertion": ".gitignore is absent from /workspace inside the web container",
+      "expected": "see observed",
+      "observed": "absent",
+      "result": "PASS",
+      "source": "docker compose exec web"
+    },
+    {
+      "id": "X3",
+      "assertion": "/workspace/apps/worker holds only package.json (no tsconfig.json)",
+      "expected": "see observed",
+      "observed": "package.json",
+      "result": "PASS",
+      "source": "docker compose exec web"
+    },
+    {
+      "id": "X4",
+      "assertion": "apps/web/.next dev-server output is present inside the container",
+      "expected": "see observed",
+      "observed": "present",
+      "result": "PASS",
+      "source": "docker compose exec web"
+    },
+    {
+      "id": "X5",
+      "assertion": "biome inside the container is the same version as the lockfile",
+      "expected": "see observed",
+      "observed": "Version: 2.5.15",
+      "result": "PASS",
+      "source": "docker compose exec web"
+    }
+  ],
+  "totals": {
+    "total": 18,
+    "mandatory": 13,
+    "mandatoryPassed": 13,
+    "containerProbes": 5,
+    "containerProbesPassed": 5
+  },
+  "conclusion": "The parent exact head passes npm run validate on a clean checkout (GitHub Actions Validate run 37243275834, SUCCESS). The compose web service does not bind-mount apps/worker and neither compose nor Dockerfile.dev provides biome.json, .gitignore or .git inside the container, so in-container lint/format:check/typecheck failures are container-context artifacts and are not evidence about the parent head."
+}

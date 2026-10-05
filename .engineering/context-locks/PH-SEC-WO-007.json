@@ -1,6 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "workOrderId": "PH-SEC-WO-007",
+  "issue": 32,
   "branch": "security/ph-m01-dev-nongo-vex",
   "parentPr": 15,
   "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
@@ -35,6 +36,31 @@
   "stalePolicy": "Any change to parent head, canonical security/VEX governance, exact target image digest, locked SARIF, Dockerfile, Compose, dependency graph or hot-reload config requires STOP and Context Lock recompilation.",
   "executor": "Codex",
   "independentAuditor": "ChatGPT/planning auditor",
+  "correctionDeltas": [
+    {
+      "id": "CD-001",
+      "trigger": "Independent audit findings CR-01, CR-02, CR-03 recorded on PR #33",
+      "classification": "METADATA_AND_EVIDENCE_ONLY",
+      "authorisesProductChange": false,
+      "findings": {
+        "CR-01": "Validation-gate state corrected: in-container lint/format:check/typecheck failures reclassified as compose web container-context artifacts; GitHub Actions Validate run 37243275834 on the exact parent head recorded as the authoritative clean-checkout verdict (success, all steps). The prior claim that PR #15 / the parent head cannot pass npm run validate is withdrawn.",
+        "CR-02": "Linkage metadata only: issue linkage set to 32 in the Work Order and in this lock.",
+        "CR-03": "CVE-2026-13221: unsourced 'introduced in 5.37.10' assertion replaced with exact upstream commit citations transcribed from the locked SARIF; self-contradictory presence wording removed; row deliberately NOT reclassified vulnerable_code_not_present because no objective upstream/version-history evidence for Perl 5.36.0 was obtained. Conservative reachability-based disposition retained."
+      },
+      "unchanged": {
+        "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+        "targetImageDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+        "lockedCveSet": "22 unique findings (20 HIGH + 2 CRITICAL)",
+        "technicalAnalysis": "unchanged",
+        "securityDisposition": "unchanged: 21 proposed NOT_AFFECTED, 1 UNDER_INVESTIGATION (CVE-2026-95619)",
+        "productRuntimeDependency": "unchanged"
+      },
+      "result": "BLOCKED_UNRESOLVED",
+      "phaseM01Wo002Started": false,
+      "selfApprovedNotAffected": false,
+      "parentPr15Merged": false
+    }
+  ],
   "ownerApprovalRequiredForHighCriticalNotAffected": true,
   "risk": "HIGH_ASSURANCE_SECURITY_BLOCKER_DISPOSITION",
   "productBehaviorMutationAuthorized": false,

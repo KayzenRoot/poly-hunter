@@ -5,15 +5,19 @@
 # repository content rather than a platform-specific working tree.
 # .gitattributes pins eol=lf for this bundle to keep that stable.
 #
+# Regenerate deterministically with:
+#   git add -A && python .engineering/evidence/PH-SEC-WO-007/analysis/10-sha256sums.py
+#
 # Verify from the repository root:
 #   git ls-files -z .engineering/evidence/PH-SEC-WO-007 | xargs -0 sha256sum -c .engineering/evidence/PH-SEC-WO-007/SHA256SUMS.txt
 #
 # Target artifact: polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
 # Locked SARIF blob: d3999a5664ec91e2b555d468b6e85c8d04aaabe9
+# Parent exact head: 7d5be250255bd20cb0b20d6713f6f41c52c73b47
 #
 # analysis/*.py and analysis/*.sh are the deterministic, re-runnable scripts
 # that produced these receipts; they are part of the auditable bundle.
-
+#
 f70d0916d4a7c10c68c4c238cc276adc5c87c540f45761c9655ea4003f442090  .engineering/evidence/PH-SEC-WO-007/analysis/01-perl-component-presence.sh
 ef3a6022ab964b20d8fe87096139c1d8afeb7a0b39e2c272649fcf57f7983acd  .engineering/evidence/PH-SEC-WO-007/analysis/02-binary-symbol-presence.sh
 127d8253c88bcb2b96d031c1ba512e484bf8bf6d81bf79ab53f5378bce59fcb9  .engineering/evidence/PH-SEC-WO-007/analysis/03-perl-util-pcre-reachability.sh
@@ -22,7 +26,9 @@ fc11eaf8f576792d0c4743d20c6bfb5866e9bc24ab5c9b677c1ee5e572e55b2f  .engineering/e
 8bfb89722d6d72e8d78e018d38b12c7420da81947d8fb0b17908b19a8faa0d39  .engineering/evidence/PH-SEC-WO-007/analysis/06-npm-importer-behaviour.sh
 cd47edfaabc81ff1d068484f76cb29ed4a43d386b2a60b83f181e4554021a175  .engineering/evidence/PH-SEC-WO-007/analysis/07-callsite-arguments.sh
 9bd4eda66c15856bf8187fe493289eb86e88fd7e414434cda907e5cbc33f177c  .engineering/evidence/PH-SEC-WO-007/analysis/08-brace-pattern-sources.sh
-5417e4bf7aea7409cba0112d65add096a7821270d5589fc907013cb9680c8d1f  .engineering/evidence/PH-SEC-WO-007/analysis/build_vex.py
+6b60233dbfce71edaa345a76f895834c25b2b8985aa545aa55773a4f547ef304  .engineering/evidence/PH-SEC-WO-007/analysis/09-container-context.py
+6c8e43b5df005f2631b8332e2ed6e77accf234355e0df27363d2a0b41891995b  .engineering/evidence/PH-SEC-WO-007/analysis/10-sha256sums.py
+7a5413b67ae370def5726ef184c6c26dae30337f84c0c248fb4f5f541e9b7282  .engineering/evidence/PH-SEC-WO-007/analysis/build_vex.py
 362fe3c15cf56381b432671bf1737c34f690ba16818e50c20a2ed5e96dae5753  .engineering/evidence/PH-SEC-WO-007/analysis/elf_dynsym.py
 5b8f9e1c4c86b3b553b3cdb0932f16c1c5ee8e521876f1c48fff7229043edb2b  .engineering/evidence/PH-SEC-WO-007/analysis/pcre2_jit_importers.py
 70455633299168a2d597784f400e8566aa9dc3ca04a04dcd28e62876c068b904  .engineering/evidence/PH-SEC-WO-007/analysis/preflight.py
@@ -39,8 +45,9 @@ cc19fa5289f1d3889cc32505613482cdeb8ef73ae64d2c27ae093187a6d8245d  .engineering/e
 39b98485e5b7c84df0f96f74fa46891347011c791e9d93488a65b822fd7b72d7  .engineering/evidence/PH-SEC-WO-007/validation/check-lint.txt
 bf7bfd9aae5529a46ba51d0ee482704b61b92e11b3b26db6b08e9e7a96e707c7  .engineering/evidence/PH-SEC-WO-007/validation/check-test.txt
 409e3f28aab46ca70fc1f0f6f490c33b8d1f2d86da30c4451de437e1680fed84  .engineering/evidence/PH-SEC-WO-007/validation/check-typecheck.txt
+ae097e6f0438f08345c942fcd5c84f684a9d26c0e06c9b95fcaed62fe11c8769  .engineering/evidence/PH-SEC-WO-007/validation/container-context-diagnosis.json
 3316327edf6de0f1b7af924ba0c5fe0c0a989c6ceecceec299d7fcd7a4ac3e8e  .engineering/evidence/PH-SEC-WO-007/validation/extracted-artifacts-sha256.txt
-f36a66f5c9aa93f06a345f2aad25a0765eca3ced8e1d0c0fba347074e3158cce  .engineering/evidence/PH-SEC-WO-007/validation/gates.md
+7527e01f4441b60fc597f2534395a978a6f987e8cb89d770c3fc642272059aad  .engineering/evidence/PH-SEC-WO-007/validation/gates.md
 a13e1f185f68ff9af041d000b1ee348aecbcd8418b6bfd4cd881198d05b23b2f  .engineering/evidence/PH-SEC-WO-007/validation/grep-pcre2-support.txt
 a2ea378aea55556e0d9d6af7f9bae49d65876fb104d77d2c6cbcb900254a81ee  .engineering/evidence/PH-SEC-WO-007/validation/image-dpkg-inventory.txt
 0627293beba80064e48062df94b4df1996496d2f15a0593cdcf6da1483dad309  .engineering/evidence/PH-SEC-WO-007/validation/image-identity.txt
@@ -51,3 +58,5 @@ c3eebdcc114daa4927de5e10183344d06aafc606ca1e2a85774a540fc2fe201b  .engineering/e
 11b356fc39d3dfda01c64270fd4b0a144ce1d095346fdc1491ab3401dd7fd8ba  .engineering/evidence/PH-SEC-WO-007/validation/perl-util-pcre-reachability.txt
 2f23ef38f1156059ef834019f567b2429ef92a6c5be0a4b797c92492fc904174  .engineering/evidence/PH-SEC-WO-007/validation/symbol-presence-authoritative.json
 afa8462816e794b21df86f20627f724fc50b07b35e5dd2aeb60cd453ed04667a  .engineering/evidence/PH-SEC-WO-007/validation/util-pcre-prerequisites.txt
+55770f5daa0055acc8bc048d7c82333fe321242adfbcc4fda58358963473a4cd  .engineering/evidence/PH-SEC-WO-007/validation/validate-ci-parent.yml
+b5c1c7f921a976eb1cb6e5a51f064bcab94bec9c51678b8570c6026aa1f53b9f  .engineering/evidence/PH-SEC-WO-007/validation/validate-ci-run-46.json
