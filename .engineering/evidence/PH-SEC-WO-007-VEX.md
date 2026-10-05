@@ -26,10 +26,10 @@ The STOP CONDITION requires zero `AFFECTED`/`UNDER_INVESTIGATION` rows for `READ
 | Role | Actor | State |
 |---|---|---|
 | Executor (proposes only) | Codex | complete |
-| Independent auditor | ChatGPT / planning auditor | **PENDING** |
-| Owner approval | Project Owner | **PENDING** |
+| Independent auditor | ChatGPT / planning auditor | **APPROVED AS EVIDENCE — 20 NOT_AFFECTED** |
+| Owner approval | Project Owner | **APPROVED — 20 NOT_AFFECTED on exact artifact** |
 
-Nothing in this document is approved. The executor cannot self-approve.
+The 20 `NOT_AFFECTED` dispositions are independently audited and explicitly owner-approved for the exact artifact. `CVE-2026-102010` and `CVE-2026-95619` remain `UNDER_INVESTIGATION`, unapproved and blocking. The executor cannot self-approve.
 
 ## VEX inputs (prioritisation only)
 
@@ -211,3 +211,13 @@ Every proposed `NOT_AFFECTED` expires at the earliest of: 7 days from dispositio
 CVE-2026-95619 and CVE-2026-102010 are both already `UNDER_INVESTIGATION` and
 require the remediation paths recorded in the blocking-rows section above to
 change state.
+
+## Owner approval — recorded 2026-10-05
+
+Receipt: `.engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md`
+
+The Project Owner explicitly approved the **20 independently audited NOT_AFFECTED dispositions** for:
+
+`polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
+
+This approval does **not** apply to CVE-2026-102010 or CVE-2026-95619. Both remain `UNDER_INVESTIGATION` and continue to block PR #15 and PH-M01-WO-002 under ADR-0007.
