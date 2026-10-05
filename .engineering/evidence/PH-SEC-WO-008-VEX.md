@@ -89,3 +89,23 @@ Both rows are policy-complete **proposed** `NOT_AFFECTED` under ADR-0007 / PH-SE
 - **CVE-2026-95619** — `vulnerable_code_cannot_be_controlled_by_adversary` (node path bounded ≥ 2^27 below threshold; libvips/libuhdr path reachable and attacker-influenced within the JPEG format, but hard-capped at `icc_size ≤ 65533` / `sz ≤ 65519` vs the `2^64 − 3` threshold — arithmetically impossible).
 
 **No** suppression/waiver/accepted-risk was used. The executor cannot self-approve: independent audit and explicit owner approval for the exact artifact digest are required before these dispositions stop blocking PR #15.
+
+## Final approval state
+
+Independent audit:
+- head: `1deee1e5d4e6984ae61a0883d2fc2fca46d912df`
+- review: `5418683462`
+- verdict: `APPROVED AS EVIDENCE + READY_FOR_OWNER_APPROVAL`
+
+Owner approval:
+- date: 2026-10-05
+- owner: KayzenRoot
+- artifact: `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
+- audit head: `1deee1e5d4e6984ae61a0883d2fc2fca46d912df`
+- receipt: `.engineering/evidence/PH-SEC-WO-008-OWNER-APPROVAL.md`
+
+Approved dispositions:
+- `CVE-2026-102010` — `NOT_AFFECTED / vulnerable_code_not_present`
+- `CVE-2026-95619` — `NOT_AFFECTED / vulnerable_code_cannot_be_controlled_by_adversary`
+
+ADR-0007 approval chain is complete for exactly these two rows on the exact artifact and audit head above. Revalidation and expiry rules remain in force.
