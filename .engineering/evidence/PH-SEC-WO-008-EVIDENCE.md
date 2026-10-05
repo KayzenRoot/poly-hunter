@@ -157,7 +157,7 @@ The branch is closed by the mathematical PATH A proof:
 | 2 | CR-02: ABI re-decoded; size traced | **MET** (ABI accepted by re-audit) |
 | 3 | CR-03: immutable Node/V8 source receipts in SHA256SUMS | **MET** (accepted by re-audit) |
 | 4 | CR-04: unreachability withdrawn (probe-falsified); PATH A mathematical bound for the reachable libvips path | **MET** |
-| 5 | CR-05: canonical evidence internally consistent; no stale runtime-unreachability justification; preflight bound to exact final HEAD | **MET** |
+| 5 | CR-05/CR-06: canonical evidence internally consistent; no stale runtime-unreachability justification; deterministic preflight executed against `contentHead` with receipt-only `closureHead` semantics independently verified | **MET** |
 | 6 | VEX JSON/MD, Evidence Bundle, receipts, SHA256SUMS regenerated | **MET** |
 | 7 | Preflight/Context Lock/parent/image/SARIF re-run on the same parent/image | **MET** |
 | 8 | No product/runtime/dependency mutation; no suppression | **MET** |
