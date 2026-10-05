@@ -71,10 +71,10 @@ f102010 = {
         "it could be present is as a pre-built instantiation in a shipped consumer, which the source audit excludes for every consumer."
     ),
     "reachabilityEvidence": (
-        "Not required once presence is disproven at source level, and independently corroborated: the only runtime C++ consumer is node, "
-        "which loads libstdc++ but whose source set contains no pb_ds reference; libvips-cpp and the sharp addon are loaded by no running "
-        "process (runtime maps receipts) and also have no pb_ds source. There is no path by which a vulnerable erase_if instantiation "
-        "exists in any executable page of this artifact."
+        "Not required once presence is disproven at source level: the source set of every compiled C++ consumer (node, apt/libapt, "
+        "libvips and its bundled deps, sharp addon) contains no pb_ds reference, so no instantiation of the vulnerable erase_if can exist "
+        "in any executable page of this artifact, regardless of which libraries are loaded at runtime. Runtime load state is not used as "
+        "evidence for this disposition."
     ),
     "attackerControlledPrerequisite": (
         "Moot: the vulnerable operation is not present. For completeness - triggering requires C++ code calling erase_if on a __gnu_pbds "
@@ -366,11 +366,20 @@ vex = {
         },
         "firstEpss": {"date": "2026-10-05", "receipt": "receipts/first-epss-wo008.json"},
     },
+    "headSemantics": {
+        "contentHead": "02e9f96a28eda91bf3d4a8bd813df1e76315e178",
+        "contentHeadMeaning": "the commit against which the deterministic preflight was executed; receipts/preflight-reconciliation.json records this head (14/14 PASS)",
+        "closureHead": "d7aed91ed86724ee5f710691c19afaca74523209",
+        "closureHeadMeaning": "the receipt-only closure commit immediately after contentHead, containing exactly two evidence files: receipts/preflight-reconciliation.json and SHA256SUMS.txt; the independent auditor verified closureHead is exactly one commit ahead of contentHead with a delta touching only those two files",
+        "note": "no receipt claims to contain its own final commit SHA; no self-referential receipt loop exists or is attempted. Deterministic preflight was executed against contentHead; a receipt-only closure commit then recorded that result and regenerated SHA256SUMS."
+    },
     "correctionDelta": {
-        "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded.",
+        "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded. (ACCEPTED by re-audit)",
         "CR-02": "libvips call-site ABI decoding corrected (RSI=alignment, RDI=size); size traced to a data-derived buffer length. (ABI ACCEPTED by re-audit)",
         "CR-04": "runtime-unreachability WITHDRAWN (probe-falsified lazy loading); libvips callsite mapped to libultrahdr v2.0.2 readIccColorGamut (icc.cpp:657); size hard-bounded at 65519 by the JPEG 16-bit marker cap (mozjpeg save_marker) - >= 2^48 below the 2^64-3 overflow threshold.",
-        "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS.",
+        "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS. (ACCEPTED by re-audit)",
+        "CR-05": "canonical evidence consistency pass: all stale runtime-unreachability text removed from VEX JSON/MD and Evidence Bundle; deterministic preflight executed against contentHead.",
+        "CR-06": "(A) runtime-loaded-state sentence removed from the CVE-2026-102010 row - source-level absence + header/dev-package absence are the sole basis, runtime load state is not used as evidence. (B) explicit contentHead/closureHead semantics documented; no self-referential receipt.",
     },
     "summary": {
         "totalFindings": 2,

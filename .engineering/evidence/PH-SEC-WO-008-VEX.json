@@ -28,11 +28,20 @@
       "receipt": "receipts/first-epss-wo008.json"
     }
   },
+  "headSemantics": {
+    "contentHead": "02e9f96a28eda91bf3d4a8bd813df1e76315e178",
+    "contentHeadMeaning": "the commit against which the deterministic preflight was executed; receipts/preflight-reconciliation.json records this head (14/14 PASS)",
+    "closureHead": "d7aed91ed86724ee5f710691c19afaca74523209",
+    "closureHeadMeaning": "the receipt-only closure commit immediately after contentHead, containing exactly two evidence files: receipts/preflight-reconciliation.json and SHA256SUMS.txt; the independent auditor verified closureHead is exactly one commit ahead of contentHead with a delta touching only those two files",
+    "note": "no receipt claims to contain its own final commit SHA; no self-referential receipt loop exists or is attempted. Deterministic preflight was executed against contentHead; a receipt-only closure commit then recorded that result and regenerated SHA256SUMS."
+  },
   "correctionDelta": {
-    "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded.",
+    "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded. (ACCEPTED by re-audit)",
     "CR-02": "libvips call-site ABI decoding corrected (RSI=alignment, RDI=size); size traced to a data-derived buffer length. (ABI ACCEPTED by re-audit)",
     "CR-04": "runtime-unreachability WITHDRAWN (probe-falsified lazy loading); libvips callsite mapped to libultrahdr v2.0.2 readIccColorGamut (icc.cpp:657); size hard-bounded at 65519 by the JPEG 16-bit marker cap (mozjpeg save_marker) - >= 2^48 below the 2^64-3 overflow threshold.",
-    "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS."
+    "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS. (ACCEPTED by re-audit)",
+    "CR-05": "canonical evidence consistency pass: all stale runtime-unreachability text removed from VEX JSON/MD and Evidence Bundle; deterministic preflight executed against contentHead.",
+    "CR-06": "(A) runtime-loaded-state sentence removed from the CVE-2026-102010 row - source-level absence + header/dev-package absence are the sole basis, runtime load state is not used as evidence. (B) explicit contentHead/closureHead semantics documented; no self-referential receipt."
   },
   "summary": {
     "totalFindings": 2,
@@ -96,7 +105,7 @@
       },
       "vulnerableCodePresent": false,
       "presenceEvidence": "DISPROVEN AT SOURCE LEVEL for every compiled C++ consumer, mapped to its exact shipped version (Correction Delta CR-01). The prior bundle relied on byte-string/dynsym absence and asserted that an inlined instantiation would leave mangled names or distinctive strings; that assertion was FALSE and is REMOVED. The corrected proof is that a binary cannot contain an instantiation of a template its source never referenced, whether inlined or not, so source-level absence at the exact version is dispositive and independent of symbols/strings. Consumers and their sources: (1) node v24.21.0 = nodejs/node commit 955266bfdd854cd280dffd47548673914484e4c0 - no pb_ds/__gnu_pbds/binary_heap anywhere under src/ or deps/; (2) apt 2.6.1 = salsa.debian.org/apt-team/apt commit a626a66fece0a7d680e40b9e35b66e29fe9ae12c - no pb_ds/__gnu_pbds/binary_heap/erase_if/priority_queue and no <ext/...> includes; (3) libvips 8.18.7 = libvips/libvips commit 24ad4d042940e6bf99a68871ba886ca8847c9c82 - no pb_ds/__gnu_pbds/binary_heap/erase_if and no <ext/...> includes; (4) libvips-cpp statically-bundled C++ deps per @img/sharp-libvips-linux-x64/versions.json - highway 1.4.0 (2607d3b5...), libultrahdr 2.0.2 (e5f5a022...), harfbuzz 14.5.0 (863d3f77...), libheif 1.23.5 (413e2a87...) - all no matches (the remaining bundled deps are C libraries and cannot instantiate C++ templates); (5) sharp 0.35.5 addon = lovell/sharp commit 51a990faa26ade5586a4934ac9673c98d8893326 - no pb_ds/__gnu_pbds/binary_heap/erase_if. Component level: the artifact ships only libstdc++6 12.2.0-14+deb12u1 and gcc-12-base - NO libstdc++-12-dev, no C++ headers (/usr/include/c++ absent), no compiler - so the vulnerable header ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp is not installed and cannot be compiled in-image; the only way it could be present is as a pre-built instantiation in a shipped consumer, which the source audit excludes for every consumer.",
-      "reachabilityEvidence": "Not required once presence is disproven at source level, and independently corroborated: the only runtime C++ consumer is node, which loads libstdc++ but whose source set contains no pb_ds reference; libvips-cpp and the sharp addon are loaded by no running process (runtime maps receipts) and also have no pb_ds source. There is no path by which a vulnerable erase_if instantiation exists in any executable page of this artifact.",
+      "reachabilityEvidence": "Not required once presence is disproven at source level: the source set of every compiled C++ consumer (node, apt/libapt, libvips and its bundled deps, sharp addon) contains no pb_ds reference, so no instantiation of the vulnerable erase_if can exist in any executable page of this artifact, regardless of which libraries are loaded at runtime. Runtime load state is not used as evidence for this disposition.",
       "attackerControlledPrerequisite": "Moot: the vulnerable operation is not present. For completeness - triggering requires C++ code calling erase_if on a __gnu_pbds binary_heap priority_queue with attacker-influenced contents; no compiled consumer in the artifact references pb_ds at all.",
       "privilegePrerequisite": "none (not applicable)",
       "cisaKev": {

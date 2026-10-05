@@ -3,7 +3,7 @@
 **Work Order:** PH-SEC-WO-008 — final two libstdc++ blocker resolution
 **Branch:** `security/ph-m01-libstdcpp-final-two` · **PR:** #35 (base = parent `feat/ph-m01-tenancy-persistence`)
 **Risk class:** HIGH_ASSURANCE / SECURITY_BLOCKER_RESOLUTION
-**Revision:** post **Correction Deltas CR-01…CR-05** — CR-01/CR-02(ABI)/CR-03 ACCEPTED by re-audit; CR-04 resolved via PATH A; CR-05 = canonical-evidence consistency pass after the independent re-audit of `11e137e`.
+**Revision:** post **Correction Deltas CR-01…CR-06** — CR-01/CR-02(ABI)/CR-03 ACCEPTED by re-audit; CR-04 resolved via PATH A; CR-05 = canonical-evidence consistency; CR-06 = 102010 runtime-state sentence removed + head semantics (`contentHead`/`closureHead`) corrected.
 **Result:** `READY_FOR_INDEPENDENT_AUDIT` — both CVE-2026-102010 and CVE-2026-95619 carry evidence-complete **proposed** `NOT_AFFECTED` dispositions. The executor proposes only; independent audit and explicit owner approval for the exact artifact remain mandatory per ADR-0007.
 
 Executor: Codex. No disposition here is approved by this Work Order. PH-M01-WO-002 was **not** started and PR #15 was **not** merged.
@@ -18,7 +18,8 @@ Executor: Codex. No disposition here is approved by this Work Order. PH-M01-WO-0
 | **CR-02** | libvips call site was decoded as `mov esi,4 (size=4)` — wrong ABI. | Corrected: **RSI = alignment** (4), **RDI = size** (from R12 = `rsi − 0xe`, data-derived). "Constant size 4" withdrawn. | ABI ACCEPTED by re-audit |
 | **CR-03** | Node v24.21.0 source provenance cited in prose only. | 10 immutable Node v24.21.0 source receipts added, included in SHA256SUMS. | ACCEPTED by re-audit |
 | **CR-04** | Point-in-time `/proc/<pid>/maps` cannot prove sharp/libvips unreachability: Next.js 16.3.8 lazily `require('sharp')` on the first valid `/_next/image` request. | Runtime-unreachability **WITHDRAWN and FALSIFIED** by a safe local probe; branch resolved via **PATH A**: exact callsite mapping to `IccHelper::readIccColorGamut` (libultrahdr v2.0.2) + mathematical JPEG-marker-cap bound. | resolved (PATH A) |
-| **CR-05** | Canonical evidence still carried stale runtime-unreachability text contradicting the accepted proof; preflight was bound to a stale HEAD. | All VEX JSON/MD/Evidence fields rewritten so the justification rests exclusively on the two mathematical bounds; unreachability retained only as `WITHDRAWN / FALSIFIED BY CR-04 PROBE` history; preflight re-run and bound to the exact final HEAD. | this revision |
+| **CR-05** | Canonical evidence still carried stale runtime-unreachability text contradicting the accepted proof; preflight was bound to a stale HEAD. | All VEX JSON/MD/Evidence fields rewritten so the justification rests exclusively on the two mathematical bounds; unreachability retained only as `WITHDRAWN / FALSIFIED BY CR-04 PROBE` history; preflight executed against `contentHead`. | applied |
+| **CR-06** | (A) CVE-2026-102010 row still carried a runtime-loaded-state sentence. (B) Preflight wording implied an impossible self-referential receipt. | (A) Sentence removed — the 102010 disposition rests exclusively on source-level absence + header/dev-package absence. (B) Explicit `contentHead`/`closureHead` semantics documented; no receipt claims to contain its own final SHA. | this revision |
 
 ---
 
@@ -40,7 +41,7 @@ Evidence-only. Nothing in the product, dependencies, runtime configuration or da
 
 ## 2. PREFLIGHT
 
-Receipt: [`receipts/preflight-reconciliation.json`](PH-SEC-WO-008/receipts/preflight-reconciliation.json) — re-run after all CR-05 edits and **bound to the exact final HEAD** (recorded in the receipt; see §9).
+Receipt: [`receipts/preflight-reconciliation.json`](PH-SEC-WO-008/receipts/preflight-reconciliation.json) — executed against **`contentHead` = `02e9f96a28eda91bf3d4a8bd813df1e76315e178`** and recorded in the receipt (14/14 PASS; see §9 for the `contentHead`/`closureHead` semantics).
 
 Checks revalidated: branch = `security/ph-m01-libstdcpp-final-two`; parent head `5cf4c2ffe7b5365ca4941253f92b612f0322a83d` is ancestor of HEAD; PR #15 OPEN+DRAFT+unmerged at parent head; PR #35 open; all 19 Context Lock `criticalSources` fingerprints; image digest `sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`; locked SARIF blob `d3999a5664ec91e2b555d468b6e85c8d04aaabe9`; exactly 22 error-level rows / 22 distinct CVEs; WO-007 20 owner-approved NOT_AFFECTED unexpired, exactly CVE-2026-102010 and CVE-2026-95619 unresolved; Go HIGH/CRITICAL = 0; CISA KEV (2026.10.04, neither CVE in KEV) + FIRST EPSS (2026-10-05) snapshots; Node 24.21.0 identity; SHA256SUMS verify; `git diff --check` clean.
 
@@ -163,9 +164,14 @@ The branch is closed by the mathematical PATH A proof:
 
 ---
 
-## 9. Exact-head preflight (CR-05C)
+## 9. Preflight and head semantics (CR-05C / CR-06B)
 
-The preflight receipt is regenerated **after** all CR-05 edits and bound to the exact final commit HEAD of this revision (recorded in `receipts/preflight-reconciliation.json` as `head`). Revalidated at that HEAD: branch, parent ancestry, PR #15/PR #35 state, 19/19 Context Lock fingerprints, image digest, locked SARIF blob, 22/22 reconciliation, WO-007 approved rows, Go = 0, KEV/EPSS, Node identity, SHA256SUMS verify, `git diff --check`. Because the preflight receipt hash is itself included in `SHA256SUMS.txt`, the receipt was finalized, committed, and the recorded HEAD is the commit that carries it.
+Two distinct heads are used, and no receipt claims to contain its own final commit SHA:
+
+- **`contentHead = 02e9f96a28eda91bf3d4a8bd813df1e76315e178`** — the commit against which the deterministic preflight was executed. The receipt (`receipts/preflight-reconciliation.json`) records this `head` and was **14/14 PASS**: branch, parent `5cf4c2f` ancestry, PR #15 OPEN+DRAFT+unmerged, Context Lock 19/19 fingerprints, artifact digest, locked SARIF blob, 22/22 reconciliation, WO-007 20 approved rows, Go = 0, KEV/EPSS, Node 24.21.0 identity, SHA256SUMS verify, `git diff --check` clean.
+- **`closureHead = d7aed91ed86724ee5f710691c19afaca74523209`** — the receipt-only closure commit immediately after `contentHead`, containing exactly two evidence files: `receipts/preflight-reconciliation.json` and `SHA256SUMS.txt`. The independent auditor verified that `closureHead` is exactly one commit ahead of `contentHead` and that the closure delta touches only those two files.
+
+In other words: deterministic preflight was executed against `contentHead`; a receipt-only closure commit then recorded that result and regenerated `SHA256SUMS`. No self-referential receipt loop exists or is attempted.
 
 ---
 

@@ -1,7 +1,7 @@
-# PH-SEC-WO-008 — VEX Markdown (proposed dispositions, post CR-01/CR-02/CR-03/CR-04/CR-05)
+# PH-SEC-WO-008 — VEX Markdown (proposed dispositions, post CR-01…CR-06)
 
 **Work Order:** PH-SEC-WO-008 — final two libstdc++ blocker resolution
-**Branch:** `security/ph-m01-libstdcpp-final-two` · **PR:** #35 · **Revision:** CR-05 consistency pass after the independent re-audit of `11e137e` (technical basis ACCEPTED; CR-01/CR-02-ABI/CR-03 ACCEPTED; CR-04 resolved via PATH A).
+**Branch:** `security/ph-m01-libstdcpp-final-two` · **PR:** #35 · **Revision:** CR-06 final metadata pass after the independent re-audit of `11e137e` (technical basis of both dispositions APPROVED; CR-01/CR-02-ABI/CR-03 ACCEPTED; CR-04 resolved via PATH A; CR-05 canonical consistency).
 **Result:** `READY_FOR_INDEPENDENT_AUDIT` — both rows proposed `NOT_AFFECTED` with evidence; the executor proposes only, independent audit + owner approval still required.
 
 Machine-readable source of truth: [`PH-SEC-WO-008-VEX.json`](PH-SEC-WO-008-VEX.json).
@@ -16,7 +16,8 @@ Machine-readable source of truth: [`PH-SEC-WO-008-VEX.json`](PH-SEC-WO-008-VEX.j
 | CR-02 | libvips call-site ABI fixed (**RSI = alignment, RDI = size**); the "constant size 4" claim withdrawn; size traced to a data-derived buffer length. | **ABI ACCEPTED** by re-audit |
 | CR-03 | Immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS. | **ACCEPTED** by re-audit |
 | CR-04 | Runtime-unreachability **WITHDRAWN / FALSIFIED BY CR-04 PROBE** (Next 16.3.8 lazily `require('sharp')` on `/_next/image`); branch resolved via **PATH A**: exact callsite mapping (`readIccColorGamut`, libultrahdr v2.0.2) + mathematical JPEG-marker-cap bound. | resolved (PATH A) |
-| CR-05 | Canonical evidence consistency pass: all stale runtime-unreachability text removed from VEX JSON/MD and Evidence Bundle; preflight re-bound to the exact final HEAD. | this revision |
+| CR-05 | Canonical evidence consistency pass: all stale runtime-unreachability text removed from VEX JSON/MD and Evidence Bundle; deterministic preflight executed against `contentHead`. | applied |
+| CR-06 | (A) CVE-2026-102010 row: runtime-loaded-state sentence removed — the disposition rests exclusively on source-level absence + header/dev-package absence. (B) Explicit `contentHead`/`closureHead` head semantics documented; no self-referential receipt. | this revision |
 
 The runtime-unreachability theory appears in this bundle **only** as a withdrawn/falsified historical note — never as a justification.
 
@@ -71,9 +72,18 @@ The branch is closed by the mathematical PATH A proof:
 
 ---
 
+## Head semantics (CR-06B)
+
+- **`contentHead` = `02e9f96a28eda91bf3d4a8bd813df1e76315e178`** — the commit against which the deterministic preflight was executed; the receipt records this head (14/14 PASS).
+- **`closureHead` = `d7aed91ed86724ee5f710691c19afaca74523209`** — the receipt-only closure commit immediately after `contentHead`, touching exactly `receipts/preflight-reconciliation.json` and `SHA256SUMS.txt`; the independent auditor verified it is exactly one commit ahead with a delta limited to those two files.
+
+No receipt claims to contain its own final commit SHA; no self-referential loop exists. Deterministic preflight was executed against `contentHead`; a receipt-only closure commit then recorded that result and regenerated `SHA256SUMS`.
+
+---
+
 ## Result
 
-Both rows are policy-complete **proposed** `NOT_AFFECTED` under ADR-0007 / PH-SEC-VEX-POLICY, after CR-01 through CR-05:
+Both rows are policy-complete **proposed** `NOT_AFFECTED` under ADR-0007 / PH-SEC-VEX-POLICY, after CR-01 through CR-06:
 
 - **CVE-2026-102010** — `vulnerable_code_not_present` (source-level absence at exact consumer versions + component-level header absence).
 - **CVE-2026-95619** — `vulnerable_code_cannot_be_controlled_by_adversary` (node path bounded ≥ 2^27 below threshold; libvips/libuhdr path reachable and attacker-influenced within the JPEG format, but hard-capped at `icc_size ≤ 65533` / `sz ≤ 65519` vs the `2^64 − 3` threshold — arithmetically impossible).

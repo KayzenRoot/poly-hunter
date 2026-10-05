@@ -1,4 +1,4 @@
-85fc4ee5018f014a419a76ff9a5d2b7d97b7a5a9b922853958bde793604f43c2 *./analysis/build_vex.py
+f463c5707467f3bfa9ccd9661d8b706ae44e0eb08d27b438af7dfdfb3ceec3e9 *./analysis/build_vex.py
 61bc4b13fb4f01a5e3d0368366a608126cbbd42b5a7c1dfad1d3d886b92c1894 *./analysis/cr02_libvips_caller_full.py
 87c55d1eca3c6aa9f2bf8f734db27b193a2be65c257c663afa7c6cd19451a60c *./analysis/cr02_libvips_caller_trace.py
 500777d065cda9df599ba6cd75cfd3fc7af35b67878cbae2253ca39de7e7d7fb *./analysis/cr02_libvips_callsite.py
@@ -86,7 +86,7 @@ c8b1f17b897e009c63886c33cbdb2c58a44a77d187a23bb79db98bdda8b30cf8 *./receipts/lib
 5c50cc8ed6bf07cc128eadb9a22d1e14a99b9b32d733ff13e507a0a9d41f4be1 *./receipts/libvips-cpp-aligned-new-callsites.json
 925da605df71e192daca5e1bac27795295a8265ea4709b24dc6e1591eae158e7 *./receipts/libvips-cpp-aligned-new-enclosing.json
 ae4819ad65096ee74634c7987540eda82837e3ca280ac7d692e5b6f2245d278d *./receipts/locked-sarif.json
-6cfd6e15e74baf1e3176dfe2a7f885be84decbb675920f073d5de397e9d37df2 *./receipts/preflight-reconciliation.json
+fd360c52ef8e3612c0e7aebf7c01d37a97b283407e60a5a7c4c6c8988285e056 *./receipts/preflight-reconciliation.json
 f4acda43e6254a93a29e6ba42f8e4c097b08ab2403bbba7122632c396216e05c *./receipts/sharp-libvips-exposure.json
 79b94ee71f59b24805f6d3687d3031f054cfcc05a5149b2d95661144b6a8bc0d *./receipts/upstream/cve-2026-102010-binary_heap.diff
 455a49dfc26e0cd340b89401c0608f0acebe60f6cb881f32d901814d591b1169 *./receipts/upstream/cve-2026-102010-commit-meta.txt
