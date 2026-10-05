@@ -5,7 +5,7 @@
 **Risk class:** HIGH_ASSURANCE / SECURITY_BLOCKER_DISPOSITION
 **Result:** `BLOCKED_UNRESOLVED` — 22/22 reconciled, 20 proposed `NOT_AFFECTED`, 2 `UNDER_INVESTIGATION` (CVE-2026-102010 and CVE-2026-95619)
 
-Executor: Codex (proposes dispositions only). Independent audit and owner approval are **PENDING**.
+Executor: Codex (proposes dispositions only). Independent audit is **APPROVED AS EVIDENCE** for the 20 `NOT_AFFECTED` rows, and explicit Project Owner approval is **RECORDED** for those same 20 rows on the exact artifact. The 2 `UNDER_INVESTIGATION` rows remain unapproved and blocking.
 
 ---
 
@@ -446,3 +446,17 @@ All 22 findings are individually reconciled against the exact artifact. Twenty a
 - **CVE-2026-102010** — reclassified by audit finding **CR-04**: the vulnerable code is a header-only template, so `.dynsym` absence from `libstdc++.so` is non-dispositive, and instantiation/reachability in shipped C++ consumers (Node/V8 or other binaries) is unproven. No policy-complete `NOT_AFFECTED` proof was obtained, so the row fails closed.
 
 Because the STOP CONDITION permits `READY_FOR_INDEPENDENT_AUDIT` only at zero `AFFECTED`/`UNDER_INVESTIGATION`, this Work Order stops blocked. `PH-M01-WO-002` is **not** started. No disposition here is approved; independent audit and explicit owner approval remain mandatory.
+
+---
+
+## 12. Independent audit + owner approval
+
+Independent audit verdict at exact head `e57706460fdfe144924fa78f6c76d031ca5f0ab6`: **APPROVED AS EVIDENCE + BLOCKED_UNRESOLVED**.
+
+On 2026-10-05 the Project Owner explicitly approved the **20 NOT_AFFECTED dispositions** for the exact artifact:
+
+`polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
+
+Versioned receipt: `.engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md`.
+
+The approval excludes **CVE-2026-102010** and **CVE-2026-95619**. Both remain `UNDER_INVESTIGATION`, so the security-promotion result remains **BLOCKED_UNRESOLVED**. PR #15 must not be promoted and PH-M01-WO-002 must not start until both blockers are FIXED or independently verified and owner-approved as NOT_AFFECTED.
