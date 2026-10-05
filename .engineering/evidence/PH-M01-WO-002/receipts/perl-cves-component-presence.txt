@@ -1,0 +1,6 @@
+=== perl variant in image (perl-base vs perl-full?) ===
+ii  perl-base               5.36.0-7+deb12u3       amd64        minimal Perl system
+=== Archive/Tar.pm present anywhere? (the CVE-2026-42496/42497 vulnerable component) ===
+=== perl bitness (CVE-2026-8376 requires 32-bit builds) ===
+ivsize='8';
+64

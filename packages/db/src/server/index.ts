@@ -63,6 +63,23 @@ export interface TenantDataAccess {
         createdAt: Date;
       }>
     >;
+    /**
+     * Authoritative membership+tenant+user row read for tenant-context
+     * resolution. The caller supplies the authenticated user id and a tenant
+     * SELECTOR; this read is the only authorization input. Returns the
+     * membership/tenant/user status tuple in one join, or null when absent.
+     */
+    readonly resolveMembershipRow: (
+      authenticatedUserId: string,
+      selectedTenantId: string,
+    ) => Promise<{
+      userId: string;
+      tenantId: string;
+      role: TenantRole;
+      status: "invited" | "active" | "suspended";
+      tenantStatus: "active" | "suspended";
+      userStatus: "active" | "suspended";
+    } | null>;
     readonly findById: (
       context: TenantContext,
       membershipId: string,
@@ -329,10 +346,48 @@ export function createTenantDataAccess(
     return membership ?? null;
   }
 
+  async function resolveMembershipRow(
+    authenticatedUserId: string,
+    selectedTenantId: string,
+  ) {
+    if (
+      !UUID_PATTERN.test(authenticatedUserId) ||
+      !UUID_PATTERN.test(selectedTenantId)
+    ) {
+      return null;
+    }
+
+    const [row] = await db
+      .select({
+        userId: tenantMemberships.userId,
+        tenantId: tenantMemberships.tenantId,
+        role: tenantMemberships.role,
+        status: tenantMemberships.status,
+        tenantStatus: tenants.status,
+        userStatus: users.status,
+      })
+      .from(tenantMemberships)
+      .innerJoin(tenants, eq(tenantMemberships.tenantId, tenants.id))
+      .innerJoin(users, eq(tenantMemberships.userId, users.id))
+      .where(
+        and(
+          eq(tenantMemberships.userId, authenticatedUserId),
+          eq(tenantMemberships.tenantId, selectedTenantId),
+        ),
+      )
+      .limit(1);
+
+    return row ?? null;
+  }
+
   return {
     resolveTenantContext,
     tenants: { getCurrent, renameCurrent },
-    memberships: { list: listMemberships, findById: findMembershipById },
+    memberships: {
+      list: listMemberships,
+      findById: findMembershipById,
+      resolveMembershipRow,
+    },
     close: () => pool.end(),
   };
 }

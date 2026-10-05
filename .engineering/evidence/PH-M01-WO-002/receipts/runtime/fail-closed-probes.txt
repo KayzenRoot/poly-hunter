@@ -1,0 +1,16 @@
+=== PH-M01-WO-002 runtime fail-closed probes (no Supabase credentials configured) ===
+date: 2026-10-05T20:36:44Z  stack: polyhunter-local (web/worker/postgres healthy)
+
+1) GET /api/me
+   -> {"authenticated":false,"reason":"provider_not_configured"} (HTTP 200 body, explicit unauthenticated state; no fabricated user)
+
+2) GET /api/auth/login?returnTo=%2F
+   -> HTTP 503 {"error":"identity_provider_unavailable","reason":"provider_not_configured"}
+
+3) POST /api/auth/select-tenant (attacker-supplied tenantId, unauthenticated)
+   -> HTTP 503 {"error":"identity_provider_unavailable","reason":"provider_not_configured"}
+
+4) GET /auth/callback?returnTo=https://evil.example&code=x (open-redirect + forged code)
+   -> HTTP 303 to http://localhost/?auth=failed (stays same-origin; no off-origin redirect; forged code rejected)
+
+5) web http://localhost:3000 -> HTTP 200 (healthy; boots without Supabase credentials)

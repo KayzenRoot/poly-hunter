@@ -1,0 +1,37 @@
+{
+  "workOrder": "PH-M01-WO-002",
+  "artifact": "polyhunter-dev:local@sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
+  "scanTool": "docker scout cves --format sarif (CLI, 2026-10-05)",
+  "policy": "PH-SEC-VEX-POLICY via ADR-0007",
+  "context": "Three error-level findings in the rebuilt dev image are not covered by the WO-007 owner-approved set (20 rows) or the WO-008 owner-approved rows (2). All three target Debian perl source package (installed: perl-base 5.36.0-7+deb12u3, amd64).",
+  "dispositions": [
+    {
+      "cve": "CVE-2026-42496",
+      "severity": "CRITICAL",
+      "vulnerableComponent": "Perl Archive::Tar < 3.08 (symlink extraction escape)",
+      "vexStatus": "NOT_AFFECTED",
+      "justification": "vulnerable_code_not_present",
+      "evidence": "The vulnerable module Archive/Tar.pm is ABSENT image-wide (filesystem search returns zero results). The artifact ships perl-base (minimal Perl system, 61 modules per PH-SEC-WO-007 census); Archive::Tar is part of perl-modules, not perl-base. No consumer can exercise the vulnerable symlink extraction path.",
+      "receipts": ["receipts/perl-cves-component-presence.txt", "receipts/new-perl-cves-advisories.json"]
+    },
+    {
+      "cve": "CVE-2026-42497",
+      "severity": "HIGH",
+      "vulnerableComponent": "Perl Archive::Tar < 3.08 (hardlink extraction escape)",
+      "vexStatus": "NOT_AFFECTED",
+      "justification": "vulnerable_code_not_present",
+      "evidence": "Same component absence as CVE-2026-42496: Archive/Tar.pm absent image-wide; perl-base only.",
+      "receipts": ["receipts/perl-cves-component-presence.txt", "receipts/new-perl-cves-advisories.json"]
+    },
+    {
+      "cve": "CVE-2026-8376",
+      "severity": "CRITICAL",
+      "vulnerableComponent": "Perl interpreter < 5.40.5-RC1 on 32-BIT builds (heap overflow in Perl_study_chunk)",
+      "vexStatus": "NOT_AFFECTED",
+      "justification": "vulnerable_code_not_in_execute_path",
+      "evidence": "The artifact runs Debian amd64 (64-bit): perl -V:ivsize='8', getconf LONG_BIT=64. The advisory is explicitly scoped to 32-bit builds ('heap buffer overflow when compiling regular expressions with a repeated fixed string on 32-bit builds'). Additionally perl is never executed by the PolyHunter runtime (compose commands are npm/next/nodemon only; no application subprocess spawns perl — PH-SEC-WO-007 established zero child_process references).",
+      "receipts": ["receipts/perl-cves-component-presence.txt", "receipts/new-perl-cves-advisories.json"]
+    }
+  ],
+  "executorNote": "PROPOSED only. Independent audit + owner approval required before these rows stop blocking (ADR-0007). The two WO-008 rows (CVE-2026-102010/95619) and the twenty WO-007 rows carry their own prior owner approvals bound to this same digest lineage; the rebuilt digest (4cb8f254...) differs only by the WO-002 dependency additions and code, and re-binding is part of the final audit."
+}
