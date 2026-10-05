@@ -205,3 +205,31 @@ PH-SEC-WO-008/
 - **CVE-2026-95619** — proposed `NOT_AFFECTED / vulnerable_code_cannot_be_controlled_by_adversary`: node path bounded at least 2^27 below the threshold; libvips/libuhdr path reachable and attacker-influenced within the JPEG format, but hard-capped at `icc_size <= 65533` / `sz <= 65519` vs the `2^64 - 3` threshold — arithmetically impossible. Runtime-unreachability appears only as withdrawn/falsified history.
 
 Both rows remain **absolute blockers** for PR #15 until independently audited and explicitly owner-approved for `polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`. PH-M01-WO-002 not started; PR #15 not merged.
+
+## 12. Independent audit + Owner approval
+
+Independent audit was completed at:
+`1deee1e5d4e6984ae61a0883d2fc2fca46d912df`
+
+Review:
+`5418683462`
+
+Final independent verdict:
+`APPROVED AS EVIDENCE + READY_FOR_OWNER_APPROVAL`
+
+The Project Owner then explicitly approved exactly the two PH-SEC-WO-008 NOT_AFFECTED dispositions for:
+
+`polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
+
+bound to audit head:
+
+`1deee1e5d4e6984ae61a0883d2fc2fca46d912df`
+
+Owner approval receipt:
+`.engineering/evidence/PH-SEC-WO-008-OWNER-APPROVAL.md`
+
+Therefore the ADR-0007 approval chain is complete for:
+- `CVE-2026-102010`
+- `CVE-2026-95619`
+
+No waiver, suppression, accepted-risk shortcut or severity downgrade was used.
