@@ -87,5 +87,21 @@
   "productBehaviorMutationAuthorized": false,
   "dockerfileMutationAuthorized": false,
   "dependencyMutationAuthorized": false,
-  "liveTradingAuthorized": false
+  "liveTradingAuthorized": false,
+  "ownerApprovals": [
+    {
+      "id": "OA-001",
+      "date": "2026-10-05",
+      "artifact": "polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "independentAuditHead": "e57706460fdfe144924fa78f6c76d031ca5f0ab6",
+      "receipt": ".engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md",
+      "approvedDisposition": "NOT_AFFECTED",
+      "approvedCount": 20,
+      "excludedBlockingCves": [
+        "CVE-2026-102010",
+        "CVE-2026-95619"
+      ],
+      "result": "20_NOT_AFFECTED_APPROVED_2_UNDER_INVESTIGATION_BLOCKING"
+    }
+  ]
 }
