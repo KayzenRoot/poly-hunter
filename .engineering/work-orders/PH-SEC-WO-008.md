@@ -133,3 +133,23 @@ Any parent/source/artifact/package drift => STOP `BLOCKED_STALE_CONTEXT`.
 - `BLOCKED_STALE_CONTEXT`: any locked source/artifact drift.
 
 Regardless of result, do not start PH-M01-WO-002 and do not merge PR #15.
+
+## COMPLETION / APPROVAL
+
+Independent audit completed at:
+`1deee1e5d4e6984ae61a0883d2fc2fca46d912df`
+
+Independent review:
+`5418683462`
+
+Owner approval completed on 2026-10-05 for the exact artifact:
+`polyhunter-dev:local@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3`
+
+Receipt:
+`.engineering/evidence/PH-SEC-WO-008-OWNER-APPROVAL.md`
+
+Final dispositions:
+- CVE-2026-102010 — NOT_AFFECTED / vulnerable_code_not_present
+- CVE-2026-95619 — NOT_AFFECTED / vulnerable_code_cannot_be_controlled_by_adversary
+
+PH-SEC-WO-008 is complete as evidence. Its results may be preserved into parent PR #15. PH-M01-WO-002 remains prohibited until PR #15 receives its own final review/promotion decision.
