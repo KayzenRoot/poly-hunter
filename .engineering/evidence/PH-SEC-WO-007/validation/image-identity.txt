@@ -1,0 +1,12 @@
+image_ref=polyhunter-dev:local
+image_id=sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
+lock_digest=sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
+digest_match=True
+created=2026-10-04T16:25:30.947932373Z
+repo_digest=polyhunter-dev@sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3
+os_arch=linux/amd64
+config_user=node
+entrypoint=[docker-entrypoint.sh]
+cmd=[node]
+scout_note=locked SARIF produced by docker scout 1.24.0 (see sarif tool driver)
+inspected_at_utc=2026-10-05T12:42:46.6435598Z

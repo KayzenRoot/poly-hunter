@@ -1,0 +1,191 @@
+npm_real_path=/usr/local/lib/node_modules/npm/bin/npm-cli.js
+npm_root=/usr/local/lib/node_modules/npm
+node=/usr/local/bin/node
+npm_version=11.19.0
+node_version=v24.21.0
+
+=== [1] Locate every installed copy of each target package ===
+--- brace-expansion ---
+    5.0.7  /usr/local/lib/node_modules/npm/node_modules/brace-expansion
+    5.0.12  /workspace/node_modules/brace-expansion
+--- undici ---
+    6.27.0  /usr/local/lib/node_modules/npm/node_modules/undici
+--- tar ---
+    7.5.19  /usr/local/lib/node_modules/npm/node_modules/tar
+      /workspace/node_modules/next/dist/compiled/tar
+--- ip-address ---
+    10.2.0  /usr/local/lib/node_modules/npm/node_modules/ip-address
+--- http-cache-semantics ---
+    4.2.0  /usr/local/lib/node_modules/npm/node_modules/http-cache-semantics
+
+=== [2] Exact version + integrity of each located copy (sha256 of package.json) ===
+  --- /usr/local/lib/node_modules/npm/node_modules/brace-expansion
+      name: brace-expansion
+      version: 5.0.7
+f792e76015d954c06e8ac42cfa5664820126b2ecce01c987fe59de65bea57ab4  /usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json
+  --- /workspace/node_modules/brace-expansion
+      name: brace-expansion
+      version: 5.0.12
+8af7dc0916002266f3b01459ef691d9f834d8ecdb0e021263280a50b913d85fa  /workspace/node_modules/brace-expansion/package.json
+  --- /usr/local/lib/node_modules/npm/node_modules/undici
+      name: undici
+      version: 6.27.0
+de85904fa299714ba7ea033d82056c890820e68a39d7212b875b8c35aac13037  /usr/local/lib/node_modules/npm/node_modules/undici/package.json
+  --- /usr/local/lib/node_modules/npm/node_modules/tar
+      name: tar
+      version: 7.5.19
+fcf76ebf77de20fe58d1359debefc072577d0321f530f91100399609568b75de  /usr/local/lib/node_modules/npm/node_modules/tar/package.json
+  --- /workspace/node_modules/next/dist/compiled/tar
+d118552ac665732fb7a1bb0e08dba0ab1d21a0edbc0eb3601a094ef821198f21  /workspace/node_modules/next/dist/compiled/tar/package.json
+  --- /usr/local/lib/node_modules/npm/node_modules/ip-address
+      name: ip-address
+      version: 10.2.0
+efb3d32c0c7996237f78af8fd820e3d58e66fa76593fb329fab6b3ccb260afd6  /usr/local/lib/node_modules/npm/node_modules/ip-address/package.json
+  --- /usr/local/lib/node_modules/npm/node_modules/http-cache-semantics
+      name: http-cache-semantics
+      version: 4.2.0
+bee0609d5ab09a590afe0e1209d3702b0afb0a3c158492f90902a724d889d22b  /usr/local/lib/node_modules/npm/node_modules/http-cache-semantics/package.json
+
+=== [3] brace-expansion: is the vulnerable code present in the shipped copy? ===
+  dir=/usr/local/lib/node_modules/npm/node_modules/brace-expansion
+  --- files ---
+total 12
+-rw-r--r-- 1 root root 1144 Aug 19 23:37 LICENSE
+drwxr-xr-x 4 root root 4096 Sep  7 23:56 dist
+-rw-r--r-- 1 root root 1557 Sep  7 23:20 package.json
+  --- package.json (full) ---
+{
+  "name": "brace-expansion",
+  "description": "Brace expansion as known from sh/bash",
+  "version": "5.0.7",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "preversion": "npm test",
+    "postversion": "npm publish",
+    "prepublishOnly": "git push origin --follow-tags",
+    "prepare": "tshy",
+    "pretest": "npm run prepare",
+    "presnap": "npm run prepare",
+    "test": "tap",
+    "snap": "tap",
+    "format": "prettier --write .",
+    "benchmark": "node benchmark/index.js",
+    "typedoc": "typedoc --tsconfig .tshy/esm.json ./src/*.ts"
+  },
+  "devDependencies": {
+    "@types/brace-expansion": "^1.1.2",
+    "@types/node": "^25.2.1",
+    "mkdirp": "^3.0.1",
+    "prettier": "^3.3.2",
+    "tap": "^21.6.2",
+    "tshy": "^3.0.2",
+    "typedoc": "^0.28.5"
+  },
+  "dependencies": {
+    "balanced-match": "^4.0.2"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "18 || 20 || >=22"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juliangruber/brace-expansion.git"
+  }
+}
+  --- EXPANSION_MAX_DEPTH present (CVE-2026-102278 fix marker)? ---
+    ABSENT
+  --- maxLength / EXPANSION_MAX_LENGTH present (CVE-2026-14257 fix marker)? ---
+  --- push.apply present (CVE-2026-102276 vector 2 marker)? ---
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/commonjs/index.js:62:        p.push.apply(p, postParts);
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/commonjs/index.js:64:    parts.push.apply(parts, p);
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/commonjs/index.js:197:                N.push.apply(N, expand_(n[j], max, false));
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/esm/index.js:58:        p.push.apply(p, postParts);
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/esm/index.js:60:    parts.push.apply(parts, p);
+/usr/local/lib/node_modules/npm/node_modules/brace-expansion/dist/esm/index.js:193:                N.push.apply(N, expand_(n[j], max, false));
+  --- parseCommaParts definition ---
+  --- expand_ recursion sites ---
+  --- sha256 of implementation file(s) ---
+
+=== [4] tar: mapHas / filesFilter present? (CVE-2026-73566) ===
+  dir=/usr/local/lib/node_modules/npm/node_modules/tar
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/commonjs/list.js:62:    const mapHas = (file, r = '') => {
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/commonjs/list.js:69:            ret = m !== undefined ? m : mapHas((0, path_1.dirname)(file), root);
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/commonjs/list.js:76:            (file, entry) => filter(file, entry) && mapHas((0, strip_trailing_slashes_js_1.stripTrailingSlashes)(file))
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/commonjs/list.js:77:            : file => mapHas((0, strip_trailing_slashes_js_1.stripTrailingSlashes)(file));
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/esm/list.js:23:    const mapHas = (file, r = '') => {
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/esm/list.js:30:            ret = m !== undefined ? m : mapHas(dirname(file), root);
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/esm/list.js:37:            (file, entry) => filter(file, entry) && mapHas(stripTrailingSlashes(file))
+/usr/local/lib/node_modules/npm/node_modules/tar/dist/esm/list.js:38:            : file => mapHas(stripTrailingSlashes(file));
+  --- version ---
+    7.5.19
+
+=== [5] undici: WebSocket client present? (CVE-2026-19534) ===
+  dir=/usr/local/lib/node_modules/npm/node_modules/undici
+    version: 6.27.0
+  --- WebSocket implementation files ---
+connection.js
+constants.js
+events.js
+frame.js
+permessage-deflate.js
+receiver.js
+sender.js
+symbols.js
+util.js
+websocket.js
+  --- does npm depend on undici at all? ---
+    npm does not declare undici
+  --- who requires undici inside npm? ---
+/usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/download.js
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/MockClient.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/Connector.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/WebSocket.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/CacheStorage.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/Dispatcher.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/DispatchInterceptor.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/RetryAgent.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/MockPool.md
+/usr/local/lib/node_modules/npm/node_modules/undici/docs/docs/api/ProxyAgent.md
+
+=== [6] ip-address / http-cache-semantics: importers inside npm ===
+--- ip-address ---
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js
+--- http-cache-semantics ---
+/usr/local/lib/node_modules/npm/node_modules/make-fetch-happen/lib/cache/policy.js
+
+=== [7] does npm's bundled tree declare brace-expansion / tar? ===
+89:    "make-fetch-happen": "^15.0.6",
+90:    "minimatch": "^10.2.5",
+104:    "pacote": "^21.5.1",
+113:    "tar": "^7.5.19",
+156:    "make-fetch-happen",
+157:    "minimatch",
+171:    "pacote",
+180:    "tar",

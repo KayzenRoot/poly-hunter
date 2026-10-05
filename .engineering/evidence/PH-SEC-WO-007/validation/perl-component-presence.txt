@@ -1,0 +1,118 @@
+=== [1] perl executable presence ===
+perl_in_PATH=yes path=/usr/bin/perl
+perl_version=5.36.0
+-rwxr-xr-x 2 root root 3804464 Aug 29  2025 /usr/bin/perl
+-rwxr-xr-x 2 root root 3804464 Aug 29  2025 /usr/bin/perl5.36.0
+
+=== [2] perl-base owned files that are perl modules (.pm) ===
+/usr/lib/x86_64-linux-gnu/perl-base/AutoLoader.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Carp.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Carp/Heavy.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Config.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Cwd.pm
+/usr/lib/x86_64-linux-gnu/perl-base/DynaLoader.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Errno.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Exporter.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Exporter/Heavy.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Fcntl.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Basename.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Glob.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Path.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Spec.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Spec/Unix.pm
+/usr/lib/x86_64-linux-gnu/perl-base/File/Temp.pm
+/usr/lib/x86_64-linux-gnu/perl-base/FileHandle.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Getopt/Long.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Hash/Util.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/File.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Handle.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Pipe.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Seekable.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Select.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Socket.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Socket/INET.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Socket/IP.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IO/Socket/UNIX.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IPC/Open2.pm
+/usr/lib/x86_64-linux-gnu/perl-base/IPC/Open3.pm
+/usr/lib/x86_64-linux-gnu/perl-base/List/Util.pm
+/usr/lib/x86_64-linux-gnu/perl-base/POSIX.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Scalar/Util.pm
+/usr/lib/x86_64-linux-gnu/perl-base/SelectSaver.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Socket.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Symbol.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Text/ParseWords.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Text/Tabs.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Text/Wrap.pm
+/usr/lib/x86_64-linux-gnu/perl-base/Tie/Hash.pm
+/usr/lib/x86_64-linux-gnu/perl-base/XSLoader.pm
+/usr/lib/x86_64-linux-gnu/perl-base/attributes.pm
+/usr/lib/x86_64-linux-gnu/perl-base/base.pm
+/usr/lib/x86_64-linux-gnu/perl-base/builtin.pm
+/usr/lib/x86_64-linux-gnu/perl-base/bytes.pm
+/usr/lib/x86_64-linux-gnu/perl-base/constant.pm
+/usr/lib/x86_64-linux-gnu/perl-base/feature.pm
+/usr/lib/x86_64-linux-gnu/perl-base/fields.pm
+/usr/lib/x86_64-linux-gnu/perl-base/integer.pm
+/usr/lib/x86_64-linux-gnu/perl-base/lib.pm
+/usr/lib/x86_64-linux-gnu/perl-base/locale.pm
+/usr/lib/x86_64-linux-gnu/perl-base/overload.pm
+/usr/lib/x86_64-linux-gnu/perl-base/overloading.pm
+/usr/lib/x86_64-linux-gnu/perl-base/parent.pm
+/usr/lib/x86_64-linux-gnu/perl-base/re.pm
+/usr/lib/x86_64-linux-gnu/perl-base/strict.pm
+/usr/lib/x86_64-linux-gnu/perl-base/utf8.pm
+/usr/lib/x86_64-linux-gnu/perl-base/vars.pm
+/usr/lib/x86_64-linux-gnu/perl-base/warnings.pm
+/usr/lib/x86_64-linux-gnu/perl-base/warnings/register.pm
+--- perl-base module count ---
+61
+
+=== [3] vulnerable-module presence (IO::Compress / IO::Uncompress / Pod::Text / Socket) ===
+ABSENT   IO/Compress.pm
+ABSENT   IO/Compress/Zip.pm
+ABSENT   IO/Uncompress/Unzip.pm
+ABSENT   Pod/Text.pm
+PRESENT  Socket.pm -> /usr/lib/x86_64-linux-gnu/perl-base/Socket.pm
+ABSENT   Podlators.pm
+ABSENT   ExtUtils/MakeMaker.pm
+ABSENT   CPAN.pm
+ABSENT   Data/Dumper.pm
+ABSENT   Storable.pm
+ABSENT   Encode.pm
+ABSENT   JSON.pm
+ABSENT   Term/ReadLine.pm
+
+=== [4] total .pm module files anywhere in image ===
+164
+
+=== [5] PERL5LIB / vendor dirs ===
+/usr/share/perl5
+--- perl -V:@INC (if perl runnable) ---
+/etc/perl
+/usr/local/lib/x86_64-linux-gnu/perl/5.36.0
+/usr/local/share/perl/5.36.0
+/usr/lib/x86_64-linux-gnu/perl5/5.36
+/usr/share/perl5
+/usr/lib/x86_64-linux-gnu/perl-base
+/usr/lib/x86_64-linux-gnu/perl/5.36
+/usr/share/perl/5.36
+/usr/local/lib/site_perl
+
+=== [6] what pulls perl-base in (reverse dependency) ===
+perl-base 
+
+=== [7] core perl C symbols relevant to CVE-2026-57432 / CVE-2026-13221 ===
+perl_binary=/usr/bin/perl
+-rwxr-xr-x 2 root root 3804464 Aug 29  2025 /usr/bin/perl
+--- static vs dynamic ---
+	linux-vdso.so.1 (0x00007c93c4d1e000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007c93c488c000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007c93c46aa000)
+	libcrypt.so.1 => /lib/x86_64-linux-gnu/libcrypt.so.1 (0x00007c93c466e000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007c93c4d20000)
+--- perl binary buildinfo (perl -V) subset ---
+version='5.36.0';
+archname='x86_64-linux-gnu-thread-multi';
+ccflags='-D_REENTRANT -D_GNU_SOURCE -DDEBIAN -fwrapv -fno-strict-aliasing -pipe -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64';

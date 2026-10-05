@@ -4,3 +4,9 @@
 /PH-SEC-WO-001-VEX.json text eol=crlf
 /PH-SEC-WO-001-VEX.md text eol=crlf
 /PH-SEC-WO-001-EVIDENCE.md text eol=crlf
+# PH-SEC-WO-007 evidence bundle is normalised to LF so that the SHA-256 index in
+# SHA256SUMS.txt verifies against the committed bytes on any platform.
+/PH-SEC-WO-007/** text eol=lf
+/PH-SEC-WO-007-VEX.json text eol=lf
+/PH-SEC-WO-007-VEX.md text eol=lf
+/PH-SEC-WO-007-EVIDENCE.md text eol=lf

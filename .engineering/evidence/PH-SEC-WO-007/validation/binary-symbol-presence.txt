@@ -1,0 +1,63 @@
+=== [A] reverse dependencies: who requires these packages ===
+--- packages depending on perl-base ---
+--- packages depending on libpcre2-8-0 ---
+libselinux1 libc6 (>= 2.34), libpcre2-8-0 (>= 10.22)
+--- packages depending on libstdc++6 ---
+apt adduser, gpgv | gpgv2 | gpgv1, libapt-pkg6.0 (>= 2.6.1), debian-archive-keyring, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libgnutls30 (>= 3.7.5), libseccomp2 (>= 2.4.2), libstdc++6 (>= 11), libsystemd0
+libapt-pkg6.0 libbz2-1.0, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libgcrypt20 (>= 1.10.0), liblz4-1 (>= 0.0~r127), liblzma5 (>= 5.1.1alpha+20120614), libstdc++6 (>= 11), libsystemd0 (>= 221), libudev1 (>= 183), libxxhash0 (>= 0.7.1), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.2.2.3)
+--- packages depending on zlib1g ---
+gpgv libbz2-1.0, libc6 (>= 2.34), libgcrypt20 (>= 1.10.0), libgpg-error0 (>= 1.42), zlib1g (>= 1:1.1.4)
+libapt-pkg6.0 libbz2-1.0, libc6 (>= 2.34), libgcc-s1 (>= 3.0), libgcrypt20 (>= 1.10.0), liblz4-1 (>= 0.0~r127), liblzma5 (>= 5.1.1alpha+20120614), libstdc++6 (>= 11), libsystemd0 (>= 221), libudev1 (>= 183), libxxhash0 (>= 0.7.1), libzstd1 (>= 1.5.2), zlib1g (>= 1:1.2.2.3)
+
+=== [B] CVE-2026-12087 Socket.xs :: pack_ip_mreq_source XS symbol ===
+--- Socket shared objects in image ---
+/usr/lib/x86_64-linux-gnu/perl-base/auto/Socket/Socket.so
+no Socket.so
+--- is pack_ip_mreq_source callable? (autoload probe) ---
+NOT_CALLABLE: Bad arg length Socket::pack_ip_mreq, length is 9, should be 4 at -e line 1.
+
+--- Socket version ---
+Socket_VERSION=2.033
+
+=== [C] CVE-2026-103111 pcre2 ===
+--- libpcre2 files ---
+/usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.11.2
+/usr/lib/x86_64-linux-gnu/libpcre2-8.so.0
+lrwxrwxrwx 1 root root     20 Sep  2 09:54 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0 -> libpcre2-8.so.0.11.2
+-rw-r--r-- 1 root root 629384 Sep  2 09:54 /usr/lib/x86_64-linux-gnu/libpcre2-8.so.0.11.2
+pcre2_lib=/usr/lib/x86_64-linux-gnu/libpcre2-8.so.0
+--- pcre2 JIT + version symbols present? ---
+nm unavailable
+--- pcre2_config / PCRE2 JIT availability via perl? ---
+perl Socket ok
+--- does anything in image link pcre2? ---
+LINKED: /usr/bin/grep
+LINKED: /usr/bin/sed
+no-pcre2: /usr/bin/perl
+--- pcre2 package version string ---
+
+=== [D] CVE-2026-85091 zlib :: gz_vacate presence ===
+zlib_lib=/usr/lib/x86_64-linux-gnu/libz.so.1
+lrwxrwxrwx 1 root root 14 Nov  5  2022 /usr/lib/x86_64-linux-gnu/libz.so.1 -> libz.so.1.2.13
+--- zlib version ---
+--- gz_vacate / gzprintf / gzvprintf / gzwrite symbols ---
+nm unavailable
+
+=== [E] CVE-2026-102010 / CVE-2026-95619 libstdc++ ===
+libstdcxx=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
+lrwxrwxrwx 1 root root 19 Apr  7  2025 /usr/lib/x86_64-linux-gnu/libstdc++.so.6 -> libstdc++.so.6.0.30
+--- erase_if / aligned new symbols ---
+nm unavailable
+--- does the NODE binary link system libstdc++? ---
+node_bin=/usr/local/bin/node
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000076f7aed31000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000076f7aec31000)
+--- full ldd of node ---
+	linux-vdso.so.1 (0x00007b5d77d10000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007b5d77d01000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007b5d77ae7000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007b5d77a07000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007b5d779e7000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007b5d779e2000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007b5d777fe000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007b5d77d12000)

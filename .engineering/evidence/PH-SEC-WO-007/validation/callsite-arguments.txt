@@ -1,0 +1,275 @@
+=== [A] CVE-2026-73566 tar: every call site with 20 lines of context ===
+----- /usr/local/lib/node_modules/npm/lib/utils/tar.js : line 57 -----
+      }
+      log.notice('', `total files: ${tarball.entryCount}`)
+      log.notice('', '')
+    }
+    
+    const getContents = async (manifest, tarball) => {
+      const files = []
+      const bundled = new Set()
+      let totalEntries = 0
+      let totalEntrySize = 0
+    
+      // reads contents of tarball
+      const stream = tar.t({
+        onentry (entry) {
+          totalEntries++
+          totalEntrySize += entry.size
+          const p = entry.path
+          if (p.startsWith('package/node_modules/') && p !== 'package/node_modules/') {
+            const name = p.match(/^package\/node_modules\/((?:@[^/]+\/)?[^/]+)/)[1]
+            bundled.add(name)
+          }
+          files.push({
+            path: entry.path.replace(/^package\//, ''),
+            size: entry.size,
+            mode: entry.mode,
+          })
+        },
+----- /usr/local/lib/node_modules/npm/lib/commands/stage/download.js : line 48 -----
+        const safeName = pkgContents.name.replace('@', '').replace('/', '-')
+        const filename = `${safeName}-${pkgContents.version}-${stageId}.tgz`
+        const dest = resolve(process.cwd(), filename)
+    
+        await writeFile(dest, data)
+        if (!json) {
+          output.standard(filename, { [META]: true, redact: false })
+        }
+      }
+    
+      async #readManifestFromTarball (tarballData) {
+        let manifestJson
+        const stream = tar.t({
+          onentry (entry) {
+            if (entry.path === 'package/package.json') {
+              const chunks = []
+              entry.on('data', c => chunks.push(c))
+              entry.on('end', () => {
+                manifestJson = JSON.parse(Buffer.concat(chunks).toString())
+              })
+            } else {
+              entry.resume()
+            }
+          },
+        })
+        // node-tar uses Minipass which processes synchronously on .end()
+        stream.end(tarballData)
+----- /usr/local/lib/node_modules/npm/node_modules/libnpmdiff/lib/untar.js : line 11 -----
+    const tar = require('tar')
+    const { minimatch } = require('minimatch')
+    
+    const normalizeMatch = str => str
+      .replace(/\\+/g, '/')
+      .replace(/^\.\/|^\./, '')
+    
+    // files and refs are mutating params
+    // filterFiles, item, prefix and opts are read-only options
+    const untar = ({ files, refs }, { filterFiles, item, prefix }) => {
+      tar.list({
+        filter: (path, entry) => {
+          const fileMatch = () =>
+            (!filterFiles.length ||
+              filterFiles.some(f => {
+                const pattern = normalizeMatch(f)
+                return minimatch(
+                  normalizeMatch(path),
+                  `{package/,}${pattern}`,
+                  { matchBase: pattern.startsWith('*') }
+                )
+              }))
+    
+          // expands usage of simple path filters, e.g: lib or src/
+          const folderMatch = () =>
+----- /usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/install.js : line 211 -----
+    
+        // download the tarball and extract!
+        // Omitted on Windows if only new node.lib is required
+    
+        // there can be file errors from tar if parallel installs
+        // are happening (not uncommon with multiple native modules) so
+        // extract the tarball to a temp directory first and then copy over
+        const tarExtractDir = await fs.mkdtemp(path.join(os.tmpdir(), 'node-gyp-tmp-'))
+    
+        try {
+          if (shouldDownloadTarball) {
+            if (tarPath) {
+              await tar.extract({
+                file: tarPath,
+                strip: 1,
+                filter: isValid,
+                onwarn,
+                cwd: tarExtractDir
+              })
+            } else {
+              try {
+                const res = await download(gyp, release.tarballUrl)
+    
+                if (res.status !== 200) {
+                  throw new Error(`${res.status} response downloading ${release.tarballUrl}`)
+                }
+    
+----- /usr/local/lib/node_modules/npm/node_modules/node-gyp/lib/install.js : line 234 -----
+                if (res.status !== 200) {
+                  throw new Error(`${res.status} response downloading ${release.tarballUrl}`)
+                }
+    
+                await pipeline(
+                  res.body,
+                  // content checksum
+                  new ShaSum((_, checksum) => {
+                    const filename = path.basename(release.tarballUrl).trim()
+                    contentShasums[filename] = checksum
+                    log.verbose('content checksum', filename, checksum)
+                  }),
+                  tar.extract({
+                    strip: 1,
+                    cwd: tarExtractDir,
+                    filter: isValid,
+                    onwarn
+                  })
+                )
+              } catch (err) {
+              // something went wrong downloading the tarball?
+                if (err.code === 'ENOTFOUND') {
+                  throw new Error('This is most likely not a problem with node-gyp or the package itself and\n' +
+                  'is related to network connectivity. In most cases you are behind a proxy or have bad \n' +
+                  'network settings.')
+                }
+                throw err
+----- /usr/local/lib/node_modules/npm/node_modules/pacote/lib/fetcher.js : line 385 -----
+          str.pipe(writer)
+        }))
+      }
+    
+      // don't use this.#mkdir because we don't want to rimraf anything
+      async tarballFile (dest) {
+        const dir = dirname(dest)
+        await mkdir(dir, { recursive: true })
+        return this.#toFile(dest)
+      }
+    
+      #extract (dest, tarball) {
+        const extractor = tar.x(this.#tarxOptions({ cwd: dest }))
+        const p = new Promise((resolve, reject) => {
+          extractor.on('end', () => {
+            resolve({
+              resolved: this.resolved,
+              integrity: this.integrity && String(this.integrity),
+              from: this.from,
+            })
+          })
+    
+          extractor.on('error', er => {
+            log.warn('tar', er.message)
+            log.silly('tar', er)
+            reject(er)
+          })
+
+=== [B] CVE-2026-73566: does ANY call site pass a files/member array? ===
+--- tar.x / tar.t / tar.extract / tar.list sites that also mention 'files' in the option object ---
+--- node-tar API: when is filesFilter installed? ---
+39:exports.list = exports.filesFilter = void 0;
+59:const filesFilter = (opt, files) => {
+79:exports.filesFilter = filesFilter;
+116:const listFile = (opt, _files) => {
+139:exports.list = (0, make_command_js_1.makeCommand)(listFileSync, listFile, opt => new parse_js_1.Parser(opt), opt => new parse_js_1.Parser(opt), (opt, files) => {
+141:        (0, exports.filesFilter)(opt, files);
+--- node-tar extract: when is filesFilter installed? ---
+86:        (0, list_js_1.filesFilter)(opt, files);
+--- node-tar list: when is filesFilter installed? ---
+39:exports.list = exports.filesFilter = void 0;
+59:const filesFilter = (opt, files) => {
+60:    const map = new Map(files.map(f => [(0, strip_trailing_slashes_js_1.stripTrailingSlashes)(f), true]));
+79:exports.filesFilter = filesFilter;
+116:const listFile = (opt, _files) => {
+139:exports.list = (0, make_command_js_1.makeCommand)(listFileSync, listFile, opt => new parse_js_1.Parser(opt), opt => new parse_js_1.Parser(opt), (opt, files) => {
+140:    if (files?.length)
+141:        (0, exports.filesFilter)(opt, files);
+
+=== [C] CVE-2026-69192 ip-address: what does socks actually call? ===
+  socks_dir=/usr/local/lib/node_modules/npm/node_modules/socks  exists=yes
+    socks_version: 2.8.9
+--- every ip-address API reference in socks ---
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:21:const ip_address_1 = require("ip-address");
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:195:            remoteHost = ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm();
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:688:                    host: ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm(),
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:779:                    host: ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm(),
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:7:const ip_address_1 = require("ip-address");
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:132:    const address = new ip_address_1.Address4(ip);
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:150:        const address = new ip_address_1.Address4(ip);
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:155:        const address = new ip_address_1.Address6(ip);
+--- every classifier call (isPrivate/isLoopback/isInSubnet/isValid/correctForm/...) ---
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:195:            remoteHost = ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm();
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:688:                    host: ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm(),
+/usr/local/lib/node_modules/npm/node_modules/socks/build/client/socksclient.js:779:                    host: ip_address_1.Address6.fromByteArray(Array.from(buff.readBuffer(16))).canonicalForm(),
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:24:    if (!isValidSocksRemoteHost(options.destination)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:28:    if (!isValidSocksProxy(options.proxy)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:34:    if (options.timeout && !isValidTimeoutValue(options.timeout)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:54:    if (!isValidSocksRemoteHost(options.destination)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:65:        if (!isValidSocksProxy(proxy)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:72:    if (options.timeout && !isValidTimeoutValue(options.timeout)) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:104:function isValidSocksRemoteHost(remoteHost) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:116:function isValidSocksProxy(proxy) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:128:function isValidTimeoutValue(value) {
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:132:    const address = new ip_address_1.Address4(ip);
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:150:        const address = new ip_address_1.Address4(ip);
+/usr/local/lib/node_modules/npm/node_modules/socks/build/common/helpers.js:155:        const address = new ip_address_1.Address6(ip);
+
+=== [D] CVE-2026-93748 http-cache-semantics: is npm's cache shared/multi-user? ===
+--- make-fetch-happen cache index: cachePath default + ownership ---
+  const _needsRevalidation = entry.policy.needsRevalidation(request)
+  if (options.cache === 'force-cache' ||
+      options.cache === 'only-if-cached' ||
+      !_needsRevalidation) {
+    return entry.respond(request.method, options, _needsRevalidation ? 'stale' : 'hit')
+  }
+
+  // if we got here, the cache entry is stale so revalidate it
+  return entry.revalidate(request, options)
+}
+
+cacheFetch.invalidate = async (request, options) => {
+  if (!options.cachePath) {
+    return
+  }
+
+  return CacheEntry.invalidate(request, options)
+}
+
+module.exports = cacheFetch
+--- npm cache location in image ---
+  npm_config_cache default: /home/node/.npm
+--- who owns it / is it per-user ---
+drwxr-xr-x 1 node node 4096 Oct  4 16:23 /home/node/.npm
+--- does npm run any HTTP proxy/cache server? ---
+
+=== [E] brace-expansion: pattern SOURCES reaching npm minimatch ===
+--- get-workspaces.js (workspaces field = local repo manifest) ---
+2:const mapWorkspaces = require('@npmcli/map-workspaces')
+3:const { minimatch } = require('minimatch')
+6:// minimatch wants forward slashes only for glob patterns
+9:// Returns an Map of paths to workspaces indexed by workspace name
+14:  const workspaces = await mapWorkspaces({ cwd: path, pkg })
+21:    res = new Map([...res, ...workspaces])
+25:    for (const [workspaceName, workspacePath] of workspaces.entries()) {
+33:        || minimatch(relativePath, `${globify(relativeFilter)}/*`)
+34:        || minimatch(relativePath, `${globify(filterArg)}/*`)
+48:    throw new Error(`No workspaces found${msg}`)
+--- ignore-walk (used by npm pack; files field = local repo manifest) ---
+6:const Minimatch = require('minimatch').Minimatch
+168:        this.walker(entry, { isSymbolicLink, exact: file || this.filterEntry(entry + '/') }, then)
+197:  walkerOpt (entry, opts) {
+208:  walker (entry, opts, then) {
+209:    new Walker(this.walkerOpt(entry, opts)).on('done', then).start()
+292:  walker (entry, opts, then) {
+293:    new WalkerSync(this.walkerOpt(entry, opts)).start()
+298:const walk = (opts, callback) => {
+305:const walkSync = opts => new WalkerSync(opts).start().result
+307:module.exports = walk
+308:walk.sync = walkSync
+309:walk.Walker = Walker
+310:walk.WalkerSync = WalkerSync
+--- arborist query-selector-all (workspace selection) ---
+7:const { minimatch } = require('minimatch')
+296:      return minimatch(

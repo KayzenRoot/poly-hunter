@@ -1,0 +1,1609 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-007",
+  "title": "Exact-image VEX disposition for the remaining 22 dev-image HIGH/CRITICAL findings",
+  "branch": "security/ph-m01-dev-nongo-vex",
+  "parentHead": "7d5be250255bd20cb0b20d6713f6f41c52c73b47",
+  "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
+  "parentPr": 15,
+  "pr": 33,
+  "image": {
+    "reference": "polyhunter-dev:local",
+    "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "base": "node:24-bookworm-slim",
+    "configUser": "node (uid 1000)"
+  },
+  "scanner": {
+    "tool": "docker scout 1.24.0",
+    "sarif": ".engineering/evidence/PH-SEC-WO-005/validation/CR-01/polyhunter-dev-cr01.sarif"
+  },
+  "vexInputs": {
+    "cisaKev": {
+      "catalogVersion": "2026.10.04",
+      "dateReleased": "2026-10-04T18:52:56.0635Z",
+      "targetsInKev": 0
+    },
+    "firstEpss": {
+      "date": "2026-10-04",
+      "rows": 22,
+      "maxScore": "0.006630000"
+    }
+  },
+  "summary": {
+    "totalFindings": 22,
+    "high": 20,
+    "critical": 2,
+    "byStatus": {
+      "NOT_AFFECTED": 21,
+      "UNDER_INVESTIGATION": 1
+    },
+    "blockingCves": [
+      "CVE-2026-95619"
+    ],
+    "reviewFormat": "BLOCKED_UNRESOLVED"
+  },
+  "approvalState": {
+    "executor": "Codex - proposing only",
+    "independentAuditor": "PENDING",
+    "ownerApproval": "PENDING",
+    "note": "No disposition in this document is approved. The executor cannot self-approve (PH-SEC-VEX-POLICY / ADR-0007)."
+  },
+  "findings": [
+    {
+      "cve": "CVE-2026-85091",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 8.3,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/zlib@1:1.2.13.dfsg-1",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "zlib",
+      "detectedVersion": "1:1.2.13.dfsg-1",
+      "installedBinaryPackage": "zlib1g 1:1.2.13.dfsg-1",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed upstream (Debian bookworm: zlib <unfixed>)",
+        "affectedCondition": "heap buffer overflow in gz_vacate() when gzwrite() is used on a non-blocking device with a stale external buffer; triggered via gzprintf() or gzvprintf() after a write stall"
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "artifact self-reports its version in-band: 'inflate 1.2.13 Copyright 1995-2022 Mark Adler', 'deflate 1.2.13', bare '1.2.13'; highest exported version tag is ZLIB_1.2.12. The advisory states the non-blocking gz* support and gz_vacate() were INTRODUCED upstream in zlib 1.3.1.2. The shipped library predates that by a full minor series, so the vulnerable code cannot exist in this artifact.",
+      "reachabilityEvidence": "zlib is present only as a transitive dependency of libapt-pkg6.0, libbz2-1.0, libgcrypt20, libgpg-error0 and liblzma5 (dpkg Depends). None of these is on the web/worker runtime path. No gzprintf/gzvprintf non-blocking write occurs at runtime.",
+      "attackerControlledPrerequisite": "an attacker must cause a process in the image to call gzprintf()/gzvprintf() on a non-blocking file descriptor after a write stall",
+      "privilegePrerequisite": "none beyond process reach; no CAP_SYS_ADMIN needed",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.005920000",
+        "percentile": "0.464260000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "none for this artifact; would need a zlib >= 1.3.1.2 in the base image",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/image-identity.txt",
+        "validation/symbol-presence-authoritative.json",
+        "validation/image-dpkg-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-48962",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.3,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl (IO::Compress)",
+      "detectedVersion": "5.36.0-7+deb12u3 (perl-base)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in IO-Compress 2.220 / libio-compress-perl 2.220-1",
+        "affectedCondition": "_parseOutputGlob() wraps the caller-supplied output glob in double quotes and _getFiles() runs it through eval STRING, so a double quote in the glob executes arbitrary Perl"
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "module probe over the whole image returns ABSENT for IO/Compress.pm, IO/Compress/Zip.pm and IO/Uncompress/Unzip.pm. perl-base ships exactly 61 .pm files (AutoLoader, Carp, Config, Cwd, DynaLoader, Errno, Exporter, Fcntl, File::*, Getopt::Long, Hash::Util, IO, IO::File/Handle/Pipe/Socket, IPC::Open2/3, List::Util, POSIX, Scalar::Util, SelectSaver, Socket, Symbol, Text::ParseWords, Text::Tabs, Text::Wrap, Tie::Hash, XSLoader, attributes, base, builtin, bytes, constant, feature, fields, integer, lib, locale, overload, overloading, parent, re, strict, utf8, vars, warnings) and the full-image .pm census is 164 files, none of which is IO::Compress.",
+      "reachabilityEvidence": "the vulnerable module is not installed, therefore no code path can reach it regardless of perl invocation",
+      "attackerControlledPrerequisite": "a perl script must call IO::Compress with an attacker-controlled output glob",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.004950000",
+        "percentile": "0.403600000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "none for this artifact",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/image-dpkg-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-48959",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl (IO::Uncompress::Unzip)",
+      "detectedVersion": "5.36.0-7+deb12u3 (perl-base)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in IO-Compress 2.220 / libio-compress-perl 2.220-1",
+        "affectedCondition": "fastForward() compares the digit count of the offset against the chunk size instead of the offset, shrinking reads to 1-19 bytes per iteration; extracting a named entry from an attacker-supplied zip scales CPU to the 4 GiB non-Zip64 cap"
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "module probe returns ABSENT for IO/Uncompress/Unzip.pm and for Podlators.pm; not part of perl-base's 61 modules nor of the 164-file full-image .pm census",
+      "reachabilityEvidence": "vulnerable module is not installed; unreachable in any phase",
+      "attackerControlledPrerequisite": "a perl script must extract a named entry from an attacker-supplied zip",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.006090000",
+        "percentile": "0.473370000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "none for this artifact",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/image-dpkg-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-82560",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl (Pod::Text)",
+      "detectedVersion": "5.36.0-7+deb12u3 (perl-base)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in Podlators 6.1.1 (podlators-perl removed in Debian)",
+        "affectedCondition": "Pod::Text wrap() subtracts the accumulated =over indent from the output width; when that reaches zero the substitution matches the empty string and the loop never consumes input while padding grows, exhausting CPU and memory"
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "module probe returns ABSENT for Pod/Text.pm and for Podlators.pm; not present in perl-base nor anywhere else in the image",
+      "reachabilityEvidence": "vulnerable module is not installed; unreachable in any phase",
+      "attackerControlledPrerequisite": "a perl script must format an attacker-supplied POD document",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.006300000",
+        "percentile": "0.483640000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "none for this artifact",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/image-dpkg-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-12087",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 9.1,
+        "band": "CRITICAL",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl (Socket 2.033)",
+      "detectedVersion": "Socket 2.033 (perl-base)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (libsocket-perl postponed; fixed upstream in perl 5.43.11)",
+        "affectedCondition": "Socket.xs pack_ip_mreq_source() length-checks the wrong argument, so a source shorter than 4 bytes is copied into the 4-byte imr_sourceaddr field with a fixed-size copy, reading up to 3 bytes of adjacent heap"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "HONEST FINDING: the vulnerable function IS present and callable. Socket.pm (sha256 39ac19481f0873c5bb198d2f6b53c802c73a04844aff0b86b8aef5add9945f20) declares $VERSION='2.033' and lists pack_ip_mreq_source in its export list at line 111; a runtime probe `perl -MSocket -e 'keys %Socket::'` returns pack_ip_mreq_source. Socket 2.033 < 2.041, so the artifact is inside the affected range. Note that a .dynsym miss would have been meaningless here: XS subs are registered at boot via newXS and are not exported ELF symbols.",
+      "reachabilityEvidence": "Socket::pack_ip_mreq_source has NO caller in the image. The only perl code present is Debian's own maintenance set - /usr/share/perl5/Debconf/** (~100 modules) and /usr/share/debconf/fix_db.pl - none of which references Socket or IP multicast packing. No PolyHunter code is perl, and the compose runtime never executes perl at all (web = next dev, worker = node). Debian's own assessment matches: 'only reachable when a script passes attacker-controlled source to pack_ip_mreq_source()'.",
+      "attackerControlledPrerequisite": "a perl script must call Socket::pack_ip_mreq_source with an attacker-controlled source string shorter than 4 bytes",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003740000",
+        "percentile": "0.290540000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "would become reachable if any perl script in the image began calling pack_ip_mreq_source with untrusted input; the 9.1 CRITICAL scanner severity therefore deserves explicit auditor confirmation",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium-high",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/perl-util-pcre-reachability.txt",
+        "validation/symbol-presence-authoritative.json"
+      ]
+    },
+    {
+      "cve": "CVE-2026-57432",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 8.4,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl core (pack/unpack)",
+      "detectedVersion": "perl 5.36.0 (/usr/bin/perl, 3804464 bytes)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm; fixed upstream in perl 5.43.11",
+        "affectedCondition": "S_measure_struct sums item size x repeat count into a signed SSize_t with no overflow check; a large repeat count in a pack/unpack template wraps the total negative and the @, X and x position codes then pass their signed length guard, reading past the buffer"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "core pack/unpack is compiled into /usr/bin/perl, which is present and runnable (perl 5.36.0, x86_64-linux-gnu-thread-multi). Presence of the specific static function CANNOT be asserted from the artifact: the perl binary is stripped and builds internal Perl_* entry points with hidden visibility, so they are absent from .dynsym regardless. This row is therefore decided on reachability, not on symbols.",
+      "reachabilityEvidence": "requires a pack/unpack TEMPLATE derived from untrusted input. No perl program in the image derives a template from external input: the only perl code is Debian's Debconf set and fix_db.pl. Perl is never executed by the compose runtime. Additionally the trigger needs a repeat count near 2^63 to wrap a 64-bit SSize_t.",
+      "attackerControlledPrerequisite": "a perl script must build a pack/unpack template from attacker-controlled input",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.002110000",
+        "percentile": "0.102850000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "core perl C code is present and only unreachability protects it; a future base image shipping a perl workflow, or an operator running untrusted perl inside the container, would invalidate this row",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/perl-util-pcre-reachability.txt",
+        "validation/symbol-presence-authoritative.json"
+      ]
+    },
+    {
+      "cve": "CVE-2026-13221",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 9.1,
+        "band": "CRITICAL",
+        "scannerPackage": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/perl@5.36.0-7+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "perl core (regex trie optimiser)",
+      "detectedVersion": "perl 5.36.0 (/usr/bin/perl, 3804464 bytes)",
+      "installedBinaryPackage": "perl-base 5.36.0-7+deb12u3",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm; fixed upstream in perl 5.43.10 (introduced 5.37.10)",
+        "affectedCondition": "Perl_study_chunk stores the delta between the first branch and the shared tail of a trie in a 16-bit field; an alternation of more than 65535 fixed-string branches overflows it and silently truncates the match decision table, producing both false positive and false negative matches"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "perl 5.36.0 is within the introduced range (introduced in 5.37.10 per the advisory's own 'Introduced with' link, so 5.36.0 predates it and the specific trie-delta code path as described may not even exist in this build). Presence is not disprovable from the artifact: perl is stripped and internal symbols are hidden. Decided on reachability.",
+      "reachabilityEvidence": "requires compiling a regular expression containing an alternation of more than 65535 fixed-string branches. No such pattern exists in the image; the only perl code is Debian's Debconf set, and perl is never executed by the compose runtime.",
+      "attackerControlledPrerequisite": "a perl script must compile an attacker-controlled regex with >65535 fixed-string alternation branches",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.004320000",
+        "percentile": "0.353140000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "advisory states the flaw was introduced in 5.37.10 while this image ships 5.36.0; the auditor should confirm whether Perl_study_chunk's 16-bit trie delta exists at all in 5.36.0, which would make this row vulnerable_code_not_present instead",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/perl-component-presence.txt",
+        "validation/perl-util-pcre-reachability.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-76642",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 8.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/util-linux@2.38.1-5+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "util-linux (mount)",
+      "detectedVersion": "util-linux 2.38.1-5+deb12u3 + util-linux-extra 2.38.1-5+deb12u3",
+      "installedBinaryPackage": "util-linux, util-linux-extra",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (<no-dsa>, minor); fixed upstream 2.42.3-1",
+        "affectedCondition": "mount(8) runs post-mount hooks without checking the mount helper exit status, so X-mount.idmap or X-mount.owner hooks execute privileged operations on a filesystem after the helper failed, cloning suid bits or changing inode permissions"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "/usr/bin/mount and /usr/bin/umount are present. dpkg -L util-linux confirms the binaries ship. The trigger INPUT, however, is positively absent (see reachability).",
+      "reachabilityEvidence": "requires (a) an /etc/fstab entry carrying an X-mount.* option and (b) CAP_SYS_ADMIN to mount at all. Both are disproved: /etc/fstab in this image is the stock base file whose entire content is the single comment line '# UNCONFIGURED FSTAB FOR BASE SYSTEM' (sha256 a6b093c9916c6c54e5d634d3689f1a0132e14cce0b8e50ff445da8e85acfbd17) - zero mount entries, verified by grep for '^[^#]*(X-mount\\.|x-mount\\.)' returning nothing; and no /sbin/mount.* helper is shipped. CapEff/CapPrm/CapInh are all 0x0 in the container (CapBnd 0xa80425fb is only the inherited bound and does not grant use), so mount(2) cannot be invoked. mount/nsenter are never spawned by the web or worker runtime.",
+      "attackerControlledPrerequisite": "a local unprivileged user must be able to influence a privileged mount(8) run against an attacker-authored fstab entry; no such entry exists",
+      "privilegePrerequisite": "CAP_SYS_ADMIN (not effective: 0x0) and root",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.002160000",
+        "percentile": "0.108770000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "if an operator bind-mounts a host /etc/fstab with X-mount.* options into the container and grants CAP_SYS_ADMIN, this row must be re-opened",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/util-pcre-prerequisites.txt",
+        "validation/perl-util-pcre-reachability.txt",
+        "validation/image-dpkg-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-78409",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.0,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/util-linux@2.38.1-5+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "util-linux (mount X-mount.subdir)",
+      "detectedVersion": "util-linux 2.38.1-5+deb12u3",
+      "installedBinaryPackage": "util-linux, util-linux-extra",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (<no-dsa>, minor); fixed upstream 2.42.3-1",
+        "affectedCondition": "the X-mount.subdir detached-tree fast path passes the configured subdirectory to open_tree() with AT_SYMLINK_NOFOLLOW, which neither blocks intermediate symlink traversal nor keeps resolution inside the new mount, letting an unprivileged user attach a host path at the intended mountpoint. The fast path requires Linux 6.15 or later."
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "/usr/bin/mount present; trigger input absent as below",
+      "reachabilityEvidence": "same two disproved prerequisites as CVE-2026-76642: zero fstab entries (stock unconfigured file) so no X-mount.subdir entry can exist, and no effective CAP_SYS_ADMIN. Additionally the vulnerable detached-tree fast path is documented as requiring a Linux 6.15+ host kernel, which is a host property not controlled by this image.",
+      "attackerControlledPrerequisite": "an fstab-authorized X-mount.subdir entry must exist and be usable by an unprivileged user",
+      "privilegePrerequisite": "CAP_SYS_ADMIN (not effective)",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.001540000",
+        "percentile": "0.039110000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "host kernel version and any future privileged mount path would re-open this row",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/util-pcre-prerequisites.txt",
+        "validation/perl-util-pcre-reachability.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-78410",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.8,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/util-linux@2.38.1-5+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "util-linux (restricted bind mount)",
+      "detectedVersion": "util-linux 2.38.1-5+deb12u3",
+      "installedBinaryPackage": "util-linux, util-linux-extra",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (<no-dsa>, minor); fixed upstream 2.42.3-1",
+        "affectedCondition": "a restricted bind mount takes its source path from fstab but does not pin that source before the privileged mount, so replacing the authorized source or a writable ancestor redirects SUID mount(8); if the entry also sets X-mount.owner/group/mode, root then chowns or chmods the redirected inode"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "/usr/bin/mount present; trigger input absent as below",
+      "reachabilityEvidence": "requires an fstab entry for a restricted bind mount plus CAP_SYS_ADMIN. Both disproved: zero fstab entries and CapEff 0x0. Not spawned by the runtime.",
+      "attackerControlledPrerequisite": "attacker must be able to replace an fstab-authorized bind-mount source or a writable ancestor",
+      "privilegePrerequisite": "CAP_SYS_ADMIN (not effective) and root",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.001560000",
+        "percentile": "0.041030000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "any future privileged mount workflow in the dev image re-opens this row",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/util-pcre-prerequisites.txt",
+        "validation/perl-util-pcre-reachability.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-78408",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.9,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/util-linux@2.38.1-5+deb12u3",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "util-linux (nsenter --join-cgroup)",
+      "detectedVersion": "util-linux 2.38.1-5+deb12u3",
+      "installedBinaryPackage": "util-linux, util-linux-extra",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (<no-dsa>, minor); fixed upstream 2.42.4 (commit 286dd3ff41526b582ef48830de239dffbaa61f90)",
+        "affectedCondition": "nsenter --join-cgroup opens the target cgroup.procs as root and keeps that descriptor open across later namespace/credential changes and execve(), so a program run in an attacker-controlled target inherits root's ability to move host processes between cgroups and terminate unrelated root processes"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "/usr/bin/nsenter present and shipped by util-linux",
+      "reachabilityEvidence": "the flag requires a PRIVILEGED OPERATOR to run nsenter --join-cgroup against a target. No npm command, compose service or application path invokes nsenter: grep over apps/**, packages/** and scripts/** returns no child_process/exec/spawn reference at all, so the runtime cannot reach it; and CapEff 0x0 means even a manual invocation could not obtain the required privilege. The container's cgroup namespace is not the host cgroup.",
+      "attackerControlledPrerequisite": "a privileged operator must run nsenter --join-cgroup against an attacker-controlled cgroup",
+      "privilegePrerequisite": "root plus CAP_SYS_ADMIN (neither available)",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.001860000",
+        "percentile": "0.074390000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "would re-open if privileged/hostPID/host cgroup access were granted to this container",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/util-pcre-prerequisites.txt",
+        "validation/perl-util-pcre-reachability.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-102010",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.0,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/gcc-12@12.2.0-14+deb12u1",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "libstdc++6 (std::erase_if)",
+      "detectedVersion": "libstdc++.so.6.0.30 (12.2.0-14+deb12u1)",
+      "installedBinaryPackage": "libstdc++6 12.2.0-14+deb12u1 (gcc-12 source); gcc-12-base, libgcc-s1",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed (gcc-12 <unfixed>); fix commit aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6, bugzilla 127656",
+        "affectedCondition": "erase_if() on a binary heap priority_queue reallocates storage but fails to update its internal entry pointer, a use-after-free reachable when an application calls erase_if on such a queue"
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "std::erase_if is a HEADER-ONLY C++ template, inlined into the consuming translation unit, so it would only appear in libstdc++'s symbol table if libstdc++ explicitly instantiated it. Authoritative ELF scan of libstdc++.so.6.0.30 finds ZERO symbols containing 'erase_if' while 3012 _ZNSt* template instantiations ARE exported - so template symbols are visible to this method and the absence is real, not a parser artefact. Separately, the image ships no C++ compiler (only gcc-12-base, libgcc-s1, libstdc++6), so no translation unit in this image can instantiate the template, and the runtime is Node.js/JavaScript.",
+      "reachabilityEvidence": "no process in the runtime invokes std::erase_if on a std::priority_queue; node and nodemon are the only executables in the compose runtime and the application is TypeScript",
+      "attackerControlledPrerequisite": "a C++ caller must invoke std::erase_if on a binary heap priority_queue",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.002500000",
+        "percentile": "0.147850000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "the 3012-template positive control makes the symbol absence strong, but a header could still exist without an instantiated symbol; the no-compiler and JavaScript-only runtime facts are the decisive part",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium-high",
+      "receipts": [
+        "validation/symbol-presence-authoritative.json",
+        "validation/image-dpkg-inventory.txt",
+        "validation/image-identity.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-95619",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.7,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/gcc-12@12.2.0-14+deb12u1",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "libstdc++6 (aligned operator new)",
+      "detectedVersion": "libstdc++.so.6.0.30 (12.2.0-14+deb12u1)",
+      "installedBinaryPackage": "libstdc++6 12.2.0-14+deb12u1 (gcc-12 source)",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed (gcc-12 <unfixed>); fix commit 59d235ffa5a69231eb42e5290d52dc8c90d28b7a, bugzilla 2537811",
+        "affectedCondition": "integer overflow when processing large inputs to the aligned operator new in the C++ library, leading to an undersized allocation and potential memory corruption or instability"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "CONFIRMED PRESENT. Authoritative ELF scan of libstdc++.so.6.0.30 shows the C++ aligned allocation operators exported: _ZnwmSt11align_val_t, _ZnamSt11align_val_t, _ZdlPvSt11align_val_t and _ZdaPvSt11align_val_t. The exact mangling align_val_t was confirmed empirically after an earlier query using align_val produced a FALSE NEGATIVE. node links this very library: ldd /usr/local/bin/node resolves libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6. So the vulnerable code is mapped into the running process.",
+      "reachabilityEvidence": "NOT ESTABLISHED. Reaching the overflow requires a caller to pass an allocation size to operator new(size_t, align_val_t) that is large enough to overflow the internal size computation. The caller set across V8 and libstdc++ is large and CANNOT be enumerated from inside this container, and this analysis did not read the upstream commit to establish the exact size threshold. The application surface is TypeScript and cannot call a C++ operator directly, but that is an argument, not proof.",
+      "attackerControlledPrerequisite": "an input path that causes V8 or libstdc++ to request an over-aligned allocation whose size is attacker-derived and large enough to overflow - unproven either way",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003630000",
+        "percentile": "0.278800000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "justification": "not applicable - UNDER_INVESTIGATION carries no justification. ADR-0007 makes a HIGH/CRITICAL default to UNDER_INVESTIGATION, and lists 'evidence is incomplete' as an explicit hard blocker. The vulnerable symbol is present in a library loaded by the running Node process and the caller set is not enumerable here, so a NOT_AFFECTED claim would rest on assumption rather than evidence. Fail closed.",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "HIGH. This is a memory-corruption class defect whose symbol is confirmed present in a library the runtime links. It is the single row blocking this Work Order.",
+      "expiryRevalidationTrigger": "automatically UNDER_INVESTIGATION. Requires either an upstream Debian fix for gcc-12/libstdc++6, or an independent auditor determination - supported by the upstream commit analysis and a caller audit of V8 allocation paths - that operator new(size_t, align_val_t) is unreachable with an attacker-derived size.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "not-assessed-blocking",
+      "receipts": [
+        "validation/symbol-presence-authoritative.json",
+        "validation/image-identity.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-103111",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.6,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/pcre2@10.42-1%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/pcre2@10.42-1+deb12u1",
+        "reportedFixedVersion": "10.42-1+deb12u2",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "pcre2",
+      "detectedVersion": "libpcre2-8.so.0.11.2 (10.42-1+deb12u1)",
+      "installedBinaryPackage": "libpcre2-8-0 10.42-1+deb12u1 (pcre2 source)",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed in Debian bookworm (fixed in trixie 10.48-3.1 / upstream 10.49, commit 2b4038298072684b0fae29b15bedfb1a75bda46d)",
+        "affectedCondition": "out-of-bounds write with arbitrary data when an attacker-controlled regular expression is compiled and certain pcre2 JIT API usage follows; requires PCRE2 before 10.49"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "CONFIRMED PRESENT. libpcre2-8.so.0.11.2 exports the 8-bit JIT API: pcre2_jit_compile_8, pcre2_jit_match_8, pcre2_jit_stack_create_8, pcre2_jit_stack_assign_8, pcre2_jit_stack_free_8. GNU grep 3.8 in this image IMPORTS pcre2_jit_compile_8 and its -P/--perl-regexp option is functional (verified positively by matching and by the negative control exiting 1 on non-match), so the JIT path is genuinely reachable from a user-supplied pattern. An earlier query using the unsuffixed pcre2_jit_compile produced a FALSE NEGATIVE and has been corrected. The library reaches grep, sed, find, tar, install, mount, nsenter, id and ~60 other coreutils transitively through libselinux1.",
+      "reachabilityEvidence": "the advisory requires an ATTACKER-CONTROLLED REGEX to reach a pcre2 JIT consumer. No such path exists in the defined runtime: web and worker never spawn a subprocess - grep over apps/** and packages/** finds no child_process, exec, execSync, spawn or spawnSync reference - and compose runs only `npm run dev` and nodemon. The container also has no inbound path other than 127.0.0.1:3000, so an external attacker cannot supply a pattern to these utilities.",
+      "attackerControlledPrerequisite": "an attacker must control a regex string passed to grep -P (or another pcre2-JIT consumer) inside the container; the web/worker runtime provides no such channel",
+      "privilegePrerequisite": "none to run grep -P; requires only that someone executes it in the container",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.002140000",
+        "percentile": "0.106830000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "WEAKEST NOT_AFFECTED ROW - auditor attention requested. The vulnerable JIT code is present and functional via grep -P. Only the absence of an application subprocess channel keeps it unreachable. A developer manually running grep -P over untrusted or network-fetched content inside this container would reach it. This is a shell-access precondition, not a remote one.",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/libpcre2-jit-importers.json",
+        "validation/grep-pcre2-support.txt",
+        "validation/util-pcre-prerequisites.txt",
+        "validation/perl-util-pcre-reachability.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-14257",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/brace-expansion@5.0.7",
+        "scannerPackageShort": "pkg:npm/brace-expansion@5.0.7",
+        "reportedFixedVersion": "5.0.8",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm brace-expansion",
+      "detectedVersion": "5.0.7 (npm bundled) | 5.0.12 (application workspace tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 5.0.8 (EXPANSION_MAX_LENGTH, default 4_000_000)",
+        "affectedCondition": "expand() bounds result COUNT via max but not result LENGTH; chaining brace groups keeps the count under max while each result grows, so memory scales with max x N and a ~7.5 KB input causes an uncatchable fatal V8 out-of-memory that terminates the process"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "CONFIRMED PRESENT in npm's copy: /usr/local/lib/node_modules/npm/node_modules/brace-expansion is 5.0.7 and contains N.push.apply(N, expand_(n[j], max, false)) at dist/commonjs/index.js:197 and dist/esm/index.js:193; no EXPANSION_MAX_LENGTH or maxLength token exists, so the 5.0.8 fix is absent. The APPLICATION tree is a DIFFERENT and PATCHED copy: /workspace/node_modules/brace-expansion is 5.0.12, above every fix version for all four brace-expansion CVEs, and no application code imports minimatch, glob or brace-expansion.",
+      "reachabilityEvidence": "the only importer of brace-expansion inside npm is minimatch 10.2.5, which calls expand() through braceExpand() - and brace expansion applies to the PATTERN, not to the subject. Every minimatch pattern source in npm 11.19.0 was enumerated and each originates locally, not from the registry: @npmcli/map-workspaces and lib/utils/get-workspaces.js read the workspaces field of the LOCAL package.json; ignore-walk reads the local files field during npm pack; @npmcli/arborist query-selector-all.js matches an operator supplied CLI query path; release-age-exclude.js matches operator npm config (min-release-age-exclude); @tufjs/models matches DelegatedRole paths from signature-verified TUF metadata. Registry-supplied values (package names, target paths) appear only as subjects. minimatch's MAX_PATTERN_LENGTH of 65,536 does NOT block the documented payloads, so the control that matters is pattern provenance, and it is local. At runtime compose executes only `npm run dev`, which performs no dependency resolution and no glob over untrusted input.",
+      "attackerControlledPrerequisite": "an attacker must control a GLOB PATTERN STRING that reaches expand(); no untrusted pattern source exists in the defined workflow",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.006430000",
+        "percentile": "0.490020000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "npm's pattern surface is large; the enumeration is by grep over the installed 11.19.0 tree and was not a full control-flow audit of npm. Running `npm install <new pkg>` inside the container would widen the pattern surface. The application tree is already patched at 5.0.12.",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/brace-pattern-sources.txt",
+        "validation/callsite-arguments.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-69152",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/brace-expansion@5.0.7",
+        "scannerPackageShort": "pkg:npm/brace-expansion@5.0.7",
+        "reportedFixedVersion": "5.0.9",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm brace-expansion",
+      "detectedVersion": "5.0.7 (npm bundled) | 5.0.12 (application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 5.0.9 (bounds the values array and expandSequence against maxLength)",
+        "affectedCondition": "the 5.0.8 maxLength mitigation is incomplete: comma alternatives are concatenated into `values` with no cumulative bound, so A alternatives reach A x maxLength and a ~25 KB input causes an uncatchable OOM; separately expandSequence ignores maxLength, so a ~400 KB padded input blocks the event loop for over two minutes"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: the same 5.0.7 implementation carrying values.push.apply(values, expand_(...)) with no running total, at dist/commonjs/index.js:197; no cumulative length accounting exists in the file",
+      "reachabilityEvidence": "identical to CVE-2026-14257 - brace expansion runs on the pattern, every npm pattern source is local/trusted, and the runtime performs no dependency resolution",
+      "attackerControlledPrerequisite": "an attacker must control a glob pattern reaching expand()",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.006470000",
+        "percentile": "0.491890000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "same enumeration caveat as CVE-2026-14257",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/brace-pattern-sources.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-102276",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/brace-expansion@5.0.7",
+        "scannerPackageShort": "pkg:npm/brace-expansion@5.0.7",
+        "reportedFixedVersion": "5.0.10",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm brace-expansion",
+      "detectedVersion": "5.0.7 (npm bundled) | 5.0.12 (application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 5.0.10 (parseCommaParts rewritten as a loop; element-wise append)",
+        "affectedCondition": "parseCommaParts() recurses once per brace group and spreads whole arrays with push.apply, so either ~29 KB of grouped input or ~249 KB of comma input exhausts the native stack; both crash during PARSING so max and maxLength never apply"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: p.push.apply(p, postParts) and parts.push.apply(parts, p) at dist/commonjs/index.js:62,64 and dist/esm/index.js:58,60 - exactly the two vectors the advisory describes; no iterative rewrite is present",
+      "reachabilityEvidence": "identical to CVE-2026-14257 - minimatch's 65,536-byte MAX_PATTERN_LENGTH is above both crash thresholds, so the only barrier is pattern provenance, which is local",
+      "attackerControlledPrerequisite": "an attacker must control a glob pattern reaching expand()",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003500000",
+        "percentile": "0.263800000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "same enumeration caveat as CVE-2026-14257",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/brace-pattern-sources.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-102278",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/brace-expansion@5.0.7",
+        "scannerPackageShort": "pkg:npm/brace-expansion@5.0.7",
+        "reportedFixedVersion": "5.0.11",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm brace-expansion",
+      "detectedVersion": "5.0.7 (npm bundled) | 5.0.12 (application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 5.0.11 (maxDepth / EXPANSION_MAX_DEPTH threaded through expand_)",
+        "affectedCondition": "expand_() recurses once per level of brace NESTING; a single-set payload of ~6.25 KB (3,125 levels) or a comma-member payload of ~15.6 KB (3,907 levels) exhausts the native stack, and neither max nor maxLength applies"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT and directly confirmed: grep for EXPANSION_MAX_DEPTH across the package returns ABSENT, so the depth bound that constitutes the fix does not exist in 5.0.7",
+      "reachabilityEvidence": "identical to CVE-2026-14257. This is the cheapest payload of the four (~6.25 KB), far below minimatch's 65,536-byte cap, so pattern provenance is again the only barrier",
+      "attackerControlledPrerequisite": "an attacker must control a glob pattern reaching expand()",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003500000",
+        "percentile": "0.263790000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "same enumeration caveat as CVE-2026-14257",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/brace-pattern-sources.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-19534",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/undici@6.27.0",
+        "scannerPackageShort": "pkg:npm/undici@6.27.0",
+        "reportedFixedVersion": "6.28.1",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm undici",
+      "detectedVersion": "6.27.0 (npm bundled only; absent from the application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 6.28.1 / 7.29.1 / 8.10.2; no workaround",
+        "affectedCondition": "the undici WebSocket client throws an uncaught TypeError in a queueMicrotask callback during the opening handshake when the server's 101 response carries a Sec-WebSocket-Protocol header the client never requested, terminating the Node process; remote unauthenticated DoS for any application that opens a WebSocket to an attacker-controlled or compromised server"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: undici 6.27.0 ships a full WebSocket client at lib/web/websocket/ (websocket.js, connection.js, receiver.js, sender.js, frame.js, permessage-deflate.js). 6.27.0 is within the affected range >= 6.7.0, < 6.28.1.",
+      "reachabilityEvidence": "the vulnerable API is never invoked. The ONLY undici importer anywhere in npm is node_modules/node-gyp/lib/download.js, and it imports exactly { Agent, EnvHttpProxyAgent, RetryAgent, fetch } - HTTP fetching only. A grep for 'WebSocket' across the whole npm tree, excluding undici's own implementation and docs, returns ZERO hits. npm never opens a WebSocket, so neither the attacker-controlled-server condition nor the plaintext ws:// MITM condition can arise.",
+      "attackerControlledPrerequisite": "an attacker must control a WebSocket server (or the path to one) that npm connects to; npm initiates no WebSocket connection",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003940000",
+        "percentile": "0.312410000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "would re-open if npm or node-gyp adopted undici's WebSocket client; the application tree does not contain undici at all",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-73566",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.5,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/tar@7.5.19",
+        "scannerPackageShort": "pkg:npm/tar@7.5.19",
+        "reportedFixedVersion": "7.5.21",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm tar (node-tar)",
+      "detectedVersion": "7.5.19 (npm bundled); Next.js also ships its own compiled tar under apps/web/.next/compiled/tar",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 7.5.21; 7.5.19 is within the affected range <= 7.5.20",
+        "affectedCondition": "the internal mapHas helper recurses once per path segment with no cap, and filesFilter is installed whenever a consumer passes a member-selection list; a crafted GNU-L long-path header of tens of thousands of segments overflows the stack through a filter invoked outside the only try/catch, terminating the process on async/streaming consumers"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: dist/commonjs/list.js:62 defines `const mapHas = (file, r = '') => {` and line 69 recurses via mapHas(path.dirname(file), root) with no segment cap; dist/esm/list.js:23,30 mirrors it. filesFilter is exported at list.js:79.",
+      "reachabilityEvidence": "the advisory is explicit that mapHas is reachable ONLY when a member-selection list is supplied. Every tar call site in npm 11.19.0 was enumerated and inspected: pacote/lib/fetcher.js:385 tar.x(#tarxOptions({cwd})) - full extraction; node-gyp/lib/install.js:211 and :234 tar.extract({file, strip:1, filter: isValid, onwarn, cwd}) - uses a boolean filter, not a member list; libnpmdiff/lib/untar.js:11 tar.list({filter: ...}) - again filter only; npm/lib/utils/tar.js:57 and npm/lib/commands/stage/download.js:48 tar.t({onentry}) - no filter and no list. A grep for a `files:` option adjacent to any tar call site returns NOTHING. node-tar itself installs the vulnerable filter only under a guard - list.js:140-141 `if (files?.length) filesFilter(opt, files)` and extract.js:86 - and no caller ever makes `files` a non-empty array, so mapHas is never reached.",
+      "attackerControlledPrerequisite": "an attacker must supply a crafted archive AND the victim must call tar.t/tar.x with a member-selection list; npm never does",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.005310000",
+        "percentile": "0.428740000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "npm is upgraded frequently and a future release could adopt member-selection; the application also carries a compiled tar under .next that was not separately dispositioned here",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/callsite-arguments.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-69192",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.7,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/ip-address@10.2.0",
+        "scannerPackageShort": "pkg:npm/ip-address@10.2.0",
+        "reportedFixedVersion": "10.3.1",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm ip-address",
+      "detectedVersion": "10.2.0 (npm bundled only; absent from the application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree (via socks 2.8.9)",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "fixed in 10.3.1; 10.2.0 is within the affected range <= 10.3.0",
+        "affectedCondition": "Address4 accepts an octet with a leading zero and decodes it as decimal while inet_aton/getaddrinfo and the WHATWG URL parser decode it as octal, so an application that builds a network trust-boundary decision on isPrivate()/isLoopback()/isInSubnet() classifies an internal target as external and permits the request - an SSRF filter bypass"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: ip-address 10.2.0 is installed and consumed by socks 2.8.9 at build/common/helpers.js:7 and build/client/socksclient.js:21. The defect is in Address4.parse, which is exercised.",
+      "reachabilityEvidence": "the DOCUMENTED security impact requires a trust-boundary decision built on the classifier API. An exhaustive grep of the socks consumer shows it calls ONLY the constructors and formatters - new Address4(ip) at helpers.js:132 and :150, new Address6(ip) at helpers.js:155, and Address6.fromByteArray(...).canonicalForm() at socksclient.js:195, :688, :779 - for validating and routing proxy and destination hosts. ZERO calls to isPrivate, isLoopback, isLinkLocal, isCGNAT, isInSubnet, isHostInSubnet, Address4.isValid or correctForm exist in the consumer. With no classifier-based allow/deny decision anywhere in npm, the SSRF-filter-bypass outcome cannot materialise; a mis-decode here would at most be a correctness/connection-routing bug, which the advisory explicitly classifies as the non-security direction.",
+      "attackerControlledPrerequisite": "an attacker must cause a decision to be made on Address4 classifier output; npm makes no such decision",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.006630000",
+        "percentile": "0.499340000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "the parse defect IS reachable and socks does call Address4, so this row turns on the absence of a classifier-based decision rather than on absence of execution. If npm or a future dependency ever used ip-address as an SSRF guard, this row must be re-opened immediately. Flagged for explicit auditor confirmation.",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "medium",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/callsite-arguments.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-93748",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 8.7,
+        "band": "HIGH",
+        "scannerPackage": "pkg:npm/http-cache-semantics@4.2.0",
+        "scannerPackageShort": "pkg:npm/http-cache-semantics@4.2.0",
+        "reportedFixedVersion": "not fixed",
+        "receipt": "preflight/preflight-reconciliation.json",
+        "sarifSha256": "see SHA256SUMS.txt (locked at parentHead, blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9)"
+      },
+      "component": "npm http-cache-semantics",
+      "detectedVersion": "4.2.0 (npm bundled only; absent from the application tree)",
+      "installedBinaryPackage": "npm 11.19.0 bundled dependency tree (via make-fetch-happen ^15.0.6)",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/**"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed at scan time (fixed_version 'not fixed'); 4.2.0 is within the affected range <= 4.2.0",
+        "affectedCondition": "security-zeroed cache entries are not properly validated when a client max-stale directive is processed, letting an unauthenticated attacker retrieve another user's Set-Cookie session credentials from shared-cache entries that were deliberately zeroed"
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "PRESENT: http-cache-semantics 4.2.0 is installed and imported by make-fetch-happen/lib/cache/policy.js, which is npm's HTTP cache policy implementation",
+      "reachabilityEvidence": "the attack requires BOTH a shared multi-user cache and a client that emits a max-stale request directive. Neither holds. npm's cache is a single-user local disk cache at /home/node/.npm owned by node (uid 1000), inside a container that runs one user and publishes only 127.0.0.1:3000 - there is no second cache consumer to leak to. And npm never emits max-stale: a grep for 'max-stale' across the entire npm tree returns no hit outside the library's own implementation and docs. npm also runs no HTTP cache server - no createServer in npm/lib. With no client max-stale and no shared cache, the credential-recovery path does not exist.",
+      "attackerControlledPrerequisite": "an attacker must issue a request carrying a large max-stale value against a shared cache holding another user's zeroed entries; npm is not such a cache and does not send max-stale",
+      "privilegePrerequisite": "none",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.005310000",
+        "percentile": "0.428930000",
+        "date": "2026-10-04",
+        "note": "prioritisation only"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007"
+      },
+      "residualRisk": "highest-scoring npm row at 8.7; the shared-cache premise would need revisiting if npm were ever run as a transitive caching proxy for multiple users",
+      "expiryRevalidationTrigger": "Expires at the earliest of 7 days from disposition, a new image digest, a new scanner result changing component/version, a new vendor/upstream advisory, a KEV status change, a material architecture/exposure change, or evidence becoming stale. Expired disposition returns to UNDER_INVESTIGATION automatically.",
+      "independentAuditor": "PENDING - ChatGPT/planning auditor",
+      "ownerApproval": "PENDING - Project Owner",
+      "dispositionTimestamp": "2026-10-05T12:42:46Z",
+      "confidence": "high",
+      "receipts": [
+        "validation/npm-bundled-inventory.txt",
+        "validation/npm-importer-behaviour.txt",
+        "validation/callsite-arguments.txt"
+      ]
+    }
+  ]
+}

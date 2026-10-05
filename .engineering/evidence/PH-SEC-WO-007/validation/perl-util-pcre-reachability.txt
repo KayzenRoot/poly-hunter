@@ -1,0 +1,236 @@
+=== [1] Are there ANY perl scripts / perl invocations in the image? ===
+--- files with perl shebang ---
+PERL-SCRIPT: /usr/share/perl5/Debconf/Format.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Base.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Dialog/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Web/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Noninteractive/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Editor/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Teletype/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Password.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Select.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Note.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Boolean.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Progress.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Error.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/String.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Multiselect.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element/Gnome/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Priority.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Template.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Encoding.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Config.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Gettext.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Log.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Client/ConfModule.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Debug.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Directory.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Cache.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Backup.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Pipe.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/PackageDir.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/LDAP.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/DirTree.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Stack.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/Copy.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/DbDriver/File.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Template/Transient.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/TmpFile.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Format/822.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Path.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/ConfModule.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Question.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Web.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/ScreenSize.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Noninteractive.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Gnome.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Editor.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Passthrough.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Dialog.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Text.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Readline.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/FrontEnd/Teletype.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Element.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Db.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/Iterator.pm
+PERL-SCRIPT: /usr/share/perl5/Debconf/AutoSelect.pm
+PERL-SCRIPT: /usr/share/perl5/Debian/DebConf/Client/ConfModule.pm
+PERL-SCRIPT: /usr/share/debconf/fix_db.pl
+PERL-SCRIPT: /usr/lib/x86_64-linux-gnu/perl-base/Getopt/Long.pm
+--- dpkg files owned by any perl-ish package ---
+perl-base
+--- perl-related dpkg packages installed ---
+perl-base 5.36.0-7+deb12u3 install ok installed
+
+=== [2] Socket.pm : is pack_ip_mreq_source defined, and where does it come from? ===
+socket_pm_sha256:
+39ac19481f0873c5bb198d2f6b53c802c73a04844aff0b86b8aef5add9945f20  /usr/lib/x86_64-linux-gnu/perl-base/Socket.pm
+--- grep for mreq symbols in Socket.pm ---
+6:our $VERSION = '2.033';
+111:	pack_ip_mreq unpack_ip_mreq pack_ip_mreq_source unpack_ip_mreq_source
+197:XSLoader::load(__PACKAGE__, $VERSION);
+--- XS bootstrap section ---
+13:require Exporter;
+14:require XSLoader;
+197:XSLoader::load(__PACKAGE__, $VERSION);
+207:    require Scalar::Util;
+
+=== [3] Socket XS .so: does it carry pack_ip_mreq_source at all? ===
+d9db357c0d0e3f085184e876a848ceea57d5251f44c0a85638946b8a2c1d1a35  /usr/lib/x86_64-linux-gnu/perl-base/auto/Socket/Socket.so
+--- printable strings mentioning mreq ---
+  (strings unavailable)
+
+=== [4] Benign probe: what does Socket actually export to perl? ===
+IP_ADD_SOURCE_MEMBERSHIP
+IP_DROP_SOURCE_MEMBERSHIP
+pack_ip_mreq
+pack_ip_mreq_source
+pack_ipv6_mreq
+unpack_ip_mreq
+unpack_ip_mreq_source
+unpack_ipv6_mreq
+--- Socket version + full sub list count ---
+Socket::VERSION=2.033
+subs=324
+
+=== [5] CVE-2026-76642 / 78408 / 78409 / 78410 util-linux: mount(8) + nsenter reachability ===
+--- is /etc/fstab present and writable-by-nonroot relevant? ---
+-rw-r--r-- 1 root root 37 Sep 18 00:00 /etc/fstab
+--- mount binary + nsenter binary presence ---
+  PRESENT /usr/bin/mount
+  PRESENT /bin/mount
+  PRESENT /usr/bin/umount
+  PRESENT /usr/bin/nsenter
+  PRESENT /usr/bin/findmnt
+--- does the image ship findmnt/mount helpers at all? ---
+/bin/findmnt
+/usr/bin/nsenter
+--- can mount(8) be invoked unprivileged here? (benign: no fstab, no CAP_SYS_ADMIN) ---
+uid=1000(node) gid=1000(node) groups=1000(node)
+--- capabilities of this probe process ---
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+
+=== [6] CVE-2026-103111 pcre2: which binaries link it, and do they use JIT? ===
+--- every ELF in the image that links libpcre2 ---
+  LINKS-PCRE2: /usr/bin/lslocks
+  LINKS-PCRE2: /usr/bin/passwd
+  LINKS-PCRE2: /usr/bin/chage
+  LINKS-PCRE2: /usr/bin/install
+  LINKS-PCRE2: /usr/bin/findmnt
+  LINKS-PCRE2: /usr/bin/umount
+  LINKS-PCRE2: /usr/bin/chcon
+  LINKS-PCRE2: /usr/bin/cp
+  LINKS-PCRE2: /usr/bin/mkdir
+  LINKS-PCRE2: /usr/bin/lsblk
+  LINKS-PCRE2: /usr/bin/lsns
+  LINKS-PCRE2: /usr/bin/chfn
+  LINKS-PCRE2: /usr/bin/vdir
+  LINKS-PCRE2: /usr/bin/gpasswd
+  LINKS-PCRE2: /usr/bin/grep
+  LINKS-PCRE2: /usr/bin/ls
+  LINKS-PCRE2: /usr/bin/sed
+  LINKS-PCRE2: /usr/bin/tar
+  LINKS-PCRE2: /usr/bin/mountpoint
+  LINKS-PCRE2: /usr/bin/dpkg-statoverride
+  LINKS-PCRE2: /usr/bin/id
+  LINKS-PCRE2: /usr/bin/mknod
+  LINKS-PCRE2: /usr/bin/find
+  LINKS-PCRE2: /usr/bin/runcon
+  LINKS-PCRE2: /usr/bin/mv
+  LINKS-PCRE2: /usr/bin/lslogins
+  LINKS-PCRE2: /usr/bin/dpkg
+  LINKS-PCRE2: /usr/bin/mkfifo
+  LINKS-PCRE2: /usr/bin/mount
+  LINKS-PCRE2: /usr/bin/dir
+  LINKS-PCRE2: /usr/bin/chsh
+  LINKS-PCRE2: /usr/bin/stat
+  LINKS-PCRE2: /usr/bin/nsenter
+  LINKS-PCRE2: /usr/sbin/pwconv
+  LINKS-PCRE2: /usr/sbin/fstrim
+  LINKS-PCRE2: /usr/sbin/sulogin
+  LINKS-PCRE2: /usr/sbin/mkswap
+  LINKS-PCRE2: /usr/sbin/pwck
+  LINKS-PCRE2: /usr/sbin/chpasswd
+  LINKS-PCRE2: /usr/sbin/newusers
+  LINKS-PCRE2: /usr/sbin/grpck
+  LINKS-PCRE2: /usr/sbin/groupadd
+  LINKS-PCRE2: /usr/sbin/groupmod
+  LINKS-PCRE2: /usr/sbin/groupdel
+  LINKS-PCRE2: /usr/sbin/unix_update
+  LINKS-PCRE2: /usr/sbin/update-passwd
+  LINKS-PCRE2: /usr/sbin/pwunconv
+  LINKS-PCRE2: /usr/sbin/usermod
+  LINKS-PCRE2: /usr/sbin/chgpasswd
+  LINKS-PCRE2: /usr/sbin/fsck
+  LINKS-PCRE2: /usr/sbin/useradd
+  LINKS-PCRE2: /usr/sbin/vipw
+  LINKS-PCRE2: /usr/sbin/groupmems
+  LINKS-PCRE2: /usr/sbin/cppw
+  LINKS-PCRE2: /usr/sbin/swapon
+  LINKS-PCRE2: /usr/sbin/swapoff
+  LINKS-PCRE2: /usr/sbin/userdel
+  LINKS-PCRE2: /usr/sbin/grpconv
+  LINKS-PCRE2: /usr/sbin/unix_chkpwd
+  LINKS-PCRE2: /usr/sbin/grpunconv
+--- does grep offer PCRE2 (-P) in this build? ---
+grep (GNU grep) 3.8
+Copyright (C) 2022 Free Software Foundation, Inc.
+  grep -P NOT supported
+--- grep PCRE2 library actually used ---
+	libpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x0000780e01eac000)
+
+=== [7] Does the dev runtime actually execute perl/util-linux/pcre2? ===
+--- node/npm presence and identity ---
+/usr/local/bin/node
+v24.21.0
+/usr/local/bin/npm
+11.19.0
+--- is perl referenced by npm lifecycle config in this image? ---
+  npm_installed=yes
