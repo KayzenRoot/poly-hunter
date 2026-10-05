@@ -22,6 +22,27 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@web/identity/app-origin": fileURLToPath(
+        new URL("./apps/web/src/identity/app-origin.ts", import.meta.url),
+      ),
+      "@web/identity/csrf-guard": fileURLToPath(
+        new URL("./apps/web/src/identity/csrf-guard.ts", import.meta.url),
+      ),
+      "@web/handlers/select-tenant": fileURLToPath(
+        new URL(
+          "./apps/web/app/api/auth/select-tenant/handler.ts",
+          import.meta.url,
+        ),
+      ),
+      "@web/handlers/logout": fileURLToPath(
+        new URL("./apps/web/app/api/auth/logout/handler.ts", import.meta.url),
+      ),
+      "@web/identity": fileURLToPath(
+        new URL("./apps/web/src/identity", import.meta.url),
+      ),
+      "@/identity": fileURLToPath(
+        new URL("./apps/web/src/identity", import.meta.url),
+      ),
     },
   },
   test: {

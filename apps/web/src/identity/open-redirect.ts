@@ -2,10 +2,19 @@
  * Open-redirect guard for auth flows (login/callback). Only same-origin
  * relative paths are allowed; absolute URLs, protocol-relative URLs and
  * encoded slash/backslash escapes collapse to "/".
+ *
+ * This module is deliberately independent of the configured app origin: it only
+ * classifies a candidate as "same-origin relative path or not". Turning the
+ * accepted relative path into an absolute URL is the job of `appUrlFor`.
  */
 
 /**
- * Open-redirect guard: only same-origin relative paths are allowed. Absolute
+ * Sentinel base used ONLY to resolve a relative candidate during validation.
+ * `.invalid` is reserved by RFC 2606 and can never be a real deployment target.
+ */
+const VALIDATION_SENTINEL = "https://relative-path-validation.invalid";
+
+/** Open-redirect guard: only same-origin relative paths are allowed. Absolute
  * URLs, protocol-relative URLs and encoded escapes are rejected to "/".
  */
 export function sanitizeReturnTo(returnTo: string | null | undefined): string {
@@ -30,25 +39,12 @@ export function sanitizeReturnTo(returnTo: string | null | undefined): string {
     return "/";
   }
   try {
-    const parsed = new URL(candidate, "http://localhost");
-    if (parsed.origin !== "http://localhost") {
+    const parsed = new URL(candidate, VALIDATION_SENTINEL);
+    if (parsed.origin !== VALIDATION_SENTINEL) {
       return "/";
     }
     return `${parsed.pathname}${parsed.search}${parsed.hash}`;
   } catch {
     return "/";
-  }
-}
-
-export function buildAbsoluteCallbackUrl(safeReturnTo: string): string {
-  const configuredOrigin =
-    process.env.NEXT_PUBLIC_APP_ORIGIN ?? "http://localhost:3000";
-  try {
-    const base = new URL(configuredOrigin);
-    base.pathname = "/auth/callback";
-    base.searchParams.set("returnTo", safeReturnTo);
-    return base.toString();
-  } catch {
-    return `http://localhost:3000/auth/callback?returnTo=${encodeURIComponent(safeReturnTo)}`;
   }
 }

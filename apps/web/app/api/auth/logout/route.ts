@@ -1,23 +1,13 @@
-import { NextResponse } from "next/server";
-import { createSupabaseIdentityAdapter } from "@/identity/supabase-adapter";
+import type { NextResponse, NextRequest } from "next/server";
+import { handleLogout, type LogoutDependencies } from "./handler";
 import { clearActiveTenantSelection } from "@/identity/session-service";
+import { createSupabaseIdentityAdapter } from "@/identity/supabase-adapter";
 
-/**
- * Logout: clears the provider session (auth cookies) and the local active
- * tenant selection. Idempotent; always ends with a plain redirect to the home
- * page. No tokens or session values are echoed anywhere.
- */
-export async function POST(): Promise<NextResponse> {
-  const adapter = createSupabaseIdentityAdapter();
-  await adapter.signOut();
-  await clearActiveTenantSelection();
+const dependencies: LogoutDependencies = {
+  adapter: createSupabaseIdentityAdapter(),
+  clearSelection: clearActiveTenantSelection,
+};
 
-  const response = NextResponse.redirect(new URL("/", "http://localhost"), {
-    status: 303,
-  });
-  response.headers.set(
-    "Cache-Control",
-    "private, no-cache, no-store, must-revalidate, max-age=0",
-  );
-  return response;
+export async function POST(request: NextRequest): Promise<NextResponse> {
+  return handleLogout(request, dependencies);
 }

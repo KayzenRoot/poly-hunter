@@ -1,9 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createSupabaseIdentityAdapter } from "@/identity/supabase-adapter";
-import {
-  buildAbsoluteCallbackUrl,
-  sanitizeReturnTo,
-} from "@/identity/open-redirect";
+import { sanitizeReturnTo } from "@/identity/open-redirect";
+import { appUrlFor } from "@/identity/app-origin";
 
 /**
  * Starts the provider login flow (PKCE-compatible SSR). The returnTo target is
@@ -33,7 +31,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const providerUrl = new URL(login.location);
   const redirectTo = providerUrl.searchParams.get("redirect_to");
   if (redirectTo !== null) {
-    const allowed = new URL(buildAbsoluteCallbackUrl(returnTo));
+    const allowed = appUrlFor(
+      `/auth/callback?returnTo=${encodeURIComponent(returnTo)}`,
+    );
     const redirectToUrl = new URL(redirectTo);
     if (
       redirectToUrl.origin !== allowed.origin ||

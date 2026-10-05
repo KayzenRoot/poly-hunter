@@ -2,7 +2,8 @@ import type { IdentityPort, VerifiedIdentity } from "@polyhunter/domain";
 import { createBrowserClient, createServerClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
-import { buildAbsoluteCallbackUrl, sanitizeReturnTo } from "./open-redirect";
+import { sanitizeReturnTo } from "./open-redirect";
+import { appUrlFor } from "./app-origin";
 
 /**
  * Supabase Auth adapter for the web identity boundary.
@@ -163,22 +164,19 @@ export function createSupabaseIdentityAdapter(): IdentityPort {
         return { kind: "unavailable", reason: "provider_not_configured" };
       }
       const safeReturnTo = sanitizeReturnTo(returnTo);
-      const callbackUrl = new URL("/auth/callback", "http://localhost");
-      callbackUrl.searchParams.set("returnTo", safeReturnTo);
-      // OAuth/PKCE SSR flow per @supabase/ssr docs; redirectTo is an absolute
-      // URL derived from configured app origin at call time.
       // @supabase/ssr server clients use the PKCE-compatible SSR flow by
       // default; the code verifier is stored in the auth cookie store.
       const { data, error } = await client.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: buildAbsoluteCallbackUrl(safeReturnTo),
+          redirectTo: appUrlFor(
+            `/auth/callback?returnTo=${encodeURIComponent(safeReturnTo)}`,
+          ).toString(),
         },
       });
       if (error || !data?.url) {
         return { kind: "unavailable", reason: "provider_unavailable" };
       }
-      void callbackUrl;
       return { kind: "redirect", location: data.url };
     },
     async signOut() {
