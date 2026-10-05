@@ -1,11 +1,11 @@
 {
  "workOrder": "PH-SEC-WO-008",
- "revision": "post CR-01/CR-02/CR-03",
+ "revision": "post CR-04",
  "timestamp": "2026-10-05",
  "checks": [
   {
    "id": "P1",
-   "check": "current branch equals lock branch",
+   "check": "branch equals lock branch",
    "result": "PASS",
    "detail": "security/ph-m01-libstdcpp-final-two"
   },
@@ -13,25 +13,19 @@
    "id": "P1",
    "check": "parent head 5cf4c2f is ancestor of HEAD",
    "result": "PASS",
-   "detail": "HEAD=cf69a30f3eac5601be23492cc271e8521c85481f"
+   "detail": "HEAD=2c3718eb329c75bf05fb49c6c4f1951bd5665c2e"
   },
   {
    "id": "P2",
-   "check": "PR #15 OPEN+DRAFT+unmerged at 5cf4c2f",
+   "check": "PR #15 OPEN+DRAFT+unmerged; PR #35 open",
    "result": "PASS",
-   "detail": "state OPEN, isDraft true, mergedAt null, headRefOid 5cf4c2ffe7b5365ca4941253f92b612f0322a83d"
-  },
-  {
-   "id": "P2",
-   "check": "PR #35 exists on this branch",
-   "result": "PASS",
-   "detail": "state OPEN, headRefName security/ph-m01-libstdcpp-final-two"
+   "detail": "gh pr view: 15 OPEN/draft/unmerged; 35 OPEN"
   },
   {
    "id": "P3",
    "check": "Context Lock criticalSources fingerprints",
    "result": "PASS",
-   "detail": "19/19 matched"
+   "detail": "19/19"
   },
   {
    "id": "P4",
@@ -41,68 +35,50 @@
   },
   {
    "id": "P4",
-   "check": "locked SARIF blob d3999a56...",
+   "check": "locked SARIF blob",
    "result": "PASS",
-   "detail": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9"
+   "detail": "d3999a56..."
   },
   {
    "id": "P5",
-   "check": "exactly 22 HIGH/CRITICAL (error-level) rows",
+   "check": "22 error rows / 22 CVEs",
    "result": "PASS",
-   "detail": "22 rows"
-  },
-  {
-   "id": "P5",
-   "check": "22 distinct CVEs",
-   "result": "PASS",
-   "detail": "22 distinct ruleIds"
+   "detail": "22"
   },
   {
    "id": "P6",
-   "check": "WO-007 VEX: 20 NOT_AFFECTED owner-approved + exactly 2 unresolved",
+   "check": "WO-007 20 NA approved + 2 unresolved; Go=0",
    "result": "PASS",
-   "detail": "WO-007 VEX summary: 20 NOT_AFFECTED, 2 UNDER_INVESTIGATION"
-  },
-  {
-   "id": "P6",
-   "check": "original 35 Go HIGH/CRITICAL remain zero",
-   "result": "PASS",
-   "detail": "0 Go rules"
+   "detail": "20/2; 0 Go rules"
   },
   {
    "id": "P7",
    "check": "KEV snapshot",
    "result": "PASS",
-   "detail": "catalogVersion 2026.10.04; target in KEV: []"
+   "detail": "2026.10.04; neither CVE in KEV"
   },
   {
    "id": "P7",
    "check": "EPSS snapshot",
    "result": "PASS",
-   "detail": "[('CVE-2026-95619', '0.003630000'), ('CVE-2026-102010', '0.002500000')]"
-  },
-  {
-   "id": "P8",
-   "check": "Node/V8 identity captured",
-   "result": "PASS",
-   "detail": "node=24.21.0"
+   "detail": "2026-10-05, 2 rows"
   },
   {
    "id": "E1",
-   "check": "SHA256SUMS.txt verifies over all receipts",
+   "check": "SHA256SUMS verify",
    "result": "PASS",
    "detail": "OK"
   },
   {
    "id": "E2",
-   "check": "git diff --check (no whitespace errors in tracked changes)",
+   "check": "git diff --check",
    "result": "PASS",
    "detail": "clean"
   }
  ],
  "summary": {
-  "total": 16,
-  "pass": 16,
+  "total": 12,
+  "pass": 12,
   "fail": 0
  }
 }

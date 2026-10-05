@@ -46,7 +46,7 @@ Each compiled consumer is mapped to its exact source and shown free of any `ext/
 | Upstream fix | GCC commit `59d235ffa5a69231eb42e5290d52dc8c90d28b7a` (Red Hat 2537811) |
 | VEX status | **NOT_AFFECTED** (proposed) — `vulnerable_code_cannot_be_controlled_by_adversary` |
 | KEV / EPSS | not in KEV · EPSS 0.00363 / 0.2790 (prioritisation only) |
-| Confidence | medium-high (node high; libvips branch excluded by runtime evidence) |
+| Confidence | HIGH (both paths closed by source/type-level mathematical bounds) |
 
 ### Presence — confirmed vulnerable variant
 `_ZnwmSt11align_val_t` performs the C11 rounding `(sz + al − 1) & ~(al − 1)` and calls glibc `aligned_alloc` (no `posix_memalign` compiled in). Exact threshold: `sz ≥ 2^64 − (align − 1)`; for align 64, `sz ≥ 2^64 − 63`.
@@ -54,10 +54,15 @@ Each compiled consumer is mapped to its exact source and shown free of any `ext/
 ### Reachable consumer — node
 One aligned-new import, exactly two call sites, both in `OptimizingCompileTaskExecutor::EnsureInitialized()` → `operator new[](max_tasks · 64, align_val_t(64))`, with `max_tasks` a startup-only flag (default 4) or clamped thread count — ≥ 2^27 below the threshold and not influenceable from JavaScript. Preserved with Node v24.21.0 source receipts (CR-03).
 
-### libvips — corrected ABI, branch closed by runtime evidence (CR-02)
-Prior decoding `mov esi,4 (size=4)` was **wrong**: RSI is `alignment`, so that is alignment 4; size is in RDI (`mov rdi,r12`), where `lea r12,[rsi−0xe]` makes it a **data-derived buffer length** (an `ICC_PROFILE`/ICC-tag parser), not a constant. The size bound is **not proven at source** for that stripped function. The branch is closed instead by **direct runtime evidence**: `libvips-cpp` and `sharp-linux-x64.node` appear in **zero** `/proc/<pid>/maps` entries; the only mapped native module is `next-swc`, which does not link libstdc++.
+### libvips — CR-04: exact source mapping + mathematical bound (PATH A)
 
-**Disclosed limitation:** the libvips size bound is unproven at source; exclusion rests on the exact running runtime. Re-opened if image optimisation becomes active.
+The prior runtime-unreachability proof is **withdrawn and falsified**: a single benign `/_next/image` request lazily loads sharp/libvips (Next 16.3.8 `handleNextImageRequest → optimizeImage → getSharp → require('sharp')`; probe: before 0/0 mappings, after libvips=4/sharp=5 in the running next-server). The branch is now closed by PATH A:
+
+- **Callsite identity:** `0x403ab3` = `IccHelper::readIccColorGamut` in **libultrahdr v2.0.2** (`lib/src/icc.cpp:657`, commit `e5f5a022…`), statically linked into `libvips-cpp.so.8.18.7`. Proven by the `ICC_PROFILE` magic, the `0xe` (= kICCIdentifierSize 14) constant, the `icc_size ≥ 146` entry guard, the gXYZ/bXYZ/cicp tag constants, `alignof(ICCHeader) = 4`, and the exact kBT709/kDisplayP3/kBT2020 colorant matrices found at the referenced `.rodata` addresses.
+- **Size provenance:** `sz = icc_size − 14` where `icc_size` is the JPEG APP2 `ICC_PROFILE` marker payload length — attacker-controlled image content, but **hard-capped ≤ 65533** by the 16-bit marker length field enforced in mozjpeg `jdmarker.c save_marker()` (INPUT_2BYTES; exact mozjpeg commit `0826579` per versions.json). So `sz ≤ 65519`, no underflow (`icc.cpp:644` guard).
+- **Mathematical conclusion:** the gcc-12 aligned-new rounding wraps only at `sz ≥ 2^64 − 3 = 18446744073709551613`. Max feasible `sz = 65519` → **margin ≥ 2^48**. Overflow is arithmetically impossible.
+
+**Probe disclosure:** the falsifying probe used a benign, locally generated 297-byte JPEG with an ICC APP2 marker, served and removed inside the running container only; the host repository and product code are untouched. The probe files remain as receipts (`receipts/cr04-probe/`).
 
 ---
 

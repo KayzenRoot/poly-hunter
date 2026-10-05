@@ -1,0 +1,22 @@
+# query: constants in lib/include/ultrahdr/icc.h
+e5f5a022fe96fc4dc2ee35c19f733a50df807abe
+
+80:static constexpr char kICCIdentifier[] = "ICC_PROFILE";
+81-// 12 for the actual identifier, +2 for the chunk count and chunk index which
+82-// will always follow.
+83:static constexpr size_t kICCIdentifierSize = 14;
+84-
+85-// This is equal to the header size according to the ICC specification (128)
+86-// plus the size of the tag count (4).  We include the tag count since we
+--
+108:static constexpr uint32_t kTAG_rXYZ = SetFourByteTag('r', 'X', 'Y', 'Z');
+109:static constexpr uint32_t kTAG_gXYZ = SetFourByteTag('g', 'X', 'Y', 'Z');
+110:static constexpr uint32_t kTAG_bXYZ = SetFourByteTag('b', 'X', 'Y', 'Z');
+111-static constexpr uint32_t kTAG_wtpt = SetFourByteTag('w', 't', 'p', 't');
+112-static constexpr uint32_t kTAG_rTRC = SetFourByteTag('r', 'T', 'R', 'C');
+113-static constexpr uint32_t kTAG_gTRC = SetFourByteTag('g', 'T', 'R', 'C');
+--
+115:static constexpr uint32_t kTAG_cicp = SetFourByteTag('c', 'i', 'c', 'p');
+116-static constexpr uint32_t kTAG_cprt = SetFourByteTag('c', 'p', 'r', 't');
+117-static constexpr uint32_t kTAG_A2B0 = SetFourByteTag('A', '2', 'B', '0');
+118-static constexpr uint32_t kTAG_B2A0 = SetFourByteTag('B', '2', 'A', '0');

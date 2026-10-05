@@ -1,0 +1,9 @@
+# query: getICCSize/getICCPtr
+115-
+116-  /*!\brief returns pointer to icc block present in input image */
+117:  void* getICCPtr() { return mICCBuffer.data(); }
+118-
+119-  /*!\brief returns size of icc block */
+120:  size_t getICCSize() { return mICCBuffer.size(); }
+121-
+122-  /*!\brief returns pointer to iso block present in input image */

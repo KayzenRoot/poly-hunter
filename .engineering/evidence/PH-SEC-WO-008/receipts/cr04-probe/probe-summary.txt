@@ -1,0 +1,10 @@
+=== CR-04 probe: benign /_next/image request falsifies runtime-unreachability ===
+date: 2026-10-05T17:29:04Z
+request: GET http://127.0.0.1:3000/_next/image?url=%2Ficc-test.jpg&w=64&q=75 (benign, locally generated 297-byte JPEG with ICC_PROFILE APP2 marker)
+result: HTTP 200, image/jpeg, 297 bytes (decoded + re-encoded by sharp/libvips)
+
+BEFORE (pid 72 next-server): libvips mappings = 0, sharp mappings = 0
+AFTER  (pid 72 next-server): libvips mappings = 4, sharp mappings = 5
+
+CONCLUSION: Next 16.3.8 dev image-optimizer lazily require('sharp') on the first valid /_next/image request.
+Runtime-unreachability is FALSIFIED as a proof; libvips-cpp + sharp addon are mapped into the running dev server process.

@@ -1,10 +1,11 @@
 {
-  "supersededBy": "cr02-libvips-aligned-new-callsite-analysis.json (Correction Delta CR-02)",
+  "supersededBy": "cr04-libvips-callsite-source-mapping.json (Correction Delta CR-04)",
   "withdrawn_claims": [
     "'mov esi, 4 (size argument = 4)' - WRONG: under x86-64 SysV, operator new[](size_t, align_val_t) takes RSI = alignment, so mov esi,4 sets alignment = 4.",
     "'constant 4 ... a fixed small constant, not attacker-derived' - WRONG: size is in RDI (mov rdi,r12), and r12 = rsi - 0xe, a data-derived buffer length.",
-    "'cannot reach the CVE-2026-95619 overflow threshold' via a constant size - unsupported and withdrawn."
+    "'cannot reach the CVE-2026-95619 overflow threshold' via a constant size - unsupported and withdrawn.",
+    "'closed by direct runtime-unreachability evidence' - FALSIFIED (CR-04): a benign /_next/image request lazily loads sharp/libvips into the running server."
   ],
-  "corrected_summary": "See cr02-libvips-aligned-new-callsite-analysis.json. libvips-cpp.so.8.18.7 has exactly one _ZnamSt11align_val_t call site (.text 0x403ab3); alignment = 4; size comes from R12 = (second argument) - 14, a data-derived ICC-profile buffer length. The size bound is not proven at source. The branch is closed by direct runtime-unreachability evidence (receipts/cr02-runtime/*), not by a size argument.",
+  "corrected_summary": "See cr04-libvips-callsite-source-mapping.json. The callsite is IccHelper::readIccColorGamut (libultrahdr v2.0.2, lib/src/icc.cpp:657); size = icc_size - 14 where icc_size <= 65533 (JPEG APP2 marker 16-bit length cap in mozjpeg jdmarker.c save_marker). The path IS reachable in local-dev via Next /_next/image; safety rests on the hard 16-bit marker bound vs the 2^64-3 threshold (margin >= 2^48).",
   "original_receipt_preserved_in_git_history": true
 }

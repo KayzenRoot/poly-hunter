@@ -1,0 +1,39 @@
+# query: sed -n '640,675p' lib/src/icc.cpp (readIccColorGamut: the aligned new[] call)
+e5f5a022fe96fc4dc2ee35c19f733a50df807abe
+
+uhdr_color_gamut_t IccHelper::readIccColorGamut(void* icc_data, size_t icc_size) {
+  // Each tag table entry consists of 3 fields of 4 bytes each.
+  static const size_t kTagTableEntrySize = 12;
+
+  if (icc_data == nullptr || icc_size < sizeof(ICCHeader) + kICCIdentifierSize) {
+    return UHDR_CG_UNSPECIFIED;
+  }
+
+  if (memcmp(icc_data, kICCIdentifier, sizeof(kICCIdentifier)) != 0) {
+    return UHDR_CG_UNSPECIFIED;
+  }
+
+  uint8_t* icc_bytes = reinterpret_cast<uint8_t*>(icc_data) + kICCIdentifierSize;
+  auto alignment_needs = alignof(ICCHeader);
+  uint8_t* aligned_block = nullptr;
+  if (((uintptr_t)icc_bytes) % alignment_needs != 0) {
+    aligned_block = static_cast<uint8_t*>(
+        ::operator new[](icc_size - kICCIdentifierSize, std::align_val_t(alignment_needs)));
+    if (!aligned_block) {
+      ALOGE("unable allocate memory, icc parsing failed");
+      return UHDR_CG_UNSPECIFIED;
+    }
+    std::memcpy(aligned_block, icc_bytes, icc_size - kICCIdentifierSize);
+    icc_bytes = aligned_block;
+  }
+  ICCHeader* header = reinterpret_cast<ICCHeader*>(icc_bytes);
+
+  const size_t profile_size = icc_size - kICCIdentifierSize;
+  const size_t max_tags = (profile_size - sizeof(ICCHeader)) / kTagTableEntrySize;
+  size_t tag_count = Endian_SwapBE32(header->tag_count);
+  if (tag_count > max_tags) {
+    ALOGE("Tag table size exceeds buffer size during icc parsing. tag count %zu, max tags %zu",
+          tag_count, max_tags);
+    if (aligned_block) ::operator delete[](aligned_block, std::align_val_t(alignment_needs));
+    return UHDR_CG_UNSPECIFIED;
+  }

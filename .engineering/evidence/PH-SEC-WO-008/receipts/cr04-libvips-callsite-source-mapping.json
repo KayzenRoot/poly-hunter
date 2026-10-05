@@ -1,0 +1,53 @@
+{
+ "correction": "CR-04 \u2014 supersedes the runtime-unreachability basis of cr02-libvips-aligned-new-callsite-analysis.json. Point-in-time /proc/<pid>/maps is NOT proof of unreachability for Next.js 16.3.8: the framework route /_next/image lazily require('sharp') on a valid request (handleNextImageRequest -> imageOptimizer -> optimizeImage -> getSharp -> require('sharp')). Runtime-unreachability is hereby WITHDRAWN as the main proof.",
+ "exact_callsite_identification": {
+  "binary": "/workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7",
+  "call_vaddr": "0x403ab3",
+  "plt_stub": "0x1f20 (verified: .plt[0x1f20] ff25 -> GOT 0x116be48 -> .rela.plt -> dynsym[532] = _ZnamSt11align_val_t, type 7 JUMP_SLOT)",
+  "abi": "RDI = size, RSI = alignment; at the call: RSI = 4 (mov esi,4), RDI = R12",
+  "r12_origin": "0x4037eb: lea r12,[rsi-0xe] -> size = icc_size - 14",
+  "enclosing_function": "0x403780 (1045 bytes), single caller 0x3ef350 in function 0x3ef120",
+  "identified_source": {
+   "component": "libultrahdr (libuhdr) 2.0.2, statically linked into libvips-cpp (bundled by @img/sharp-libvips-linux-x64 1.3.4; versions.json: uhdr=2.0.2)",
+   "source_repository": "https://github.com/google/libultrahdr",
+   "tag": "v2.0.2",
+   "commit": "e5f5a022fe96fc4dc2ee35c19f733a50df807abe",
+   "file": "lib/src/icc.cpp",
+   "function": "uhdr_color_gamut_t IccHelper::readIccColorGamut(void* icc_data, size_t icc_size)",
+   "call_line": "657: ::operator new[](icc_size - kICCIdentifierSize, std::align_val_t(alignment_needs))",
+   "matching_evidence": [
+    "kICCIdentifier = 'ICC_PROFILE' (icc.h:80) matches the binary magic 0x464f52505f434349 ('ICC_PROF') + dword [rdi+8] 0x454c49 ('ILE\\0')",
+    "kICCIdentifierSize = 14 (icc.h:83) matches the binary constant 0xe subtracted from rsi",
+    "entry guard icc_size < sizeof(ICCHeader)+kICCIdentifierSize matches the binary cmp rsi, 0x91 (sizeof(ICCHeader)=132 + 14 = 146 = 0x92; cmp is jbe for <=145, i.e. requires >= 146 = 0x92 ... note binary uses cmp rsi,0x91 / jbe -> requires rsi > 0x91 = 145, i.e. >= 146 = 0x92: exact match)",
+    "tag signatures kTAG_rXYZ/kTAG_gXYZ/kTAG_bXYZ/kTAG_cicp (icc.h:108-115) match the binary constants 0x5a595867 ('gXYZ' BE-swapped), 0x5a595862 ('bXYZ'), 0x70636963 ('cicp')",
+    "alignment_needs = alignof(ICCHeader): ICCHeader is all uint32_t/uint8_t members => alignof = 4, matching mov esi,4",
+    "the 'val-effect' rip-relative lea targets resolve into .rodata float tables (D50 illuminant / matrix constants), consistent with icc.cpp"
+   ]
+  }
+ },
+ "exact_type_and_semantics_of_size": {
+  "call_expression": "::operator new[](icc_size - kICCIdentifierSize, std::align_val_t(alignof(ICCHeader)))",
+  "icc_size_type": "size_t (64-bit unsigned)",
+  "icc_size_origin": "JpegDecoderHelper::getICCSize() = mICCBuffer.size(); mICCBuffer is a std::vector<JOCTET> filled by jpeg_extract_marker_payload() from a JPEG APP2 marker whose payload begins with 'ICC_PROFILE\\0' (12-byte sig); destination.resize(marker->data_length) \u2014 one APP2 marker only (first match wins, returns immediately).",
+  "marker_data_length_bound": "libjpeg (libjpeg-turbo, bundled mozjpeg in sharp-libvips) enforces a 16-bit marker length field: data_length = 2-byte unsigned big-endian length minus 2, so data_length <= 65533. Additionally jpeg_save_markers(kAPP2Marker, 0xFFFF) preserves up to 65535 bytes of payload, and libjpeg's jpeg_read_marker limits marker length to 65533 bytes.",
+  "provenance_chain": "HTTP request body (image bytes) -> Next.js image-optimizer -> sharp(jpeg) decode -> libvips jpeg loader (libjpeg marker list) -> ultrahdr decode path (jpegr.cpp:338/1493/1521 jpeg_dec_obj.getICCSize()) -> readIccColorGamut(icc_data, icc_size)",
+  "attacker_control": "YES in principle: the ICC APP2 payload bytes are attacker-controlled image content. The alignment branch (unaligned pointer) makes the new[] reachability data-dependent, but the SIZE passed is exactly icc_size - 14.",
+  "conversions": "icc_size - kICCIdentifierSize: size_t arithmetic; guarded by the early return icc_size >= 132+14 (icc.cpp:644), so no underflow. align_val_t value = 4 (alignof(ICCHeader)). The gcc-12 aligned_alloc rounding wraps iff sz + 4 - 1 >= 2^64, i.e. sz >= 2^64 - 3 \u2014 impossible for sz <= 65533.",
+  "hard_upper_bound": "65533 - 14 = 65519 bytes (ICC APP2 payload capped by the 16-bit JPEG marker length field), OR by libvips/sharp input size limits \u2014 either way << 2^64 - 3."
+ },
+ "mathematical_conclusion": {
+  "threshold_align4": "sz >= 2^64 - 3 = 18446744073709551613",
+  "max_feasible_size": "65519 (marker 16-bit length cap) \u2014 margin factor >= 2.8e14 (about 2^48)",
+  "conclusion": "The libvips/libuhdr aligned-new call CANNOT reach the CVE-2026-95619 overflow: the size is hard-bounded by the JPEG marker 16-bit length field to <= 65519 bytes, at least 2^48 below the exact threshold. Attacker can control the size value only within that bound; wraparound is arithmetically impossible."
+ },
+ "probe_confirmation": {
+  "executed": true,
+  "result": "LAZY LOADING CONFIRMED: a single benign /_next/image request (HTTP 200, image/jpeg) mapped sharp-linux-x64.node (5 segs) and libvips-cpp.so.8.18.7 (4 segs) into the running next-server process. BEFORE: 0/0. Runtime-unreachability is FALSIFIED and WITHDRAWN.",
+  "receipts": [
+   "receipts/cr04-probe/probe-summary.txt",
+   "receipts/cr04-probe/before-next72-maps.txt",
+   "receipts/cr04-probe/after-next72-maps.txt"
+  ]
+ },
+ "reachability_status": "REACHABLE in the local-dev runtime via Next 16.3.8 /_next/image -> optimizeImage -> getSharp -> sharp -> libvips -> ultrahdr decode path (jpegr.cpp:338/1493/1521 -> readIccColorGamut). Safety therefore rests SOLELY on the mathematical type/bound proof below, which is what the audit's Path A requires."
+}

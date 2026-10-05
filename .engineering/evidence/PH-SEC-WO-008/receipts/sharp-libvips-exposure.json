@@ -1,8 +1,10 @@
 {
-  "finding": "libvips-cpp.so.8.18.7 (sharp-libvips 1.3.4) and sharp-linux-x64-0.35.5.node (sharp 0.35.5) are shipped in /workspace/node_modules and link libstdc++.so.6.0.30, but neither is loaded by any running process in the exact local-dev runtime.",
-  "corrected_claim": "The prior note that libvips 'call sites allocate internal buffers with fixed, non-attacker-derived sizes' is WITHDRAWN (Correction Delta CR-02): the single libvips aligned-new call site's size is a data-derived buffer length (r12 = rsi - 0xe) whose bound is not proven at source. Unreachability is now asserted solely on the strength of direct runtime evidence, not on a size argument.",
-  "runtime_evidence": "Direct /proc/<pid>/maps inspection of every PID in the web and worker containers: 'libvips' and 'sharp-linux-x64' appear in zero mappings; the only node_modules native module mapped anywhere is @next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node, which does not link libstdc++.so.6. Receipts: receipts/cr02-runtime/web-all-maps.txt, receipts/cr02-runtime/worker-all-maps.txt, receipts/cr02-runtime-web-detail.txt, receipts/cr02-runtime-mapped-native-modules.txt.",
-  "supporting_context": "sharp is an optional production dependency of next (package-lock: node_modules/next requires sharp ^0.35.4). Next.js uses sharp only for production image optimization; the compose web service runs 'next dev --webpack', and no application code imports next/image or sharp directly. This context explains WHY the libraries are unloaded; it is not the proof (the maps are).",
-  "limitation": "Point-in-time observation of the local-dev runtime. If image optimisation becomes active, re-open this branch.",
-  "receipts": ["receipts/cr02-runtime/web-all-maps.txt", "receipts/cr02-runtime/worker-all-maps.txt", "receipts/cr02-runtime-web-detail.txt", "receipts/cr02-runtime-mapped-native-modules.txt", "parent compose.yaml blob 8158fca11ead49ea2f3cb35ad04a4f480a9d90b0", "package-lock.json blob 5c36ff1b825e7087114b83cf01ba8b128cfae484"]
+  "supersededBy": "cr04-next-image-route-analysis.json + cr04-libvips-callsite-source-mapping.json (Correction Delta CR-04)",
+  "withdrawn_claim": "The claim that libvips-cpp and sharp-linux-x64.node 'are not loaded by any running process' was a point-in-time observation and is FALSIFIED as a proof of unreachability: a single benign GET /_next/image request lazily require('sharp') and mapped both libraries into the running next-server process (before: 0 libvips/0 sharp mappings; after: 4 libvips/5 sharp mappings).",
+  "why_the_prior_claim_was_wrong": "Next.js 16.3.8 (exact parent version) exposes /_next/image with the default loader; apps/web/next.config.ts at the parent head sets no images.unoptimized and no custom loader. The call chain handleNextImageRequest -> imageOptimizer -> optimizeImage -> getSharp -> require('sharp') loads sharp lazily on the first valid request, so 'not yet mapped' never implied 'unreachable'.",
+  "retained_facts": [
+    "both libraries link libstdc++.so.6.0.30 and are shipped in /workspace/node_modules",
+    "sharp is an optional dependency of next (package-lock blob 5c36ff1b)"
+  ],
+  "see": "receipts/cr04-probe/probe-summary.txt (falsifying probe), receipts/cr04-next-image-route-analysis.json, receipts/cr04-libvips-callsite-source-mapping.json (mathematical bound proof)"
 }

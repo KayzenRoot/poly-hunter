@@ -1,0 +1,4 @@
+# query: callers of readIccColorGamut
+lib/src/jpegr.cpp:338:        IccHelper::readIccColorGamut(jpeg_dec_obj_sdr.getICCPtr(), jpeg_dec_obj_sdr.getICCSize());
+lib/src/jpegr.cpp:1493:        IccHelper::readIccColorGamut(jpeg_dec_obj_gm.getICCPtr(), jpeg_dec_obj_gm.getICCSize());
+lib/src/jpegr.cpp:1521:      IccHelper::readIccColorGamut(jpeg_dec_obj_sdr.getICCPtr(), jpeg_dec_obj_sdr.getICCSize());

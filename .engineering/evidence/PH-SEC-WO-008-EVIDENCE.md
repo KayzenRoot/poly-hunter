@@ -146,38 +146,35 @@ Receipts: [`receipts/cr01-source-provenance/`](PH-SEC-WO-008/receipts/cr01-sourc
 
 CR-03 receipts: `receipts/cr03-node-source/` (provenance, dispatcher `.cc`/`.h`, flag, node + V8 thread bounds, `OwnedVector::New`, `align_val_t` search, pb_ds search).
 
-### 6.2 libvips — corrected ABI decoding (CR-02)
+### 6.2 libvips — CR-04: exact source mapping + mathematical bound (PATH A)
 
-The prior decoding was **wrong**. Under x86-64 System V, `operator new[](size_t size, align_val_t alignment)` takes **RDI = size, RSI = alignment**.
+The re-audit falsified the prior runtime-unreachability proof: Next.js 16.3.8 (exact parent version) exposes `/_next/image` with the default loader (`apps/web/next.config.ts` sets no `images.unoptimized` and no custom loader), and the call chain `handleNextImageRequest → imageOptimizer → optimizeImage → getSharp → require('sharp')` loads sharp lazily. **Probe result:** a single benign GET `/_next/image?url=%2Ficc-test.jpg&w=64&q=75` (HTTP 200, image/jpeg) mapped `sharp-linux-x64.node` (5 segments) and `libvips-cpp.so.8.18.7` (4 segments) into the running next-server process — before: 0/0 mappings. Runtime-unreachability is **withdrawn**; the libraries ARE reachable.
+
+**PATH A proof — exact source mapping.** The callsite `0x403ab3` (verified PLT `0x1f20` → GOT `0x116be48` → `dynsym[532] = _ZnamSt11align_val_t`; ABI: RSI = alignment = 4, RDI = size = R12 = `rsi − 0xe`) is:
 
 ```
-0x403aa6: mov esi, 4        ; alignment = 4   (NOT size)
-0x403aab: mov rdi, r12      ; size = r12
-0x403ab3: call 0x1f20       ; 0x1f20 -> GOT 0x116be48 -> .rela.plt -> dynsym[532] _ZnamSt11align_val_t
+libultrahdr v2.0.2  (commit e5f5a022fe96fc4dc2ee35c19f733a50df807abe)
+lib/src/icc.cpp : IccHelper::readIccColorGamut(void* icc_data, size_t icc_size) : line 657
+    ::operator new[](icc_size - kICCIdentifierSize, std::align_val_t(alignof(ICCHeader)));
 ```
 
-`r12` is set at `0x4037eb: lea r12, [rsi - 0xe]` — i.e. **size = (second argument) − 14**, a **data-derived buffer length**. The enclosing function validates an `ICC_PROFILE` magic (`0x464f52505f434349` + `0x454c49`) and ICC tag signatures (`gXYZ`/`bXYZ`/`cicp`), requiring length > 145. So the size is **not** a compile-time constant; the prior "constant size 4, cannot wrap" conclusion is **withdrawn**.
+statically linked into `libvips-cpp.so.8.18.7` (bundled by `@img/sharp-libvips-linux-x64` 1.3.4, `versions.json: uhdr=2.0.2`). Identification evidence: `ICC_PROFILE` magic (`icc.h:80`, kICCIdentifierSize 14 = binary `0xe`), entry guard `icc_size >= 132+14 = 146` (`icc.cpp:644` = binary `cmp rsi,0x91/jbe`), tag constants gXYZ/bXYZ/cicp (`icc.h:108-115` = binary `0x5a595867/0x5a595862/0x70636963`), alignment 4 = `alignof(ICCHeader)`, and the referenced `.rodata` tables are exactly uhdr's kBT709/kDisplayP3/kBT2020 colorant matrices (`icc.h:128-142`).
 
-The exact source translation unit could not be mapped (the function is not among libvips-cpp's exported dynsym entries), so the size bound and attacker control for this call site are **not proven at source**. Per the audit's permitted route, the branch is instead closed by **direct runtime unreachability**:
+**Size provenance and attacker control.** `icc_size` = `JpegDecoderHelper::getICCSize()` = `mICCBuffer.size()`, filled by `jpeg_extract_marker_payload()` from the **first JPEG APP2 marker** whose payload starts with `ICC_PROFILE ` (`jpegdecoderhelper.cpp:238-239, 119-139`; `destination.resize(marker->data_length)`). The payload IS attacker-controlled image content (an image supplied through `/_next/image`). The size equals the APP2 marker payload length.
 
-| Evidence | Result |
-|---|---|
-| `/proc/<pid>/maps` for every PID in the web and worker containers | `libvips` appears in **zero** mappings |
-| node_modules native modules actually mapped | only `@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node` — which does **not** link libstdc++ |
-| `sharp-linux-x64-0.35.5.node` | links libstdc++, **not mapped**, **zero** aligned-new refs |
+**Hard upper bound.** `marker->data_length` is set by mozjpeg `jdmarker.c save_marker()`: the marker length is read with `INPUT_2BYTES` (16-bit big-endian, max 65535), then `length -= 2`, and `data_length = min(length, length_limit = 0xFFFF from jpeg_save_markers)` → **`data_length ≤ 65533`**. mozjpeg commit `0826579` = the exact version in `sharp-libvips versions.json`. Therefore **sz = icc_size − 14 ≤ 65519**, with no underflow (guarded by `icc.cpp:644`).
 
-Receipts: [`receipts/cr02-libvips-aligned-new-callsite-analysis.json`](PH-SEC-WO-008/receipts/cr02-libvips-aligned-new-callsite-analysis.json), `receipts/cr02-libvips-stub-verification.txt`, `receipts/cr02-runtime/`.
+**Mathematical conclusion.** The gcc-12 aligned-new rounding wraps iff `sz + align − 1 ≥ 2^64`, i.e. `sz ≥ 2^64 − 3 = 18446744073709551613` (align = 4). Max feasible sz = **65519** → margin **≥ 2^48** (ratio > 2.8×10^14). All arithmetic is 64-bit `size_t`, no intermediate narrowing. **It is arithmetically impossible for the libvips/libuhdr aligned-new call to reach the CVE-2026-95619 overflow.**
 
-**Verdict:** the reachable consumer (node) cannot be driven to the overflow size; the non-node aligned-new consumers are not loaded in the exact local-dev runtime. Proposed `NOT_AFFECTED / vulnerable_code_cannot_be_controlled_by_adversary`, with the libvips size-bound limitation disclosed and a revalidation trigger.
+**Verdict:** both reachable aligned-new call paths carry hard, source/type-level bounds — node: `max_tasks·64` (≥ 2^27 below threshold); libvips/libuhdr: `icc_size − 14 ≤ 65519` (≥ 2^48 below threshold, JPEG 16-bit marker cap). Proposed `NOT_AFFECTED / vulnerable_code_cannot_be_controlled_by_adversary`.
 
 ---
 
 ## 7. Method and disclosed limitations
 
 - **Tooling:** image ships no binutils and no python3; ELF parsing, `.rela.plt`/PLT-stub resolution and disassembly were done on the host with Python + capstone 5.0.7 over binaries extracted verbatim from the digest-pinned image (`receipts/extracted/`).
-- **CR-02 libvips limitation (material):** the libvips call site's size bound is **not proven at source**. It is excluded by runtime-unreachability evidence, which is a point-in-time observation. If image optimisation (sharp/next-image) becomes active, the branch must be re-opened.
+- **CR-04 (this revision):** runtime-unreachability is **withdrawn** — the benign `/_next/image` probe lazily loaded sharp/libvips into the running dev server (lazy `require('sharp')` in Next 16.3.8). The libvips branch is now closed by PATH A: exact source mapping to libultrahdr v2.0.2 `readIccColorGamut` plus the mathematical JPEG-marker-cap bound (≥ 2^48 margin). The probe files were deployed and removed inside the container only (bind-mounted worktree of a different branch); the host repository is untouched.
 - **CR-01 handling of inlined code:** no reliance on symbol/string absence; proof is source-level absence at exact consumer versions.
-- **Runtime unreachability** is proven by process memory maps of the exact running local-dev runtime, not by framework-mode inference alone.
 
 ---
 

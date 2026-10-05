@@ -189,7 +189,39 @@ f95619 = {
         "cr03-node-source/cr03-align-val-t-search.txt). cppgc's DEFINED aligned Allocate symbols route to the Oilpan PageBackend LAB, not to "
         "global aligned operator new."
     ),
-    "libvipsBranchCorrection": {
+    "libvipsBranchResolution": {
+        "correction": "CR-04 - point-in-time /proc/<pid>/maps is NOT proof of unreachability for Next.js 16.3.8: the /_next/image route lazily require('sharp') on the first valid request (handleNextImageRequest -> imageOptimizer -> optimizeImage -> getSharp). Runtime-unreachability is WITHDRAWN. The branch is now resolved by PATH A: exact source mapping plus a mathematical type/bound proof.",
+        "callsite_identity": {
+            "source": "libultrahdr v2.0.2 (commit e5f5a022fe96fc4dc2ee35c19f733a50df807abe), lib/src/icc.cpp, IccHelper::readIccColorGamut(void* icc_data, size_t icc_size), line 657",
+            "expression": "::operator new[](icc_size - kICCIdentifierSize, std::align_val_t(alignof(ICCHeader)))",
+            "statically_linked_into": "libvips-cpp.so.8.18.7 (bundled by @img/sharp-libvips-linux-x64 1.3.4; versions.json uhdr=2.0.2)",
+            "identification_evidence": [
+                "binary magic 0x464f52505f434349+0x454c49 = 'ICC_PROFILE' = kICCIdentifier (icc.h:80)",
+                "binary constant 0xe = kICCIdentifierSize = 14 (icc.h:83)",
+                "entry guard cmp rsi,0x91/jbe requires icc_size >= 146 = sizeof(ICCHeader)(132) + 14 (icc.cpp:644)",
+                "tag constants gXYZ/bXYZ/cicp (icc.h:108-115) match the binary 0x5a595867/0x5a595862/0x70636963",
+                "alignment 4 = alignof(ICCHeader) (all uint32_t/uint8_t members)",
+                ".rodata tables at the referenced rip-relative addresses are exactly the uhdr kBT709/kDisplayP3/kBT2020 colorant matrices (icc.h:128-142)"
+            ]
+        },
+        "size_provenance": {
+            "icc_size": "JpegDecoderHelper::getICCSize() = mICCBuffer.size() (std::vector<JOCTET>)",
+            "mICCBuffer": "filled by jpeg_extract_marker_payload() from the FIRST JPEG APP2 marker whose payload starts with 'ICC_PROFILE' (jpegdecoderhelper.cpp:238-239, 119-139); destination.resize(marker->data_length)",
+            "marker_data_length": "set by mozjpeg jdmarker.c save_marker(): length read via INPUT_2BYTES (16-bit BE, max 65535), length -= 2, data_length = min(length, length_limit=0xFFFF from jpeg_save_markers) -> data_length <= 65533",
+            "attacker_control": "YES - the APP2 ICC payload is attacker-controlled image content; size equals marker payload length, controllable only within [146, 65533]"
+        },
+        "mathematical_bound_proof": {
+            "call_size": "sz = icc_size - 14, with icc_size <= 65533 => sz <= 65519",
+            "no_underflow": "icc.cpp:644 returns early unless icc_size >= 132+14 = 146, so icc_size - 14 >= 132 (no size_t underflow)",
+            "align": "4 (alignof(ICCHeader))",
+            "gcc12_overflow_condition": "aligned_alloc rounding wraps iff sz + align - 1 >= 2^64, i.e. sz >= 2^64 - 3 = 18446744073709551613",
+            "max_feasible_sz": 65519,
+            "margin": "18446744073709551613 / 65519 > 2.8e14 (>= 2^48)",
+            "conclusion": "ARITHMETICALLY IMPOSSIBLE to reach the overflow: size hard-capped at 65519 by the JPEG 16-bit marker length field (mozjpeg jdmarker.c save_marker), >= 2^48 below the exact threshold. All arithmetic on size_t (64-bit unsigned), no intermediate narrowing."
+        },
+        "reachability": "REACHABLE in local-dev (probe-confirmed lazy load); the proof rests entirely on the mathematical bound above (audit Path A)."
+    },
+    "libvipsBranchCorrection_SUPERSEDED": {
         "correction": "CR-02 - the prior receipt misdecoded the libvips call site as 'mov esi,4 (size=4)'. Under x86-64 System V, "
         "operator new[](size_t size, align_val_t alignment) takes RDI=size, RSI=alignment. Corrected decoding (receipt "
         "cr02-libvips-aligned-new-callsite-analysis.json): mov esi,4 sets alignment=4; mov rdi,r12 sets size=r12, where "
@@ -205,7 +237,11 @@ f95619 = {
         "startup flags/thread counts. For libvips-cpp the call site's size bound is not proven at source; that call site is instead excluded "
         "by direct runtime unreachability (below). sharp-linux-x64.node and apt/libapt carry zero aligned-new references."
     ),
-    "runtimeUnreachabilityOfNonNodeConsumers": {
+    "runtime_unreachability_WITHDRAWN": {
+        "note": "CR-04: the prior claim that libvips/sharp were unreachable (point-in-time /proc maps) is WITHDRAWN and FALSIFIED. A single benign GET /_next/image?url=%2Ficc-test.jpg&w=64&q=75 request (HTTP 200) lazily require('sharp') and mapped libvips-cpp.so.8.18.7 (4 segs) + sharp-linux-x64-0.35.5.node (5 segs) into the running next-server process (before: 0/0). Next 16.3.8 exposes the route; the parent next.config.ts sets no images.unoptimized.",
+        "receipts": ["receipts/cr04-probe/probe-summary.txt", "receipts/cr04-probe/before-next72-maps.txt", "receipts/cr04-probe/after-next72-maps.txt", "receipts/cr04-next-image-route-analysis.json"]
+    },
+    "runtimeUnreachabilityOfNonNodeConsumers_SUPERSEDED": {
         "method": "direct process memory-map inspection of the exact running local-dev runtime (docker exec ... cat /proc/<pid>/maps for every PID in the web and worker containers).",
         "result": "libvips-cpp.so.8.18.7 and sharp-linux-x64-0.35.5.node appear in ZERO mappings; the only node_modules native module mapped anywhere is @next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node, which does not link libstdc++.so.6.",
         "consequence": "the libvips aligned-new call site cannot execute in the exact local-dev runtime, independently of any size argument; this closes the CR-02 branch on the runtime-evidence route permitted by the audit.",
@@ -245,14 +281,30 @@ f95619 = {
     ),
     "expiryRevalidationTrigger": (
         "earliest of: 7 days (local-dev); new image digest; node/V8 change; libstdc++6/gcc-12 package version change (a Debian fix moves "
-        "this row to FIXED); any consumer version change or new compiled consumer linking libstdc++.so.6; activation of sharp/next-image "
-        "image optimisation in the runtime; new upstream advisory; KEV status change."
+        "this row to FIXED); any consumer version change (next/sharp/libvips/uhdr) or new compiled consumer linking libstdc++.so.6; a "
+        "consumer change that removes the JPEG 16-bit marker cap from the icc_size path; new upstream advisory; KEV status change."
     ),
     "dispositionTimestamp": "2026-10-05T17:30:00Z",
-    "confidence": "medium-high (node path high; libvips branch excluded by runtime evidence, not by a proven size bound)",
+    "confidence": "high (both paths closed by source/type-level mathematical bounds; libvips reachability confirmed by probe but bounded >= 2^48 below threshold)",
     "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
     "ownerApproval": "PENDING",
     "receipts": [
+        "receipts/cr04-libvips-callsite-source-mapping.json",
+        "receipts/cr04-uhdr-source/cr04-uhdr-provenance.txt",
+        "receipts/cr04-uhdr-source/cr04-icc-readIccColorGamut-excerpt.txt",
+        "receipts/cr04-uhdr-source/cr04-icc-constants.txt",
+        "receipts/cr04-uhdr-source/cr04-icc-header-struct.txt",
+        "receipts/cr04-uhdr-source/cr04-readIccColorGamut-callers.txt",
+        "receipts/cr04-uhdr-source/cr04-micc-buffer-extraction.txt",
+        "receipts/cr04-uhdr-source/cr04-getICCSize.txt",
+        "receipts/cr04-mozjpeg-marker-cap.txt",
+        "receipts/cr04-libjpeg-identity.txt",
+        "receipts/cr04-uhdr-symbol-in-binary.txt",
+        "receipts/cr04-libvips-function-strings.txt",
+        "receipts/cr04-next-image-route-analysis.json",
+        "receipts/cr04-probe/probe-summary.txt",
+        "receipts/cr04-probe/before-next72-maps.txt",
+        "receipts/cr04-probe/after-next72-maps.txt",
         "receipts/upstream/cve-2026-95619-commit-meta.txt",
         "receipts/upstream/cve-2026-95619-new_opa.diff",
         "receipts/upstream/cve-2026-95619-new_opa-vulnerable.cc",
@@ -303,7 +355,8 @@ vex = {
     },
     "correctionDelta": {
         "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded.",
-        "CR-02": "CVE-2026-95619 libvips call-site ABI decoding corrected (RSI=alignment, RDI=size); size traced to a data-derived buffer length; libvips branch resolved by direct runtime unreachability evidence instead of an (unsupported) constant-size claim.",
+        "CR-02": "libvips call-site ABI decoding corrected (RSI=alignment, RDI=size); size traced to a data-derived buffer length. (ABI ACCEPTED by re-audit)",
+        "CR-04": "runtime-unreachability WITHDRAWN (probe-falsified lazy loading); libvips callsite mapped to libultrahdr v2.0.2 readIccColorGamut (icc.cpp:657); size hard-bounded at 65519 by the JPEG 16-bit marker cap (mozjpeg save_marker) - >= 2^48 below the 2^64-3 overflow threshold.",
         "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS.",
     },
     "summary": {

@@ -1,0 +1,8 @@
+val-effect branch A: lea at 0x4039db -> vaddr 0xdfd960 (.rodata) = ''
+val-effect branch B: lea at 0x403b09 -> vaddr 0xdfd920 (.rodata) = '��\x03?p|�>�� >j�v>a61?\x17\\�=[���@�+=��H?'
+val-effect branch C: lea at 0x403b2b -> vaddr 0xdfd8e0 (.rodata) = '�g,?\n�)>7\x1a'
+
+=== all rip-relative lea/mov string references in the function ===
+0x4039db: lea rdi, [rip + 0x9f9f7e] -> 0xdfd960 (.rodata) = ''
+0x403b09: lea rdi, [rip + 0x9f9e10] -> 0xdfd920 (.rodata) = '��\x03?p|�>�� >j�v>a61?\x17\\�=[���@�+=��H?'
+0x403b2b: lea rdi, [rip + 0x9f9dae] -> 0xdfd8e0 (.rodata) = '�g,?\n�)>7\x1a'
