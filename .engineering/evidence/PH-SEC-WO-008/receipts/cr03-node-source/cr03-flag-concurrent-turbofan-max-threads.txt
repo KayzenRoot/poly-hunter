@@ -1,0 +1,8 @@
+# query: sh -c grep -n -A3 "concurrent_turbofan_max_threads" deps/v8/src/flags/flag-definitions.h
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:47Z
+
+1181:    concurrent_turbofan_max_threads, 4,
+1182-    "max number of threads that concurrent Turbofan can use (0 for unbounded)")
+1183-DEFINE_BOOL(
+1184-    stress_concurrent_inlining, false,

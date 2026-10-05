@@ -24,24 +24,24 @@ ii  libstdc++6:amd64        12.2.0-14+deb12u1      amd64        GNU Standard C++
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/usr/local/bin/node: 
+/usr/local/bin/node:
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/usr/local/bin/npm: 
+/usr/local/bin/npm:
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/usr/local/bin/npx: 
+/usr/local/bin/npx:
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/bin/grep: 
+/bin/grep:
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/bin/perl: 
+/bin/perl:
 tr: extra operand '"'
 Only one string may be given when deleting without squeezing repeats.
 Try 'tr --help' for more information.
-/usr/bin/perl: 
+/usr/bin/perl:

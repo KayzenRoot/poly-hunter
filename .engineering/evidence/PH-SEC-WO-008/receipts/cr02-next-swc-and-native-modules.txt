@@ -1,0 +1,9 @@
+=== next-swc linkage ===
+no libstdc++
+=== next-swc align_val_t / pb_ds byte scan ===
+align_val refs: 0
+0
+pb_ds refs: 0
+0
+=== ALL .node modules in node_modules that link libstdc++ ===
+LINKS libstdc++: /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node

@@ -1,0 +1,14 @@
+--- search for the exact vulnerable header ---
+--- search for any ext/pb_ds tree ---
+--- any C++ headers at all under /usr/include/c++ ? ---
+ls: cannot access '/usr/include/c++': No such file or directory
+--- dpkg: any -dev / gcc-12 / libstdc++ packages ---
+ii  gcc-12-base:amd64       12.2.0-14+deb12u1      amd64        GCC, the GNU Compiler Collection (base package)
+ii  libstdc++6:amd64        12.2.0-14+deb12u1      amd64        GNU Standard C++ Library v3
+--- is there a compiler? ---
+absent gcc
+absent g++
+absent cc
+absent c++
+absent cc1plus
+absent clang

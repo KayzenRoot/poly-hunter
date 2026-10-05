@@ -1,0 +1,9 @@
+# query: sh -c grep -n -A4 "static OwnedVector<T> New(size_t size)" deps/v8/src/base/vector.h
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:48Z
+
+287:  static OwnedVector<T> New(size_t size) {
+288-    if (size == 0) return {};
+289-    return OwnedVector<T>(std::make_unique<T[]>(size), size);
+290-  }
+291-

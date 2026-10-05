@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-SEC-WO-008",
-  "title": "PH-SEC-WO-008 - final two libstdc++ blocker resolution (proposed dispositions)",
+  "title": "PH-SEC-WO-008 - final two libstdc++ blocker resolution (proposed dispositions; post CR-01/CR-02/CR-03 correction delta)",
   "branch": "security/ph-m01-libstdcpp-final-two",
   "parentHead": "5cf4c2ffe7b5365ca4941253f92b612f0322a83d",
   "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
@@ -27,6 +27,11 @@
       "date": "2026-10-05",
       "receipt": "receipts/first-epss-wo008.json"
     }
+  },
+  "correctionDelta": {
+    "CR-01": "CVE-2026-102010 presence proof rebuilt on source-level absence at exact consumer versions; false 'inlined leaves strings' claim removed; pb_ds header/dev-package absence recorded.",
+    "CR-02": "CVE-2026-95619 libvips call-site ABI decoding corrected (RSI=alignment, RDI=size); size traced to a data-derived buffer length; libvips branch resolved by direct runtime unreachability evidence instead of an (unsupported) constant-size claim.",
+    "CR-03": "immutable Node v24.21.0 source/provenance receipts added and included in SHA256SUMS."
   },
   "summary": {
     "totalFindings": 2,
@@ -72,7 +77,7 @@
         "container_user": "node (uid 1000)",
         "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
         "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
-        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 §4; unchanged at parent head 5cf4c2f)"
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 section 4; unchanged at parent head 5cf4c2f)"
       },
       "image": {
         "reference": "polyhunter-dev:local",
@@ -86,12 +91,12 @@
       "upstreamAdvisory": {
         "fixStatus": "not fixed for gcc-12 in Debian; upstream fixed in GCC trunk by commit aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6 (2026-09-25, Jonathan Wakely, PR libstdc++/127656)",
         "affectedCondition": "use-after-free in __gnu_pbds detail::binary_heap erase_if: after reallocating the entry storage, the member pointer m_a_entries is left dangling (storage freed, new storage leaked). One-line fix adds `m_a_entries = new_entries;`.",
-        "affectedApi": "__gnu_pbds::priority_queue (policy-based data structures, <ext/pb_ds/priority_queue.hpp>) backed by the binary_heap tag, when erase_if(pred) is invoked. NOT std::priority_queue (<queue>) — std::priority_queue has no erase_if and its underlying std heap algorithms are unrelated to pb_ds binary_heap_ internals."
+        "affectedApi": "__gnu_pbds::priority_queue (policy-based data structures, <ext/pb_ds/priority_queue.hpp>) backed by the binary_heap tag, when erase_if(pred) is invoked. NOT std::priority_queue (<queue>) - std::priority_queue has no erase_if and its underlying std heap algorithms are unrelated to pb_ds binary_heap_ internals."
       },
       "vulnerableCodePresent": false,
-      "presenceEvidence": "POSITIVELY ABSENT in every compiled C++ consumer shipped in the exact artifact. The vulnerable code is not in libstdc++.so at all: it lives only in the header <ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp> and is instantiated into a consumer's binary only if that consumer includes and instantiates __gnu_pbds binary_heap priority_queue erase_if. All compiled C++ consumers in the artifact were enumerated by a filesystem-wide libstdc++ DT_NEEDED scan (receipts libstdcxx-consumer-set.json, libstdcxx-consumers-final.txt): /usr/local/bin/node, apt frontends + libapt-pkg/libapt-private, and /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7. For each: zero 'pb_ds' strings (cve-102010-presence-probe.txt/probe2.txt), zero __gnu_pbds/binary_heap dynsym entries on the host-parsed ELF64 .dynsym of node, libstdc++ and libvips-cpp (dynsym-align-val-analysis.json), and zero 'stl_heap'/'binary_heap' strings in node. The V8 subtree that Node 24.21.0 (commit 955266bfdd854cd280dffd47548673914484e4c0) builds contains no reference to ext/pb_ds (source tree grep of deps/v8: no pb_ds include anywhere). This is a positive-absence proof at the consumer-binary level (byte strings + dynsym of the exact shipped binaries), not a libstdc++.so dynsym miss, and therefore is not the CR-04 defect: the CR-04 objection (a header-only template may be inlined into compiled consumers) is met by auditing the consumers themselves.",
-      "reachabilityEvidence": "Not needed once presence is disproven, and independently corroborated: the only runtime C++ consumer is node (process 'node'), which loads libstdc++ but instantiates no pb_ds code; the running processes are node (web/worker) and postgres (separate image, out of scope). Even the weakest residual consumer (libvips-cpp, loaded by no process in dev mode) carries zero pb_ds bytes. There is no code path by which the vulnerable erase_if instantiation exists in any executable page of this artifact.",
-      "attackerControlledPrerequisite": "Moot: the vulnerable operation is not present. For completeness — triggering requires C++ code calling erase_if on a __gnu_pbds binary_heap priority_queue with attacker-influenced contents; no such code exists in the artifact.",
+      "presenceEvidence": "DISPROVEN AT SOURCE LEVEL for every compiled C++ consumer, mapped to its exact shipped version (Correction Delta CR-01). The prior bundle relied on byte-string/dynsym absence and asserted that an inlined instantiation would leave mangled names or distinctive strings; that assertion was FALSE and is REMOVED. The corrected proof is that a binary cannot contain an instantiation of a template its source never referenced, whether inlined or not, so source-level absence at the exact version is dispositive and independent of symbols/strings. Consumers and their sources: (1) node v24.21.0 = nodejs/node commit 955266bfdd854cd280dffd47548673914484e4c0 - no pb_ds/__gnu_pbds/binary_heap anywhere under src/ or deps/; (2) apt 2.6.1 = salsa.debian.org/apt-team/apt commit a626a66fece0a7d680e40b9e35b66e29fe9ae12c - no pb_ds/__gnu_pbds/binary_heap/erase_if/priority_queue and no <ext/...> includes; (3) libvips 8.18.7 = libvips/libvips commit 24ad4d042940e6bf99a68871ba886ca8847c9c82 - no pb_ds/__gnu_pbds/binary_heap/erase_if and no <ext/...> includes; (4) libvips-cpp statically-bundled C++ deps per @img/sharp-libvips-linux-x64/versions.json - highway 1.4.0 (2607d3b5...), libultrahdr 2.0.2 (e5f5a022...), harfbuzz 14.5.0 (863d3f77...), libheif 1.23.5 (413e2a87...) - all no matches (the remaining bundled deps are C libraries and cannot instantiate C++ templates); (5) sharp 0.35.5 addon = lovell/sharp commit 51a990faa26ade5586a4934ac9673c98d8893326 - no pb_ds/__gnu_pbds/binary_heap/erase_if. Component level: the artifact ships only libstdc++6 12.2.0-14+deb12u1 and gcc-12-base - NO libstdc++-12-dev, no C++ headers (/usr/include/c++ absent), no compiler - so the vulnerable header ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp is not installed and cannot be compiled in-image; the only way it could be present is as a pre-built instantiation in a shipped consumer, which the source audit excludes for every consumer.",
+      "reachabilityEvidence": "Not required once presence is disproven at source level, and independently corroborated: the only runtime C++ consumer is node, which loads libstdc++ but whose source set contains no pb_ds reference; libvips-cpp and the sharp addon are loaded by no running process (runtime maps receipts) and also have no pb_ds source. There is no path by which a vulnerable erase_if instantiation exists in any executable page of this artifact.",
+      "attackerControlledPrerequisite": "Moot: the vulnerable operation is not present. For completeness - triggering requires C++ code calling erase_if on a __gnu_pbds binary_heap priority_queue with attacker-influenced contents; no compiled consumer in the artifact references pb_ds at all.",
       "privilegePrerequisite": "none (not applicable)",
       "cisaKev": {
         "inKev": false,
@@ -111,9 +116,9 @@
         "policy": "PH-SEC-VEX-POLICY via ADR-0007",
         "proposedBy": "Codex executor - proposes only; independent audit + owner approval still required"
       },
-      "residualRisk": "LOW. The disposition rests on enumerated-consumer byte/symbol evidence of the exact artifact binaries. If a future image change ships a new compiled C++ binary that instantiates __gnu_pbds binary_heap erase_if, this disposition expires. Confidence HIGH for presence-absence (positive bytes/dynsym audit of every libstdc++ consumer); the audit did not rely on symbol absence from libstdc++.so.",
-      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; libstdc++6/gcc-12 package version change; any change to the compiled C++ consumer set (new binary linking libstdc++.so.6); new upstream advisory; KEV status change.",
-      "dispositionTimestamp": "2026-10-05T16:40:00Z",
+      "residualRisk": "LOW. The disposition rests on source-level absence at the exact shipped version of every compiled C++ consumer plus the component-level absence of the pb_ds header/dev package. It expires if any consumer version changes or a new compiled consumer linking libstdc++ is added to the image.",
+      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; libstdc++6/gcc-12 package version change; any consumer version change (node/apt/libvips/sharp) or new compiled consumer; new upstream advisory; KEV status change.",
+      "dispositionTimestamp": "2026-10-05T17:30:00Z",
       "confidence": "high",
       "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
       "ownerApproval": "PENDING",
@@ -121,13 +126,19 @@
         "receipts/upstream/cve-2026-102010-commit-meta.txt",
         "receipts/upstream/cve-2026-102010-binary_heap.diff",
         "receipts/upstream/cve-2026-102010-erase_fn_imps-vulnerable.hpp",
-        "receipts/cve-102010-presence-probe.txt",
-        "receipts/cve-102010-presence-probe2.txt",
-        "receipts/cve-102010-presence-probe3.txt",
-        "receipts/dynsym-align-val-analysis.json",
-        "receipts/libstdcxx-consumer-set.json",
-        "receipts/libstdcxx-consumers-final.txt",
-        "receipts/elf-inventory.txt"
+        "receipts/cr01-cve-2026-102010-presence-proof.json",
+        "receipts/cr01-pbds-header-and-dev-package.txt",
+        "receipts/cr01-consumer-versions.txt",
+        "receipts/cr01-sharp-libvips-versions.txt",
+        "receipts/cr01-cr02-complete-libstdcxx-consumers.txt",
+        "receipts/cr01-source-provenance/cr01-apt-2.6.1-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-libvips-8.18.7-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-highway-1.4.0-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-uhdr-2.0.2-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-harfbuzz-14.5.0-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-libheif-1.23.5-pbds-absence.txt",
+        "receipts/cr01-source-provenance/cr01-sharp-0.35.5-pbds-absence.txt",
+        "receipts/cr03-node-source/cr03-pbds-search.txt"
       ]
     },
     {
@@ -156,7 +167,7 @@
         "container_user": "node (uid 1000)",
         "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
         "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
-        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 §4; unchanged at parent head 5cf4c2f)"
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 section 4; unchanged at parent head 5cf4c2f)"
       },
       "image": {
         "reference": "polyhunter-dev:local",
@@ -170,13 +181,29 @@
       "upstreamAdvisory": {
         "fixStatus": "not fixed for gcc-12 in Debian; upstream fixed in GCC trunk by commit 59d235ffa5a69231eb42e5290d52dc8c90d28b7a (2026-09-23, Jonathan Wakely; Red Hat bug reference 2537811 per locked scanner evidence)",
         "affectedCondition": "operator new(size_t, align_val_t) rounds the size up to a multiple of the alignment ((sz + al - 1) & ~(al - 1)) before calling C11 aligned_alloc on targets compiled with _GLIBCXX_HAVE_ALIGNED_ALLOC and without _GLIBCXX_HAVE_POSIX_MEMALIGN. With sz near SIZE_MAX the addition wraps to a small value; aligned_alloc succeeds and returns a non-null pointer to an undersized region -> heap memory corruption in the caller.",
-        "overflowFormula": "wraparound iff sz + align - 1 >= 2^64, i.e. sz >= 2^64 - (align - 1); for align=64 (the only alignment used by the artifact's sole aligned consumer): sz >= 2^64 - 63 = 18446744073709551553. A wrapped request then allocates (sz + 63) mod 64 bytes instead of sz."
+        "overflowFormula": "wraparound iff sz + align - 1 >= 2^64, i.e. sz >= 2^64 - (align - 1). For align=64: sz >= 2^64 - 63 = 18446744073709551553. A wrapped request then allocates (sz + align - 1) mod align bytes instead of sz."
       },
       "vulnerableCodePresent": true,
-      "presenceEvidence": "CONFIRMED PRESENT and confirmed to be the vulnerable variant: _ZnwmSt11align_val_t/_ZnamSt11align_val_t are exported by the shipped libstdc++.so.6.0.30 and the .so imports glibc 'aligned_alloc' (libstdcxx-allocator-imports.json; no posix_memalign import). Byte-level decode of _ZnwmSt11align_val_t (receipt libstdcxx-opnew-align-body.hex) shows the C11 rounding sequence lea rax,[rbx+rbp-1]; neg rbp; and rbp,rax ((sz+al-1) & ~(al-1)) at offset +0x2D followed by a call to glibc aligned_alloc — i.e. the exact code the upstream fix hardens is compiled in (the posix_memalign fast path from PR 113258 is NOT compiled in for gcc 12.2.0-14+deb12u1). node links this .so (ldd receipt artifact-identity.txt), so the vulnerable code is mapped into the running process.",
-      "reachabilityEvidence": "UNREACHABLE with any size that can trigger the overflow. Exhaustive PLT/call-site analysis of the exact shipped node binary (126,595,440 bytes): exactly one JUMP_SLOT relocation for _ZnamSt11align_val_t (GOT 0x6b55608, PLT stub 0x747010) and exactly 2 call sites to that stub (cve-95619-callsite-analysis.json), both inside v8::internal::OptimizingCompileTaskExecutor::EnsureInitialized() (symbol _ZN2v88internal29OptimizingCompileTaskExecutor17EnsureInitializedEv, 0xd71fc0..0xd72316). Source mapping at exact tag v24.21.0: deps/v8/src/compiler-dispatcher/optimizing-compile-dispatcher.cc:141-142 -> base::OwnedVector<OptimizingCompileTaskState>::New(max_tasks) -> std::make_unique<OptimizingCompileTaskState[]>(max_tasks); OptimizingCompileTaskState is alignas(PROCESSOR_CACHE_LINE_SIZE)=alignas(64) (optimizing-compile-dispatcher.h:29; PROCESSOR_CACHE_LINE_SIZE=64, common/globals.h:1025), so the call is operator new[](max_tasks * 64, align_val_t(64)). max_tasks = v8_flags.concurrent_turbofan_max_threads (DEFINE_UINT, default 4; flag-definitions.h:1181) or, if 0, NumberOfWorkerThreads() (node clamps to uv_available_parallelism()-1 min 1, src/node_platform.cc:88-93). n is a bounded small integer (default 4; CPU-derived pool, < 2^20 in any realistic host), so n*64 <= ~2^37 — more than 2^27 times below the 2^64-63 threshold. JS cannot influence max_tasks: it is a startup-only V8 flag/CLI value and a platform thread count, never a runtime JS-settable value (no reference in src/). The other compiled C++ consumers: apt/libapt carry zero align_val_t references (byte scan cve-95619-consumers.txt); libvips-cpp.so.8.18.7 has exactly one _ZnamSt11align_val_t call site at .text 0x403ab3 with constant size argument (mov esi,4) — cannot wrap — and libvips-cpp is loaded by no running process in the local-dev runtime (sharp is next's optional image-optimizer, used only by 'next start' production image optimization; compose runs next dev --webpack; no app import of sharp or next/image: sharp-libvips-exposure.json, libvips-cpp-aligned-new-callsite-analysis.json). The application's JS/TS surface cannot call a C++ operator; and the only C++ code that reaches the operator does so with a bounded, non-attacker-derived size. cppgc's aligned Allocate entry points (DEFINED dynsym symbols) do not call global aligned operator new at all — they route to the Oilpan PageBackend linear-allocation buffer (object-allocator.cc OutOfLineAllocateImpl), so the DEFINED cppgc symbols are name-coincidence, not calls.",
-      "attackerControlledPrerequisite": "an input path causing a compiled consumer to pass sz >= 2^64 - 63 to operator new(size_t, align_val_t). Positively disproven: the artifact's only aligned-new caller passes max_tasks*64 with max_tasks bounded by startup flags/thread counts; no JS-reachable API influences it; no other consumer calls aligned new with any size that can wrap (libvips: constant 4; apt: no calls).",
-      "privilegePrerequisite": "none (not applicable; also note container runs as node uid 1000 with no capabilities)",
+      "presenceEvidence": "CONFIRMED PRESENT and confirmed to be the vulnerable variant: _ZnwmSt11align_val_t/_ZnamSt11align_val_t are exported by the shipped libstdc++.so.6.0.30 and the .so imports glibc 'aligned_alloc' (libstdcxx-allocator-imports.json; no posix_memalign import). Byte-level decode of _ZnwmSt11align_val_t (receipt libstdcxx-opnew-align-body.hex) shows the C11 rounding sequence lea rax,[rbx+rbp-1]; neg rbp; and rbp,rax ((sz+al-1) & ~(al-1)) at offset +0x2D followed by a call to glibc aligned_alloc - i.e. the exact code the upstream fix hardens is compiled in (the posix_memalign fast path from PR 113258 is NOT compiled in for gcc 12.2.0-14+deb12u1). node links this .so (ldd receipt artifact-identity.txt) and maps it at runtime (runtime maps receipts), so the vulnerable code is mapped into the running process.",
+      "reachabilityEvidence": "The complete set of consumers that link libstdc++.so.6 was enumerated across the whole image (receipt cr01-cr02-complete-libstdcxx-consumers.txt): node, apt/libapt (and apt method helpers), libvips-cpp.so.8.18.7, and sharp-linux-x64-0.35.5.node. Only node is executed in the local-dev runtime; the others are proven not loaded by direct process memory-map evidence (receipts cr02-runtime/*). For node - the reachable consumer - exhaustive PLT/relocation analysis of the exact shipped binary gives ONE aligned-new import (_ZnamSt11align_val_t, dynsym[532], 1 JUMP_SLOT at GOT 0x6b55608, PLT stub 0x747010) and exactly TWO call sites, both inside v8::internal::OptimizingCompileTaskExecutor::EnsureInitialized() (_ZN2v88internal29OptimizingCompileTaskExecutor17EnsureInitializedEv). Source mapping at exact tag v24.21.0 (commit 955266bfdd854cd280dffd47548673914484e4c0, receipt cr03-node-source/): deps/v8/src/compiler-dispatcher/optimizing-compile-dispatcher.cc:141-142 -> base::OwnedVector<OptimizingCompileTaskState>::New(max_tasks) -> std::make_unique<T[]>(max_tasks) (base/vector.h:287-290); OptimizingCompileTaskState is alignas(PROCESSOR_CACHE_LINE_SIZE)=alignas(64) (optimizing-compile-dispatcher.h:29; PROCESSOR_CACHE_LINE_SIZE=64, common/globals.h:1025); so the call is operator new[](max_tasks * 64, align_val_t(64)). max_tasks = v8_flags.concurrent_turbofan_max_threads (DEFINE_UINT, default 4, startup-only, flag-definitions.h:1181) or, if 0, NumberOfWorkerThreads() (node clamps to uv_available_parallelism()-1, min 1, src/node_platform.cc:88-93). n is a bounded small integer, so n*64 is many orders of magnitude below 2^64-63; and no JavaScript runtime setter for the flag exists (source search for align_val_t returns only the non-calling cppgc path, receipt cr03-node-source/cr03-align-val-t-search.txt). cppgc's DEFINED aligned Allocate symbols route to the Oilpan PageBackend LAB, not to global aligned operator new.",
+      "libvipsBranchCorrection": {
+        "correction": "CR-02 - the prior receipt misdecoded the libvips call site as 'mov esi,4 (size=4)'. Under x86-64 System V, operator new[](size_t size, align_val_t alignment) takes RDI=size, RSI=alignment. Corrected decoding (receipt cr02-libvips-aligned-new-callsite-analysis.json): mov esi,4 sets alignment=4; mov rdi,r12 sets size=r12, where 0x4037eb lea r12,[rsi-0xe] makes size = (second argument) - 14. R12 is written only at that site on the path that reaches the call. The argument is a DATA-DERIVED buffer length (the function validates an 'ICC_PROFILE' magic (0x464f52505f434349 + 0x454c49) and ICC tag signatures gXYZ/bXYZ/cicp, requiring length > 145), NOT a constant. The prior 'constant size 4, cannot wrap' claim is WITHDRAWN. The exact source translation unit could not be mapped (the function is not among libvips-cpp's exported dynsym entries), so the size bound/attacker-control for this call site is NOT proven at source level."
+      },
+      "attackerControlledPrerequisite": "an input path causing a compiled consumer to pass sz >= 2^64 - 63 (align 64) or sz >= 2^64 - 3 (align 4) to operator new(size_t, align_val_t). For the only reachable caller (node) this is disproven: max_tasks*64 with max_tasks bounded by startup flags/thread counts. For libvips-cpp the call site's size bound is not proven at source; that call site is instead excluded by direct runtime unreachability (below). sharp-linux-x64.node and apt/libapt carry zero aligned-new references.",
+      "runtimeUnreachabilityOfNonNodeConsumers": {
+        "method": "direct process memory-map inspection of the exact running local-dev runtime (docker exec ... cat /proc/<pid>/maps for every PID in the web and worker containers).",
+        "result": "libvips-cpp.so.8.18.7 and sharp-linux-x64-0.35.5.node appear in ZERO mappings; the only node_modules native module mapped anywhere is @next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node, which does not link libstdc++.so.6.",
+        "consequence": "the libvips aligned-new call site cannot execute in the exact local-dev runtime, independently of any size argument; this closes the CR-02 branch on the runtime-evidence route permitted by the audit.",
+        "limitation": "point-in-time observation of the local-dev runtime; if image optimisation (sharp/next-image) becomes active, the branch must be re-opened.",
+        "receipts": [
+          "receipts/cr02-runtime/web-all-maps.txt",
+          "receipts/cr02-runtime/worker-all-maps.txt",
+          "receipts/cr02-runtime-web-detail.txt",
+          "receipts/cr02-runtime-mapped-native-modules.txt",
+          "receipts/cr02-next-swc-and-native-modules.txt"
+        ]
+      },
+      "privilegePrerequisite": "none (not applicable; container runs as node uid 1000 with no capabilities)",
       "cisaKev": {
         "inKev": false,
         "catalogVersion": "2026.10.04",
@@ -193,12 +220,13 @@
         "status": "NOT_AFFECTED",
         "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
         "policy": "PH-SEC-VEX-POLICY via ADR-0007",
-        "proposedBy": "Codex executor - proposes only; independent audit + owner approval still required"
+        "proposedBy": "Codex executor - proposes only; independent audit + owner approval still required",
+        "justificationBasis": "The reachable consumer is node; its single aligned-new call path passes max_tasks*64 with max_tasks a startup-only flag/thread count, so an adversary cannot cause the overflow size. The identifiable non-node consumers (libvips-cpp, sharp addon) are not loaded in the local-dev runtime and apt/libapt carry no aligned-new references."
       },
-      "residualRisk": "LOW-MEDIUM. Vulnerable library code is confirmed mapped into the running node process; safety rests on (a) the complete enumeration of aligned-new call sites in the exact shipped node binary via PLT relocation analysis — the import exists precisely because calls go through the PLT; a same-binary inlined implementation of aligned operator new would not import the symbol, and a source search of the exact Node v24.21.0 tag for align_val_t finds only the cppgc path that does not call global aligned new, matching the binary — and (b) bounded startup-only sizes. Any Node/V8 upgrade or any new native module in the image expires this disposition. Confidence HIGH for the enumerated path; no path from JavaScript reaches the operator with attacker-controlled size.",
-      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; node/V8 major or build change; libstdc++6/gcc-12 package version change (a Debian fix would move the row to FIXED); any new compiled C++ binary or native addon linking libstdc++.so.6 in the image; new upstream advisory; KEV status change.",
-      "dispositionTimestamp": "2026-10-05T16:40:00Z",
-      "confidence": "high",
+      "residualRisk": "LOW-MEDIUM. Vulnerable library code is confirmed mapped into the running node process. Safety rests on (a) complete enumeration of aligned-new call sites in the exact shipped node binary (one import, two call sites, bounded size) with preserved Node v24.21.0 source provenance (CR-03); and (b) direct runtime evidence that libvips-cpp / sharp addon are not loaded. The libvips call site's size bound is NOT proven at source and is excluded only by runtime unreachability - a genuine, disclosed limitation. Any Node/V8 upgrade, any consumer version change, or activation of image optimisation expires this disposition.",
+      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; node/V8 change; libstdc++6/gcc-12 package version change (a Debian fix moves this row to FIXED); any consumer version change or new compiled consumer linking libstdc++.so.6; activation of sharp/next-image image optimisation in the runtime; new upstream advisory; KEV status change.",
+      "dispositionTimestamp": "2026-10-05T17:30:00Z",
+      "confidence": "medium-high (node path high; libvips branch excluded by runtime evidence, not by a proven size bound)",
       "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
       "ownerApproval": "PENDING",
       "receipts": [
@@ -210,14 +238,19 @@
         "receipts/cve-95619-node-dynsym.json",
         "receipts/cve-95619-callsite-analysis.json",
         "receipts/cve-95619-consumers.txt",
-        "receipts/libvips-cpp-aligned-new-callsite-analysis.json",
-        "receipts/libvips-cpp-aligned-new-callsites.json",
-        "receipts/sharp-libvips-exposure.json",
+        "receipts/cr02-libvips-disasm-console.txt",
+        "receipts/cr02-libvips-stub-verification.txt",
+        "receipts/cr02-libvips-function-dump.txt",
+        "receipts/cr02-libvips-caller-full.txt",
+        "receipts/cr02-libvips-aligned-new-callsite-analysis.json",
+        "receipts/cr02-libvips-r12-trace.json",
+        "receipts/cr02-runtime/web-all-maps.txt",
+        "receipts/cr02-runtime/worker-all-maps.txt",
+        "receipts/cr02-runtime-web-detail.txt",
+        "receipts/cr02-runtime-mapped-native-modules.txt",
+        "receipts/cr02-next-swc-and-native-modules.txt",
         "receipts/v8-runtime-bounds.json",
-        "receipts/glibc-aligned-capability.txt",
-        "receipts/artifact-identity.txt",
-        "receipts/dynsym-align-val-analysis.json",
-        "receipts/libstdcxx-consumer-set.json"
+        "receipts/artifact-identity.txt"
       ]
     }
   ]

@@ -1,0 +1,25 @@
+{
+ "binary": ".engineering/evidence/PH-SEC-WO-008/receipts/extracted/libvips-cpp.so.8.18.7",
+ "target_symbol": "_ZnamSt11align_val_t",
+ "call_analysis": [
+  {
+   "call_site": "0x403ab3",
+   "plt_stub": "0x1f20",
+   "enclosing_function": {
+    "vaddr": "0x403780",
+    "size": 1045
+   },
+   "last_writes_to_r12": [
+    "0x40395c: mov      rax, r12",
+    "0x40398c: mov      rax, r12",
+    "0x4039d1: mov      rsi, r12",
+    "0x403aab: mov      rdi, r12"
+   ],
+   "last_writes_to_rdi": [],
+   "call_context": [
+    ">>> 0x403aae: mov      qword ptr [rsp + 8], r10",
+    ">>> 0x403ab3: call     0x1f20"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+# query: sh -c grep -n "define PROCESSOR_CACHE_LINE_SIZE" deps/v8/src/common/globals.h
+# node tag: v24.21.0  commit: 955266bfdd854cd280dffd47548673914484e4c0
+# date: 2026-10-05T16:55:46Z
+
+1025:#define PROCESSOR_CACHE_LINE_SIZE 64

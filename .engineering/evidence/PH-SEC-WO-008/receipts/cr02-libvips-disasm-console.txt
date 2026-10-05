@@ -1,0 +1,50 @@
+call sites to _ZnamSt11align_val_t: ['0x403ab3']
+
+=== window around call site 0x403ab3 ===
+0x403a13: or       al, 0x81
+0x403a15: jb       0x403a70
+0x403a18: pop      rcx
+0x403a19: pop      rdx
+0x403a1a: jne      0x403840
+0x403a20: mov      edx, dword ptr [rsi + 4]
+0x403a23: add      rax, 1
+0x403a27: mov      r11d, dword ptr [rsi + 8]
+0x403a2b: bswap    edx
+0x403a2d: mov      edx, edx
+0x403a2f: bswap    r11d
+0x403a32: mov      r11d, r11d
+0x403a35: cmp      rax, r8
+0x403a38: je       0x403920
+0x403a3e: add      rsi, 0xc
+0x403a42: jmp      0x403837
+0x403a47: nop      word ptr [rax + rax]
+0x403a50: mov      ecx, dword ptr [rsi + 4]
+0x403a53: mov      r13d, dword ptr [rsi + 8]
+0x403a57: bswap    ecx
+0x403a59: mov      ecx, ecx
+0x403a5b: bswap    r13d
+0x403a5e: mov      r13d, r13d
+0x403a61: jmp      0x403888
+0x403a66: nop      word ptr cs:[rax + rax]
+0x403a70: mov      edi, dword ptr [rsi + 4]
+0x403a73: mov      r14d, dword ptr [rsi + 8]
+0x403a77: bswap    edi
+0x403a79: mov      edi, edi
+0x403a7b: bswap    r14d
+0x403a7e: mov      r14d, r14d
+0x403a81: jmp      0x403888
+0x403a86: nop      word ptr cs:[rax + rax]
+0x403a90: mov      edi, dword ptr [rsi + 4]
+0x403a93: mov      r14d, dword ptr [rsi + 8]
+0x403a97: bswap    edi
+0x403a99: mov      edi, edi
+0x403a9b: bswap    r14d
+0x403a9e: mov      r14d, r14d
+0x403aa1: jmp      0x4038e8
+0x403aa6: mov      esi, 4
+0x403aab: mov      rdi, r12
+0x403aae: mov      qword ptr [rsp + 8], r10
+0x403ab3: call     0x1f20
+0x403ab8: mov      rsi, qword ptr [rsp + 8]
+
+receipt written

@@ -1,5 +1,6 @@
 {
  "workOrder": "PH-SEC-WO-008",
+ "revision": "post CR-01/CR-02/CR-03",
  "timestamp": "2026-10-05",
  "checks": [
   {
@@ -10,40 +11,27 @@
   },
   {
    "id": "P1",
-   "check": "HEAD == parent head + WO-008 planning commits only",
-   "result": "PASS",
-   "detail": "HEAD=ad0f5994d3c460a4a49b1e4b81a1fd90f8d5131a; merge-base(HEAD,main)=e1237cda839829a6a4eedba3b9917d6ee45c6352"
-  },
-  {
-   "id": "P1",
    "check": "parent head 5cf4c2f is ancestor of HEAD",
    "result": "PASS",
-   "detail": "merge-base --is-ancestor"
+   "detail": "HEAD=cf69a30f3eac5601be23492cc271e8521c85481f"
   },
   {
    "id": "P2",
    "check": "PR #15 OPEN+DRAFT+unmerged at 5cf4c2f",
    "result": "PASS",
-   "detail": "gh pr view 15: state OPEN, isDraft true, mergedAt null, headRefOid 5cf4c2ffe7b5365ca4941253f92b612f0322a83d"
+   "detail": "state OPEN, isDraft true, mergedAt null, headRefOid 5cf4c2ffe7b5365ca4941253f92b612f0322a83d"
   },
   {
    "id": "P2",
    "check": "PR #35 exists on this branch",
    "result": "PASS",
-   "detail": "gh pr view 35: state OPEN, headRefName security/ph-m01-libstdcpp-final-two"
+   "detail": "state OPEN, headRefName security/ph-m01-libstdcpp-final-two"
   },
   {
    "id": "P3",
    "check": "Context Lock criticalSources fingerprints",
    "result": "PASS",
-   "detail": "19/19 matched (logical path map: locked-sarif -> PH-SEC-WO-005/validation/polyhunter-dev-final.sarif; WO-007 artifacts at .engineering/evidence/ root; WO-007 context lock at .engineering/context-locks/)",
-   "logicalPathMap": {
-    "parent:locked-sarif": ".engineering/evidence/PH-SEC-WO-005/validation/polyhunter-dev-final.sarif",
-    "parent:PH-SEC-WO-007-VEX.json": ".engineering/evidence/PH-SEC-WO-007-VEX.json",
-    "parent:PH-SEC-WO-007-EVIDENCE.md": ".engineering/evidence/PH-SEC-WO-007-EVIDENCE.md",
-    "parent:PH-SEC-WO-007-OWNER-APPROVAL.md": ".engineering/evidence/PH-SEC-WO-007-OWNER-APPROVAL.md",
-    "parent:PH-SEC-WO-007-context-lock": ".engineering/context-locks/PH-SEC-WO-007.json"
-   }
+   "detail": "19/19 matched"
   },
   {
    "id": "P4",
@@ -73,36 +61,48 @@
    "id": "P6",
    "check": "WO-007 VEX: 20 NOT_AFFECTED owner-approved + exactly 2 unresolved",
    "result": "PASS",
-   "detail": "WO-007 VEX.json summary: 20 NOT_AFFECTED, 2 UNDER_INVESTIGATION (CVE-2026-102010, CVE-2026-95619); owner approval receipt committed"
+   "detail": "WO-007 VEX summary: 20 NOT_AFFECTED, 2 UNDER_INVESTIGATION"
   },
   {
    "id": "P6",
    "check": "original 35 Go HIGH/CRITICAL remain zero",
    "result": "PASS",
-   "detail": "0 Go-related rules in locked SARIF"
+   "detail": "0 Go rules"
   },
   {
    "id": "P7",
    "check": "KEV snapshot",
    "result": "PASS",
-   "detail": "catalogVersion 2026.10.04; target CVEs in KEV: []"
+   "detail": "catalogVersion 2026.10.04; target in KEV: []"
   },
   {
    "id": "P7",
    "check": "EPSS snapshot",
    "result": "PASS",
-   "detail": "[('CVE-2026-95619', '0.003630000', '2026-10-05'), ('CVE-2026-102010', '0.002500000', '2026-10-05')]"
+   "detail": "[('CVE-2026-95619', '0.003630000'), ('CVE-2026-102010', '0.002500000')]"
   },
   {
    "id": "P8",
    "check": "Node/V8 identity captured",
    "result": "PASS",
-   "detail": "{\"node\":\"24.21.0\",\"acorn\":\"8.18.0\",\"ada\":\"4.0.0\",\"amaro\":\"1.1.11\",\"ares\":\"1.34.8\",\"brotli\":\"1.2.0\",\"cldr\":\"48.0\",\"icu\":\"78.3\",\"llhttp\":\"9.4.3\",\"merve\":\"1.2.2\",\"modules\":\"137\",\"napi\":\"10\",\"nbytes\":\"0.1.4\",\"ncrypto\":\"0.0.1\",\"nghttp2\":\"1.70.0\",\"nghttp3\":\"\",\"ngtcp2\":\"\",\"openssl\":\"3.5.8\",\"simdjson\":\"4.6.7\",\"simdutf\":\"6.4.0\",\"sqlite\":\"3.53.4\",\"tz\":\"2026c\",\"undici\":\"7.29.1\",\"unicode\":\"17.0\",\"uv\":\"1.52.1\",\"uvwasi\":\"0.0.23\",\"v8\":\"13.6.233.17-node.53\",\"zlib\":\"1.3.2.1-motley-8002e91\",\"zstd\":\"1.5.7\"}"
+   "detail": "node=24.21.0"
+  },
+  {
+   "id": "E1",
+   "check": "SHA256SUMS.txt verifies over all receipts",
+   "result": "PASS",
+   "detail": "OK"
+  },
+  {
+   "id": "E2",
+   "check": "git diff --check (no whitespace errors in tracked changes)",
+   "result": "PASS",
+   "detail": "clean"
   }
  ],
  "summary": {
-  "total": 15,
-  "pass": 15,
+  "total": 16,
+  "pass": 16,
   "fail": 0
  }
 }

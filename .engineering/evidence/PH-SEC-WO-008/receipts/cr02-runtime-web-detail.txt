@@ -1,0 +1,34 @@
+===== pid=46 comm=MainThread =====
+--- libstdc++ mappings ---
+76d6d0d2e000-76d6d0dc7000 r--p 00000000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+76d6d0dc7000-76d6d0ec8000 r-xp 00099000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+76d6d0ec8000-76d6d0f37000 r--p 0019a000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+76d6d0f37000-76d6d0f42000 r--p 00209000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+76d6d0f42000-76d6d0f45000 rw-p 00214000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+--- libvips mappings ---
+(none)
+--- node_modules .so mapped? ---
+===== pid=7 comm=npm run dev --w =====
+--- libstdc++ mappings ---
+7f8464f67000-7f8465000000 r--p 00000000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+7f8465000000-7f8465101000 r-xp 00099000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+7f8465101000-7f8465170000 r--p 0019a000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+7f8465170000-7f846517b000 r--p 00209000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+7f846517b000-7f846517e000 rw-p 00214000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+--- libvips mappings ---
+(none)
+--- node_modules .so mapped? ---
+===== pid=72 comm=next-server (v1 =====
+--- libstdc++ mappings ---
+733b88932000-733b889cb000 r--p 00000000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+733b889cb000-733b88acc000 r-xp 00099000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+733b88acc000-733b88b3b000 r--p 0019a000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+733b88b3b000-733b88b46000 r--p 00209000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+733b88b46000-733b88b49000 rw-p 00214000 00:5a 236750                     /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+--- libvips mappings ---
+(none)
+--- node_modules .so mapped? ---
+733b2a3c1000-733b2bbb0000 r--p 00000000 00:5a 675590                     /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node
+733b2bbb0000-733b2fd22000 r-xp 017ee000 00:5a 675590                     /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node
+733b2fd22000-733b2ff86000 r--p 0595f000 00:5a 675590                     /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node
+733b2ff86000-733b2fff8000 rw-p 05bc2000 00:5a 675590                     /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node

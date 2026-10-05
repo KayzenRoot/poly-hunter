@@ -1,8 +1,10 @@
 {
- "finding": "libvips-cpp.so.8.18.7 has exactly 1 call site to _ZnamSt11align_val_t (operator new[](size, align_val_t)), at .text 0x403ab3.",
- "context_bytes": "be 04 00 00 00 = mov esi, 4 (size argument = 4); 4c 89 e7 = mov rdi, r12 (alignment argument in a register); e8 68 e4 bf ff = call aligned new[]",
- "size_argument": "constant 4 (mov esi,4). The size passed to operator new[] is a fixed small constant, not attacker-derived.",
- "enclosing_export": "not determinable from .dynsym alone (the enclosing function is not among libvips-cpp's 2690 exported dynsym entries; nearest prior export g_gtype_get_type@0x313f37 is 981 KB earlier, so this call sits in an unexported internal TU). Presence of a fixed size=4 call is nonetheless decisive for the overflow question.",
- "overflow_check": "size=4 with any power-of-two alignment cannot wrap 64-bit; alignment is a compile-time constant from alignof(T).",
- "conclusion": "libvips-cpp's aligned-new use cannot reach the CVE-2026-95619 overflow threshold. Additionally, libvips-cpp is not loaded by any running process in the local-dev runtime (dev-mode Next.js, no image optimization, no direct import)."
+  "supersededBy": "cr02-libvips-aligned-new-callsite-analysis.json (Correction Delta CR-02)",
+  "withdrawn_claims": [
+    "'mov esi, 4 (size argument = 4)' - WRONG: under x86-64 SysV, operator new[](size_t, align_val_t) takes RSI = alignment, so mov esi,4 sets alignment = 4.",
+    "'constant 4 ... a fixed small constant, not attacker-derived' - WRONG: size is in RDI (mov rdi,r12), and r12 = rsi - 0xe, a data-derived buffer length.",
+    "'cannot reach the CVE-2026-95619 overflow threshold' via a constant size - unsupported and withdrawn."
+  ],
+  "corrected_summary": "See cr02-libvips-aligned-new-callsite-analysis.json. libvips-cpp.so.8.18.7 has exactly one _ZnamSt11align_val_t call site (.text 0x403ab3); alignment = 4; size comes from R12 = (second argument) - 14, a data-derived ICC-profile buffer length. The size bound is not proven at source. The branch is closed by direct runtime-unreachability evidence (receipts/cr02-runtime/*), not by a size argument.",
+  "original_receipt_preserved_in_git_history": true
 }

@@ -1,0 +1,48 @@
+{
+  "correction": "CR-02 — prior receipt misdecoded the libvips call site. It claimed 'mov esi,4 (size argument = 4)'. That is ABI-wrong and is withdrawn.",
+  "abi": {
+    "signature": "void* operator new[](std::size_t size, std::align_val_t alignment)",
+    "x86_64_sysv": "RDI = size (first integer arg); RSI = alignment (second integer arg).",
+    "consequence": "mov esi,4 sets alignment = 4, NOT size. The size is in RDI, loaded from R12 (mov rdi,r12)."
+  },
+  "verified_call_site": {
+    "call_vaddr": "0x403ab3",
+    "bytes_immediately_before": "be 04 00 00 00 (mov esi,4 = alignment) ; 4c 89 e7 (mov rdi,r12 = size) ; 4c 89 54 24 08 (mov [rsp+8],r10) ; e8 68 e4 bf ff (call)",
+    "plt_stub": "0x1f20",
+    "plt_stub_verification": ".plt entry 0x1f20: ff 25 disp32 -> jmp *GOT 0x116be48; .rela.plt slot 0x116be48 -> dynsym[532] = _ZnamSt11align_val_t (type 7 = R_X86_64_JUMP_SLOT, shndx=0 UNDEF). Verified by direct structure parsing, not heuristics (receipt cr02-libvips-stub-verification.txt).",
+    "call_sites_to_stub_in_binary": 1,
+    "enclosing_function": {"vaddr": "0x403780", "size": 1045},
+    "single_caller": {"vaddr": "0x3ef350", "enclosing_function": "0x3ef120 +1275"}
+  },
+  "size_provenance": {
+    "register": "R12",
+    "write_discovered_at": "0x4037eb: lea r12, [rsi - 0xe]  (r12 = second_argument - 14)",
+    "note": "R12 is written exactly twice in the enclosing function before the call path: 0x4037eb (lea r12,[rsi-0xe]) and the never-taken 0x4039c9 (lea r12,[r10+rdx]) on a different branch. The path that reaches the aligned-new call enters at 0x4037fa (jne 0x403aa6) straight after the 0x4037eb assignment, so size = rsi - 14.",
+    "argument_meaning": "rsi is the length of a buffer whose first bytes are validated against the ASCII magic 'ICC_PROFILE' (movabs rax,0x464f52505f434349 = 'ICC_PROF' compared at [rdi]; cmp dword [rdi+8],0x454c49 = 'ILE'; entry guard cmp rsi,0x91 requires length > 145). The function is an ICC-profile / colour-tag parser.",
+    "tags_parsed": "0x5a595867='gXYZ', 0x5a595862='bXYZ', 0x70636963='cicp' (ICC tag signatures).",
+    "conclusion": "The size argument is DATA-DERIVED (a profile buffer length minus 14), not a compile-time constant. The prior 'constant size 4, cannot wrap' conclusion was wrong and is withdrawn."
+  },
+  "bound_and_attacker_control": {
+    "proven": false,
+    "statement": "The exact numeric bound of (buffer length - 14) and whether it can be attacker-influenced were NOT proven from the exact libvips source for this stripped binary. The enclosing function is not among libvips-cpp's exported dynsym entries, so the specific C++ translation unit could not be conclusively mapped. Per CR-02 instruction, this branch is therefore treated as NOT independently proven.",
+    "supporting_arithmetic": "For the overflow (threshold 2^64 - 63 at align 64; at align 4 the rounding addition is sz + 3) the size argument would have to approach 2^64, which no reachable producer of a profile buffer can materialise; but this is a supporting argument, not a proof, and is not relied upon."
+  },
+  "resolution_basis": {
+    "chosen": "runtime-unreachability in the exact local-dev runtime (CR-02 option 5), proven directly from process memory maps.",
+    "evidence": [
+      "receipts/cr02-runtime/web-all-maps.txt, receipts/cr02-runtime/worker-all-maps.txt: every PID in the web and worker containers; grep for 'libvips' returns zero mappings.",
+      "receipts/cr02-runtime-web-detail.txt: pid 46 (MainThread), pid 7 (npm run dev), pid 72 (next-server) each map libstdc++.so.6 but NO libvips-cpp.",
+      "receipts/cr02-runtime-mapped-native-modules.txt: the only node_modules native module mapped anywhere is @next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node, which does NOT link libstdc++.so.6 (receipt cr02-next-swc-and-native-modules.txt)."
+    ],
+    "secondary_consumer_found": {
+      "path": "/workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node",
+      "links_libstdcxx": true,
+      "mapped_at_runtime": false,
+      "align_val_refs": 0,
+      "pb_ds_refs": 0,
+      "note": "This consumer was missed by the prior 'libvips-cpp only' enumeration; it is now included. It is not mapped in any process and has zero aligned-new references."
+    },
+    "limitation": "Memory-map evidence is a point-in-time observation of the exact running local-dev runtime. It is valid because the application loads no image-optimisation path in dev mode (no next/image import, no sharp import) and compose runs 'next dev --webpack'. Under any environment where sharp image optimisation is active, this branch must be re-opened."
+  },
+  "disposition_effect": "CVE-2026-95619's primary proof remains the Node/V8 path (bounded, non-adversarial, ≥2^27 below threshold). The libvips branch is no longer claimed safe by a size argument; it is cleared only by runtime-unreachability and is explicitly flagged as unproven-at-source with a revalidation trigger."
+}

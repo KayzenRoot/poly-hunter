@@ -1,0 +1,6 @@
+=== harfbuzz 14.5.0 provenance — bundled C++ dep of libvips-cpp ===
+commit=863d3f7787c6df18d20e4535c5906bf3eb803bd5
+tag=14.5.0
+subject=14.5.0
+=== search pb_ds | __gnu_pbds | binary_heap | ext/pb_ds ===
+NO MATCHES

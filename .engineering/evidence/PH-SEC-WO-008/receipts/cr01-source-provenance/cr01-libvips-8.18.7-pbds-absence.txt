@@ -1,0 +1,10 @@
+=== libvips source provenance ===
+commit=24ad4d042940e6bf99a68871ba886ca8847c9c82
+tag= (grafted, HEAD, tag: v8.18.7)
+subject=jp2kload: more size validation (#5228)
+author=John Cupitt
+date=2026-09-26T12:29:16+01:00
+=== deterministic search: pb_ds | __gnu_pbds | binary_heap | erase_if | priority_queue in *.cc *.h *.cpp ===
+NO MATCHES (exit 1)
+=== include set: any ext/ header? ===
+NO ext/ includes
