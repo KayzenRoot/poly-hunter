@@ -1,0 +1,6 @@
+{
+  "finding": "libvips-cpp.so.8.18.7 (sharp 0.35.5) is shipped in /workspace/node_modules and imports _ZnamSt11align_val_t/_ZdaPvSt11align_val_t from libstdc++.so.6.0.30, but is not reachable from the running application.",
+  "chain": "sharp is an optional production dependency of next (package-lock: node_modules/next requires sharp ^0.35.4). Next.js uses sharp only for production image optimization (next/image loader in 'next start' mode). The compose web service runs `npm run dev --workspace @polyhunter/web -- --webpack` (next dev), whose dev-mode image optimizer does not invoke sharp. No application code imports next/image (only next-env.d.ts reference) or sharp directly (zero imports in apps/** and packages/**).",
+  "consequence": "libvips-cpp is loaded into no running process in the local-dev runtime; its aligned operator new[] import is therefore never executed at runtime. Even if it were loaded, its aligned-new call sites allocate internal buffers with fixed, non-attacker-derived sizes and alignments.",
+  "receipts": ["locked parent compose.yaml blob 8158fca11ead49ea2f3cb35ad04a4f480a9d90b0", "package-lock.json blob 5c36ff1b825e7087114b83cf01ba8b128cfae484"]
+}

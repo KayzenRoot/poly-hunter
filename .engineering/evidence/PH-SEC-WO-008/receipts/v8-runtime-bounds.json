@@ -1,0 +1,31 @@
+{
+ "purpose": "Runtime size bounds relevant to CVE-2026-95619 defense-in-depth (Node v24.21.0 source, exact tag v24.21.0 = commit 955266bfdd854cd280dffd47548673914484e4c0)",
+ "string_max_length": {
+  "value": "(1<<29)-24 = 536870888 bytes",
+  "source": "deps/v8/include/v8-primitive.h:126-127",
+  "type": "int"
+ },
+ "arraybuffer_max_byte_length": {
+  "node_build": "v8_enable_pointer_compression=0 (node.gyp:5) => V8_ENABLE_SANDBOX off on x86_64 => JSArrayBuffer::kMaxByteLength = kMaxSafeInteger (deps/v8/src/objects/js-array-buffer.h:30-40)",
+  "note": "No JS primitive can allocate a >2^57-byte ArrayBuffer in practice: V8 BackingStore allocations route through the ArrayBufferAllocator using malloc/calloc (deps/v8/src/api/api.cc ArrayBuffer::Allocator), not through aligned operator new"
+ },
+ "buffer_k_max_length": {
+  "value": "v8::Uint8Array::kMaxLength = kMaxByteLength/1",
+  "source": "src/node_buffer.h:32, deps/v8/include/v8-typed-array.h:59-60",
+  "note": "Node Buffer allocation uses ArrayBuffer::Allocator (malloc-based), never operator new(size, align_val_t)"
+ },
+ "max_tasks_bound": {
+  "flag_default": "concurrent_turbofan_max_threads = 4 (deps/v8/src/flags/flag-definitions.h:1181-1183, DEFINE_UINT)",
+  "worker_threads_bound": "node: GetActualThreadPoolSize clamps to uv_available_parallelism()-1, min 1 (src/node_platform.cc:88-93); V8 DefaultPlatform clamps to kMaxThreadPoolSize=16 (deps/v8/src/libplatform/default-platform.cc:33-42)",
+  "conclusion": "n in operator new[](n*64, align_val_t(64)) <= max(4, threads); even with an absurd --v8-pool-size flag value, n is a uint/int with magnitude < 2^31, so n*64 < 2^37 << 2^64-63 overflow threshold"
+ },
+ "overflow_threshold_exact": "CORRECTED BY BINARY ANALYSIS: the shipped libstdc++.so.6.0.30 operator new(size, align_val_t) (both _ZnwmSt11align_val_t and _ZnamSt11align_val_t) DOES perform the C11 aligned_alloc rounding (sz + align - 1) & ~(align - 1) \u2014 byte signature lea rax,[rbx+rbp-1]; neg rbp; and rbp,rax confirmed at _ZnwmSt11align_val_t+0x2D (receipt libstdcxx-opnew-align-body.hex) \u2014 and then calls glibc aligned_alloc. The posix_memalign preference (PR 113258) is NOT compiled in for gcc 12.2.0-14+deb12u1. Therefore the vulnerable code class of CVE-2026-95619 IS present and the overflow formula is: wraparound iff sz + align - 1 >= 2^64, i.e. sz >= 2^64 - 63 for align=64. A wrapped request calls aligned_alloc(al, small) which succeeds, returning an undersized buffer.",
+ "single_callsite": {
+  "site": "v8::internal::OptimizingCompileTaskExecutor::EnsureInitialized() -> base::OwnedVector<OptimizingCompileTaskState>::New(max_tasks) -> std::make_unique<OptimizingCompileTaskState[]>(max_tasks)",
+  "alignment": 64,
+  "size": "max_tasks (uint flag default 4; or node worker-thread count, clamped small)",
+  "bound": "max_tasks * 64 <= ~2^37 even with absurd flag values; attacker cannot influence from JavaScript (startup-only flags, platform thread count)",
+  "threshold": "overflow needs sz >= 2^64 - 63 = 18446744073709551553",
+  "margin": ">= 2^27 factor below threshold"
+ }
+}

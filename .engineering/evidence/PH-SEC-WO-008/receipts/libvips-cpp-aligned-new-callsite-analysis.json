@@ -1,0 +1,8 @@
+{
+ "finding": "libvips-cpp.so.8.18.7 has exactly 1 call site to _ZnamSt11align_val_t (operator new[](size, align_val_t)), at .text 0x403ab3.",
+ "context_bytes": "be 04 00 00 00 = mov esi, 4 (size argument = 4); 4c 89 e7 = mov rdi, r12 (alignment argument in a register); e8 68 e4 bf ff = call aligned new[]",
+ "size_argument": "constant 4 (mov esi,4). The size passed to operator new[] is a fixed small constant, not attacker-derived.",
+ "enclosing_export": "not determinable from .dynsym alone (the enclosing function is not among libvips-cpp's 2690 exported dynsym entries; nearest prior export g_gtype_get_type@0x313f37 is 981 KB earlier, so this call sits in an unexported internal TU). Presence of a fixed size=4 call is nonetheless decisive for the overflow question.",
+ "overflow_check": "size=4 with any power-of-two alignment cannot wrap 64-bit; alignment is a compile-time constant from alignof(T).",
+ "conclusion": "libvips-cpp's aligned-new use cannot reach the CVE-2026-95619 overflow threshold. Additionally, libvips-cpp is not loaded by any running process in the local-dev runtime (dev-mode Next.js, no image optimization, no direct import)."
+}

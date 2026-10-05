@@ -1,0 +1,9 @@
+=== glibc version in image ===
+-rwxr-xr-x 1 root root 1926232 Apr 27 20:14 /lib/x86_64-linux-gnu/libc.so.6
+GNU C Library (Debian GLIBC 2.36-9+deb12u14) stable release version 2.36.
+=== posix_memalign present in libc? ===
+1
+=== aligned_alloc present? ===
+1
+=== libstdc++ imports posix_memalign or aligned_alloc? ===
+      1 aligned_alloc

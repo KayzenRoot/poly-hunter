@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-SEC-WO-008",
+  "title": "PH-SEC-WO-008 - final two libstdc++ blocker resolution (proposed dispositions)",
+  "branch": "security/ph-m01-libstdcpp-final-two",
+  "parentHead": "5cf4c2ffe7b5365ca4941253f92b612f0322a83d",
+  "canonicalMainSha": "64ec83d02dbf9c85ca9718eb319efb44a1d62b76",
+  "parentPr": 15,
+  "pr": 35,
+  "image": {
+    "reference": "polyhunter-dev:local",
+    "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+  },
+  "scanner": {
+    "tool": "docker scout 1.24.0",
+    "lockedSarifBlob": "d3999a5664ec91e2b555d468b6e85c8d04aaabe9"
+  },
+  "vexInputs": {
+    "adr": ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md (blob d5325dfa8327429e3c5d0f9a559c800a162e8022)",
+    "policy": ".engineering/proposals/PH-SEC-VEX-POLICY.md (blob 3e1b20cbe164d655379a5b93e360186dd14daac7)",
+    "cisaKev": {
+      "catalogVersion": "2026.10.04",
+      "receipt": "receipts/cisa-kev-wo008.json",
+      "targetCvesInKev": []
+    },
+    "firstEpss": {
+      "date": "2026-10-05",
+      "receipt": "receipts/first-epss-wo008.json"
+    }
+  },
+  "summary": {
+    "totalFindings": 2,
+    "byStatus": {
+      "NOT_AFFECTED": 2
+    },
+    "reviewFormat": "READY_FOR_INDEPENDENT_AUDIT (proposed; executor cannot self-approve)"
+  },
+  "approvalState": {
+    "executor": "Codex - proposing only",
+    "independentAuditor": "PENDING",
+    "ownerApproval": "PENDING",
+    "note": "Under ADR-0007/PH-SEC-VEX-POLICY these proposed NOT_AFFECTED dispositions block until independently audited and explicitly owner-approved for the exact artifact digest."
+  },
+  "upstreamFixCommits": {
+    "CVE-2026-102010": "aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6",
+    "CVE-2026-95619": "59d235ffa5a69231eb42e5290d52dc8c90d28b7a"
+  },
+  "findings": [
+    {
+      "cve": "CVE-2026-102010",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/gcc-12@12.2.0-14+deb12u1",
+        "reportedFixedVersion": "not fixed",
+        "sarifSha256": "locked SARIF blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9 (.engineering/evidence/PH-SEC-WO-005/validation/polyhunter-dev-final.sarif at parent head)"
+      },
+      "component": "libstdc++6 / __gnu_pbds detail::binary_heap erase_if (header-only template)",
+      "detectedVersion": "libstdc++.so.6.0.30 (12.2.0-14+deb12u1)",
+      "installedBinaryPackage": "libstdc++6 12.2.0-14+deb12u1 (gcc-12 source); gcc-12-base, libgcc-s1",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 §4; unchanged at parent head 5cf4c2f)"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "parentHead": "5cf4c2ffe7b5365ca4941253f92b612f0322a83d",
+      "branch": "security/ph-m01-libstdcpp-final-two",
+      "parentPr": 15,
+      "pr": 35,
+      "policy": "PH-SEC-VEX-POLICY via ADR-0007",
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed for gcc-12 in Debian; upstream fixed in GCC trunk by commit aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6 (2026-09-25, Jonathan Wakely, PR libstdc++/127656)",
+        "affectedCondition": "use-after-free in __gnu_pbds detail::binary_heap erase_if: after reallocating the entry storage, the member pointer m_a_entries is left dangling (storage freed, new storage leaked). One-line fix adds `m_a_entries = new_entries;`.",
+        "affectedApi": "__gnu_pbds::priority_queue (policy-based data structures, <ext/pb_ds/priority_queue.hpp>) backed by the binary_heap tag, when erase_if(pred) is invoked. NOT std::priority_queue (<queue>) — std::priority_queue has no erase_if and its underlying std heap algorithms are unrelated to pb_ds binary_heap_ internals."
+      },
+      "vulnerableCodePresent": false,
+      "presenceEvidence": "POSITIVELY ABSENT in every compiled C++ consumer shipped in the exact artifact. The vulnerable code is not in libstdc++.so at all: it lives only in the header <ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp> and is instantiated into a consumer's binary only if that consumer includes and instantiates __gnu_pbds binary_heap priority_queue erase_if. All compiled C++ consumers in the artifact were enumerated by a filesystem-wide libstdc++ DT_NEEDED scan (receipts libstdcxx-consumer-set.json, libstdcxx-consumers-final.txt): /usr/local/bin/node, apt frontends + libapt-pkg/libapt-private, and /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7. For each: zero 'pb_ds' strings (cve-102010-presence-probe.txt/probe2.txt), zero __gnu_pbds/binary_heap dynsym entries on the host-parsed ELF64 .dynsym of node, libstdc++ and libvips-cpp (dynsym-align-val-analysis.json), and zero 'stl_heap'/'binary_heap' strings in node. The V8 subtree that Node 24.21.0 (commit 955266bfdd854cd280dffd47548673914484e4c0) builds contains no reference to ext/pb_ds (source tree grep of deps/v8: no pb_ds include anywhere). This is a positive-absence proof at the consumer-binary level (byte strings + dynsym of the exact shipped binaries), not a libstdc++.so dynsym miss, and therefore is not the CR-04 defect: the CR-04 objection (a header-only template may be inlined into compiled consumers) is met by auditing the consumers themselves.",
+      "reachabilityEvidence": "Not needed once presence is disproven, and independently corroborated: the only runtime C++ consumer is node (process 'node'), which loads libstdc++ but instantiates no pb_ds code; the running processes are node (web/worker) and postgres (separate image, out of scope). Even the weakest residual consumer (libvips-cpp, loaded by no process in dev mode) carries zero pb_ds bytes. There is no code path by which the vulnerable erase_if instantiation exists in any executable page of this artifact.",
+      "attackerControlledPrerequisite": "Moot: the vulnerable operation is not present. For completeness — triggering requires C++ code calling erase_if on a __gnu_pbds binary_heap priority_queue with attacker-influenced contents; no such code exists in the artifact.",
+      "privilegePrerequisite": "none (not applicable)",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.002500000",
+        "percentile": "0.147930000",
+        "date": "2026-10-05",
+        "note": "prioritisation only; snapshot receipts/first-epss-wo008.json"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007",
+        "proposedBy": "Codex executor - proposes only; independent audit + owner approval still required"
+      },
+      "residualRisk": "LOW. The disposition rests on enumerated-consumer byte/symbol evidence of the exact artifact binaries. If a future image change ships a new compiled C++ binary that instantiates __gnu_pbds binary_heap erase_if, this disposition expires. Confidence HIGH for presence-absence (positive bytes/dynsym audit of every libstdc++ consumer); the audit did not rely on symbol absence from libstdc++.so.",
+      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; libstdc++6/gcc-12 package version change; any change to the compiled C++ consumer set (new binary linking libstdc++.so.6); new upstream advisory; KEV status change.",
+      "dispositionTimestamp": "2026-10-05T16:40:00Z",
+      "confidence": "high",
+      "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
+      "ownerApproval": "PENDING",
+      "receipts": [
+        "receipts/upstream/cve-2026-102010-commit-meta.txt",
+        "receipts/upstream/cve-2026-102010-binary_heap.diff",
+        "receipts/upstream/cve-2026-102010-erase_fn_imps-vulnerable.hpp",
+        "receipts/cve-102010-presence-probe.txt",
+        "receipts/cve-102010-presence-probe2.txt",
+        "receipts/cve-102010-presence-probe3.txt",
+        "receipts/dynsym-align-val-analysis.json",
+        "receipts/libstdcxx-consumer-set.json",
+        "receipts/libstdcxx-consumers-final.txt",
+        "receipts/elf-inventory.txt"
+      ]
+    },
+    {
+      "cve": "CVE-2026-95619",
+      "scanner": {
+        "tool": "docker scout 1.24.0",
+        "severity": 7.7,
+        "band": "HIGH",
+        "scannerPackage": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+        "scannerPackageShort": "pkg:deb/debian/gcc-12@12.2.0-14+deb12u1",
+        "reportedFixedVersion": "not fixed",
+        "sarifSha256": "locked SARIF blob d3999a5664ec91e2b555d468b6e85c8d04aaabe9"
+      },
+      "component": "libstdc++6 aligned operator new(size_t, align_val_t) integer overflow (libsupc++/new_opa.cc)",
+      "detectedVersion": "libstdc++.so.6.0.30 (12.2.0-14+deb12u1)",
+      "installedBinaryPackage": "libstdc++6 12.2.0-14+deb12u1 (gcc-12 source)",
+      "environment": {
+        "environment": "local-dev",
+        "compose_services": [
+          "web",
+          "worker",
+          "postgres"
+        ],
+        "web_command": "npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 (container), published 127.0.0.1:3000",
+        "worker_command": "nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+        "container_user": "node (uid 1000)",
+        "capabilities_effective": "0x0000000000000000 (no CAP_SYS_ADMIN)",
+        "network_exposure": "host binding is 127.0.0.1 only; container has no published port other than 3000->127.0.0.1",
+        "application_subprocess_spawning": "none - no child_process/exec/spawn reference exists in apps/** or packages/** (carried from PH-SEC-WO-007 §4; unchanged at parent head 5cf4c2f)"
+      },
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3"
+      },
+      "parentHead": "5cf4c2ffe7b5365ca4941253f92b612f0322a83d",
+      "branch": "security/ph-m01-libstdcpp-final-two",
+      "parentPr": 15,
+      "pr": 35,
+      "policy": "PH-SEC-VEX-POLICY via ADR-0007",
+      "upstreamAdvisory": {
+        "fixStatus": "not fixed for gcc-12 in Debian; upstream fixed in GCC trunk by commit 59d235ffa5a69231eb42e5290d52dc8c90d28b7a (2026-09-23, Jonathan Wakely; Red Hat bug reference 2537811 per locked scanner evidence)",
+        "affectedCondition": "operator new(size_t, align_val_t) rounds the size up to a multiple of the alignment ((sz + al - 1) & ~(al - 1)) before calling C11 aligned_alloc on targets compiled with _GLIBCXX_HAVE_ALIGNED_ALLOC and without _GLIBCXX_HAVE_POSIX_MEMALIGN. With sz near SIZE_MAX the addition wraps to a small value; aligned_alloc succeeds and returns a non-null pointer to an undersized region -> heap memory corruption in the caller.",
+        "overflowFormula": "wraparound iff sz + align - 1 >= 2^64, i.e. sz >= 2^64 - (align - 1); for align=64 (the only alignment used by the artifact's sole aligned consumer): sz >= 2^64 - 63 = 18446744073709551553. A wrapped request then allocates (sz + 63) mod 64 bytes instead of sz."
+      },
+      "vulnerableCodePresent": true,
+      "presenceEvidence": "CONFIRMED PRESENT and confirmed to be the vulnerable variant: _ZnwmSt11align_val_t/_ZnamSt11align_val_t are exported by the shipped libstdc++.so.6.0.30 and the .so imports glibc 'aligned_alloc' (libstdcxx-allocator-imports.json; no posix_memalign import). Byte-level decode of _ZnwmSt11align_val_t (receipt libstdcxx-opnew-align-body.hex) shows the C11 rounding sequence lea rax,[rbx+rbp-1]; neg rbp; and rbp,rax ((sz+al-1) & ~(al-1)) at offset +0x2D followed by a call to glibc aligned_alloc — i.e. the exact code the upstream fix hardens is compiled in (the posix_memalign fast path from PR 113258 is NOT compiled in for gcc 12.2.0-14+deb12u1). node links this .so (ldd receipt artifact-identity.txt), so the vulnerable code is mapped into the running process.",
+      "reachabilityEvidence": "UNREACHABLE with any size that can trigger the overflow. Exhaustive PLT/call-site analysis of the exact shipped node binary (126,595,440 bytes): exactly one JUMP_SLOT relocation for _ZnamSt11align_val_t (GOT 0x6b55608, PLT stub 0x747010) and exactly 2 call sites to that stub (cve-95619-callsite-analysis.json), both inside v8::internal::OptimizingCompileTaskExecutor::EnsureInitialized() (symbol _ZN2v88internal29OptimizingCompileTaskExecutor17EnsureInitializedEv, 0xd71fc0..0xd72316). Source mapping at exact tag v24.21.0: deps/v8/src/compiler-dispatcher/optimizing-compile-dispatcher.cc:141-142 -> base::OwnedVector<OptimizingCompileTaskState>::New(max_tasks) -> std::make_unique<OptimizingCompileTaskState[]>(max_tasks); OptimizingCompileTaskState is alignas(PROCESSOR_CACHE_LINE_SIZE)=alignas(64) (optimizing-compile-dispatcher.h:29; PROCESSOR_CACHE_LINE_SIZE=64, common/globals.h:1025), so the call is operator new[](max_tasks * 64, align_val_t(64)). max_tasks = v8_flags.concurrent_turbofan_max_threads (DEFINE_UINT, default 4; flag-definitions.h:1181) or, if 0, NumberOfWorkerThreads() (node clamps to uv_available_parallelism()-1 min 1, src/node_platform.cc:88-93). n is a bounded small integer (default 4; CPU-derived pool, < 2^20 in any realistic host), so n*64 <= ~2^37 — more than 2^27 times below the 2^64-63 threshold. JS cannot influence max_tasks: it is a startup-only V8 flag/CLI value and a platform thread count, never a runtime JS-settable value (no reference in src/). The other compiled C++ consumers: apt/libapt carry zero align_val_t references (byte scan cve-95619-consumers.txt); libvips-cpp.so.8.18.7 has exactly one _ZnamSt11align_val_t call site at .text 0x403ab3 with constant size argument (mov esi,4) — cannot wrap — and libvips-cpp is loaded by no running process in the local-dev runtime (sharp is next's optional image-optimizer, used only by 'next start' production image optimization; compose runs next dev --webpack; no app import of sharp or next/image: sharp-libvips-exposure.json, libvips-cpp-aligned-new-callsite-analysis.json). The application's JS/TS surface cannot call a C++ operator; and the only C++ code that reaches the operator does so with a bounded, non-attacker-derived size. cppgc's aligned Allocate entry points (DEFINED dynsym symbols) do not call global aligned operator new at all — they route to the Oilpan PageBackend linear-allocation buffer (object-allocator.cc OutOfLineAllocateImpl), so the DEFINED cppgc symbols are name-coincidence, not calls.",
+      "attackerControlledPrerequisite": "an input path causing a compiled consumer to pass sz >= 2^64 - 63 to operator new(size_t, align_val_t). Positively disproven: the artifact's only aligned-new caller passes max_tasks*64 with max_tasks bounded by startup flags/thread counts; no JS-reachable API influences it; no other consumer calls aligned new with any size that can wrap (libvips: constant 4; apt: no calls).",
+      "privilegePrerequisite": "none (not applicable; also note container runs as node uid 1000 with no capabilities)",
+      "cisaKev": {
+        "inKev": false,
+        "catalogVersion": "2026.10.04",
+        "dateReleased": "2026-10-04T18:52:56.0635Z",
+        "note": "KEV/EPSS are prioritisation inputs only and never convert a finding to NOT_AFFECTED (PH-SEC-VEX-POLICY)."
+      },
+      "firstEpss": {
+        "score": "0.003630000",
+        "percentile": "0.279000000",
+        "date": "2026-10-05",
+        "note": "prioritisation only; snapshot receipts/first-epss-wo008.json"
+      },
+      "vex": {
+        "status": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "policy": "PH-SEC-VEX-POLICY via ADR-0007",
+        "proposedBy": "Codex executor - proposes only; independent audit + owner approval still required"
+      },
+      "residualRisk": "LOW-MEDIUM. Vulnerable library code is confirmed mapped into the running node process; safety rests on (a) the complete enumeration of aligned-new call sites in the exact shipped node binary via PLT relocation analysis — the import exists precisely because calls go through the PLT; a same-binary inlined implementation of aligned operator new would not import the symbol, and a source search of the exact Node v24.21.0 tag for align_val_t finds only the cppgc path that does not call global aligned new, matching the binary — and (b) bounded startup-only sizes. Any Node/V8 upgrade or any new native module in the image expires this disposition. Confidence HIGH for the enumerated path; no path from JavaScript reaches the operator with attacker-controlled size.",
+      "expiryRevalidationTrigger": "earliest of: 7 days (local-dev); new image digest; node/V8 major or build change; libstdc++6/gcc-12 package version change (a Debian fix would move the row to FIXED); any new compiled C++ binary or native addon linking libstdc++.so.6 in the image; new upstream advisory; KEV status change.",
+      "dispositionTimestamp": "2026-10-05T16:40:00Z",
+      "confidence": "high",
+      "independentAuditor": "PENDING (this Work Order proposes; audit not yet performed)",
+      "ownerApproval": "PENDING",
+      "receipts": [
+        "receipts/upstream/cve-2026-95619-commit-meta.txt",
+        "receipts/upstream/cve-2026-95619-new_opa.diff",
+        "receipts/upstream/cve-2026-95619-new_opa-vulnerable.cc",
+        "receipts/libstdcxx-opnew-align-body.hex",
+        "receipts/libstdcxx-allocator-imports.json",
+        "receipts/cve-95619-node-dynsym.json",
+        "receipts/cve-95619-callsite-analysis.json",
+        "receipts/cve-95619-consumers.txt",
+        "receipts/libvips-cpp-aligned-new-callsite-analysis.json",
+        "receipts/libvips-cpp-aligned-new-callsites.json",
+        "receipts/sharp-libvips-exposure.json",
+        "receipts/v8-runtime-bounds.json",
+        "receipts/glibc-aligned-capability.txt",
+        "receipts/artifact-identity.txt",
+        "receipts/dynsym-align-val-analysis.json",
+        "receipts/libstdcxx-consumer-set.json"
+      ]
+    }
+  ]
+}

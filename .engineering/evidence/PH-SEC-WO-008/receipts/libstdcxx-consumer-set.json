@@ -1,0 +1,18 @@
+{
+  "method": "filesystem-wide byte scan for 'libstdc++.so.6' references + ldd verification of each candidate (receipts libstdcxx-consumers.txt, elf-inventory.txt, libstdcxx-consumers-final.txt)",
+  "complete_consumer_set": {
+    "executables": ["/usr/local/bin/node (= /usr/local/bin/nodejs)", "/usr/bin/apt", "/usr/bin/apt-get", "/usr/bin/apt-cache (and other libapt frontends)"],
+    "shared_libraries": ["/usr/lib/x86_64-linux-gnu/libapt-pkg.so.6.0.0", "/usr/lib/x86_64-linux-gnu/libapt-private.so.0.0.0", "/workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7"]
+  },
+  "aligned_new_imports": {
+    "node": "_ZnamSt11align_val_t imported (1 PLT entry, 2 call sites in OptimizingCompileTaskExecutor::EnsureInitialized)",
+    "libvips-cpp": "_ZnamSt11align_val_t imported (1 call site, constant size=4)",
+    "apt/libapt": "zero align_val_t references (byte scan cve-95619-consumers.txt)"
+  },
+  "pb_ds_presence": {
+    "node": "0 strings, 0 dynsym entries",
+    "libapt-pkg/private": "0 strings",
+    "libvips-cpp": "0 strings, 0 dynsym entries",
+    "libstdc++.so itself": "0 __gnu_pbds symbols"
+  }
+}

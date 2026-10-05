@@ -1,0 +1,23 @@
+=== which binaries link libstdc++ ===
+/usr/local/bin/node: 1
+/usr/local/bin/nodejs: 1
+/bin/perl: 0
+0
+/bin/perl5.36.0: 0
+0
+=== all .so in image linking or providing libstdc++ ===
+REF: /etc/ld.so.cache
+REF: /usr/share/gdb/auto-load/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30-gdb.py
+REF: /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+REF: /usr/lib/x86_64-linux-gnu/libapt-private.so.0.0.0
+REF: /usr/lib/x86_64-linux-gnu/libapt-pkg.so.6.0.0
+REF: /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7
+=== apt binaries linking libstdc++ ===
+/usr/bin/apt: 	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007b007ffb6000)
+/usr/bin/apt-get: 	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000771b08c0f000)
+/usr/bin/apt-cache: 	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007351b90c9000)
+/usr/bin/dpkg: none
+=== libvips-cpp ldd ===
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007c2dcb57a000)
+=== apt private ldd ===
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000751838bbf000)
