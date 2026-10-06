@@ -13,10 +13,9 @@ system; this Work Order adds **no product capability**.
 historical only). Earlier: `8bd3e85a…`, `f810df3a…`, `eddda17a…`.
 **Date:** 2026-10-06 / 2026-10-07
 
-**STOP STATE: `READY_FOR_FINAL_M01_INDEPENDENT_AUDIT`**
+**STOP STATE: `OWNER VEX APPROVED / READY_FOR_MODULE CHECKPOINT+MERGE DECISION`**
 
-`liveTradingAuthorized` remains `false`. PR #41 is not merged, the checkpoint is not
-promoted, no owner approval is requested, and no PH-M02 surface was touched.
+`liveTradingAuthorized` remains `false`. PR #41 is not merged and the checkpoint is not promoted. Independent HIGH_ASSURANCE audit passed at `d0273ba74d1de82e8e8007e233ca540826a541f4` (review `5434550393`), and the Project Owner explicitly approved all 24 final-artifact VEX dispositions. PH-M02 remains unadmitted.
 
 ---
 
@@ -185,3 +184,36 @@ Points an auditor should weigh most heavily:
    `deb12u2` (receipt `09`), not because anything was suppressed.
 5. **The complete-diff scan** — re-run the CR-04 scan over PR #41's full file set and
    confirm it covers test/harness/evidence/governance files, not just product paths.
+
+
+## 10. FINAL INDEPENDENT AUDIT + OWNER VEX APPROVAL
+
+Independent HIGH_ASSURANCE audit:
+- exact audit head: `d0273ba74d1de82e8e8007e233ca540826a541f4`
+- review: `5434550393`
+- verdict: `APPROVED AS EVIDENCE / READY_FOR_OWNER_APPROVAL`
+- acceptance matrix: 37/37 accepted technically
+
+Final artifact:
+`polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60`
+
+Project Owner approval:
+- date: 2026-10-06
+- approved exactly the 24 dispositions enumerated in `.engineering/evidence/PH-M01-WO-004/receipts/08-vex-state-machine.json` at the audit head above
+- receipt: `.engineering/evidence/PH-M01-WO-004-OWNER-APPROVAL.md`
+
+Current VEX state:
+- 24/24 `NOT_AFFECTED`
+- 0 `UNDER_INVESTIGATION`
+- 0 `AFFECTED`
+- 24/24 independent-auditor approvals
+- 24/24 owner approvals
+- no suppression, ignore, waiver, accepted-risk shortcut or severity downgrade
+
+Audit CR-04 note:
+- executor secret scan covered all 25 files at the execution/evidence head;
+- the exact audit tip added two documentation/evidence files only;
+- independent audit inspected both current versions and found no secret/key/token patterns;
+- post-audit owner/VEX closure commits are governance-only and do not change the artifact or its runtime premises.
+
+The PH-M01 technical acceptance and VEX security chain are complete. The canonical checkpoint remains unchanged until a separate Project Owner module checkpoint-promotion + PR #41 merge decision.
