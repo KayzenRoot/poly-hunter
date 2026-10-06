@@ -3,9 +3,9 @@
   "workOrder": "PH-M01-WO-004",
   "generated": "2026-10-06T20:47:59.926Z",
   "executionHeadStart": "921544a251e87cdb587750a382db960fee31a1cd",
-  "finalHeadNote": "the final head (tests+harness+evidence of this WO) and the CI run are recorded in the real PR #41 body and in PH-M01-WO-004-EVIDENCE.md (AUDIT REQUEST)",
+  "finalHeadNote": "independent audit completed at d0273ba74d1de82e8e8007e233ca540826a541f4 (review 5434550393); owner VEX approval recorded separately; post-audit closure commits are governance-only",
   "artifactEntering": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
-  "artifactState": "FINAL — the single clean-build candidate (audit CR-03). Clean build, Compose runtime, health/Vault probes, Docker Scout, this matrix, the VEX proposal and the pending independent audit ALL bind to this exact digest. The previous artifact sha256:aee3ad8c… (and its owner approvals) is historical only.",
+  "artifactState": "FINAL SECURITY-APPROVED ARTIFACT — clean build, Compose runtime, probes, Docker Scout, acceptance matrix, independent audit and Project Owner VEX approval bind to this exact digest. Module checkpoint/merge remain pending a separate owner decision.",
   "jevReceipt": ".engineering/evidence/PH-M01-WO-004/receipts/10-jev-mcp-execution-cr01-04.txt",
   "totals": {
     "rows": 37,
@@ -24,7 +24,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "A2",
@@ -37,7 +37,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "A3",
@@ -51,7 +51,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "A4",
@@ -64,7 +64,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "A5",
@@ -78,7 +78,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "B1",
@@ -93,7 +93,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "B2",
@@ -108,7 +108,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "B3",
@@ -123,7 +123,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "B4",
@@ -139,7 +139,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "C1",
@@ -154,7 +154,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "C2",
@@ -167,7 +167,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "C3",
@@ -183,7 +183,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "D1",
@@ -198,7 +198,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "D2",
@@ -211,7 +211,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "E1",
@@ -226,7 +226,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "E2",
@@ -241,7 +241,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "E3",
@@ -256,7 +256,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "E4",
@@ -270,7 +270,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "E5",
@@ -285,7 +285,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "F1",
@@ -299,7 +299,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "F2",
@@ -314,7 +314,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "F3",
@@ -329,7 +329,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "G1",
@@ -343,7 +343,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "G2",
@@ -356,7 +356,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "G3",
@@ -369,7 +369,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "H1",
@@ -382,7 +382,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "H2",
@@ -398,7 +398,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "I1",
@@ -413,7 +413,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "I2",
@@ -427,7 +427,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "J1",
@@ -440,7 +440,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "J2",
@@ -453,7 +453,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": "None open. The prior 'rebuild differs from the runtime image' gap is CLOSED: the clean build IS the runtime artifact now, and the Node base is pinned by immutable digest so future clean builds cannot silently follow a moving tag. (Bit-for-bit reproducibility of two independent builds is still not claimed and is not required.)",
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "K1",
@@ -466,7 +466,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "K2",
@@ -480,7 +480,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "K3",
@@ -494,7 +494,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "L1",
@@ -508,7 +508,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "L2",
@@ -523,7 +523,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     },
     {
       "id": "L3",
@@ -537,7 +537,7 @@
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
       "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
-      "reviewerState": "PENDING_INDEPENDENT_AUDIT"
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
     }
   ],
   "jevAdjustments": [
@@ -550,5 +550,18 @@
     "sha256:f810df3a… — first WO-003 rebuild.",
     "sha256:eddda17a… — WO-002 artifact."
   ],
-  "crRound": "audit CR-01..CR-04 (review 5434141055) applied on 2026-10-06"
+  "crRound": "audit CR-01..CR-04 (review 5434141055) applied on 2026-10-06",
+  "independentAudit": {
+    "head": "d0273ba74d1de82e8e8007e233ca540826a541f4",
+    "reviewId": "5434550393",
+    "verdict": "APPROVED_AS_EVIDENCE",
+    "acceptedRows": 37
+  },
+  "ownerVexApproval": {
+    "date": "2026-10-06",
+    "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+    "approvedDispositions": 24,
+    "receipt": ".engineering/evidence/PH-M01-WO-004-OWNER-APPROVAL.md",
+    "note": "This approves the final-artifact VEX dispositions only. Module checkpoint promotion and PR #41 merge require a separate Project Owner decision."
+  }
 }
