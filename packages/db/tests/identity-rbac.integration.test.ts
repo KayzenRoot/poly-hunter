@@ -1,10 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { drizzle } from "drizzle-orm/node-postgres";
 import { and, eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Pool } from "pg";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   identityLinks,
   platformRoles,
@@ -14,6 +14,11 @@ import {
 } from "../src/schema/index.js";
 import { createIdentityDataAccess } from "../src/server/identity.js";
 import { createTenantDataAccess } from "../src/server/index.js";
+import {
+  dropDisposableDatabase,
+  preflightDropStaleDatabase,
+  quoteGeneratedIdentifier,
+} from "./support/postgres-disposable-databases.js";
 
 const migrationsFolder = fileURLToPath(new URL("../drizzle", import.meta.url));
 const configuredDatabaseUrl = process.env.DATABASE_URL ?? "";
@@ -28,15 +33,6 @@ function databaseUrlFor(databaseName: string): string {
   const url = new URL(configuredDatabaseUrl);
   url.pathname = `/${databaseName}`;
   return url.toString();
-}
-
-function quoteGeneratedIdentifier(identifier: string): string {
-  if (!/^phm01_[0-9a-f]{32}$/.test(identifier)) {
-    throw new Error(
-      "Refusing to use an unexpected integration database identifier.",
-    );
-  }
-  return `"${identifier}"`;
 }
 
 const SUPABASE = "supabase";
@@ -82,19 +78,25 @@ describe("PH-M01-WO-002 identity, platform_roles and tenant resolution", () => {
 
     const admin = adminPool;
     for (const name of databaseNames) {
-      await admin.query(
-        `DROP DATABASE IF EXISTS ${quoteGeneratedIdentifier(name)} WITH (FORCE)`,
-      );
+      // Preflight only: clear debris from a previously interrupted run. The
+      // normal teardown below never uses FORCE.
+      await preflightDropStaleDatabase(admin, name);
       await admin.query(`CREATE DATABASE ${quoteGeneratedIdentifier(name)}`);
     }
 
     // Migration from empty DB (also proves repeat/disposable validation).
-    const migrationsDb = drizzle(
-      new Pool({ connectionString: databaseUrlFor(databaseNames[1]) }),
-    );
-    await migrate(migrationsDb, { migrationsFolder });
-    await migrate(migrationsDb, { migrationsFolder });
-    await migrationsDb.$client.end();
+    // The disposable pool is closed in `finally` so a failed migration cannot
+    // leave a backend behind for the teardown to trip over.
+    const migrationsPool = new Pool({
+      connectionString: databaseUrlFor(databaseNames[1]),
+    });
+    try {
+      const migrationsDb = drizzle(migrationsPool);
+      await migrate(migrationsDb, { migrationsFolder });
+      await migrate(migrationsDb, { migrationsFolder });
+    } finally {
+      await migrationsPool.end();
+    }
 
     const testDb = drizzle(testPool);
     await migrate(testDb, { migrationsFolder });
@@ -108,17 +110,19 @@ describe("PH-M01-WO-002 identity, platform_roles and tenant resolution", () => {
   });
 
   afterAll(async () => {
-    // Close application pools BEFORE dropping databases (FORCE terminates
-    // remaining connections with 57P01 otherwise).
+    // CR-05: close and AWAIT every pool this fixture owns before touching the
+    // databases — the identity pool, the tenant pool and the test pool. A
+    // disposable pool that fails mid-setup has already been closed in `finally`.
     await identityDataAccess?.close();
     await tenantDataAccess?.close();
     await testPool?.end();
+
     const admin = adminPool;
     if (admin) {
       for (const name of databaseNames) {
-        await admin.query(
-          `DROP DATABASE IF EXISTS ${quoteGeneratedIdentifier(name)} WITH (FORCE)`,
-        );
+        // Waits for zero backends, then drops WITHOUT FORCE. A live connection
+        // here surfaces as an explicit RESOURCE LEAK rather than being hidden.
+        await dropDisposableDatabase(admin, name);
       }
       await admin.end();
     }
