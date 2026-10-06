@@ -14,11 +14,9 @@ following the CR-01..CR-04 round (review `5430901717`) and the CR-05..CR-08 roun
 **Executor:** Codex (sole implementation/test/CI/migration executor)
 **Date:** 2026-10-05 / 2026-10-06
 
-**STOP STATE: `READY_FOR_FINAL_INDEPENDENT_AUDIT`**
+**STOP STATE: `OWNER_APPROVED / CHECKPOINT_PROMOTED / READY_FOR_MERGE`**
 
-`liveTradingAuthorized` remains `false`. No order was placed, no signing authority
-exercised, no credential handled, no owner approval requested, PR #39 not merged,
-checkpoint not promoted, and no Polymarket surface touched.
+`liveTradingAuthorized` remains `false`. No order was placed and no signing authority was exercised. Independent audit passed, the Project Owner approved all 25 VEX dispositions for the exact final artifact, and the canonical checkpoint is now promoted to `STOP_AFTER_PH_M01_WO_003 / AWAIT_OWNER_DIRECTION`. PR #39 remains unmerged until the approved merge is executed, and no Polymarket surface was touched.
 
 > **AES-256-GCM is accepted and was not revisited.** This round narrows a public
 > API, restores a VEX justification the audit found had been rewritten, makes an

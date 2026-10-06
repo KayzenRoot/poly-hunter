@@ -147,5 +147,5 @@ and never decides a CVE disposition, a security property or an approval.
   independent audit unchanged        yes — no gate was replaced; VEX remains
                                      25 UNDER_INVESTIGATION / 25 proposed NOT_AFFECTED
                                      / 0 approvals.
-  batch where useful                 yes — one catalog per decision, 6 calls total
-                                     (5 during the correction, 1 final gate).
+  batch where useful                 yes — one catalog per decision, 7 calls total
+                                     (6 during the correction, 1 final gate).
