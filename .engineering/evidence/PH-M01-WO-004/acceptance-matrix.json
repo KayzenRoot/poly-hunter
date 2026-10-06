@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "workOrder": "PH-M01-WO-004",
-  "generated": "2026-10-06T20:01:28.080Z",
+  "generated": "2026-10-06T20:47:59.926Z",
   "executionHeadStart": "921544a251e87cdb587750a382db960fee31a1cd",
   "finalHeadNote": "the final head (tests+harness+evidence of this WO) and the CI run are recorded in the real PR #41 body and in PH-M01-WO-004-EVIDENCE.md (AUDIT REQUEST)",
-  "artifactEntering": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
-  "artifactState": "PRESERVED — no Docker build input changed in WO-004 (see L2); entering VEX approvals unaffected",
-  "jevReceipt": ".engineering/evidence/PH-M01-WO-004/receipts/05-jev-mcp-execution.txt",
+  "artifactEntering": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+  "artifactState": "FINAL — the single clean-build candidate (audit CR-03). Clean build, Compose runtime, health/Vault probes, Docker Scout, this matrix, the VEX proposal and the pending independent audit ALL bind to this exact digest. The previous artifact sha256:aee3ad8c… (and its owner approvals) is historical only.",
+  "jevReceipt": ".engineering/evidence/PH-M01-WO-004/receipts/10-jev-mcp-execution-cr01-04.txt",
   "totals": {
     "rows": 37,
     "pass": 37,
@@ -22,7 +22,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -35,7 +35,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -49,7 +49,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -62,7 +62,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -76,7 +76,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -91,7 +91,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -106,7 +106,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -121,7 +121,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -137,7 +137,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -152,7 +152,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -165,7 +165,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -181,7 +181,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -196,7 +196,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -209,7 +209,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -224,7 +224,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -239,7 +239,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -254,7 +254,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -268,7 +268,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -283,20 +283,21 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "F1",
       "obligation": "Canary containment (logs/errors/metadata/DB/tree)",
-      "invariant": "A high-entropy runtime-only canary never appears in console output, error text, metadata, any column of any table, or any file in the working tree",
+      "invariant": "A high-entropy runtime-only canary never appears in console output, error text, metadata, or ANY column of ANY PH-M01 table — values are inspected RAW (before any JSON serialization; Buffers compared as bytes with equality and byte-subsequence .includes()), with a negative control proving the scanner detects canary bytes placed in a BYTEA column.",
       "evidence": [
-        "packages/db/tests/m01-acceptance.integration.test.ts :: never lets the canary escape through logs, errors, metadata, the database or the working tree"
+        "packages/db/tests/m01-acceptance.integration.test.ts :: never lets the canary escape through logs, errors, metadata, the database or the working tree (raw-byte scanner)",
+        "packages/db/tests/m01-acceptance.integration.test.ts :: detects canary bytes deliberately placed in a BYTEA column (negative control — the scanner must fail there)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -306,12 +307,12 @@
       "invariant": "Plaintext and key material stay out of every metadata/error surface and no column persists plaintext",
       "evidence": [
         "packages/db/tests/secret-vault.integration.test.ts :: keeps plaintext and key material out of every metadata and error surface",
-        "packages/db/tests/secret-vault.integration.test.ts :: never persists plaintext in any column",
+        "packages/db/tests/secret-vault.integration.test.ts :: never persists plaintext in any column (hardened for audit CR-02: raw-value inspection before any serialization)",
         "tests/secret-vault-crypto.test.ts :: never surfaces the underlying OpenSSL error text"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -326,7 +327,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -335,11 +336,12 @@
       "obligation": "Recovery — empty DB, migrations, seed, backup, destroy, restore",
       "invariant": "Full disposable cycle via pg_dump/pg_restore; migrations on empty + repeat no-op; restore into a fresh DB; re-migrate is a no-op",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (steps 1-7)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (steps 1-7; regenerated for audit CR-01)",
+        ".engineering/evidence/PH-M01-WO-004/harness/verify-no-argv-secrets.sh (deterministic gate, run inside receipt 01; its self-test must and does detect the historical argv pattern)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -348,11 +350,11 @@
       "obligation": "Recovery — post-restore verification",
       "invariant": "Metadata matches; tenant B sees nothing of tenant A (null, no oracle); an unmapped context is refused; the authorized callback decrypts the canary; envelope hash unchanged",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 8)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 8; regenerated for audit CR-01)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -361,11 +363,11 @@
       "obligation": "Recovery — missing old key fails closed without corruption",
       "invariant": "Decrypt with a keyring lacking k1 returns KEY_VERSION_UNAVAILABLE and the envelope hash is unchanged",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 9)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 9; regenerated for audit CR-01)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -374,11 +376,11 @@
       "obligation": "Rotation — v1 -> v2 with recovery",
       "invariant": "Re-introduce v1, active v2, rotate: envelope hash changes, identity metadata (purpose/tenant/created_at) stable, a k2-only keyring decrypts afterwards",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 10)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 10; regenerated for audit CR-01)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -394,7 +396,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -409,7 +411,7 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -423,20 +425,20 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "J1",
       "obligation": "Clean Docker acceptance",
-      "invariant": "No stale dist/.next; npm ci; canonical build/config/up; postgres healthy; web 200; worker running; auth and secret routes resolve; 0 module-resolution errors",
+      "invariant": "ONE final artifact: the clean build is tagged and RUN (compose up --no-build); web+worker container image ids asserted equal to the recorded candidate; healthy stack; routes resolve; 0 module-resolution errors.",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (steps 1-5, 7)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (regenerated for audit CR-03; steps 4-7, 9)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -445,12 +447,12 @@
       "obligation": "Clean Docker — fail-closed and admitted path",
       "invariant": "Without a keyring every operation fails VAULT_UNAVAILABLE while the app is healthy; with an ephemeral in-memory keyring the admitted path works end-to-end including a refused cross-tenant handle; probe rows cleaned up; keys never persisted",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (step 6)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (step 8)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
-      "residualGap": "A rebuild of the SAME inputs is not bit-reproducible (a fresh build produced a different image id). The canonical tag, artifact digest and VEX approvals are untouched; no build input changed. Recorded as a reproducibility observation, not an artifact-delta event.",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": "None open. The prior 'rebuild differs from the runtime image' gap is CLOSED: the clean build IS the runtime artifact now, and the Node base is pinned by immutable digest so future clean builds cannot silently follow a moving tag. (Bit-for-bit reproducibility of two independent builds is still not claimed and is not required.)",
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
@@ -462,61 +464,64 @@
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "K2",
       "obligation": "Leak scans",
-      "invariant": "Client bundle: 0 across 15 patterns vs non-zero server control; delta secret scan clean; full-tree loose-pattern hits are pre-existing other-WO evidence only",
+      "invariant": "Leak scans on the EXACT final head: client bundle 0 across 15 patterns vs a non-zero server control; secret scan over the COMPLETE PR #41 diff (every changed file at the exact head), not a sub-delta.",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt"
+        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt",
+        ".engineering/evidence/PH-M01-WO-004/receipts/04-full-diff-secret-scan.txt (audit CR-04)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "K3",
       "obligation": "Exact artifact identity and scan reconciliation",
-      "invariant": "Fresh scout scan byte-identical to the committed SARIF (md5 f30da92d...): 82 rows, 0 added/removed, 25 HIGH/CRITICAL; digest unchanged",
+      "invariant": "Fresh Docker Scout scan of the FINAL candidate: 81 rows, 24 HIGH/CRITICAL; the one removed row vs the prior scan is CVE-2026-103111 (pcre2), absent because the pinned base ships the fixed libpcre2-8-0 deb12u2 — fix by artifact update, not suppression.",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt"
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.sarif (+ .stderr.txt naming the final digest)",
+        ".engineering/evidence/PH-M01-WO-004/receipts/09-premise-revalidation.txt (dpkg diff: exactly two package updates)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "L1",
       "obligation": "VEX state on the entering artifact",
-      "invariant": "25 NOT_AFFECTED / 0 UNDER_INVESTIGATION / 0 AFFECTED with independent audit + owner approval bound to the exact digest",
+      "invariant": "VEX on the FINAL digest: every HIGH/CRITICAL row reset to UNDER_INVESTIGATION with only a PROPOSED NOT_AFFECTED; 0 AFFECTED; independentAuditor and ownerApproval null everywhere. Prior approvals on sha256:aee3ad8c… are historical only.",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-003/receipts/14-vex-state-machine.json",
-        ".engineering/evidence/PH-M01-WO-003-OWNER-APPROVAL.md"
+        ".engineering/evidence/PH-M01-WO-004/receipts/08-vex-state-machine.json (24 UNDER_INVESTIGATION / 24 proposed NOT_AFFECTED / 0 AFFECTED / 0 auditor / 0 owner; 24 compared / 0 divergences vs the canonical WO-002 record)",
+        ".engineering/evidence/PH-M01-WO-003-OWNER-APPROVAL.md (historical: bound to the superseded digest)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
     {
       "id": "L2",
       "obligation": "No artifact-delta event in WO-004",
-      "invariant": "No Docker build input changed (tests/harness/evidence only); digest preserved; affected premises re-measured",
+      "invariant": "Audit CR-03 was an artifact-delta event (Dockerfile.dev pinned the base by digest) and was handled as such: rebuild, new digest, fresh scan, VEX reset, premises re-measured.",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt (P2)",
-        "git diff --name-only over build inputs: empty"
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (build + running containers = candidate)",
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.sarif",
+        ".engineering/evidence/PH-M01-WO-004/receipts/09-premise-revalidation.txt"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     },
@@ -525,17 +530,25 @@
       "obligation": "No suppression / downgrade",
       "invariant": "Suppressions 0, ignore rules 0, severity downgrades 0; the executor proposes nothing new and approves nothing",
       "evidence": [
-        ".engineering/evidence/PH-M01-WO-003/receipts/14-vex-state-machine.json :: suppressionPolicy { suppressionsAdded: 0, ignoreRulesAdded: 0, severityDowngradesApplied: 0 }",
-        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt (fresh scan identical to the committed SARIF; nothing suppressed)"
+        ".engineering/evidence/PH-M01-WO-004/receipts/08-vex-state-machine.json :: suppressionPolicy { suppressionsAdded: 0, ignoreRulesAdded: 0, severityDowngradesApplied: 0 }",
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.stderr.txt (fresh scan; nothing suppressed)"
       ],
       "result": "PASS",
       "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
-      "artifact": "polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
       "residualGap": null,
       "reviewerState": "PENDING_INDEPENDENT_AUDIT"
     }
   ],
   "jevAdjustments": [
-    "L3: the first evidence citation pointed at the WO-004 evidence document before it existed; JEV classified the row EVIDENCE_WEAK (0.63) and it was corrected to cite the existing machine-readable suppressionPolicy block instead."
-  ]
+    "L3: the first evidence citation pointed at the WO-004 evidence document before it existed; JEV classified the row EVIDENCE_WEAK (0.63) and it was corrected to cite the existing machine-readable suppressionPolicy block instead.",
+    "CR round: the matrix was re-bound to the FINAL artifact digest; rows F1/F2/G/H/J/K/L gained the regenerated receipts (CR-01..CR-04)."
+  ],
+  "artifactHistory": [
+    "sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2 — superseded by the CR-03 round; approvals issued on it do not carry over.",
+    "sha256:8bd3e85a… — CR-01..CR-04 rebuild (WO-003 round).",
+    "sha256:f810df3a… — first WO-003 rebuild.",
+    "sha256:eddda17a… — WO-002 artifact."
+  ],
+  "crRound": "audit CR-01..CR-04 (review 5434141055) applied on 2026-10-06"
 }

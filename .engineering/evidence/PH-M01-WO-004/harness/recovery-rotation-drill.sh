@@ -46,35 +46,35 @@ docker compose exec -T -e \
   web sh -c "cd packages/db && npx drizzle-kit migrate" 2>&1 | tail -2
 
 echo "== 3. seed representative PH-M01 state + v1 secret via the vault =="
+# Ephemeral test material. The generators receive NOTHING as arguments and emit
+# on stdout, so no value ever appears in a child's argv; from here on the values
+# live in this shell only. Audit CR-01.
 K1="$(node -e 'console.log(require("node:crypto").randomBytes(32).toString("base64"))')"
 K2="$(node -e 'console.log(require("node:crypto").randomBytes(32).toString("base64"))')"
 CANARY="$(node -e 'console.log(require("node:crypto").randomBytes(32).toString("base64url"))')"
 payload() {
-  # Emits the phase JSON on stdout; the caller pipes it into the container.
-  node -e '
-    const [k1, k2, canary, mode] = process.argv.slice(1);
-    const keyringFor = (active, keys) => ({
-      activeKeyVersion: active,
-      keyringJson: JSON.stringify(keys),
-    });
-    if (mode === "seed" || mode === "verify") {
-      process.stdout.write(JSON.stringify({
-        keyring: keyringFor("k1", { k1 }),
-        canary,
-      }));
-    } else if (mode === "missing") {
-      process.stdout.write(JSON.stringify({
-        keyring: keyringFor("k2", { k2 }),
-        canary,
-      }));
-    } else {
-      process.stdout.write(JSON.stringify({
-        keyring: keyringFor("k2", { k1, k2 }),
-        canary,
-        k2Only: k2,
-      }));
-    }
-  ' "$K1" "$K2" "$CANARY" "$1"
+  # Emits the phase JSON from the SHELL BUILTIN printf; the caller pipes it into
+  # the container, so the values cross into the consumer over the stdin pipe
+  # only. No child process ever receives them as argv or environment (audit
+  # CR-01): there is no `node -e ... "$K1" "$K2" "$CANARY"` anywhere in this
+  # file, and harness/verify-no-argv-secrets.sh fails if one ever returns.
+  # base64/base64url alphabets cannot contain `"` or `\`, so direct
+  # interpolation into the JSON string literals is exact.
+  case "$1" in
+    seed | verify)
+      printf '{"keyring":{"activeKeyVersion":"k1","keyringJson":"{\\"k1\\":\\"%s\\"}"},"canary":"%s"}' "${K1}" "${CANARY}"
+      ;;
+    missing)
+      printf '{"keyring":{"activeKeyVersion":"k2","keyringJson":"{\\"k2\\":\\"%s\\"}"},"canary":"%s"}' "${K2}" "${CANARY}"
+      ;;
+    rotate)
+      printf '{"keyring":{"activeKeyVersion":"k2","keyringJson":"{\\"k1\\":\\"%s\\",\\"k2\\":\\"%s\\"}"},"canary":"%s","k2Only":"%s"}' "${K1}" "${K2}" "${CANARY}" "${K2}"
+      ;;
+    *)
+      echo "unknown payload mode: $1" >&2
+      exit 1
+      ;;
+  esac
 }
 SEED_OUT="$(payload seed | docker compose exec -T -e \
   DATABASE_URL="postgresql://polyhunter:polyhunter-local-only@postgres:5432/${DB}" \

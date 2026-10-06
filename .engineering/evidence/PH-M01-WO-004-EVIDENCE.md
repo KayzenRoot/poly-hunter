@@ -7,9 +7,11 @@
 **Base / merge-base:** `main@895e4bf2221b9fd7e335f0dd348be05f851fccde` (verified exact)
 **Acceptance target:** the combined WO-001 + WO-002 + WO-003 implementation as a
 system; this Work Order adds **no product capability**.
-**Artifact (entering, preserved):**
-`polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2`
-**Date:** 2026-10-06
+**FINAL artifact (single candidate, audit CR-03):**
+`polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60`
+**Superseded artifact:** `sha256:aee3ad8c…` (CR-05..CR-10; its owner approvals are
+historical only). Earlier: `8bd3e85a…`, `f810df3a…`, `eddda17a…`.
+**Date:** 2026-10-06 / 2026-10-07
 
 **STOP STATE: `READY_FOR_FINAL_M01_INDEPENDENT_AUDIT`**
 
@@ -18,180 +20,164 @@ promoted, no owner approval is requested, and no PH-M02 surface was touched.
 
 ---
 
-## 0. PREFLIGHT (all deterministic, all green)
+## 0. PREFLIGHT (deterministic, all green)
 
 | Check | Expected | Observed |
 | --- | --- | --- |
 | Branch | `feat/ph-m01-security-acceptance` | checked out from origin |
 | Merge-base vs `origin/main` | `895e4bf…` | `895e4bf…` (exact) |
-| Context Lock fingerprints | workOrder + 17 frozenSources + 8 runtimeFingerprints | **26/26 OK** via `git hash-object` |
-| CHECKPOINT | `STOP_AFTER_PH_M01_WO_003 / AWAIT_OWNER_DIRECTION` | match (phase `M01_INCREMENT_IMPLEMENTED`, completedThrough `PH-M00`) |
-| PR #39 | MERGED as `895e4bf2221b9fd7e335f0dd348be05f851fccde` | MERGED, mergeCommit matches |
-| main Validate #88 | SUCCESS on `895e4bf` | run `37518179390`, SUCCESS, `Node 24 validation` green |
-| JEV MCP | healthy, live inventory | `[jev-mcp] ready — model jev-latest`; 12 tools discovered (receipt `05`) |
+| Context Lock fingerprints | workOrder + 17 frozenSources + 8 runtimeFingerprints | **26/26 OK** at round start (`git hash-object`) |
+| CHECKPOINT | `STOP_AFTER_PH_M01_WO_003 / AWAIT_OWNER_DIRECTION` | match |
+| PR #39 | MERGED as `895e4bf…` | MERGED, mergeCommit matches |
+| main Validate #88 | SUCCESS on `895e4bf` | run `37518179390`, SUCCESS |
+| JEV MCP | healthy, live inventory | `[jev-mcp] ready — model jev-latest`; 12 tools (receipt `10`) |
 
 ---
 
-## 1. ACCEPTANCE RESULTS (obligations A–L)
+## 1. AUDIT CR-01..CR-04 — WHAT CHANGED IN THIS CORRECTION ROUND
 
-Every obligation is mapped to concrete evidence in the machine-readable matrix:
-**`.engineering/evidence/PH-M01-WO-004/acceptance-matrix.json`** — 37 rows, each with the
-exact test title or receipt path, result `PASS`, the execution head, the artifact, a
-residual-gap field and reviewer state (`PENDING_INDEPENDENT_AUDIT`). No row is PASS
-without a named test or receipt.
+| CR | Finding | Resolution |
+| --- | --- | --- |
+| **CR-01** | The recovery harness transported K1/K2/CANARY through `node -e … "$K1" "$K2" "$CANARY"` — process argv — while its own header claimed stdin-only. | The payload is now emitted by the **shell-builtin `printf`** and piped into the container's stdin; no child process ever receives the values as argv or env. A deterministic gate (`harness/verify-no-argv-secrets.sh`) enforces the discipline — its **self-test must and does detect the historical pattern** before the real files are allowed to pass. The complete drill was re-run with the gate in front; receipt `01` regenerated. |
+| **CR-02** | The database canary proof JSON-stringified rows; Node `Buffer.toJSON()` means a BYTEA can serialize as `{type:"Buffer",data:[…]}` and the raw bytes were never compared — a false-pass. | The scan now derives table/column metadata from `information_schema` and inspects **values before any serialization**: buffers by raw byte equality and byte-subsequence `.includes()`; strings directly; JSON/JSONB as text. A **negative control** inserts the canary's UTF-8 bytes into `encrypted_secrets.ciphertext` (a real BYTEA column) and proves the scanner reports a hit; the fixture is removed and the normal encrypted-secret path must then be clean — which also proves ciphertext does not contain the plaintext bytes. The WO-003-era `never persists plaintext in any column` test was hardened the same way. |
+| **CR-03** | Acceptance ran on a pre-existing image while a separate rebuild produced a different digest; the runtime artifact was not the freshly built one, and the base tag was mutable. | `Dockerfile.dev` now pins the Node base **by immutable digest** (`node:24-bookworm-slim@sha256:d6aa754f…`). The clean build **IS** the final candidate: it is tagged, Compose runs it with `--no-build`, and the **web and worker container image ids are asserted equal to the recorded candidate** (`6a7c210b…`). Docker Scout scans that exact digest; every HIGH/CRITICAL row was **reset to UNDER_INVESTIGATION**; all 24 prior technical bases were re-measured (receipt `09`); the acceptance matrix is re-bound to the final digest. |
+| **CR-04** | The secret-scan receipt covered a 7-file sub-delta, not the complete PR diff at the exact tip. | The scan now covers **every changed file of the complete PR #41 diff** (25 files: admission docs, context lock, brief, Work Order, evidence bundle, delta, harnesses, receipts, SARIF, state machine, tests, Dockerfile), plus a **self-scan of its own receipt** in a second pass. Client-bundle scan re-run and clean. Receipt `04`, bound to the head via the PR body. |
 
-New this round: `packages/db/tests/m01-acceptance.integration.test.ts` — 12 tests on
-real PostgreSQL 17 covering the integrated system, not the projections:
+## 2. ACCEPTANCE RESULTS (obligations A–L)
 
-| Obligation | Coverage (examples) |
-| --- | --- |
-| A. Cross-tenant matrix | full 7-operation matrix from tenant A against tenant B's records with a byte-identical after-snapshot of B's row; ids are not authority (direct id substitution, handles, malformed shapes); absent vs foreign id produce identical null/code/message; `TenantDataAccess` selector attacks; unissued context refused |
-| B. Privilege escalation | every forged role pair at every vault surface; `platform_admin` without membership; provider-input role injection (smuggled `role`/`user_metadata` provisions a plain user, platform role only from `platform_roles`); downgrade and membership/user/tenant suspension revoke the next operation |
-| C. Session / tenant selection | active-membership resolution incl. invited/suspended membership, suspended user/tenant, foreign/malformed selectors (no default fallback); one user switching between two valid tenants with zero cross-contamination; unit boundary suites for CSRF/origin/redirect/cache |
-| D. Authorization concurrency | the two CR-09 two-connection tests re-run in this round (65/65 suite) plus a new lock-health probe: interleaved rotations × role flips × reads complete without a 40P01 cycle and end consistent |
-| E. Envelope adversarial | the vault crypto suite and vault integration suite (tamper/AAD/nonce/wrong-key/missing-key; no-store matrix; public-boundary and single-plaintext-path tests) |
-| F. Canary containment | a runtime-only high-entropy canary is absent from console output, error text, metadata, **every column of every table** and **every file of the working tree** (chunked byte scan); delta secret scan clean; keyring hygiene tests |
-| G/H. Recovery + rotation drills | receipt `01` — full disposable pg_dump/pg_restore cycle and v1→v2 rotation (below) |
-| I. Migrations | empty + repeat no-op in the acceptance fixture, the drill and the WO-001 suite; historical migrations untouched |
-| J. Clean Docker acceptance | receipt `02` (below) |
-| K. Static gates/scans | receipt `03` (below) |
-| L. VEX | entering state verified; digest preserved; premises re-measured (below) |
+Machine-readable matrix: **`.engineering/evidence/PH-M01-WO-004/acceptance-matrix.json`**
+— 37 rows (A1..L3), each with a named test or receipt, the FINAL artifact digest,
+residual gaps and `PENDING_INDEPENDENT_AUDIT` reviewer state. Rows F/G/H/J/K/L were
+re-bound to the regenerated receipts of this round.
 
-**Full suites on this delta:** unit **189/189** (`npm run validate` exit 0, 0 audit
-vulnerabilities, production build OK) and PostgreSQL integration **65/65** across four
-files — 39 secret-vault (incl. the CR-09 two-connection window), 12 m01-acceptance,
-10 identity-RBAC (**WO-002 regression**), 4 tenancy (**WO-001 regression**).
+New acceptance suite (`packages/db/tests/m01-acceptance.integration.test.ts`, 13
+tests on real PostgreSQL 17): the cross-tenant 7-operation matrix with a
+byte-identical after-snapshot and no existence oracle; ids are not authority; forged
+role pairs at every surface; provider-input role injection; revocation on the next
+operation; selector/status resolution without fallback; two-tenant switching without
+contamination; the lock-health probe; the **raw-byte canary scan**; and the **BYTEA
+negative control**.
 
-## 2. RECOVERY / ROTATION DRILL (obligations G + H) — receipt `01`
+**Suites after the corrections:** unit **189/189** (`npm run validate` exit 0,
+production build OK, **0 audit vulnerabilities**); PostgreSQL integration **66/66** —
+39 secret-vault (incl. the hardened plaintext scan and the CR-09 window), 13
+m01-acceptance, 10 identity-RBAC, 4 tenancy. `git diff --check` clean.
 
-`.engineering/evidence/PH-M01-WO-004/harness/recovery-rotation-drill.sh` +
-`drill-vault.mjs`, all inside a disposable database, with ephemeral keys passed to the
-container only over the exec **stdin** pipe (never argv, env, file or log):
+## 3. RECOVERY / ROTATION DRILL (CR-01 regenerated) — receipt `01`
 
-1. empty DB → migrations applied; **repeat run = no-op**;
-2. seeded two tenants through the admitted Vault path (`create`, isolation check,
-   authorized `withDecryptedSecret` OK);
-3. `pg_dump -Fc` (17,358 bytes) → **DROP DATABASE** → fresh DB → `pg_restore` (exit 0);
-4. re-applied migrations on the restored DB (roll-forward guidance; already at 3);
-5. post-restore: metadata intact; **tenant B sees `null` for tenant A's record** (no
-   oracle); an unmapped context is refused `SECRET_FORBIDDEN`; the authorized callback
-   decrypts the canary with ephemeral v1; the envelope hash is **byte-stable across
-   backup/restore**;
-6. with **k1 absent** from the keyring: decrypt fails closed `KEY_VERSION_UNAVAILABLE`
-   and the envelope hash is unchanged (**no corruption**);
-7. re-introduce k1, active **v2**, `rotate` → status `rotated`, envelope hash
-   **changes** (`d3979b01…` → `b5bb57e4…`), identity metadata
-   (`purpose`/`tenant_id`/`created_at`) **stable**, and a **k2-only** keyring decrypts
-   the rotated envelope == the canary;
-8. cleanup: database dropped, dump removed, keys/canary discarded. No key material or
-   canary value appears anywhere in the transcript.
+The full cycle re-ran with the argv gate at the front: **empty DB → migrations
+(repeat no-op) → two-tenant seed via the Vault → `pg_dump -Fc` → DROP → fresh DB →
+`pg_restore` → re-migrate no-op → post-restore isolation (tenant B sees `null`;
+unmapped context `SECRET_FORBIDDEN`), metadata intact, authorized callback decrypts the
+canary, envelope hash byte-stable → k1 absent fails closed `KEY_VERSION_UNAVAILABLE`
+with the row intact → re-introduce k1, active v2, rotate (envelope hash changes,
+identity stable) → k2-only keyring decrypts → cleanup.** Keys and canary travelled in
+shell memory and over the stdin pipe only. The gate transcript leads the receipt,
+including its self-test.
 
-## 3. CLEAN DOCKER ACCEPTANCE (obligation J) — receipt `02`
+## 4. FINAL ARTIFACT ACCEPTANCE (CR-03) — receipt `02`
 
-No stale `packages/**/dist` or `.next`; `npm ci`; compose down/up on the **canonical
-image**; postgres + web healthy, worker running; `GET /` 200; `/api/secrets` and
-`/api/secrets/<uuid>` 401 with `Cache-Control: no-store`; `/api/me` 401; **0
-module-resolution errors** in either service.
+One artifact: **`sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60`**,
+built from the clean tree with the pinned base
+(`node@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20`).
+Build-input hashes are recorded in the receipt; `Dockerfile.dev` changed (the pin) and
+is the only build input that did. Compose then ran the candidate with `--no-build`:
+**web and worker image ids equal the candidate** (asserted). Probes on the candidate:
+`GET /` 200; `/api/secrets` and `/api/secrets/<uuid>` 401 with
+`Cache-Control: no-store`; `/api/me` 401; `/auth/login` 200; postgres healthy; worker
+running; **0 module-resolution errors**. Vault: **no keyring → FAIL CLOSED**
+(`VAULT_UNAVAILABLE` for every operation); ephemeral in-process keyring → admitted path
+end-to-end incl. a refused cross-tenant handle (9/9 checks).
 
-Vault probes (in-container, keys in memory only): **without a keyring** `isConfigured()
-= false` and every operation fails closed `VAULT_UNAVAILABLE` while the rest of the app
-is healthy; **with an ephemeral test-only keyring** the admitted path works end-to-end
-(create → decrypt → rotate → list → remove) and a **cross-tenant handle is refused**
-`SECRET_FORBIDDEN`; probe rows are deleted afterwards.
+**The prior "reproducibility" observation is closed by construction:** there is no
+longer a second image; the clean build is the runtime artifact and the base is pinned
+by digest, so future clean builds cannot silently follow a moving tag. Bit-for-bit
+reproducibility of two independent builds is still not claimed and is not required.
 
-**Recorded, not hidden:** a rebuild of the *same* inputs into a separate tag produced a
-different image id (`40782d8c…` vs the canonical `aee3ad8c…`) — this Docker recipe is
-not bit-reproducible. No build input changed in WO-004, the canonical tag and digest
-were never re-pointed, and the artifact of record (with its VEX approvals) is
-unaffected; the observation is a reproducibility note, not an artifact-delta event.
+## 5. FINAL-DIGEST VEX (CR-03 reset) — receipts `07`, `08`, `09`
 
-## 4. STATIC GATES AND EXACT-ARTIFACT RECONCILIATION (obligation K) — receipt `03`
+Fresh `docker scout` scan of the final digest (`07-final-image-scan.sarif`,
+stderr naming the digest): **81 rows, 24 HIGH/CRITICAL**. Versus the superseded scan:
+rows 82 → 81, identical 81, added 0, **removed 1** — `CVE-2026-103111` (pcre2) is
+absent because the pinned base ships `libpcre2-8-0 10.42-1+deb12u2`; the vulnerable
+`deb12u1` is no longer installed. **A fix by artifact update, reconciled honestly —
+suppression counters stay at zero.**
 
-`npm run validate` exit 0 (lint/format/typecheck, 189 unit tests, production build,
-**0 vulnerabilities**); `npm audit --audit-level=high` 0; `git diff --check` clean;
-client bundle **0 across 15 patterns** in `.next/static` against a **non-zero
-server-side control**; delta secret scan **0 keyring values / 0 base64-32-byte
-literals**.
+State machine on the final digest (`08-vex-state-machine.json`, generator committed as
+`state-machine.mjs`): **24 UNDER_INVESTIGATION / 24 proposed NOT_AFFECTED / 0 AFFECTED
+/ 0 independent-auditor approvals / 0 owner approvals**, `premisesAltered: 0`,
+`justificationIntegrity: 24 compared / 0 divergences` against the canonical WO-002
+record. Premise revalidation (`09`): the 88-package dpkg inventory differs from the
+WO-002 baseline by exactly two updates (`libpcre2-8-0` u1→u2, `tzdata` 2026b→2026c);
+`/usr/local/bin/node`, `libstdc++.so.6.0.30`, `sharp-linux-x64-0.35.5.node` and
+`libvips-cpp.so.8.18.7` are **byte-identical** to the baseline; perl bitness unchanged
+(`ivsize=8`, `longsize=8`, `ptrsize=8`, `use64bitint=define`); node v24.21.0.
 
-**Exact artifact:** a fresh `docker scout` scan of `polyhunter-dev:local` is
-**byte-identical** to the committed WO-003 scan (`md5 f30da92d…`): 82 rows, **0 added,
-0 removed, 25 HIGH/CRITICAL** — the artifact the VEX is bound to has not moved.
+## 6. STATIC GATES, SCANS, EXACT-HEAD EVIDENCE (CR-04) — receipts `03`, `04`
 
-**P2 premise re-measured:** `git ls-files apps packages tests` (code extensions) = 56
-files after this round (55 before; the new acceptance test adds one), **0** matching
-`child_process|execSync|spawnSync|execFile|spawn(` — the acceptance suite itself
-contains no subprocess primitive (the repository walk uses `node:fs`).
+`npm run validate` exit 0 (189 unit, 0 vulnerabilities); `npm audit --audit-level=high`
+0; `git diff --check` clean. Client bundle: **0 across 15 patterns** in `.next/static`
+vs a **non-zero server-side control** (fresh production build). **Complete-diff secret
+scan (CR-04)**: every changed file of PR #41 — 25 files — plus a self-scan pass that
+includes the receipt itself: **0 keyring values, 0 base64-32-byte literals, no
+NEXT_PUBLIC secret names**; every file listed with size and result. P2 re-measured:
+56 tracked source files, 0 subprocess primitives.
 
-## 5. JEV MCP EXECUTION (mandatory) — receipt `05`
+## 7. JEV MCP EXECUTION (mandatory) — receipt `10`
 
-The locally installed JEV MCP was confirmed healthy at preflight; the live inventory
-(12 tools) was discovered and recorded; six bounded calls were made and are logged with
-their purposes, results, token usage and escalations in
-`receipts/05-jev-mcp-execution.txt`. Highlights: the obligation→evidence classification
-returned **36/37 EVIDENCE_SPECIFIC** and flagged row **L3** as `EVIDENCE_WEAK` — whose
-first citation pointed at a document that did not yet exist — and L3 was **corrected**
-to cite the existing machine-readable `suppressionPolicy` block and the fresh scan
-receipt; three bounded claims were **verified** (0.93 / 0.99 / 1.00); the final gate
-initially reported one **unsupported** claim because the per-file test breakdown was
-missing from the supplied evidence, and on the corrected evidence it returned **6/6
-verified / 0 contradicted / 0 unsupported** (both runs recorded). The diff pre-review
-and both gate review halves **escalated conservatively** on `safe_to_apply` (recorded
-as-is; never treated as an approval and never cited as evidence of a security
-property). No secrets — no canary, keyring, key, token or credential — were sent to
-JEV at any point.
+The real local server was confirmed healthy; the live 12-tool inventory was discovered
+and recorded; six bounded calls were made and logged with purposes, results and token
+usage: delta classification of the complete PR diff (**zero PRODUCT_CODE**; the one
+DOCKER_BUILD_INPUT is `Dockerfile.dev`), VEX semantic comparison (**24/24
+CONSISTENT** on the final digest), minimum-evidence rerank, the diff pre-review and the
+final gate (**6/6 claims verified, 0 contradicted, 0 unsupported**; two flagged
+`needs_review` on confidence only). Both review halves and the gate escalated
+conservatively on `safe_to_apply`; the large-diff truncation is recorded as a caveat.
+Escalations were resolved deterministically (the CR-01 self-test and the CR-02
+negative control are mechanical proofs). No secrets were sent.
 
-## 6. VEX (obligation L)
-
-Entering approved artifact `sha256:aee3ad8c…` with **25 NOT_AFFECTED / 0
-UNDER_INVESTIGATION / 0 AFFECTED** and independent audit + owner approval bound to that
-exact digest (`PH-M01-WO-003-OWNER-APPROVAL.md`, review `5433259153`,
-`59945ea…`).
-
-WO-004 changes **no Docker build input** (test + harness + evidence only), so no
-artifact-delta event occurs: the digest, the scan and the approvals stand. The premises
-affected by the delta were re-measured rather than assumed (P2 above; no dependency,
-native artifact or caller-input surface changed). Suppressions 0, ignore rules 0,
-severity downgrades 0. The executor proposes nothing and approves nothing.
-
-## 7. RECEIPTS
+## 8. RECEIPTS
 
 | Receipt | Contents |
 | --- | --- |
-| `01-recovery-rotation-drill.txt` | disposable backup/destroy/restore + v1→v2 rotation transcript (no key material printed) |
-| `02-docker-clean-acceptance.txt` | clean-tree npm ci, separate-tag rebuild + identity comparison, compose down/up, HTTP probes, fail-closed + ephemeral-keyring vault probes, module sweep |
-| `03-static-gates-scans.txt` | validate/audit/diff-check, bundle scan with positive control, P2 recount, exact-artifact scan identity (md5), delta secret scan |
-| `04-*` (if produced) | additional captures referenced from the matrix |
-| `05-jev-mcp-execution.txt` | JEV MCP health, live inventory, every call with purpose/result/escalation, no-secrets statement |
-| `harness/recovery-rotation-drill.sh`, `harness/drill-vault.mjs` | the drill itself (committed for reproducibility; keys via stdin only) |
-| `harness/docker-acceptance.sh`, `harness/docker-probe.mjs` | the Docker acceptance itself (keys in-process memory only) |
-| `acceptance-matrix.json` | the 37-row machine-readable acceptance matrix |
+| `01-recovery-rotation-drill.txt` | **CR-01 regenerated** — argv gate (with failing self-test) + the full disposable backup/destroy/restore + v1→v2 rotation transcript |
+| `02-docker-clean-acceptance.txt` | **CR-03 regenerated** — single final candidate: build, build-input hashes, pinned base, compose `--no-build`, image-id assertions, HTTP/vault/module probes |
+| `03-static-gates-scans.txt` | validate/audit/diff-check, bundle scan with positive control, P2 recount (first WO-004 round; the CR-04 scope lives in receipt `04`) |
+| `04-full-diff-secret-scan.txt` | **CR-04** — complete PR #41 diff (25 files) + self-scan + client bundle |
+| `05-jev-mcp-execution.txt` | first WO-004 round's JEV calls (history) |
+| `06-pr-41-body.md` | the PR body of the first WO-004 round (history; the real body is updated per round) |
+| `07-final-image-scan.sarif` / `.stderr.txt` | fresh Docker Scout scan of the FINAL digest |
+| `08-vex-state-machine.json` / `.md` | **VEX reset on the final digest** — 24 UI / 24 proposed / 0 / 0 |
+| `09-premise-revalidation.txt` | dpkg diff (2 updates), native hashes identical, P1/P2, build-input hashes |
+| `10-jev-mcp-execution-cr01-04.txt` | **this round's JEV execution** |
+| `state-machine.mjs` | the generator for receipt 08 (CR-05/CR-10 gates intact) |
+| `harness/verify-no-argv-secrets.sh` | **CR-01** deterministic gate (self-test + real files) |
+| `harness/recovery-rotation-drill.sh`, `harness/drill-vault.mjs` | the drill (payload via builtin printf → stdin only) |
+| `harness/docker-acceptance.sh`, `harness/docker-probe.mjs` | the single-artifact acceptance and its in-process-key probes |
+| `acceptance-matrix.json` | 37 rows re-bound to the final digest |
 
-## 8. AUDIT REQUEST
+## 9. AUDIT REQUEST
 
 `READY_FOR_FINAL_M01_INDEPENDENT_AUDIT`.
 
-**GitHub Actions Validate is SUCCESS on this branch.** The audit target is the commit
-carrying the tests, harness and evidence of this round,
-`7c0bc3cdcd6866ccac65d64190b1a3f721fcaae5`, validated by run `37524007826` — the
-`Node 24 validation` job green; CodeRabbit `success` on the same commit (review skipped
-while the PR is a draft; status green). Every commit after the audit target is
-documentation-only and carries its own green run; the live list, including the tip and
-its run ID, is kept in the real PR #41 body rather than here, because a SHA written
-into a file cannot name the commit that carries the file.
+The audit target is the tip of `feat/ph-m01-security-acceptance` after this round's
+commits; GitHub Actions Validate and CodeRabbit must be SUCCESS on that exact commit,
+and the run IDs and SHAs are recorded in the real PR #41 body (a SHA written into a
+file cannot name the commit that carries the file).
 
 Points an auditor should weigh most heavily:
 
-1. **The acceptance suite is the delta** — it contains no product change. Confirm that
-   claim from the diff itself (only test/harness/evidence files), then attack the tests:
-   the cross-tenant matrix, the no-oracle equality, and the deadlock probe (which
-   asserts invariants, never timings).
-2. **The drill's key discipline** — keys and canary travel only over stdin/in-process
-   memory; verify from the harness sources that no path can persist them, then re-run
-   the drill and compare the envelope-hash transitions.
-3. **The L3 correction** — a citation that pointed at a not-yet-existing document was
-   caught by JEV advisory classification and corrected; confirm the replacement
-   citations resolve to real content.
-4. **The rebuild non-reproducibility observation** — decide whether it warrants a
-   follow-up (it is recorded, not suppressed; the artifact of record is unchanged).
-5. **The VEX has nothing new to approve here** — the digest did not move; confirm the
-   entering approvals are correctly bound and that WO-004 added no suppression.
+1. **The CR-01 gate is itself verified** — its self-test must fail on the historical
+   argv pattern; re-run it and then re-check the orchestrator by eye for any other
+   argv/env path (the gate's pattern list is in the script).
+2. **The CR-02 negative control is the proof** — re-run the acceptance suite and
+   confirm the BYTEA fixture produces a scanner hit before removal, and that the raw
+   byte `.includes()` is what fires.
+3. **The single-artifact claim** — re-run `docker compose ps` plus `docker inspect` and
+   confirm the containers' image ids equal `6a7c210b…`; re-derive the build-input
+   hashes and the pinned base digest.
+4. **The VEX reset and the removed row** — confirm 24 UI / 24 proposed on the final
+   digest and that `CVE-2026-103111` is absent because `libpcre2-8-0` is now
+   `deb12u2` (receipt `09`), not because anything was suppressed.
+5. **The complete-diff scan** — re-run the CR-04 scan over PR #41's full file set and
+   confirm it covers test/harness/evidence/governance files, not just product paths.

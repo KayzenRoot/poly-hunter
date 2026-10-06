@@ -879,6 +879,81 @@ describe("PH-M01-WO-004 security acceptance against PostgreSQL", () => {
       }
     }
 
+    /**
+     * Audit CR-02 — RAW-VALUE database scan.
+     *
+     * Column metadata is derived from PostgreSQL `information_schema.columns`;
+     * every column of every PH-M01 table (public + drizzle schemas) is then
+     * inspected value-by-value, and the VALUES ARE INSPECTED BEFORE ANY JSON
+     * SERIALIZATION. Buffers/typed arrays are compared as raw bytes (equality
+     * plus byte-subsequence `.includes()`); strings are compared directly;
+     * JSON/JSONB objects are stringified only because they are genuinely text
+     * documents. This is what proves two things at once: no plaintext canary
+     * bytes are persisted anywhere, and the AES-GCM ciphertext column does not
+     * contain the plaintext byte sequence.
+     */
+    async function scanDatabaseForCanary(
+      pool: Pool,
+      canary: string,
+    ): Promise<
+      Array<{ table: string; column: string; kind: "bytes" | "text" }>
+    > {
+      const canaryBytes = Buffer.from(canary, "utf8");
+      const columns = await pool.query<{
+        table_schema: string;
+        table_name: string;
+        column_name: string;
+      }>(
+        `SELECT table_schema, table_name, column_name
+         FROM information_schema.columns
+         WHERE table_schema IN ('public', 'drizzle')
+         ORDER BY table_schema, table_name, ordinal_position`,
+      );
+
+      const byTable = new Map<string, string[]>();
+      for (const column of columns.rows) {
+        const key = `${column.table_schema}.${column.table_name}`;
+        const names = byTable.get(key) ?? [];
+        names.push(column.column_name);
+        byTable.set(key, names);
+      }
+      expect(byTable.size).toBeGreaterThanOrEqual(6);
+
+      const hits: Array<{
+        table: string;
+        column: string;
+        kind: "bytes" | "text";
+      }> = [];
+
+      for (const [table, columnNames] of byTable) {
+        const [schema, name] = table.split(".");
+        const rows = await pool.query(`SELECT * FROM "${schema}"."${name}"`);
+        for (const row of rows.rows as Record<string, unknown>[]) {
+          for (const column of columnNames) {
+            const value = row[column];
+            if (value === null || value === undefined) continue;
+            if (value instanceof Uint8Array) {
+              const bytes = Buffer.isBuffer(value) ? value : Buffer.from(value);
+              if (bytes.equals(canaryBytes) || bytes.includes(canaryBytes, 0)) {
+                hits.push({ table, column, kind: "bytes" });
+              }
+            } else if (typeof value === "string") {
+              if (value.includes(canary)) {
+                hits.push({ table, column, kind: "text" });
+              }
+            } else if (value instanceof Date || typeof value === "number") {
+              continue;
+            } else if (typeof value === "object") {
+              if (JSON.stringify(value).includes(canary)) {
+                hits.push({ table, column, kind: "text" });
+              }
+            }
+          }
+        }
+      }
+      return hits;
+    }
+
     it("never lets the canary escape through logs, errors, metadata, the database or the working tree", async () => {
       // High-entropy, runtime-only canary. The base64url alphabet cannot be
       // mistaken for the repository's own base64 scanning patterns, and the
@@ -955,28 +1030,13 @@ describe("PH-M01-WO-004 security acceptance against PostgreSQL", () => {
       // 1. No captured console output contains the canary.
       expect(logs.join("\n")).not.toContain(canary);
 
-      // 2. No non-bytea value in ANY table contains the canary, and no bytea
-      //    column contains it in the clear either (checked by scanning the
-      //    stringified rows — ciphertext must not equal plaintext).
-      const tables = await raw().query<{
-        table_schema: string;
-        table_name: string;
-      }>(
-        `SELECT table_schema, table_name FROM information_schema.tables
-         WHERE table_schema IN ('public', 'drizzle') AND table_type = 'BASE TABLE'`,
-      );
-      expect(tables.rowCount ?? 0).toBeGreaterThanOrEqual(6);
-      for (const table of tables.rows) {
-        const rows = await raw().query(
-          `SELECT * FROM "${table.table_schema}"."${table.table_name}"`,
-        );
-        for (const row of rows.rows) {
-          const textual = JSON.stringify(row, (_key, value: unknown) =>
-            Buffer.isBuffer(value) ? value.toString("hex") : value,
-          );
-          expect(textual).not.toContain(canary);
-        }
-      }
+      // 2. RAW-VALUE database scan (audit CR-02): values are inspected BEFORE
+      //    any JSON serialization. Node Buffers define toJSON(), so a
+      //    JSON.stringify-based scan can serialize a BYTEA as
+      //    {type:"Buffer",data:[...]} and miss the raw bytes — the exact
+      //    false-pass this accepts as a negative control below.
+      const hits = await scanDatabaseForCanary(raw(), canary);
+      expect(hits).toEqual([]);
 
       // 3. The canary is absent from every file in the working tree.
       for (const path of repositoryFiles()) {
@@ -984,6 +1044,52 @@ describe("PH-M01-WO-004 security acceptance against PostgreSQL", () => {
           throw new Error(`canary leaked into ${path}`);
         }
       }
+    });
+
+    /**
+     * Audit CR-02 negative control. The canary's UTF-8 bytes are placed
+     * DIRECTLY into a BYTEA column of a real PH-M01 table (a valid-shaped
+     * encrypted_secrets row). The raw-byte scanner must DETECT it; after the
+     * fixture is removed the scanner must be clean again. A scanner that never
+     * fails is not evidence.
+     */
+    it("detects canary bytes deliberately placed in a BYTEA column (negative control)", async () => {
+      const canary = randomBytes(32).toString("base64url");
+      const canaryBytes = Buffer.from(canary, "utf8");
+      const context = await seedTenant("owner");
+      const fixtureId = randomUUID();
+
+      await raw().query(
+        `INSERT INTO encrypted_secrets
+           (id, tenant_id, purpose, ciphertext, nonce, auth_tag, key_version)
+         VALUES ($1, $2, 'control.bytea', $3, $4, $5, 'k1')`,
+        [
+          fixtureId,
+          context.tenantId,
+          canaryBytes,
+          Buffer.alloc(12, 0x01),
+          Buffer.alloc(16, 0x02),
+        ],
+      );
+
+      try {
+        const hits = await scanDatabaseForCanary(raw(), canary);
+        expect(hits.length).toBeGreaterThan(0);
+        expect(
+          hits.some(
+            (hit) =>
+              hit.table === "public.encrypted_secrets" &&
+              hit.column === "ciphertext" &&
+              hit.kind === "bytes",
+          ),
+        ).toBe(true);
+      } finally {
+        await raw().query("DELETE FROM encrypted_secrets WHERE id = $1", [
+          fixtureId,
+        ]);
+      }
+
+      expect(await scanDatabaseForCanary(raw(), canary)).toEqual([]);
     });
   });
 });

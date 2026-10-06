@@ -2081,22 +2081,38 @@ describe("PH-M01-WO-003 secret vault against PostgreSQL", () => {
     it("never persists plaintext in any column", async () => {
       const context = await seedTenant("owner");
       const plaintext = "column-scan-canary-4b7e";
+      const plaintextBytes = Buffer.from(plaintext, "utf8");
       const created = await currentVault().create(context, {
         purpose: "redaction.columns",
         secret: plaintext,
       });
-      const row = await raw().query<Record<string, Buffer | string | null>>(
+      const row = await raw().query<Record<string, unknown>>(
         "SELECT * FROM encrypted_secrets WHERE id = $1",
         [created.id],
       );
-      const serialized = JSON.stringify(row.rows[0], (_key, value: unknown) =>
-        Buffer.isBuffer(value) ? value.toString("base64") : value,
-      );
-      expect(serialized).not.toContain(plaintext);
-      expect(serialized).not.toContain(
-        Buffer.from(plaintext).toString("base64"),
-      );
-      expect(serialized).not.toContain(Buffer.from(plaintext).toString("hex"));
+      const stored = row.rows[0];
+      expect(stored).toBeDefined();
+      // RAW-VALUE scan (audit CR-02). The previous revision serialized the row
+      // with JSON.stringify and inspected the text: Node Buffers define
+      // toJSON(), so BYTEA values reached the replacer as
+      // {type:"Buffer",data:[...]} and the byte-level assertions never saw the
+      // raw bytes. Values are now inspected BEFORE any serialization.
+      for (const value of Object.values(stored ?? {})) {
+        if (value === null || value === undefined) continue;
+        if (value instanceof Uint8Array) {
+          const bytes = Buffer.isBuffer(value) ? value : Buffer.from(value);
+          expect(bytes.equals(plaintextBytes)).toBe(false);
+          expect(bytes.includes(plaintextBytes, 0)).toBe(false);
+          expect(bytes.toString("base64")).not.toContain(
+            plaintextBytes.toString("base64"),
+          );
+          expect(bytes.toString("hex")).not.toContain(
+            plaintextBytes.toString("hex"),
+          );
+        } else if (typeof value === "string") {
+          expect(value).not.toContain(plaintext);
+        }
+      }
       await currentVault().remove(context, created.id);
     });
   });

@@ -1,51 +1,68 @@
 PH-M01-WO-004 — disposable backup/destroy/restore + v1->v2 rotation drill (transcript)
-generated: 2026-10-06T19:45:54Z
+generated: 2026-10-06T20:40:18Z
+REGENERATED for audit CR-01: the payload transport was moved from node argv to the shell-builtin printf piped to the container stdin, and the new deterministic harness gate (verify-no-argv-secrets.sh, with its own failing self-test) runs first in this transcript.
+artifact of record during this drill: polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60 (the final candidate)
 orchestrator: .engineering/evidence/PH-M01-WO-004/harness/recovery-rotation-drill.sh
-in-container phases: .engineering/evidence/PH-M01-WO-004/harness/drill-vault.mjs
+gate: .engineering/evidence/PH-M01-WO-004/harness/verify-no-argv-secrets.sh
+phases: .engineering/evidence/PH-M01-WO-004/harness/drill-vault.mjs
 
-Key material (k1, k2) and the canary were generated in the orchestrator shell, passed
-to the container over the exec stdin pipe only, and discarded at the end. They were
+Key material (k1, k2) and the canary were generated in the orchestrator shell, kept
+in shell memory, and passed to the container over the exec stdin pipe only (builtin
+printf — no child process ever received them as argv or environment). They were
 never written to a file, argv or environment, and this transcript contains no key
 material or canary value — only ids, hashes, counts and status words.
 
-== drill database: phm01_drill_941af8354e15ad02 (disposable) ==
+== self-test: the historical offending pattern must be DETECTED ==
+FAIL /tmp/tmp.e9VhGVQVuv: ephemeral value expansion outside the assignments/printf payload:
+4:  ' "$K1" "$K2" "$CANARY" "$1"
+FAIL /tmp/tmp.e9VhGVQVuv: exports an ephemeral value into the environment
+self-test OK: the historical pattern is detected and rejected
+== real harness files ==
+PASS recovery-rotation-drill.sh
+PASS drill-vault.mjs
+PASS docker-acceptance.sh
+PASS docker-probe.mjs
+harness gate: PASS — ephemeral values travel through stdin pipes only
+
+== drill ==
+== drill database: phm01_drill_3af935794d577782 (disposable) ==
 == 1. empty DB -> migrations ==
 Using 'pg' driver for database querying
 [⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[⡿] applying migrations...[2K[1G[⢿] applying migrations...[2K[1G[✓] migrations applied successfully!== 2. migration repeat on the same DB (must be a no-op) ==
 Using 'pg' driver for database querying
 [⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!== 3. seed representative PH-M01 state + v1 secret via the vault ==
-seed: tenantA=9f47d274-3e14-47d0-b828-b26316f67f5f userA=a35e0d68-23b5-4083-924f-6327268b8997 secretA=29f94946-926b-4d82-a352-6059ed69a659
-seed: tenantB=0d0fe0b5-bf2f-4d88-ad3b-47a65281956d userB=22446940-714a-40b7-90c9-e5a58ad3cbe6 secretB=c29ec68d-a623-4793-8ac4-d696d6075470
+seed: tenantA=5b6c13dc-2f3d-47c2-b09d-fea52e84d411 userA=be7a171c-1a47-4624-a745-b4774c905999 secretA=1fa88c05-b518-447e-83e4-f6b2334aee25
+seed: tenantB=35f086bb-4b20-4d05-acb4-a13fdf98d6a3 userB=67fb12a2-7cd6-466d-9ce0-f2b05a24ce2e secretB=194cbf56-43e4-4c33-a542-20e27848a5c2
 seed: isolation + authorized decrypt OK
-seed: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e
+seed: envelopeHashA=2bd2570495a46443fba4e3028d4b6a530abbaaf4ea8a7d54bf4f1f99a6575601
 phase seed: OK
 (ids captured: tenantA, userA, secretA, tenantB, userB and the envelope hash; no key material printed)
 == 4. logical backup (pg_dump -Fc) ==
-dump size bytes: 17358
+dump size bytes: 17356
 == 5. destroy the database ==
 database dropped
 == 6. fresh database + restore (pg_restore) ==
 restore completed (exit 0)
 == 7. roll-forward guidance: migrations re-applied on the restored DB ==
 Using 'pg' driver for database querying
-[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[✓] migrations applied successfully!== 8. verify restored state: isolation, metadata, authorized decrypt ==
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!== 8. verify restored state: isolation, metadata, authorized decrypt ==
 verify: applied migrations=3
-verify: metadata id=29f94946-926b-4d82-a352-6059ed69a659 purpose=drill.secret.a rotation=current
+verify: metadata id=1fa88c05-b518-447e-83e4-f6b2334aee25 purpose=drill.secret.a rotation=current
 verify: tenant B sees nothing of tenant A (null, no oracle)
 verify: unmapped context refused (SECRET_FORBIDDEN)
 verify: authorized decrypt with ephemeral v1 returns the canary
-verify: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e
+verify: envelopeHashA=2bd2570495a46443fba4e3028d4b6a530abbaaf4ea8a7d54bf4f1f99a6575601
 phase verify-restored: OK
 == 9. required old key version missing: fail closed, row intact ==
 missing-key: decrypt fails closed with KEY_VERSION_UNAVAILABLE
-missing-key: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e (row intact)
+missing-key: envelopeHashA=2bd2570495a46443fba4e3028d4b6a530abbaaf4ea8a7d54bf4f1f99a6575601 (row intact)
 phase missing-key: OK
 == 10. re-introduce v1, active v2, rotate; k2-only decrypt afterwards ==
 rotate: status=rotated rotationNow=current
-rotate: envelopeHashA=b5bb57e4fbb1e6d32ab79731b486e5738f9a7f5e8b126f0350e117f41c0d20d3 (changed, identity stable)
+rotate: envelopeHashA=0e85a7332dcf3c77921306ee86ef652b76907580509b5d1628880728b081f53d (changed, identity stable)
 rotate: k2-only keyring decrypts the rotated envelope
 rotate: metadata rotation=current
 phase rotate: OK
 == 11. cleanup: drop the database, the dump, and the copied harness ==
-dropped phm01_drill_941af8354e15ad02
+dropped phm01_drill_3af935794d577782
 == drill complete: test keys and canary discarded (never persisted) ==

@@ -1,0 +1,81 @@
+PH-M01-WO-004 — JEV MCP execution receipt (audit CR-01..CR-04 round)
+generated: 2026-10-06T20:54Z
+
+PURPOSE. The correction prompt requires the ACTUAL locally installed JEV MCP server
+for bounded triage on this round (review 5434141055, CR-01..CR-04). This receipt
+records health, discovery, every call with its bounded purpose and result, the
+escalations, and the no-secrets statement. JEV is advisory: it approves no CVE, no
+security property, no checkpoint and no merge, and no JEV score is cited anywhere as
+evidence of such.
+
+== 1. PREFLIGHT — HEALTH AND DISCOVERY ==
+
+  Status: HEALTHY. Live discovery through the committed stdio driver
+  (.engineering/evidence/PH-M01-WO-003/receipts/jev-driver.mjs; launcher owns the
+  credential, which this round never read or printed):
+    [jev-mcp] ready — model jev-latest
+  12 tools advertised by the installed server (1.13.0, provider typesafe): jev_verify,
+  jev_screen, jev_noul, jev_find, jev_classify, jev_decide, jev_rerank, jev_compare,
+  jev_extract, jev_audit, jev_review, jev_gate.
+
+  Used this round: jev_classify (x2), jev_rerank (x1), jev_review (x1), jev_gate (x1),
+  jev_verify via the gate's verification half. Not used, and why: jev_screen (no
+  untrusted/external text entered any decision); jev_noul / jev_decide (no
+  propositions or bounded choices beyond the claims verified); jev_find (rerank
+  returned the full ordering); jev_compare (no pairwise reconciliation question);
+  jev_extract / jev_audit (all values are verbatim deterministic reads).
+
+== 2. CALLS — PURPOSE AND RESULT ==
+
+  A. jev_classify — delta classification of the COMPLETE PR #41 diff (28 paths incl.
+     planned additions) against PRODUCT_CODE / TEST / HARNESS / EVIDENCE / GOVERNANCE /
+     DOCKER_BUILD_INPUT / DEPENDENCY_INPUT. Result: 4 GOVERNANCE, 16 EVIDENCE, 5
+     HARNESS, 2 TEST, 1 DOCKER_BUILD_INPUT (Dockerfile.dev — the base pin), and ZERO
+     PRODUCT_CODE. Agrees with the deterministic git view: no product source changed
+     this round. 4,101 / 2,037 tokens.
+  B. jev_classify — VEX semantic comparison on the FINAL digest (24 rows): accepted
+     (justification, vulnerableCodePresent) from the canonical WO-002 record vs the
+     emitted top-level and nested preserved-basis fields. Result: 24 CONSISTENT /
+     0 SEMANTIC_DIVERGENCE. 3,797 / 785 tokens.
+  C. jev_rerank — minimum evidence set for the final review (14 candidates). Top:
+     receipt 04 full-diff scan 0.96; acceptance matrix 0.96; receipt 02 final-artifact
+     acceptance 0.90; the argv gate + drill 0.87; the acceptance suite 0.87; receipt 07
+     scan 0.86; receipt 09 premises 0.82; receipt 08 state machine 0.71. 1,593 / 260
+     tokens.
+  D. jev_review — bounded pre-review of the CR-round diff (78 KB; truncated at the
+     49 KB model limit — the truncation is stated in the result as a caveat). Result:
+     correctness 1.65/2, spec_match 1.46/2, test_gap 0.35, blast_radius 1.71, composite
+     0.695, action ESCALATE (safe_to_apply 0.30), limiting rubric spec_match.
+     16,335 / 79 tokens.
+  E. jev_gate — final combined pre-gate: patch review (same truncated diff) + six
+     completion claims against the receipt evidence. Verification: 6 verified /
+     0 contradicted / 0 unsupported / 2 needs_review (lower-confidence: the raw-byte
+     scanner claim at 0.40 and the argv-free transport claim at 0.80); aggregate
+     action ESCALATE on conservative safe_to_apply. 17,079 / 318 tokens.
+
+== 3. ESCALATIONS TO THE PRIMARY MODEL ==
+
+  Both review calls escalated conservatively on safe_to_apply, and the gate flagged
+  two claims as needs_review on confidence (not contradiction). Resolution, by the
+  primary model, from deterministic evidence: the two lower-confidence claims are the
+  CR-01 and CR-02 corrections, whose proof is mechanical and attached — the gate
+  self-test that must (and does) reject the historical argv pattern, and the BYTEA
+  negative control that must (and does) make the scanner report a hit before the
+  fixture is removed. The truncation caveat is recorded rather than hidden. No JEV
+  score is used as evidence anywhere; the definitive judgment belongs to the
+  independent audit.
+
+== 4. NO SECRETS SENT ==
+
+  Inputs contained only: repository paths, file-kind catalogs, VEX justification enums
+  and booleans, test titles, diffs of Dockerfile/tests/harness scripts, and
+  deterministic result summaries. No plaintext secret, canary value, keyring content,
+  AES key, credential or token was read, sent, printed or stored. The ephemeral drill
+  values live only in the orchestrator shell and container process memory.
+
+== 5. POLICY COMPLIANCE ==
+
+  deterministic first — every input was produced by git/diff/tests/drills first.
+  real MCP — live server, advertised schemas, six calls, discovery recorded.
+  advisory only — escalations preserved; nothing approved, waived or suppressed;
+  independent audit and owner gates untouched.
