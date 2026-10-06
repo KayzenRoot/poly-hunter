@@ -1,0 +1,33 @@
+=== CVE-2026-8376 : the 32-bit prerequisite, re-measured on the FINAL digest ===
+artifact=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+advisory_prerequisite: heap buffer overflow in Perl_study_chunk requires a 32-bit (ILP32) build
+
+--- dpkg: installed perl package, version, architecture, status ---
+perl   unknown ok not-installed
+perl-base 5.36.0-7+deb12u3 amd64 install ok installed
+perl-modules   unknown ok not-installed
+
+--- kernel view of the running container ---
+x86_64
+
+--- ELF header of the installed perl binary, read without binutils ---
+    EI_CLASS byte (offset 4): 02 = ELF64, 01 = ELF32
+ 7f 45 4c 46 02
+    e_machine (offset 18-19): 3e00 = x86-64
+ 3e 00
+
+--- perl -V view ---
+ivsize='8';
+longsize='8';
+ivtype='long';
+use64bitint='define';
+
+--- perl Config view (script piped to the image's own perl) ---
+perl_version                    = 5.36.0
+Config{ivsize}                  = 8 bytes  => IV width  = 64 bits
+Config{longsize}                = 8 bytes  => LONG_BIT  = 64
+Config{ptrsize}                 = 8 bytes  => pointer   = 64 bits
+Config{ivtype}                  = long
+Config{use64bitint}             = define
+Config{cc}                      = x86_64-linux-gnu-gcc
+Config{archname}                = x86_64-linux-gnu-thread-multi

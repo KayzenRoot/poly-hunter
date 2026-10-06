@@ -8,6 +8,11 @@
       "types": "./src/server/index.ts",
       "import": "./dist/server/index.js",
       "default": "./dist/server/index.js"
+    },
+    "./server/identity": {
+      "types": "./src/server/identity.ts",
+      "import": "./dist/server/identity.js",
+      "default": "./dist/server/identity.js"
     }
   },
   "scripts": {

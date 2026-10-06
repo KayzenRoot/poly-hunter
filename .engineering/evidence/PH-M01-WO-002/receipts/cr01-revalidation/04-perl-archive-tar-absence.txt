@@ -1,0 +1,24 @@
+=== CVE-2026-42496 / CVE-2026-42497 : vulnerable component presence, re-proven on the FINAL digest ===
+artifact=sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+--- 1. dpkg: is the package providing Archive/Tar.pm installed? ---
+dpkg-query: no path found matching pattern *Archive/Tar.pm*
+dpkg -S exit=1
+
+--- 2. filesystem: any Archive/Tar.pm anywhere in the image? ---
+find-exit=1 (empty output above = absent)
+
+--- 3. filesystem: any Archive/Tar.pm in the bind-mounted/other mounts too? ---
+full-find-exit=1 (empty output above = absent everywhere)
+
+--- 4. can the module even be loaded by the installed perl? ---
+Can't locate Archive/Tar.pm in @INC (you may need to install the Archive::Tar module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl).
+BEGIN failed--compilation aborted.
+perl -M exit=2
+
+--- 5. perldoc/-MArchive not present; prove the @INC roots that DO exist ---
+ARRAY(0x5e6ec2d03548)
+--- 6. what modules perl-base actually ships (count) ---
+top-level module dirs in @INC: 52
+Debconf
+Debian

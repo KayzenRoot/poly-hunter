@@ -1,0 +1,58 @@
+# CR-02 / CR-04 live probes against the running containers — PH-M01-WO-002
+# Captured 2026-10-05 by receipts/runtime/capture-cr02-cr04-probes.sh
+#
+# 403 = the same-origin guard REJECTED the request before any state was touched.
+# 503 = the guard ALLOWED it and the request reached the provider check
+#       (503 = identity_provider_unavailable; no Supabase credentials exist here).
+# 303 = the guard allowed it and the handler produced its normal redirect.
+
+## Part 1 — default origin http://localhost:3000 (polyhunter-web on 127.0.0.1:3000)
+
+### POST /api/auth/select-tenant (CR-02)
+no Origin header                               -> HTTP 403
+correct Origin                                 -> HTTP 503
+evil.example                                   -> HTTP 403
+sibling subdomain                              -> HTTP 403
+different protocol (https)                     -> HTTP 403
+malformed Origin                               -> HTTP 403
+host spoof (Host: localhost)                   -> HTTP 403
+X-Forwarded-Host spoof                         -> HTTP 403
+null origin                                    -> HTTP 403
+
+### POST /api/auth/logout (CR-02)
+no Origin header                               -> HTTP 403
+correct Origin                                 -> HTTP 303
+evil.example                                   -> HTTP 403
+X-Forwarded-Host spoof                         -> HTTP 403
+
+### GET /auth/callback redirect target (CR-04)
+error=access_denied                            -> HTTP 303 Location=http://localhost:3000/?auth=denied
+open-redirect attempt                          -> HTTP 303 Location=http://localhost:3000/?auth=failed
+
+## Part 2 — CONFIGURED origin http://configured-origin.test:4321 (one-off container)
+#
+# This part exists to falsify the review's central CR-04 concern: that redirect
+# targets are still a hard-coded literal. The container ran with
+# NEXT_PUBLIC_APP_ORIGIN=http://configured-origin.test:4321, published on 127.0.0.1:3100.
+# If any redirect target or Origin comparison were hard-coded to localhost, these
+# results would be identical to Part 1. They are not.
+
+### GET /auth/callback redirect target follows configuration (CR-04)
+error=access_denied                            -> HTTP 303 Location=http://configured-origin.test:4321/?auth=denied
+error=invalid_request                          -> HTTP 303 Location=http://configured-origin.test:4321/?auth=denied
+open-redirect attempt                          -> HTTP 303 Location=http://configured-origin.test:4321/?auth=failed
+
+### CSRF comparison follows configuration (CR-02)
+Origin = configured origin (guard ALLOWS)      -> HTTP 503
+Origin = http://localhost:3000 (now FOREIGN)   -> HTTP 403
+
+# Conclusion: redirect targets and the CSRF comparison both track NEXT_PUBLIC_APP_ORIGIN.
+# Changing only configuration changed both behaviours, and localhost — the trusted
+# origin in Part 1 — is now correctly REJECTED as cross-origin.
+#
+# Production fail-closed behaviour (an absent, non-absolute, non-http(s) or plain-http
+# NEXT_PUBLIC_APP_ORIGIN under NODE_ENV=production throws InvalidAppOriginError, which
+# originMatchesTrusted converts into a denial for every request) is proven by unit
+# tests in tests/app-origin-csrf.test.ts rather than by a live container: reproducing
+# it needs a production build and NODE_ENV=production, while the behaviour is a pure
+# function of those two environment values.

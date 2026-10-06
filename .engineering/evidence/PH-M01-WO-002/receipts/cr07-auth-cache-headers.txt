@@ -1,0 +1,146 @@
+PH-M01-WO-002 — CR-07 RECEIPT
+Finding: @supabase/ssr 0.12.7 auth-cookie cache headers
+Source: independent audit 5427442224, audited head 15a645e9504c002d4b5ae191b076d8b1582e405e
+Code head: 0a761490459531d9fb2623c14227354b0b03a120
+Artifact:  polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c (unchanged)
+
+1. THE CONTRACT
+   @supabase/ssr 0.12.7 SetAllCookies is
+     setAll(cookies: {...}[], headers: Record<string,string>)
+   verified in node_modules/@supabase/ssr/dist/main/types.d.ts:23-58.
+   The library delivers, on auth-cookie writes (dist/main/cookies.js:505-509):
+     Cache-Control: private, no-cache, no-store, must-revalidate, max-age=0
+     Expires: 0
+     Pragma: no-cache
+
+   The library's own type documentation states why this matters: responses that
+   set auth cookies must not be cached by CDNs or reverse proxies, otherwise
+   one user's session token can be served to a different user.
+
+2. THE DEFECT
+   apps/web/src/identity/supabase-adapter.ts declared "setAll(cookiesToSet)"
+   and discarded the second argument. apps/web/proxy.ts already forwarded the
+   delivered object directly and correctly needed no change.
+   Consequence: Route Handlers that write Supabase auth cookies emitted
+   responses carrying no anti-cache policy.
+
+   The library was also measured to call setAll(x, {}) on its storage-only
+   internal writes and to forward the policy only on the first cookie write per
+   client instance. That is why a server client is created per request and why
+   the Route Handler policy is applied unconditionally rather than depending on
+   the library delivering headers on a particular call.
+
+3. THE FIX (commit 0a76149)
+   a) apps/web/src/identity/auth-cache-headers.ts (NEW, server-only)
+      - AUTH_NO_STORE_HEADERS: frozen Record with the exact library policy.
+      - applyAuthNoStoreHeaders(response): applies the policy, overwrites
+        weaker pre-existing values, returns the same response for chaining.
+      - NO mutable module state: a frozen constant plus a pure function that
+        touches only the response argument. Concurrency-safe by construction.
+
+   b) apps/web/src/identity/supabase-adapter.ts
+      - setAll now declares (cookiesToSet, cacheHeaders) explicitly.
+      - the delivered object is routed through recordAuthCookieMutation, which
+        returns the centralized policy when it matches exactly and THROWS on
+        any drift (missing no-store, extra header, changed value), surfacing a
+        library upgrade instead of silently serving a weaker policy.
+      - Empty deliveries ({} — the library's storage-only internal writes) also
+        yield the centralized policy.
+
+   c) DOCUMENTED BOUNDARY
+      The next/headers cookie store exposes no response handle, so the adapter's
+      setAll cannot write headers to the outgoing response. Cookies are written
+      through the cookie store; the anti-cache headers are OBLIGATORILY applied
+      by the Route Handler via the helper. This boundary is stated in the source
+      of auth-cache-headers.ts and of the adapter.
+
+   d) ROUTES COVERED (policy applied unconditionally on every response path)
+      - /api/auth/login  : 302 PKCE redirect; 503 provider_unavailable;
+                           503 provider-redirect mismatch.
+      - /auth/callback   : 303 success; 303 denied; 303 invalid; 303 failed.
+      - /api/auth/logout : 303 sign-out redirect.
+
+      The callback denial / invalid / failure redirects also carry the policy: a
+      failed exchange can still clear or rotate auth cookies, so a selective
+      policy could serve a cookie-clearing redirect from cache.
+
+   e) REFACTOR (no behavior change beyond the policy)
+      login and the auth callback were extracted into handler.ts modules,
+      matching the existing select-tenant / logout handler pattern, so the
+      policy is testable without a provider or a database. The route files keep
+      only wiring.
+      logout previously set Cache-Control only; it now uses the helper and
+      therefore also emits Expires: 0 and Pragma: no-cache.
+
+   f) NOT TOUCHED
+      CSRF (CR-02), RBAC, TenantContext, open redirect / trusted origin
+      (CR-04), apps/web/proxy.ts, and everything under packages/ are unchanged.
+      The callback's open-redirect and trusted-origin behavior is additionally
+      asserted by a new test, proving the refactor did not weaken CR-04.
+
+4. VERIFICATION
+   tests/auth-cache-headers.test.ts — 16 cases, all passing:
+     - helper: exact value; frozen; returns the same instance; overwrites a
+       weaker pre-existing Cache-Control/Expires; 8 concurrent applications.
+     - login: 302 success; 503 unavailable; 503 redirect mismatch.
+     - callback: success; denied; invalid; failed; an absolute returnTo still
+       collapses to "/" (no open redirect) with the policy intact.
+     - logout: the 303 carries Cache-Control + Expires: 0 + Pragma: no-cache.
+     - adapter contract: accepts the exact delivered policy; throws on
+       missing-no-store drift AND on extra-header drift; an empty delivery
+       still yields the centralized policy.
+
+   Every response assertion checks the EXACT Cache-Control string, not a
+   superset: a present-but-weaker value is itself a session-leak vector.
+
+   Full unit suite: 7 files, 121 passed (121).
+
+5. IMAGE DIGEST — UNCHANGED, PROVED
+   CR-07 changed only TypeScript source, test files and test configuration. It
+   did NOT touch package.json, package-lock.json, Dockerfile.dev, compose.yaml,
+   the base image, or dependencies.
+
+   Dockerfile.dev COPYs only the workspace package.json manifests and
+   tsconfig.base.json. Verified empirically against the image:
+     docker run --rm --entrypoint sh polyhunter-dev:local \
+       -c "ls /workspace/apps/web/src"
+     -> NO apps/web/src in image
+   (node_modules IS baked, so the installed package set is fixed by the
+   manifests — which did not change.)
+
+   compose.yaml bind-mounts ./apps/web over /workspace/apps/web, so web source
+   is supplied at runtime and is never baked into the image.
+
+   No rebuild was performed. The artifact remains:
+     sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+   The container scan SARIF is byte-identical:
+     sha256:9153fc1bf029b57ab285778c067f3b780504a13735558e3281369acc9991f3ff
+
+6. VEX PREMISES — RE-VERIFIED, NONE CHANGED
+   The 25 rows are container-scan findings carried across six equivalence axes:
+     component/package, exact version, architecture, installed files,
+     runtime assumptions, prior proof assumptions.
+
+   CR-07 cannot reach any of them: it adds no dependency, changes no version,
+   and touches no installed file. Two axes were re-measured live because CR-07
+   modified apps/ source, since the "runtime assumptions" axis includes
+   source-level subprocess call sites:
+
+     - runtime assumptions (subprocess call sites): re-grepped apps/ and
+       packages/ for child_process / exec / execSync / spawn / execFile,
+       excluding build output -> 0 call sites. Premise HOLDS.
+     - live containers: uid 1000 (node) in both web and worker; privileged=false;
+       capadd=[]; capdrop=[]; web published on 127.0.0.1:3000 only; worker
+       unpublished; no perl process in either container.
+
+   No premise required re-derivation. No row changed status, justification or
+   vulnerableCodePresent. Regenerating the VEX at the new head reproduced all 25
+   rows identically (22 preserved by reference, 3 new from CR-01).
+
+7. SECURITY STATE — UNCHANGED
+   25 findings UNDER_INVESTIGATION; 25 proposed NOT_AFFECTED; 0 approvals
+   (independentAuditor=null, ownerApproval=null). No owner approval requested.
+   No suppression, ignore, waiver, accepted risk or severity downgrade.
+   Canonical .engineering/CHECKPOINT.json untouched; the checkpoint delta remains
+   PROPOSED / NOT_PROMOTED; PH-M01-WO-003 not started; no merge performed.

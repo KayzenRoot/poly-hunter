@@ -108,3 +108,22 @@ export const tenantMemberships = pgTable(
     ),
   ],
 );
+
+export const platformRoleEnum = pgEnum("platform_role", ["platform_admin"]);
+
+export const platformRoles = pgTable(
+  "platform_roles",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    role: platformRoleEnum("role").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("platform_roles_user_role_unique").on(table.userId, table.role),
+  ],
+);

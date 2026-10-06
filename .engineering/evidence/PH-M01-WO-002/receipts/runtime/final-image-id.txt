@@ -1,0 +1,4 @@
+# FINAL rebuilt artifact for PH-M01-WO-002 (CR-02/CR-03/CR-04 correction delta).
+# This is the digest every disposition in receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json
+# is bound to. Full scanner/toolchain identity: cr01-revalidation/00-final-image-identity.txt.
+sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c

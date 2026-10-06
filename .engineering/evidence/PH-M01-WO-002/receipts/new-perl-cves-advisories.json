@@ -1,0 +1,24 @@
+{
+  "fetchedAt": "2026-10-05",
+  "source": "https://api.osv.dev/v1/vulns/{id} (official OSV database)",
+  "findings": [
+    {
+      "cve": "CVE-2026-42497",
+      "severity": "HIGH (scanner)",
+      "affected": "Perl Archive::Tar versions before 3.08",
+      "summary": "Archive::Tar extract hardlinks to attacker controlled paths outside the extraction directory (_make_special_file passes linkname to link() without validation)"
+    },
+    {
+      "cve": "CVE-2026-42496",
+      "severity": "CRITICAL (scanner)",
+      "affected": "Perl Archive::Tar versions before 3.08",
+      "summary": "Archive::Tar extract symlinks with attacker controlled targets outside the extraction directory (_make_special_file passes linkname to symlink() without validation)"
+    },
+    {
+      "cve": "CVE-2026-8376",
+      "severity": "CRITICAL (scanner)",
+      "affected": "Perl before 5.40.5-RC1 / 5.41.0..5.42.3-RC1 / 5.43.0..5.43.11, 32-bit builds only",
+      "summary": "heap buffer overflow when compiling regular expressions with a repeated fixed string on 32-bit builds (Perl_study_chunk)"
+    }
+  ]
+}

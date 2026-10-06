@@ -1,0 +1,4 @@
+# Prior WO-002 artifact — the image the independent audit 5420502909 scanned.
+# Superseded by the FINAL rebuild in cr01-revalidation/00-final-image-identity.txt.
+# Per PH-SEC-VEX-POLICY its NOT_AFFECTED dispositions EXPIRE at the new digest.
+sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538

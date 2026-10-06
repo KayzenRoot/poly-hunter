@@ -1,0 +1,65 @@
+# CR-05 — integration teardown verification receipt
+captured_at_utc=2026-10-06T10:49:27Z
+
+## Root cause
+
+GitHub Actions Validate #57 (37385950835) failed at de18b34 with
+  57P01 terminating connection due to administrator command
+while all 14 assertions passed. The serialized pg Client in the failure
+showed the decisive state:
+
+  _ending: true, _ended: false, _connected: true, _txStatus: 'I'
+
+i.e. pool.end() HAD been called and awaited, but pg resolves end() once every
+client has been told to end — the socket teardown is asynchronous and the
+server-side backend is still attached for a short window. DROP DATABASE ... WITH
+(FORCE) inside that window terminated a backend that was already on its way out;
+the dying client emitted 57P01 on a socket nobody was listening to, and Vitest
+reported it as an unhandled error.
+
+Two distinct leaked pools were identified from the two occurrences:
+  - application_name 'polyhunter-server'  (a createTenantDataAccess pool)
+  - application_name undefined           (a bare new Pool(...), poolUseCount 1)
+
+FORCE was therefore masking a teardown race rather than describing a defect.
+
+## Fix
+
+packages/db/tests/support/postgres-disposable-databases.ts (new, shared by both
+suites) enforces the ordering instead of terminating connections:
+
+  1. every owned pool is closed and AWAITed in afterAll;
+  2. waitForNoBackends() polls pg_stat_activity until zero backends remain;
+  3. dropDisposableDatabase() then issues a plain DROP DATABASE IF EXISTS;
+  4. if the wait expires it throws an explicit RESOURCE LEAK naming every
+     offending backend (pid, application_name, state, backend_type, query);
+  5. WITH (FORCE) survives ONLY in preflightDropStaleDatabase(), used at setup
+     to clear debris from a previously interrupted run.
+
+The identity-rbac suite additionally moved its disposable migration pool into a
+try/finally, so a migration that throws can no longer leave a backend behind.
+
+## Verification A — the leak guard is not a no-op
+
+A temporary two-case probe (since removed) drove the guard directly:
+
+  ✓ reports an intentionally leaked connection as a RESOURCE LEAK  2728ms
+  ✓ does not raise once the leaked pool is closed                   1350ms
+
+So a genuine leak is now reported instead of hidden, which is the requirement
+that FORCE was previously defeating.
+
+## Verification B — repeated suite runs
+
+Before the fix, the same command reproduced 57P01 on run 2 of 6.
+After the fix, 8 consecutive runs were clean:
+
+  run 1..8: PASS (exit 0, zero unhandled errors, 14/14 assertions)
+
+## FORCE audit
+
+grep -n 'WITH (FORCE)' packages/db/tests/ now matches ONLY the preflight helper.
+ ✓ packages/db/tests/cr05-leak-guard.integration.test.ts (2 tests) 3782ms
+     ✓ reports an intentionally leaked connection as a RESOURCE LEAK  2481ms
+     ✓ does not raise once the leaked pool is closed  1284ms
+      Tests  2 passed (2)

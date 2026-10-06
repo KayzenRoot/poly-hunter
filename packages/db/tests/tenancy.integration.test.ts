@@ -1,9 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
+import type { TenantContext } from "@polyhunter/domain";
 import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Pool } from "pg";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   identityLinks,
   tenantMemberships,
@@ -14,7 +15,11 @@ import {
   createTenantDataAccess,
   InvalidTenantContextError,
 } from "../src/server/index.js";
-import type { TenantContext } from "@polyhunter/domain";
+import {
+  dropDisposableDatabase,
+  preflightDropStaleDatabase,
+  quoteGeneratedIdentifier,
+} from "./support/postgres-disposable-databases.js";
 
 const migrationsFolder = fileURLToPath(new URL("../drizzle", import.meta.url));
 const configuredDatabaseUrl = process.env.DATABASE_URL ?? "";
@@ -29,16 +34,6 @@ function databaseUrlFor(databaseName: string): string {
   const url = new URL(configuredDatabaseUrl);
   url.pathname = `/${databaseName}`;
   return url.toString();
-}
-
-function quoteGeneratedIdentifier(identifier: string): string {
-  if (!/^phm01_[0-9a-f]{32}$/.test(identifier)) {
-    throw new Error(
-      "Refusing to use an unexpected integration database identifier.",
-    );
-  }
-
-  return `"${identifier}"`;
 }
 
 function databaseRows(database: Pool, table: string, id: string) {
@@ -86,6 +81,9 @@ describe("PostgreSQL tenancy persistence", () => {
   beforeAll(async () => {
     adminPool = new Pool({ connectionString: configuredDatabaseUrl, max: 1 });
     for (const databaseName of databaseNames) {
+      // Preflight only: clear debris from a previously interrupted run. The
+      // normal teardown below never uses FORCE.
+      await preflightDropStaleDatabase(adminPool, databaseName);
       await adminPool.query(
         `CREATE DATABASE ${quoteGeneratedIdentifier(databaseName)}`,
       );
@@ -222,14 +220,17 @@ describe("PostgreSQL tenancy persistence", () => {
   }, 120_000);
 
   afterAll(async () => {
+    // CR-05: close and AWAIT every pool this fixture owns before touching the
+    // databases — the tenant data-access pool and the test pool. The per-database
+    // migration pools are already closed in `finally` above.
     await dataAccess?.close();
     await testPool?.end();
 
     if (adminPool) {
       for (const databaseName of databaseNames) {
-        await adminPool.query(
-          `DROP DATABASE IF EXISTS ${quoteGeneratedIdentifier(databaseName)} WITH (FORCE)`,
-        );
+        // Waits for zero backends, then drops WITHOUT FORCE. A live connection
+        // here surfaces as an explicit RESOURCE LEAK rather than being hidden.
+        await dropDisposableDatabase(adminPool, databaseName);
       }
       await adminPool.end();
     }

@@ -1,0 +1,15 @@
+# SHA-256 of the exact native artifacts the prior libstdc++ / libvips proofs named.
+# Baseline: PH-SEC-WO-008/receipts/extracted-artifacts-sha256.txt (artifact ed140fd5).
+# Re-run inside polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c  /usr/local/bin/node
+e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+cf896cc1b7f3ae9c3e8eb3d7b2b198b8de2824ff7d0681d684bab5a825def335  /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node
+4aa73553408c3964071728f4a231a8e86918e39bc49f1fbae75355f7ea933ea9  /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7
+
+--- component versions of those same artifacts ---
+  
+  
+
+--- node identity ---
+v24.21.0

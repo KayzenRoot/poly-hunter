@@ -64,8 +64,19 @@ describe("workspace boundaries", () => {
       resolve(repositoryRoot, "apps/web/app"),
     );
 
-    expect(Object.keys(exports)).toEqual(["./server"]);
+    expect(Object.keys(exports).sort()).toEqual([
+      "./server",
+      "./server/identity",
+    ]);
     expect(serverEntry).toContain('typeof window !== "undefined"');
+    // The WO-002 identity data access is a second guarded server entry: it
+    // must keep the same browser guard and stay free of provider imports.
+    const identityEntry = await readFile(
+      resolve(repositoryRoot, "packages/db/src/server/identity.ts"),
+      "utf8",
+    );
+    expect(identityEntry).toContain('typeof window !== "undefined"');
+    expect(identityEntry).not.toContain("@supabase");
     for (const path of webSources) {
       const source = await readFile(path, "utf8");
       expect(source).not.toContain("@polyhunter/db");

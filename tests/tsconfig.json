@@ -2,10 +2,20 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@web/identity/*": ["../apps/web/src/identity/*"],
+      "@web/handlers/*": [
+        "../apps/web/app/api/auth/*/handler",
+        "../apps/web/app/auth/callback/handler"
+      ],
+      "@/identity/*": ["../apps/web/src/identity/*"]
+    }
   },
   "include": [
     "**/*.ts",
