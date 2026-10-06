@@ -3,7 +3,7 @@
 **Work Order:** PH-M01-WO-002 — Identity & RBAC
 **Branch:** `feat/ph-m01-identity-rbac` · **PR:** #37 (OPEN, DRAFT, base `main@cd3e00475f434be6c358fff89e82965370cc6c70`) · **Issue:** #36
 **Risk class:** HIGH_ASSURANCE
-**Status:** `APPROVED AS EVIDENCE / OWNER_SECURITY_APPROVED / READY_FOR_MERGE_AND_CHECKPOINT_DECISION` (25/25 HIGH/CRITICAL rows are `NOT_AFFECTED` on the exact final digest; see §15)
+**Status:** `OWNER_APPROVED / CHECKPOINT_PROMOTED / READY_FOR_MERGE` (25/25 HIGH/CRITICAL rows are `NOT_AFFECTED` on the exact final digest; see §15)
 
 > **Revision 2 — correction delta.** Independent audit `5420502909` of `sha256:4cb8f254…83d538` returned **CORRECTION REQUIRED** with CR-01..CR-04. This revision records those corrections. Sections 1–5 and 8–9 describe the original WO-002 delivery and are unchanged except where noted. Sections 6, 7 and 10 are superseded by §11.
 >
@@ -514,3 +514,11 @@ Current security state:
 - no suppression, ignore, waiver, accepted-risk shortcut or severity downgrade
 
 The checkpoint remains NOT_PROMOTED and PR #37 remains unmerged until a separate Project Owner merge/checkpoint decision.
+
+
+## 16. Final checkpoint promotion and merge authorization
+
+- Project Owner explicitly approved checkpoint promotion and PR #37 merge on 2026-10-06 for exact closure head `c55bcde3c4c5bd47cbc334e7a024dbd24d50e5a9`.
+- Security artifact remains `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c` with 25/25 NOT_AFFECTED and complete ADR-0007 chains.
+- Canonical checkpoint has been promoted to `STOP_AFTER_PH_M01_WO_002 / AWAIT_OWNER_DIRECTION`.
+- This promotion does not admit PH-M01-WO-003 and does not authorize live trading.
