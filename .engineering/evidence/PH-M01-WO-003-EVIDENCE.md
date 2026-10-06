@@ -5,9 +5,12 @@
 **PR:** #39 (Draft — **not merged**)
 **Issue:** #38
 **Locked base:** `af6235d2164171985af6152ba03835826ace3cdb`
-**Round:** correction round for CR-05..CR-08 of independent audit review `5431841905`
-(raised against HEAD `a55ef185b135f2ab8e7593989e63c90f5be2af49`; CR-01..CR-04 CLOSED)
+**Round:** correction round for CR-09..CR-10 of independent audit review `5432758271`
+(raised against HEAD `36fdff8a318ce3b43f35fd73f4dcc2397ec418e7`; CR-01..CR-08 CLOSED),
+following the CR-01..CR-04 round (review `5430901717`) and the CR-05..CR-08 round
+(review `5431841905`)
 **Final artifact:** `sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2`
+(**preserved this round** — no Docker build input changed; see §12)
 **Executor:** Codex (sole implementation/test/CI/migration executor)
 **Date:** 2026-10-05 / 2026-10-06
 
@@ -22,7 +25,14 @@ checkpoint not promoted, and no Polymarket surface touched.
 > already-intended cache policy structural, and synchronises governance records.
 > It does not touch the cryptographic design.
 
-### What this round changed
+### What this round changed (CR-09..CR-10)
+
+| CR | Finding | Resolution |
+| --- | --- | --- |
+| **CR-09** | The authority probe locked only `ph_membership` (`FOR SHARE OF ph_membership`) while also reading `ph_user.status` and `ph_tenant.status`; a concurrent user/tenant suspension could commit after the probe returned and the vault would continue on a stale authorization decision. | The single probe statement now holds `FOR SHARE OF ph_membership, ph_user, ph_tenant` — all three authority rows stable for the whole transaction, one statement, deterministic order (membership → user → tenant), `authorize` as the first statement of every vault transaction. Proven by two new tests on independent PostgreSQL connections (four authority mutations × `withDecryptedSecret` and `replace`); the tests were observed to FAIL against the pre-correction lock. Comments updated to the real semantics. |
+| **CR-10** | The `CVE-2026-8376` row was internally contradictory: top level correct, but nested `preservedPriorBasis.justification` still carried the superseded `vulnerable_code_not_in_execute_path`, seeded from the PRE-correction WO-002 delta file. | Delta-sourced preserved bases are rebuilt from the canonical owner-approved `PH-M01-WO-002-VEX-FINAL.json` and flagged `fromCanonicalFinal`; the pre-correction delta no longer seeds any machine-readable field. The integrity gate now walks every nested field (justification enums anywhere, `vulnerableCodePresent` booleans at any nesting, canonical provenance, approval fields) and was observed to FAIL on both the historical defect mechanism and the review's requested mutation. |
+
+### What the previous round changed (CR-05..CR-08)
 
 | CR | Finding | Resolution |
 | --- | --- | --- |
@@ -198,29 +208,57 @@ performs the mutation:
 
 `platform_admin` alone is denied — platform scope does not imply tenant scope.
 
-### How TOCTOU is closed (SEC-022)
+### How TOCTOU is closed (SEC-022; CR-02 extended by CR-09)
 
-The role probe runs inside the vault's own transaction and ends with
+The authority probe runs inside the vault's own transaction and ends with
 
 ```sql
-FOR SHARE OF ph_membership
+FOR SHARE OF ph_membership, ph_user, ph_tenant
 ```
 
-`FOR SHARE` blocks any concurrent `UPDATE tenant_memberships SET role = ...` for
-the lifetime of that transaction. This is a **database property**, so it also
-holds against a second vault process in another container — which an in-process
-mutex could never provide, and which CR-02 explicitly forbade. `OF ph_membership`
-restricts the lock to the membership row, so `users` and `tenants` are read-only
-and no deadlock with tenant administration can arise.
+`FOR SHARE` on **all three authority rows** blocks any concurrent
+`UPDATE tenant_memberships SET role = ...` **and any suspension of the membership,
+the user or the tenant** for the lifetime of that transaction. This is a
+**database property**, so it also holds against a second vault process in another
+container — which an in-process mutex could never provide, and which CR-02
+explicitly forbade.
 
-All seven operations take the lock in the same order (membership `SHARE` → secret
-row `UPDATE`/`FOR UPDATE`), so lock ordering is consistent and concurrent
-rotations still serialize correctly rather than deadlocking.
+**CR-09 closed the second half of that window.** Locking only `ph_membership` left
+`ph_user.status` and `ph_tenant.status` read but unprotected: under READ COMMITTED a
+`UPDATE users SET status='suspended'` (or the same on `tenants`) could commit after
+the probe returned, and the vault would continue its mutation or plaintext
+materialization on an authorization decision the database no longer agreed with.
+All three rows are now held for the whole sensitive operation.
 
-Every mutation authorizes as the **first statement** inside its transaction —
-before the row lock, before any read of secret material.
+All three locks are taken by **one statement** whose FROM/JOIN order and `OF` list
+both run membership → user → tenant, so every vault transaction acquires them in the
+same deterministic order. The vault is the only multi-row locker of these tables in
+the product (the only other row lock is `FOR UPDATE` on `identity_links`, an
+unrelated table), and every operation authorizes as the **first statement** inside
+its transaction — before the secret-row lock, before any read of secret material —
+so the global lock order (membership, user, tenant) → `encrypted_secrets` is never
+inverted and no wait cycle can form.
 
-### Mandatory tests — all against real PostgreSQL
+### The authoritative status window — CR-09 two-connection proof
+
+`packages/db/tests/secret-vault.integration.test.ts`, describe block
+`authoritative status window (audit CR-09)`, 2 tests, each driving **all four**
+authority mutations (`role downgrade`, `membership suspension`, `user suspension`,
+`tenant suspension`) on a dedicated connection from the fixture pool:
+
+| Path | Hold-open mechanism | Proved |
+| --- | --- | --- |
+| `withDecryptedSecret` | the callback resolves a promise from **inside** the transaction | each change blocks (SQLSTATE `55P03` under an explicit `SET LOCAL lock_timeout`); the operation completes; the queued change commits; the NEXT operation fails closed `SECRET_FORBIDDEN` |
+| `replace` (mutation) | a holder connection locks the secret row `FOR UPDATE` first, so the vault provably blocks strictly AFTER `authorize`; sync via `pg_stat_activity` `wait_event_type = 'Lock'` | same six properties |
+
+No sleep decides any ordering point, and a change that was **not** blocked would
+commit and fail the assertion loudly. The tests were observed to **FAIL** against
+the pre-correction lock (`FOR SHARE OF ph_membership`): `AssertionError: user
+suspension was NOT blocked by the authority window` — role downgrade and membership
+suspension still passed there, pinpointing the CR-09 hole exactly at user/tenant
+suspension. Receipt `23`, section 3.
+
+### Mandatory role tests — all against real PostgreSQL
 
 `packages/db/tests/secret-vault.integration.test.ts`, describe block
 `authoritative role (audit CR-02)`, 5 tests. Each drives **all seven** operations
@@ -520,19 +558,27 @@ or tag, because every field moves in a single atomic statement under a row lock.
 | `fixed-clock.test.ts` | 2 |
 | **Total** | **189 passed / 10 files** |
 
-This round: `secret-vault-http.test.ts` grew 15 → 35 for the CR-07 cache policy
-(all seven frozen codes plus the access and CSRF refusals, and the
+Previous round (CR-05..CR-08): `secret-vault-http.test.ts` grew 15 → 35 for the
+CR-07 cache policy (all seven frozen codes plus the access and CSRF refusals, and the
 cannot-be-downgraded case), and `workspace-boundaries.test.ts` grew 5 → 8 for the
 CR-06 public-surface regression tests. `secret-vault-crypto.test.ts` is unchanged
 at 26 tests; only its import specifiers moved off the removed package subpaths.
 
-### Integration (inside the web container, real PostgreSQL 17) — 51/51
+This round (CR-09): `secret-vault.integration.test.ts` grew by the 2 two-connection
+concurrency tests; the unit suite is unchanged at 189 (the CR-09/CR-10 delta adds no
+unit test — the finding is about database concurrency, which only real PostgreSQL can
+prove).
+
+### Integration (inside the web container, real PostgreSQL 17) — 53/53
 
 | Suite | Tests | Covers |
 | --- | --- | --- |
-| `secret-vault.integration.test.ts` | 37 | this Work Order (incl. 5 CR-02 + 3 CR-03) |
+| `secret-vault.integration.test.ts` | 39 | this Work Order (incl. 5 CR-02 + 3 CR-03 + **2 CR-09**) |
 | `identity-rbac.integration.test.ts` | 10 | **WO-002 regression** |
 | `tenancy.integration.test.ts` | 4 | **WO-001 regression** |
+
+The CR-09 pair was also observed to FAIL against the pre-correction lock, and the
+CR-10 gate to FAIL on two distinct mutations — receipts `23`, section 3 and 4.
 
 ### `npm run validate` — end to end, exit 0
 
@@ -713,7 +759,28 @@ the rebuild branch applied again and the digest changed. Every VEX row is
 dispositioned against `aee3ad8c…`; `f810df3a…` and `8bd3e85a…` are recorded as
 superseded. The brief's warning that CR-06 would force a rebuild was correct.
 
-> **Why the digest is not invalidated by anything else this round changed.**
+**CR-09/CR-10 did NOT change the digest — proven, not assumed.** The delta touches
+only application source (`packages/db/src/server/authorization.ts`,
+`packages/db/src/server/vault/index.ts`), tests and evidence scripts; the
+deterministic build-input diff is empty:
+
+```
+git diff --name-only 36fdff8 | grep -E "package\.json|package-lock|Dockerfile|compose|tsconfig"
+  -> (empty)
+docker inspect polyhunter-dev:local -> sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+```
+
+`Dockerfile.dev` COPYs only the workspace `package.json` files,
+`package-lock.json` and `tsconfig.base.json`, then runs `npm ci`; application
+source is **bind-mounted** by compose, not baked in. The runtime and reachability
+premises were re-measured against the new source instead of re-relying on the old
+ones: P1 (dependency graph diff empty), P2 (zero subprocess primitives across the
+55 tracked source files), P6 (no new compiled consumer), P7 (no new caller input).
+Receipt `23`, sections 5-6. The brief's rule — preserve the digest and revalidate
+the affected assumptions when no build input changes — is what was applied; the
+CR-05..CR-08 note below is preserved as that round's history.
+
+> **Why the digest was not invalidated by the rest of the CR-05..CR-08 round.**
 > `Dockerfile.dev` copies only the workspace `package.json` files,
 > `package-lock.json` and `tsconfig.base.json`, then runs `npm ci`; application
 > source is **bind-mounted** by compose, not baked in. So the post-build edits to
@@ -863,7 +930,7 @@ record's own instruction. Its evidence is re-measured this round: no executable 
 either container resolves to perl, no tracked `package.json` invokes perl, and P2
 found zero subprocess call sites.
 
-**A gate that fails instead of restating.** `vex-state-machine.mjs` now compares
+**A gate that fails instead of restating.** `vex-state-machine.mjs` compares
 every proposed `(CVE, vulnerableCodePresent, proposedJustification)` triple against
 the accepted record and **throws before writing any output** if any row diverges.
 Two negative controls were run and recorded (receipt `15-cr05-negative-controls.txt`):
@@ -875,6 +942,50 @@ clean.
 **Answer to "did any other row change its previously-approved justification":** no.
 25 of 25 rows compared, **0 divergences**. The gate is what makes that a measurement
 rather than a claim, and it runs on every regeneration.
+
+### `CVE-2026-8376` — the nested residue removed (audit CR-10)
+
+**The residue.** The top level of the row was correct after CR-05, but the nested
+`preservedPriorBasis.justification` still carried the superseded
+`vulnerable_code_not_in_execute_path` — and its `presenceEvidence` again made "Perl
+is never executed" part of the preserved historical basis. The row simultaneously
+carried two incompatible justification axes in machine-readable form.
+
+**The root cause, named.** The preserved basis for the three WO-002 perl rows
+(`CVE-2026-8376`, `-42496`, `-42497`) was seeded from
+`receipts/vex-delta-3-perl-cves.json` — the **pre-correction** delta — instead of
+the canonical owner-approved final record. The delta is history; it must not seed
+any current field.
+
+**The fix.**
+- Delta-sourced rows now build `preservedPriorBasis` from the canonical
+  `PH-M01-WO-002-VEX-FINAL.json` and are flagged `fromCanonicalFinal: true`; a
+  delta-sourced row without a canonical row is a hard stop at generation time.
+- The emitted 8376 basis now reads `vulnerableCodePresent: true`,
+  `justification: vulnerable_code_cannot_be_controlled_by_adversary`, with the
+  canonical final's own revalidation evidence as `presenceEvidence` — the text that
+  itself states "Perl is never executed" is NOT part of the justification.
+- The gate now **walks every nested field**: any string exactly equal to a VEX
+  justification enum anywhere in the row must equal the accepted justification; any
+  boolean `vulnerableCodePresent` at any nesting must equal the accepted value; a
+  WO-002-sourced preserved basis must be flagged canonical; approval fields must
+  stay null and `vexStatus` must stay `UNDER_INVESTIGATION`.
+
+**Two negative controls, both observed to fail the gate** (receipt `23`, section 4):
+forcing a nested field to the superseded value halts the script with three nested
+divergences; and restoring the ORIGINAL defect mechanism — seeding the preserved
+basis from the pre-correction delta — halts it with exactly one divergence:
+`CVE-2026-8376 · $.preservedPriorBasis.justification (justification enum, nested
+scan) · accepted vulnerable_code_cannot_be_controlled_by_adversary · emitted
+vulnerable_code_not_in_execute_path`. That is precisely the mutation the review
+asked for, and the gate fails on it.
+
+**Independent confirmation, three ways:** the deterministic recursive scan over all
+25 rows reports 0 exact-enum mismatches against the canonical record; the batched
+JEV advisory classification reports 25 CONSISTENT / 0 divergent after the fix
+(it flagged exactly `CVE-2026-8376` before the fix — receipt `24`); and the review's
+expected state holds: **25 `UNDER_INVESTIGATION` / 25 proposed `NOT_AFFECTED` /
+0 `AFFECTED` / 0 independent-auditor / 0 owner approvals**.
 
 ### Prior evidence preserved by reference, not genericised (CR-04)
 
@@ -998,8 +1109,11 @@ executor — to pick up the wrong one.
 | `19-client-bundle-scan.txt` | **this round** — client bundle vs server-side positive control, 0 vs non-zero across 12 patterns |
 | `20-docker-health-no-keyring.txt` | **this round** — full stack healthy, vault fails closed, 0 module-resolution errors |
 | `21-docker-health-with-keyring.txt` | **this round** — ephemeral in-memory keyring, real seeded membership, create/decrypt/rotate/list/remove plus a refused cross-tenant handle |
-| `22-scan-binding-reproducibility.txt` | **this round** — digest-pinned re-scan byte-identical to the committed SARIF (`md5 f30da92d…`); the binding gate's vacuous first revision, its fix, and the negative control that observes it fail |
+| `22-scan-binding-reproducibility.txt` | **CR-05..CR-08 round** — digest-pinned re-scan byte-identical to the committed SARIF (`md5 f30da92d…`); the binding gate's vacuous first revision, its fix, and the negative control that observes it fail |
 | `22-docker-scout-report.txt` | scout's own default-format report naming the resolved target/digest (`polyhunter-dev:local` → `aee3ad8c254b`), kept as the accidental-format run's useful half |
+| `23-cr09-cr10-revalidation.txt` | **this round** — CR-09 lock delta + two-connection proofs + the negative control that fails on the pre-correction lock; CR-10 provenance fix + strengthened gate + controls C/D; build-input diff empty (digest preserved); premises re-measured; validation gates; secret-scan classification |
+| `24-jev-mcp-execution.txt` | **this round** — JEV MCP preflight and health, the live tool inventory, every call with its bounded purpose and result (including the pre/post-fix semantic classification that flags and then clears `CVE-2026-8376`), the escalation and its deterministic resolution, and the no-secrets statement |
+| `jev-driver.mjs` | the minimal stdio MCP driver used for the JEV calls; committed for reproducibility; contains no credentials (the launcher owns them) |
 
 ### Superseded — `receipts/superseded/` (see its README)
 
@@ -1039,11 +1153,16 @@ introduced by this round.
 
 Points an auditor should weigh most heavily:
 
-1. **`FOR SHARE OF ph_membership` is the load-bearing choice in CR-02.** It closes the
-   TOCTOU window using a database property, so it holds across processes and
-   containers — not merely within one Node instance. An auditor may want to test
-   the downgrade race directly, against a second connection, at the exact moment
-   the vault transaction holds the lock.
+1. **`FOR SHARE OF ph_membership, ph_user, ph_tenant` is the load-bearing choice
+   (CR-02, extended by CR-09).** It closes the TOCTOU window for the role read AND
+   for user/tenant suspension, using a database property, so it holds across
+   processes and containers — not merely within one Node instance. An auditor should
+   test the races directly, against a second connection, at the exact moment the
+   vault transaction holds the locks: the new CR-09 suite does exactly this and was
+   observed to fail against the pre-correction membership-only lock (receipt `23`,
+   section 3). The auditor should also weigh the lock-ordering argument (single
+   statement, membership → user → tenant, authorize first, no other multi-row locker
+   of these tables) rather than take it on faith.
 2. **The fail-closed rule on `role` divergence.** CR-02 permitted either "derive
    exclusively from the DB" or "fail closed". This implementation does **both**:
    it derives from the DB and then additionally denies if `context.role` disagrees.
@@ -1132,3 +1251,24 @@ Points an auditor should weigh most heavily:
     comparisons into one line ("prior 82 → now 82 | identical 80 | added 2"). Both
     now state the measured numbers, and both correction notes name the original
     wording.
+19. **The CR-09 tests were observed to fail before they were trusted.** With the
+    pre-correction membership-only lock, both new tests fail at "user suspension
+    was NOT blocked by the authority window" — while role downgrade and membership
+    suspension still pass, pinpointing exactly the half CR-02 had not closed. The
+    auditor should re-run that control (receipt `23`, section 3), and should probe
+    the lock ordering with an additional deliberately-inverted transaction rather
+    than trusting the written argument.
+20. **The CR-10 gate is a nested-field gate, and was observed to fail on both
+    mutations.** The auditor should re-run controls C and D (receipt `23`, section
+    4) and should attempt a defeat the controls do not cover — e.g., a new derived
+    field that quotes the superseded enum in a shape the walk does not visit
+    (the walk visits every object/array member; verify that claim).
+21. **JEV usage is bounded and evidenced, and never carries authority.** Receipt
+    `24` records the MCP health, the live tool inventory, five calls and their
+    purposes, the one escalation (`test_gap` inconclusive at confidence 0.24,
+    resolved deterministically by the observed test failures), and the no-secrets
+    statement. The pre/post-fix classification pair doubles as a sensitivity check
+    (flagged `CVE-2026-8376` when the residue existed; cleared after the fix). No
+    JEV score is cited anywhere in this bundle as evidence of a security property;
+    if any JEV call and the deterministic gates disagree, the gates and the
+    independent audit control.

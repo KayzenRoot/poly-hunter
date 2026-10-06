@@ -1,0 +1,151 @@
+PH-M01-WO-003 — JEV MCP execution receipt (CR-09 / CR-10 round)
+generated: 2026-10-06T18:43Z
+
+PURPOSE OF THIS RECEIPT. Audit review 5432758271 and .engineering/policies/JEV-PROMPT-
+POLICY.md require the ACTUAL locally installed JEV MCP server to be used for bounded
+triage, with deterministic tools first. This receipt records the preflight, the tool
+inventory discovered from the live server, every call made, its bounded purpose, the
+escalations, and the no-secrets statement. It replaces no gate: JEV output is advisory
+and never decides a CVE disposition, a security property or an approval.
+
+== 1. PREFLIGHT — HEALTH ==
+
+  Status: HEALTHY. The server is configured in ~/.zcode/cli/config.json as a stdio MCP
+  server launched through C:\Users\csn19\.jev\run-jev-mcp.ps1, which pins
+  @jkudish/jev-mcp@0.13.0 and injects the TypeSafe credential into the child process
+  only. The credential file was never read, printed, logged or transmitted by this
+  work; the launcher owns it. A minimal stdio driver written for this round
+  (receipts/jev-driver.mjs — committed for reproducibility; it contains no secrets)
+  performed initialize + tools/list and received:
+    [jev-mcp] ready — model jev-latest
+  The model version reported on every call: jev-1.13.0 (provider: typesafe).
+
+== 2. TOOL INVENTORY DISCOVERED FROM THE LIVE SERVER ==
+
+  jev_verify   (claims, evidence)                  — test claims against supplied evidence
+  jev_screen   (text)                              — screen untrusted text before use
+  jev_noul     (propositions)                      — calibrated probability per proposition
+  jev_find     (query, candidates)                 — best candidate by meaning
+  jev_classify (items, classes)                    — label many items against one catalog
+  jev_decide   (decision, evidence, priorities, candidates) — bounded choice
+  jev_rerank   (query, candidates)                 — full ordering by relevance
+  jev_compare  (passage_a, passage_b)              — relation between two passages
+  jev_extract  (document, fields)                  — verbatim field values
+  jev_audit    (source, records)                   — audit model-written values
+  jev_review   (request)                           — score a diff against the request
+  jev_gate     (request, claims, evidence)         — patch + completion claims
+
+  Used this round: jev_classify (x3), jev_rerank (x1), jev_review (x1), jev_verify
+  (x1) and jev_gate (x1, the final combined pre-gate). Not used, and why: jev_screen (no external/untrusted text entered any decision);
+  jev_noul / jev_decide (no proposition or bounded choice beyond the ones verified);
+  jev_find (rerank already returned the full ordering for the evidence set);
+  jev_compare (no single pair-reconciliation question arose);
+  jev_extract / jev_audit (all values are verbatim deterministic reads).
+
+== 3. CALLS MADE — BOUNDED PURPOSE AND RESULT ==
+
+  A1. jev_classify — VEX semantic comparison, PRE-fix (25 rows).
+      Input: per CVE, accepted (justification, vulnerableCodePresent) from
+      PH-M01-WO-002-VEX-FINAL.json vs emitted top-level + nested
+      preservedPriorBasis.justification from the current state machine. No CVE-safety
+      question was asked; the class pair was CONSISTENT / SEMANTIC_DIVERGENCE only.
+      Result: 24 CONSISTENT / 1 SEMANTIC_DIVERGENCE — CVE-2026-8376, p=0.99 —
+      matching the CR-10 finding scope exactly. 3,993 input / 818 output tokens.
+  A2. jev_classify — same catalog, POST-fix (CR-10 applied).
+      Result: 25 CONSISTENT / 0 divergent. 4,007 input / 818 output tokens.
+  B.  jev_classify — correction-delta file classification (12 items) against the
+      catalog CODE / TEST / EVIDENCE / DOCKER_BUILD_INPUT / OTHER, purpose: decide
+      whether an image rebuild is required. Result: authorization.ts CODE 1.00,
+      vault/index.ts CODE 1.00, integration test TEST 1.00, seven evidence paths
+      EVIDENCE (0.98-1.00), and the two files explicitly NOT changing
+      (packages/db/package.json, Dockerfile.dev) DOCKER_BUILD_INPUT 0.99.
+      Deterministic evidence remains authoritative and agrees: the build-input diff
+      over the actual delta is empty (receipt 23, section 5).
+      Result: 1,893 / 677 tokens.
+  C.  jev_rerank — minimum evidence set (20 candidates) for the query "evidence
+      required to close CR-09 + CR-10 + artifact identity + exact-head CI". Top with
+      relevance: (1) canonical PH-M01-WO-002-VEX-FINAL.json 0.89; (2) the CR-09
+      two-connection tests 0.87; (3) authorization.ts lock 0.81; (4) the CI run 0.75;
+      (5) the PR body 0.72; (6) this round's revalidation receipt 0.65; then a drop
+      to 0.35 for the state-machine companion documents. Used as context-reduction
+      guidance only; the audit surface itself is unchanged by this ranking.
+      2,362 / 374 tokens.
+  D.  jev_verify — three bounded claims against supplied sanitized evidence:
+      (1) "All 25 proposed VEX rows match the canonical accepted justification
+          semantics in every machine-readable field, including nested ones." ->
+          verified, confidence 0.99.
+      (2) "The CR-09/CR-10 delta does not modify any Docker build input of
+          polyhunter-dev:local." -> verified, 0.97.
+      (3) "During every vault transaction that holds the authority window, all three
+          authority rows are locked and concurrent role downgrade / membership
+          suspension / user suspension / tenant suspension each block until the
+          transaction ends." -> verified, 0.99.
+      1,702 / 187 tokens.
+  E.  jev_review — bounded pre-review of the CR-09/CR-10 diff (code + tests + VEX
+      script; 36 KB), focus TOCTOU, lock scope, deadlock risk, stale VEX semantics,
+      scope expansion; explicitly requested to be advisory and NOT the final
+      independent security review. Result: correctness 1.90/2 (conf 0.86), spec_match
+      1.91/2 (0.86), blast_radius 1.90/2 (0.84), test_gap 0.54 (conf 0.24,
+      inconclusive), composite 0.7835, action = ESCALATE with reason codes
+      confidence_below_review + safe_to_apply_below_review, limiting rubric test_gap.
+      11,000 / 79 tokens.
+
+  E2. jev_gate — FINAL combined pre-gate (patch review + completion claims vs the
+      supplied evidence, run after every deterministic check). Six bounded claims:
+      CR-09 lock coverage (verified, conf 0.92); CR-09 tests fail-then-pass
+      (verified, 0.98); CR-10 nested-field consistency across all 25 rows
+      (verified, 0.98); the gate observed to fail on the requested mutation
+      (verified, 0.98); no build input changed / digest preserved (verified, 0.99);
+      local validation passed (verified, 0.86). Verification summary: 6 verified /
+      0 contradicted / 0 unsupported, action auto. Review rubric: correctness
+      1.93/2, spec_match 1.90/2, test_gap 0.31 (conf 0.54), blast_radius 1.76/2,
+      composite 0.816; the gate action is ESCALATE on safe_to_apply 0.35 — a
+      conservative refusal to stamp a HIGH_ASSURANCE security patch safe, which is
+      the desired behaviour and is NOT an approval. 15,118 / 318 tokens.
+
+== 4. ESCALATIONS TO THE PRIMARY MODEL (per the policy stop rule) ==
+
+  E escalated on `test_gap` at confidence 0.24 — the bounded reviewer could not decide
+  whether the tests were sufficient from the supplied material. Resolution, by the
+  primary model, using deterministic evidence: the test-sufficiency question is
+  answered by observed behaviour, not by inference — the two CR-09 tests were run
+  against the PRE-correction lock and FAILED ("user suspension was NOT blocked by the
+  authority window"), then passed against the corrected lock; the CR-10 gate was
+  observed to fail on two distinct mutations (nested field forced to the superseded
+  value; preserved basis seeded from the pre-correction delta). No security conclusion
+  was taken from the JEV review, and none of its scores is cited as evidence in the
+  bundle.
+  The final jev_gate also returned action=escalate (reason: safe_to_apply below the
+  review threshold, 0.35). Resolution: its claim-verification half returned 6/6
+  verified with action auto, and its review half did not contradict anything — a
+  bounded model declining to stamp this patch safe is expected for HIGH_ASSURANCE
+  work. Its numbers are reported as-is in this receipt and are not treated as an
+  approval; the definitive judgment belongs to the independent audit.
+  No other call required escalation; no call returned invalid_response; no call was
+  re-run with reworded input to obtain the answer a rephrase was denied.
+
+== 5. NO SECRETS SENT ==
+
+  Inputs to every call contained only: CVE identifiers, VEX justification enum
+  strings, repository file paths, test names, source diffs of
+  authorization.ts / vault/index.ts / the integration tests / the VEX script, and
+  deterministic result summaries. No plaintext vault secret, keyring content, AES key,
+  Supabase credential, session/access/refresh token, private key, provider/API key or
+  JEV/TypeSafe credential was read, printed, transmitted or stored. The provider key
+  lives in the launcher's environment only; this receipt records no credential value
+  and no credential material was ever visible to the driver.
+
+== 6. POLICY COMPLIANCE SUMMARY ==
+
+  deterministic tools first          yes — every JEV input was produced by git/diff/
+                                     file reads/tests first; JEV judged only the
+                                     pre-digested, sanitized fields.
+  JEV for bounded judgments          yes — classification, rerank, verify, review;
+                                     no engineering, no codegen, no approvals.
+  primary model for engineering      yes — CR-09/CR-10 implementation and the
+                                     test-gap escalation.
+  independent audit unchanged        yes — no gate was replaced; VEX remains
+                                     25 UNDER_INVESTIGATION / 25 proposed NOT_AFFECTED
+                                     / 0 approvals.
+  batch where useful                 yes — one catalog per decision, 6 calls total
+                                     (5 during the correction, 1 final gate).

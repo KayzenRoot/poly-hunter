@@ -74,12 +74,15 @@ export {
  * 1. TENANT SCOPE. Every statement filters on `context.tenantId`. No path
  *    accepts a tenant id from the caller and no path reads a secret without one.
  * 2. AUTHORITATIVE MEMBERSHIP AND ROLE. Every operation re-reads the
- *    membership, user and tenant status INSIDE its own transaction, and takes
+ *    membership, user and tenant status INSIDE its own transaction, takes
  *    its capability decision from the CURRENT `tenant_memberships.role` — not
- *    from `context.role`, which is at most a consistency assertion. A
- *    suspension, a removal or a downgrade takes effect on the next operation,
- *    and no gap exists between the check and the mutation (SEC-022, audit
- *    CR-02).
+ *    from `context.role`, which is at most a consistency assertion — and HOLDS
+ *    a SHARE row lock on all three authority rows (membership, user, tenant)
+ *    for the rest of that transaction. A suspension, a removal or a downgrade
+ *    therefore cannot land mid-operation: it either commits before the probe
+ *    (and the operation denies) or waits until the operation ends, and the
+ *    next operation observes it. No gap exists between the check and the
+ *    mutation (SEC-022, audit CR-02 + CR-09).
  * 3. CAPABILITY. Each operation declares the capability it needs, evaluated
  *    against the authoritative role. `member` holds none of the four
  *    `secret:*` capabilities and is denied all of them.
@@ -281,12 +284,13 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
   }
 
   /**
-   * The single authorization gate (audit CR-02).
+   * The single authorization gate (audit CR-02, extended by audit CR-09).
    *
    * It runs INSIDE the caller's transaction, on the same connection that is
-   * about to perform the operation, and it holds a SHARE lock on the membership
-   * row for the rest of that transaction. Three properties follow, and each was
-   * requested by the audit explicitly:
+   * about to perform the operation, and it holds SHARE row locks on ALL THREE
+   * authority rows — membership, user and tenant — for the rest of that
+   * transaction. Three properties follow, and each was requested by the audit
+   * explicitly:
    *
    * 1. THE DATABASE IS THE AUTHORITY. The capability is decided from
    *    `tenant_memberships.role` as it stands right now, under ACTIVE
@@ -297,12 +301,15 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
    *    `owner` over a membership the database calls `member` (or `admin`) is
    *    refused with SECRET_FORBIDDEN rather than being granted either the
    *    claimed or the stored capability.
-   * 3. NO TOCTOU. Because the role read and the secret mutation share one
-   *    transaction, and that transaction holds a row lock a concurrent
-   *    `UPDATE tenant_memberships SET role = ...` must wait for, there is no
-   *    window in which a downgrade lands between the check and the write.
-   *    A second vault process in another container obeys the same rule; an
-   *    in-memory mutex would not.
+   * 3. NO TOCTOU. The role read, the user/tenant status reads and the secret
+   *    mutation share one transaction, and that transaction holds SHARE row
+   *    locks on all three authority rows, so a concurrent
+   *    `UPDATE tenant_memberships SET role = ...` OR a suspension of the
+   *    membership, the user or the tenant must wait for it to end. There is no
+   *    window in which any authority change lands between the check and the
+   *    write or the plaintext materialization (CR-02 closed the downgrade half;
+   *    CR-09 closed the user/tenant-suspension half). A second vault process in
+   *    another container obeys the same rule; an in-memory mutex would not.
    *
    * `member` additionally holds none of the four `secret:*` capabilities, so a
    * *consistent* member context is denied on the capability test as well.

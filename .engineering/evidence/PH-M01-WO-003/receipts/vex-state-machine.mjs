@@ -275,8 +275,8 @@ const CR05_RESTORED_ROWS = new Map([
         claim: "Perl is never executed in this container.",
         role: "SECONDARY defence-in-depth ONLY. It is NOT the justification for this disposition and must not be read as one.",
         evidence:
-          "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites across the 55 tracked source files (the single `exec(` hit is `RegExp.prototype.exec` in a test).",
-        source: "receipts/12-objective-equivalence.txt (P2, P3)",
+          "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites in tracked source (re-measured this round: `git ls-files apps packages tests` filtered to code extensions, zero child_process/execSync/spawnSync/execFile/spawn( matches; the single `exec(` hit is `RegExp.prototype.exec` in a test — receipts/23-cr09-cr10-revalidation.txt).",
+        source: "receipts/16-objective-equivalence.txt (P2, P3)",
       },
       rationale:
         "The accepted proof is an architecture/arithmetic bound: the advisory's overflow requires the 32-bit integer-width arithmetic that a 64-bit ILP32 perl cannot exhibit, so no attacker-controlled input reaches the vulnerable condition on this artifact. Reachability is therefore irrelevant to the disposition, which is why demoting the row to 'not in execute path' was both a semantic regression and an unsound one.",
@@ -349,32 +349,50 @@ const findings = newHighCritical.map((row) => {
 
   // The row-specific prior basis, copied VERBATIM from the accepted record. It
   // is never rewritten into a per-axis sentence.
-  const preservedBasis =
-    evidence === null
-      ? null
-      : evidence.deltaDisposition
-        ? {
-            source: evidence.source,
-            vulnerableComponent: evidence.deltaDisposition.vulnerableComponent,
-            justification: evidence.deltaDisposition.justification,
-            presenceEvidence: evidence.deltaDisposition.evidence,
-            receipts: evidence.deltaDisposition.receipts,
-          }
-        : {
-            source: evidence.source,
-            vulnerableComponent: evidence.finding.component,
-            detectedVersion: evidence.finding.detectedVersion,
-            installedBinaryPackage: evidence.finding.installedBinaryPackage,
-            vulnerableCodePresent: evidence.finding.vulnerableCodePresent,
-            justification: evidence.finding.vex?.justification ?? null,
-            justificationBasis: evidence.finding.vex?.justificationBasis ?? null,
-            presenceEvidence: evidence.finding.presenceEvidence,
-            reachabilityEvidence: evidence.finding.reachabilityEvidence,
-            attackerControlledPrerequisite:
-              evidence.finding.attackerControlledPrerequisite,
-            residualRisk: evidence.finding.residualRisk,
-            receipts: evidence.finding.receipts,
-          };
+  //
+  // Audit CR-10 — provenance matters. The WO-002 per-perl DELTA file
+  // (`receipts/vex-delta-3-perl-cves.json`) is a PRE-CORRECTION source: its
+  // CVE-2026-8376 row still carries `vulnerable_code_not_in_execute_path`,
+  // which the owner-approved FINAL record subsequently replaced. A row whose
+  // evidence came from that delta is therefore rebuilt from the CANONICAL FINAL
+  // record (`PH-M01-WO-002-VEX-FINAL.json`), so no superseded basis can survive
+  // anywhere under `preservedPriorBasis`. A delta-sourced row with no canonical
+  // final row is a hard stop — there would be nothing sound to preserve.
+  const preservedBasis = (() => {
+    if (evidence === null) return null;
+    if (evidence.deltaDisposition) {
+      if (final === null) {
+        throw new Error(
+          `preserved-basis provenance: ${row.cve} is delta-sourced but has no row in the canonical WO-002 final record; refusing to emit a basis that may be superseded.`,
+        );
+      }
+      return {
+        source:
+          "PH-M01-WO-002 — canonical owner-approved final VEX (receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json)",
+        fromCanonicalFinal: true,
+        vulnerableComponent: final.component,
+        vulnerableCodePresent: final.vulnerableCodePresent ?? null,
+        justification: final.proposedJustification,
+        presenceEvidence: final.revalidation?.evidence ?? null,
+        receipts: final.revalidation?.objectiveEquivalenceEvidence ?? [],
+      };
+    }
+    return {
+      source: evidence.source,
+      vulnerableComponent: evidence.finding.component,
+      detectedVersion: evidence.finding.detectedVersion,
+      installedBinaryPackage: evidence.finding.installedBinaryPackage,
+      vulnerableCodePresent: evidence.finding.vulnerableCodePresent,
+      justification: evidence.finding.vex?.justification ?? null,
+      justificationBasis: evidence.finding.vex?.justificationBasis ?? null,
+      presenceEvidence: evidence.finding.presenceEvidence,
+      reachabilityEvidence: evidence.finding.reachabilityEvidence,
+      attackerControlledPrerequisite:
+        evidence.finding.attackerControlledPrerequisite,
+      residualRisk: evidence.finding.residualRisk,
+      receipts: evidence.finding.receipts,
+    };
+  })();
 
   const sixAxes = {
     exactComponent: {
@@ -524,15 +542,50 @@ const findings = newHighCritical.map((row) => {
 });
 
 /**
- * Audit CR-05 integrity gate — MECHANICAL, runs on every regeneration.
+ * Audit CR-05 / CR-10 integrity gate — MECHANICAL, runs on every regeneration.
  *
- * For every row this script proposes a disposition for, the emitted
- * `proposedJustification` and `vulnerableCodePresent` must equal the accepted
- * WO-002 record, which the independent auditor approved and the Project Owner
- * approved on receipt `PH-M01-WO-002-OWNER-APPROVAL.md`. A divergence is not
- * something to note in prose; it is a hard stop, because exactly that failure —
- * one row quietly restated in weaker, different words — is what CR-05 caught.
+ * For every row this script proposes a disposition for, the emitted semantics
+ * must equal the accepted WO-002 record, which the independent auditor approved
+ * and the Project Owner approved on receipt `PH-M01-WO-002-OWNER-APPROVAL.md`.
+ * A divergence is not something to note in prose; it is a hard stop, because
+ * exactly that failure — one row quietly restated in weaker, different words —
+ * is what CR-05 caught.
+ *
+ * CR-10 caught what the first revision MISSED: it compared only the top-level
+ * triple, so a NESTED field (`preservedPriorBasis.justification`) could keep
+ * the superseded `vulnerable_code_not_in_execute_path` while the top level
+ * looked correct. The gate now walks every finding recursively and fails when:
+ *
+ *   - any string value ANYWHERE in the finding, exactly equal to a VEX
+ *     justification enum, differs from the accepted justification. Exact
+ *     equality is deliberate: prose may quote history, but a machine-readable
+ *     field carrying an enum IS a justification claim. (This covers the
+ *     top-level field, `cr05Restored`, `acceptedPrimaryBasis`, and every
+ *     `preservedPriorBasis`-shaped nesting, present or future.)
+ *   - any boolean field named `vulnerableCodePresent` (any nesting) differs
+ *     from the accepted boolean.
+ *   - a WO-002-sourced preserved basis is not flagged `fromCanonicalFinal`.
+ *   - a row registers an independent-auditor or owner approval, or leaves
+ *     UNDER_INVESTIGATION, before the proper gates have acted.
  */
+const JUSTIFICATION_ENUM = new Set([
+  "vulnerable_code_not_present",
+  "vulnerable_code_not_in_execute_path",
+  "vulnerable_code_cannot_be_controlled_by_adversary",
+]);
+
+function collectDivergences(cve, node, path, visit) {
+  if (node === null || typeof node !== "object") return;
+  for (const [key, value] of Object.entries(node)) {
+    const here = `${path}.${key}`;
+    if (typeof value === "string" || typeof value === "boolean") {
+      visit({ path: here, key, value });
+    } else if (typeof value === "object") {
+      collectDivergences(cve, value, here, visit);
+    }
+  }
+}
+
 const justificationDivergences = findings
   .filter((f) => f.proposedVexStatus !== null)
   .map((f) => {
@@ -545,23 +598,63 @@ const justificationDivergences = findings
         emitted: "proposed",
       };
     }
+    const acceptedJustification = accepted.proposedJustification;
+    const acceptedVcp = accepted.vulnerableCodePresent ?? null;
     const out = [];
-    if (accepted.proposedJustification !== f.proposedJustification) {
-      out.push({
-        cve: f.cve,
-        field: "proposedJustification",
-        accepted: accepted.proposedJustification,
-        emitted: f.proposedJustification,
-      });
-    }
+    collectDivergences(f.cve, f, "$", ({ path, key, value }) => {
+      if (
+        typeof value === "string" &&
+        JUSTIFICATION_ENUM.has(value) &&
+        value !== acceptedJustification
+      ) {
+        out.push({
+          cve: f.cve,
+          field: `${path} (justification enum, nested scan)`,
+          accepted: acceptedJustification,
+          emitted: value,
+        });
+      }
+      if (
+        typeof value === "boolean" &&
+        /vulnerableCodePresent/i.test(key) &&
+        value !== acceptedVcp
+      ) {
+        out.push({
+          cve: f.cve,
+          field: `${path} (vulnerableCodePresent, nested scan)`,
+          accepted: acceptedVcp,
+          emitted: value,
+        });
+      }
+    });
     if (
-      (accepted.vulnerableCodePresent ?? null) !== f.vulnerableCodePresent
+      f.preservedPriorBasis?.source?.includes("PH-M01-WO-002") &&
+      f.preservedPriorBasis.fromCanonicalFinal !== true
     ) {
       out.push({
         cve: f.cve,
-        field: "vulnerableCodePresent",
-        accepted: accepted.vulnerableCodePresent ?? null,
-        emitted: f.vulnerableCodePresent,
+        field: "preservedPriorBasis.fromCanonicalFinal",
+        accepted: true,
+        emitted: f.preservedPriorBasis.fromCanonicalFinal ?? null,
+      });
+    }
+    if (f.vexStatus !== "UNDER_INVESTIGATION") {
+      out.push({
+        cve: f.cve,
+        field: "vexStatus",
+        accepted: "UNDER_INVESTIGATION",
+        emitted: f.vexStatus,
+      });
+    }
+    if (f.independentAuditor !== null || f.ownerApproval !== null) {
+      out.push({
+        cve: f.cve,
+        field: "approval-registered",
+        accepted: "null / null",
+        emitted: JSON.stringify({
+          independentAuditor: f.independentAuditor,
+          ownerApproval: f.ownerApproval,
+        }),
       });
     }
     return out;
@@ -585,16 +678,16 @@ const justificationIntegrity = {
   divergences: 0,
   restoredThisRound: [...CR05_RESTORED_ROWS.keys()],
   rule:
-    "Every proposed disposition reproduces the accepted (CVE, vulnerableCodePresent, proposedJustification) triple exactly. Where an audit requires a semantic restoration, the accepted record is restored verbatim and the divergence is named — never paraphrased. The executor may propose; it may not restate.",
+    "Every proposed disposition reproduces the accepted (CVE, vulnerableCodePresent, proposedJustification) triple exactly — in EVERY machine-readable field of the row, not only the top level (audit CR-10). The gate collects every string exactly equal to a VEX justification enum anywhere in the finding, every boolean `vulnerableCodePresent` at any nesting, the canonical-final provenance of every WO-002-sourced preserved basis, and the approval/status fields, and throws before writing output on the first divergence. Where an audit requires a semantic restoration, the accepted record is restored verbatim and the divergence is named — never paraphrased. The executor may propose; it may not restate.",
   note:
-    "Measured on this run: 25/25 rows identical to the accepted record. The single regression CR-05 identified (CVE-2026-8376, 'vulnerable_code_not_in_execute_path' -> 'vulnerable_code_cannot_be_controlled_by_adversary') is restored and the gate now fails loudly if it ever recurs.",
+    "Measured on this run: 25/25 rows identical to the accepted record across all nested justification-bearing fields. The CR-05 regression (CVE-2026-8376, 'vulnerable_code_not_in_execute_path' -> 'vulnerable_code_cannot_be_controlled_by_adversary') is restored; the CR-10 residue (a NESTED preservedPriorBasis.justification still carrying the superseded axis) is eliminated by rebuilding delta-sourced preserved bases from the canonical FINAL record; and the gate now fails on either, anywhere in the row.",
 };
 
 const summary = {
   schemaVersion: 3,
   workOrder: "PH-M01-WO-003",
   correctionDelta:
-    "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact; audit CR-05 — CVE-2026-8376 semantics restored to the accepted WO-002 disposition",
+    "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact; audit CR-05 — CVE-2026-8376 semantics restored to the accepted WO-002 disposition; audit CR-09 — the vault holds SHARE locks on membership + user + tenant; audit CR-10 — the nested preserved-basis residue is removed and the integrity gate scans nested fields",
   title:
     "Machine-readable VEX for the PH-M01-WO-003 final artifact: every HIGH/CRITICAL row is UNDER_INVESTIGATION with NOT_AFFECTED proposed only",
   branch: "feat/ph-m01-encrypted-secret-vault",
@@ -760,6 +853,20 @@ const summary = {
       "Per CR-04 the executor does NOT register NOT_AFFECTED as current approved state. Until an independent auditor and the Project Owner act on this exact digest, all 25 rows block under the 'never advance with a known HIGH/CRITICAL defect' rule.",
   },
 
+  cr10Correction: {
+    finding:
+      "audit CR-10 — the CVE-2026-8376 row was internally contradictory: the top level carried the accepted `vulnerable_code_cannot_be_controlled_by_adversary`, but the nested `preservedPriorBasis.justification` still carried the superseded `vulnerable_code_not_in_execute_path` (and its presenceEvidence again made 'Perl is never executed' part of the preserved basis).",
+    rootCause:
+      "The preserved basis for the WO-002 perl rows was seeded from `receipts/vex-delta-3-perl-cves.json` — the PRE-CORRECTION delta — instead of the canonical owner-approved final record (`receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json`). The delta is history; it must not seed any current machine-readable field.",
+    fix: [
+      "Delta-sourced rows now build `preservedPriorBasis` from the canonical FINAL record only, flagged `fromCanonicalFinal: true`; a delta-sourced row with no canonical row is a hard stop at generation time.",
+      "The CR-05 integrity gate walks every nested field: any string exactly equal to a VEX justification enum anywhere in the finding must equal the accepted justification; any boolean `vulnerableCodePresent` at any nesting must equal the accepted value; a WO-002-sourced preserved basis must be flagged canonical; and a row may not register approvals or leave UNDER_INVESTIGATION.",
+      "The verification mutation (a nested field restored to `vulnerable_code_not_in_execute_path`) is recorded as a negative control that makes the gate FAIL.",
+    ],
+    scope:
+      "CVE-2026-8376 is the only row that needed a semantic restore; the other 24 rows were compared field by field and were already consistent with the accepted record (deterministic equality scan + a batched JEV advisory classification, both recorded in receipts/24-jev-mcp-execution.txt).",
+  },
+
   dispositionedButAbsentFromNewScan: dispositionedButAbsent,
   highCriticalNotDispositioned: highCriticalNotDispositioned,
   underInvestigation: findings.map((f) => f.cve),
@@ -907,8 +1014,15 @@ const md = [
   "\"NOT the justification for this disposition and must not be read as one\", which is",
   "the accepted record's own instruction. Its evidence is re-measured in this round:",
   "no perl process in either container's live process table, no perl invocation in any",
-  "tracked `package.json`, and zero subprocess call sites across the 55 tracked source",
-  "files (the single `exec(` hit is `RegExp.prototype.exec`).",
+  "tracked `package.json`, and zero subprocess call sites in tracked source",
+  "(re-measured with an explicit, recorded command; the single `exec(` hit is",
+  "`RegExp.prototype.exec`).",
+  "",
+  "**CR-10 — the nested residue is gone and cannot come back.** `preservedPriorBasis`",
+  "for delta-sourced rows is now rebuilt from the CANONICAL owner-approved final",
+  "record (`PH-M01-WO-002-VEX-FINAL.json`) and flagged `fromCanonicalFinal: true`;",
+  "the WO-002 per-perl delta file is a pre-correction source and is never used to seed",
+  "a preserved basis. The integrity gate walks every nested field (see below).",
   "",
   "**What did NOT change.** `vexStatus` remains `UNDER_INVESTIGATION`,",
   "`proposedVexStatus` remains a *proposal* of `NOT_AFFECTED`, `independentAuditor` and",
@@ -919,11 +1033,17 @@ const md = [
   `Rows compared against the accepted record: **${justificationIntegrity.rowsCompared}**. Divergences: **${justificationIntegrity.divergences}**. Restored this round: \`${justificationIntegrity.restoredThisRound.join(", ")}\`.`,
   "",
   "Every proposed disposition reproduces the accepted `(CVE, vulnerableCodePresent,",
-  "proposedJustification)` triple **exactly**. This is enforced mechanically inside",
-  "`cr04-vex-state-machine.mjs`: the script THROWS before writing any output if a",
-  "single row diverges from the approved record, so the failure mode CR-05 caught —",
-  "one row quietly restated in weaker words — can no longer pass silently into a",
-  "regenerated receipt. The check covers all 25 rows, which is also the answer to",
+  "proposedJustification)` triple **exactly — in every machine-readable field of the",
+  "row, not only the top level**. This is enforced mechanically inside",
+  "`vex-state-machine.mjs`: the gate walks each finding recursively, collects every",
+  "string exactly equal to a VEX justification enum anywhere in it, every boolean",
+  "`vulnerableCodePresent` at any nesting, the `fromCanonicalFinal` provenance of every",
+  "WO-002-sourced preserved basis, and the approval/status fields — then THROWS before",
+  "writing any output on the first divergence. Two failure modes are thereby caught:",
+  "the CR-05 regression (one row quietly restated in weaker words at the top level) and",
+  "the CR-10 residue (a NESTED `preservedPriorBasis.justification` still carrying the",
+  "superseded axis while the top level looked correct). Both were reproduced as",
+  "negative controls; the check covers all 25 rows, which is also the answer to",
   "\"did any other row change its previously-approved justification\": **no**.",
   "",
   "## Per-row state",

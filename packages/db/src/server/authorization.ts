@@ -70,22 +70,39 @@ export function authoritativeTenantRoleProbe(
 }
 
 /**
- * The same authoritative role read, holding a row-level SHARE lock on the
- * membership row for the remainder of the transaction (audit CR-02: no TOCTOU
- * between the role check and the secret mutation).
+ * The same authoritative role read, holding row-level SHARE locks on ALL THREE
+ * authority rows — membership, user and tenant — for the remainder of the
+ * transaction (audit CR-02, extended by audit CR-09).
  *
- * `FOR SHARE` is chosen because it is the concurrency authority PostgreSQL
- * itself enforces: a concurrent `UPDATE tenant_memberships SET role = ...`
- * needs a conflicting lock mode and therefore BLOCKS until the vault's
- * transaction ends. The guarantee is a database property, not an in-memory
- * mutex — a second vault process in another container obeys exactly the same
- * rule, which an in-process lock could never provide.
+ * CR-02 locked only the membership row. That closed the role-downgrade race but
+ * left the USER-status and TENANT-status inputs unprotected: this probe reads
+ * `ph_user.status` and `ph_tenant.status`, and a concurrent
+ * `UPDATE users SET status='suspended'` (or the same on `tenants`) only needs a
+ * lock on the single row it updates. Under READ COMMITTED the suspension could
+ * therefore commit after the probe had already returned, and the vault would
+ * continue its mutation or plaintext materialization on an authorization
+ * decision the database no longer agrees with. Suspension must be exclusive
+ * with the whole sensitive operation, so all three rows are held, not read.
  *
- * `OF ph_membership` restricts the lock to the membership row. The `users` and
- * `tenants` rows are read for their status only and are deliberately not
- * locked, so this can never widen into a deadlock with unrelated tenant
- * administration traffic; a membership that is concurrently suspended or
- * deleted simply makes this probe return no row, which denies.
+ * `FOR SHARE` is the concurrency authority PostgreSQL itself enforces: a
+ * concurrent UPDATE of any of the three rows needs a conflicting lock mode and
+ * BLOCKS until the vault's transaction ends. The guarantee is a database
+ * property, not an in-memory mutex — a second vault process in another
+ * container obeys exactly the same rule.
+ *
+ * LOCK ORDER. All three locks are taken by THIS ONE STATEMENT, whose FROM/JOIN
+ * order and OF list both run membership -> user -> tenant, so every vault
+ * transaction acquires them in the same deterministic order. The vault is the
+ * only multi-row locker of these tables in the product (the only other row lock
+ * is `FOR UPDATE` on `identity_links`, an unrelated table), and every vault
+ * operation authorizes as its FIRST statement, so the global order is
+ * (membership, user, tenant) -> encrypted_secrets and is never inverted.
+ * Transactions that execute one identical single statement cannot form a wait
+ * cycle among themselves, and a concurrent single-row UPDATE waits without
+ * holding anything the vault needs — so no deadlock cycle exists. The
+ * two-connection suite in `packages/db/tests/secret-vault.integration.test.ts`
+ * ("authoritative status window (audit CR-09)") proves the blocking behaviour
+ * for all four authority mutations.
  */
 export function lockedAuthoritativeTenantRoleProbe(
   context: TenantContext,
@@ -100,5 +117,5 @@ export function lockedAuthoritativeTenantRoleProbe(
       AND ph_user.status = 'active'
       AND ph_tenant.status = 'active'
     LIMIT 1
-    FOR SHARE OF ph_membership`;
+    FOR SHARE OF ph_membership, ph_user, ph_tenant`;
 }

@@ -914,6 +914,225 @@ describe("PH-M01-WO-003 secret vault against PostgreSQL", () => {
     });
   });
 
+  /**
+   * Audit CR-09 — the authoritative-status window.
+   *
+   * The probe holds SHARE row locks on membership, user AND tenant for the
+   * whole sensitive operation. These tests prove that on genuinely independent
+   * PostgreSQL connections: the vault pool performs the operation, dedicated
+   * clients attempt the authority change while it is in flight, and (for the
+   * mutation) a third connection parks the vault transaction inside itself.
+   * No sleep decides any ordering point — the synchronization points are a
+   * promise the vault callback resolves from INSIDE the transaction, and a
+   * `pg_stat_activity` poll for the backend's `wait_event_type = 'Lock'`.
+   * A change that is not blocked commits and fails the assertion loudly.
+   */
+  describe("authoritative status window (audit CR-09)", () => {
+    /** The four authority mutations the window must exclude. */
+    const CHANGE_BUILDERS: readonly {
+      name: string;
+      build: (context: TenantContext) => {
+        sql: string;
+        params: unknown[];
+      };
+    }[] = [
+      {
+        name: "role downgrade",
+        build: (context) => ({
+          sql: "UPDATE tenant_memberships SET role = 'member' WHERE tenant_id = $1 AND user_id = $2",
+          params: [context.tenantId, context.userId],
+        }),
+      },
+      {
+        name: "membership suspension",
+        build: (context) => ({
+          sql: "UPDATE tenant_memberships SET status = 'suspended' WHERE tenant_id = $1 AND user_id = $2",
+          params: [context.tenantId, context.userId],
+        }),
+      },
+      {
+        name: "user suspension",
+        build: (context) => ({
+          sql: "UPDATE users SET status = 'suspended' WHERE id = $1",
+          params: [context.userId],
+        }),
+      },
+      {
+        name: "tenant suspension",
+        build: (context) => ({
+          sql: "UPDATE tenants SET status = 'suspended' WHERE id = $1",
+          params: [context.tenantId],
+        }),
+      },
+    ];
+
+    /**
+     * Attempt `change` on its own connection under a 750 ms `lock_timeout`.
+     * While the authority window is held, the change MUST block and the
+     * timeout MUST fire (SQLSTATE 55P03). A change that commits is a failure,
+     * not a slow success. `SET LOCAL` keeps the timeout scoped to this
+     * transaction so the pooled connection is not polluted.
+     */
+    async function changeWhileWindowHeld(
+      change: Readonly<{ sql: string; params: unknown[] }>,
+      name: string,
+    ): Promise<void> {
+      const changer = await raw().connect();
+      try {
+        await changer.query("BEGIN");
+        await changer.query("SET LOCAL lock_timeout = '750ms'");
+        let blocked = false;
+        try {
+          await changer.query(change.sql, change.params);
+        } catch (error) {
+          blocked = true;
+          expect((error as { code?: string }).code, name).toBe("55P03");
+          expect(String(error), name).toContain("lock timeout");
+        }
+        expect(blocked, `${name} was NOT blocked by the authority window`).toBe(
+          true,
+        );
+      } finally {
+        await changer.query("ROLLBACK");
+        changer.release();
+      }
+    }
+
+    /** Apply the change for real on the shared pool and demand it commits. */
+    async function applyChange(
+      change: Readonly<{ sql: string; params: unknown[] }>,
+    ): Promise<void> {
+      const applied = await raw().query(change.sql, change.params);
+      expect(applied.rowCount).toBe(1);
+    }
+
+    /**
+     * Wait until the vault's in-flight backend is parked on the secret-row
+     * lock. Reaching that wait PROVES the transaction already executed
+     * `authorize()` — the probe is the first statement of the transaction — so
+     * the authority locks are held by the time this returns. The poll is the
+     * synchronization; nothing sleeps and hopes.
+     */
+    async function waitForVaultInsideTransaction(): Promise<void> {
+      const deadline = Date.now() + 5_000;
+      while (Date.now() < deadline) {
+        const waiting = await raw().query(
+          `SELECT 1 FROM pg_stat_activity
+           WHERE application_name = 'polyhunter-secret-vault'
+             AND wait_event_type = 'Lock'
+             AND query ILIKE '%encrypted_secrets%'
+           LIMIT 1`,
+        );
+        if (waiting.rowCount === 1) return;
+        await new Promise((resolveWait) => setTimeout(resolveWait, 25));
+      }
+      throw new Error(
+        "the vault backend never reached the secret-row lock wait",
+      );
+    }
+
+    it("keeps the window closed through withDecryptedSecret and fails closed afterwards", async () => {
+      for (const { name, build } of CHANGE_BUILDERS) {
+        const context = await seedTenant("owner");
+        const seeded = await currentVault().create(context, {
+          purpose: "cr09.decrypt",
+          secret: "cr09-value",
+        });
+        const change = build(context);
+
+        let release!: () => void;
+        const hold = new Promise<void>((resolveHold) => {
+          release = resolveHold;
+        });
+        let inside!: () => void;
+        const entered = new Promise<void>((resolveEntered) => {
+          inside = resolveEntered;
+        });
+
+        const decrypting = currentVault().withDecryptedSecret(
+          context,
+          {
+            id: seeded.id,
+            tenantId: context.tenantId,
+            purpose: "cr09.decrypt",
+          },
+          async (plaintext) => {
+            // Runs INSIDE the vault transaction, with the authority locks
+            // held. The promise below is the deterministic hold point.
+            inside();
+            await hold;
+            return Buffer.from(plaintext).toString("utf8");
+          },
+        );
+
+        await entered;
+        await changeWhileWindowHeld(change, name);
+        release();
+        expect(await decrypting).toBe("cr09-value");
+
+        // The vault transaction has completed, so the queued authority change
+        // can now commit...
+        await applyChange(change);
+        // ...and the NEXT operation observes it and fails closed.
+        await expectCode(
+          () =>
+            currentVault().withDecryptedSecret(
+              context,
+              {
+                id: seeded.id,
+                tenantId: context.tenantId,
+                purpose: "cr09.decrypt",
+              },
+              () => "x",
+            ),
+          "SECRET_FORBIDDEN",
+        );
+      }
+    });
+
+    it("keeps the window closed through a mutation and fails closed afterwards", async () => {
+      for (const { name, build } of CHANGE_BUILDERS) {
+        const context = await seedTenant("owner");
+        const seeded = await currentVault().create(context, {
+          purpose: "cr09.replace",
+          secret: "cr09-before",
+        });
+        const change = build(context);
+
+        // Park the vault mutation inside its own transaction: a dedicated
+        // connection holds the secret row, so `replace` blocks on the row
+        // lock strictly AFTER `authorize()` — authorize is the transaction's
+        // first statement, so holding the wait means holding the locks.
+        const holder = await raw().connect();
+        try {
+          await holder.query("BEGIN");
+          await holder.query(
+            "SELECT id FROM encrypted_secrets WHERE id = $1 FOR UPDATE",
+            [seeded.id],
+          );
+
+          const replacing = currentVault().replace(context, seeded.id, {
+            secret: "cr09-after",
+          });
+          await waitForVaultInsideTransaction();
+          await changeWhileWindowHeld(change, name);
+
+          await holder.query("COMMIT");
+          const replaced = await replacing;
+          expect(replaced.id).toBe(seeded.id);
+
+          await applyChange(change);
+          await expectCode(
+            () => currentVault().listMetadata(context),
+            "SECRET_FORBIDDEN",
+          );
+        } finally {
+          holder.release();
+        }
+      }
+    });
+  });
+
   describe("write, read and mask", () => {
     it("stores an envelope and returns metadata only", async () => {
       const context = await seedTenant("owner");

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "workOrder": "PH-M01-WO-003",
-  "correctionDelta": "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact; audit CR-05 — CVE-2026-8376 semantics restored to the accepted WO-002 disposition",
+  "correctionDelta": "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact; audit CR-05 — CVE-2026-8376 semantics restored to the accepted WO-002 disposition; audit CR-09 — the vault holds SHARE locks on membership + user + tenant; audit CR-10 — the nested preserved-basis residue is removed and the integrity gate scans nested fields",
   "title": "Machine-readable VEX for the PH-M01-WO-003 final artifact: every HIGH/CRITICAL row is UNDER_INVESTIGATION with NOT_AFFECTED proposed only",
   "branch": "feat/ph-m01-encrypted-secret-vault",
   "lockedBase": "af6235d2164171985af6152ba03835826ace3cdb",
@@ -134,8 +134,8 @@
     "restoredThisRound": [
       "CVE-2026-8376"
     ],
-    "rule": "Every proposed disposition reproduces the accepted (CVE, vulnerableCodePresent, proposedJustification) triple exactly. Where an audit requires a semantic restoration, the accepted record is restored verbatim and the divergence is named — never paraphrased. The executor may propose; it may not restate.",
-    "note": "Measured on this run: 25/25 rows identical to the accepted record. The single regression CR-05 identified (CVE-2026-8376, 'vulnerable_code_not_in_execute_path' -> 'vulnerable_code_cannot_be_controlled_by_adversary') is restored and the gate now fails loudly if it ever recurs."
+    "rule": "Every proposed disposition reproduces the accepted (CVE, vulnerableCodePresent, proposedJustification) triple exactly — in EVERY machine-readable field of the row, not only the top level (audit CR-10). The gate collects every string exactly equal to a VEX justification enum anywhere in the finding, every boolean `vulnerableCodePresent` at any nesting, the canonical-final provenance of every WO-002-sourced preserved basis, and the approval/status fields, and throws before writing output on the first divergence. Where an audit requires a semantic restoration, the accepted record is restored verbatim and the divergence is named — never paraphrased. The executor may propose; it may not restate.",
+    "note": "Measured on this run: 25/25 rows identical to the accepted record across all nested justification-bearing fields. The CR-05 regression (CVE-2026-8376, 'vulnerable_code_not_in_execute_path' -> 'vulnerable_code_cannot_be_controlled_by_adversary') is restored; the CR-10 residue (a NESTED preservedPriorBasis.justification still carrying the superseded axis) is eliminated by rebuilding delta-sourced preserved bases from the canonical FINAL record; and the gate now fails on either, anywhere in the row."
   },
   "cr05Correction": {
     "cve": "CVE-2026-8376",
@@ -153,6 +153,16 @@
     "ownerApproval": null,
     "status": "PROPOSED — awaiting independent audit and Project Owner decision",
     "note": "Per CR-04 the executor does NOT register NOT_AFFECTED as current approved state. Until an independent auditor and the Project Owner act on this exact digest, all 25 rows block under the 'never advance with a known HIGH/CRITICAL defect' rule."
+  },
+  "cr10Correction": {
+    "finding": "audit CR-10 — the CVE-2026-8376 row was internally contradictory: the top level carried the accepted `vulnerable_code_cannot_be_controlled_by_adversary`, but the nested `preservedPriorBasis.justification` still carried the superseded `vulnerable_code_not_in_execute_path` (and its presenceEvidence again made 'Perl is never executed' part of the preserved basis).",
+    "rootCause": "The preserved basis for the WO-002 perl rows was seeded from `receipts/vex-delta-3-perl-cves.json` — the PRE-CORRECTION delta — instead of the canonical owner-approved final record (`receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json`). The delta is history; it must not seed any current machine-readable field.",
+    "fix": [
+      "Delta-sourced rows now build `preservedPriorBasis` from the canonical FINAL record only, flagged `fromCanonicalFinal: true`; a delta-sourced row with no canonical row is a hard stop at generation time.",
+      "The CR-05 integrity gate walks every nested field: any string exactly equal to a VEX justification enum anywhere in the finding must equal the accepted justification; any boolean `vulnerableCodePresent` at any nesting must equal the accepted value; a WO-002-sourced preserved basis must be flagged canonical; and a row may not register approvals or leave UNDER_INVESTIGATION.",
+      "The verification mutation (a nested field restored to `vulnerable_code_not_in_execute_path`) is recorded as a negative control that makes the gate FAIL."
+    ],
+    "scope": "CVE-2026-8376 is the only row that needed a semantic restore; the other 24 rows were compared field by field and were already consistent with the accepted record (deterministic equality scan + a batched JEV advisory classification, both recorded in receipts/24-jev-mcp-execution.txt)."
   },
   "dispositionedButAbsentFromNewScan": [],
   "highCriticalNotDispositioned": [],
@@ -925,13 +935,15 @@
       "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
       "priorOwnerApproval": "APPROVED on a DIFFERENT digest; does not carry over to this artifact by PH-SEC-VEX-POLICY expiry rule.",
       "preservedPriorBasis": {
-        "source": "PH-M01-WO-002",
-        "vulnerableComponent": "Perl Archive::Tar < 3.08 (hardlink extraction escape)",
+        "source": "PH-M01-WO-002 — canonical owner-approved final VEX (receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json)",
+        "fromCanonicalFinal": true,
+        "vulnerableComponent": "Perl Archive::Tar < 3.08 (hardlink extraction path escape)",
+        "vulnerableCodePresent": false,
         "justification": "vulnerable_code_not_present",
-        "presenceEvidence": "Same component absence as CVE-2026-42496: Archive/Tar.pm absent image-wide; perl-base only.",
+        "presenceEvidence": "Same component and same absence proof as CVE-2026-42496, re-run on the FINAL artifact: the hardlink extraction path lives in the same absent module. Receipt 04.",
         "receipts": [
-          "receipts/perl-cves-component-presence.txt",
-          "receipts/new-perl-cves-advisories.json"
+          "receipts/cr01-revalidation/04-perl-archive-tar-absence.txt",
+          "receipts/cr01-revalidation/03-final-perl-and-toolchain-packages.txt"
         ]
       },
       "revalidation": {
@@ -2547,13 +2559,15 @@
       "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
       "priorOwnerApproval": "APPROVED on a DIFFERENT digest; does not carry over to this artifact by PH-SEC-VEX-POLICY expiry rule.",
       "preservedPriorBasis": {
-        "source": "PH-M01-WO-002",
-        "vulnerableComponent": "Perl Archive::Tar < 3.08 (symlink extraction escape)",
+        "source": "PH-M01-WO-002 — canonical owner-approved final VEX (receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json)",
+        "fromCanonicalFinal": true,
+        "vulnerableComponent": "Perl Archive::Tar < 3.08 (symlink extraction path escape)",
+        "vulnerableCodePresent": false,
         "justification": "vulnerable_code_not_present",
-        "presenceEvidence": "The vulnerable module Archive/Tar.pm is ABSENT image-wide (filesystem search returns zero results). The artifact ships perl-base (minimal Perl system, 61 modules per PH-SEC-WO-007 census); Archive::Tar is part of perl-modules, not perl-base. No consumer can exercise the vulnerable symlink extraction path.",
+        "presenceEvidence": "Re-proven on the FINAL artifact by three independent methods: (1) `dpkg -S Archive/Tar.pm` returns 'no path found' and `perl-modules`/`perl` are dpkg status 'not-installed', so no installed package provides the module; (2) `find / -name Tar.pm -path '*Archive*'` returns zero hits on every mount of the image; (3) the image's own perl cannot load it — `perl -MArchive::Tar` fails with \"Can't locate Archive/Tar.pm in @INC\" enumerating all 10 @INC roots. Only perl-base 5.36.0-7+deb12u3 is installed, and Archive::Tar is not part of perl-base. Receipt 04.",
         "receipts": [
-          "receipts/perl-cves-component-presence.txt",
-          "receipts/new-perl-cves-advisories.json"
+          "receipts/cr01-revalidation/04-perl-archive-tar-absence.txt",
+          "receipts/cr01-revalidation/03-final-perl-and-toolchain-packages.txt"
         ]
       },
       "revalidation": {
@@ -2639,28 +2653,30 @@
         "secondaryDefenceInDepth": {
           "claim": "Perl is never executed in this container.",
           "role": "SECONDARY defence-in-depth ONLY. It is NOT the justification for this disposition and must not be read as one.",
-          "evidence": "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites across the 55 tracked source files (the single `exec(` hit is `RegExp.prototype.exec` in a test).",
-          "source": "receipts/12-objective-equivalence.txt (P2, P3)"
+          "evidence": "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites in tracked source (re-measured this round: `git ls-files apps packages tests` filtered to code extensions, zero child_process/execSync/spawnSync/execFile/spawn( matches; the single `exec(` hit is `RegExp.prototype.exec` in a test — receipts/23-cr09-cr10-revalidation.txt).",
+          "source": "receipts/16-objective-equivalence.txt (P2, P3)"
         },
         "rationale": "The accepted proof is an architecture/arithmetic bound: the advisory's overflow requires the 32-bit integer-width arithmetic that a 64-bit ILP32 perl cannot exhibit, so no attacker-controlled input reaches the vulnerable condition on this artifact. Reachability is therefore irrelevant to the disposition, which is why demoting the row to 'not in execute path' was both a semantic regression and an unsound one."
       },
       "secondaryDefenceInDepth": {
         "claim": "Perl is never executed in this container.",
         "role": "SECONDARY defence-in-depth ONLY. It is NOT the justification for this disposition and must not be read as one.",
-        "evidence": "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites across the 55 tracked source files (the single `exec(` hit is `RegExp.prototype.exec` in a test).",
-        "source": "receipts/12-objective-equivalence.txt (P2, P3)"
+        "evidence": "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites in tracked source (re-measured this round: `git ls-files apps packages tests` filtered to code extensions, zero child_process/execSync/spawnSync/execFile/spawn( matches; the single `exec(` hit is `RegExp.prototype.exec` in a test — receipts/23-cr09-cr10-revalidation.txt).",
+        "source": "receipts/16-objective-equivalence.txt (P2, P3)"
       },
       "priorDispositionSource": "PH-M01-WO-002 (this delta)",
       "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
       "priorOwnerApproval": "APPROVED on a DIFFERENT digest; does not carry over to this artifact by PH-SEC-VEX-POLICY expiry rule.",
       "preservedPriorBasis": {
-        "source": "PH-M01-WO-002",
-        "vulnerableComponent": "Perl interpreter < 5.40.5-RC1 on 32-BIT builds (heap overflow in Perl_study_chunk)",
-        "justification": "vulnerable_code_not_in_execute_path",
-        "presenceEvidence": "The artifact runs Debian amd64 (64-bit): perl -V:ivsize='8', getconf LONG_BIT=64. The advisory is explicitly scoped to 32-bit builds ('heap buffer overflow when compiling regular expressions with a repeated fixed string on 32-bit builds'). Additionally perl is never executed by the PolyHunter runtime (compose commands are npm/next/nodemon only; no application subprocess spawns perl — PH-SEC-WO-007 established zero child_process references).",
+        "source": "PH-M01-WO-002 — canonical owner-approved final VEX (receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json)",
+        "fromCanonicalFinal": true,
+        "vulnerableComponent": "Perl interpreter < 5.40.5-RC1, heap buffer overflow in Perl_study_chunk",
+        "vulnerableCodePresent": true,
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "presenceEvidence": "The vulnerable code IS PRESENT. Perl_study_chunk is the regular-expression compilation path inside the perl interpreter itself; it ships as part of perl-base 5.36.0-7+deb12u3, which is installed on the FINAL artifact, and it is exercised whenever Perl compiles a pattern. This row records that fact rather than hiding it behind a \"not present\" claim. What the attacker cannot do is drive that code into its vulnerable overflow condition, because the advisory scopes the defect to 32-BIT (ILP32) Perl builds and the FINAL artifact is not one. Measured directly on sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c: the installed perl-base is 5.36.0-7+deb12u3 with dpkg architecture amd64; the container kernel is x86_64; the perl binary's ELF header has EI_CLASS=0x02 (ELF64) and e_machine=0x3e (x86-64), so a 32-bit build of this interpreter cannot even be loaded; and the interpreter reports Config{ivsize}=8 bytes (64-bit integer values), Config{longsize}=8 (LONG_BIT=64), Config{ptrsize}=8 (64-bit pointers), ivtype=long, use64bitint=define. The overflow described by the advisory requires the 32-bit integer-width arithmetic that none of these measurements admits, therefore no attacker-controlled input can reach the vulnerable condition on this artifact. Receipt 05. Note explicitly: \"Perl is never executed in this container\" is NOT part of this justification — it is recorded in receipt 06 only as secondary defence-in-depth and is not what this disposition rests on.",
         "receipts": [
-          "receipts/perl-cves-component-presence.txt",
-          "receipts/new-perl-cves-advisories.json"
+          "receipts/cr01-revalidation/05-perl-bitness-ivsize.txt",
+          "receipts/cr01-revalidation/06-runtime-assumptions.txt"
         ]
       },
       "revalidation": {

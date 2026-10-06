@@ -102,8 +102,15 @@ executed" is preserved in the JSON under `secondaryDefenceInDepth`, labelled
 "NOT the justification for this disposition and must not be read as one", which is
 the accepted record's own instruction. Its evidence is re-measured in this round:
 no perl process in either container's live process table, no perl invocation in any
-tracked `package.json`, and zero subprocess call sites across the 55 tracked source
-files (the single `exec(` hit is `RegExp.prototype.exec`).
+tracked `package.json`, and zero subprocess call sites in tracked source
+(re-measured with an explicit, recorded command; the single `exec(` hit is
+`RegExp.prototype.exec`).
+
+**CR-10 — the nested residue is gone and cannot come back.** `preservedPriorBasis`
+for delta-sourced rows is now rebuilt from the CANONICAL owner-approved final
+record (`PH-M01-WO-002-VEX-FINAL.json`) and flagged `fromCanonicalFinal: true`;
+the WO-002 per-perl delta file is a pre-correction source and is never used to seed
+a preserved basis. The integrity gate walks every nested field (see below).
 
 **What did NOT change.** `vexStatus` remains `UNDER_INVESTIGATION`,
 `proposedVexStatus` remains a *proposal* of `NOT_AFFECTED`, `independentAuditor` and
@@ -114,11 +121,17 @@ files (the single `exec(` hit is `RegExp.prototype.exec`).
 Rows compared against the accepted record: **25**. Divergences: **0**. Restored this round: `CVE-2026-8376`.
 
 Every proposed disposition reproduces the accepted `(CVE, vulnerableCodePresent,
-proposedJustification)` triple **exactly**. This is enforced mechanically inside
-`cr04-vex-state-machine.mjs`: the script THROWS before writing any output if a
-single row diverges from the approved record, so the failure mode CR-05 caught —
-one row quietly restated in weaker words — can no longer pass silently into a
-regenerated receipt. The check covers all 25 rows, which is also the answer to
+proposedJustification)` triple **exactly — in every machine-readable field of the
+row, not only the top level**. This is enforced mechanically inside
+`vex-state-machine.mjs`: the gate walks each finding recursively, collects every
+string exactly equal to a VEX justification enum anywhere in it, every boolean
+`vulnerableCodePresent` at any nesting, the `fromCanonicalFinal` provenance of every
+WO-002-sourced preserved basis, and the approval/status fields — then THROWS before
+writing any output on the first divergence. Two failure modes are thereby caught:
+the CR-05 regression (one row quietly restated in weaker words at the top level) and
+the CR-10 residue (a NESTED `preservedPriorBasis.justification` still carrying the
+superseded axis while the top level looked correct). Both were reproduced as
+negative controls; the check covers all 25 rows, which is also the answer to
 "did any other row change its previously-approved justification": **no**.
 
 ## Per-row state
