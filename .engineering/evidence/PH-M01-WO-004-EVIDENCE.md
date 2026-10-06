@@ -160,10 +160,14 @@ negative control are mechanical proofs). No secrets were sent.
 
 `READY_FOR_FINAL_M01_INDEPENDENT_AUDIT`.
 
-The audit target is the tip of `feat/ph-m01-security-acceptance` after this round's
-commits; GitHub Actions Validate and CodeRabbit must be SUCCESS on that exact commit,
-and the run IDs and SHAs are recorded in the real PR #41 body (a SHA written into a
-file cannot name the commit that carries the file).
+**GitHub Actions Validate is SUCCESS on this branch.** The audit target is the commit
+carrying the tests, harness, evidence and corrections of this round,
+`f0fa34e70d0ff19f91d4e1db83375b644bd73e4c`, validated by run `37530158202` — the
+`Node 24 validation` job green; CodeRabbit `success` on the same commit (review skipped
+while the PR is a draft; status green). Every commit after the audit target is
+documentation-only and carries its own green run; the live list, including the tip and
+its run ID, is kept in the real PR #41 body, because a SHA written into a file cannot
+name the commit that carries the file.
 
 Points an auditor should weigh most heavily:
 
