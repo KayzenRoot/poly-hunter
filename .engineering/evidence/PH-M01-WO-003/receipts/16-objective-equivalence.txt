@@ -1,0 +1,192 @@
+PH-M01-WO-003 — OBJECTIVE EQUIVALENCE + PREMISES P1-P7
+artifact: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+generated: 2026-10-06T17:27:11Z
+
+Every prior NOT_AFFECTED expires at a new image digest. Nothing below is carried
+forward by reference to an APPROVAL; the prior row-specific ANALYSIS is preserved and
+each premise it rested on is re-measured on THIS artifact.
+
+==============================================================================
+1. SIX OBJECTIVE-EQUIVALENCE AXES
+==============================================================================
+
+-- component/package --
+  Same scanner (docker scout v1.24.0), same unfiltered command, both SARIF documents
+  compared row by row on the package purl including the exact version.
+  vs the WO-002 artifact: prior 80 -> now 82 | identical 80 | added 2 | removed 0
+  vs the previous WO-003 artifact (8bd3e85a, CR-01..CR-04 round):
+          prior 82 -> now 82 | identical 82 | added 0 | removed 0 — the scan output is
+          BYTE-IDENTICAL (md5 f30da92d3318b5b0a4eba98b6d7dd01e), which is the expected
+          result when the scanned content is objectively equivalent and the scanner
+          datasource state is unchanged; receipt 22 re-runs the scan and reproduces
+          this byte-identity for the current digest.
+  Correction note: this table first read "rows prior 82 -> now 82 | identical 80 |
+  added 2 | removed 0", which mixes the two comparisons above and contradicts itself
+  (82 prior with 0 removed cannot also have 80 identical). The row-by-row delta in
+  the state machine (14-vex-state-machine.json -> scanDelta) was always the correct
+  80 -> 82 / identical 80 / added 2 / removed 0; this receipt line was the error.
+  The 2 added rows versus WO-002 are BELOW HIGH/CRITICAL and originate outside this
+  repository's dependency graph (Debian gnupg2 from the base image;
+  postcss-selector-parser bundled inside npm's own node_modules). Neither appears in
+  package-lock.json.
+
+-- exact version --
+  dpkg inventory of THIS artifact vs the WO-002 inventory receipt, like-for-like on
+  (package, version):
+    baseline lines 88 | new lines 88 | diff: ZERO DIFFERENCES
+  Every npm purl version inside the scan is identical row for row.
+
+-- architecture --
+  dpkg --print-architecture  amd64
+  uname -m                   x86_64
+  image Architecture/Os      amd64/linux
+
+-- installed files --
+  SHA-256 recomputed INSIDE the new image:
+    /usr/local/bin/node                7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c
+    libstdc++.so.6.0.30                e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4
+    libvips-cpp.so.8.18.7              4aa73553408c3964071728f4a231a8e86918e39bc49f1fbae75355f7ea933ea9
+    sharp-linux-x64-0.35.5.node        cf896cc1b7f3ae9c3e8eb3d7b2b198b8de2824ff7d0681d684bab5a825def335
+  ALL FOUR byte-identical to the WO-002 baseline.
+
+-- runtime assumptions --
+  uid / gid                  1000 / 1000
+  CapEff                     CapEff:	0000000000000000
+  node                       v24.21.0
+  published ports            web 127.0.0.1:3000 | worker: unpublished | postgres: unpublished
+  compose commands: web='npm run dev --workspace @polyhunter/web'
+                    worker='nodemon --legacy-watch ... --exec node apps/worker/src/index.ts'
+
+-- prior proof assumptions --
+  Each row's own presence/reachability/adversary-control text is reproduced VERBATIM in
+  the JSON companion (14-vex-state-machine.json -> findings[].preservedPriorBasis), not
+  paraphrased into a shared per-axis sentence. CVE-2026-95619 keeps its
+  aligned-allocation arithmetic bound in full.
+
+  dpkg diff command actually run:
+    docker compose exec -T web dpkg-query -W -f='${Package} ${Version}\n' | sort
+    diff <that> <WO-002 receipt with comments stripped>   ->   empty
+
+==============================================================================
+2. PREMISES P1-P7, RE-MEASURED ON THIS DIGEST
+==============================================================================
+
+-- P1 dependency graph unchanged --
+  package.json         746e6bedeabbc49cd68f58227d86b73dcef28feb87e43a761076aaf3e94d335e
+  package-lock.json    484c8cd56386b60b2013016984a84fba00379a7af5d16fa0a4a996c29d08f722
+  git diff --quiet package.json package-lock.json: CLEAN (unmodified in this round)
+
+-- P2 zero subprocess primitives in TRACKED source --
+  denominator: 75 tracked source files
+    child_process    0
+    execSync         0
+    spawnSync        0
+    execFile         0
+    spawn(           0
+    exec(            1
+    execFileSync     0
+  Method note: only TRACKED source is enumerated. A bare recursive grep also matches
+  build output under apps/web/.next, which is neither source nor shipped. The single
+  'exec(' hit is a RegExp.prototype.exec:
+      tests/secret-material-containment.test.ts:120:        const encoded = /:([A-Za-z0-9+/]+={0,2})/.exec(literal)?.[1];
+
+-- P3 perl never executed --
+  web process table (the image ships no ps, so this reads /proc directly):
+      /sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 
+      sh -c next dev --webpack --hostname 0.0.0.0 
+      node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0 
+      next-server (v16.3.8)                                                            
+      sh -c for p in /proc/[0-9]*; do c=$(tr "" " " < $p/cmdline 2>/dev/null); [ -n "$c" ] && echo "      $c"; done 
+      npm run dev --webpack --hostname 0.0.0.0                                                    
+  worker process table:
+      /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts 
+      sh -c for p in /proc/[0-9]*; do c=$(tr "" " " < $p/cmdline 2>/dev/null); [ -n "$c" ] && echo "      $c"; done 
+      node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts 
+  executables resolving to perl (either container) 0
+  tracked package.json files invoking perl       0
+
+-- P4 perl-base module census --
+    Archive/Tar.pm               0
+    Archive/Unzip.pm             0
+    IO/Uncompress/Unzip.pm       0
+    Compress/Zlib.pm             0
+    Pod/Text.pm                  0
+    Socket.pm (non-zero control) 2
+    total .pm files              61
+  Loadability control (a probe that cannot return LOADS for anything proves nothing):
+      Socket                       LOADS
+      Archive::Tar                 not loadable
+      IO::Uncompress::Unzip        not loadable
+      IO::Compress                 not loadable
+      Pod::Text                    not loadable
+  Method note: the first run of this census reported 0 modules because nested shell
+  quoting put literal quote characters inside the find patterns. It was re-run with
+  unquoted path segments, and a module that DOES load is recorded deliberately, so a
+  'nothing installed' result cannot be mistaken for a failed probe.
+  RECONCILIATION with the earlier round's "total 164 .pm". Both numbers are correct
+  for their own command; they count different trees, and the difference is recorded
+  rather than smoothed over:
+
+    find /usr/lib/x86_64-linux-gnu/perl-base -name '*.pm' | wc -l   ->   61
+    find /usr/lib -path '*perl*' -name '*.pm'            | wc -l   ->   61
+    find /usr/share -path '*perl*' -name '*.pm'          | wc -l   ->  103
+    find / -name '*.pm' excluding /proc                  | wc -l   ->  164   (61 + 103)
+
+  The earlier round reported the whole-filesystem figure. THIS round reports the
+  COMPILED-MODULE SEARCH PATH, which is the tree that matters here, because the
+  vulnerable code in CVE-2026-8376 is not a .pm file at all: it is the C function
+  Perl_study_chunk inside the interpreter binary. The census exists to show which
+  optional perl modules are ABSENT, and for that the module path is the right
+  denominator. The 103 additional files under /usr/share/perl are arch-independent
+  pure-Perl modules shipped by perl-base; none of the loadability probes above
+  resolves into that tree.
+
+-- P5 perl is a 64-bit build (this is the load-bearing premise) --
+    ivsize='8';
+    longsize='8';
+    ptrsize='8';
+    use64bitint='define';
+    64
+
+-- P6 no new compiled consumer of libstdc++.so.6 --
+  native addons present in the image:
+      /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node
+      /workspace/node_modules/@napi-rs/lzma-linux-x64-gnu/lzma.linux-x64-gnu.node
+      /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node
+      /workspace/node_modules/@rollup/rollup-linux-x64-gnu/rollup.linux-x64-gnu.node
+  node and libstdc++.so.6.0.30 SHA-256 are identical to the WO-002 baseline (axis 4).
+  LIMITED METHOD, STATED PLAINLY: nm / objdump / readelf are NOT INSTALLED in this
+  image, so NO symbol-presence claim is made anywhere in this receipt. An earlier
+  round ran 'nm -D | grep -c' with stderr suppressed and recorded a false 0;
+  PH-SEC-WO-008 CR-01 then WITHDREW the byte-string / dynsym-absence argument as
+  unsound. The byte-identical SHA-256 carries the premise here instead.
+
+-- P7 caller-controlled input surface --
+  RegExp constructions in the domain module (all built from FROZEN constants):
+      125:const SECRET_PURPOSE_PATTERN = new RegExp(secretPurposePatternString);
+      130:const SECRET_KEY_VERSION_PATTERN = new RegExp(secretKeyVersionPatternString);
+      171:const SECRET_UUID_PATTERN = new RegExp(secretUuidPatternString, "i");
+  route inputs, by handler line:
+      240:  const { id } = await context.params;
+      310:  const { id } = await context.params;
+      346:  const { id } = await context.params;
+      375:  const { id } = await context.params;
+      273:  if (typeof body.purpose !== "string" || typeof body.secret !== "string") {
+      279:      purpose: body.purpose,
+      273:  if (typeof body.purpose !== "string" || typeof body.secret !== "string") {
+      280:      secret: body.secret,
+      312:  if (typeof body.secret !== "string") {
+      318:      secret: body.secret,
+  Constraints: id -> canonical UUID v1-v8; purpose ->
+  ^[a-z][a-z0-9]*([._-][a-z0-9]+)*$ bounded to 64 chars; secret -> bounded to 65536 bytes.
+  No caller-supplied pattern, path, archive or mount argument reaches any engine —
+  pcre2 or JavaScript's.
+
+==============================================================================
+3. CONCLUSION
+==============================================================================
+  Zero scanner delta on the dispositioned set. The 25 HIGH/CRITICAL rows are
+  byte-identical to the prior artifact's scan rows; the Debian inventory is identical
+  across all 88 packages; the four native artifacts hash identically. The CR-05..CR-08
+  delta is application source, a package.json export map and tests — it alters no
+  component any prior proof analysed.

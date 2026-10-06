@@ -1,0 +1,10 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    ...Storing image for indexing
+    v Image stored for indexing
+    ...Indexing
+    v Indexed 538 packages
+    ! failed to delete temporary image archive C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4\7a2b9c1b-8e2b-422c-9ed0-878e0f854ef7: unlinkat C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4\7a2b9c1b-8e2b-422c-9ed0-878e0f854ef7: O arquivo já está sendo usado por outro processo.    x Detected 22 vulnerable packages with a total of 82 vulnerabilities
+
+What's next:
+    View base image update recommendations → docker scout recommendations polyhunter-dev:local
+

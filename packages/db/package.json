@@ -6,13 +6,23 @@
   "exports": {
     "./server": {
       "types": "./src/server/index.ts",
-      "import": "./dist/server/index.js",
-      "default": "./dist/server/index.js"
+      "import": "./src/server/index.ts",
+      "default": "./src/server/index.ts"
     },
     "./server/identity": {
       "types": "./src/server/identity.ts",
-      "import": "./dist/server/identity.js",
-      "default": "./dist/server/identity.js"
+      "import": "./src/server/identity.ts",
+      "default": "./src/server/identity.ts"
+    },
+    "./server/authorization": {
+      "types": "./src/server/authorization.ts",
+      "import": "./src/server/authorization.ts",
+      "default": "./src/server/authorization.ts"
+    },
+    "./server/vault": {
+      "types": "./src/server/vault/index.ts",
+      "import": "./src/server/vault/index.ts",
+      "default": "./src/server/vault/index.ts"
     }
   },
   "scripts": {

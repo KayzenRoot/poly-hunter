@@ -1,0 +1,26 @@
+# Docker Compose config validation
+docker compose config: OK
+
+# Service status
+NAME                  IMAGE                                                                                               COMMAND                  SERVICE    CREATED         STATUS                   PORTS
+polyhunter-postgres   postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24   "docker-entrypoint.s…"   postgres   3 minutes ago   Up 2 minutes (healthy)   5432/tcp
+polyhunter-web        polyhunter-dev:local                                                                                "docker-entrypoint.s…"   web        2 minutes ago   Up 2 minutes (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local                                                                                "docker-entrypoint.s…"   worker     2 minutes ago   Up 2 minutes
+
+# PostgreSQL health
+/var/run/postgresql:5432 - accepting connections
+
+# Web HTTP status on localhost:3000
+GET / -> HTTP 200
+
+# Secret API is reachable and fails closed with no keyring configured
+GET /api/secrets -> HTTP 401
+{"error":"unauthenticated","reason":"provider_not_configured"}
+
+# Worker process is alive
+worker container exec: OK
+polyhunter-worker  | [33m[nodemon] watching path(s): apps/worker/**/* packages/**/*[39m
+polyhunter-worker  | [33m[nodemon] watching extensions: ts,json[39m
+polyhunter-worker  | [32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+polyhunter-worker  | PolyHunter worker shell started without product behavior.
+polyhunter-worker  | [32m[nodemon] clean exit - waiting for changes before restart[39m

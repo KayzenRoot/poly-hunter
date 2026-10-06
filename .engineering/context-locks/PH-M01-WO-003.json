@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "project": "PolyHunter",
+  "workOrder": "PH-M01-WO-003",
+  "issue": 38,
+  "risk": "HIGH_ASSURANCE",
+  "branch": "feat/ph-m01-encrypted-secret-vault",
+  "base": {
+    "ref": "main",
+    "sha": "af6235d2164171985af6152ba03835826ace3cdb",
+    "requiredMergeBase": "af6235d2164171985af6152ba03835826ace3cdb"
+  },
+  "executionState": {
+    "checkpointPhase": "M01_INCREMENT_IMPLEMENTED",
+    "checkpointStopState": "STOP_AFTER_PH_M01_WO_002",
+    "nextLegalStageAtAdmission": "AWAIT_OWNER_DIRECTION",
+    "ownerDirection": "Continue / admit PH-M01-WO-003",
+    "liveTradingAuthorized": false,
+    "priorSecurityArtifact": "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c",
+    "priorSecurityState": "25/25 NOT_AFFECTED, 0 UNDER_INVESTIGATION, 0 AFFECTED"
+  },
+  "workOrderFingerprint": {
+    "path": ".engineering/work-orders/PH-M01-WO-003.md",
+    "sha": "9c3e6d2bd019e403f9f8a6ab5ef30b2c8a9009fd"
+  },
+  "frozenSources": {
+    "AGENTS.md": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    ".engineering/CHECKPOINT.json": "6c823956bd6013b51a6327718c8260acd5e39ef5",
+    ".engineering/SOURCE-HIERARCHY.md": "71f13c5ab18855c952025f8dcb44bb23017711d6",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/SCOPE.md": "510e4bbf60bd34bb4e8b2273c08cad16d3662ccd",
+    ".engineering/ARCHITECTURE.md": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+    ".engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    ".engineering/DATA-MODEL.md": "e5521176052159b13fa8d2875a485002a5b7a7ce",
+    ".engineering/API-CONTRACTS.md": "b512940d2fa728c9cf0d39d842ac3ea557333c3d",
+    ".engineering/INTEGRATION-CONTRACTS.md": "0d0d85db742d938a47334409703a10e2ae525248",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    ".engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    ".engineering/modules/PH-M01-IDENTITY-TENANCY-SECRETS.md": "1073525b2258e947d382a428e77e4fd0af5c2249",
+    ".engineering/decisions/ADR-0004-PERSISTENCE-IDENTITY-BOUNDARY.md": "4f40d7c48dcced3d99196eae01bc4eb849b7dbe5",
+    ".engineering/decisions/ADR-0005-TENANT-AUTHORIZATION.md": "998d1178cc87a24ce186fd8802b482ce1da036c4",
+    ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+    ".engineering/DECISIONS-LEDGER.md": "2b3db08377610ac70d9f228e6bdd5af818bb2e07"
+  },
+  "runtimeFingerprints": {
+    "package.json": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "package-lock.json": "ea8e7e7b5f08034dc297db3f18c9fe5dbbb531ae",
+    "compose.yaml": "8158fca11ead49ea2f3cb35ad04a4f480a9d90b0",
+    "Dockerfile.dev": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    ".env.example": "d834e6fd47d1a49713479a7acdab4769838048cd",
+    "packages/db/src/schema/index.ts": "43a1e5e7497e02490d8a96ba697c316fc8afc95d",
+    "packages/db/src/server/index.ts": "12cd0715052cc2b309704d576380cca2dfa128c6",
+    "packages/db/src/server/identity.ts": "1865c0cbac5911d49a579e6ac0d7113eb6e15842",
+    "packages/domain/src/index.ts": "6c7566cd2942bae2f45a067f4b9175067e2d55e4",
+    "packages/contracts/src/index.ts": "da1c1782ead858b6bf846ff59802f628778f437f",
+    "apps/web/src/identity/session-service.ts": "d727218edb58d4865412f0950936909ef8cc0245",
+    "packages/db/tests/identity-rbac.integration.test.ts": "7f7b715c6743e65492b41ad1ceb5c896e15d2be1"
+  },
+  "cryptoSourceCheck": {
+    "checkedAt": "2026-10-06",
+    "node": {
+      "versionFamily": "Node.js 24",
+      "algorithm": "aes-256-gcm",
+      "keyBytes": 32,
+      "nonceBytes": 12,
+      "authTagBytes": 16,
+      "source": "https://nodejs.org/download/release/v24.21.0/docs/api/crypto.html"
+    },
+    "nist": {
+      "publication": "SP 800-38D",
+      "source": "https://csrc.nist.gov/pubs/sp/800/38/d/final",
+      "note": "NIST revision announced; selected 96-bit IV / 128-bit tag remains aligned with current and announced direction."
+    }
+  },
+  "allowedMutationClasses": [
+    "encrypted_secrets schema/migration",
+    "server-only AES-256-GCM envelope/keyring/vault code",
+    "secret metadata/write/delete/rotate API routes",
+    "tenant secret capabilities/authorization",
+    "tests/fixtures",
+    "server-only env/Compose pass-through with blank defaults",
+    "CI/evidence required by this Work Order"
+  ],
+  "prohibited": [
+    "third-party crypto library",
+    "custom cryptographic primitive",
+    "Polymarket credential consumption",
+    "wallet/session signing",
+    "trading",
+    "M02+",
+    "cloud secret-manager/KMS selection",
+    "PH-M01-WO-004 implementation",
+    "force-push/history rewrite",
+    "scanner suppression/waiver shortcut"
+  ],
+  "failClosedOn": [
+    "merge-base drift",
+    "frozen-source fingerprint drift",
+    "missing/malformed keyring",
+    "unknown key version",
+    "authentication-tag failure",
+    "nonce-collision retry exhaustion",
+    "unknown tenant authorization",
+    "plaintext leak evidence",
+    "HIGH/CRITICAL unresolved finding"
+  ]
+}

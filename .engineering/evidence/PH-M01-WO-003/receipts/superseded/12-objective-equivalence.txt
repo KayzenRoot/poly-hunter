@@ -1,0 +1,206 @@
+# CR-04 objective equivalence — measured on the NEW artifact
+Generated: 2026-10-06T16:18:21Z
+
+## image digest
+sha256:8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4
+
+## AXIS architecture
+x86_64
+amd64
+
+## AXIS exact version (dpkg inventory of the packages the prior proofs named)
+dpkg-query: no packages found matching gcc-12   <- the COMPILER is not installed; only its runtime
+gcc-12-base 12.2.0-14+deb12u1 amd64              libraries are. That is the state the prior proofs
+libgcc-s1 12.2.0-14+deb12u1 amd64                were written against, and it is unchanged.
+libstdc++6 12.2.0-14+deb12u1 amd64
+
+## AXIS full dpkg inventory vs the WO-002 baseline
+The baseline is .engineering/evidence/PH-M01-WO-002/receipts/cr01-revalidation/
+01-final-dpkg-inventory.txt, captured from sha256:eddda17a805b3646..., 88 packages.
+The new image was enumerated the same way (dpkg-query -W, sorted) and diffed:
+
+  88 packages baseline / 88 packages new artifact
+  diff -> ZERO DIFFERENCES. No package added, removed, upgraded or downgraded.
+
+This is stronger than naming the three packages the libstdc++ proofs mention: the
+OS-level premise of every dpkg-sourced row (pcre2, util-linux, tar, perl-base,
+gnupg2, ...) is re-measured over the whole inventory, not just the subset the
+prior text happened to quote.
+
+## AXIS installed files (SHA-256 of the exact native artifacts)
+e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+4aa73553408c3964071728f4a231a8e86918e39bc49f1fbae75355f7ea933ea9  /workspace/node_modules/@img/sharp-libvips-linux-x64/lib/libvips-cpp.so.8.18.7
+cf896cc1b7f3ae9c3e8eb3d7b2b198b8de2824ff7d0681d684bab5a825def335  /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node
+7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c  /usr/local/bin/node
+
+## AXIS runtime assumptions
+-- container user:
+uid=1000(node) gid=1000(node) groups=1000(node)
+-- effective capabilities:
+CapEff:	0000000000000000
+-- process table (web), read from /proc because the image ships no ps binary:
+    1 /sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0
+    7 npm run dev --webpack --hostname 0.0.0.0
+   19 sh -c next dev --webpack --hostname 0.0.0.0
+   20 node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0
+   32 next-server (v16.3.8)
+  NO perl PROCESS APPEARS IN THIS TABLE -- this is the runtime evidence behind P3,
+  not merely an absence of manifest references.
+-- process table (worker):
+    1 /sbin/docker-init -- ... nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+    7 node ./node_modules/.bin/nodemon ... --exec node apps/worker/src/index.ts
+  ALSO NO perl PROCESS.
+-- node version:
+v24.21.0
+-- container health at capture time:
+  postgres healthy (pg_isready: /var/run/postgresql:5432 - accepting connections)
+  web      healthy
+  worker   running
+# CR-04 — per-row premise re-measurement on the new artifact
+Generated: 2026-10-06T16:20:49Z
+
+
+## P1 — dependency graph unchanged (underlies every npm row)
+package.json sha256:     746e6bedeabbc49cd68f58227d86b73dcef28feb87e43a761076aaf3e94d335e
+package-lock.json sha256: 484c8cd56386b60b2013016984a84fba00379a7af5d16fa0a4a996c29d08f722
+RESULT: BOTH IDENTICAL to HEAD — no dependency added, removed or upgraded by this delta.
+This is the load-bearing check for every npm/* row: an npm CVE row's premise is
+'this exact package version is what the proof was run against'. A changed lockfile
+would invalidate all of them at once.
+
+## P2 — no subprocess primitive anywhere in TRACKED application source
+(underlies CVE-2026-103111 pcre2, 19534 undici, 69192 ip-address, 73566 tar,
+ 76642/78408/78409/78410 util-linux, and every perl execute-path row)
+Search set = files tracked by git under apps/ packages/ tests/ (build output under
+.next/ and dist/ is EXCLUDED on purpose: it is generated, not source).
+Count of TRACKED source files searched: 55
+  child_process -> 0 file(s)
+  execSync -> 0 file(s)
+  spawnSync -> 0 file(s)
+  execFile -> 0 file(s)
+  spawn( -> 0 file(s)
+  exec( -> 1 file(s)
+  execFileSync -> 0 file(s)
+
+The single 'exec(' hit is a RegExp.prototype.exec call in a test fixture:
+  tests/secret-material-containment.test.ts:120:        const encoded = /:([A-Za-z0-9+/]+={0,2})/.exec(literal)?.[1];
+RESULT: zero subprocess primitives in application source. A caller-supplied pattern
+therefore has no channel to reach grep -P, mount, nsenter, tar or any other utility.
+
+## P3 — perl is never executed
+-- perl process in the web container:
+  (none)
+-- perl process in the worker container:
+  (none)
+-- 'perl' in any tracked package.json (lifecycle hooks, scripts, deps): 0 lines
+  (the image's perl is perl-base only, pulled in transitively; nothing in this
+   repository names it, invokes it, or has a binary field that resolves to it)
+
+## P4 — perl-base module census
+(underlies CVE-2026-42496/42497 Archive::Tar, 48959 IO::Uncompress::Unzip,
+ 48962 IO::Compress, 82560 Pod::Text)
+  Tar.pm (any path)          -> 0 match(es) image-wide
+  Archive/ directory         -> does not exist
+  Unzip.pm (any path)        -> 0 match(es) image-wide
+  IO/Uncompress/ directory   -> does not exist
+  Compress.pm (any path)     -> 0 match(es) image-wide
+  IO/Compress/ directory     -> does not exist
+  Pod/Text.pm (under Pod/)   -> 0 match(es) image-wide
+  Pod/ directory             -> does not exist
+  Socket.pm                  -> 2 match(es):
+      /usr/lib/x86_64-linux-gnu/perl-base/Socket.pm
+      /usr/lib/x86_64-linux-gnu/perl-base/IO/Socket.pm
+  total *.pm shipped image-wide -> 164
+
+-- can the interpreter actually LOAD each vulnerable module? (the decisive test,
+   stronger than a filesystem search: @INC could in principle resolve a module
+   from somewhere a filename probe does not look)
+  perl -MArchive::Tar           -> not loadable
+  perl -MIO::Uncompress::Unzip -> not loadable
+  perl -MIO::Compress           -> not loadable
+  perl -MPod::Text              -> not loadable
+  perl -MSocket                 -> LOADS          <- the control that proves the
+                                                    probe can detect a loadable module
+
+The census matters because perl-base ships the interpreter and a small module set
+with it; the whole CVE population for perl here is a FILE-PRESENCE question, not
+a version question. Archive::Tar, IO::Uncompress::Unzip, IO::Compress::* and
+Pod::Text are all absent outright, so their rows cannot be reached no matter what
+a caller supplies. Socket.pm IS present (two paths), so the Socket rows are not
+carried by absence -- they rest on P2 (no subprocess primitive) and P3 (perl is
+never executed), which is why both are measured independently.
+
+NOTE ON METHOD: the first run of this probe reported "0 .pm files image-wide",
+which contradicted the P5 ivsize result. The cause was shell quoting -- the
+nested `find` patterns arrived at the container with literal quote characters,
+so every pattern matched nothing and the census looked empty rather than
+censused. The numbers above are from a second run using unquoted path segments.
+A probe that reports "nothing is installed" is indistinguishable from a probe
+that silently failed, so the non-zero control (Socket.pm = 2, total = 164) is
+recorded alongside the zero results precisely to prove the probe can see
+anything at all.
+
+## P5 — perl is a 64-bit build (underlies CVE-2026-8376)
+  perl -V:ivsize = ivsize='8';
+  getconf LONG_BIT = 64
+The advisory is explicitly scoped to 32-BIT builds, so on amd64/64-bit perl the
+flawed study_chunk arithmetic is not the compiled code path.
+
+## P6 — no new compiled consumer of libstdc++.so.6
+(underlies CVE-2026-102010 and CVE-2026-95619)
+-- every native addon present in node_modules:
+  /workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node
+  /workspace/node_modules/@napi-rs/lzma-linux-x64-gnu/lzma.linux-x64-gnu.node
+  /workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node
+  /workspace/node_modules/@rollup/rollup-linux-x64-gnu/rollup.linux-x64-gnu.node
+  (identical set to the WO-002 artifact: package-lock.json is unchanged, so no new
+   native package could have been installed)
+
+-- SHA-256 of the two files both prior proofs were written against:
+  7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c  /usr/local/bin/node
+  e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+  WO-002 baseline for the same two paths:
+  7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c  /usr/local/bin/node
+  e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30
+
+-- binutils availability in this image:
+  nm: NOT INSTALLED
+  objdump: NOT INSTALLED
+  readelf: NOT INSTALLED
+
+  IMPORTANT — why no symbol table is dumped here. The CVE-2026-102010 correction
+  delta (PH-SEC-WO-008 CR-01) WITHDREW the byte-string/dynsym-absence argument as
+  unsound and replaced it with a source-level proof. Re-deriving presence from
+  strings in this image would resurrect exactly the reasoning that audit removed.
+  Nor is the toolchain available here: nm/objdump/readelf are all absent.
+  The stronger and correct statement is the one above — libstdc++.so.6.0.30 and the
+  node binary are BYTE-IDENTICAL to the artifacts the prior proofs disassembled
+  (same SHA-256), on the same architecture, with the same consumer set. The prior
+  disassembly of the aligned operator new body and the node call-site analysis
+  therefore apply verbatim to this digest; there is nothing to re-derive.
+
+## P7 — caller-controlled input surface of the new routes
+(underlies every vulnerable_code_cannot_be_controlled_by_adversary row)
+-- every RegExp constructed in the vault/domain layer, with its source:
+  packages/domain/src\secrets.ts:125:const SECRET_PURPOSE_PATTERN = new RegExp(secretPurposePatternString);
+  packages/domain/src\secrets.ts:130:const SECRET_KEY_VERSION_PATTERN = new RegExp(secretKeyVersionPatternString);
+  packages/domain/src\secrets.ts:171:const SECRET_UUID_PATTERN = new RegExp(secretUuidPatternString, "i");
+  All three are built from FROZEN string constants declared in
+  packages/domain/src/secrets.ts. A caller supplies a SUBJECT to be matched, never a
+  PATTERN. No caller-controlled pattern therefore reaches any regex engine.
+-- every value a caller can influence in the three /api/secrets routes:
+  203:  const { id } = await context.params;
+  236:  if (typeof body.purpose !== "string" || typeof body.secret !== "string") {
+  242:      purpose: body.purpose,
+  243:      secret: body.secret,
+  273:  const { id } = await context.params;
+  275:  if (typeof body.secret !== "string") {
+  281:      secret: body.secret,
+  309:  const { id } = await context.params;
+  338:  const { id } = await context.params;
+  Constraints, enforced in packages/domain BEFORE any I/O:
+    id       -> canonical UUID v1-v8, else INVALID_SECRET_INPUT (400)
+    purpose  -> ^[a-z][a-z0-9]*([._-][a-z0-9]+)*$ , max 64 chars
+    secret   -> bounded to 65536 bytes of UTF-8
+  There is no glob, no archive, no mount argument, no file path and no pattern
+  accepted from a caller anywhere in this delta.

@@ -43,6 +43,11 @@ services:
       NEXT_TELEMETRY_DISABLED: '1'
       POLYHUNTER_DOCKER_DEV: '1'
       DATABASE_URL: postgresql://${POSTGRES_USER:-polyhunter}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-polyhunter_dev}
+      # PH-M01-WO-003 server-only secret-vault keyring. Blank by default, so the
+      # stack boots healthy with the vault UNAVAILABLE. No default key material
+      # and no NEXT_PUBLIC_* equivalent is defined here.
+      POLYHUNTER_SECRET_ACTIVE_KEY_VERSION: ${POLYHUNTER_SECRET_ACTIVE_KEY_VERSION:-}
+      POLYHUNTER_SECRET_KEYRING_JSON: ${POLYHUNTER_SECRET_KEYRING_JSON:-}
     ports:
       - 127.0.0.1:3000:3000
     volumes:

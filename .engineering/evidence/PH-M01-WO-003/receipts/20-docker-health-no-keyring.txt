@@ -1,0 +1,42 @@
+PH-M01-WO-003 — stack health WITHOUT a keyring (fail-closed) — CR-05..CR-08 round
+artifact: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+generated: 2026-10-06T17:40:32Z
+
+== docker compose ps ==
+postgres	running	Up 16 minutes (healthy)
+web	running	Up 16 minutes (healthy)
+worker	running	Up 16 minutes
+
+== postgres ==
+  /var/run/postgresql:5432 - accepting connections
+
+== web ==
+  GET /            -> 200
+  GET /api/secrets -> 401
+  GET /api/secrets/11111111-1111-4111-8111-111111111111 -> 401
+
+== worker ==
+  polyhunter-worker  | [32m[nodemon] restarting due to changes...[39m
+  polyhunter-worker  | [32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+  polyhunter-worker  | [32m[nodemon] restarting due to changes...[39m
+  polyhunter-worker  | [32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+  polyhunter-worker  | PolyHunter worker shell started without product behavior.
+  polyhunter-worker  | [32m[nodemon] clean exit - waiting for changes before restart[39m
+
+== module resolution: zero failures in either service ==
+  web    ERR_MODULE_NOT_FOUND / Cannot find module: 0
+  worker ERR_MODULE_NOT_FOUND / Cannot find module: 0
+
+== keyring state (compose defaults are blank) ==
+  POLYHUNTER_SECRET_ACTIVE_KEY_VERSION=[]
+  POLYHUNTER_SECRET_KEYRING_JSON=[]
+
+== vault availability ==
+  isConfigured() = false
+  listMetadata -> VAULT_UNAVAILABLE
+
+  The rest of the stack is fully healthy; ONLY the vault is unavailable. That is
+  the intended fail-closed posture: no keyring means no operation, not a degraded
+  or partially-functional vault.
+
+  The stack is left running in this no-keyring state.

@@ -15,6 +15,13 @@
       "when": 1791226899360,
       "tag": "0001_tiresome_menace",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791295569955,
+      "tag": "0002_encrypted_secrets",
+      "breakpoints": true
     }
   ]
 }

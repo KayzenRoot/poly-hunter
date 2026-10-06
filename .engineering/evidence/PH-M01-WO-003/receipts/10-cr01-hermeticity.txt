@@ -1,0 +1,85 @@
+PH-M01-WO-003 — audit CR-01 receipt: clean-checkout module resolution
+Recorded: 2026-10-06T16:12:40Z
+
+## The defect
+GitHub Actions Validate run 37487821234 failed with ERR_MODULE_NOT_FOUND for
+`@polyhunter/db/server/vault`. The workspace `exports` map pointed every
+condition at `./dist/server/vault/index.js`, a build output that does not exist
+in a clean checkout. `npm test` ran before any workspace build, so the module was
+simply absent — and on a developer machine a STALE `packages/**/dist` from an
+earlier build would have hidden the defect entirely.
+
+## Strategy chosen (ONE coherent strategy: source-first workspace exports)
+Every `exports` condition of every workspace now points at `./src/**/*.ts`. No runtime
+consumer needs a `dist` directory at all, so no step can depend on one.
+The supporting changes, and why each was necessary rather than cosmetic:
+  - relative `.js` specifiers inside packages rewritten to `.ts`;
+  - `allowImportingTsExtensions` + `rewriteRelativeImportExtensions` on the emitting
+    workspaces, so the emitted JavaScript still points at `.js`;
+  - `transpilePackages` in apps/web/next.config.ts, which applies to the Next dev
+    server AND the production build;
+  - SIX vitest aliases removed, including the two (@db/vault/envelope,
+    @db/vault/keyring) that would have masked the defect, replaced by real subpath
+    exports so resolution goes through the genuine `exports` map.
+tests/workspace-boundaries.test.ts now FAILS THE BUILD if any workspace export
+condition ever points back at `dist/`.
+
+## Hermeticity proof, in the order the audit demanded
+
+### 1. No untracked packages/**/dist anywhere
+(none — no packages/**/dist exists, tracked or untracked)
+
+### 2. npm ci from that state
+`rm -rf packages/*/dist node_modules apps/web/.next && npm ci`  -> exit 0
+
+### 3. npm run validate, still with no packages/**/dist present
+lint -> format:check -> typecheck -> vitest (173 tests / 10 files) -> next build -> audit
+npm run validate exit 0; 'found 0 vulnerabilities'
+
+### 4. dist removed again, then Docker rebuild + up from THAT state
+`rm -rf packages/*/dist` then `npm run docker:rebuild`  -> exit 0
+CONTAINER             REPOSITORY          TAG                 PLATFORM            IMAGE ID            SIZE                CREATED
+polyhunter-postgres   postgres            <none>              linux/amd64         b0f9560a2de0        117MB               2 weeks ago
+polyhunter-web        polyhunter-dev      local               linux/amd64         8bd3e85a2064        359MB               6 minutes ago
+polyhunter-worker     polyhunter-dev      local               linux/amd64         8bd3e85a2064        359MB               6 minutes ago
+
+NAME                  IMAGE                                                                                               COMMAND                  SERVICE    CREATED         STATUS                   PORTS
+polyhunter-postgres   postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24   "docker-entrypoint.s…"   postgres   3 minutes ago   Up 2 minutes (healthy)   5432/tcp
+polyhunter-web        polyhunter-dev:local                                                                                "docker-entrypoint.s…"   web        3 minutes ago   Up 2 minutes (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local                                                                                "docker-entrypoint.s…"   worker     3 minutes ago   Up 2 minutes
+
+### 5. Real requests against the rebuilt image (no keyring configured)
+$ curl -s -i http://127.0.0.1:3000/api/secrets
+HTTP/1.1 401 Unauthorized
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: no-store
+content-type: application/json
+Date: Tue, 06 Oct 2026 16:12:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"error":"unauthenticated","reason":"provider_not_configured"}
+$ curl -s -i http://127.0.0.1:3000/api/secrets/44444444-4444-4444-8444-444444444444
+HTTP/1.1 401 Unauthorized
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: no-store
+content-type: application/json
+Date: Tue, 06 Oct 2026 16:12:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"error":"unauthenticated","reason":"provider_not_configured"}
+$ curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/
+200
+
+Both secret routes RESOLVED and returned the expected sanitized refusal
+(401 unauthenticated / provider_not_configured — no identity provider and no keyring
+are configured in this environment). There is NO ERR_MODULE_NOT_FOUND, no
+`Cannot find module`, and no 500. The single-record route added by CR-03 resolves too.
+
+### 6. Migrations and the full integration suite in the same rebuilt container
+`npm run db:migrate` (empty DB) -> applied successfully
+`npm run db:migrate` (repeat)   -> applied successfully (idempotent)
+`npm run db:test:integration`    -> 3 files / 51 tests passed

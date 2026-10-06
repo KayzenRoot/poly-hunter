@@ -1,0 +1,32 @@
+PH-M01-WO-003 — post-rebuild image identity (audit CR-05..CR-08 round)
+generated: 2026-10-06T17:17:49Z
+
+== artifact ==
+Id:           sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+RepoDigest:   polyhunter-dev@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+Created:      2026-10-06T17:08:45.636573357Z
+Architecture: amd64
+Os:           linux
+
+== digest ancestry ==
+sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c  WO-002 input
+sha256:f810df3a64aa15b99e477006a39c399eb43d9b59c635376d942e89dc15cc17c8  CR-01 round 1 (superseded)
+sha256:8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4  CR-01..CR-04 (superseded by this rebuild)
+sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2  THIS artifact (CR-05..CR-08)
+
+== why a rebuild was mandatory this round ==
+CR-06 removed the './server/vault/envelope' and './server/vault/keyring' subpaths from
+packages/db/package.json. Dockerfile.dev copies that file:
+12:COPY --chown=node:node packages/db/package.json packages/db/package.json
+
+== build inputs changed in this round ==
+   M apps/web/app/api/secrets/handler.ts
+   M packages/db/package.json
+   M packages/db/src/server/vault/index.ts
+
+== build inputs unchanged ==
+  package.json         UNCHANGED
+  package-lock.json    UNCHANGED
+  Dockerfile.dev       UNCHANGED
+  compose.yaml         UNCHANGED
+  base image           FROM node:24-bookworm-slim

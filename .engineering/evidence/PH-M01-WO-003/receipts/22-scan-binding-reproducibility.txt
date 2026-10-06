@@ -1,0 +1,135 @@
+PH-M01-WO-003 — scan/artifact binding + reproducibility (CR-05..CR-08 round)
+generated: 2026-10-06T17:58Z
+
+THE QUESTION. Every VEX re-measurement in this bundle answers questions about the
+artifact the scan analysed. If the committed scan (14-image-scan.sarif) belonged to a
+different image — the previous digest, or whatever the `polyhunter-dev:local` tag
+happened to point at — every disposition would be about the wrong artifact and nothing
+else in the bundle would notice.
+
+WHY THE SARIF CANNOT CARRY THE ANSWER. docker scout 1.24.0's SARIF has NO
+run.properties, no invocations, no artifacts, no image name and no digest anywhere in
+the document. Measured on the committed scan, not assumed: `run.properties` is
+`undefined`, and a byte-level search finds neither the current digest nor any prior one
+(the words "polyhunter" and "digest" do not occur either). A binding check that reads
+the SARIF alone therefore passes VACUOUSLY — the first revision of the check in
+vex-state-machine.mjs did exactly that. It was found by measurement, made to read the
+scout stderr receipt instead, and the fixed check was then observed to FAIL (control A
+below). The SARIF-properties branch is kept so the gate tightens automatically if a
+future scout starts emitting identity metadata; scout 1.24.0 is never relied upon to
+satisfy it.
+
+== 1. digest-pinned re-scan ==
+
+The scan was re-run with the target pinned to the DIGEST, not the tag:
+
+  docker scout cves \
+    "polyhunter-dev@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2" \
+    --format sarif -o <tmp>/scan-repro2.sarif
+
+  exit 0. stderr (verbatim):
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    v SBOM of image already cached, 538 packages indexed
+    x Detected 22 vulnerable packages with a total of 82 vulnerabilities
+    v Report written to C:/Users/csn19/AppData/Local/Temp/scan-repro2.sarif
+
+  A note on the command: an earlier attempt omitted `--format sarif` and scout wrote
+  its default human-readable report instead of SARIF. That accidental report was kept
+  rather than discarded — it is receipt `22-docker-scout-report.txt`, and it is useful
+  because scout's own "Analyzed Image" block names the target and the digest it
+  resolved (see §3).
+
+== 2. byte-identity with the committed scan ==
+
+  md5 f30da92d3318b5b0a4eba98b6d7dd01e   <tmp>/scan-repro2.sarif            (589,591 bytes)
+  md5 f30da92d3318b5b0a4eba98b6d7dd01e   receipts/14-image-scan.sarif       (589,591 bytes)
+
+  BYTE-IDENTICAL — same size, same md5, 82 rules / 82 results. The committed SARIF is
+  the output of a scan whose target was the declared digest. This is the binding: not
+  an inference from content, an identity between the committed file and a run that was
+  handed the digest itself.
+
+== 3. what docker scout itself says about the target ==
+
+  Receipt `22-docker-scout-report.txt` (scout 1.24.0, default format, same image,
+  2026-10-06T14:56 local) opens with scout's own block:
+
+    Target            │  polyhunter-dev:local
+      digest          │  aee3ad8c254b
+      platform        │  linux/amd64
+      vulnerabilities │    4C    21H    19M    34L     4?
+      size            │ 359 MB
+      packages        │ 538
+
+  Scout resolves the tag to digest `aee3ad8c254b` (its preview truncates to 12 chars)
+  and reports the same 4C/21H/19M/34L/4? histogram the state machine parses. Consistent
+  with the tag→digest mapping below and with the digest-pinned byte-identity in §2.
+
+  docker inspect polyhunter-dev:local (captured 2026-10-06T17:58Z):
+    Id           sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+    RepoDigests  polyhunter-dev@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+    Created      2026-10-06T17:08:45.636573357Z
+
+== 4. the same rule enforced inside the generator ==
+
+vex-state-machine.mjs REFUSES to write any receipt unless the scan's stderr receipt
+(14-image-scan.stderr.txt) names the declared digest. The original scan's stderr names
+it in the temporary-archive cleanup warning — which is INCIDENTAL: that warning exists
+only because the temp file was still in use. The digest-pinned re-run's stderr does not
+name it (its cleanup succeeded). That fragility is exactly why (a) the check reads a
+required receipt and fails closed rather than passing when it cannot see the digest,
+and (b) the digest-pinned re-scan in §1 exists as separate, structural evidence rather
+than resting on the warning.
+
+  CONTROL A — the binding gate, observed to FAIL:
+    mutation: both occurrences of the digest removed from 14-image-scan.stderr.txt
+    observed:
+      Error: scan/artifact binding failed:
+      D:\Projects\poly-hunter\.engineering\evidence\PH-M01-WO-003\receipts\14-image-scan.stderr.txt
+      does not name sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2.
+      Refusing to reconcile dispositions against a scan of a different image.
+    exit non-zero; NO receipt written (both writeFileSync calls sit after the check).
+    Restored -> clean re-run, exit 0, 25 UNDER_INVESTIGATION / 25 proposed
+    NOT_AFFECTED.
+
+    First attempt, recorded because it is instructive: the mutation replaced only the
+    FIRST of the two digest occurrences (JavaScript `String.replace` with a string
+    pattern replaces one, not all), and the script correctly PASSED — the file still
+    named the digest. A partial mutation is not a negative control. The redone control
+    counts occurrences first (2), replaces all, and only then runs.
+
+  CONTROL B — the CR-05 integrity gate, re-verified on this revision:
+    mutation: CR05_RESTORED_ROWS['CVE-2026-8376'].justification
+      'vulnerable_code_cannot_be_controlled_by_adversary' -> 'vulnerable_code_not_in_execute_path'
+    observed:
+      Error: CR-05 integrity gate: the proposed dispositions diverge from the accepted
+      WO-002 record for 1 field(s). Refusing to emit a receipt that silently restates an
+      approved disposition:
+      [ { cve: CVE-2026-8376, field: proposedJustification,
+          accepted: vulnerable_code_cannot_be_controlled_by_adversary,
+          emitted:  vulnerable_code_not_in_execute_path } ]
+    exit non-zero; no receipt written. Restored -> clean re-run.
+
+    Receipt 15 records the original run of the CR-05 controls; this receipt re-runs them
+    against the revision that adds the binding check, so neither gate is trusted on a
+    version nobody watched fail.
+
+== 5. why the SARIF is byte-identical ACROSS rounds ==
+
+The CR-01..CR-04 scan (of `8bd3e85a…`) and the CR-05..CR-08 scan (of `aee3ad8c…`) are
+ALSO byte-identical to each other — git records the pair as a 100% rename. Stated
+plainly, that is the expected result and not a copy: scout's SARIF carries no image
+identity and no timestamp; the scanned package/version set is objectively equivalent
+(88-package dpkg inventory diff = 0; every npm purl version equal across rows); and the
+scanner datasource state was unchanged between two runs taken on the same day. The byte
+identity is evidence of CONTENT equivalence, and it is deliberately not used as the
+binding — the binding is §2's digest-pinned run, whose target was the digest itself.
+
+== 6. regeneration is deterministic ==
+
+Re-running `vex-state-machine.mjs` on unchanged inputs reproduces
+`14-vex-state-machine.json` byte-for-byte apart from nothing at all (the JSON carries no
+`generated` timestamp field), and the markdown companion is likewise unchanged by
+re-runs. The receipt pair committed in this round was produced by a clean run AFTER the
+last mutation of both controls, with the original stderr receipt restored (`2/2` digest
+occurrences re-verified present before the run).

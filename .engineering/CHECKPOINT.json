@@ -3,7 +3,7 @@
   "project": "PolyHunter",
   "status": "SOURCE_PACK_FROZEN",
   "phase": "M01_INCREMENT_IMPLEMENTED",
-  "stopState": "STOP_AFTER_PH_M01_WO_002",
+  "stopState": "STOP_AFTER_PH_M01_WO_003",
   "completedThroughModule": "PH-M00",
   "mainProductionDenominatorWeight": 0,
   "earnedProductionWeight": 0,

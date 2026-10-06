@@ -1,0 +1,154 @@
+PH-M01-WO-003 — validation gates and test matrix (CR-05..CR-08 round)
+generated: 2026-10-06T17:41:27Z
+
+==================================================================
+1. npm audit --audit-level=high
+==================================================================
+found 0 vulnerabilities
+
+==================================================================
+2. git diff --check
+==================================================================
+warning: in the working copy of '.engineering/evidence/PH-M01-WO-003/receipts/vex-state-machine.mjs', LF will be replaced by CRLF the next time Git touches it
+clean — no whitespace or conflict errors
+(CRLF warnings on Windows are line-ending normalization only)
+
+==================================================================
+3. database migrations — empty database, then repeated
+==================================================================
+  First run against the freshly created volume:
+    npx drizzle-kit migrate --config packages/db/drizzle.config.ts
+    -> applied, tables created
+  Second run (idempotence):
+    -> no migration applied again
+  Live schema after both runs:
+    encrypted_secrets, identity_links, platform_roles, tenant_memberships, tenants, users
+    drizzle.__drizzle_migrations = 3
+
+==================================================================
+4. integration suite — real PostgreSQL 17, inside the web container
+==================================================================
+  npx vitest run --config vitest.integration.config.ts
+    packages/db/tests/secret-vault.integration.test.ts    37 tests   (this Work Order)
+    packages/db/tests/identity-rbac.integration.test.ts   10 tests   (WO-002 regression)
+    packages/db/tests/tenancy.integration.test.ts          4 tests   (WO-001 regression)
+    TOTAL                                                 51 passed / 3 files
+  Correction note: this table first read "42 tests" for the secret-vault file, a
+  transcription slip — 42+10+4 = 56 contradicts the run's own "51 passed" tail
+  reproduced verbatim in Appendix A. Re-run on 2026-10-06T17:49Z confirms
+  37+10+4 = 51 (three files: 37, 10, 4). The per-file count in the evidence
+  bundle was already the correct 37.
+
+==================================================================
+5. unit suite — host, 10 files
+==================================================================
+  route-handler-security.test.ts          33
+  identity-rbac-adversarial.test.ts       21
+  auth-cache-headers.test.ts              16
+  secret-vault-http.test.ts               35   (+20 this round: CR-07 no-store)
+  secret-vault-crypto.test.ts             26   (source imports moved off the public subpaths)
+  app-origin-csrf.test.ts                 43
+  workspace-boundaries.test.ts             8   (+3 this round: CR-06 export surface)
+  secret-material-containment.test.ts      3
+  environment-example.test.ts              2
+  fixed-clock.test.ts                      2
+  TOTAL                                  189 passed / 10 files
+
+==================================================================
+6. npm run validate — end to end
+==================================================================
+  lint          clean (biome, 77 files)
+  format:check  clean (biome)
+  typecheck     clean (7 workspaces + tests project)
+  test          189 passed / 10 files
+  build         Next.js 16.3.8 production build, exit 0
+                routes: /api/secrets, /api/secrets/[id], /api/secrets/[id]/rotate
+  audit         found 0 vulnerabilities
+
+==================================================================
+7. suites re-run specifically because CR-05..CR-08 touched them
+==================================================================
+  secret crypto suite (GCM roundtrip, tamper, AAD binding, keyring)  PASS
+  forged / stale role suite (CR-02 adversarial)                      PASS
+  single metadata GET (CR-03)                                        PASS
+  no-store errors (CR-07, all seven codes + 401/403 + CSRF)          PASS
+  nonce collision and retry exhaustion                               PASS
+  rotation and concurrency races                                     PASS
+  plaintext containment                                              PASS
+  client bundle key scan                                             PASS  (receipt 19)
+  workspace public-export boundary (CR-06)                           PASS
+  WO-001 regressions (4) and WO-002 regressions (10)                  PASS
+
+==================================================================
+8. failures observed and fixed during this round
+==================================================================
+  - biome format: 3 files written by hand were unformatted; formatted, then
+    validate passed. Recorded because 'validate passes' after an edit is only
+    meaningful if the edit is named.
+  - workspace-boundaries: the runtime-export test timed out at the default 5s
+    because the dynamic import loads pg, drizzle and the domain package. Given
+    an explicit 30s budget with a comment; assertions themselves are instant.
+    A timeout would have read as 'the export surface is wrong' when it was not.
+
+==================================================================
+APPENDIX A — raw output of the commands above (verbatim tails)
+==================================================================
+
+$ npm run validate   (final lines)
+  Generating static pages using 7 workers (2/10) 
+  Generating static pages using 7 workers (4/10) 
+  Generating static pages using 7 workers (7/10) 
+✓ Generating static pages using 7 workers (10/10) in 628ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/login
+├ ƒ /api/auth/logout
+├ ƒ /api/auth/select-tenant
+├ ƒ /api/me
+├ ƒ /api/secrets
+├ ƒ /api/secrets/[id]
+├ ƒ /api/secrets/[id]/rotate
+├ ƒ /auth/callback
+└ ○ /auth/login
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+found 0 vulnerabilities
+
+$ docker compose exec -T web npx vitest run --config vitest.integration.config.ts   (final lines)
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m51 passed[39m[22m[90m (51)[39m
+[2m   Start at [22m 17:43:06
+[2m   Duration [22m 41.79s[2m (transform 1.07s, setup 0ms, import 6.13s, tests 34.21s, environment 1ms)[22m
+
+
+$ docker compose exec -T web npx drizzle-kit migrate   (second, idempotence run)
+Reading config file '/workspace/packages/db/drizzle.config.ts'
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣷] applying migrations...
+
+$ docker compose exec -T postgres psql -U polyhunter -d polyhunter_dev -c '\dt public.*'
+                List of relations
+ Schema |        Name        | Type  |   Owner    
+--------+--------------------+-------+------------
+ public | encrypted_secrets  | table | polyhunter
+ public | identity_links     | table | polyhunter
+ public | platform_roles     | table | polyhunter
+ public | tenant_memberships | table | polyhunter
+ public | tenants            | table | polyhunter
+ public | users              | table | polyhunter
+(6 rows)
+
+
+(The first attempt at this command quoted the shell substitution literally and
+ PostgreSQL reported that a role named "${POSTGRES_USER:-polyhunter}" does not
+ exist. The command was re-run with the literal credential and the output above
+ is the corrected run.)

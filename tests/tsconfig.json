@@ -10,6 +10,11 @@
     "types": ["node"],
     "paths": {
       "@web/identity/*": ["../apps/web/src/identity/*"],
+      "@web/secrets/*": ["../apps/web/src/secrets/*"],
+      "@db/vault/*": ["../packages/db/src/server/vault/*"],
+      "@db/schema": ["../packages/db/src/schema/index.ts"],
+      "@web/handlers/secrets": ["../apps/web/app/api/secrets/handler"],
+      "@db/*": ["../packages/db/src/*"],
       "@web/handlers/*": [
         "../apps/web/app/api/auth/*/handler",
         "../apps/web/app/auth/callback/handler"

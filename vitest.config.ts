@@ -4,15 +4,6 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      "@polyhunter/testkit": fileURLToPath(
-        new URL("./packages/testkit/src/index.ts", import.meta.url),
-      ),
-      "@polyhunter/domain": fileURLToPath(
-        new URL("./packages/domain/src/index.ts", import.meta.url),
-      ),
-      "@polyhunter/contracts": fileURLToPath(
-        new URL("./packages/contracts/src/index.ts", import.meta.url),
-      ),
       "@web/identity/open-redirect": fileURLToPath(
         new URL("./apps/web/src/identity/open-redirect.ts", import.meta.url),
       ),
@@ -48,6 +39,12 @@ export default defineConfig({
           "./apps/web/src/identity/auth-cache-headers.ts",
           import.meta.url,
         ),
+      ),
+      "@web/handlers/secrets": fileURLToPath(
+        new URL("./apps/web/app/api/secrets/handler.ts", import.meta.url),
+      ),
+      "@web/secrets/secret-service": fileURLToPath(
+        new URL("./apps/web/src/secrets/secret-service.ts", import.meta.url),
       ),
       "@web/identity": fileURLToPath(
         new URL("./apps/web/src/identity", import.meta.url),

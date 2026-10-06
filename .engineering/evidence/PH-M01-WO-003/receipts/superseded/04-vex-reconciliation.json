@@ -1,0 +1,620 @@
+{
+  "schemaVersion": 1,
+  "workOrder": "PH-M01-WO-003",
+  "title": "VEX reconciliation of the rebuilt artifact against the 25 owner-approved PH-M01-WO-002 dispositions",
+  "branch": "feat/ph-m01-encrypted-secret-vault",
+  "image": "polyhunter-dev:local",
+  "artifact": "sha256:f810df3a64aa15b99e477006a39c399eb43d9b59c635376d942e89dc15cc17c8",
+  "priorArtifact": "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c",
+  "lockedBase": "af6235d2164171985af6152ba03835826ace3cdb",
+  "scanner": "docker scout 1.24.0",
+  "rebuildObligation": {
+    "branchTaken": "REBUILD + NEW DIGEST + SCAN/VEX REVALIDATION",
+    "trigger": "packages/db/package.json gained the ./server/vault export mapping, and Dockerfile.dev copies that file (`COPY --chown=node:node packages/db/package.json packages/db/package.json`).",
+    "thereforeIdenticalDigestShortcutAvailable": false,
+    "buildInputsChanged": [
+      "packages/db/package.json"
+    ],
+    "buildInputsUnchanged": [
+      "package.json",
+      "package-lock.json",
+      "Dockerfile.dev",
+      "base image node:24-bookworm-slim",
+      "all dependency versions"
+    ],
+    "npmAuditHighOrCritical": 0,
+    "note": "compose.yaml changed only inside the web service `environment:` block, which is not a Docker build input, so it does not by itself force a rebuild."
+  },
+  "severitySourceNote": "Severity is parsed from message.text. SARIF `level` encodes the VEX/status channel (none/note/warning/error), not the vulnerability severity; reading `level` reports 0 HIGH/CRITICAL on an image that has 25.",
+  "scanDelta": {
+    "rowsPriorArtifact": 80,
+    "rowsNewArtifact": 82,
+    "identical": 80,
+    "added": 2,
+    "removed": 0,
+    "severityHistogramPrior": {
+      "UNSPECIFIED": 4,
+      "LOW": 33,
+      "MEDIUM": 18,
+      "HIGH": 21,
+      "CRITICAL": 4
+    },
+    "severityHistogramNew": {
+      "UNSPECIFIED": 4,
+      "LOW": 34,
+      "MEDIUM": 19,
+      "HIGH": 21,
+      "CRITICAL": 4
+    },
+    "highCriticalPrior": 25,
+    "highCriticalNew": 25,
+    "addedRows": [
+      {
+        "cve": "CVE-2026-105712",
+        "severity": "LOW",
+        "component": "pkg:deb/debian/gnupg2@2.2.40-1.1%2Bdeb12u2?os_distro=bookworm&os_name=debian&os_version=12",
+        "affectedRange": ">0",
+        "fixedVersion": "not",
+        "isHighCritical": false
+      },
+      {
+        "cve": "CVE-2026-104844",
+        "severity": "MEDIUM",
+        "component": "pkg:npm/postcss-selector-parser@7.1.4",
+        "affectedRange": "<7.1.6",
+        "fixedVersion": "7.1.6",
+        "isHighCritical": false
+      }
+    ],
+    "removedRows": [],
+    "addedNonHighCriticalInterpretation": "Both added rows are below HIGH/CRITICAL and originate outside this repository's dependency graph: CVE-2026-105712 (LOW) is Debian gnupg2/gpgv, shipped by the base image; CVE-2026-104844 (MEDIUM) is postcss-selector-parser@7.1.4 bundled inside npm's own node_modules in the base image. Neither appears in package-lock.json (grep count 0). Their appearance indicates the scanner datasource advanced between the two scans, not that WO-003 introduced a dependency. They are recorded here rather than suppressed."
+  },
+  "dispositionedButAbsentFromNewScan": [],
+  "highCriticalNotDispositioned": [],
+  "underInvestigation": [],
+  "counts": {
+    "totalDispositioned": 25,
+    "notAffected": 25,
+    "underInvestigation": 0,
+    "affected": 0
+  },
+  "suppressionPolicy": {
+    "suppressionsAdded": 0,
+    "ignoreRulesAdded": 0,
+    "severityDowngradesApplied": 0,
+    "note": "This reconciliation cannot emit AFFECTED by construction; an AFFECTED row is a real defect and is raised as a correction request, not self-graded here."
+  },
+  "newCodeSurface": {
+    "cryptography": "node:crypto AES-256-GCM only (createSecretKey/createCipheriv). No third-party crypto dependency; no cryptographic primitive implemented in-house.",
+    "serverEntryPoint": "packages/db/src/server/vault/* is reachable only through the guarded ./server/vault export; all four WO-003 server files carry the `typeof window !== \"undefined\"` guard.",
+    "clientExposure": "None. tests/secret-material-containment.test.ts scans apps/web/.next/static (the only browser-downloaded directory) and finds no keyring variable, no envelope label, no createSecretKey and no 32-byte base64 literal."
+  },
+  "expiryRule": "A NOT_AFFECTED disposition expires at a new image digest. This artifact is terminal for PH-M01-WO-003; any later rebuild returns every row to UNDER_INVESTIGATION pending re-proof.",
+  "findings": [
+    {
+      "cve": "CVE-2026-102010",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-SEC-WO-008",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-78409",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-48962",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-102276",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/brace-expansion@5.0.7",
+      "affectedRange": ">=4.0.0,<5.0.10",
+      "fixedVersion": "5.0.10",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-102278",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/brace-expansion@5.0.7",
+      "affectedRange": ">=4.0.0,<5.0.11",
+      "fixedVersion": "5.0.11",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-14257",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/brace-expansion@5.0.7",
+      "affectedRange": ">=4.0.0,<5.0.8",
+      "fixedVersion": "5.0.8",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-19534",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/undici@6.27.0",
+      "affectedRange": ">=6.7.0,<6.28.1",
+      "fixedVersion": "6.28.1",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-42497",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-M01-WO-002 (this delta)",
+      "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-48959",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-69152",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/brace-expansion@5.0.7",
+      "affectedRange": ">=4.0.0,<5.0.9",
+      "fixedVersion": "5.0.9",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-73566",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/tar@7.5.19",
+      "affectedRange": "<=7.5.20",
+      "fixedVersion": "7.5.21",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-82560",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-103111",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/pcre2@10.42-1%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<10.42-1+deb12u2",
+      "fixedVersion": "10.42-1+deb12u2",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-69192",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/ip-address@10.2.0",
+      "affectedRange": "<=10.3.0",
+      "fixedVersion": "10.3.1",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-95619",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-SEC-WO-008",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-78410",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-78408",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-85091",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-57432",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-76642",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": ">0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-93748",
+      "scannerSeverity": "HIGH",
+      "component": "pkg:npm/http-cache-semantics@4.2.0",
+      "affectedRange": "<=4.2.0",
+      "fixedVersion": "not",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-12087",
+      "scannerSeverity": "CRITICAL",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-13221",
+      "scannerSeverity": "CRITICAL",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_in_execute_path",
+      "priorDispositionSource": "PH-SEC-WO-007",
+      "priorArtifact": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's sole new executable surface is packages/db/src/server/vault/*, which imports node:crypto and no other runtime module; it cannot reach the vulnerable deb path.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-42496",
+      "scannerSeverity": "CRITICAL",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_not_present",
+      "priorDispositionSource": "PH-M01-WO-002 (this delta)",
+      "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "dpkg inventory unchanged between artifacts; WO-003 adds no Debian package.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    },
+    {
+      "cve": "CVE-2026-8376",
+      "scannerSeverity": "CRITICAL",
+      "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "affectedRange": "<5.36.0-7+deb12u4",
+      "fixedVersion": "5.36.0-7+deb12u4",
+      "priorDisposition": "NOT_AFFECTED",
+      "priorJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
+      "priorDispositionSource": "PH-M01-WO-002 (this delta)",
+      "priorArtifact": "sha256:4cb8f254120efe66d7781c2261ee451aef50e8243bde6471271995551783d538",
+      "revalidation": {
+        "rowPresentInPriorScanUnchanged": true,
+        "scannerSeverityUnchanged": true,
+        "rowIdentityUnchanged": true,
+        "justificationAxisRecognised": true,
+        "justificationAxis": "WO-003's new attacker-controlled inputs are limited to a UUID route id and a `purpose` matching ^[a-z0-9][a-z0-9_-]{0,63}$; no regex/selector/pattern input is accepted.",
+        "premiseConfirmed": true,
+        "verdict": "PREMISE_RECONFIRMED — prior analysis preserved by reference"
+      },
+      "vexStatus": "NOT_AFFECTED"
+    }
+  ]
+}

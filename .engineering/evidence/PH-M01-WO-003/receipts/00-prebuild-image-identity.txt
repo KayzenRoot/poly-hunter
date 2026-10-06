@@ -1,0 +1,8 @@
+# Pre-rebuild image identity (input artifact of the PH-SEC-WO-008 / PH-M01-WO-002 VEX)
+
+Id: sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+RepoDigests: ["polyhunter-dev@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c"]
+Created: 2026-10-05T21:49:23.406848986Z
+
+# sha256 of the image config -> the digest the Context Lock calls priorSecurityArtifact
+eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
