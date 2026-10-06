@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { appUrlFor } from "@/identity/app-origin";
+import { applyAuthNoStoreHeaders } from "@/identity/auth-cache-headers";
 import { assertSameOrigin } from "@/identity/csrf-guard";
 import type { IdentityPort } from "@polyhunter/domain";
 
@@ -19,6 +20,10 @@ export type LogoutDependencies = Readonly<{
  * never from the request Host / X-Forwarded-Host header (CR-04). Sign-out is
  * idempotent: the provider session and the local active tenant selection are
  * cleared on every call.
+ *
+ * CR-07: `signOut` removes the provider auth cookies, so the redirect MUST
+ * carry the centralized auth anti-cache policy (`applyAuthNoStoreHeaders`) —
+ * the full triple, not only `Cache-Control`.
  */
 export async function handleLogout(
   request: NextRequest,
@@ -32,10 +37,8 @@ export async function handleLogout(
   await dependencies.adapter.signOut();
   await dependencies.clearSelection();
 
-  const response = NextResponse.redirect(appUrlFor("/"), { status: 303 });
-  response.headers.set(
-    "Cache-Control",
-    "private, no-cache, no-store, must-revalidate, max-age=0",
+  const response = applyAuthNoStoreHeaders(
+    NextResponse.redirect(appUrlFor("/"), { status: 303 }),
   );
   return response;
 }

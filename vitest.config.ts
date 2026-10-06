@@ -37,6 +37,18 @@ export default defineConfig({
       "@web/handlers/logout": fileURLToPath(
         new URL("./apps/web/app/api/auth/logout/handler.ts", import.meta.url),
       ),
+      "@web/handlers/login": fileURLToPath(
+        new URL("./apps/web/app/api/auth/login/handler.ts", import.meta.url),
+      ),
+      "@web/handlers/callback": fileURLToPath(
+        new URL("./apps/web/app/auth/callback/handler.ts", import.meta.url),
+      ),
+      "@web/identity/auth-cache-headers": fileURLToPath(
+        new URL(
+          "./apps/web/src/identity/auth-cache-headers.ts",
+          import.meta.url,
+        ),
+      ),
       "@web/identity": fileURLToPath(
         new URL("./apps/web/src/identity", import.meta.url),
       ),

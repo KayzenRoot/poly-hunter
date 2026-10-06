@@ -2,6 +2,7 @@ import type { IdentityPort, VerifiedIdentity } from "@polyhunter/domain";
 import { createBrowserClient, createServerClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { AUTH_NO_STORE_HEADERS } from "./auth-cache-headers";
 import { sanitizeReturnTo } from "./open-redirect";
 import { appUrlFor } from "./app-origin";
 
@@ -49,7 +50,18 @@ export function createSupabaseServerClient(): SupabaseClient | null {
         // the promise-tolerant pattern instead.
         return cookies().then((store) => store.getAll());
       },
-      async setAll(cookiesToSet) {
+      // CR-07: the second argument is the anti-cache header policy the
+      // library delivers alongside auth-cookie writes. The `next/headers`
+      // cookie store exposes no response handle, so this callback cannot
+      // write headers to the outgoing response itself — cookies are written
+      // through the cookie store here, and headers are obligatorily applied
+      // by the Route Handler through `applyAuthNoStoreHeaders()`
+      // (auth-cache-headers.ts). `recordAuthCookieMutation` bridges the two:
+      // it asserts the delivered policy equals the centralized one (throwing
+      // on drift) and returns the policy for contract tests. It holds no
+      // module-level state, so concurrent requests cannot interfere.
+      async setAll(cookiesToSet, cacheHeaders) {
+        recordAuthCookieMutation(cacheHeaders);
         try {
           const store = await cookies();
           for (const { name, value, options } of cookiesToSet) {
@@ -149,6 +161,43 @@ export async function verifyServerIdentity(): Promise<
   } catch {
     return { kind: "unverified", reason: "provider_unavailable" };
   }
+}
+
+/**
+ * CR-07 regression bridge between the library's delivered `cacheHeaders` and
+ * the centralized response policy, without mutable global state.
+ *
+ * The delivered second argument is per-call (the library allocates a fresh
+ * `Record` on every auth-cookie write; internal storage-only writes deliver
+ * `{}`). `recordAuthCookieMutation` therefore reads it and returns it —
+ * holding no module-level state, so concurrent requests cannot interfere:
+ *
+ * - when it is non-empty it MUST equal `AUTH_NO_STORE_HEADERS` exactly; a
+ *   mismatch throws, surfacing a library upgrade / policy drift instead of
+ *   silently serving a weaker policy;
+ * - when it is empty (storage-only write) the Route Handler policy still
+ *   applies, because the handler applies `applyAuthNoStoreHeaders()`
+ *   unconditionally on every auth-mutating response path.
+ */
+export function recordAuthCookieMutation(
+  delivered: Record<string, string>,
+): Readonly<Record<string, string>> {
+  const entries = Object.entries(delivered);
+  if (entries.length === 0) {
+    return AUTH_NO_STORE_HEADERS;
+  }
+  const expected = new Map(Object.entries(AUTH_NO_STORE_HEADERS));
+  if (
+    entries.length !== expected.size ||
+    entries.some(([name, value]) => expected.get(name) !== value)
+  ) {
+    throw new Error(
+      "Supabase auth-cookie cache policy drift: the headers delivered " +
+        "alongside setAll no longer match the centralized policy. Refusing " +
+        "to serve an auth-mutating response without the exact policy.",
+    );
+  }
+  return AUTH_NO_STORE_HEADERS;
 }
 
 /** Build the provider-neutral IdentityPort bound to the Supabase adapter. */

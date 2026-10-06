@@ -10,7 +10,10 @@
     "types": ["node"],
     "paths": {
       "@web/identity/*": ["../apps/web/src/identity/*"],
-      "@web/handlers/*": ["../apps/web/app/api/auth/*/handler"],
+      "@web/handlers/*": [
+        "../apps/web/app/api/auth/*/handler",
+        "../apps/web/app/auth/callback/handler"
+      ],
       "@/identity/*": ["../apps/web/src/identity/*"]
     }
   },
