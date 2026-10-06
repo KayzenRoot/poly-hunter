@@ -1,16 +1,16 @@
 {
   "schemaVersion": 3,
-  "workOrder": "PH-M01-WO-003",
-  "correctionDelta": "audit CR-03 — the FINAL M01 artifact: base pinned by immutable digest, ONE candidate built/run/scanned; every HIGH/CRITICAL disposition resets to UNDER_INVESTIGATION on the new digest",
-  "title": "Machine-readable VEX for the PH-M01-WO-003 final artifact: every HIGH/CRITICAL row is UNDER_INVESTIGATION with NOT_AFFECTED proposed only",
-  "branch": "feat/ph-m01-encrypted-secret-vault",
-  "lockedBase": "af6235d2164171985af6152ba03835826ace3cdb",
+  "workOrder": "PH-M01-WO-004",
+  "correctionDelta": "final PH-M01 security acceptance — exact clean-build artifact independently audited and explicitly owner-approved",
+  "title": "Machine-readable VEX for the PH-M01-WO-004 final acceptance artifact — independently audited and owner-approved",
+  "branch": "feat/ph-m01-security-acceptance",
+  "lockedBase": "895e4bf2221b9fd7e335f0dd348be05f851fccde",
   "image": "polyhunter-dev:local",
   "artifact": "sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
   "priorArtifact": "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c",
   "scanner": "docker scout 1.24.0",
   "policy": "PH-SEC-VEX-POLICY via ADR-0007",
-  "executorRole": "Codex executor. This document PROPOSES dispositions. It cannot approve them, cannot register NOT_AFFECTED as current approved state, and cannot self-grade a row AFFECTED.",
+  "executorRole": "Codex executor produced the technical proposals only. Independent audit and explicit Project Owner approval are recorded separately in this finalized artifact; the executor did not self-approve any disposition.",
   "severitySourceNote": "Severity is parsed from message.text. SARIF `level` encodes the VEX/status channel (none/note/warning/error), not the vulnerability severity; reading `level` reports 0 HIGH/CRITICAL on an image that has 25. This script throws rather than report a count derived from an unrecognised parse.",
   "scanBinding": {
     "enforcedFrom": "14-image-scan.stderr.txt",
@@ -125,12 +125,13 @@
   "summary": {
     "totalRowsScanned": 81,
     "highCriticalRows": 24,
-    "underInvestigation": 24,
+    "underInvestigation": 0,
     "proposedNotAffected": 24,
     "affected": 0,
-    "independentAuditorApprovals": 0,
-    "ownerApprovals": 0,
-    "premisesAltered": 0
+    "independentAuditorApprovals": 24,
+    "ownerApprovals": 24,
+    "premisesAltered": 0,
+    "approvedNotAffected": 24
   },
   "justificationIntegrity": {
     "acceptedRecord": "PH-M01-WO-002-VEX-FINAL.json (independent audit + Project Owner approval)",
@@ -154,10 +155,11 @@
     "stateUnchanged": "vexStatus stays UNDER_INVESTIGATION; proposedVexStatus stays NOT_AFFECTED (proposed only); independentAuditor and ownerApproval stay null. CR-05 restored a JUSTIFICATION, not an approval."
   },
   "approvalState": {
-    "independentAuditor": null,
-    "ownerApproval": null,
-    "status": "PROPOSED — awaiting independent audit and Project Owner decision",
-    "note": "Per CR-04 the executor does NOT register NOT_AFFECTED as current approved state. Until an independent auditor and the Project Owner act on this exact digest, all 25 rows block under the 'never advance with a known HIGH/CRITICAL defect' rule."
+    "independentAuditor": "APPROVED — review 5434550393 at exact audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+    "ownerApproval": "APPROVED — Project Owner 2026-10-06 for exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60 and exact audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+    "receipt": ".engineering/evidence/PH-M01-WO-004-OWNER-APPROVAL.md",
+    "status": "APPROVED — 24/24 NOT_AFFECTED",
+    "note": "ADR-0007 approval chain is complete for exactly the 24 dispositions enumerated in this file. Expiry/revalidation rules remain in force."
   },
   "cr10Correction": {
     "finding": "audit CR-10 — the CVE-2026-8376 row was internally contradictory: the top level carried the accepted `vulnerable_code_cannot_be_controlled_by_adversary`, but the nested `preservedPriorBasis.justification` still carried the superseded `vulnerable_code_not_in_execute_path` (and its presenceEvidence again made 'Perl is never executed' part of the preserved basis).",
@@ -174,32 +176,7 @@
   ],
   "dispositionedButAbsentInterpretation": "CVE-2026-103111 (pcre2): dispositioned in WO-002 and absent from this scan because the pinned base ships libpcre2-8-0 10.42-1+deb12u2 - the vulnerable version is no longer installed. A fix-by-artifact-update, reconciled honestly; suppression counters remain zero.",
   "highCriticalNotDispositioned": [],
-  "underInvestigation": [
-    "CVE-2026-102010",
-    "CVE-2026-78409",
-    "CVE-2026-48962",
-    "CVE-2026-102276",
-    "CVE-2026-102278",
-    "CVE-2026-14257",
-    "CVE-2026-19534",
-    "CVE-2026-42497",
-    "CVE-2026-48959",
-    "CVE-2026-69152",
-    "CVE-2026-73566",
-    "CVE-2026-82560",
-    "CVE-2026-69192",
-    "CVE-2026-95619",
-    "CVE-2026-78410",
-    "CVE-2026-78408",
-    "CVE-2026-85091",
-    "CVE-2026-57432",
-    "CVE-2026-76642",
-    "CVE-2026-93748",
-    "CVE-2026-12087",
-    "CVE-2026-13221",
-    "CVE-2026-42496",
-    "CVE-2026-8376"
-  ],
+  "underInvestigation": [],
   "suppressionPolicy": {
     "suppressionsAdded": 0,
     "ignoreRulesAdded": 0,
@@ -214,12 +191,12 @@
       "component": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -270,7 +247,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -319,7 +296,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-78409",
@@ -327,12 +304,12 @@
       "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -369,7 +346,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -418,7 +395,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-48962",
@@ -426,12 +403,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -468,7 +445,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -517,7 +494,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-102276",
@@ -525,12 +502,12 @@
       "component": "pkg:npm/brace-expansion@5.0.7",
       "affectedRange": ">=4.0.0,<5.0.10",
       "fixedVersion": "5.0.10",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -568,7 +545,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -617,7 +594,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-102278",
@@ -625,12 +602,12 @@
       "component": "pkg:npm/brace-expansion@5.0.7",
       "affectedRange": ">=4.0.0,<5.0.11",
       "fixedVersion": "5.0.11",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -668,7 +645,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -717,7 +694,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-14257",
@@ -725,12 +702,12 @@
       "component": "pkg:npm/brace-expansion@5.0.7",
       "affectedRange": ">=4.0.0,<5.0.8",
       "fixedVersion": "5.0.8",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -769,7 +746,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -818,7 +795,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-19534",
@@ -826,12 +803,12 @@
       "component": "pkg:npm/undici@6.27.0",
       "affectedRange": ">=6.7.0,<6.28.1",
       "fixedVersion": "6.28.1",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -868,7 +845,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -917,7 +894,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-42497",
@@ -925,12 +902,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -962,7 +939,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1011,7 +988,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-48959",
@@ -1019,12 +996,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -1061,7 +1038,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1110,7 +1087,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-69152",
@@ -1118,12 +1095,12 @@
       "component": "pkg:npm/brace-expansion@5.0.7",
       "affectedRange": ">=4.0.0,<5.0.9",
       "fixedVersion": "5.0.9",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -1161,7 +1138,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1210,7 +1187,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-73566",
@@ -1218,12 +1195,12 @@
       "component": "pkg:npm/tar@7.5.19",
       "affectedRange": "<=7.5.20",
       "fixedVersion": "7.5.21",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -1261,7 +1238,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1310,7 +1287,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-82560",
@@ -1318,12 +1295,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -1360,7 +1337,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1409,7 +1386,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-69192",
@@ -1417,12 +1394,12 @@
       "component": "pkg:npm/ip-address@10.2.0",
       "affectedRange": "<=10.3.0",
       "fixedVersion": "10.3.1",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -1460,7 +1437,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1509,7 +1486,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-95619",
@@ -1517,12 +1494,12 @@
       "component": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -1594,7 +1571,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1643,7 +1620,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-78410",
@@ -1651,12 +1628,12 @@
       "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -1693,7 +1670,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1742,7 +1719,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-78408",
@@ -1750,12 +1727,12 @@
       "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -1792,7 +1769,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1841,7 +1818,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-85091",
@@ -1849,12 +1826,12 @@
       "component": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -1892,7 +1869,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -1941,7 +1918,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-57432",
@@ -1949,12 +1926,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -1992,7 +1969,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2041,7 +2018,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-76642",
@@ -2049,12 +2026,12 @@
       "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": ">0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -2092,7 +2069,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2141,7 +2118,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-93748",
@@ -2149,12 +2126,12 @@
       "component": "pkg:npm/http-cache-semantics@4.2.0",
       "affectedRange": "<=4.2.0",
       "fixedVersion": "not",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -2192,7 +2169,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2241,7 +2218,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-12087",
@@ -2249,12 +2226,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -2292,7 +2269,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2341,7 +2318,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-13221",
@@ -2349,12 +2326,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_not_in_execute_path",
@@ -2391,7 +2368,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2440,7 +2417,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-42496",
@@ -2448,12 +2425,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "vulnerableCodePresent": false,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": false,
         "proposedJustification": "vulnerable_code_not_present",
@@ -2485,7 +2462,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2534,7 +2511,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     },
     {
       "cve": "CVE-2026-8376",
@@ -2542,12 +2519,12 @@
       "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "affectedRange": "<5.36.0-7+deb12u4",
       "fixedVersion": "5.36.0-7+deb12u4",
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "vulnerableCodePresent": true,
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED — review 5434550393 at audit head d0273ba74d1de82e8e8007e233ca540826a541f4",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60; audit head d0273ba74d1de82e8e8007e233ca540826a541f4; receipt PH-M01-WO-004-OWNER-APPROVAL.md",
       "acceptedPrimaryBasis": {
         "vulnerableCodePresent": true,
         "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -2594,7 +2571,7 @@
         "installedFilesIdentical": true,
         "priorBasisRecovered": true,
         "premiseAltered": false,
-        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; awaiting independent audit and owner approval",
+        "verdict": "PREMISE_RECONFIRMED — prior row-specific analysis preserved by reference; independent audit and Project Owner approval complete for this exact artifact.",
         "mandatoryAnalysisIfAltered": null,
         "sixAxes": {
           "exactComponent": {
@@ -2643,7 +2620,7 @@
           }
         }
       },
-      "statusReason": "PH-SEC-VEX-POLICY via ADR-0007: the artifact is new, so the prior NOT_AFFECTED expired automatically and returned to UNDER_INVESTIGATION. The row-specific prior analysis is preserved by reference and re-confirmed across all six axes; the executor proposes NOT_AFFECTED and nothing more. Independent audit and owner approval are REQUIRED before this stops blocking, and neither has been given."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 24 enumerated dispositions. Revalidation/expiry rules remain in force."
     }
   ]
 }
