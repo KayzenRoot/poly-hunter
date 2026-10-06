@@ -1283,3 +1283,26 @@ Points an auditor should weigh most heavily:
     JEV score is cited anywhere in this bundle as evidence of a security property;
     if any JEV call and the deterministic gates disagree, the gates and the
     independent audit control.
+
+## Final independent audit and Project Owner security approval
+
+Independent HIGH_ASSURANCE audit:
+- exact audit head: `59945eabc9bc235b3f27059de7f07ed320a4b1b0`
+- review: `5433259153`
+- verdict: `APPROVED AS EVIDENCE / READY_FOR_OWNER_APPROVAL`
+
+Project Owner approval:
+- date: 2026-10-06
+- artifact: `polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2`
+- scope: exactly the 25 dispositions enumerated in `.engineering/evidence/PH-M01-WO-003/receipts/14-vex-state-machine.json` at the audit head above
+- receipt: `.engineering/evidence/PH-M01-WO-003-OWNER-APPROVAL.md`
+
+ADR-0007 approval chain is complete for all 25 HIGH/CRITICAL rows on this exact artifact.
+
+Current security state:
+- 25/25 `NOT_AFFECTED`
+- 0 `UNDER_INVESTIGATION`
+- 0 `AFFECTED`
+- no suppression, ignore, waiver, accepted-risk shortcut or severity downgrade
+
+Checkpoint remains PROPOSED / NOT_PROMOTED and PR #39 remains unmerged until a separate Project Owner merge/checkpoint decision. PH-M01-WO-004 remains unadmitted.
