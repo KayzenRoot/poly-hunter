@@ -3,7 +3,7 @@
 **Work Order:** PH-M01-WO-002 — Identity & RBAC
 **Branch:** `feat/ph-m01-identity-rbac` · **PR:** #37 (OPEN, DRAFT, base `main@cd3e00475f434be6c358fff89e82965370cc6c70`) · **Issue:** #36
 **Risk class:** HIGH_ASSURANCE
-**Status:** `READY_FOR_INDEPENDENT_AUDIT` (proposed; see §10 and §11 — all 25 HIGH/CRITICAL rows are `UNDER_INVESTIGATION` on the FINAL digest)
+**Status:** `APPROVED AS EVIDENCE / OWNER_SECURITY_APPROVED / READY_FOR_MERGE_AND_CHECKPOINT_DECISION` (25/25 HIGH/CRITICAL rows are `NOT_AFFECTED` on the exact final digest; see §15)
 
 > **Revision 2 — correction delta.** Independent audit `5420502909` of `sha256:4cb8f254…83d538` returned **CORRECTION REQUIRED** with CR-01..CR-04. This revision records those corrections. Sections 1–5 and 8–9 describe the original WO-002 delivery and are unchanged except where noted. Sections 6, 7 and 10 are superseded by §11.
 >
