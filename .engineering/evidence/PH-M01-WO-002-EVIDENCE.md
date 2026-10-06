@@ -6,9 +6,11 @@
 **Status:** `READY_FOR_INDEPENDENT_AUDIT` (proposed; see §10 and §11 — all 25 HIGH/CRITICAL rows are `UNDER_INVESTIGATION` on the FINAL digest)
 
 > **Revision 2 — correction delta.** Independent audit `5420502909` of `sha256:4cb8f254…83d538` returned **CORRECTION REQUIRED** with CR-01..CR-04. This revision records those corrections. Sections 1–5 and 8–9 describe the original WO-002 delivery and are unchanged except where noted. Sections 6, 7 and 10 are superseded by §11.
+>
+> **Revision 3 — second correction delta.** Independent re-audit `5427078628` of `sha256:eddda17a…cb7c` at `de18b34` **ACCEPTED** the Auth/RBAC architecture, **closed CR-02, CR-03 and CR-04**, and accepted the CR-01 revalidation method in principle. It raised two remaining findings, recorded in §13: **CR-05** (nondeterministic integration teardown, red exact-head CI) and **CR-06** (VEX machine-readable inconsistency). Both are closed below. Neither changed an image build input, so the artifact digest is unchanged — see §13.3.
 
-**Audited code head:** `7a54bb76170eff2e6fb50bbd1472ccc83ff15b82`
-**FINAL artifact:** `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c`
+**Audited code head:** `85b3aaa230f1c69675ac6488bbd16021aedd6164`
+**FINAL artifact:** `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c` — **unchanged by this delta**
 
 Executor: Codex. No disposition is self-approved. PH-M01-WO-003 was **not** started; the canonical checkpoint was **not** modified.
 
@@ -277,6 +279,8 @@ All paths are relative to `.engineering/evidence/PH-M01-WO-002/`.
 | `receipts/cr01-revalidation/09-final-security-reconciliation.txt` | ledger of all 25 HIGH/CRITICAL rows and their policy status |
 | `receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json` | the VEX document itself — 25 findings, all `UNDER_INVESTIGATION` |
 | `receipts/cr01-revalidation/analysis/*.cjs` | the scripts that generated 07, 08, 09 and the VEX — kept so the results are reproducible |
+| `receipts/cr05-teardown-verification.txt` | CR-05 root cause, fix, leak-guard proof and repeated-run results |
+| `receipts/final-validation.txt` | the final validation chain (npm ci, validate, audit, migrations, 8x integration, diff-check, secret scan, client bundle scan) plus the image-build-input proof for the unchanged digest |
 
 **Correction delta — CR-02 / CR-03 / CR-04 runtime and scans**
 
@@ -303,3 +307,63 @@ All paths are relative to `.engineering/evidence/PH-M01-WO-002/`.
 | `receipts/vex-delta-3-perl-cves.json` | first-pass proposals for the 3 Perl rows |
 | `receipts/perl-cves-component-presence.txt`, `receipts/new-perl-cves-advisories.json` | Perl component presence and upstream advisory text |
 | `receipts/validation-summary.txt` | original validation summary |
+
+---
+
+## 13. Second correction delta CR-05 / CR-06 (independent re-audit `5427078628`)
+
+Audit verdict on `de18b34`: the Auth/RBAC architecture is **ACCEPTED**, CR-02/CR-03/CR-04 are **CLOSED**, and the CR-01 revalidation method is **ACCEPTED IN PRINCIPLE** — the independent auditor judged the objective-equivalence evidence for the prior 22 rows sufficient for revalidation, and accepted the technical basis of all three Perl findings. Two findings remained.
+
+### 13.1 CR-05 — deterministic integration teardown
+
+GitHub Actions Validate #57 (`37385950835`) failed at `de18b34` with `57P01 terminating connection due to administrator command` even though all 14 assertions passed (identity-rbac 10/10, tenancy 4/4).
+
+**Root cause.** The serialized `pg` client in the failure carried the decisive state: `_ending: true, _ended: false, _connected: true, _txStatus: 'I'`. `pool.end()` *had* been called and awaited, but `pg` resolves `end()` once every client has been told to end — the socket teardown is asynchronous and the server-side backend stays attached for a short window afterwards. `DROP DATABASE … WITH (FORCE)` inside that window terminated a backend that was already on its way out; the dying client emitted `57P01` on a socket nobody was listening to. `FORCE` was therefore **masking a teardown race**, not describing a defect. Two distinct pools were implicated: a `createTenantDataAccess` pool (`application_name: 'polyhunter-server'`) and a bare `new Pool(...)` (`poolUseCount: 1`).
+
+**Fix.** New shared fixture `packages/db/tests/support/postgres-disposable-databases.ts`:
+
+1. every owned pool is closed **and awaited** in `afterAll` — the identity pool, the tenant pool and the test pool;
+2. `waitForNoBackends()` polls `pg_stat_activity` until zero backends remain;
+3. `dropDisposableDatabase()` then issues a plain `DROP DATABASE IF EXISTS`;
+4. a wait timeout throws an explicit `RESOURCE LEAK` naming every offending backend (`pid`, `application_name`, `state`, `backend_type`, `query`) — a genuine leak is reported, never hidden;
+5. `WITH (FORCE)` survives **only** in `preflightDropStaleDatabase()`, used at setup to clear debris from a previously interrupted run.
+
+`identity-rbac.integration.test.ts` additionally moved its disposable migration pool into a `try/finally`, so a throwing migration can no longer leave a backend behind.
+
+**Verification.** Before the fix the suite reproduced `57P01` on run 2 of 6. After the fix, **8 consecutive runs were clean** (exit 0, zero unhandled errors, 14/14). A throwaway probe confirmed the guard is not a no-op: an intentionally leaked connection was reported as `RESOURCE LEAK`, and once the pool was closed the drop proceeded normally. `grep -n 'WITH (FORCE)' packages/db/tests/` now matches only the preflight helper.
+
+Receipt: `receipts/cr05-teardown-verification.txt`.
+
+### 13.2 CR-06 — machine-readable VEX consistency
+
+The three Perl rows carried the string `"no"` in `vulnerableCodePresent`, while the 22 carried-over rows used booleans — a type mismatch, and for `CVE-2026-8376` a semantic contradiction, since "code not present" cannot support a `vulnerable_code_cannot_be_controlled_by_adversary` justification.
+
+All 25 rows now carry a strict boolean:
+
+| CVE | `vulnerableCodePresent` | justification | coherence |
+|---|---|---|---|
+| CVE-2026-42496 | `false` | `vulnerable_code_not_present` | absent code, not-present disposition |
+| CVE-2026-42497 | `false` | `vulnerable_code_not_present` | absent code, not-present disposition |
+| CVE-2026-8376 | `true` | `vulnerable_code_cannot_be_controlled_by_adversary` | code present, adversary cannot reach it |
+
+`CVE-2026-8376` is encoded `true` deliberately. `Perl_study_chunk`, the regular-expression compilation path named by the advisory, ships inside `perl-base` 5.36.0-7+deb12u3, which **is installed** on this artifact; claiming otherwise would have been the less honest option. What an attacker cannot do is reach its overflow condition:
+
+- the advisory requires a **32-bit (ILP32)** Perl build;
+- the artifact's perl-base is **amd64**, the kernel is **x86-64**;
+- the interpreter's ELF header is **EI_CLASS=0x02 (ELF64)**, **e_machine=0x3e (x86-64)** — a 32-bit build cannot even be loaded;
+- the interpreter reports **`ivsize=8`** bytes (64-bit IV), **`longsize=8`** (**LONG_BIT=64**), **`ptrsize=8`** bytes, `ivtype=long`, `use64bitint=define`;
+- therefore no attacker-controlled input can drive the arithmetic into the vulnerable overflow condition.
+
+"Perl is never executed in this container" is explicitly **not** part of this justification; it appears in receipt 06 only as secondary defense-in-depth.
+
+The generator now **asserts** the invariants and fails rather than emitting an incoherent document: every `vulnerableCodePresent` is a boolean, every justification is inside the ADR-0007 set, `vulnerableCodePresent: false` is only ever paired with a not-present justification, every row is `UNDER_INVESTIGATION`, and `approvalState.independentAuditor` / `ownerApproval` are `null`.
+
+### 13.3 Artifact digest is unchanged
+
+Neither correction touched an image build input. `Dockerfile.dev` copies package manifests and tsconfig only — it does **not** bake the integration test source into the image — and this delta changed no manifest, dependency, base image, schema, migration or product source. Per the re-audit's own note, a test-only teardown fix therefore does not require a new digest and does not re-open the final artifact VEX.
+
+Preserved and re-proved: **`sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c`**. Had any image input changed, a rebuild, a new digest and a fresh VEX revalidation would have been mandatory.
+
+### 13.4 Security state is unchanged by this delta
+
+All 25 HIGH/CRITICAL rows remain **`UNDER_INVESTIGATION`** with **25 proposed `NOT_AFFECTED`** and **0 approvals**, bound to `sha256:eddda17a…cb7c`. The CR-06 fix changed the *encoding* of three rows to be truthful and machine-readable; it did not approve anything and it did not weaken a disposition. `approvalState.independentAuditor` and `ownerApproval` remain `null`, and no owner approval has been requested.

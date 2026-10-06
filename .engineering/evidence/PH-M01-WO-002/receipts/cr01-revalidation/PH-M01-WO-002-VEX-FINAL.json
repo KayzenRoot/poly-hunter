@@ -4,7 +4,7 @@
   "correctionDelta": "CR-01 — final-digest VEX revalidation",
   "title": "VEX revalidation of every HIGH/CRITICAL finding on the FINAL rebuilt artifact",
   "branch": "feat/ph-m01-identity-rbac",
-  "head": "7a54bb76170eff2e6fb50bbd1472ccc83ff15b82",
+  "head": "85b3aaa230f1c69675ac6488bbd16021aedd6164",
   "priorPr": 37,
   "artifact": {
     "final": "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c",
@@ -516,7 +516,7 @@
       "cve": "CVE-2026-42496",
       "scannerSeverity": "CRITICAL",
       "component": "Perl Archive::Tar < 3.08 (symlink extraction path escape)",
-      "vulnerableCodePresent": "no",
+      "vulnerableCodePresent": false,
       "vexStatus": "UNDER_INVESTIGATION",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
@@ -537,7 +537,7 @@
       "cve": "CVE-2026-42497",
       "scannerSeverity": "HIGH",
       "component": "Perl Archive::Tar < 3.08 (hardlink extraction path escape)",
-      "vulnerableCodePresent": "no",
+      "vulnerableCodePresent": false,
       "vexStatus": "UNDER_INVESTIGATION",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
@@ -1152,7 +1152,7 @@
       "cve": "CVE-2026-8376",
       "scannerSeverity": "CRITICAL",
       "component": "Perl interpreter < 5.40.5-RC1, heap buffer overflow in Perl_study_chunk",
-      "vulnerableCodePresent": "no",
+      "vulnerableCodePresent": true,
       "vexStatus": "UNDER_INVESTIGATION",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
@@ -1165,7 +1165,7 @@
           "receipts/cr01-revalidation/05-perl-bitness-ivsize.txt",
           "receipts/cr01-revalidation/06-runtime-assumptions.txt"
         ],
-        "evidence": "The advisory scopes the defect to 32-BIT (ILP32) Perl builds. That prerequisite is unsatisfiable on the FINAL artifact and was re-measured directly: the installed perl-base is 5.36.0-7+deb12u3 amd64; the container kernel is x86_64; the perl binary's ELF header has EI_CLASS=0x02 (ELF64) and e_machine=0x3e (x86-64), so the interpreter cannot even be loaded as a 32-bit build; and the interpreter itself reports Config{ivsize}=8 bytes (64-bit IV), Config{longsize}=8 (LONG_BIT=64), Config{ptrsize}=8 (64-bit pointers), ivtype=long, use64bitint=define. The overflow therefore has no reachable arithmetic precondition. This disposition rests on the impossible 32-bit prerequisite, not on perl being unexecuted. Receipt 05."
+        "evidence": "The vulnerable code IS PRESENT. Perl_study_chunk is the regular-expression compilation path inside the perl interpreter itself; it ships as part of perl-base 5.36.0-7+deb12u3, which is installed on the FINAL artifact, and it is exercised whenever Perl compiles a pattern. This row records that fact rather than hiding it behind a \"not present\" claim. What the attacker cannot do is drive that code into its vulnerable overflow condition, because the advisory scopes the defect to 32-BIT (ILP32) Perl builds and the FINAL artifact is not one. Measured directly on sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c: the installed perl-base is 5.36.0-7+deb12u3 with dpkg architecture amd64; the container kernel is x86_64; the perl binary's ELF header has EI_CLASS=0x02 (ELF64) and e_machine=0x3e (x86-64), so a 32-bit build of this interpreter cannot even be loaded; and the interpreter reports Config{ivsize}=8 bytes (64-bit integer values), Config{longsize}=8 (LONG_BIT=64), Config{ptrsize}=8 (64-bit pointers), ivtype=long, use64bitint=define. The overflow described by the advisory requires the 32-bit integer-width arithmetic that none of these measurements admits, therefore no attacker-controlled input can reach the vulnerable condition on this artifact. Receipt 05. Note explicitly: \"Perl is never executed in this container\" is NOT part of this justification — it is recorded in receipt 06 only as secondary defence-in-depth and is not what this disposition rests on."
       },
       "statusReason": "PH-SEC-VEX-POLICY: newly proposed NOT_AFFECTED disposition. It blocks until an independent security auditor verifies it and the owner approves it."
     },

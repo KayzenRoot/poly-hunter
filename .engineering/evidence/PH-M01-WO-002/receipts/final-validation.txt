@@ -1,0 +1,43 @@
+PH-M01-WO-002 — FINAL VALIDATION RECEIPT (post CR-05 / CR-06)
+Code head: 85b3aaa230f1c69675ac6488bbd16021aedd6164
+Artifact:  polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+1. npm ci            -> added 131 packages, found 0 vulnerabilities
+2. npm run validate  -> EXIT 0 (lint, format:check, typecheck, vitest, build, audit)
+3. npm audit --audit-level=high -> found 0 vulnerabilities (EXIT 0)
+4. migrations        -> 'applying migrations... migrations applied successfully!' (EXIT 0)
+5. integration tests -> 8 consecutive runs, all exit 0
+                        Test Files 2 passed (2) | Tests 14 passed (14)
+                        unhandled errors / 57P01 occurrences: 0 in all 8 runs
+                        (pre-fix baseline: 57P01 on run 2 of 6)
+6. git diff --check  -> clean
+7. secret scan       -> 0 files matching PRIVATE KEY / AKIA…/ ghp_… / BEGIN…KEY
+8. client bundle scan-> 0 hits in apps/web/.next/static for PRIVATE KEY / AKIA… /
+                        SUPABASE_SERVICE_ROLE / iron-session
+
+IMAGE BUILD INPUTS (git diff de18b349..HEAD):
+  packages/db/tests/identity-rbac.integration.test.ts
+  packages/db/tests/support/postgres-disposable-databases.ts
+  packages/db/tests/tenancy.integration.test.ts
+
+  -> diff vs audited head touches ONLY packages/db/tests/** (test sources).
+  -> package.json, package-lock.json, Dockerfile.dev, compose.yaml, base image
+     (node:24-bookworm-slim), dependencies: UNCHANGED.
+  -> Dockerfile.dev COPY lines 7-13 and 21 copy package manifests + tsconfig.base.json
+     only; no test source is baked into the image.
+  -> therefore NO rebuild was performed and the digest is preserved.
+  docker image inspect polyhunter-dev:local --format '{{.Id}}'
+  = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+VEX generator invariants (build-vex-final.cjs, re-run at the code head):
+  CR-06 invariants OK: 25 rows, all vulnerableCodePresent boolean,
+  all UNDER_INVESTIGATION, 0 approvals
+  rows: 25 | by reference: 22 | new: 3
+  CVE-2026-42496 vulnerableCodePresent=false  vulnerable_code_not_present
+  CVE-2026-42497 vulnerableCodePresent=false  vulnerable_code_not_present
+  CVE-2026-8376  vulnerableCodePresent=true
+                          vulnerable_code_cannot_be_controlled_by_adversary
+  approvalState.independentAuditor=null  ownerApproval=null
+
+Runtime at validation time: polyhunter-postgres healthy, polyhunter-web healthy
+(HTTP 200 on 127.0.0.1:3000), polyhunter-worker up, all on sha256:eddda17a...cb7c.

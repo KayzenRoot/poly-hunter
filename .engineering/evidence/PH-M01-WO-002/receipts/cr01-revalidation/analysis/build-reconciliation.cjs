@@ -148,7 +148,7 @@ L.push(
   "  (dpkg -S, filesystem find across every mount, and the image perl failing to load it).",
 );
 L.push(
-  "- CVE-2026-8376 now rests on a measured, unsatisfiable 32-bit prerequisite: perl-base",
+  "- CVE-2026-8376 rests on a measured, unsatisfiable 32-bit prerequisite: perl-base",
 );
 L.push("  5.36.0-7+deb12u3 **amd64**, ELF EI_CLASS=0x02 (ELF64), e_machine=0x3e (x86-64),");
 L.push(
@@ -158,6 +158,55 @@ L.push(
   "  \"perl is not executed\" is recorded only as a secondary defence-in-depth",
 );
 L.push("  observation, not as the justification.");
+L.push("");
+L.push("### CR-06 — vulnerableCodePresent is now type- and semantically coherent");
+L.push("");
+L.push(
+  "The three Perl rows previously carried the string `\"no\"`, which was a type",
+);
+L.push("mismatch against the 22 boolean carried-over rows and, for CVE-2026-8376, a");
+L.push(
+  "contradiction: \"code not present\" cannot support a",
+);
+L.push("`vulnerable_code_cannot_be_controlled_by_adversary` justification. All 25 rows now");
+L.push("carry a strict boolean, and the generator asserts the invariant:");
+L.push("");
+L.push("| CVE | vulnerableCodePresent | justification | coherence |");
+L.push("|---|---|---|---|");
+for (const f of v.findings.filter((x) => x.priorDispositionSource === NEW)) {
+  const coherent =
+    f.vulnerableCodePresent === false
+      ? "absent code, not-present disposition"
+      : "code present, adversary cannot reach it";
+  L.push(
+    "| " +
+      f.cve +
+      " | `" +
+      f.vulnerableCodePresent +
+      "` | `" +
+      f.proposedJustification +
+      "` | " +
+      coherent +
+      " |",
+  );
+}
+L.push("");
+L.push(
+  "CVE-2026-8376 is encoded `true` deliberately: `Perl_study_chunk`, the regular",
+);
+L.push(
+  "expression compilation path named by the advisory, ships inside perl-base and IS",
+);
+L.push(
+  "installed on this artifact. Claiming otherwise would have been the less honest",
+);
+L.push(
+  "option. What an attacker cannot do is reach its overflow condition, because that",
+);
+L.push(
+  "condition is 32-bit-specific and the measured runtime is 64-bit throughout",
+);
+L.push("(ELF64, ivsize/longsize/ptrsize all 8 bytes, LONG_BIT=64).");
 L.push("");
 L.push("## Policy compliance statement");
 L.push("");
