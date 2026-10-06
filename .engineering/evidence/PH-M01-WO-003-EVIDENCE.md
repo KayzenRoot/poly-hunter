@@ -743,6 +743,14 @@ checkpoint was **not** promoted.
 
 `READY_FOR_INDEPENDENT_AUDIT`.
 
+**GitHub Actions Validate is SUCCESS on the final HEAD.** Run `37497134253`,
+head SHA `59ae44b6272b46a0a5d3a04b50babb73405fa5f7`, all 12 steps of the
+`Node 24 validation` job green. That run is also an independent CR-01 proof and a
+stronger one than the local receipt: the runner does a clean Git checkout, installs
+from the lockfile, and runs the gates with no `packages/**/dist` in the tree — exactly
+the state that failed Validate #70 (`37487821234`, head `96dd096f`) with
+`ERR_MODULE_NOT_FOUND`.
+
 Points an auditor should weigh most heavily:
 
 1. **`FOR SHARE OF ph_membership` is the load-bearing choice in CR-02.** It closes the
