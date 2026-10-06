@@ -1,0 +1,31 @@
+PH-M01-WO-003 — vault with an EPHEMERAL, TEST-ONLY keyring — CR-05..CR-08 round
+artifact: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+generated: 2026-10-06T17:41:06Z
+
+Two 32-byte keys are generated IN MEMORY inside the container. They are:
+  - never written to .env, compose.yaml, a file, the evidence bundle or a log;
+  - never printed, in whole or in part, by any line of this receipt;
+  - discarded when the node process exits.
+
+The probe asks the vault to CREATE, DECRYPT through withDecryptedSecret, LIST and
+REMOVE a secret for a real seeded owner membership, and it also attempts a
+CROSS-TENANT handle, which must be refused.
+
+  ephemeral keys      : 32 and 32 bytes in memory; values never printed
+  isConfigured()      : true
+  create              : ok  configured = true  purpose = ephemeral.probe
+  withDecryptedSecret : callback received 22 bytes; buffer zeroed in finally
+  rotate              : status = already_current
+  cross-tenant handle : SECRET_FORBIDDEN
+  listMetadata        : 1 record(s)
+  remove              : ok, 0 record(s) left
+  cleanup             : seeded rows removed; key buffers zeroed; database left as found
+
+== the environment itself is UNCHANGED — no keyring was configured in compose ==
+  POLYHUNTER_SECRET_ACTIVE_KEY_VERSION=[]
+  POLYHUNTER_SECRET_KEYRING_JSON=[]
+
+  The keyring existed only as a JavaScript value inside one short-lived node
+  process. It was passed to createSecretVault directly, never through the
+  environment, so there is nothing to un-set and nothing that could have been
+  captured by `docker inspect`.

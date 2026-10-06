@@ -1,0 +1,36 @@
+PH-M01-WO-003 — CR-05 negative controls for the VEX justification gate
+generated: 2026-10-06T17:23:54Z
+
+A gate that has never been observed to FAIL is not evidence. The CR-05 gate inside
+vex-state-machine.mjs refuses to write any output when a proposed disposition
+diverges from the accepted WO-002 record. Both observed failure modes are reproduced
+below; after each, the original file was restored and re-run clean.
+
+== control 0 — baseline ==
+  node vex-state-machine.mjs  ->  exit 0, 25 UNDER_INVESTIGATION / 25 proposed NOT_AFFECTED
+
+== control 1 — the CR-05 restore table is regressed ==
+  mutation: CR05_RESTORED_ROWS['CVE-2026-8376'].justification
+            'vulnerable_code_cannot_be_controlled_by_adversary' -> 'vulnerable_code_not_in_execute_path'
+  This reproduces EXACTLY the regression audit review 5431841905 reported.
+  observed:
+    Error: CR-05 integrity gate: the proposed dispositions diverge from the accepted
+    WO-002 record for 1 field(s). Refusing to emit a receipt that silently restates an
+    approved disposition:
+    [ { cve: CVE-2026-8376, field: proposedJustification,
+        accepted: vulnerable_code_cannot_be_controlled_by_adversary,
+        emitted:  vulnerable_code_not_in_execute_path } ]
+    exit 1 — NO receipt was written.
+
+== control 2 — the derivation is re-sourced from the WO-003 delta prose ==
+  mutation: proposedJustification = preservedBasis?.justification ?? accepted?.proposedJustification
+  This is the ORIGINAL defect mechanism: the WO-003 script read the justification from
+  the round's own delta prose instead of the approved record, so the rewrite entered
+  the receipt with no comparison against what had been approved.
+  observed: the same CR-05 integrity gate fired with the same single divergence, exit 1.
+
+== after each control ==
+  original file restored from a byte copy; re-run -> exit 0, gate silent.
+
+Conclusion: the gate is not vacuous. It fails on the precise mutation that produced
+the CR-05 finding, and it fails on the mutation that produced it historically.

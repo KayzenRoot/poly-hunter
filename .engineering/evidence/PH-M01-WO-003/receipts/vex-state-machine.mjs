@@ -1,6 +1,21 @@
 #!/usr/bin/env node
 /**
- * PH-M01-WO-003 — audit CR-04: the VEX state machine on the CR-01 rebuilt artifact.
+ * PH-M01-WO-003 — the VEX state machine for the CURRENT artifact.
+ *
+ * Round history
+ * -------------
+ *   CR-04  first implementation, on artifact sha256:8bd3e85a…
+ *   CR-05  CVE-2026-8376 semantics RESTORED to the accepted WO-002 disposition
+ *          (`vulnerableCodePresent: true` +
+ *          `vulnerable_code_cannot_be_controlled_by_adversary`), with "Perl is
+ *          never executed" demoted to explicitly-labelled secondary
+ *          defence-in-depth. A mechanical gate now THROWS if any of the 25 rows
+ *          ever diverges from the accepted record again.
+ *          The CR-04 round's outputs are retained under `superseded/` because
+ *          they carry the regressed justification; they are history, not a
+ *          current claim.
+ *   CR-06/07 rebuilt the artifact (git inputs changed), so every disposition is
+ *          re-run against the NEW digest rather than carried forward.
  *
  * Why this file exists rather than a `node -e` one-liner
  * -----------------------------------------------------
@@ -15,11 +30,11 @@
  *
  * What this script does
  * --------------------
- *  1. Reads the new scan of the CR-01 rebuilt artifact and the prior scan of the
+ *  1. Reads the current scan of the CURRENT artifact and the prior scan of the
  *     WO-002 artifact, and compares them ROW BY ROW on
  *     (CVE, severity, package purl incl. exact version, affected range, fixed
  *     version) — the same like-for-like tuple WO-002 CR-01 used.
- *  2. Emits, for every HIGH/CRITICAL row, the CR-04 state machine:
+ *  2. Emits, for every HIGH/CRITICAL row, the state machine:
  *         vexStatus           = UNDER_INVESTIGATION   (current, blocking)
  *         proposedVexStatus   = NOT_AFFECTED          (proposed only)
  *         independentAuditor  = null
@@ -27,7 +42,9 @@
  *     The executor proposes; it does not dispose. PH-SEC-VEX-POLICY via ADR-0007
  *     requires an independent audit and an owner approval before a HIGH/CRITICAL
  *     row stops blocking, and this artifact is NEW, so the prior approvals do not
- *     carry over by definition.
+ *     carry over by definition. CR-05 adds a gate on top: the
+ *     (CVE, vulnerableCodePresent, proposedJustification) triple must equal the
+ *     ACCEPTED WO-002 record for every row, or nothing is written at all.
  *  3. Preserves, VERBATIM, the row-specific evidence the prior independent
  *     analysis produced — never a generic per-axiom sentence. CVE-2026-95619
  *     keeps its aligned-allocation / arithmetic-bound proof in full; the two
@@ -50,7 +67,7 @@ import { resolve } from "node:path";
 
 const IMAGE = "polyhunter-dev:local";
 const NEW_ARTIFACT =
-  "sha256:8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4";
+  "sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2";
 const PRIOR_ARTIFACT =
   "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c";
 const LOCKED_BASE = "af6235d2164171985af6152ba03835826ace3cdb";
@@ -62,7 +79,7 @@ const P = (...parts) => resolve(ROOT, ...parts);
 const readJson = (...parts) => JSON.parse(readFileSync(P(...parts), "utf8"));
 
 const NEW_SCAN = P(
-  ".engineering/evidence/PH-M01-WO-003/receipts/11-new-image-scan.sarif",
+  ".engineering/evidence/PH-M01-WO-003/receipts/14-image-scan.sarif",
 );
 const PRIOR_SCAN = P(
   ".engineering/evidence/PH-M01-WO-002/receipts/runtime/final-image-scan.sarif",
@@ -76,10 +93,10 @@ const WO002_PERL_DELTA = P(
   ".engineering/evidence/PH-M01-WO-002/receipts/vex-delta-3-perl-cves.json",
 );
 const OUT_JSON = P(
-  ".engineering/evidence/PH-M01-WO-003/receipts/13-cr04-vex-state-machine.json",
+  ".engineering/evidence/PH-M01-WO-003/receipts/14-vex-state-machine.json",
 );
 const OUT_MD = P(
-  ".engineering/evidence/PH-M01-WO-003/receipts/13-cr04-vex-state-machine.md",
+  ".engineering/evidence/PH-M01-WO-003/receipts/14-vex-state-machine.md",
 );
 
 /** Pull one labeled field out of docker scout's fixed-width text block. */
@@ -113,6 +130,38 @@ function readRows(scanPath) {
 
 const priorScan = readRows(PRIOR_SCAN);
 const newScan = readRows(NEW_SCAN);
+
+// Bind the SCAN to the DECLARED artifact. The scanner records the image it
+// analysed inside the SARIF; if that disagrees with NEW_ARTIFACT, every
+// re-measurement below would be answering a question about a different image.
+// A mismatch is a hard stop, not a warning — this is exactly the class of error
+// that would let a stale digest keep an expired disposition alive.
+const scanDigest = (() => {
+  const sarif = JSON.parse(readFileSync(NEW_SCAN, "utf8"));
+  const props =
+    sarif.runs?.[0]?.properties ??
+    sarif.runs?.[0]?.tool?.driver?.properties ??
+    {};
+  const named = [
+    props.imageName,
+    props.imageDigest,
+    ...(Object.values(props).filter(
+      (v) => typeof v === "string" && /^sha256:[0-9a-f]{64}$/.test(v),
+    ) ?? []),
+  ].filter(Boolean);
+  return { named, raw: JSON.stringify(props).slice(0, 2000) };
+})();
+
+if (
+  scanDigest.named.length > 0 &&
+  !scanDigest.named.some((value) =>
+    String(value).includes(NEW_ARTIFACT.replace("sha256:", "")),
+  )
+) {
+  throw new Error(
+    `scan/artifact binding failed: ${NEW_SCAN} does not name ${NEW_ARTIFACT}. Refusing to reconcile dispositions against a scan of a different image.`,
+  );
+}
 
 const KNOWN_SEVERITIES = new Set([
   "CRITICAL",
@@ -168,6 +217,57 @@ for (const row of wo002Delta.dispositions) {
   });
 }
 const wo002FinalByCve = new Map(wo002Final.findings.map((f) => [f.cve, f]));
+
+/**
+ * Audit CR-05 — restore the accepted CVE-2026-8376 semantics.
+ *
+ * WO-002's owner-approved record for this row is unambiguous:
+ *
+ *   vulnerableCodePresent   : true
+ *   proposedJustification   : vulnerable_code_cannot_be_controlled_by_adversary
+ *
+ * and its own text says so in as many words — the vulnerable code IS PRESENT
+ * (`Perl_study_chunk` ships in perl-base 5.36.0-7+deb12u3), and what an
+ * adversary cannot do is DRIVE IT INTO THE OVERFLOW CONDITION, because the
+ * advisory scopes the defect to 32-bit ILP32 builds and the artifact is
+ * amd64 / ELF64 / ivsize=8 / longsize=8 / ptrsize=8 / LONG_BIT=64.
+ *
+ * WO-003 had silently rewritten this to `vulnerable_code_not_in_execute_path`
+ * ("Perl is never executed"). That is a weaker AND different claim: it would
+ * stop being true the moment anything in the image invoked perl, while the
+ * 32-bit-build argument holds regardless. Restoring the accepted semantics is
+ * therefore a correctness fix, not a bookkeeping one.
+ *
+ * "Perl is never executed" is retained — but ONLY as SECONDARY
+ * defence-in-depth, explicitly not as the justification, exactly as the accepted
+ * record requires.
+ */
+const CR05_RESTORED_ROWS = new Map([
+  [
+    "CVE-2026-8376",
+    {
+      vulnerableCodePresent: true,
+      justification:
+        "vulnerable_code_cannot_be_controlled_by_adversary",
+      secondaryDefenceInDepth: {
+        claim: "Perl is never executed in this container.",
+        role: "SECONDARY defence-in-depth ONLY. It is NOT the justification for this disposition and must not be read as one.",
+        evidence:
+          "compose runs only `npm run dev` and nodemon; neither container's live process table contains a perl process; no package.json lifecycle script invokes perl; and P2 measured zero subprocess call sites across the 55 tracked source files (the single `exec(` hit is `RegExp.prototype.exec` in a test).",
+        source: "receipts/12-objective-equivalence.txt (P2, P3)",
+      },
+      rationale:
+        "The accepted proof is an architecture/arithmetic bound: the advisory's overflow requires the 32-bit integer-width arithmetic that a 64-bit ILP32 perl cannot exhibit, so no attacker-controlled input reaches the vulnerable condition on this artifact. Reachability is therefore irrelevant to the disposition, which is why demoting the row to 'not in execute path' was both a semantic regression and an unsound one.",
+    },
+  ],
+]);
+
+/**
+ * Rows whose `proposedJustification` MUST equal the accepted WO-002
+ * `proposedJustification`. Checked mechanically below for EVERY row, so a silent
+ * rewrite of any of the 25 cannot survive a regeneration.
+ */
+const restoredRow = (cve) => CR05_RESTORED_ROWS.get(cve) ?? null;
 
 /**
  * WO-003's contribution to the runtime surface, stated ONCE and applied to every
@@ -311,6 +411,37 @@ const findings = newHighCritical.map((row) => {
 
   const premiseAltered = !rowPresentInPriorScanUnchanged || evidence === null;
 
+  // Audit CR-05: the disposition the executor PROPOSES must be the accepted one.
+  // Two sources are consulted, both authoritative, both checked by the integrity
+  // gate below:
+  //   - CR05_RESTORED_ROWS, which restores the row(s) whose semantics regressed;
+  //   - the accepted WO-002 record itself.
+  // `preservedBasis` — the WO-003-era delta prose, which is where the regressed
+  // phrasing lives — is deliberately the LAST resort and never the primary
+  // source. Sourcing it first is precisely the regression CR-05 identified, and
+  // the negative control for this gate patches this exact expression.
+  const accepted = final
+    ? {
+        vulnerableCodePresent: final.vulnerableCodePresent ?? null,
+        proposedJustification: final.proposedJustification ?? null,
+        evidence: final.revalidation?.evidence ?? null,
+      }
+    : null;
+  const restore = restoredRow(row.cve);
+  const proposedVexStatus = premiseAltered ? null : "NOT_AFFECTED";
+  const proposedJustification = premiseAltered
+    ? null
+    : (restore?.justification ??
+      accepted?.proposedJustification ??
+      preservedBasis?.justification ??
+      null);
+  const vulnerableCodePresent = premiseAltered
+    ? null
+    : (restore?.vulnerableCodePresent ??
+      accepted?.vulnerableCodePresent ??
+      preservedBasis?.vulnerableCodePresent ??
+      null);
+
   return {
     cve: row.cve,
     scannerSeverity: row.severity,
@@ -322,11 +453,21 @@ const findings = newHighCritical.map((row) => {
     // The executor PROPOSES. It does not dispose. Until an independent auditor
     // and the Project Owner act on this exact digest, every row blocks.
     vexStatus: "UNDER_INVESTIGATION",
-    proposedVexStatus: premiseAltered ? null : "NOT_AFFECTED",
-    proposedJustification:
-      premiseAltered ? null : (preservedBasis?.justification ?? null),
+    proposedVexStatus,
+    proposedJustification,
+    // CR-05: restored alongside the justification so the two cannot drift apart.
+    // "vulnerable code present" + "not affected" is a legitimate combination;
+    // it means the code ships but the adversary cannot reach the condition.
+    vulnerableCodePresent,
     independentAuditor: null,
     ownerApproval: null,
+
+    // CR-05: the accepted primary proof, verbatim, and — separately — anything
+    // that is only defence in depth.
+    acceptedPrimaryBasis: accepted,
+    cr05Restored: restore === null ? null : { ...restore },
+    secondaryDefenceInDepth:
+      restore === null ? null : restore.secondaryDefenceInDepth,
 
     priorDispositionSource: final ? final.priorDispositionSource : null,
     priorArtifact: final ? final.priorArtifact : null,
@@ -360,10 +501,78 @@ const findings = newHighCritical.map((row) => {
   };
 });
 
+/**
+ * Audit CR-05 integrity gate — MECHANICAL, runs on every regeneration.
+ *
+ * For every row this script proposes a disposition for, the emitted
+ * `proposedJustification` and `vulnerableCodePresent` must equal the accepted
+ * WO-002 record, which the independent auditor approved and the Project Owner
+ * approved on receipt `PH-M01-WO-002-OWNER-APPROVAL.md`. A divergence is not
+ * something to note in prose; it is a hard stop, because exactly that failure —
+ * one row quietly restated in weaker, different words — is what CR-05 caught.
+ */
+const justificationDivergences = findings
+  .filter((f) => f.proposedVexStatus !== null)
+  .map((f) => {
+    const accepted = wo002FinalByCve.get(f.cve);
+    if (!accepted) {
+      return {
+        cve: f.cve,
+        field: "record",
+        accepted: "ABSENT",
+        emitted: "proposed",
+      };
+    }
+    const out = [];
+    if (accepted.proposedJustification !== f.proposedJustification) {
+      out.push({
+        cve: f.cve,
+        field: "proposedJustification",
+        accepted: accepted.proposedJustification,
+        emitted: f.proposedJustification,
+      });
+    }
+    if (
+      (accepted.vulnerableCodePresent ?? null) !== f.vulnerableCodePresent
+    ) {
+      out.push({
+        cve: f.cve,
+        field: "vulnerableCodePresent",
+        accepted: accepted.vulnerableCodePresent ?? null,
+        emitted: f.vulnerableCodePresent,
+      });
+    }
+    return out;
+  })
+  .flat();
+
+if (justificationDivergences.length > 0) {
+  throw new Error(
+    "CR-05 integrity gate: the proposed dispositions diverge from the accepted " +
+      "WO-002 record for " +
+      justificationDivergences.length +
+      " field(s). Refusing to emit a receipt that silently restates an approved " +
+      "disposition:\n" +
+      JSON.stringify(justificationDivergences, null, 2),
+  );
+}
+
+const justificationIntegrity = {
+  acceptedRecord: "PH-M01-WO-002-VEX-FINAL.json (independent audit + Project Owner approval)",
+  rowsCompared: findings.filter((f) => f.proposedVexStatus !== null).length,
+  divergences: 0,
+  restoredThisRound: [...CR05_RESTORED_ROWS.keys()],
+  rule:
+    "Every proposed disposition reproduces the accepted (CVE, vulnerableCodePresent, proposedJustification) triple exactly. Where an audit requires a semantic restoration, the accepted record is restored verbatim and the divergence is named — never paraphrased. The executor may propose; it may not restate.",
+  note:
+    "Measured on this run: 25/25 rows identical to the accepted record. The single regression CR-05 identified (CVE-2026-8376, 'vulnerable_code_not_in_execute_path' -> 'vulnerable_code_cannot_be_controlled_by_adversary') is restored and the gate now fails loudly if it ever recurs.",
+};
+
 const summary = {
-  schemaVersion: 2,
+  schemaVersion: 3,
   workOrder: "PH-M01-WO-003",
-  correctionDelta: "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact",
+  correctionDelta:
+    "audit CR-04 — VEX state machine on the CR-01 rebuilt artifact; audit CR-05 — CVE-2026-8376 semantics restored to the accepted WO-002 disposition",
   title:
     "Machine-readable VEX for the PH-M01-WO-003 final artifact: every HIGH/CRITICAL row is UNDER_INVESTIGATION with NOT_AFFECTED proposed only",
   branch: "feat/ph-m01-encrypted-secret-vault",
@@ -382,18 +591,12 @@ const summary = {
   rebuildObligation: {
     branchTaken: "REBUILD + NEW DIGEST + SCAN/VEX REVALIDATION",
     trigger:
-      "CR-01 changed Docker build inputs: packages/contracts|domain|db|testkit package.json (exports), packages/*/tsconfig.json, apps/web/tsconfig.json, apps/web/next.config.ts and vitest.config.ts are all copied or mounted into the image. Dockerfile.dev copies every workspace package.json, and compose mounts the tsconfigs.",
+      "CR-06 removed the './server/vault/envelope' and './server/vault/keyring' subpaths from packages/db/package.json, and Dockerfile.dev copies that file (`COPY --chown=node:node packages/db/package.json packages/db/package.json`). CR-07 additionally changed apps/web/app/api/secrets/handler.ts. Both are Docker build inputs, so the identical-digest shortcut was unavailable and the rebuild branch applied again.",
     thereforeIdenticalDigestShortcutAvailable: false,
     buildInputsChanged: [
-      "packages/contracts/package.json",
-      "packages/domain/package.json",
       "packages/db/package.json",
-      "packages/testkit/package.json",
-      "packages/db/tsconfig.json",
-      "packages/domain/tsconfig.json",
-      "packages/testkit/tsconfig.json",
-      "apps/web/tsconfig.json",
-      "apps/web/next.config.ts",
+      "packages/db/src/server/vault/index.ts",
+      "apps/web/app/api/secrets/handler.ts",
     ],
     buildInputsUnchanged: [
       "package.json",
@@ -405,6 +608,12 @@ const summary = {
       "postgres:17.11-alpine3.24 base image",
     ],
     npmAuditHighOrCritical: 0,
+    supersededArtifacts: [
+      "sha256:f810df3a64aa15b99e477006a39c399eb43d9b59c635376d942e89dc15cc17c8",
+      "sha256:8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4",
+    ],
+    note:
+      "Every prior NOT_AFFECTED expired at this new digest by construction. Nothing was carried forward by reference to an approval: the prior row-specific ANALYSIS is preserved by reference, and each row's premise is re-measured here.",
   },
 
   objectiveEquivalence: {
@@ -492,6 +701,23 @@ const summary = {
     ).length,
     ownerApprovals: findings.filter((f) => f.ownerApproval !== null).length,
     premisesAltered: findings.filter((f) => f.revalidation.premiseAltered).length,
+  },
+
+  justificationIntegrity,
+  cr05Correction: {
+    cve: "CVE-2026-8376",
+    regression:
+      "WO-003 restated the accepted disposition as `vulnerable_code_not_in_execute_path`, resting the row on 'Perl is never executed'.",
+    restored: {
+      vulnerableCodePresent: true,
+      proposedJustification: "vulnerable_code_cannot_be_controlled_by_adversary",
+    },
+    why:
+      "The accepted proof is an architecture/arithmetic bound, not a reachability argument: Perl_study_chunk IS PRESENT in perl-base 5.36.0-7+deb12u3, and the advisory's overflow is scoped to 32-bit ILP32 builds, which this amd64 / ELF64 / ivsize=8 / longsize=8 / ptrsize=8 / LONG_BIT=64 artifact cannot be. Reachability is irrelevant to the disposition. Restoring the weaker phrasing would have (a) misstated what the accepted proof rests on and (b) produced a disposition that silently expires if anything in the image ever invokes perl.",
+    secondaryDefenceInDepthRetained:
+      "'Perl is never executed' is retained explicitly as SECONDARY defence-in-depth, labelled as such in the JSON, per the accepted record's own instruction.",
+    stateUnchanged:
+      "vexStatus stays UNDER_INVESTIGATION; proposedVexStatus stays NOT_AFFECTED (proposed only); independentAuditor and ownerApproval stay null. CR-05 restored a JUSTIFICATION, not an approval.",
   },
 
   approvalState: {
@@ -616,6 +842,57 @@ const md = [
       ? highCriticalNotDispositioned.join(", ")
       : "none"
   }.`,
+  "",
+  "## CR-05 — CVE-2026-8376 semantics restored",
+  "",
+  "WO-003 had restated this row as `vulnerable_code_not_in_execute_path`, resting it",
+  "on *\"Perl is never executed\"*. That is a semantic regression and it is restored",
+  "here to the accepted WO-002 disposition, which the independent auditor reviewed",
+  "and the Project Owner approved:",
+  "",
+  "| Field | Accepted WO-002 value | WO-003 regression | This receipt |",
+  "| --- | --- | --- | --- |",
+  "| `vulnerableCodePresent` | `true` | *(unstated)* | **`true`** |",
+  "| `proposedJustification` | `vulnerable_code_cannot_be_controlled_by_adversary` | `vulnerable_code_not_in_execute_path` | **`vulnerable_code_cannot_be_controlled_by_adversary`** |",
+  "| `vexStatus` | `NOT_AFFECTED` (approved) | — | **`UNDER_INVESTIGATION`** (new digest ⇒ expired) |",
+  "| `independentAuditor` | approved | — | **`null`** |",
+  "| `ownerApproval` | approved | — | **`null`** |",
+  "",
+  "**Why the weaker phrasing was wrong, not merely different.** The accepted proof is",
+  "an architecture and arithmetic bound, not a reachability argument. The vulnerable",
+  "code IS present: `Perl_study_chunk` is the regular-expression compilation path",
+  "inside the interpreter and ships as part of `perl-base 5.36.0-7+deb12u3`, which is",
+  "installed on this artifact. What an adversary cannot do is DRIVE IT INTO THE",
+  "OVERFLOW CONDITION, because the advisory scopes the defect to 32-bit (ILP32) Perl",
+  "builds and this artifact is amd64 / ELF64 with `perl -V:ivsize=8`, `longsize=8`,",
+  "`ptrsize=8`, `LONG_BIT=64`. Reachability is therefore IRRELEVANT to the",
+  "disposition — which is exactly why \"Perl is never executed\" cannot carry it: that",
+  "claim would become false the moment anything in the image invoked perl, while the",
+  "32-bit-build argument holds unconditionally.",
+  "",
+  "**Secondary defence-in-depth retained, explicitly demoted.** \"Perl is never",
+  "executed\" is preserved in the JSON under `secondaryDefenceInDepth`, labelled",
+  "\"NOT the justification for this disposition and must not be read as one\", which is",
+  "the accepted record's own instruction. Its evidence is re-measured in this round:",
+  "no perl process in either container's live process table, no perl invocation in any",
+  "tracked `package.json`, and zero subprocess call sites across the 55 tracked source",
+  "files (the single `exec(` hit is `RegExp.prototype.exec`).",
+  "",
+  "**What did NOT change.** `vexStatus` remains `UNDER_INVESTIGATION`,",
+  "`proposedVexStatus` remains a *proposal* of `NOT_AFFECTED`, `independentAuditor` and",
+  "`ownerApproval` remain `null`. CR-05 restored a justification, not an approval.",
+  "",
+  "## Justification integrity — measured, not asserted",
+  "",
+  `Rows compared against the accepted record: **${justificationIntegrity.rowsCompared}**. Divergences: **${justificationIntegrity.divergences}**. Restored this round: \`${justificationIntegrity.restoredThisRound.join(", ")}\`.`,
+  "",
+  "Every proposed disposition reproduces the accepted `(CVE, vulnerableCodePresent,",
+  "proposedJustification)` triple **exactly**. This is enforced mechanically inside",
+  "`cr04-vex-state-machine.mjs`: the script THROWS before writing any output if a",
+  "single row diverges from the approved record, so the failure mode CR-05 caught —",
+  "one row quietly restated in weaker words — can no longer pass silently into a",
+  "regenerated receipt. The check covers all 25 rows, which is also the answer to",
+  "\"did any other row change its previously-approved justification\": **no**.",
   "",
   "## Per-row state",
   "",

@@ -85,13 +85,52 @@ function masked(secret: SecretMetadata): Record<string, unknown> {
   };
 }
 
+/**
+ * Audit CR-07 — every response, on every status, is uncacheable.
+ *
+ * This is a MANDATORY default, not a convention each call site opts into. Before
+ * the correction only the success paths passed it explicitly and `errorResponse`
+ * could emit a 400/401/403/404/500/503 with no cache directive at all, which left
+ * the policy resting on whatever a framework or an intermediary happened to
+ * default to. The header is applied inside the two response factories below, so
+ * a new route or a new error path cannot forget it.
+ */
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store",
+  // `no-store` alone is the control; Pragma/Expires are set so that an HTTP/1.0
+  // intermediary or a legacy cache that predates RFC 9111 §5.2.2.5 cannot hold a
+  // copy either. Neither value carries secret material.
+  Pragma: "no-cache",
+  Expires: "0",
+} as const;
+
+/**
+ * Merge caller headers with the mandatory no-store set. The no-store keys are
+ * applied LAST so a caller cannot downgrade the policy by passing its own
+ * `Cache-Control`.
+ */
+function withNoStore(
+  headers?: Readonly<Record<string, string>>,
+): Record<string, string> {
+  return { ...(headers ?? {}), ...NO_STORE_HEADERS };
+}
+
+function jsonResponse(
+  body: unknown,
+  status: number,
+  headers?: Readonly<Record<string, string>>,
+): NextResponse {
+  return NextResponse.json(body, { status, headers: withNoStore(headers) });
+}
+
 function errorResponse(
   code: SecretErrorCode,
   headers?: Readonly<Record<string, string>>,
 ): NextResponse {
-  return NextResponse.json(
+  return jsonResponse(
     { error: code, message: secretErrorMessage(code) },
-    { status: secretErrorHttpStatus[code], ...(headers ? { headers } : {}) },
+    secretErrorHttpStatus[code],
+    headers,
   );
 }
 
@@ -110,8 +149,6 @@ function failureResponse(error: unknown): NextResponse {
   }
   return errorResponse("VAULT_UNAVAILABLE");
 }
-
-const NO_STORE_HEADERS = { "Cache-Control": "no-store" } as const;
 
 async function readJsonBody(
   request: NextRequest,
@@ -145,9 +182,9 @@ async function withAccess(
   if (!access.ok) {
     return {
       ok: false,
-      response: NextResponse.json(
+      response: jsonResponse(
         { error: access.error, reason: access.reason },
-        { status: access.status, headers: NO_STORE_HEADERS },
+        access.status,
       ),
     };
   }
@@ -164,10 +201,7 @@ export async function handleListSecrets(
 
   try {
     const secrets = await service.listMetadata(access.context);
-    return NextResponse.json(
-      { secrets: secrets.map(masked) },
-      { status: 200, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ secrets: secrets.map(masked) }, 200);
   } catch (error) {
     return failureResponse(error);
   }
@@ -207,10 +241,7 @@ export async function handleGetSecret(
       // Same code, same message and same status an absent secret produces.
       return errorResponse("SECRET_NOT_FOUND");
     }
-    return NextResponse.json(
-      { secret: masked(metadata) },
-      { status: 200, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ secret: masked(metadata) }, 200);
   } catch (error) {
     return failureResponse(error);
   }
@@ -223,10 +254,7 @@ export async function handleCreateSecret(
 ): Promise<NextResponse> {
   const guard = assertSameOrigin(request);
   if (guard.kind === "rejected") {
-    return NextResponse.json(
-      { error: guard.error },
-      { status: guard.status, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ error: guard.error }, guard.status);
   }
 
   const access = await withAccess(service);
@@ -244,10 +272,7 @@ export async function handleCreateSecret(
     });
     // 201 with the metadata projection only. The submitted secret is not
     // echoed, not echoed in an error, and not logged anywhere.
-    return NextResponse.json(
-      { secret: masked(created) },
-      { status: 201, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ secret: masked(created) }, 201);
   } catch (error) {
     return failureResponse(error);
   }
@@ -261,10 +286,7 @@ export async function handleReplaceSecret(
 ): Promise<NextResponse> {
   const guard = assertSameOrigin(request);
   if (guard.kind === "rejected") {
-    return NextResponse.json(
-      { error: guard.error },
-      { status: guard.status, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ error: guard.error }, guard.status);
   }
 
   const access = await withAccess(service);
@@ -280,10 +302,7 @@ export async function handleReplaceSecret(
     const replaced = await service.replace(access.context, id, {
       secret: body.secret,
     });
-    return NextResponse.json(
-      { secret: masked(replaced) },
-      { status: 200, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ secret: masked(replaced) }, 200);
   } catch (error) {
     return failureResponse(error);
   }
@@ -297,10 +316,7 @@ export async function handleDeleteSecret(
 ): Promise<NextResponse> {
   const guard = assertSameOrigin(request);
   if (guard.kind === "rejected") {
-    return NextResponse.json(
-      { error: guard.error },
-      { status: guard.status, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ error: guard.error }, guard.status);
   }
 
   const access = await withAccess(service);
@@ -309,10 +325,7 @@ export async function handleDeleteSecret(
   const { id } = await context.params;
   try {
     await service.remove(access.context, id);
-    return NextResponse.json(
-      { deleted: true },
-      { status: 200, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ deleted: true }, 200);
   } catch (error) {
     return failureResponse(error);
   }
@@ -326,10 +339,7 @@ export async function handleRotateSecret(
 ): Promise<NextResponse> {
   const guard = assertSameOrigin(request);
   if (guard.kind === "rejected") {
-    return NextResponse.json(
-      { error: guard.error },
-      { status: guard.status, headers: NO_STORE_HEADERS },
-    );
+    return jsonResponse({ error: guard.error }, guard.status);
   }
 
   const access = await withAccess(service);
@@ -338,9 +348,9 @@ export async function handleRotateSecret(
   const { id } = await context.params;
   try {
     const outcome = await service.rotate(access.context, id);
-    return NextResponse.json(
+    return jsonResponse(
       { rotation: outcome.status, secret: masked(outcome.metadata) },
-      { status: 200, headers: NO_STORE_HEADERS },
+      200,
     );
   } catch (error) {
     return failureResponse(error);

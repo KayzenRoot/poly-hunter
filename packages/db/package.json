@@ -23,16 +23,6 @@
       "types": "./src/server/vault/index.ts",
       "import": "./src/server/vault/index.ts",
       "default": "./src/server/vault/index.ts"
-    },
-    "./server/vault/envelope": {
-      "types": "./src/server/vault/envelope.ts",
-      "import": "./src/server/vault/envelope.ts",
-      "default": "./src/server/vault/envelope.ts"
-    },
-    "./server/vault/keyring": {
-      "types": "./src/server/vault/keyring.ts",
-      "import": "./src/server/vault/keyring.ts",
-      "default": "./src/server/vault/keyring.ts"
     }
   },
   "scripts": {

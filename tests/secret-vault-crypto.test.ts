@@ -15,18 +15,24 @@ import {
   type SecretBinding,
   SecretVaultError,
 } from "@polyhunter/domain";
+// Internal primitives are reached by RELATIVE path on purpose (audit CR-06):
+// the package no longer exposes `./server/vault/envelope` or
+// `./server/vault/keyring` as public subpaths, and the production API must not
+// be widened just to make a test convenient. This file exercises the envelope
+// and keyring internals directly; the product consumes them only through
+// `createSecretVault` / `withDecryptedSecret`.
 import {
   assertSecretPlaintextBytes,
   openSecret,
   randomNonceSource,
   sealSecret,
   secretEnvelopeAad,
-} from "@polyhunter/db/server/vault/envelope";
+} from "../packages/db/src/server/vault/envelope.ts";
 import {
   keyringEnvironmentVariables,
   parseVaultKeyring,
   readVaultKeyringFromEnvironment,
-} from "@polyhunter/db/server/vault/keyring";
+} from "../packages/db/src/server/vault/keyring.ts";
 
 const repositoryRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 

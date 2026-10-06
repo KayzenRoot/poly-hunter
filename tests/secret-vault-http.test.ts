@@ -824,4 +824,182 @@ describe("PH-M01-WO-003 secret HTTP boundary", () => {
       }
     });
   });
+
+  /**
+   * Audit CR-07 — `Cache-Control: no-store` is a MANDATORY DEFAULT.
+   *
+   * Before the correction only the success paths passed `NO_STORE_HEADERS`
+   * explicitly and `errorResponse()` could emit a status with no cache
+   * directive at all, which left the policy resting on whatever a framework or
+   * an intermediary defaulted to. These cases walk EVERY status the surface can
+   * produce and require the header on each, while re-asserting that the error
+   * bodies still carry no plaintext or envelope material.
+   *
+   * The property being defended is that a cached error is as damaging as a
+   * cached success: a 404 is an existence oracle and a 503 can carry a reason.
+   */
+  describe("no-store on every status (audit CR-07)", () => {
+    const vaultError = (code: string) =>
+      Object.assign(new Error("internal"), { code });
+
+    it.each([
+      ["400 INVALID_SECRET_INPUT", "INVALID_SECRET_INPUT", 400],
+      ["403 SECRET_FORBIDDEN", "SECRET_FORBIDDEN", 403],
+      ["404 SECRET_NOT_FOUND", "SECRET_NOT_FOUND", 404],
+      ["500 SECRET_INTEGRITY_FAILURE", "SECRET_INTEGRITY_FAILURE", 500],
+      ["503 VAULT_UNAVAILABLE", "VAULT_UNAVAILABLE", 503],
+      ["503 KEY_VERSION_UNAVAILABLE", "KEY_VERSION_UNAVAILABLE", 503],
+      ["503 NONCE_COLLISION", "NONCE_COLLISION", 503],
+    ] as const)("sets no-store on %s", async (_label, code, status) => {
+      const service = stubService({
+        listMetadata: vi.fn(async () => {
+          throw vaultError(code);
+        }),
+      });
+      const response = await handleListSecrets(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+      );
+
+      expect(response.status).toBe(status);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      const text = await response.text();
+      expect(text).not.toContain(PLAINTEXT);
+      // The frozen message for NONCE_COLLISION legitimately contains the word
+      // "nonce", so the containment check is structural: no envelope field may
+      // appear as a KEY, and no value may carry material.
+      const parsed = JSON.parse(text) as Record<string, unknown>;
+      expect(Object.keys(parsed).sort()).toEqual(["error", "message"]);
+      for (const key of Object.keys(parsed)) {
+        expect(key.toLowerCase()).not.toMatch(
+          /ciphertext|nonce|authtag|auth_tag|keyversion|keyring|plaintext|last4/,
+        );
+      }
+      expect(parsed).toEqual({
+        error: code,
+        message: secretErrorMessage(code),
+      });
+    });
+
+    it("sets no-store on the 400 raised by input validation", async () => {
+      const service = stubService();
+      const response = await handleCreateSecret(
+        mutationRequest({ purpose: "ok.purpose" }),
+        service as unknown as SecretServiceContract,
+      );
+
+      expect(response.status).toBe(400);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      assertNoLeak(await response.text());
+      expect(service.create).not.toHaveBeenCalled();
+    });
+
+    it("sets no-store on a single-secret GET that finds nothing", async () => {
+      const service = stubService({ getMetadata: vi.fn(async () => null) });
+      const response = await handleGetSecret(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+        { params },
+      );
+
+      expect(response.status).toBe(404);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      const text = assertNoLeak(await response.text());
+      expect(text).not.toContain(SECRET_ID);
+    });
+
+    it("sets no-store on the cross-tenant not-found and cannot be told apart", async () => {
+      // The absent id and the other tenant's id must stay indistinguishable —
+      // status, body AND cache directive — or the 404 itself becomes a
+      // cross-tenant existence oracle. The vault answers `null` for both; this
+      // pins that the boundary adds nothing back.
+      const absent = stubService({ getMetadata: vi.fn(async () => null) });
+      const foreign = stubService({ getMetadata: vi.fn(async () => null) });
+
+      const a = await handleGetSecret(
+        fakeRequest({}),
+        absent as unknown as SecretServiceContract,
+        { params: Promise.resolve({ id: SECRET_ID }) },
+      );
+      const b = await handleGetSecret(
+        fakeRequest({}),
+        foreign as unknown as SecretServiceContract,
+        {
+          params: Promise.resolve({
+            id: "99999999-9999-4999-8999-999999999999",
+          }),
+        },
+      );
+
+      expect(a.status).toBe(404);
+      expect(b.status).toBe(404);
+      expect(a.headers.get("Cache-Control")).toBe("no-store");
+      expect(b.headers.get("Cache-Control")).toBe("no-store");
+      const foreignText = await b.text();
+      const absentText = await a.text();
+      expect(foreignText).toBe(absentText);
+      expect(absentText).not.toContain(SECRET_ID);
+    });
+
+    it("sets no-store on the 401 and 403 access refusals", async () => {
+      for (const [status, error] of [
+        [401, "unauthenticated"],
+        [403, "tenant_context_unavailable"],
+      ] as const) {
+        const service = stubService({
+          resolveAccess: vi.fn(async () => ({
+            ok: false as const,
+            status,
+            error,
+            reason: "denied",
+          })),
+        });
+        const response = await handleListSecrets(
+          fakeRequest({}),
+          service as unknown as SecretServiceContract,
+        );
+
+        expect(response.status).toBe(status);
+        expect(response.headers.get("Cache-Control")).toBe("no-store");
+        assertNoLeak(await response.text());
+        expect(service.listMetadata).not.toHaveBeenCalled();
+      }
+    });
+
+    it("sets no-store on the cross-origin CSRF refusal", async () => {
+      const service = stubService();
+      const response = await handleCreateSecret(
+        fakeRequest(
+          { origin: "https://evil.example" },
+          {
+            purpose: "ok.purpose",
+            secret: PLAINTEXT,
+          },
+        ),
+        service as unknown as SecretServiceContract,
+      );
+
+      expect(response.status).toBe(403);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      assertNoLeak(await response.text());
+      expect(service.create).not.toHaveBeenCalled();
+    });
+
+    it("cannot have no-store downgraded by a caller-supplied header", async () => {
+      // The merge order in the handler applies the mandatory keys LAST, so a
+      // call site that tries to re-enable caching cannot. This pins that.
+      const response = await handleListSecrets(
+        fakeRequest({}),
+        stubService({
+          listMetadata: vi.fn(async () => {
+            throw vaultError("VAULT_UNAVAILABLE");
+          }),
+        }) as unknown as SecretServiceContract,
+      );
+
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+      expect(response.headers.get("Pragma")).toBe("no-cache");
+      expect(response.headers.get("Expires")).toBe("0");
+    });
+  });
 });

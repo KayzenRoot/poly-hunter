@@ -38,26 +38,27 @@ if (typeof window !== "undefined") {
 }
 
 /**
- * The envelope and keyring contracts are re-exported here so there is exactly
- * ONE importable server entry point for the vault. Nothing outside this module
- * needs to know that `./envelope.ts` and `./keyring.ts` exist, and the web
- * boundary cannot reach past the guarded entry to an unguarded sub-path.
+ * Least authority for the public entry point (audit CR-06).
+ *
+ * The ONLY runtime capability this module exports is the vault facade below
+ * plus the two configuration variable NAMES. `openSecret`, `sealSecret`, the
+ * raw envelope primitives, `VaultKeyring` and the keyring resolvers are
+ * deliberately NOT part of the product API: a consumer holding a bare keyring
+ * could decrypt any ciphertext without going through tenant authorization, a
+ * purpose scope and the `withDecryptedSecret` lifecycle. "Server-only" is not a
+ * mitigation — every Node process in this system is a server — so the boundary
+ * is enforced by absence from the public surface and by
+ * `tests/workspace-boundaries.test.ts`.
+ *
+ * `KeyringConfiguration` and `NonceSource` are re-exported TYPE-ONLY. A type
+ * carries no runtime capability, and `createSecretVault`'s public option type
+ * would otherwise be unnameable by consumers.
  */
-export {
-  openSecret,
-  randomNonceSource,
-  sealSecret,
-  secretEnvelopeAad,
-  type NonceSource,
-  type SealedEnvelope,
-} from "./envelope.ts";
+export type { NonceSource } from "./envelope.ts";
 export {
   ACTIVE_KEY_VERSION_ENV,
   KEYRING_JSON_ENV,
-  isVaultKeyringConfigured,
-  keyringEnvironmentVariables,
-  readVaultKeyringFromEnvironment,
-  type VaultKeyring,
+  type KeyringConfiguration,
 } from "./keyring.ts";
 
 /**

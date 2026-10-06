@@ -69,8 +69,6 @@ describe("workspace boundaries", () => {
       "./server/authorization",
       "./server/identity",
       "./server/vault",
-      "./server/vault/envelope",
-      "./server/vault/keyring",
     ]);
     // CR-01: the workspace publishes TypeScript SOURCE, never a build output.
     // Every export condition of every workspace must point at a tracked source
@@ -174,5 +172,111 @@ describe("workspace boundaries", () => {
         expect(specifier?.toLowerCase()).not.toContain("provider");
       }
     }
+  });
+});
+
+/**
+ * Audit CR-06 — close the vault side door.
+ *
+ * The product must not hand out a generic decrypt function or a bare keyring.
+ * A consumer holding either could open any ciphertext without tenant
+ * authorization, without a purpose scope and without the `withDecryptedSecret`
+ * lifecycle that zeroes the buffer. These tests FAIL if the raw primitives ever
+ * become publicly reachable again, whether by a new package subpath export or
+ * by re-exporting them from the vault entry.
+ */
+describe("vault public surface", () => {
+  const forbiddenRuntimeExports = [
+    "openSecret",
+    "sealSecret",
+    "randomNonceSource",
+    "secretEnvelopeAad",
+    "assertProtocolNonce",
+    "assertSecretPlaintextBytes",
+    "parseVaultKeyring",
+    "readVaultKeyringFromEnvironment",
+    "isVaultKeyringConfigured",
+    "keyringEnvironmentVariables",
+  ];
+
+  it("exposes no envelope or keyring subpath from the db package", async () => {
+    const manifest = await manifestAt(
+      resolve(repositoryRoot, "packages/db/package.json"),
+    );
+    const subpaths = Object.keys(
+      (manifest.exports ?? {}) as Record<string, unknown>,
+    );
+
+    for (const subpath of subpaths) {
+      expect(subpath).not.toMatch(/envelope/i);
+      expect(subpath).not.toMatch(/keyring/i);
+      expect(subpath).toMatch(/^\.\/server(?:[a-z/-]*)$/);
+    }
+    // The vault subpath itself must never point below `vault/index.ts`; an
+    // export target of `.../envelope.ts` or `.../keyring.ts` would re-open the
+    // door under the same, innocuous-looking subpath name.
+    const vault = (
+      (manifest.exports ?? {}) as Record<string, Record<string, string>>
+    )["./server/vault"];
+    for (const target of Object.values(vault ?? {})) {
+      expect(target).toBe("./src/server/vault/index.ts");
+    }
+  });
+
+  // The import below pulls in the real vault entry, so it loads pg, drizzle and
+  // the domain package. Under the full suite that is seconds of module work and
+  // the default 5s budget is not enough — a timeout here would read as "the
+  // export surface is wrong" when it is not. The explicit budget is for the
+  // import cost, and the assertions themselves are instant.
+  it("exports no raw decrypt or keyring resolver from the vault entry", async () => {
+    const entry = await import("../packages/db/src/server/vault/index.ts");
+    const runtimeExports = Object.keys(entry).sort();
+
+    for (const forbidden of forbiddenRuntimeExports) {
+      expect(runtimeExports).not.toContain(forbidden);
+    }
+    // A type-only export compiles away; if one of these ever became a value
+    // the runtime list above would change. Pin the whole surface instead.
+    expect(runtimeExports).toEqual(
+      [
+        "ACTIVE_KEY_VERSION_ENV",
+        "KEYRING_JSON_ENV",
+        "createSecretVault",
+      ].sort(),
+    );
+  }, 30_000);
+
+  it("gives the product exactly one plaintext path, and it is scoped", async () => {
+    const productSources = [
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/web/app"))),
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/web/src"))),
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/worker/src"))),
+    ];
+
+    // Any production file that mentions the decrypt surface must be inside the
+    // vault itself; nothing else may even name it.
+    for (const path of productSources) {
+      const source = await readFile(path, "utf8");
+      expect(source, path).not.toMatch(
+        /\b(?:openSecret|sealSecret|readVaultKeyringFromEnvironment|parseVaultKeyring)\b/,
+      );
+    }
+    // And the one admitted consumer path keeps its tenant + purpose + lifecycle
+    // contract.
+    const index = await readFile(
+      resolve(repositoryRoot, "packages/db/src/server/vault/index.ts"),
+      "utf8",
+    );
+    expect(index).toContain("withDecryptedSecret");
+    // Comment lines are stripped first: the vault's own documentation names
+    // `getPlaintextSecret()` precisely to say it does not exist, and matching
+    // prose would make this assertion pass for the wrong reason or fail for a
+    // doc edit. What must not exist is the DECLARATION.
+    const code = index
+      .split("\n")
+      .filter((line) => !line.trimStart().startsWith("*"))
+      .join("\n");
+    expect(code).not.toMatch(/getPlaintextSecret/);
+    expect(code).not.toMatch(/\bfunction\s+getPlaintext/i);
   });
 });

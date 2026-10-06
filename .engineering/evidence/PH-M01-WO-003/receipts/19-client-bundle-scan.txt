@@ -1,0 +1,45 @@
+PH-M01-WO-003 — client-bundle containment (CR-05..CR-08 round)
+generated: 2026-10-06T17:39:58Z
+
+Scan target: apps/web/.next/static — the ONLY directory a browser downloads.
+Scan performed on the PRODUCTION build produced by 'npm run build' during
+npm run validate, with a keyring-shaped configuration exercised separately.
+
+Negative control: apps/web/.next/server — the server bundle, where the vault is
+SUPPOSED to live. A scan that reports 0 everywhere proves nothing, so the same
+patterns are run against both trees.
+
+pattern                                    static   server
+----------------------------------------   ------   ------
+POLYHUNTER_SECRET_KEYRING_JSON                  0        2
+POLYHUNTER_SECRET_ACTIVE_KEY_VERSION            0        2
+polyhunter-secret-envelope-v1                   0        5
+createCipheriv                                  0        2
+createDecipheriv                                0        2
+setAuthTag                                      0        2
+ciphertext                                      0        7
+withDecryptedSecret                             0        4
+openSecret                                      0        2
+sealSecret                                      0        2
+VaultKeyring                                    0        2
+readVaultKeyringFromEnvironment                 0        1
+parseVaultKeyring                               0        2
+keyringJson                                     0        2
+api/secrets                                     0       17
+
+javascript files                                9       77
+total size                                   575K      14M
+
+Reading: every pattern is 0 in the client bundle and non-zero in the server
+bundle. The non-zero column is the control — it shows the patterns would have
+been found had they been present.
+
+One pattern needed its name corrected during this run, and the correction is recorded:
+"decryptedSecret" appears in NEITHER tree because the vault names the member
+"withDecryptedSecret"; re-run under the real name it is 0 client / 4 server. A
+pattern that is absent everywhere is a broken probe, not evidence.
+
+The client bundle is scanned while a keyring-shaped value is NOT configured in
+the build environment, which is the honest state: next detects NEXT_PUBLIC_*
+statically, but the vault reads its keyring at request time on the server, so
+no configuration value can reach a client chunk even in principle.
