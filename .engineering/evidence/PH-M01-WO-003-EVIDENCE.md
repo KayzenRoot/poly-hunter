@@ -1132,13 +1132,14 @@ artifact that contained the defect.
 and in the real PR #39 body.
 
 **GitHub Actions Validate is SUCCESS on this branch.** The audit target is the commit
-carrying the code, tests, evidence and the scan-binding fix of this round,
-`7511ec76a545154999d4b419f01529163898daa3` (it contains the code commit
-`025ff1eb87cf2b904e68f0106b7e75cbda2ca7b7`), validated by run `37507882222` — the
+carrying the code, tests, evidence and evidence-script changes of this round,
+`5905bc24f22b5d038d8cba86fb26eeec5686f5b9`, validated by run `37514172213` — the
 `Node 24 validation` job green. CodeRabbit reports `success` on the same commit
 (review skipped while the PR is a draft — its configured behavior; the status is
-green). That run is also an independent CR-01 proof: the runner does a clean Git
-checkout with no `packages/**/dist` and runs the gates green.
+green). The governance commit it sits on, `0ee159f65fb3…` (the revised JEV MCP
+policy), was itself validated by run `37510790332`, green. That run is also an
+independent CR-01 proof: the runner does a clean Git checkout with no
+`packages/**/dist` and runs the gates green.
 
 Every commit after the audit target is **documentation-only** (recording the CI result
 itself) and carries its own green run; the live list, including the tip commit and its
@@ -1147,9 +1148,19 @@ cannot name the commit that carries the file.
 
 Two adjacent signals are recorded rather than suppressed: **Socket Security** passes,
 and **SonarCloud Code Analysis fails — pre-existing**, identically on the previously
-audited heads `a55ef18` and `59ae44b`, on "New Code" ratings (10 issue instances listed
-in the checkpoint delta). It is not a gate of this Work Order; none of the instances is
-introduced by this round.
+audited heads (`a55ef18`, `59ae44b`, `36fdff8`), on "New Code" ratings (10 issue
+instances listed in the checkpoint delta). It is not a gate of this Work Order; none of
+the instances is introduced by this round.
+
+**JEV MCP execution is evidenced separately (receipt `24`).** The locally installed
+JEV MCP server was confirmed healthy, its live tool inventory was discovered and
+recorded, and six bounded calls were made under the routing the revised policy
+requires: classification (VEX semantic comparison, pre- and post-fix — it flagged
+`CVE-2026-8376` before the fix and cleared it after), classification (delta file kinds
+vs build inputs), rerank (minimum evidence set), verify (three bounded claims, all
+verified), review and a final combined gate (6/6 completion claims verified; both
+review calls escalated conservatively on `safe_to_apply`, which is not an approval
+and not cited as evidence of any security property).
 
 Points an auditor should weigh most heavily:
 

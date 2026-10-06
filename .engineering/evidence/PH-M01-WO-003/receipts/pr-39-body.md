@@ -6,129 +6,135 @@ rotation and nonce-collision handling.
 
 **STOP STATE: `READY_FOR_FINAL_INDEPENDENT_AUDIT`**
 
-## Correction round CR-05..CR-08 (independent review `5431841905`)
+## Correction rounds
 
-Review `5431841905` (raised against HEAD `a55ef185b135f2ab8e7593989e63c90f5be2af49`)
-closed CR-01..CR-04 and required four more corrections. All four are addressed.
+| Round | Review | Findings | State |
+| --- | --- | --- | --- |
+| 1 | `5430901717` | CR-01..CR-04 | CLOSED |
+| 2 | `5431841905` | CR-05..CR-08 | CLOSED |
+| 3 | `5432758271` | **CR-09..CR-10** | this round |
+
 **The AES-256-GCM architecture remains accepted and was not revisited.**
 
-| CR | Finding | Resolution |
-| --- | --- | --- |
-| **CR-05** | `CVE-2026-8376` had been restated as `vulnerable_code_not_in_execute_path` ("Perl is never executed") — a semantic regression from the owner-approved WO-002 disposition. | Restored to `vulnerableCodePresent: true` + `vulnerable_code_cannot_be_controlled_by_adversary`, resting on the 32-bit-build arithmetic bound. "Perl is never executed" demoted to explicitly-labelled secondary defence-in-depth. A mechanical gate now **throws** before writing output if any of the 25 rows diverges from the accepted record; both failure modes reproduced as negative controls. |
-| **CR-06** | The public package surface exposed raw decrypt/keyring capabilities (`openSecret`, `sealSecret`, `VaultKeyring`, keyring resolvers) and the `./server/vault/envelope` + `./server/vault/keyring` subpaths — a generic side door around the audited `withDecryptedSecret` boundary. | Public surface narrowed to `createSecretVault`, the `SecretVault`/`RotateOutcome`/`SecretVaultOptions` types, two **type-only** re-exports and the two configuration variable **names**. Both subpaths deleted from `packages/db/package.json`. Crypto tests import internals by relative path. New workspace-boundary regression tests fail if the door reopens — including under an innocuously-named subpath. |
-| **CR-07** | `errorResponse()` could emit a 400/401/403/404/500/503 with no explicit cache directive, leaving the policy to framework/intermediary defaults. | `Cache-Control: no-store` is a **mandatory default** merged last inside the two response factories; every former `NextResponse.json` call site converted; `Pragma: no-cache` + `Expires: 0` added. 20 new tests cover all seven frozen codes, the validation 400, single-GET not-found, cross-tenant not-found (byte-identical), 401/403 refusals and the CSRF 403. |
-| **CR-08** | Governance records (real PR body, test counts, artifact digest, VEX state, Work Order header) were stale and contradicted the final artifact. | This body synchronised with the exact heads, artifact `aee3ad8c…`, CI runs, counts, migration/Docker/scan status and the proposed VEX state; Work Order header moved to `EXECUTED / READY_FOR_INDEPENDENT_AUDIT`; evidence bundle, checkpoint delta and receipts regenerated for the new digest. `.engineering/CHECKPOINT.json` **untouched**. |
+### CR-09 — authoritative status window (this round)
+
+The authority probe decided from `ph_membership.role` **plus** `ph_user.status` and
+`ph_tenant.status`, but held only `FOR SHARE OF ph_membership`. Under READ COMMITTED a
+concurrent user/tenant suspension could commit after the probe returned, and the vault
+would continue its mutation or plaintext materialization on a stale decision.
+
+**The fix.** The single probe statement now holds
+`FOR SHARE OF ph_membership, ph_user, ph_tenant` — all three authority rows stable for
+the whole transaction. One statement, deterministic order (membership → user → tenant,
+matching the FROM/JOIN order), `authorize` as the **first statement** of every vault
+transaction, and the vault is the only multi-row locker of these tables in the product
+(the only other row lock is `FOR UPDATE` on `identity_links`), so the global lock order
+into `encrypted_secrets` is never inverted and no wait cycle can form. No in-memory
+mutex anywhere; the guarantee is a PostgreSQL property and holds across processes and
+containers.
+
+**Proven on independent connections** (`authoritative status window (audit CR-09)`, 2
+tests against real PostgreSQL 17): for each of the four authority mutations — role
+downgrade, membership suspension, user suspension, tenant suspension — the change
+**blocks** (SQLSTATE `55P03` under an explicit `SET LOCAL lock_timeout`) while the
+window is held, on **both** `withDecryptedSecret` (callback promise resolved from
+inside the transaction) and a **mutation** (`replace`; a holder connection parks the
+vault after `authorize`, synchronized via `pg_stat_activity`
+`wait_event_type = 'Lock'` — no sleep decides any ordering point). After the vault
+transaction ends, the queued change commits and the **next** operation fails closed
+with `SECRET_FORBIDDEN`.
+
+**Negative control:** with the pre-correction membership-only lock, both tests FAIL —
+`user suspension was NOT blocked by the authority window` — while role downgrade and
+membership suspension still pass, pinpointing exactly the half CR-02 had not closed.
+Comments in `authorization.ts` and `vault/index.ts` were rewritten to the real
+semantics. Receipt `23`, section 3.
+
+### CR-10 — `CVE-2026-8376` canonical basis (this round)
+
+The top level was correct after CR-05, but the **nested**
+`preservedPriorBasis.justification` still carried the superseded
+`vulnerable_code_not_in_execute_path`, seeded from the PRE-correction WO-002 delta file
+— two incompatible justification axes in one machine-readable row.
+
+**The fix.** Delta-sourced preserved bases are rebuilt from the canonical owner-approved
+`PH-M01-WO-002-VEX-FINAL.json` and flagged `fromCanonicalFinal: true`; a delta-sourced
+row without a canonical row is a hard stop at generation time. For `CVE-2026-8376`
+every justification-bearing field now resolves to
+`vulnerableCodePresent: true` + `vulnerable_code_cannot_be_controlled_by_adversary`,
+with the canonical record's own evidence text as the preserved basis — the text that
+states "Perl is never executed" is **not** part of the justification (it remains only
+as explicitly-labelled secondary defence-in-depth).
+
+**The gate now walks every nested field:** any string exactly equal to a VEX
+justification enum anywhere in the row must equal the accepted justification; any
+boolean `vulnerableCodePresent` at any nesting must equal the accepted value; a
+WO-002-sourced preserved basis must be flagged canonical; a row may not register an
+approval or leave `UNDER_INVESTIGATION`. **Both failure modes were observed to fail the
+gate:** the historical delta-seeding mechanism, and the review's requested mutation of
+a nested field back to `vulnerable_code_not_in_execute_path` (exactly one divergence
+reported, for `CVE-2026-8376`, at
+`$.preservedPriorBasis.justification (justification enum, nested scan)`). Receipt `23`,
+section 4.
+
+**Independent confirmation, three ways:** deterministic recursive scan over all 25 rows
+→ 0 exact-enum mismatches vs the canonical record; JEV advisory classification → 25
+CONSISTENT / 0 divergent (it flagged `CVE-2026-8376` before the fix and cleared it
+after — a sensitivity check, receipt `24`); and the review's expected state:
+**25 `UNDER_INVESTIGATION` / 25 proposed `NOT_AFFECTED` / 0 `AFFECTED` / 0
+independent-auditor approvals / 0 owner approvals.**
+
+### Previous rounds (CLOSED)
+
+- **CR-01** source-first workspace exports remove the stale/untracked `dist` dependency
+  (clean-checkout hermeticity).
+- **CR-02** capability authority is the current `tenant_memberships.role` inside the
+  transaction; divergence from `context.role` fails closed.
+- **CR-03** `GET /api/secrets/[id]`, metadata only, no cross-tenant existence oracle.
+- **CR-04** the VEX is a proposed-state machine; the executor proposes, it does not
+  dispose.
+- **CR-05** `CVE-2026-8376` restored to the accepted disposition semantics.
+- **CR-06** raw decrypt/keyring primitives removed from the public package surface;
+  the two vault subpaths deleted from `packages/db/package.json`.
+- **CR-07** `Cache-Control: no-store` a mandatory default on every status, merged last
+  so no call site can downgrade it.
+- **CR-08** governance synchronised (real PR body, counts, digest, VEX state, Work
+  Order header).
 
 ## Execution HEAD
 
 | | |
 | --- | --- |
-| Audit target (code + tests + evidence) | `7511ec76a545154999d4b419f01529163898daa3` — contains the code commit `025ff1eb87cf2b904e68f0106b7e75cbda2ca7b7` |
-| GitHub Actions Validate | run `37507882222` — **SUCCESS**, `Node 24 validation` job green |
+| Audit target (code + tests + evidence) | `5905bc24f22b5d038d8cba86fb26eeec5686f5b9` |
+| GitHub Actions Validate | run `37514172213` — **SUCCESS**, `Node 24 validation` job green |
 | CodeRabbit | **success** on the same commit (review skipped while the PR is a draft — CodeRabbit's configured behavior, status green) |
+| Governance base of this round | `0ee159f65fb3…` (revised JEV MCP policy) — run `37510790332`, green |
 | Branch | `feat/ph-m01-encrypted-secret-vault` |
 | Base | `main@af6235d2164171985af6152ba03835826ace3cdb` |
 | Merge-base | `af6235d2164171985af6152ba03835826ace3cdb` — exact, zero drift |
-| Artifact | `polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2` |
-| Superseded artifacts | `sha256:8bd3e85a…` (CR-01..CR-04 round), `sha256:f810df3a…` (first rebuild), `sha256:eddda17a…` (inherited from WO-002) |
+| Artifact | `polyhunter-dev:local@sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2` — **PRESERVED this round** |
+| JEV MCP | used through its actual installed server; inventory, calls, escalation and no-secrets statement in receipt `24` |
 
-**The rebuild was mandatory.** `Dockerfile.dev` copies `packages/db/package.json`, and
-CR-06 removed the two vault subpaths from that file — a Docker build input. So this
-round applies the rebuild branch: new digest, fresh `docker scout` scan, full VEX
-revalidation against `aee3ad8c…`. Unchanged across all three rebuilds:
-`package-lock.json`, root `package.json`, `Dockerfile.dev`, base image
-`node:24-bookworm-slim`, every dependency version. Verified on the image itself:
-`/workspace/packages/db/package.json` inside the running container carries the
-four-subpath export map with no envelope/keyring entry.
+**No rebuild this round, and that is proven rather than assumed.** The delta touches
+application source (bind-mounted), tests and evidence scripts only; the build-input
+diff over the delta is empty (`git diff --name-only … | grep -E
+"package\.json|package-lock|Dockerfile|compose|tsconfig"` → empty);
+`docker inspect` reports the running image is still `aee3ad8c…`; premises P1, P2, P6
+and P7 were re-measured against the new source. No new scan, no VEX reset.
 
 Any commit after the audit target is **documentation-only** (recording the CI result
 itself) and carries its own green run, kept current in this section.
 
 **Other checks on this HEAD, recorded not suppressed:** Socket Security — pass.
 SonarCloud Code Analysis — **failure, pre-existing**: it fails identically on the
-previously audited heads (`a55ef18`, `59ae44b`) on "New Code" ratings, with the same 10
-issue instances (list recorded in the checkpoint delta). Two worth naming: one hit is
-the local-dev `POSTGRES_PASSWORD` line transcribed inside a *superseded* receipt
-(explicitly labelled non-production, untracked `.env` source), and the "critical" sort
-rule is `Object.keys(...).sort()` on canonical key versions — default sort is UTF-16
-order, which is deterministic, while the rule's suggested `localeCompare` would make it
-locale-dependent. None of the 10 is introduced by this round; none is a tenant secret.
-
-## CR-05 — `CVE-2026-8376` restored to the accepted disposition
-
-| Field | Accepted WO-002 value | The WO-003 regression | Now |
-| --- | --- | --- | --- |
-| `vulnerableCodePresent` | `true` | *(unstated)* | **`true`** |
-| `proposedJustification` | `vulnerable_code_cannot_be_controlled_by_adversary` | `vulnerable_code_not_in_execute_path` | **restored** |
-| `vexStatus` | approved NOT_AFFECTED | — | `UNDER_INVESTIGATION` (new digest ⇒ expired) |
-| `independentAuditor` / `ownerApproval` | approved | — | **`null`** |
-
-The accepted proof is an **architecture/arithmetic bound, not a reachability argument**.
-The vulnerable code IS present — `Perl_study_chunk` ships in `perl-base 5.36.0-7+deb12u3`
-on this artifact. What an adversary cannot do is DRIVE IT INTO THE OVERFLOW CONDITION,
-because the advisory scopes the defect to 32-bit ILP32 builds and this artifact is
-amd64 / ELF64 with `ivsize=8`, `longsize=8`, `ptrsize=8`, `LONG_BIT=64`. Reachability is
-therefore irrelevant to the disposition — which is why "Perl is never executed" cannot
-carry it: that claim would expire the moment anything in the image invoked perl.
-
-**A gate that fails instead of restating.** `vex-state-machine.mjs` compares every
-proposed `(CVE, vulnerableCodePresent, proposedJustification)` triple against the
-accepted record and **throws before writing any output** on any divergence. Negative
-controls (receipt `15`, re-verified this round in receipt `22`): the audit's exact
-mutation and the historical defect mechanism both halt the script. **Answer to "did any
-other row change its justification": no — 25 compared, 0 divergences.**
-
-## CR-06 — the public vault surface, enforced by absence
-
-| Public member | Kind | Why it is legitimately public |
-| --- | --- | --- |
-| `createSecretVault` | runtime | The single construction entry point. |
-| `SecretVault` · `RotateOutcome` · `SecretVaultOptions` | types | The facade and its option/return shapes. |
-| `KeyringConfiguration` · `NonceSource` | **type-only** | Name the option shapes; a type carries no runtime capability. |
-| `ACTIVE_KEY_VERSION_ENV` · `KEYRING_JSON_ENV` | runtime (strings) | The two configuration variable **names** — non-sensitive by construction. |
-
-**Removed from the public surface:** `openSecret`, `sealSecret`, `randomNonceSource`,
-`secretEnvelopeAad`, `SealedEnvelope`, `assertProtocolNonce`,
-`assertSecretPlaintextBytes`, `VaultKeyring`, `parseVaultKeyring`,
-`readVaultKeyringFromEnvironment`, `isVaultKeyringConfigured`,
-`keyringEnvironmentVariables` — and the `./server/vault/envelope` +
-`./server/vault/keyring` subpaths are gone from `packages/db/package.json` entirely.
-
-Three regression tests in `tests/workspace-boundaries.test.ts` fail if the door
-reopens: the export map must match `^\./server[a-z/-]*$` with no `envelope`/`keyring`
-name **and** the `./server/vault` target must be exactly `./src/server/vault/index.ts`
-(so the door cannot reopen under an innocuous name by pointing at `envelope.ts`); the
-vault entry's **entire runtime export list** is pinned by dynamic import; and no
-production file outside the vault may even name a raw primitive. Tests reach internals
-by relative path — the production API was not widened for test convenience.
-
-**The plaintext path remains exactly one thing:** `withDecryptedSecret(context,
-purposeScopedHandle, callback)` — tenant scope, purpose scope, buffer zeroed in a
-`finally` (best-effort; no claim of total heap cleansing, and the OpenSSL copy inside a
-`KeyObject` cannot be zeroed from JavaScript).
-
-## CR-07 — `Cache-Control: no-store` is a mandatory default
-
-**The defect.** `NO_STORE_HEADERS` was passed at eleven individual call sites, and
-`errorResponse()` — the helper every non-success goes through — treated headers as
-*optional*. `VAULT_UNAVAILABLE`, `SECRET_FORBIDDEN`, `SECRET_NOT_FOUND`,
-`SECRET_INTEGRITY_FAILURE` and `INVALID_SECRET_INPUT` could reach a client with no cache
-directive at all. A cached error is not a lesser problem than a cached success: a 404 is
-an existence oracle and a 503 can carry a reason.
-
-**The fix is structural.** Two factories — `jsonResponse(body, status, headers?)` and
-`errorResponse(code, headers?)` — are now the only way a response is constructed, and
-the mandatory keys are merged **last**, so no call site can downgrade the policy by
-supplying its own `Cache-Control`. `Pragma: no-cache` and `Expires: 0` cover HTTP/1.0
-intermediaries and legacy caches predating RFC 9111 §5.2.2.5.
-
-20 tests cover: all seven frozen codes (`INVALID_SECRET_INPUT` 400, `SECRET_FORBIDDEN`
-403, `SECRET_NOT_FOUND` 404, `SECRET_INTEGRITY_FAILURE` 500, `VAULT_UNAVAILABLE` /
-`KEY_VERSION_UNAVAILABLE` / `NONCE_COLLISION` 503), the validation 400, the single-GET
-not-found, the cross-tenant not-found (asserted **byte-identical** to the absent-id
-response, header included), the 401 and 403 access refusals, and the CSRF 403 — each
-asserting the body carries no plaintext or envelope material. Verified live against the
-running stack as well.
+previously audited heads (`a55ef18`, `59ae44b`, `36fdff8`) on "New Code" ratings, with
+the same 10 issue instances (list recorded in the checkpoint delta). Two worth naming:
+one hit is the local-dev `POSTGRES_PASSWORD` line transcribed inside a *superseded*
+receipt (explicitly labelled non-production, untracked `.env` source), and the
+"critical" sort rule is `Object.keys(...).sort()` on canonical key versions — default
+sort is UTF-16 order, which is deterministic, while the rule's suggested
+`localeCompare` would make it locale-dependent. None of the 10 is introduced by this
+round; none is a tenant secret.
 
 ## Migration
 
@@ -154,11 +160,11 @@ encrypted_secrets_key_version_canonical    CHECK (key_version ~ '^[a-z0-9][a-z0-
 encrypted_secrets_key_version_nonce_unique UNIQUE (key_version, nonce)
 ```
 
-Migrations applied twice — the second run is a **no-op, not an error**. Live schema
-after both runs: `encrypted_secrets, identity_links, platform_roles,
-tenant_memberships, tenants, users`; `drizzle.__drizzle_migrations = 3`.
-**No `trading_accounts`, no Polymarket schema**: `information_schema.tables` returns 0
-tables matching `%polymarket%`, `%trading%` or `%wallet%`.
+Migrations applied twice — the second run is a **no-op, not an error** (this round: run
+inside the integration fixture across two disposable databases, one of them migrated
+twice on empty). **No `trading_accounts`, no Polymarket schema**:
+`information_schema.tables` returns 0 tables matching `%polymarket%`, `%trading%` or
+`%wallet%`.
 
 ## Crypto protocol
 
@@ -199,6 +205,8 @@ No HTTP GET returns plaintext — there is no plaintext-read endpoint. Write res
 masked; no mutation echoes the request body. Same-origin CSRF guard on all 4 mutations.
 Single-record `GET /api/secrets/[id]` (CR-03) returns the same projection and is
 byte-identical for absent-id vs cross-tenant-id, so the 404 is not an existence oracle.
+Every response on every status carries `Cache-Control: no-store` (CR-07), merged last
+inside the two response factories.
 
 **Error policy:** `VAULT_UNAVAILABLE`, `SECRET_NOT_FOUND`, `SECRET_FORBIDDEN`,
 `SECRET_INTEGRITY_FAILURE`, `KEY_VERSION_UNAVAILABLE`, `NONCE_COLLISION`,
@@ -206,20 +214,24 @@ byte-identical for absent-id vs cross-tenant-id, so the 404 is not an existence 
 carrying `connect ECONNRESET 10.0.0.5:5432` — all collapse to `VAULT_UNAVAILABLE`.
 
 **Authorization:** capability is decided ONLY from the current
-`tenant_memberships.role` in PostgreSQL, inside the mutation's own transaction, under
-`FOR SHARE OF ph_membership` (closes TOCTOU as a database property, not an in-memory
-mutex). Any divergence from `context.role` fails closed in both directions.
-`member` and bare `platform_admin` are denied every `secret:*` capability.
+`tenant_memberships.role` in PostgreSQL, inside the mutation's own transaction, with
+SHARE row locks on membership, user AND tenant (CR-02 + CR-09) — downgrade and
+suspension both wait for the operation to end. Any divergence from `context.role`
+fails closed in both directions. `member` and bare `platform_admin` are denied every
+`secret:*` capability. The only plaintext path is
+`withDecryptedSecret(context, purposeScopedHandle, callback)`, best-effort zeroed in a
+`finally` (no claim of total heap cleansing).
 
 ## Test counts
 
 | Suite | Result |
 | --- | --- |
-| Unit (host) | **189 passed / 10 files** (`secret-vault-http` 15 → 35 for CR-07; `workspace-boundaries` 5 → 8 for CR-06) |
-| Integration in container, real PostgreSQL 17 | **51/51** — 37 secret-vault, 10 identity-RBAC (**WO-002 regression**), 4 tenancy (**WO-001 regression**) |
+| Unit (host) | **189 passed / 10 files** |
+| Integration in container, real PostgreSQL 17 | **53/53** — 39 secret-vault (incl. the 2 new CR-09 two-connection tests), 10 identity-RBAC (**WO-002 regression**), 4 tenancy (**WO-001 regression**) |
 | `npm run validate` | exit 0 — lint, format, typecheck clean; Next.js 16.3.8 production build; **0 audit vulnerabilities** |
 
-`npm audit --audit-level=high`: 0. `git diff --check`: clean.
+`npm ci` exit 0 on the host. `npm audit --audit-level=high`: 0. `git diff --check`:
+clean.
 
 ## VEX on the final digest `aee3ad8c…`
 
@@ -232,77 +244,85 @@ mutex). Any divergence from `context.role` fails closed in both directions.
 | `vexStatus = AFFECTED` | **0** |
 | `independentAuditor` set | **0** |
 | `ownerApproval` set | **0** |
-| premises altered by this delta | 0 (each premise individually re-measured) |
-| rows diverging from the accepted WO-002 record | 0 |
+| premises altered by this delta | 0 |
+| rows diverging from the accepted WO-002 record (all nested fields) | **0** |
 
 **The executor proposes; it does not dispose.** No NOT_AFFECTED is registered as
 current approved state; every row carries `independentAuditor: null` and
 `ownerApproval: null`. The WO-002 approvals were given on `eddda17a…` and **expired at
-this digest** by the expiry rule — what is preserved by reference is the prior
-row-specific analysis, never the approval.
+this digest** by the expiry rule.
 
-Objective equivalence on `aee3ad8c…`: the 88-package dpkg inventory diffs to **zero**
-against the WO-002 baseline; `libstdc++.so.6.0.30`, `node`, `sharp-linux-x64-0.35.5.node`
-and `libvips-cpp.so.8.18.7` are **byte-identical** by SHA-256; architecture and runtime
-unchanged. The 2 added rows (vs WO-002) are below HIGH/CRITICAL and outside this
-repository's dependency graph (base-image `gnupg2`, npm-bundled
-`postcss-selector-parser`) — recorded, not suppressed. Suppressions/ignore
+Objective equivalence on `aee3ad8c…` (unchanged, since the digest is unchanged): the
+88-package dpkg inventory diffs to **zero** against the WO-002 baseline; the four
+native artifacts are **byte-identical** by SHA-256. The 2 added rows (vs WO-002) are
+below HIGH/CRITICAL and outside this repository's dependency graph. Suppressions/ignore
 rules/downgrades: **0**.
 
-**Scan↔artifact binding (found and fixed this round).** docker scout 1.24.0's SARIF
-contains **no image identity** at all, so the first revision of the binding check
-passed *vacuously*; it now requires the scout stderr receipt to name the declared digest
-or it refuses to write output — and it was observed to fail (negative control A,
-receipt `22`). Structural evidence: a **digest-pinned re-scan**
-(`polyhunter-dev@sha256:aee3ad8c…`, not the tag) whose SARIF is **byte-identical**
-(`md5 f30da92d3318b5b0a4eba98b6d7dd01e`) to the committed scan.
+**Scan↔artifact binding** (CR-05..CR-08 round, still standing): the scout SARIF embeds
+no image identity, so the binding is enforced from the scout stderr receipt (must name
+the declared digest, or the generator refuses to write) and structurally proven by a
+digest-pinned re-scan byte-identical to the committed scan (`md5 f30da92d…`).
 
 **`CVE-2026-95619` keeps its specific proof:** the accepted aligned-allocation /
-arithmetic-bound analysis (allocation `sz ≤ 65519` vs a `2^64−3` threshold — margin
-≥ `2^48` — with the 16-bit JPEG `APP2` marker capping ICC length), reproduced verbatim
-per row, not paraphrased into a generic reachability sentence. One honest limitation is
-recorded: `nm`/`objdump`/`readelf` are not installed in this image, so no
-symbol-presence claim is made anywhere; that premise rests on the byte-identical
-SHA-256 of the same shipped file the prior proofs disassembled.
+arithmetic-bound analysis (`sz ≤ 65519` vs a `2^64−3` threshold, margin ≥ `2^48`, with
+the 16-bit JPEG `APP2` marker cap), reproduced verbatim per row. One honest limitation
+is recorded: `nm`/`objdump`/`readelf` are not installed, so no symbol-presence claim is
+made anywhere.
 
-## Docker and scans
+## Docker and scans (this round)
 
-- Stack: PostgreSQL healthy, web HTTP 200, worker running, **0 module-resolution
-  errors** in either service; `/api/secrets` and `/api/secrets/<uuid>` resolve.
-- **Without a keyring: FAIL CLOSED.** Every vault operation reports
-  `VAULT_UNAVAILABLE`; the rest of the app is fully healthy.
-- With an **ephemeral, test-only keyring** generated in memory inside one container
-  process (never written to `.env`, compose, a file, evidence or a log; buffers zeroed
-  after): `create` → `withDecryptedSecret` (callback received the bytes; buffer zeroed
-  in `finally`) → `rotate` (`already_current`) → `listMetadata` → `remove`, plus a
-  **cross-tenant handle refused with `SECRET_FORBIDDEN`**. Stack left running in the
-  no-keyring state.
-- Repo-wide secret scan: 896 tracked files, **0** base64 literals decoding to a 32-byte
-  key; the two `POLYHUNTER_SECRET_KEYRING_JSON` matches are the variable NAME inside
-  test assertions that the value is empty.
-- Client bundle vs server-side positive control across 12 patterns: **0** in
-  `.next/static` (the only directory a browser downloads) against non-zero in
-  `.next/server`. A pattern that returned 0 in both trees was caught and re-run under
-  its real name — a probe absent from the control is a broken probe.
+- Digest **preserved** (`sha256:aee3ad8c…`), stack healthy; web `GET /` → 200;
+  `/api/secrets` → 401 `no-store`; `/api/secrets/<uuid>` → 401 `no-store`; **0
+  module-resolution errors**; no rebuild, no new scan.
+- Without a keyring the vault **FAILS CLOSED** (`VAULT_UNAVAILABLE` for every
+  operation); the rest of the app stays healthy. Stack left running in the no-keyring
+  state. (Previous round's ephemeral test-only keyring probe — create / decrypt /
+  rotate / list / remove plus a refused cross-tenant handle — remains the recorded
+  configured-path evidence; no test keys were ever written to the repository, a file,
+  evidence or a log.)
+- Secret scan of the delta: **0** base64-32-byte literals, **0** keyring values in the
+  new/changed files. Full-tree loose-pattern hits are all pre-existing evidence of
+  earlier security WOs (Go checksums, binary artifacts); the
+  `POLYHUNTER_SECRET_KEYRING_JSON` pattern hits are the variable NAME with an EMPTY
+  value (`=[]` / `=[<unset>]`).
+- Client bundle: not re-run — the delta touches no client-reachable surface; the prior
+  scan stands on the unchanged production bundle (0 vs non-zero across 12 patterns
+  against the server-side positive control).
+
+## JEV MCP execution (policy `.engineering/policies/JEV-PROMPT-POLICY.md`)
+
+The actual locally installed JEV MCP server was used through its advertised schemas —
+6 bounded calls, all recorded in receipt `24`: VEX semantic classification
+(pre-fix flagged `CVE-2026-8376`, post-fix 25/25 consistent), delta file-kind
+classification vs build inputs, evidence rerank, `jev_verify` on three bounded claims
+(all verified), `jev_review` and a final `jev_gate` (6/6 completion claims verified;
+both review calls returned `escalate` on conservative `safe_to_apply`, which is **not**
+an approval and not cited as evidence of any security property). No JEV gate replaced a
+deterministic check, a test or the independent audit. No secrets were sent to JEV.
 
 ## Stop state
 
-- `.engineering/CHECKPOINT.json` **untouched** (blob `6c823956bd6013b51a6327718c8260acd5e39ef5`);
-  checkpoint delta submitted as **PROPOSED / NOT_PROMOTED**.
+- `.engineering/CHECKPOINT.json` **untouched** (blob
+  `6c823956bd6013b51a6327718c8260acd5e39ef5`); checkpoint delta submitted as
+  **PROPOSED / NOT_PROMOTED**.
 - PR #39 **not merged**, remains draft. No owner approval requested. No PH-M01-WO-004.
 - `liveTradingAuthorized` remains **`false`** — no order placed, no signing authority,
   no credential handled, no Polymarket surface touched.
 
 ### For the independent auditor
 
-1. Re-run the two negative controls (receipts `15`, `22`) — in particular the CR-05
-   gate and the scan↔artifact binding, which was vacuous in its first revision.
-2. Try to defeat the CR-06 surface tests: add an export a type-only re-export would
-   mask, or re-point `./server/vault` at `envelope.ts` under the same subpath name.
-3. Confirm the CR-07 mandatory keys merge last and that no call site constructs a
-   response outside the two factories.
-4. `CVE-2026-8376`: confirm the restored semantics read as intended and that "Perl is
-   never executed" is never load-bearing.
-5. `CVE-2026-95619`: confirm the basis is the arithmetic bound, not a generic sentence.
-6. `FOR SHARE OF ph_membership` (CR-02) and the buffer-zeroing best-effort limitation —
-   both stated plainly in the evidence bundle, section 17.
+1. Re-run the CR-09 negative control (the pre-correction lock makes both tests fail —
+   receipt `23`, section 3) and probe the lock ordering with a deliberately inverted
+   transaction before accepting the written ordering argument.
+2. Re-run the CR-10 controls (receipt `23`, section 4) and try to defeat the nested
+   walk with a derived field shape the controls do not cover.
+3. Confirm the CR-06 surface tests still hold (add a type-only export that masks a
+   runtime one; re-point `./server/vault` at `envelope.ts`).
+4. Confirm the CR-07 mandatory keys merge last and no call site constructs a response
+   outside the two factories.
+5. `CVE-2026-8376`: confirm every justification-bearing field reads from the canonical
+   record and that "Perl is never executed" is never load-bearing.
+6. `CVE-2026-95619`: confirm the basis is the arithmetic bound, not a generic sentence.
+7. The digest-preservation argument: re-run the build-input diff and `docker inspect`;
+   if any input is found to have changed, the VEX must be reset and revalidated on a
+   fresh digest — the executor's claim is that none did.
