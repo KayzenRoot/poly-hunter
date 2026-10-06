@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "workOrder": "PH-M01-WO-002",
   "correctionDelta": "CR-01 — final-digest VEX revalidation",
-  "title": "VEX revalidation of every HIGH/CRITICAL finding on the FINAL rebuilt artifact",
+  "title": "VEX final for every HIGH/CRITICAL finding on the PH-M01-WO-002 final artifact — independently audited and owner-approved",
   "branch": "feat/ph-m01-identity-rbac",
   "head": "0a761490459531d9fb2623c14227354b0b03a120",
   "priorPr": 37,
@@ -66,18 +66,20 @@
   "summary": {
     "totalRowsScanned": 80,
     "highCriticalRows": 25,
-    "underInvestigation": 25,
+    "underInvestigation": 0,
     "proposedNotAffected": 25,
     "affected": 0,
     "fixed": 0,
     "carriedOverByReference": 22,
-    "newThisDelta": 3
+    "newThisDelta": 3,
+    "approvedNotAffected": 25
   },
   "approvalState": {
-    "independentAuditor": null,
-    "ownerApproval": null,
-    "status": "PROPOSED — ALL HIGH/CRITICAL ROWS REMAIN UNDER_INVESTIGATION",
-    "note": "This executor cannot self-approve (PH-SEC-VEX-POLICY). The prior owner approvals recorded on the older digests are NOT approval of sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c. Owner approval has not been requested."
+    "independentAuditor": "APPROVED — exact audit head a4a0039512292aec38b19e78b37ebc716baac730; review 5428454026",
+    "ownerApproval": "APPROVED — Project Owner 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; exact audit head a4a0039512292aec38b19e78b37ebc716baac730",
+    "receipt": ".engineering/evidence/PH-M01-WO-002-OWNER-APPROVAL.md",
+    "status": "APPROVED — 25/25 NOT_AFFECTED",
+    "note": "ADR-0007 approval chain is complete for exactly the 25 dispositions enumerated in this file as audited at the bound audit head and artifact. Expiry/revalidation rules remain in force."
   },
   "findings": [
     {
@@ -85,7 +87,7 @@
       "scannerSeverity": "HIGH",
       "component": "libstdc++6 / __gnu_pbds detail::binary_heap erase_if (header-only template)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-SEC-WO-008",
@@ -132,14 +134,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-102276",
       "scannerSeverity": "HIGH",
       "component": "npm brace-expansion",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -186,14 +190,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-102278",
       "scannerSeverity": "HIGH",
       "component": "npm brace-expansion",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -240,14 +246,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-103111",
       "scannerSeverity": "HIGH",
       "component": "pcre2",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -294,14 +302,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-12087",
       "scannerSeverity": "CRITICAL",
       "component": "perl (Socket 2.033)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -348,14 +358,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-13221",
       "scannerSeverity": "CRITICAL",
       "component": "perl core (regex trie optimiser)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -402,14 +414,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-14257",
       "scannerSeverity": "HIGH",
       "component": "npm brace-expansion",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -456,14 +470,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-19534",
       "scannerSeverity": "HIGH",
       "component": "npm undici",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -510,14 +526,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-42496",
       "scannerSeverity": "CRITICAL",
       "component": "Perl Archive::Tar < 3.08 (symlink extraction path escape)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-M01-WO-002 (this delta)",
@@ -531,14 +549,16 @@
         ],
         "evidence": "Re-proven on the FINAL artifact by three independent methods: (1) `dpkg -S Archive/Tar.pm` returns 'no path found' and `perl-modules`/`perl` are dpkg status 'not-installed', so no installed package provides the module; (2) `find / -name Tar.pm -path '*Archive*'` returns zero hits on every mount of the image; (3) the image's own perl cannot load it — `perl -MArchive::Tar` fails with \"Can't locate Archive/Tar.pm in @INC\" enumerating all 10 @INC roots. Only perl-base 5.36.0-7+deb12u3 is installed, and Archive::Tar is not part of perl-base. Receipt 04."
       },
-      "statusReason": "PH-SEC-VEX-POLICY: newly proposed NOT_AFFECTED disposition. It blocks until an independent security auditor verifies it and the owner approves it."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-42497",
       "scannerSeverity": "HIGH",
       "component": "Perl Archive::Tar < 3.08 (hardlink extraction path escape)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-M01-WO-002 (this delta)",
@@ -552,14 +572,16 @@
         ],
         "evidence": "Same component and same absence proof as CVE-2026-42496, re-run on the FINAL artifact: the hardlink extraction path lives in the same absent module. Receipt 04."
       },
-      "statusReason": "PH-SEC-VEX-POLICY: newly proposed NOT_AFFECTED disposition. It blocks until an independent security auditor verifies it and the owner approves it."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-48959",
       "scannerSeverity": "HIGH",
       "component": "perl (IO::Uncompress::Unzip)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -606,14 +628,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-48962",
       "scannerSeverity": "HIGH",
       "component": "perl (IO::Compress)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -660,14 +684,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-57432",
       "scannerSeverity": "HIGH",
       "component": "perl core (pack/unpack)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -714,14 +740,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-69152",
       "scannerSeverity": "HIGH",
       "component": "npm brace-expansion",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -768,14 +796,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-69192",
       "scannerSeverity": "HIGH",
       "component": "npm ip-address",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -822,14 +852,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-73566",
       "scannerSeverity": "HIGH",
       "component": "npm tar (node-tar)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -876,14 +908,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-76642",
       "scannerSeverity": "HIGH",
       "component": "util-linux (mount)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -930,14 +964,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-78408",
       "scannerSeverity": "HIGH",
       "component": "util-linux (nsenter --join-cgroup)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -984,14 +1020,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-78409",
       "scannerSeverity": "HIGH",
       "component": "util-linux (mount X-mount.subdir)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -1038,14 +1076,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-78410",
       "scannerSeverity": "HIGH",
       "component": "util-linux (restricted bind mount)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -1092,14 +1132,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-82560",
       "scannerSeverity": "HIGH",
       "component": "perl (Pod::Text)",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -1146,14 +1188,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-8376",
       "scannerSeverity": "CRITICAL",
       "component": "Perl interpreter < 5.40.5-RC1, heap buffer overflow in Perl_study_chunk",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-M01-WO-002 (this delta)",
@@ -1167,14 +1211,16 @@
         ],
         "evidence": "The vulnerable code IS PRESENT. Perl_study_chunk is the regular-expression compilation path inside the perl interpreter itself; it ships as part of perl-base 5.36.0-7+deb12u3, which is installed on the FINAL artifact, and it is exercised whenever Perl compiles a pattern. This row records that fact rather than hiding it behind a \"not present\" claim. What the attacker cannot do is drive that code into its vulnerable overflow condition, because the advisory scopes the defect to 32-BIT (ILP32) Perl builds and the FINAL artifact is not one. Measured directly on sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c: the installed perl-base is 5.36.0-7+deb12u3 with dpkg architecture amd64; the container kernel is x86_64; the perl binary's ELF header has EI_CLASS=0x02 (ELF64) and e_machine=0x3e (x86-64), so a 32-bit build of this interpreter cannot even be loaded; and the interpreter reports Config{ivsize}=8 bytes (64-bit integer values), Config{longsize}=8 (LONG_BIT=64), Config{ptrsize}=8 (64-bit pointers), ivtype=long, use64bitint=define. The overflow described by the advisory requires the 32-bit integer-width arithmetic that none of these measurements admits, therefore no attacker-controlled input can reach the vulnerable condition on this artifact. Receipt 05. Note explicitly: \"Perl is never executed in this container\" is NOT part of this justification — it is recorded in receipt 06 only as secondary defence-in-depth and is not what this disposition rests on."
       },
-      "statusReason": "PH-SEC-VEX-POLICY: newly proposed NOT_AFFECTED disposition. It blocks until an independent security auditor verifies it and the owner approves it."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-85091",
       "scannerSeverity": "HIGH",
       "component": "zlib",
       "vulnerableCodePresent": false,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_present",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -1221,14 +1267,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-93748",
       "scannerSeverity": "HIGH",
       "component": "npm http-cache-semantics",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_not_in_execute_path",
       "priorDispositionSource": "PH-SEC-WO-007",
@@ -1275,14 +1323,16 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     },
     {
       "cve": "CVE-2026-95619",
       "scannerSeverity": "HIGH",
       "component": "libstdc++6 aligned operator new(size_t, align_val_t) integer overflow (libsupc++/new_opa.cc)",
       "vulnerableCodePresent": true,
-      "vexStatus": "UNDER_INVESTIGATION",
+      "vexStatus": "NOT_AFFECTED",
       "proposedVexStatus": "NOT_AFFECTED",
       "proposedJustification": "vulnerable_code_cannot_be_controlled_by_adversary",
       "priorDispositionSource": "PH-SEC-WO-008",
@@ -1329,7 +1379,9 @@
           }
         ]
       },
-      "statusReason": "PH-SEC-VEX-POLICY: a new image digest expires a NOT_AFFECTED disposition. This row returns to UNDER_INVESTIGATION until an independent audit verifies the objective equivalence evidence above and the owner approves the new digest. The prior owner approval does NOT carry over to sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c."
+      "statusReason": "ADR-0007 chain complete for this exact final artifact and audit head. Independent audit accepted the proposed NOT_AFFECTED disposition and the Project Owner explicitly approved all 25 enumerated dispositions. Revalidation/expiry rules remain in force.",
+      "independentAuditor": "APPROVED — review 5428454026 at audit head a4a0039512292aec38b19e78b37ebc716baac730",
+      "ownerApproval": "APPROVED — 2026-10-06; exact artifact sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c; audit head a4a0039512292aec38b19e78b37ebc716baac730; receipt PH-M01-WO-002-OWNER-APPROVAL.md"
     }
   ]
 }
