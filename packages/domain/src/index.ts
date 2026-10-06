@@ -1,5 +1,7 @@
 import type { Result, TenantRole } from "@polyhunter/contracts";
 
+export * from "./secrets.js";
+
 export type DomainResult<TValue, TError> = Result<TValue, TError>;
 
 declare const tenantContextBrand: unique symbol;
@@ -65,7 +67,14 @@ export type PlatformContext = Readonly<{
   readonly [platformRoleBrand]: "PlatformContext";
 }>;
 
-/** Tenant capabilities by role. owner > admin > member. */
+/**
+ * Tenant capabilities by role. owner > admin > member.
+ *
+ * PH-M01-WO-003 adds the four `secret:*` capabilities to owner and admin.
+ * `member` is intentionally left without any of them: tenant secret metadata,
+ * write, delete and rotate are administrative operations, and the Work Order
+ * requires `member` to be denied all four.
+ */
 export const tenantRoleCapabilities = {
   owner: new Set([
     "tenant:read",
@@ -74,6 +83,10 @@ export const tenantRoleCapabilities = {
     "member:invite",
     "member:role",
     "member:remove",
+    "secret:metadata",
+    "secret:write",
+    "secret:delete",
+    "secret:rotate",
   ]),
   admin: new Set([
     "tenant:read",
@@ -82,6 +95,10 @@ export const tenantRoleCapabilities = {
     "member:invite",
     "member:role",
     "member:remove",
+    "secret:metadata",
+    "secret:write",
+    "secret:delete",
+    "secret:rotate",
   ]),
   member: new Set(["tenant:read", "member:read"]),
 } as const satisfies Record<TenantRole, ReadonlySet<string>>;

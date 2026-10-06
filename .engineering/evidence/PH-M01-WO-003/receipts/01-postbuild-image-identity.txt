@@ -1,0 +1,12 @@
+# Post-rebuild image identity
+
+Id: sha256:f810df3a64aa15b99e477006a39c399eb43d9b59c635376d942e89dc15cc17c8
+Created: 2026-10-06T14:47:13.582753046Z
+
+# Build inputs changed relative to the input artifact eddda17a...:
+#   packages/db/package.json   (added the ./server/vault export mapping; NO dependency change)
+#   compose.yaml              (web service environment passthrough; NOT a build input)
+#   package-lock.json         unchanged
+#   Dockerfile.dev            unchanged
+#   base image node:24-bookworm-slim  unchanged
+#   npm audit --audit-level=high    0 vulnerabilities

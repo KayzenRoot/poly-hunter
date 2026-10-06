@@ -1,0 +1,68 @@
+# Container integration suite — PH-M01-WO-003
+
+PostgreSQL is not published to the host, so migrations and the integration suite run
+INSIDE the web container against the compose-managed database.
+
+## Migration on an already-migrated database (the app has been running against it)
+> @polyhunter/db@0.0.0 db:migrate
+> drizzle-kit migrate --config drizzle.config.ts
+
+Reading config file '/workspace/packages/db/drizzle.config.ts'
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!
+## Migration REPEATED — must be a no-op, not an error
+
+Reading config file '/workspace/packages/db/drizzle.config.ts'
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!
+## Applied migration ledger
+ id |                               hash                               |  created_at
+----+------------------------------------------------------------------+---------------
+  1 | fe9d8adc440cba166f58d6a4e1764517a092e23e264dec3c0a31c3cad5b23789 | 1791055171382
+  2 | cbd5ed277b0d3b0b603b48fc958e95de83ec95f6343bf5674f50f4b15a992494 | 1791226899360
+  3 | dc5ab2acc243874e8e6c297165ef8642bd656a671bf14fcfc391e5fb0cf3e419 | 1791295569955
+(3 rows)
+
+
+## encrypted_secrets schema as actually created by the migration
+                         Table "public.encrypted_secrets"
+   Column    |           Type           | Collation | Nullable |      Default
+-------------+--------------------------+-----------+----------+-------------------
+ id          | uuid                     |           | not null | gen_random_uuid()
+ tenant_id   | uuid                     |           | not null |
+ purpose     | character varying(64)    |           | not null |
+ ciphertext  | bytea                    |           | not null |
+ nonce       | bytea                    |           | not null |
+ auth_tag    | bytea                    |           | not null |
+ key_version | character varying(32)    |           | not null |
+ created_at  | timestamp with time zone |           | not null | now()
+ updated_at  | timestamp with time zone |           | not null | now()
+ rotated_at  | timestamp with time zone |           |          |
+Indexes:
+    "encrypted_secrets_pkey" PRIMARY KEY, btree (id)
+    "encrypted_secrets_key_version_nonce_unique" UNIQUE, btree (key_version, nonce)
+Check constraints:
+    "encrypted_secrets_auth_tag_length" CHECK (octet_length(auth_tag) = 16)
+    "encrypted_secrets_ciphertext_not_empty" CHECK (octet_length(ciphertext) > 0)
+    "encrypted_secrets_key_version_canonical" CHECK (key_version::text ~ '^[a-z0-9][a-z0-9_-]{0,31}$'::text)
+    "encrypted_secrets_nonce_length" CHECK (octet_length(nonce) = 12)
+    "encrypted_secrets_purpose_canonical" CHECK (purpose::text ~ '^[a-z][a-z0-9]*([._-][a-z0-9]+)*$'::text AND length(purpose::text) >= 2)
+Foreign-key constraints:
+    "encrypted_secrets_tenant_id_tenants_id_fk" FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+## Polymarket/trading tables must NOT exist
+0
+
+## Integration suite (WO-003 vault + WO-002 identity + WO-001 tenancy regression)
+       ✓ keeps plaintext and key material out of every metadata and error surface  412ms
+       ✓ refuses an envelope physically copied onto another tenant row  367ms
+ ✓ packages/db/tests/tenancy.integration.test.ts (4 tests) 6616ms
+     ✓ keeps reads and writes bound to the resolved tenant context  367ms
+     ✓ enforces unique keys, enum domains, foreign keys and delete cascades  501ms
+ ✓ packages/db/tests/identity-rbac.integration.test.ts (10 tests) 6208ms
+
+ Test Files  3 passed (3)
+      Tests  43 passed (43)
+   Start at  15:19:41
+   Duration  37.07s (transform 1.01s, setup 0ms, import 4.97s, tests 31.14s, environment 1ms)

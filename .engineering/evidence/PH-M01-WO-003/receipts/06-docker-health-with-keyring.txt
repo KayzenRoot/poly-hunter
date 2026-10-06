@@ -1,0 +1,79 @@
+# Docker runtime validation WITH a test-only keyring
+
+## Provisioning
+- Two EPHEMERAL 32-byte AES keys generated in-memory and passed as environment
+  variables to `docker compose`. They are NOT written to .env, NOT committed and NOT
+  printed; they exist only for this probe and are discarded when the containers are
+  recreated without them.
+- Active key version: k2. Keyring carries k1 (previous) and k2 (active), so rotation has a
+  real old key to fetch.
+
+## Pre-state (no keyring): the vault fails closed
+  GET /api/secrets -> HTTP 401 unauthenticated/provider_not_configured (auth provider absent,
+  so the request never reaches the vault; the vault-unavailable path is proven by the
+  dedicated test suite instead).
+
+## Recreating web with the keyring
+ Container polyhunter-postgres Running
+ Container polyhunter-web Recreate
+ Container polyhunter-web Recreated
+ Container polyhunter-postgres Waiting
+ Container polyhunter-postgres Healthy
+ Container polyhunter-web Starting
+ Container polyhunter-web Started
+
+## Container health with the keyring configured
+polyhunter-postgres  Up 16 minutes (healthy)
+polyhunter-web  Up About a minute (healthy)
+polyhunter-worker  Up 16 minutes
+
+## Web HTTP status
+GET / -> HTTP 200
+
+## PostgreSQL
+/var/run/postgresql:5432 - accepting connections
+
+## Worker
+  polyhunter-worker  | [32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+  polyhunter-worker  | PolyHunter worker shell started without product behavior.
+  polyhunter-worker  | [32m[nodemon] clean exit - waiting for changes before restart[39m
+
+## The vault is CONFIGURED in the running container
+Probed with the REAL keyring module inside polyhunter-web. The probe asks only for the
+KeyObject TYPE, never the key bytes:
+
+  isVaultKeyringConfigured(cfg) = true
+  activeKeyVersion = k2
+  versions = k1,k2
+  resolveKey(k1) -> KeyObject type=secret symmetric=true
+  resolveKey(k2) -> KeyObject type=secret symmetric=true
+  resolveKey(k9) -> KEY_VERSION_UNAVAILABLE (fail closed)
+
+## Client bundle: the keyring must NOT be reachable by a browser
+apps/web/.next/static is the only directory a browser downloads. Scanned WHILE the
+keyring is configured, so a leak would show up right here:
+  POLYHUNTER_SECRET_KEYRING_JSON -> 0 client chunk(s)
+  POLYHUNTER_SECRET_ACTIVE_KEY_VERSION -> 0 client chunk(s)
+  polyhunter-secret-envelope-v1 -> 0 client chunk(s)
+  createSecretKey -> 0 client chunk(s)
+
+  total client chunks scanned: 9
+
+## Ephemeral keys DISCARDED — containers recreated with the blank defaults from compose.yaml
+
+## Final state (no keyring): stack healthy, vault unavailable / fail closed
+polyhunter-postgres  Up 17 minutes (healthy)
+polyhunter-web  Up 46 seconds (healthy)
+polyhunter-worker  Up 17 minutes
+
+GET / -> HTTP 200
+
+/var/run/postgresql:5432 - accepting connections
+
+## The ephemeral keys existed only in the previous container's environment
+  POLYHUNTER_SECRET_ACTIVE_KEY_VERSION=[<unset>]
+  POLYHUNTER_SECRET_KEYRING_JSON=[<unset>]
+
+## Vault now reports itself unconfigured (fail closed), proven in-container:
+  isVaultKeyringConfigured(cfg) = false
+  readVaultKeyringFromEnvironment() -> VAULT_UNAVAILABLE

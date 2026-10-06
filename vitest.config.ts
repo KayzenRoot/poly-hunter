@@ -49,6 +49,21 @@ export default defineConfig({
           import.meta.url,
         ),
       ),
+      "@db/vault/envelope": fileURLToPath(
+        new URL("./packages/db/src/server/vault/envelope.ts", import.meta.url),
+      ),
+      "@db/vault/keyring": fileURLToPath(
+        new URL("./packages/db/src/server/vault/keyring.ts", import.meta.url),
+      ),
+      "@db/schema": fileURLToPath(
+        new URL("./packages/db/src/schema/index.ts", import.meta.url),
+      ),
+      "@web/handlers/secrets": fileURLToPath(
+        new URL("./apps/web/app/api/secrets/handler.ts", import.meta.url),
+      ),
+      "@web/secrets/secret-service": fileURLToPath(
+        new URL("./apps/web/src/secrets/secret-service.ts", import.meta.url),
+      ),
       "@web/identity": fileURLToPath(
         new URL("./apps/web/src/identity", import.meta.url),
       ),

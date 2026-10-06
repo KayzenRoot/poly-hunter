@@ -67,6 +67,7 @@ describe("workspace boundaries", () => {
     expect(Object.keys(exports).sort()).toEqual([
       "./server",
       "./server/identity",
+      "./server/vault",
     ]);
     expect(serverEntry).toContain('typeof window !== "undefined"');
     // The WO-002 identity data access is a second guarded server entry: it
@@ -77,9 +78,44 @@ describe("workspace boundaries", () => {
     );
     expect(identityEntry).toContain('typeof window !== "undefined"');
     expect(identityEntry).not.toContain("@supabase");
+    // WO-003 adds the secret vault as a third guarded server entry. Every file
+    // that participates in it must carry the SAME browser guard: the envelope,
+    // the keyring and the authorization predicate all hold key material or the
+    // rule that gates it, so none of them may be reachable from a bundle.
+    for (const relative of [
+      "packages/db/src/server/vault/index.ts",
+      "packages/db/src/server/vault/envelope.ts",
+      "packages/db/src/server/vault/keyring.ts",
+      "packages/db/src/server/authorization.ts",
+    ]) {
+      const source = await readFile(resolve(repositoryRoot, relative), "utf8");
+      expect(source).toContain('typeof window !== "undefined"');
+    }
     for (const path of webSources) {
       const source = await readFile(path, "utf8");
       expect(source).not.toContain("@polyhunter/db");
+    }
+  });
+
+  it("keeps vault key material and the vault itself out of client-reachable web code", async () => {
+    const clientSources = [
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/web/src"))),
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/web/app"))),
+      ...(await sourceFiles(resolve(repositoryRoot, "apps/worker/src"))),
+    ];
+    const manifest = await manifestAt(resolve(repositoryRoot, "package.json"));
+    const workspaces = (manifest.workspaces ?? []) as string[];
+
+    expect(workspaces).toContain("apps/web");
+
+    for (const path of clientSources) {
+      const source = await readFile(path, "utf8");
+      // No client-reachable file may read the keyring environment directly;
+      // only the guarded server vault may, and it does so via its own entry.
+      expect(source).not.toContain("POLYHUNTER_SECRET_KEYRING_JSON");
+      expect(source).not.toContain("POLYHUNTER_SECRET_ACTIVE_KEY_VERSION");
+      // And there is no plaintext accessor anywhere in the product code.
+      expect(source).not.toMatch(/getPlaintextSecret/);
     }
   });
 
