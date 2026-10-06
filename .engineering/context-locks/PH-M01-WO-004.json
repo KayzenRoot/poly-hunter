@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "project": "PolyHunter",
+  "workOrder": "PH-M01-WO-004",
+  "issue": 40,
+  "risk": "HIGH_ASSURANCE",
+  "branch": "feat/ph-m01-security-acceptance",
+  "base": {
+    "ref": "main",
+    "sha": "895e4bf2221b9fd7e335f0dd348be05f851fccde",
+    "requiredMergeBase": "895e4bf2221b9fd7e335f0dd348be05f851fccde"
+  },
+  "executionState": {
+    "checkpointPhase": "M01_INCREMENT_IMPLEMENTED",
+    "checkpointStopState": "STOP_AFTER_PH_M01_WO_003",
+    "completedThroughModule": "PH-M00",
+    "nextLegalStageAtAdmission": "AWAIT_OWNER_DIRECTION",
+    "ownerDirection": "Continue / admit PH-M01-WO-004",
+    "liveTradingAuthorized": false,
+    "priorSecurityArtifact": "sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2",
+    "priorSecurityState": "25/25 NOT_AFFECTED, 0 UNDER_INVESTIGATION, 0 AFFECTED; independent audit + owner approval complete",
+    "jevMcpRequired": true
+  },
+  "workOrderFingerprint": {
+    "path": ".engineering/work-orders/PH-M01-WO-004.md",
+    "sha": "761148e0ab50cdee78e23489c599e4b0de030439"
+  },
+  "frozenSources": {
+    "AGENTS.md": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    ".engineering/CHECKPOINT.json": "81c3a1421d5c1ca301cc5daaff3d9d297a9201aa",
+    ".engineering/SOURCE-HIERARCHY.md": "71f13c5ab18855c952025f8dcb44bb23017711d6",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/SCOPE.md": "510e4bbf60bd34bb4e8b2273c08cad16d3662ccd",
+    ".engineering/ARCHITECTURE.md": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+    ".engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    ".engineering/DATA-MODEL.md": "e5521176052159b13fa8d2875a485002a5b7a7ce",
+    ".engineering/API-CONTRACTS.md": "b512940d2fa728c9cf0d39d842ac3ea557333c3d",
+    ".engineering/INTEGRATION-CONTRACTS.md": "0d0d85db742d938a47334409703a10e2ae525248",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    ".engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    ".engineering/modules/PH-M01-IDENTITY-TENANCY-SECRETS.md": "1073525b2258e947d382a428e77e4fd0af5c2249",
+    ".engineering/decisions/ADR-0004-PERSISTENCE-IDENTITY-BOUNDARY.md": "4f40d7c48dcced3d99196eae01bc4eb849b7dbe5",
+    ".engineering/decisions/ADR-0005-TENANT-AUTHORIZATION.md": "998d1178cc87a24ce186fd8802b482ce1da036c4",
+    ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+    ".engineering/policies/JEV-PROMPT-POLICY.md": "c163b1ec843dbe3588bc8740074f224e42003c89"
+  },
+  "runtimeFingerprints": {
+    "package.json": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "package-lock.json": "ea8e7e7b5f08034dc297db3f18c9fe5dbbb531ae",
+    "compose.yaml": "784f0abe357bf35c4a81c7dbb0230057a285a5b2",
+    "Dockerfile.dev": "7bb79d3b18d93c4f62f45d2f5316fb9102d408de",
+    "packages/db/src/schema/index.ts": "141da08973437a3f64ac730087d161bbc8155c31",
+    "packages/db/src/server/authorization.ts": "3fcec404a83a07f8504953374b255a0491e50082",
+    "packages/db/src/server/vault/index.ts": "157f2378e64ed150f8c45b2a0e95dfefba903a29",
+    "apps/web/src/identity/session-service.ts": "d727218edb58d4865412f0950936909ef8cc0245"
+  },
+  "allowedMutationClasses": [
+    "acceptance/adversarial tests",
+    "disposable recovery/rotation harnesses",
+    "security validation scripts",
+    "minimal corrective hardening tied to acceptance findings",
+    "evidence/governance artifacts",
+    "CI changes required only to execute accepted proof obligations"
+  ],
+  "prohibited": [
+    "new product feature scope",
+    "Polymarket credential integration",
+    "wallet/session signing",
+    "market data",
+    "strategy/risk/execution",
+    "REPLAY/PAPER/LIVE trading",
+    "PH-M02+ implementation",
+    "liveTradingAuthorized=true",
+    "checkpoint promotion during executor phase",
+    "merge during executor phase",
+    "scanner suppression/waiver shortcut",
+    "JEV simulated by primary model when MCP required"
+  ],
+  "failClosedOn": [
+    "merge-base drift",
+    "frozen-source fingerprint drift",
+    "JEV MCP unavailable",
+    "cross-tenant access",
+    "privilege widening",
+    "session/tenant confusion",
+    "plaintext/key/token leak",
+    "recovery/rotation uncertainty",
+    "unresolved HIGH/CRITICAL",
+    "contradictory or missing acceptance evidence"
+  ],
+  "expectedFinalCheckpointProposal": {
+    "status": "SOURCE_PACK_FROZEN",
+    "phase": "M01_IMPLEMENTATION_COMPLETE",
+    "stopState": "STOP_AFTER_PH_M01_WO_004",
+    "completedThroughModule": "PH-M01",
+    "activeWorkOrder": "NONE",
+    "preparedWorkOrder": "NONE",
+    "nextLegalStage": "AWAIT_OWNER_DIRECTION",
+    "liveTradingAuthorized": false
+  }
+}
