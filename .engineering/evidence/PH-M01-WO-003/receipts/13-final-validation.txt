@@ -209,8 +209,15 @@ A stale/missing dist would have surfaced as a 500 carrying a module error.
   owner fields are null on every row and only PROPOSED status is asserted.
 
 === 9. GitHub Actions Validate on the FINAL HEAD ===
+  FINAL head run:
+  run id:    37497479624
+  head SHA:  87f80dc7dbc17776d02257f0871145328c20e356   <-- the FINAL HEAD
+  url:       https://github.com/KayzenRoot/poly-hunter/actions/runs/37497479624
+  conclusion: SUCCESS
+
+  preceding commit carrying the code + evidence changes:
   run id:    37497134253
-  head SHA:  59ae44b6272b46a0a5d3a04b50babb73405fa5f7   <-- the commit under audit
+  head SHA:  59ae44b6272b46a0a5d3a04b50babb73405fa5f7
   event:     pull_request (PR #39)
   conclusion: SUCCESS   (watch exit 0)
   url:       https://github.com/KayzenRoot/poly-hunter/actions/runs/37497134253

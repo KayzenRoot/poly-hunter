@@ -308,11 +308,13 @@ status.
 
 **`READY_FOR_INDEPENDENT_AUDIT`**
 
-- **GitHub Actions Validate is SUCCESS on the final HEAD** — run `37497134253`, head SHA
-  `59ae44b6272b46a0a5d3a04b50babb73405fa5f7`, all 12 steps of `Node 24 validation` green.
-  That run doubles as an independent CR-01 proof: the runner does a clean Git checkout and
-  runs the gates with no `packages/**/dist`, which is exactly the state that failed
-  Validate #70 (`37487821234`, head `96dd096f`).
+- **GitHub Actions Validate is SUCCESS on the final HEAD** — final head
+  `87f80dc7dbc17776d02257f0871145328c20e356` validated by run `37497479624`; the
+  preceding commit carrying the code and evidence changes,
+  `59ae44b6272b46a0a5d3a04b50babb73405fa5f7`, by run `37497134253`. Both green, all 12
+  steps of `Node 24 validation`. These runs double as independent CR-01 proofs: the runner
+  does a clean Git checkout and runs the gates with no `packages/**/dist`, which is exactly
+  the state that failed Validate #70 (`37487821234`, head `96dd096f`).
 - `.engineering/CHECKPOINT.json` **untouched** — blob `6c823956bd6013b51a6327718c8260acd5e39ef5`, `phase=M01_INCREMENT_IMPLEMENTED`, `stopState=STOP_AFTER_PH_M01_WO_002`, `nextLegalStage=AWAIT_OWNER_DIRECTION`
 - Checkpoint delta submitted as **PROPOSED / NOT_PROMOTED**
 - `liveTradingAuthorized` remains **`false`** — no order placed, no signing authority, no credential handled, no Polymarket surface touched
