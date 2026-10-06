@@ -23,7 +23,8 @@ import {
  *   ciphertext, nonce, tag, key version, key material or plaintext, because
  *   none of those values is ever handed to `NextResponse.json` — the only
  *   secret-bearing value the handlers see is `SecretMetadata`.
- * - there is NO plaintext read endpoint. The only GET returns metadata.
+ * - there is NO plaintext read endpoint. Both GET routes (the collection and
+ *   the single record) return metadata only, through the same allow-list.
  * - errors carry a stable sanitized code plus its frozen generic message. A
  *   raw Node/OpenSSL/PostgreSQL error string is never passed to a response.
  */
@@ -39,6 +40,15 @@ export type SecretServiceContract = Readonly<{
       }
   >;
   listMetadata: (context: TenantContext) => Promise<SecretMetadata[]>;
+  /**
+   * Metadata for ONE secret, or `null` when no row in the caller's own tenant
+   * matches. `null` deliberately covers BOTH a genuinely absent id and another
+   * tenant's id, so this layer cannot tell the two apart even in principle.
+   */
+  getMetadata: (
+    context: TenantContext,
+    secretId: string,
+  ) => Promise<SecretMetadata | null>;
   create: (
     context: TenantContext,
     input: Readonly<{ purpose: string; secret: string }>,
@@ -156,6 +166,49 @@ export async function handleListSecrets(
     const secrets = await service.listMetadata(access.context);
     return NextResponse.json(
       { secrets: secrets.map(masked) },
+      { status: 200, headers: NO_STORE_HEADERS },
+    );
+  } catch (error) {
+    return failureResponse(error);
+  }
+}
+
+/**
+ * GET /api/secrets/:id — metadata for one secret, and nothing else.
+ *
+ * Added by audit CR-03. Three properties are load-bearing and all three are
+ * enforced here rather than left to the caller:
+ *
+ * - METADATA ONLY. The body is the same seven-field allow-list `masked`
+ *   produces for every other secret response. There is no branch anywhere in
+ *   this file that could serialize plaintext, ciphertext, nonce, auth tag, key
+ *   version, key material, plaintext length or a last-4 suffix, because the
+ *   only secret-bearing value these handlers ever see is `SecretMetadata`.
+ * - NO EXISTENCE ORACLE ACROSS TENANTS. A `null` lookup — an id that does not
+ *   exist, and an id belonging to a different tenant, are indistinguishable
+ *   here — is reported as the same sanitized SECRET_NOT_FOUND the rest of the
+ *   surface already uses. No body, status or header distinguishes them.
+ * - AUTHORIZATION IS THE VAULT'S. `member` and a `platform_admin` with no
+ *   owner/admin membership are refused by the vault with SECRET_FORBIDDEN
+ *   before this handler ever shapes a body; this layer only maps that code.
+ */
+export async function handleGetSecret(
+  _request: NextRequest,
+  service: SecretServiceContract,
+  context: { readonly params: Promise<{ id: string }> },
+): Promise<NextResponse> {
+  const access = await withAccess(service);
+  if (!access.ok) return access.response;
+
+  const { id } = await context.params;
+  try {
+    const metadata = await service.getMetadata(access.context, id);
+    if (metadata === null) {
+      // Same code, same message and same status an absent secret produces.
+      return errorResponse("SECRET_NOT_FOUND");
+    }
+    return NextResponse.json(
+      { secret: masked(metadata) },
       { status: 200, headers: NO_STORE_HEADERS },
     );
   } catch (error) {

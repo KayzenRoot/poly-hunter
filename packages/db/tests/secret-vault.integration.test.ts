@@ -673,6 +673,247 @@ describe("PH-M01-WO-003 secret vault against PostgreSQL", () => {
     });
   });
 
+  /**
+   * Audit CR-02 — the role that decides a capability must be the CURRENT
+   * `tenant_memberships.role`, read inside PostgreSQL, not a value that
+   * arrived on the request-shaped context.
+   *
+   * Every test here builds a context the vault cannot distinguish from one a
+   * server would issue (correct uuids, a role string, no brand of its own) and
+   * then changes ONLY the database row. If any of these succeeded, the vault
+   * would be trusting `context.role`, which is precisely the finding.
+   */
+  describe("authoritative role (audit CR-02)", () => {
+    /** A context forged to claim `role` over a membership that is really `member`. */
+    function forgedRole(
+      membership: TenantContext,
+      role: string,
+    ): TenantContext {
+      return Object.freeze({
+        userId: membership.userId,
+        tenantId: membership.tenantId,
+        role,
+      }) as unknown as TenantContext;
+    }
+
+    /** Change only the membership role, leaving status and every id untouched. */
+    async function setMembershipRole(
+      membership: TenantContext,
+      role: "owner" | "admin" | "member",
+    ): Promise<void> {
+      const updated = await raw().query(
+        "UPDATE tenant_memberships SET role = $1 WHERE tenant_id = $2 AND user_id = $3",
+        [role, membership.tenantId, membership.userId],
+      );
+      expect(updated.rowCount).toBe(1);
+    }
+
+    /** Every operation the vault exposes, as a table of named thunks. */
+    function everyOperation(
+      context: TenantContext,
+      secretId: string,
+      purpose: string,
+    ): readonly (readonly [string, () => Promise<unknown>])[] {
+      return [
+        ["listMetadata", () => currentVault().listMetadata(context)],
+        ["getMetadata", () => currentVault().getMetadata(context, secretId)],
+        [
+          "create",
+          () =>
+            currentVault().create(context, {
+              purpose: "cr02.create",
+              secret: "value",
+            }),
+        ],
+        [
+          "replace",
+          () => currentVault().replace(context, secretId, { secret: "value" }),
+        ],
+        ["remove", () => currentVault().remove(context, secretId)],
+        ["rotate", () => currentVault().rotate(context, secretId)],
+        [
+          "withDecryptedSecret",
+          () =>
+            currentVault().withDecryptedSecret(
+              context,
+              { id: secretId, tenantId: context.tenantId, purpose },
+              () => "leaked",
+            ),
+        ],
+      ];
+    }
+
+    it("refuses a forged owner context over a real member membership", async () => {
+      // A record that genuinely exists in tenant A, and a membership in tenant
+      // A that genuinely says `member`. The forged context keeps the same two
+      // uuids and only claims a bigger role, so it is indistinguishable in
+      // shape from one a server could have issued.
+      const membership = await seedTenant("owner");
+      const seeded = await currentVault().create(membership, {
+        purpose: "cr02.forged",
+        secret: "administrative",
+      });
+      await setMembershipRole(membership, "member");
+
+      const forged = forgedRole(membership, "owner");
+      expect(forged.userId).toBe(membership.userId);
+      expect(forged.tenantId).toBe(membership.tenantId);
+
+      for (const [name, operation] of everyOperation(
+        forged,
+        seeded.id,
+        "cr02.forged",
+      )) {
+        await expectCode(operation, "SECRET_FORBIDDEN");
+        expect(name).not.toBe("");
+      }
+
+      // The honest member context is refused too: the forgery was never a
+      // widening, it was refused in both directions.
+      await expectCode(
+        () => currentVault().listMetadata(forgedRole(membership, "member")),
+        "SECRET_FORBIDDEN",
+      );
+
+      await raw().query("DELETE FROM encrypted_secrets WHERE tenant_id = $1", [
+        membership.tenantId,
+      ]);
+    });
+
+    it("refuses a forged admin context over a real member membership", async () => {
+      const membership = await seedTenant("member");
+      const forged = forgedRole(membership, "admin");
+
+      for (const [, operation] of everyOperation(
+        forged,
+        randomUUID(),
+        "cr02.forged.admin",
+      )) {
+        await expectCode(operation, "SECRET_FORBIDDEN");
+      }
+    });
+
+    it("honours a downgrade that lands after the context was resolved", async () => {
+      // Resolved while the membership really was an owner/admin: every
+      // operation below the downgrade must work.
+      for (const role of ["owner", "admin"] as const) {
+        const context = await seedTenant(role);
+        const created = await currentVault().create(context, {
+          purpose: "cr02.downgrade",
+          secret: "before-downgrade",
+        });
+        expect(await currentVault().listMetadata(context)).toHaveLength(1);
+
+        // The membership is demoted in the database AFTER the context existed
+        // and is never re-issued. The stored context still claims the old role.
+        await setMembershipRole(context, "member");
+
+        for (const [, operation] of everyOperation(
+          context,
+          created.id,
+          "cr02.downgrade",
+        )) {
+          await expectCode(operation, "SECRET_FORBIDDEN");
+        }
+
+        // The record survives untouched, and a re-issued context that honestly
+        // reports the NEW role is denied by the capability policy as well.
+        const downgraded = forgedRole(context, "member");
+        expect(await currentVault().isConfigured()).toBe(true);
+        await expectCode(
+          () => currentVault().listMetadata(downgraded),
+          "SECRET_FORBIDDEN",
+        );
+
+        // Restoring the role restores access without any re-issuance, which
+        // proves nothing was cached and nothing was permanently revoked.
+        await setMembershipRole(context, role);
+        expect(await currentVault().listMetadata(context)).toHaveLength(1);
+        await currentVault().remove(context, created.id);
+      }
+    });
+
+    it("never widens a member context to the stored role or to the claimed one", async () => {
+      // Two opposite mismatches, both of which must fail closed rather than
+      // pick the more permissive of the two answers.
+      const realMember = await seedTenant("member");
+      const claimsOwner = forgedRole(realMember, "owner");
+      await expectCode(
+        () => currentVault().listMetadata(claimsOwner),
+        "SECRET_FORBIDDEN",
+      );
+
+      const realOwner = await seedTenant("owner");
+      const claimsMember = forgedRole(realOwner, "member");
+      await expectCode(
+        () => currentVault().listMetadata(claimsMember),
+        "SECRET_FORBIDDEN",
+      );
+
+      // The honest owner context still works, so the rule above is a policy
+      // about divergence and not a blanket denial.
+      expect(await currentVault().listMetadata(realOwner)).toEqual([]);
+    });
+
+    it("never treats a platform role as tenant authority", async () => {
+      const owner = await seedTenant("owner");
+      const seeded = await currentVault().create(owner, {
+        purpose: "cr02.platform",
+        secret: "owner-only",
+      });
+      const outsider = await seedTenant("member");
+      await raw().query(
+        "INSERT INTO platform_roles (user_id, role) VALUES ($1,'platform_admin')",
+        [outsider.userId],
+      );
+
+      // A platform administrator naming the owner's tenant, with an owner role
+      // claim, and carrying the ACTIVE platform role for that user.
+      const forged = forgedRole(
+        Object.freeze({
+          userId: outsider.userId,
+          tenantId: owner.tenantId,
+          role: "owner",
+        }) as TenantContext,
+        "owner",
+      );
+      await expectCode(
+        () => currentVault().listMetadata(forged),
+        "SECRET_FORBIDDEN",
+      );
+      await expectCode(
+        () => currentVault().getMetadata(forged, seeded.id),
+        "SECRET_FORBIDDEN",
+      );
+
+      // And with the membership genuinely elevated to owner, the platform role
+      // adds nothing: authority comes from the membership row alone.
+      await setMembershipRole(outsider, "owner");
+      const elevated = forgedRole(outsider, "owner");
+      const listed = await currentVault().listMetadata(elevated);
+      expect(listed).toEqual([]);
+
+      // The owner role string itself is not a tenant role and is refused
+      // structurally, before any statement runs.
+      await expectCode(
+        () =>
+          currentVault().listMetadata(
+            forgedRole(
+              Object.freeze({
+                userId: outsider.userId,
+                tenantId: owner.tenantId,
+                role: "platform_admin",
+              }) as unknown as TenantContext,
+              "platform_admin",
+            ),
+          ),
+        "SECRET_FORBIDDEN",
+      );
+
+      await currentVault().remove(owner, seeded.id);
+    });
+  });
+
   describe("write, read and mask", () => {
     it("stores an envelope and returns metadata only", async () => {
       const context = await seedTenant("owner");
@@ -1723,6 +1964,127 @@ describe("PH-M01-WO-003 secret vault against PostgreSQL", () => {
       await raw().query("DELETE FROM encrypted_secrets WHERE id = $1", [
         smuggledId as string,
       ]);
+    });
+  });
+
+  /**
+   * Audit CR-03 — the single-record metadata read, proven against PostgreSQL.
+   *
+   * `getMetadata` is what `GET /api/secrets/:id` calls. It must return the
+   * allow-list and nothing else, must be invisible across tenants, and must be
+   * refused to a member and to a `platform_admin` who has no membership. The
+   * HTTP projection of the same call is proven in
+   * `tests/secret-vault-http.test.ts`.
+   */
+  describe("single-record metadata read (audit CR-03)", () => {
+    it("returns exactly the allow-listed fields for one record", async () => {
+      const context = await seedTenant("owner");
+      const plaintext = "single-record-canary-91af";
+      const created = await currentVault().create(context, {
+        purpose: "cr03.metadata",
+        secret: plaintext,
+      });
+
+      const metadata = await currentVault().getMetadata(context, created.id);
+      expect(metadata).not.toBeNull();
+      expect(Object.keys(metadata as object).sort()).toEqual(METADATA_KEYS);
+      expect(metadata?.purpose).toBe("cr03.metadata");
+      expect(metadata?.rotation).toBe("current");
+
+      // None of the envelope may survive the projection in any form.
+      const serialized = JSON.stringify(metadata);
+      for (const forbidden of [
+        plaintext,
+        "ciphertext",
+        "nonce",
+        "authTag",
+        "auth_tag",
+        "keyVersion",
+        "k2",
+      ]) {
+        expect(serialized).not.toContain(forbidden);
+      }
+
+      // A non-canonical id is rejected outright, never coerced into a lookup.
+      await expectCode(
+        () => currentVault().getMetadata(context, "../../etc/passwd"),
+        "INVALID_SECRET_INPUT",
+      );
+      // A well-formed id that simply does not exist is `null`, the sanitized
+      // contract the HTTP layer turns into SECRET_NOT_FOUND.
+      expect(
+        await currentVault().getMetadata(context, randomUUID()),
+      ).toBeNull();
+
+      await currentVault().remove(context, created.id);
+      expect(await currentVault().getMetadata(context, created.id)).toBeNull();
+    });
+
+    it("tells one tenant nothing at all about another tenant's record", async () => {
+      const tenantA = await seedTenant("owner");
+      const tenantB = await seedTenant("owner");
+      const secretA = await currentVault().create(tenantA, {
+        purpose: "cr03.isolation",
+        secret: "tenant-a-value",
+      });
+
+      // `null` — byte-identical to an id that was never minted. There is no
+      // signal here that could be turned into an existence oracle.
+      expect(await currentVault().getMetadata(tenantB, secretA.id)).toBeNull();
+      expect(
+        await currentVault().getMetadata(tenantA, secretA.id),
+      ).not.toBeNull();
+
+      await currentVault().remove(tenantA, secretA.id);
+    });
+
+    it("refuses the single-record read to a member and to a bare platform_admin", async () => {
+      const owner = await seedTenant("owner");
+      const seeded = await currentVault().create(owner, {
+        purpose: "cr03.denied",
+        secret: "owner-only",
+      });
+
+      const member = await seedTenant("member");
+      await expectCode(
+        () => currentVault().getMetadata(member, seeded.id),
+        "SECRET_FORBIDDEN",
+      );
+
+      const outsider = await seedTenant("member");
+      await raw().query(
+        "INSERT INTO platform_roles (user_id, role) VALUES ($1,'platform_admin')",
+        [outsider.userId],
+      );
+      await expectCode(
+        () => currentVault().getMetadata(outsider, seeded.id),
+        "SECRET_FORBIDDEN",
+      );
+
+      // Even for a member of the OWNING tenant: the capability is refused, so
+      // no metadata leaks at all.
+      const fellowId = randomUUID();
+      await raw().query("INSERT INTO users (id, status) VALUES ($1,'active')", [
+        fellowId,
+      ]);
+      await raw().query(
+        "INSERT INTO tenant_memberships (tenant_id, user_id, role, status) VALUES ($1,$2,'member','active')",
+        [owner.tenantId, fellowId],
+      );
+      await expectCode(
+        () =>
+          currentVault().getMetadata(
+            {
+              userId: fellowId,
+              tenantId: owner.tenantId,
+              role: "member",
+            } as TenantContext,
+            seeded.id,
+          ),
+        "SECRET_FORBIDDEN",
+      );
+
+      await currentVault().remove(owner, seeded.id);
     });
   });
 });

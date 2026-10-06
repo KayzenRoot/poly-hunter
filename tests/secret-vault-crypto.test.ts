@@ -21,12 +21,12 @@ import {
   randomNonceSource,
   sealSecret,
   secretEnvelopeAad,
-} from "@db/vault/envelope";
+} from "@polyhunter/db/server/vault/envelope";
 import {
   keyringEnvironmentVariables,
   parseVaultKeyring,
   readVaultKeyringFromEnvironment,
-} from "@db/vault/keyring";
+} from "@polyhunter/db/server/vault/keyring";
 
 const repositoryRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 

@@ -42,7 +42,50 @@
  * This script suppresses nothing, ignores nothing and downgrades nothing. It is
  * deliberately incapable of emitting AFFECTED (an AFFECTED row is a real defect
  * and belongs in a correction request, not in a self-generated reconciliation).
+ *
+ * ---------------------------------------------------------------------------
+ * SUPERSEDED — DO NOT RUN. Retained only as the record of the first pass.
+ * ---------------------------------------------------------------------------
+ * Independent audit review 5430901717 raised CR-04 against this script's OUTPUT
+ * CONTRACT, and the defects are in the script itself, so re-running it cannot
+ * reproduce a compliant artifact:
+ *
+ *  1. STATE MACHINE. It writes `vexStatus: "NOT_AFFECTED"` as the CURRENT state
+ *     (see line 232 below). CR-04 and ADR-0007 forbid the executor from
+ *     registering a NOT_AFFECTED disposition as approved on its own: before an
+ *     independent audit every HIGH/CRITICAL row must read UNDER_INVESTIGATION,
+ *     carry a PROPOSED NOT_AFFECTED, and leave `independentAuditor` and
+ *     `ownerApproval` null. Those two fields do not exist in this output at all.
+ *  2. STALE ARTIFACT. NEW_ARTIFACT below is hard-coded to
+ *     sha256:f810df3a64aa15b99e477006a39c399eb43d9b59c635376d942e89dc15cc17c8.
+ *     The CR-01 hermeticity fix changed Docker build inputs again; the image this
+ *     Work Order actually shipped is
+ *     sha256:8bd3e85a206492de832dd95575b0004165e7368b53427ba887547743019c22c4.
+ *  3. GENERIC JUSTIFICATION. Its JUSTIFICATION_AXES text is a one-line template
+ *     ("no regex/selector/pattern input is accepted") applied uniformly. CR-04
+ *     requires each row to preserve the SPECIFIC prior independent basis it
+ *     already has — above all CVE-2026-95619, whose accepted proof is the
+ *     aligned-allocation arithmetic bound, not a sentence about route inputs.
+ *
+ * The replacement is ./cr04-vex-state-machine.mjs. It emits the required
+ * 25 UNDER_INVESTIGATION / 25 proposed NOT_AFFECTED / 0 AFFECTED / 0 auditor /
+ * 0 owner state, indexes prior evidence by CVE with the WO-008 supersession of
+ * the two libstdc++ rows, and re-measures each premise (receipt 12) instead of
+ * asserting it.
+ *
+ * The guard below makes that supersession mechanical rather than a note someone
+ * can scroll past.
  */
+
+if (!process.env.POLYHUNTER_ALLOW_SUPERSEDED_VEX) {
+  throw new Error(
+    "SUPERSEDED by cr04-vex-state-machine.mjs (audit CR-04). This script registers " +
+      "NOT_AFFECTED as current approved state, hard-codes the stale artifact " +
+      "sha256:f810df3a..., and applies generic justifications to rows whose prior " +
+      "independent proof was specific. Run ./cr04-vex-state-machine.mjs instead. " +
+      "Set POLYHUNTER_ALLOW_SUPERSEDED_VEX=1 only to reproduce the historical output.",
+  );
+}
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";

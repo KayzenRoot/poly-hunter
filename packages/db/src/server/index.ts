@@ -9,7 +9,7 @@ import {
   tenantMemberships,
   tenants,
   users,
-} from "../schema/index.js";
+} from "../schema/index.ts";
 
 if (typeof window !== "undefined") {
   throw new TypeError(

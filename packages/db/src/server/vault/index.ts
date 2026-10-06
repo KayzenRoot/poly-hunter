@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { and, eq } from "drizzle-orm";
+import { and, eq, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import {
@@ -13,23 +13,23 @@ import {
   type SecretMetadata,
   type TenantContext,
 } from "@polyhunter/domain";
-import { encryptedSecrets } from "../../schema/index.js";
+import { encryptedSecrets } from "../../schema/index.ts";
 import {
   activeTenantMembershipPredicate,
-  activeTenantMembershipProbe,
-} from "../authorization.js";
+  lockedAuthoritativeTenantRoleProbe,
+} from "../authorization.ts";
 import {
   assertSecretPlaintextBytes,
   openSecret,
   randomNonceSource,
   sealSecret,
   type NonceSource,
-} from "./envelope.js";
+} from "./envelope.ts";
 import {
   parseVaultKeyring,
   type KeyringConfiguration,
   type VaultKeyring,
-} from "./keyring.js";
+} from "./keyring.ts";
 
 if (typeof window !== "undefined") {
   throw new TypeError(
@@ -50,7 +50,7 @@ export {
   secretEnvelopeAad,
   type NonceSource,
   type SealedEnvelope,
-} from "./envelope.js";
+} from "./envelope.ts";
 export {
   ACTIVE_KEY_VERSION_ENV,
   KEYRING_JSON_ENV,
@@ -58,7 +58,7 @@ export {
   keyringEnvironmentVariables,
   readVaultKeyringFromEnvironment,
   type VaultKeyring,
-} from "./keyring.js";
+} from "./keyring.ts";
 
 /**
  * PH-M01-WO-003 — tenant secret vault.
@@ -72,11 +72,16 @@ export {
  *
  * 1. TENANT SCOPE. Every statement filters on `context.tenantId`. No path
  *    accepts a tenant id from the caller and no path reads a secret without one.
- * 2. AUTHORITATIVE MEMBERSHIP. Every operation re-reads membership + user +
- *    tenant status, so a suspension or removal takes effect on the next
- *    authoritative request (SEC-022).
- * 3. CAPABILITY. Each operation declares the capability it needs. `member`
- *    holds none of the four `secret:*` capabilities and is denied all of them.
+ * 2. AUTHORITATIVE MEMBERSHIP AND ROLE. Every operation re-reads the
+ *    membership, user and tenant status INSIDE its own transaction, and takes
+ *    its capability decision from the CURRENT `tenant_memberships.role` — not
+ *    from `context.role`, which is at most a consistency assertion. A
+ *    suspension, a removal or a downgrade takes effect on the next operation,
+ *    and no gap exists between the check and the mutation (SEC-022, audit
+ *    CR-02).
+ * 3. CAPABILITY. Each operation declares the capability it needs, evaluated
+ *    against the authoritative role. `member` holds none of the four
+ *    `secret:*` capabilities and is denied all of them.
  * 4. NO PLAINTEXT ESCAPE. Plaintext exists only as a Buffer inside a callback,
  *    best-effort zeroed in a `finally`. There is no `getPlaintextSecret()`.
  * 5. NO MIXED ENVELOPE. Rotation and replacement rewrite ciphertext, nonce, tag
@@ -100,6 +105,16 @@ const UNIQUE_VIOLATION = "23505";
 const MAX_NONCE_ATTEMPTS = 3;
 
 const TENANT_ROLES = ["owner", "admin", "member"] as const;
+
+/**
+ * The minimum surface `authorize` needs: something that can run the raw
+ * authoritative role probe. It is deliberately the transaction type, not the
+ * pool — a pool-level probe would put the role read outside the mutation's
+ * transaction and reintroduce exactly the TOCTOU the audit forbids.
+ */
+type SqlExecutor = {
+  execute: (query: SQL) => Promise<{ rows: unknown[] }>;
+};
 
 export type SecretVaultOptions = Readonly<{
   connectionString?: string;
@@ -237,17 +252,20 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
   }
 
   /**
-   * Context validation.
+   * Context shape validation.
    *
    * The vault deliberately does NOT reuse the per-instance WeakSet branding from
    * `packages/db/src/server/index.ts`: that set is private to the instance that
    * issues a context, so reusing it would either force a cross-module shared
    * registry (a refactor of audited WO-001/WO-002 code) or make the vault reject
-   * legitimate contexts. Instead the claim is validated STRUCTURALLY and then
-   * PROVEN against the database on every operation. A forged object gains
-   * nothing: it cannot widen scope, because every statement filters on the
-   * context's own `tenantId` and requires an active membership row for exactly
-   * that (tenantId, userId) pair.
+   * legitimate contexts.
+   *
+   * This check is SHAPE ONLY and carries no authority whatsoever. A
+   * structurally valid object is a well-formed claim, not a proven one: the
+   * audit is explicit that `context.role` may at most be a hint, a consistency
+   * assertion, or previously-resolved request information. Every capability
+   * decision below is taken from the CURRENT `tenant_memberships.role` read
+   * inside PostgreSQL.
    */
   function assertUsableContext(context: TenantContext): void {
     if (
@@ -262,20 +280,64 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
   }
 
   /**
-   * Capability policy plus the authoritative membership read. Both must pass.
-   * `member` fails the capability test; a suspended user, suspended membership
-   * or suspended tenant fails the probe.
+   * The single authorization gate (audit CR-02).
+   *
+   * It runs INSIDE the caller's transaction, on the same connection that is
+   * about to perform the operation, and it holds a SHARE lock on the membership
+   * row for the rest of that transaction. Three properties follow, and each was
+   * requested by the audit explicitly:
+   *
+   * 1. THE DATABASE IS THE AUTHORITY. The capability is decided from
+   *    `tenant_memberships.role` as it stands right now, under ACTIVE
+   *    membership + ACTIVE user + ACTIVE tenant. `context.role` is never
+   *    consulted for the decision; it is compared against the authoritative
+   *    row purely as a CONSISTENCY assertion.
+   * 2. NO PRIVILEGE WIDENING. Any divergence fails closed. A context claiming
+   *    `owner` over a membership the database calls `member` (or `admin`) is
+   *    refused with SECRET_FORBIDDEN rather than being granted either the
+   *    claimed or the stored capability.
+   * 3. NO TOCTOU. Because the role read and the secret mutation share one
+   *    transaction, and that transaction holds a row lock a concurrent
+   *    `UPDATE tenant_memberships SET role = ...` must wait for, there is no
+   *    window in which a downgrade lands between the check and the write.
+   *    A second vault process in another container obeys the same rule; an
+   *    in-memory mutex would not.
+   *
+   * `member` additionally holds none of the four `secret:*` capabilities, so a
+   * *consistent* member context is denied on the capability test as well.
    */
   async function authorize(
+    transaction: SqlExecutor,
     context: TenantContext,
     capability: SecretCapability,
   ): Promise<void> {
     assertUsableContext(context);
-    if (!tenantRoleHasCapability(context.role, capability)) {
+    const probe = await transaction.execute(
+      lockedAuthoritativeTenantRoleProbe(context),
+    );
+    const authoritativeRole = (probe.rows[0] as { role?: unknown } | undefined)
+      ?.role;
+    if (
+      typeof authoritativeRole !== "string" ||
+      !(TENANT_ROLES as readonly string[]).includes(authoritativeRole)
+    ) {
+      // No ACTIVE membership, or an unknown role: there is no authority to
+      // decide from, so there is no decision.
       throw new SecretVaultError("SECRET_FORBIDDEN");
     }
-    const probe = await db.execute(activeTenantMembershipProbe(context));
-    if (probe.rows.length === 0) {
+    if (authoritativeRole !== context.role) {
+      // Stale or forged claim. Failing closed here also means a downgrade that
+      // landed between context resolution and this operation takes effect
+      // immediately, without any re-issuance and without widening to whichever
+      // of the two roles would have been more permissive.
+      throw new SecretVaultError("SECRET_FORBIDDEN");
+    }
+    if (
+      !tenantRoleHasCapability(
+        authoritativeRole as Parameters<typeof tenantRoleHasCapability>[0],
+        capability,
+      )
+    ) {
       throw new SecretVaultError("SECRET_FORBIDDEN");
     }
   }
@@ -336,15 +398,18 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     context: TenantContext,
   ): Promise<SecretMetadata[]> {
     const ring = keyring();
-    await authorize(context, "secret:metadata");
 
-    const rows = await db
-      .select(envelopeColumns)
-      .from(encryptedSecrets)
-      .where(scoped(context))
-      .orderBy(encryptedSecrets.createdAt, encryptedSecrets.id);
+    return await db.transaction(async (transaction) => {
+      await authorize(transaction, context, "secret:metadata");
 
-    return rows.map((row) => projectMetadata(row, ring.activeKeyVersion));
+      const rows = await transaction
+        .select(envelopeColumns)
+        .from(encryptedSecrets)
+        .where(scoped(context))
+        .orderBy(encryptedSecrets.createdAt, encryptedSecrets.id);
+
+      return rows.map((row) => projectMetadata(row, ring.activeKeyVersion));
+    });
   }
 
   async function getMetadata(
@@ -352,18 +417,21 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     secretId: string,
   ): Promise<SecretMetadata | null> {
     const ring = keyring();
-    await authorize(context, "secret:metadata");
     if (!isSecretUuid(secretId)) {
       throw new SecretVaultError("INVALID_SECRET_INPUT");
     }
 
-    const [row] = await db
-      .select(envelopeColumns)
-      .from(encryptedSecrets)
-      .where(scoped(context, eq(encryptedSecrets.id, secretId)))
-      .limit(1);
+    return await db.transaction(async (transaction) => {
+      await authorize(transaction, context, "secret:metadata");
 
-    return row ? projectMetadata(row, ring.activeKeyVersion) : null;
+      const [row] = await transaction
+        .select(envelopeColumns)
+        .from(encryptedSecrets)
+        .where(scoped(context, eq(encryptedSecrets.id, secretId)))
+        .limit(1);
+
+      return row ? projectMetadata(row, ring.activeKeyVersion) : null;
+    });
   }
 
   async function create(
@@ -371,7 +439,6 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     input: Readonly<{ purpose: string; secret: string }>,
   ): Promise<SecretMetadata> {
     const ring = keyring();
-    await authorize(context, "secret:write");
 
     // Malformed input fails BEFORE encryption.
     const purpose = assertSecretPurpose(input.purpose);
@@ -396,14 +463,9 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
         });
 
         return await db.transaction(async (transaction) => {
-          // Re-prove authority inside the transaction: a membership suspended
-          // between `authorize` and here must still block the write.
-          const probe = await transaction.execute(
-            activeTenantMembershipProbe(context),
-          );
-          if (probe.rows.length === 0) {
-            throw new SecretVaultError("SECRET_FORBIDDEN");
-          }
+          // The authoritative role read IS the write's transaction: one
+          // window, one lock, no gap a downgrade could slip through.
+          await authorize(transaction, context, "secret:write");
 
           const inserted = await transaction
             .insert(encryptedSecrets)
@@ -437,7 +499,6 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     input: Readonly<{ secret: string }>,
   ): Promise<SecretMetadata> {
     const ring = keyring();
-    await authorize(context, "secret:write");
     if (!isSecretUuid(secretId)) {
       throw new SecretVaultError("INVALID_SECRET_INPUT");
     }
@@ -446,6 +507,8 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     try {
       const row = await withNonceRetry(async (nonce) =>
         db.transaction(async (transaction) => {
+          await authorize(transaction, context, "secret:write");
+
           const [existing] = await transaction
             .select(envelopeColumns)
             .from(encryptedSecrets)
@@ -508,12 +571,13 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     // that succeeded while the rest of the vault reported unavailable would be
     // a confusing and misleading partial outage.
     keyring();
-    await authorize(context, "secret:delete");
     if (!isSecretUuid(secretId)) {
       throw new SecretVaultError("INVALID_SECRET_INPUT");
     }
 
     await db.transaction(async (transaction) => {
+      await authorize(transaction, context, "secret:delete");
+
       // Row lock first, so a concurrent rotation either wins outright or is
       // serialized behind this delete and then finds no row. Rotation never
       // inserts, so a deleted secret cannot be resurrected.
@@ -542,13 +606,14 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     secretId: string,
   ): Promise<RotateOutcome> {
     const ring = keyring();
-    await authorize(context, "secret:rotate");
     if (!isSecretUuid(secretId)) {
       throw new SecretVaultError("INVALID_SECRET_INPUT");
     }
 
     const outcome = await withNonceRetry(async (nonce) =>
       db.transaction(async (transaction) => {
+        await authorize(transaction, context, "secret:rotate");
+
         // Row lock FIRST. Two concurrent rotations serialize here; the loser
         // re-reads the winner's row and reports already_current.
         const [existing] = await transaction
@@ -641,50 +706,56 @@ export function createSecretVault(options: SecretVaultOptions): SecretVault {
     }
     // Administrative vault authority is required even for internal consumption:
     // in M01 no non-administrative role may cause a secret value to be read.
-    await authorize(context, "secret:metadata");
     if (handle.tenantId !== context.tenantId) {
       throw new SecretVaultError("SECRET_FORBIDDEN");
     }
 
-    const [row] = await db
-      .select(envelopeColumns)
-      .from(encryptedSecrets)
-      .where(
-        and(
-          eq(encryptedSecrets.id, handle.id),
-          eq(encryptedSecrets.tenantId, context.tenantId),
-          activeTenantMembershipPredicate(context),
-        ),
-      )
-      .limit(1);
+    // The authority read, the row read and the decryption all happen inside one
+    // transaction holding the membership lock, so a role change cannot land
+    // between the authorization decision and the plaintext materialization.
+    return await db.transaction(async (transaction) => {
+      await authorize(transaction, context, "secret:metadata");
 
-    if (!row) {
-      throw new SecretVaultError("SECRET_NOT_FOUND");
-    }
-    if (row.purpose !== handle.purpose) {
-      // Purpose is bound by the AAD; a mismatch here is a caller mistake, never
-      // a cross-tenant probe.
-      throw new SecretVaultError("SECRET_NOT_FOUND");
-    }
+      const [row] = await transaction
+        .select(envelopeColumns)
+        .from(encryptedSecrets)
+        .where(
+          and(
+            eq(encryptedSecrets.id, handle.id),
+            eq(encryptedSecrets.tenantId, context.tenantId),
+            activeTenantMembershipPredicate(context),
+          ),
+        )
+        .limit(1);
 
-    const plaintext = openSecret({
-      key: keyring().resolveKey(row.keyVersion),
-      binding: {
-        id: row.id,
-        tenantId: row.tenantId,
-        purpose: row.purpose,
-        keyVersion: row.keyVersion,
-      },
-      ciphertext: row.ciphertext,
-      nonce: row.nonce,
-      authTag: row.authTag,
+      if (!row) {
+        throw new SecretVaultError("SECRET_NOT_FOUND");
+      }
+      if (row.purpose !== handle.purpose) {
+        // Purpose is bound by the AAD; a mismatch here is a caller mistake,
+        // never a cross-tenant probe.
+        throw new SecretVaultError("SECRET_NOT_FOUND");
+      }
+
+      const plaintext = openSecret({
+        key: keyring().resolveKey(row.keyVersion),
+        binding: {
+          id: row.id,
+          tenantId: row.tenantId,
+          purpose: row.purpose,
+          keyVersion: row.keyVersion,
+        },
+        ciphertext: row.ciphertext,
+        nonce: row.nonce,
+        authTag: row.authTag,
+      });
+
+      try {
+        return await callback(plaintext);
+      } finally {
+        plaintext.fill(0);
+      }
     });
-
-    try {
-      return await callback(plaintext);
-    } finally {
-      plaintext.fill(0);
-    }
   }
 
   return {

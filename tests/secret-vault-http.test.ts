@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   handleCreateSecret,
   handleDeleteSecret,
+  handleGetSecret,
   handleListSecrets,
   handleReplaceSecret,
   handleRotateSecret,
@@ -62,6 +63,7 @@ const METADATA: SecretMetadata = Object.freeze({
 
 type ServiceStub = SecretServiceContract & {
   listMetadata: ReturnType<typeof vi.fn>;
+  getMetadata: ReturnType<typeof vi.fn>;
   create: ReturnType<typeof vi.fn>;
   replace: ReturnType<typeof vi.fn>;
   remove: ReturnType<typeof vi.fn>;
@@ -75,6 +77,7 @@ function stubService(
   const service = {
     resolveAccess: vi.fn(async () => ({ ok: true as const, context: CONTEXT })),
     listMetadata: vi.fn(async () => [METADATA]),
+    getMetadata: vi.fn(async () => METADATA),
     create: vi.fn(async () => METADATA),
     replace: vi.fn(async () => METADATA),
     remove: vi.fn(async () => undefined),
@@ -268,6 +271,200 @@ describe("PH-M01-WO-003 secret HTTP boundary", () => {
       expect(contractKeys).not.toContain("withDecryptedSecret");
       expect(contractKeys).not.toContain("getPlaintextSecret");
       expect(response.headers.get("Cache-Control")).toBe("no-store");
+    });
+  });
+
+  /**
+   * Audit CR-03 — GET /api/secrets/:id returns METADATA ONLY, and its failure
+   * modes reveal nothing about whether the id exists in another tenant.
+   *
+   * These are boundary properties, so they are proven here against the stub.
+   * The matching PostgreSQL-backed proof — that a `member` and a
+   * `platform_admin` without membership are actually refused, and that a
+   * cross-tenant id really yields no row — lives in
+   * `packages/db/tests/secret-vault.integration.test.ts`.
+   */
+  describe("single-record metadata read (audit CR-03)", () => {
+    it("returns only the seven allow-listed fields, even from a hostile service", async () => {
+      const hostile = {
+        ...METADATA,
+        ciphertext: "AAAA",
+        nonce: "BBBB",
+        authTag: "CCCC",
+        keyVersion: "k2",
+        key: "DkZFRkZFRkZFRkZFRkZFRkZFRkZFRkZFRkZFRkZFE=",
+        length: 32,
+        last4: PLAINTEXT.slice(-4),
+      } as unknown as SecretMetadata;
+      const service = stubService({
+        getMetadata: vi.fn(async () => hostile),
+      });
+
+      const response = await handleGetSecret(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+        { params },
+      );
+      expect(response.status).toBe(200);
+      const body = JSON.parse(assertNoLeak(await response.text())) as {
+        secret: Record<string, unknown>;
+      };
+      expect(Object.keys(body.secret).sort()).toEqual([
+        "configured",
+        "createdAt",
+        "id",
+        "purpose",
+        "rotatedAt",
+        "rotation",
+        "updatedAt",
+      ]);
+      // `configured` is a hard-coded true, never echoed from the service, and
+      // the response is not cacheable.
+      expect(body.secret.configured).toBe(true);
+      expect(response.headers.get("Cache-Control")).toBe("no-store");
+    });
+
+    it("passes the route id and the resolved context to the service", async () => {
+      const service = stubService();
+      await handleGetSecret(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+        { params: Promise.resolve({ id: SECRET_ID }) },
+      );
+      expect(service.getMetadata).toHaveBeenCalledWith(CONTEXT, SECRET_ID);
+    });
+
+    it("reports an absent id and another tenant's id identically", async () => {
+      // `null` is what the vault returns for BOTH cases. The boundary must not
+      // be able to distinguish them even in principle, so the two responses are
+      // compared byte for byte — status, body and headers.
+      const absent = await handleGetSecret(
+        fakeRequest({}),
+        stubService({
+          getMetadata: vi.fn(async () => null),
+        }) as unknown as SecretServiceContract,
+        { params: Promise.resolve({ id: SECRET_ID }) },
+      );
+      const foreign = await handleGetSecret(
+        fakeRequest({}),
+        stubService({
+          getMetadata: vi.fn(async () => null),
+        }) as unknown as SecretServiceContract,
+        {
+          params: Promise.resolve({
+            id: "99999999-9999-4999-8999-999999999999",
+          }),
+        },
+      );
+
+      expect(absent.status).toBe(404);
+      expect(foreign.status).toBe(absent.status);
+      // A Response body can only be read once, so each text is captured BEFORE
+      // the comparison rather than after it.
+      const foreignText = await foreign.text();
+      const absentText = await absent.text();
+      expect(foreignText).toBe(absentText);
+      expect(absent.headers.get("Cache-Control")).toBe(
+        foreign.headers.get("Cache-Control"),
+      );
+      const parsed = JSON.parse(absentText) as {
+        error: string;
+        message: string;
+      };
+      expect(parsed.error).toBe("SECRET_NOT_FOUND");
+      expect(parsed.message).toBe(secretErrorMessage("SECRET_NOT_FOUND"));
+      // The id itself is never echoed, so a probe learns nothing from the body.
+      expect(JSON.stringify(parsed)).not.toContain(SECRET_ID);
+    });
+
+    it("maps a member or unaffiliated platform_admin refusal to 403", async () => {
+      // The vault is what refuses these; the boundary only maps the code, and
+      // must not soften it into a 404 or leak that the id exists.
+      for (const code of ["SECRET_FORBIDDEN"] as const) {
+        const service = stubService({
+          getMetadata: vi.fn(async () => {
+            throw Object.assign(new Error("membership is member"), { code });
+          }),
+        });
+        const response = await handleGetSecret(
+          fakeRequest({}),
+          service as unknown as SecretServiceContract,
+          { params },
+        );
+        expect(response.status).toBe(403);
+        const text = await response.text();
+        expect(text).not.toContain("membership is member");
+        expect((JSON.parse(text) as { error: string }).error).toBe(code);
+      }
+    });
+
+    it("refuses an unauthenticated or unresolvable caller before the vault", async () => {
+      for (const [access, status] of [
+        [
+          {
+            ok: false as const,
+            status: 401,
+            error: "unauthenticated",
+            reason: "no_session",
+          },
+          401,
+        ],
+        [
+          {
+            ok: false as const,
+            status: 403,
+            error: "tenant_context_unavailable",
+            reason: "no_active_membership",
+          },
+          403,
+        ],
+      ] as const) {
+        const service = stubService({
+          resolveAccess: vi.fn(async () => access),
+        });
+        const response = await handleGetSecret(
+          fakeRequest({}),
+          service as unknown as SecretServiceContract,
+          { params },
+        );
+        expect(response.status).toBe(status);
+        // The vault was never consulted, so no existence signal was produced.
+        expect(service.getMetadata).not.toHaveBeenCalled();
+        expect((await response.json()).status).toBeUndefined();
+      }
+    });
+
+    it("never turns an unrecognized vault throw into an existence oracle", async () => {
+      const service = stubService({
+        getMetadata: vi.fn(async () => {
+          throw new Error(
+            "connect ECONNREFUSED 10.0.0.5:5432 while scanning encrypted_secrets",
+          );
+        }),
+      });
+      const response = await handleGetSecret(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+        { params },
+      );
+      expect(response.status).toBe(503);
+      const text = await response.text();
+      expect(text).not.toContain("ECONNREFUSED");
+      expect(text).not.toContain("encrypted_secrets");
+      expect((JSON.parse(text) as { error: string }).error).toBe(
+        "VAULT_UNAVAILABLE",
+      );
+    });
+
+    it("keeps the read off the same-origin guard, like every other GET", async () => {
+      const service = stubService();
+      const response = await handleGetSecret(
+        fakeRequest({}),
+        service as unknown as SecretServiceContract,
+        { params },
+      );
+      expect(response.status).toBe(200);
+      expect(service.getMetadata).toHaveBeenCalledTimes(1);
     });
   });
 

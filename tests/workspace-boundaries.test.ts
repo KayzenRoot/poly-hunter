@@ -66,9 +66,41 @@ describe("workspace boundaries", () => {
 
     expect(Object.keys(exports).sort()).toEqual([
       "./server",
+      "./server/authorization",
       "./server/identity",
       "./server/vault",
+      "./server/vault/envelope",
+      "./server/vault/keyring",
     ]);
+    // CR-01: the workspace publishes TypeScript SOURCE, never a build output.
+    // Every export condition of every workspace must point at a tracked source
+    // file. If any of them ever points back at `dist/`, a clean checkout loses
+    // the module and the failure only shows up in CI — or, worse, is masked by a
+    // stale `dist` left on a developer's machine.
+    for (const [workspace, relative] of [
+      ["packages/contracts", "package.json"],
+      ["packages/domain", "package.json"],
+      ["packages/testkit", "package.json"],
+      ["packages/db", "package.json"],
+    ] as const) {
+      const manifest = await manifestAt(
+        resolve(repositoryRoot, workspace, relative),
+      );
+      for (const [subpath, conditions] of Object.entries(
+        (manifest.exports ?? {}) as Record<string, Record<string, string>>,
+      )) {
+        for (const [condition, target] of Object.entries(conditions)) {
+          expect(
+            target,
+            `${workspace} "${subpath}" (${condition}) must resolve to a tracked source file`,
+          ).toMatch(/^\.\/src\/.+\.ts$/);
+          expect(
+            target,
+            `${workspace} "${subpath}" (${condition}) must not depend on a build output`,
+          ).not.toContain("dist/");
+        }
+      }
+    }
     expect(serverEntry).toContain('typeof window !== "undefined"');
     // The WO-002 identity data access is a second guarded server entry: it
     // must keep the same browser guard and stay free of provider imports.

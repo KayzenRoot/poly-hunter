@@ -1,6 +1,6 @@
 import type { Result, TenantRole } from "@polyhunter/contracts";
 
-export * from "./secrets.js";
+export * from "./secrets.ts";
 
 export type DomainResult<TValue, TError> = Result<TValue, TError>;
 
