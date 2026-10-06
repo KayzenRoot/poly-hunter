@@ -4,7 +4,7 @@
   "correctionDelta": "CR-01 — final-digest VEX revalidation",
   "title": "VEX revalidation of every HIGH/CRITICAL finding on the FINAL rebuilt artifact",
   "branch": "feat/ph-m01-identity-rbac",
-  "head": "85b3aaa230f1c69675ac6488bbd16021aedd6164",
+  "head": "0a761490459531d9fb2623c14227354b0b03a120",
   "priorPr": 37,
   "artifact": {
     "final": "sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c",

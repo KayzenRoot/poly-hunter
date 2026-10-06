@@ -8,9 +8,11 @@
 > **Revision 2 — correction delta.** Independent audit `5420502909` of `sha256:4cb8f254…83d538` returned **CORRECTION REQUIRED** with CR-01..CR-04. This revision records those corrections. Sections 1–5 and 8–9 describe the original WO-002 delivery and are unchanged except where noted. Sections 6, 7 and 10 are superseded by §11.
 >
 > **Revision 3 — second correction delta.** Independent re-audit `5427078628` of `sha256:eddda17a…cb7c` at `de18b34` **ACCEPTED** the Auth/RBAC architecture, **closed CR-02, CR-03 and CR-04**, and accepted the CR-01 revalidation method in principle. It raised two remaining findings, recorded in §13: **CR-05** (nondeterministic integration teardown, red exact-head CI) and **CR-06** (VEX machine-readable inconsistency). Both are closed below. Neither changed an image build input, so the artifact digest is unchanged — see §13.3.
+> **Revision 4 — third correction delta (CR-07).** Independent audit `5427442224` of `sha256:eddda17a…cb7c` at `15a645e` **closed CR-05 and CR-06** and **accepted the technical basis of the 25 proposed `NOT_AFFECTED` dispositions**. It raised exactly one remaining finding, recorded in §14: **CR-07** (`@supabase/ssr` 0.12.7 auth-cookie cache headers — the server adapter's `setAll` declared only one parameter and discarded the delivered cache policy). CR-07 is closed below. It changed only TypeScript source, tests and test config, none of which is baked into the image, so the artifact digest is unchanged — see §14.3.
 
-**Audited code head:** `85b3aaa230f1c69675ac6488bbd16021aedd6164`
-**FINAL artifact:** `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c` — **unchanged by this delta**
+**Audited code head:** `0a761490459531d9fb2623c14227354b0b03a120` (CR-07)
+**Previous code heads:** `85b3aaa2…` (CR-05/CR-06), `7a54bb76…` (CR-01..CR-04)
+**FINAL artifact:** `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c` — **unchanged across all three correction deltas**
 
 Executor: Codex. No disposition is self-approved. PH-M01-WO-003 was **not** started; the canonical checkpoint was **not** modified.
 
@@ -281,6 +283,8 @@ All paths are relative to `.engineering/evidence/PH-M01-WO-002/`.
 | `receipts/cr01-revalidation/analysis/*.cjs` | the scripts that generated 07, 08, 09 and the VEX — kept so the results are reproducible |
 | `receipts/cr05-teardown-verification.txt` | CR-05 root cause, fix, leak-guard proof and repeated-run results |
 | `receipts/final-validation.txt` | the final validation chain (npm ci, validate, audit, migrations, 8x integration, diff-check, secret scan, client bundle scan) plus the image-build-input proof for the unchanged digest |
+| `receipts/cr07-auth-cache-headers.txt` | CR-07 contract, defect, fix, per-route coverage, tests, digest proof and VEX premise re-verification |
+| `receipts/final-validation-cr07.txt` | the post-CR-07 validation chain (npm ci, validate, audit, migrations, auth tests, 5x integration, scans, diff-check) plus the image-build-input proof and VEX premise re-verification |
 
 **Correction delta — CR-02 / CR-03 / CR-04 runtime and scans**
 
@@ -367,3 +371,123 @@ Preserved and re-proved: **`sha256:eddda17a805b36468dec362df328778cfb285681c9252
 ### 13.4 Security state is unchanged by this delta
 
 All 25 HIGH/CRITICAL rows remain **`UNDER_INVESTIGATION`** with **25 proposed `NOT_AFFECTED`** and **0 approvals**, bound to `sha256:eddda17a…cb7c`. The CR-06 fix changed the *encoding* of three rows to be truthful and machine-readable; it did not approve anything and it did not weaken a disposition. `approvalState.independentAuditor` and `ownerApproval` remain `null`, and no owner approval has been requested.
+
+
+---
+
+## 14. Third correction delta — CR-07 (independent audit `5427442224`)
+
+Audit `5427442224` of `15a645e9504c002d4b5ae191b076d8b1582e405e` **closed CR-05 and CR-06** and
+**accepted the technical basis of the 25 proposed `NOT_AFFECTED` dispositions**. Exactly one finding
+remained: **CR-07**.
+
+### 14.1 CR-07 — `@supabase/ssr` 0.12.7 auth-cookie cache headers
+
+**The contract.** In `@supabase/ssr` 0.12.7 the server-side cookie contract is
+`setAll(cookiesToSet, cacheHeaders)` — verified in
+`node_modules/@supabase/ssr/dist/main/types.d.ts:23-58`. Whenever auth cookies are written the library
+delivers a fixed anti-cache policy (`node_modules/@supabase/ssr/dist/main/cookies.js:505-509`):
+
+```
+Cache-Control: private, no-cache, no-store, must-revalidate, max-age=0
+Expires: 0
+Pragma: no-cache
+```
+
+Those headers must accompany every response that may create, update or remove auth cookies —
+otherwise a CDN or reverse proxy can store one user's session response and serve it to another.
+
+**The defect.** `apps/web/proxy.ts` already forwarded the delivered object directly and correctly.
+`apps/web/src/identity/supabase-adapter.ts` declared `async setAll(cookiesToSet)` and silently
+discarded the second argument, so Route Handlers writing auth cookies emitted responses with no
+anti-cache policy.
+
+**The fix** (commit `0a76149`), server-only, explicit and concurrency-safe:
+
+- **New `apps/web/src/identity/auth-cache-headers.ts`** centralizes the policy as a frozen constant
+  (`AUTH_NO_STORE_HEADERS`) and exposes `applyAuthNoStoreHeaders(response)`, which applies the three
+  headers, overwrites weaker pre-existing values and returns the same response for call-site
+  chaining. The module holds **no mutable state** — a frozen constant plus a pure function that
+  touches only the response it is given — so concurrent requests cannot interfere through it. A test
+  applies it to 8 responses concurrently to prove this.
+- **The adapter now declares `setAll(cookiesToSet, cacheHeaders)` explicitly** and routes the
+  delivered object through `recordAuthCookieMutation`, which returns the centralized policy when it
+  matches exactly and **throws on any drift** (a missing `no-store`, an extra header, a changed
+  value). Drift therefore surfaces as a library-upgrade error instead of silently degrading to a
+  weaker policy. The second argument is never pretended away.
+- **The documented boundary.** The `next/headers` cookie store exposes no response handle, so the
+  adapter's `setAll` *cannot* write headers to the outgoing response. Cookies are written through the
+  cookie store; the anti-cache headers are **obligatorily applied by the Route Handler** through the
+  centralized helper. Both halves of this boundary are stated in the source.
+- **Routes covered** — the policy is applied unconditionally on *every* response path, not only the
+  happy path:
+  - `/api/auth/login` (PKCE initiation): 302 provider redirect, 503 provider unavailable,
+    503 provider-redirect mismatch;
+  - `/auth/callback`: 303 success, 303 denied, 303 invalid, 303 failed exchange;
+  - `/api/auth/logout`: 303 sign-out redirect — previously set only `Cache-Control`, and now emits
+    the full triple through the helper.
+- **Tests** — `tests/auth-cache-headers.test.ts`, 16 cases: the helper itself (exact value, frozen,
+  same instance, overwrite of weaker values, concurrent application), login (success and both 503s),
+  callback (success / denied / invalid / failed, plus an absolute `returnTo` still collapsing to `/`
+  to prove CR-04 survived the refactor), logout, and the adapter contract (accepts the delivered
+  policy, throws on both drift shapes, empty storage-only delivery still yields the policy). Every
+  response assertion compares the **exact** `Cache-Control` string, not a superset, because a
+  present-but-weaker value is itself a session-leak vector. Suite total: **121/121**.
+- **Refactor.** `login` and `auth/callback` were extracted into `handler.ts` modules matching the
+  existing `select-tenant` / `logout` pattern so the policy is testable without a provider or a
+  database; the route files keep only wiring. **CSRF (CR-02), RBAC, `TenantContext`, the
+  open-redirect / trusted-origin behavior (CR-04), `apps/web/proxy.ts` and everything under
+  `packages/` are unchanged.**
+
+### 14.2 Coverage note
+
+The library was also measured to call `setAll(x, {})` on its storage-only internal writes and to
+forward the policy only on the first cookie write per client instance. That is why the server client
+is created per request, and why the Route Handler policy is applied unconditionally rather than
+relying on the library delivering headers on a particular call — a `setAll` that happens to receive
+`{}` can still be part of a request whose response sets cookies.
+
+### 14.3 Artifact digest is unchanged, and proved
+
+CR-07 changed only TypeScript source, test files and test configuration. It did **not** touch
+`package.json`, `package-lock.json`, `Dockerfile.dev`, `compose.yaml`, the base image, dependencies,
+schema or migrations. `Dockerfile.dev` COPYs only the workspace package manifests and
+`tsconfig.base.json`; verified empirically against the image itself:
+
+```
+docker run --rm --entrypoint sh polyhunter-dev:local -c "ls /workspace/apps/web/src"
+-> NO apps/web/src in image
+```
+
+`compose.yaml` bind-mounts `./apps/web` over `/workspace/apps/web`, so web source is supplied at
+runtime and is never baked into the image. `node_modules` *is* baked, so the installed package set is
+pinned by the manifests — which did not change. **No rebuild was performed.** Preserved and re-proved:
+**`sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c`**, and the container scan
+SARIF is byte-identical at
+`sha256:9153fc1bf029b57ab285778c067f3b780504a13735558e3281369acc9991f3ff`.
+
+### 14.4 CR-07 does not disturb any VEX premise
+
+The 25 rows are container-scan findings carried across six equivalence axes: *component/package,
+exact version, architecture, installed files, runtime assumptions,* and *prior proof assumptions*.
+CR-07 adds no dependency, changes no version and touches no installed file, so no axis is reachable by
+this delta. Two were nonetheless **re-measured live** precisely because CR-07 modified `apps/`
+source, since the *runtime assumptions* axis includes source-level subprocess call sites:
+
+- **subprocess call sites**: re-grepped `apps/` and `packages/` for
+  `child_process` / `exec` / `execSync` / `spawn` / `execFile`, excluding build output ->
+  **0 call sites**. Premise holds.
+- **live containers**: uid `1000` (node) in both `web` and `worker`; `privileged=false`;
+  `capadd=[]`; `capdrop=[]`; web published on `127.0.0.1:3000` only; worker unpublished; no `perl`
+  process in either container.
+
+Regenerating the VEX at the new head reproduced all 25 rows identically (22 preserved by reference,
+3 new from CR-01); no row changed status, justification or `vulnerableCodePresent`.
+
+### 14.5 Security state is unchanged by this delta
+
+All 25 HIGH/CRITICAL rows remain **`UNDER_INVESTIGATION`** with **25 proposed `NOT_AFFECTED`** and
+**0 approvals**. `approvalState.independentAuditor` and `ownerApproval` remain `null`, and **no owner
+approval has been requested**. No suppression, ignore, waiver, accepted risk or severity downgrade
+was used. The canonical `.engineering/CHECKPOINT.json` is untouched, the checkpoint delta remains
+**`PROPOSED / NOT_PROMOTED`**, PH-M01-WO-003 was **not** started, and no merge was performed.

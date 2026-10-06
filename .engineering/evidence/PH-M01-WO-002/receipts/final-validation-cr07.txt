@@ -1,0 +1,97 @@
+PH-M01-WO-002 — FINAL VALIDATION RECEIPT (post CR-07)
+Code head: 0a761490459531d9fb2623c14227354b0b03a120
+Artifact:  polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c (unchanged)
+
+1. npm ci             -> exit 0
+2. npm run validate   -> EXIT 0
+      lint (biome)            clean, 62 files
+      format:check (biome ci) clean
+      typecheck               all workspaces + tests tsconfig, exit 0
+      vitest run              7 files, 121 passed (121)
+      build                   web (Next 16.3.8) + worker, exit 0
+      npm audit --audit-level=high  0 vulnerabilities
+3. npm audit --audit-level=high -> found 0 vulnerabilities (EXIT 0)
+4. migrations (db:migrate in container) -> "migrations applied successfully!" (EXIT 0)
+5. auth tests (focused):
+      tests/auth-cache-headers.test.ts        16 passed
+      tests/app-origin-csrf.test.ts          43 passed
+      tests/route-handler-security.test.ts   33 passed
+      tests/identity-rbac-adversarial.test.ts 21 passed
+      -> 4 files, 113 passed (113)
+6. integration tests (container, GitHub-compatible path): 5 consecutive runs
+      Test Files 2 passed (2) | Tests 14 passed (14)
+      unhandled errors / 57P01 occurrences: 0 in every run
+7. secret scan        -> 0 files matching PRIVATE KEY / AKIA… / ghp_… / BEGIN…KEY
+8. client bundle scan -> 0 hits in apps/web/.next/static for
+                         PRIVATE KEY / AKIA… / SUPABASE_SERVICE_ROLE /
+                         iron-session / ph-auth-token
+9. git diff --check   -> clean (exit 0)
+
+IMAGE BUILD INPUTS
+   git diff 15a645e..0a76149 -- package.json package-lock.json Dockerfile.dev \
+       compose.yaml 'apps/*/package.json' 'packages/*/package.json'
+   -> EMPTY: no build input changed.
+
+   Full change scope of the CR-07 delta (10 files, all source/test/test-config):
+     apps/web/src/identity/auth-cache-headers.ts   (NEW — the centralized policy)
+     apps/web/src/identity/supabase-adapter.ts    (setAll now takes headers)
+     apps/web/app/api/auth/login/handler.ts       (NEW — extracted handler)
+     apps/web/app/api/auth/login/route.ts         (wiring only)
+     apps/web/app/auth/callback/handler.ts        (NEW — extracted handler)
+     apps/web/app/auth/callback/route.ts          (wiring only)
+     apps/web/app/api/auth/logout/handler.ts      (uses the helper)
+     tests/auth-cache-headers.test.ts             (NEW — 16 cases)
+     vitest.config.ts                             (test aliases)
+     tests/tsconfig.json                          (test path mapping)
+
+   Dockerfile.dev COPYs only the workspace package.json manifests and
+   tsconfig.base.json. Verified against the image itself:
+     docker run --rm --entrypoint sh polyhunter-dev:local \
+       -c "ls /workspace/apps/web/src"
+     -> NO apps/web/src in image
+   compose.yaml bind-mounts ./apps/web over /workspace/apps/web, so web source is
+   supplied at runtime and never baked. node_modules IS baked, so the installed
+   package set is pinned by the manifests — which did not change.
+
+   -> No rebuild performed.
+      docker image inspect polyhunter-dev:local --format '{{.Id}}'
+      = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+   Container scan SARIF byte-identical:
+      sha256:9153fc1bf029b57ab285778c067f3b780504a13735558e3281369acc9991f3ff
+
+VEX REGENERATED AT THE CODE HEAD (0a76149)
+   CR-06 invariants OK: 25 rows, all vulnerableCodePresent boolean,
+                        all UNDER_INVESTIGATION, 0 approvals
+   rows: 25 | by reference: 22 | new: 3
+   artifact.final = sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+   approvalState.independentAuditor = null
+   approvalState.ownerApproval      = null
+   CVE-2026-42496 vulnerableCodePresent=false  vulnerable_code_not_present
+   CVE-2026-42497 vulnerableCodePresent=false  vulnerable_code_not_present
+   CVE-2026-8376  vulnerableCodePresent=true
+                          vulnerable_code_cannot_be_controlled_by_adversary
+
+VEX PREMISES RE-VERIFIED FOR CR-07 (see receipt cr07-auth-cache-headers.txt §6)
+   Six equivalence axes: component/package, exact version, architecture,
+   installed files, runtime assumptions, prior proof assumptions.
+   CR-07 adds no dependency, changes no version, touches no installed file.
+   Re-measured because CR-07 modified apps/ source:
+     - subprocess call sites in apps/ and packages/ (excluding build output): 0
+     - uid 1000 in both web and worker; privileged=false; capadd=[]; capdrop=[]
+     - web published on 127.0.0.1:3000 only; worker unpublished
+     - no perl process in either container
+   No premise required re-derivation; no row changed status, justification or
+   vulnerableCodePresent.
+
+RUNTIME AT VALIDATION TIME
+   polyhunter-postgres  healthy
+   polyhunter-web       healthy, HTTP 200 on http://127.0.0.1:3000/
+   polyhunter-worker    up
+   all three on sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c
+
+GOVERNANCE
+   .engineering/CHECKPOINT.json            untouched (last touched cd3e004; 0 diff vs main)
+   .engineering/checkpoint-deltas/…        PROPOSED / NOT_PROMOTED
+   PH-M01-WO-003                          not started
+   owner approval                         not requested
+   merge                                  not performed
