@@ -816,6 +816,17 @@ Work Order introduced a dependency. They are recorded, not suppressed.
 > reporting a count derived from a broken parse. Shell-escaped inline regexes silently
 > failed three times before that was fixed.
 
+> **Scan↔artifact binding (found and fixed this round).** docker scout 1.24.0's SARIF
+> contains **no image identity** — no `run.properties`, no digest, no image name anywhere
+> in the document (measured, not assumed). The first revision of the binding check in
+> `vex-state-machine.mjs` read the SARIF for a digest and therefore passed **vacuously**
+> on this scanner. The check now reads the scout stderr receipt, which must name the
+> declared digest or the script refuses to write any output — and it was observed to
+> **fail** on a real mutation (control A in receipt `22`). The identity evidence is
+> completed by a **digest-pinned re-scan** (`polyhunter-dev@sha256:aee3ad8c…`, not the
+> tag) whose SARIF is **byte-identical** (`md5 f30da92d3318b5b0a4eba98b6d7dd01e`,
+> 589,591 bytes) to the committed scan. See receipt `22-scan-binding-reproducibility.txt`.
+
 **Suppressions added: 0. Ignore rules added: 0. Severity downgrades: 0.**
 
 ### `CVE-2026-8376` — restored to the accepted disposition (audit CR-05)
@@ -987,6 +998,8 @@ executor — to pick up the wrong one.
 | `19-client-bundle-scan.txt` | **this round** — client bundle vs server-side positive control, 0 vs non-zero across 12 patterns |
 | `20-docker-health-no-keyring.txt` | **this round** — full stack healthy, vault fails closed, 0 module-resolution errors |
 | `21-docker-health-with-keyring.txt` | **this round** — ephemeral in-memory keyring, real seeded membership, create/decrypt/rotate/list/remove plus a refused cross-tenant handle |
+| `22-scan-binding-reproducibility.txt` | **this round** — digest-pinned re-scan byte-identical to the committed SARIF (`md5 f30da92d…`); the binding gate's vacuous first revision, its fix, and the negative control that observes it fail |
+| `22-docker-scout-report.txt` | scout's own default-format report naming the resolved target/digest (`polyhunter-dev:local` → `aee3ad8c254b`), kept as the accidental-format run's useful half |
 
 ### Superseded — `receipts/superseded/` (see its README)
 
@@ -1090,3 +1103,18 @@ Points an auditor should weigh most heavily:
     30-second budget because its dynamic import loads `pg`, `drizzle` and the domain
     package. The second matters because a timeout there would have read as "the
     export surface is wrong" when it was not.
+17. **The scan↔artifact binding rests on evidence that can actually carry it.**
+    docker scout 1.24.0's SARIF embeds no image identity, so a SARIF-only binding is
+    vacuous on this scanner — the first revision of that check was, and it was found
+    by measurement. The current check reads the scout stderr receipt and refuses to
+    write output when it does not name the declared digest; control A observes it
+    fail. The structural evidence is a digest-pinned re-scan (`@sha256:aee3ad8c…`)
+    whose output is byte-identical to the committed scan. Receipt `22`; the auditor
+    should re-run the control and the pinned scan.
+18. **Two summary lines were caught contradicting their own receipts and were
+    corrected in place, with the correction written down rather than smoothed
+    over:** receipt `17`'s integration table read "42 tests" for a 37-test file
+    (42+10+4 ≠ the run's own "51 passed"); receipt `16` mixed two different scan
+    comparisons into one line ("prior 82 → now 82 | identical 80 | added 2"). Both
+    now state the measured numbers, and both correction notes name the original
+    wording.

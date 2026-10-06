@@ -12,6 +12,12 @@
   "policy": "PH-SEC-VEX-POLICY via ADR-0007",
   "executorRole": "Codex executor. This document PROPOSES dispositions. It cannot approve them, cannot register NOT_AFFECTED as current approved state, and cannot self-grade a row AFFECTED.",
   "severitySourceNote": "Severity is parsed from message.text. SARIF `level` encodes the VEX/status channel (none/note/warning/error), not the vulnerability severity; reading `level` reports 0 HIGH/CRITICAL on an image that has 25. This script throws rather than report a count derived from an unrecognised parse.",
+  "scanBinding": {
+    "enforcedFrom": "14-image-scan.stderr.txt",
+    "rule": "The scout stderr receipt must name the declared artifact digest, or the script throws before writing any output. The SARIF alone CANNOT carry this check: docker scout 1.24.0 emits no run.properties, no invocation metadata, no image name and no digest anywhere in the document, so a SARIF-only binding passes VACUOUSLY — which the first revision of this gate did. That was found by measurement (run.properties === undefined), fixed, and the fix was verified by a negative control that corrupts the digest inside the stderr receipt and observes the script halt.",
+    "sarifPropertiesCheckKept": "If a future scout version starts emitting image identity in SARIF properties, the same check fires on the SARIF as well. It is kept conditional for exactly that reason, never relied upon for scout 1.24.0.",
+    "reproducibilityEvidence": "The SARIF is byte-deterministic for this image and scanner: receipts/22-scan-reproducibility.txt re-runs docker scout against the same image and the output hashes identically to the committed scan."
+  },
   "rebuildObligation": {
     "branchTaken": "REBUILD + NEW DIGEST + SCAN/VEX REVALIDATION",
     "trigger": "CR-06 removed the './server/vault/envelope' and './server/vault/keyring' subpaths from packages/db/package.json, and Dockerfile.dev copies that file (`COPY --chown=node:node packages/db/package.json packages/db/package.json`). CR-07 additionally changed apps/web/app/api/secrets/handler.ts. Both are Docker build inputs, so the identical-digest shortcut was unavailable and the rebuild branch applied again.",

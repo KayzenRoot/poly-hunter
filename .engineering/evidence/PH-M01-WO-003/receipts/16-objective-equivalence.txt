@@ -13,10 +13,22 @@ each premise it rested on is re-measured on THIS artifact.
 -- component/package --
   Same scanner (docker scout v1.24.0), same unfiltered command, both SARIF documents
   compared row by row on the package purl including the exact version.
-  rows prior 82 -> now 82 | identical 80 | added 2 | removed 0
-  Both added rows are BELOW HIGH/CRITICAL and originate outside this repository's
-  dependency graph (Debian gnupg2 from the base image; postcss-selector-parser bundled
-  inside npm's own node_modules). Neither appears in package-lock.json.
+  vs the WO-002 artifact: prior 80 -> now 82 | identical 80 | added 2 | removed 0
+  vs the previous WO-003 artifact (8bd3e85a, CR-01..CR-04 round):
+          prior 82 -> now 82 | identical 82 | added 0 | removed 0 — the scan output is
+          BYTE-IDENTICAL (md5 f30da92d3318b5b0a4eba98b6d7dd01e), which is the expected
+          result when the scanned content is objectively equivalent and the scanner
+          datasource state is unchanged; receipt 22 re-runs the scan and reproduces
+          this byte-identity for the current digest.
+  Correction note: this table first read "rows prior 82 -> now 82 | identical 80 |
+  added 2 | removed 0", which mixes the two comparisons above and contradicts itself
+  (82 prior with 0 removed cannot also have 80 identical). The row-by-row delta in
+  the state machine (14-vex-state-machine.json -> scanDelta) was always the correct
+  80 -> 82 / identical 80 / added 2 / removed 0; this receipt line was the error.
+  The 2 added rows versus WO-002 are BELOW HIGH/CRITICAL and originate outside this
+  repository's dependency graph (Debian gnupg2 from the base image;
+  postcss-selector-parser bundled inside npm's own node_modules). Neither appears in
+  package-lock.json.
 
 -- exact version --
   dpkg inventory of THIS artifact vs the WO-002 inventory receipt, like-for-like on

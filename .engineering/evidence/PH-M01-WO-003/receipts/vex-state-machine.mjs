@@ -131,11 +131,33 @@ function readRows(scanPath) {
 const priorScan = readRows(PRIOR_SCAN);
 const newScan = readRows(NEW_SCAN);
 
-// Bind the SCAN to the DECLARED artifact. The scanner records the image it
-// analysed inside the SARIF; if that disagrees with NEW_ARTIFACT, every
-// re-measurement below would be answering a question about a different image.
-// A mismatch is a hard stop, not a warning — this is exactly the class of error
-// that would let a stale digest keep an expired disposition alive.
+// Bind the SCAN to the DECLARED artifact. If the scan belongs to a different
+// image, every re-measurement below would be answering a question about that
+// other image — exactly the class of error that would let an expired
+// disposition keep looking alive. A mismatch is a hard stop, not a warning.
+//
+// WHERE the binding can be checked was MEASURED, not assumed: docker scout
+// 1.24.0 emits SARIF with NO run.properties, no invocation metadata, no image
+// name and no digest anywhere in the document (verified against the committed
+// scan: `run.properties === undefined`, and the file contains neither the
+// current nor any prior digest). So a check that reads the SARIF alone cannot
+// fire on this scanner — the first revision of this gate passed VACUOUSLY for
+// that reason. The analysable identity lives in the scout STDERR receipt, whose
+// temporary-archive path names the digest scout was handed:
+//   ...\docker-scout\sha256\<digest>\<uuid>: ...
+// That receipt is therefore REQUIRED here, and it must name the declared
+// artifact. The SARIF-properties check is kept as well so the gate tightens
+// automatically if a future scout version starts emitting identity metadata.
+const SCAN_STDERR = P(
+  ".engineering/evidence/PH-M01-WO-003/receipts/14-image-scan.stderr.txt",
+);
+const artifactHex = NEW_ARTIFACT.replace("sha256:", "");
+const scanStderr = readFileSync(SCAN_STDERR, "utf8");
+if (!scanStderr.includes(artifactHex)) {
+  throw new Error(
+    `scan/artifact binding failed: ${SCAN_STDERR} does not name ${NEW_ARTIFACT}. Refusing to reconcile dispositions against a scan of a different image.`,
+  );
+}
 const scanDigest = (() => {
   const sarif = JSON.parse(readFileSync(NEW_SCAN, "utf8"));
   const props =
@@ -155,7 +177,7 @@ const scanDigest = (() => {
 if (
   scanDigest.named.length > 0 &&
   !scanDigest.named.some((value) =>
-    String(value).includes(NEW_ARTIFACT.replace("sha256:", "")),
+    String(value).includes(artifactHex),
   )
 ) {
   throw new Error(
@@ -587,6 +609,16 @@ const summary = {
 
   severitySourceNote:
     "Severity is parsed from message.text. SARIF `level` encodes the VEX/status channel (none/note/warning/error), not the vulnerability severity; reading `level` reports 0 HIGH/CRITICAL on an image that has 25. This script throws rather than report a count derived from an unrecognised parse.",
+
+  scanBinding: {
+    enforcedFrom: "14-image-scan.stderr.txt",
+    rule:
+      "The scout stderr receipt must name the declared artifact digest, or the script throws before writing any output. The SARIF alone CANNOT carry this check: docker scout 1.24.0 emits no run.properties, no invocation metadata, no image name and no digest anywhere in the document, so a SARIF-only binding passes VACUOUSLY — which the first revision of this gate did. That was found by measurement (run.properties === undefined), fixed, and the fix was verified by a negative control that corrupts the digest inside the stderr receipt and observes the script halt.",
+    sarifPropertiesCheckKept:
+      "If a future scout version starts emitting image identity in SARIF properties, the same check fires on the SARIF as well. It is kept conditional for exactly that reason, never relied upon for scout 1.24.0.",
+    reproducibilityEvidence:
+      "The SARIF is byte-deterministic for this image and scanner: receipts/22-scan-reproducibility.txt re-runs docker scout against the same image and the output hashes identically to the committed scan.",
+  },
 
   rebuildObligation: {
     branchTaken: "REBUILD + NEW DIGEST + SCAN/VEX REVALIDATION",
