@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "workOrder": "PH-M01-WO-004",
+  "generated": "2026-10-06T20:47:59.926Z",
+  "executionHeadStart": "921544a251e87cdb587750a382db960fee31a1cd",
+  "finalHeadNote": "independent audit completed at d0273ba74d1de82e8e8007e233ca540826a541f4 (review 5434550393); owner VEX approval recorded separately; post-audit closure commits are governance-only",
+  "artifactEntering": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+  "artifactState": "FINAL SECURITY-APPROVED ARTIFACT — clean build, Compose runtime, probes, Docker Scout, acceptance matrix, independent audit and Project Owner VEX approval bind to this exact digest. Module checkpoint/merge remain pending a separate owner decision.",
+  "jevReceipt": ".engineering/evidence/PH-M01-WO-004/receipts/10-jev-mcp-execution-cr01-04.txt",
+  "totals": {
+    "rows": 37,
+    "pass": 37,
+    "fail": 0
+  },
+  "rows": [
+    {
+      "id": "A1",
+      "obligation": "Cross-tenant isolation — vault operations",
+      "invariant": "Tenant A cannot read/write/list/rotate/delete/decrypt tenant B state; B's stored row is byte-identical after every attempt",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: keeps every vault operation inside the caller's tenant"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "A2",
+      "obligation": "Object ids are never authorization evidence",
+      "invariant": "Substituting B's object id under A's context refuses at every surface (NOT_FOUND / FORBIDDEN), including purpose-scoped handles and malformed handle shapes",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: never treats an object id as authorization evidence"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "A3",
+      "obligation": "Cross-tenant miss is not an existence oracle",
+      "invariant": "Absent id and foreign id produce identical null metadata and identical sanitized error code+message on mutations",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: does not turn the cross-tenant miss into an existence oracle",
+        "packages/db/tests/secret-vault.integration.test.ts :: tells one tenant nothing at all about another tenant's record"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "A4",
+      "obligation": "Repository reads bound to the resolved tenant context",
+      "invariant": "TenantDataAccess resolves only exact (user, tenant) active memberships; foreign/malformed selectors resolve to null; memberships.list/findById are tenant-scoped; an unissued context is refused",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: binds repository reads to the resolved tenant context"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "A5",
+      "obligation": "Tenant isolation end-to-end in the vault suite",
+      "invariant": "The pre-existing suite drives isolation, revocation and copied-envelope refusal",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: isolates tenant A from tenant B completely",
+        "packages/db/tests/secret-vault.integration.test.ts :: refuses an envelope physically copied onto another tenant row"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "B1",
+      "obligation": "Privilege escalation — forged contexts",
+      "invariant": "Every forged (member->admin, member->owner, admin->owner, admin->member, owner->member) claim is refused at every vault operation; no privilege widens in either direction",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: refuses forged member->admin/owner and admin->owner at every vault surface",
+        "packages/db/tests/secret-vault.integration.test.ts :: refuses a forged owner context over a real member membership",
+        "packages/db/tests/secret-vault.integration.test.ts :: never widens a member context to the stored role or to the claimed one"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "B2",
+      "obligation": "Platform scope is not tenant scope",
+      "invariant": "platform_admin without a current owner/admin membership is denied all secret:* capabilities",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: keeps platform_admin out of tenant authority without a membership",
+        "packages/db/tests/secret-vault.integration.test.ts :: never treats a platform role as tenant authority",
+        "packages/db/tests/identity-rbac.integration.test.ts :: platform_admin comes only from authoritative platform_roles rows"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "B3",
+      "obligation": "No role injection from provider input",
+      "invariant": "A verified provider identity carrying smuggled role/user_metadata fields provisions a plain active user; platform role comes only from platform_roles rows; malformed provider shapes do not provision",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: decides platform role only from platform_roles rows, never from provider input",
+        "packages/db/tests/identity-rbac.integration.test.ts :: provisions an internal user + identity link from a verified subject",
+        "packages/db/tests/identity-rbac.integration.test.ts :: fails closed on malformed provider subjects (no user provisioning)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "B4",
+      "obligation": "Revocation on the next authoritative operation",
+      "invariant": "Role downgrade, membership/user/tenant suspension each deny every operation immediately afterwards; invited membership is no membership",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: honours downgrades and suspensions on the next authoritative operation",
+        "packages/db/tests/secret-vault.integration.test.ts :: revokes access on the next authoritative request after any suspension",
+        "packages/db/tests/secret-vault.integration.test.ts :: treats an invited or missing membership as no membership",
+        "packages/db/tests/tenancy.integration.test.ts :: fails closed on membership revocation for an already-issued context"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "C1",
+      "obligation": "Selector and status resolution",
+      "invariant": "Only an active membership under an active user in an active tenant resolves; foreign, malformed and other-user selectors resolve nothing — no default-tenant fallback",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: resolves only an active membership for the authenticated user and selector",
+        "packages/db/tests/identity-rbac.integration.test.ts :: tenant A selector cannot obtain tenant B context; forged selector fails closed",
+        "packages/db/tests/identity-rbac.integration.test.ts :: suspended tenant/membership or suspended user fails authoritative resolution"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "C2",
+      "obligation": "Tenant switching without cross-contamination",
+      "invariant": "One user active in two tenants: each context sees exactly its own records; switching back and forth never leaks",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: switches between two valid tenants without cross-contamination"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "C3",
+      "obligation": "Session/auth surface attacks (unit boundary)",
+      "invariant": "CSRF/origin refusals, sanitized route handling, cache headers, adversarial identity inputs and open-redirect/callback behavior are covered adversarially at the unit boundary",
+      "evidence": [
+        "tests/route-handler-security.test.ts (33 tests)",
+        "tests/app-origin-csrf.test.ts (43 tests)",
+        "tests/identity-rbac-adversarial.test.ts (21 tests)",
+        "tests/auth-cache-headers.test.ts (16 tests)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "D1",
+      "obligation": "Authorization concurrency — two-connection window",
+      "invariant": "All four authority mutations block (SQLSTATE 55P03 under an explicit lock_timeout) while a vault operation holds the window, on both withDecryptedSecret and replace; the queued change commits after; the next operation fails closed; the tests were observed to FAIL against the pre-correction membership-only lock",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: keeps the window closed through withDecryptedSecret and fails closed afterwards",
+        "packages/db/tests/secret-vault.integration.test.ts :: keeps the window closed through a mutation and fails closed afterwards",
+        ".engineering/evidence/PH-M01-WO-003/receipts/23-cr09-cr10-revalidation.txt (negative control)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "D2",
+      "obligation": "Lock ordering — no demonstrated deadlock cycle",
+      "invariant": "Interleaved rotations + role flips + reads (3 rounds, 5 concurrent actors) complete without a 40P01 deadlock; deterministic end state consistent",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: completes interleaved rotations and authority changes without deadlock and stays consistent"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "E1",
+      "obligation": "Envelope tamper resistance",
+      "invariant": "Tampered ciphertext, tag or nonce fails authentication; AAD swaps of tenant/purpose/secret-id/key-version fail; wrong key and wrong length fail",
+      "evidence": [
+        "tests/secret-vault-crypto.test.ts :: rejects a tampered ciphertext, auth tag and nonce",
+        "tests/secret-vault-crypto.test.ts :: fails when the AAD tenant, purpose, secret id or key version is swapped",
+        "tests/secret-vault-crypto.test.ts :: fails under the wrong key and under a key of the wrong size"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "E2",
+      "obligation": "Nonce discipline",
+      "invariant": "12-byte CSPRNG nonces; collision retry bounded; reused nonces never persist; DB unique barrier holds with the retry bypassed",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: retries with a fresh nonce and succeeds after one collision",
+        "packages/db/tests/secret-vault.integration.test.ts :: fails closed with NONCE_COLLISION once the retry budget is exhausted",
+        "packages/db/tests/secret-vault.integration.test.ts :: never persists a reused nonce even when the application retry is bypassed"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "E3",
+      "obligation": "Rotation semantics and fail-closed recovery",
+      "invariant": "Atomic re-encryption to the active key with stable identity; missing old key and corrupted envelope fail closed without mutating the row; serialized concurrency",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: re-encrypts to the active key atomically and preserves record identity",
+        "packages/db/tests/secret-vault.integration.test.ts :: fails closed without mutating the row when the old key is missing",
+        "packages/db/tests/secret-vault.integration.test.ts :: fails closed without mutating the row when the envelope is corrupted"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "E4",
+      "obligation": "HTTP boundary: no plaintext, no-store everywhere",
+      "invariant": "Metadata-only projections; no plaintext/ciphertext/envelope on any path; Cache-Control: no-store on every status incl. 400/403/404/500/503",
+      "evidence": [
+        "tests/secret-vault-http.test.ts (35 tests incl. the CR-07 no-store matrix)",
+        "tests/secret-vault-http.test.ts :: single-record 404 byte-identical to the cross-tenant 404"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "E5",
+      "obligation": "Public package boundary",
+      "invariant": "openSecret/sealSecret/keyring resolvers are not reachable from the public vault entry or any package subpath; runtime export list pinned",
+      "evidence": [
+        "tests/workspace-boundaries.test.ts :: exports no raw decrypt or keyring resolver from the vault entry",
+        "tests/workspace-boundaries.test.ts :: exposes no envelope or keyring subpath from the db package",
+        "tests/workspace-boundaries.test.ts :: gives the product exactly one plaintext path, and it is scoped"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "F1",
+      "obligation": "Canary containment (logs/errors/metadata/DB/tree)",
+      "invariant": "A high-entropy runtime-only canary never appears in console output, error text, metadata, or ANY column of ANY PH-M01 table — values are inspected RAW (before any JSON serialization; Buffers compared as bytes with equality and byte-subsequence .includes()), with a negative control proving the scanner detects canary bytes placed in a BYTEA column.",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts :: never lets the canary escape through logs, errors, metadata, the database or the working tree (raw-byte scanner)",
+        "packages/db/tests/m01-acceptance.integration.test.ts :: detects canary bytes deliberately placed in a BYTEA column (negative control — the scanner must fail there)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "F2",
+      "obligation": "Plaintext/key containment in the vault suite",
+      "invariant": "Plaintext and key material stay out of every metadata/error surface and no column persists plaintext",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: keeps plaintext and key material out of every metadata and error surface",
+        "packages/db/tests/secret-vault.integration.test.ts :: never persists plaintext in any column (hardened for audit CR-02: raw-value inspection before any serialization)",
+        "tests/secret-vault-crypto.test.ts :: never surfaces the underlying OpenSSL error text"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "F3",
+      "obligation": "Keyring hygiene",
+      "invariant": "Keyring values are not committed; no NEXT_PUBLIC secret/key variable exists; .env.example carries names only",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt (delta scan: 0 keyring values)",
+        "tests/secret-material-containment.test.ts (3 tests)",
+        "tests/secret-vault-crypto.test.ts :: reads exactly two server-only variables, neither of them NEXT_PUBLIC_"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "G1",
+      "obligation": "Recovery — empty DB, migrations, seed, backup, destroy, restore",
+      "invariant": "Full disposable cycle via pg_dump/pg_restore; migrations on empty + repeat no-op; restore into a fresh DB; re-migrate is a no-op",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (steps 1-7; regenerated for audit CR-01)",
+        ".engineering/evidence/PH-M01-WO-004/harness/verify-no-argv-secrets.sh (deterministic gate, run inside receipt 01; its self-test must and does detect the historical argv pattern)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "G2",
+      "obligation": "Recovery — post-restore verification",
+      "invariant": "Metadata matches; tenant B sees nothing of tenant A (null, no oracle); an unmapped context is refused; the authorized callback decrypts the canary; envelope hash unchanged",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 8; regenerated for audit CR-01)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "G3",
+      "obligation": "Recovery — missing old key fails closed without corruption",
+      "invariant": "Decrypt with a keyring lacking k1 returns KEY_VERSION_UNAVAILABLE and the envelope hash is unchanged",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 9; regenerated for audit CR-01)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "H1",
+      "obligation": "Rotation — v1 -> v2 with recovery",
+      "invariant": "Re-introduce v1, active v2, rotate: envelope hash changes, identity metadata (purpose/tenant/created_at) stable, a k2-only keyring decrypts afterwards",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (step 10; regenerated for audit CR-01)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "H2",
+      "obligation": "Rotation — support tests",
+      "invariant": "already_current without materializing plaintext; serialized concurrent rotation; update/rotate and delete/rotate races",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: reports already_current without materializing plaintext",
+        "packages/db/tests/secret-vault.integration.test.ts :: serializes two rotations and never mixes envelope metadata",
+        "packages/db/tests/secret-vault.integration.test.ts :: keeps update and rotate consistent under concurrency",
+        "packages/db/tests/secret-vault.integration.test.ts :: resolves delete against rotate deterministically without resurrecting"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "I1",
+      "obligation": "Migrations — empty and repeat",
+      "invariant": "Empty-DB migration then a second run is a no-op; schema at expected version; historical migrations are not rewritten",
+      "evidence": [
+        "packages/db/tests/m01-acceptance.integration.test.ts fixture (two disposable DBs, the second migrated twice on empty)",
+        ".engineering/evidence/PH-M01-WO-004/receipts/01-recovery-rotation-drill.txt (steps 1-2, 7)",
+        "packages/db/tests/tenancy.integration.test.ts :: applies versioned migrations to separate empty databases and is repeatable"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "I2",
+      "obligation": "Migration integrity of the schema",
+      "invariant": "Envelope sizes, canonical values and nonce uniqueness enforced by the database",
+      "evidence": [
+        "packages/db/tests/secret-vault.integration.test.ts :: enforces envelope sizes, canonical values and nonce uniqueness in the database",
+        "packages/db/tests/secret-vault.integration.test.ts :: creates encrypted_secrets and no Polymarket credential schema"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "J1",
+      "obligation": "Clean Docker acceptance",
+      "invariant": "ONE final artifact: the clean build is tagged and RUN (compose up --no-build); web+worker container image ids asserted equal to the recorded candidate; healthy stack; routes resolve; 0 module-resolution errors.",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (regenerated for audit CR-03; steps 4-7, 9)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "J2",
+      "obligation": "Clean Docker — fail-closed and admitted path",
+      "invariant": "Without a keyring every operation fails VAULT_UNAVAILABLE while the app is healthy; with an ephemeral in-memory keyring the admitted path works end-to-end including a refused cross-tenant handle; probe rows cleaned up; keys never persisted",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (step 8)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": "None open. The prior 'rebuild differs from the runtime image' gap is CLOSED: the clean build IS the runtime artifact now, and the Node base is pinned by immutable digest so future clean builds cannot silently follow a moving tag. (Bit-for-bit reproducibility of two independent builds is still not claimed and is not required.)",
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "K1",
+      "obligation": "Static gates",
+      "invariant": "npm run validate exit 0 (189 unit tests, lint/format/typecheck, production build) and npm audit --audit-level=high = 0",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "K2",
+      "obligation": "Leak scans",
+      "invariant": "Leak scans on the EXACT final head: client bundle 0 across 15 patterns vs a non-zero server control; secret scan over the COMPLETE PR #41 diff (every changed file at the exact head), not a sub-delta.",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/03-static-gates-scans.txt",
+        ".engineering/evidence/PH-M01-WO-004/receipts/04-full-diff-secret-scan.txt (audit CR-04)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "K3",
+      "obligation": "Exact artifact identity and scan reconciliation",
+      "invariant": "Fresh Docker Scout scan of the FINAL candidate: 81 rows, 24 HIGH/CRITICAL; the one removed row vs the prior scan is CVE-2026-103111 (pcre2), absent because the pinned base ships the fixed libpcre2-8-0 deb12u2 — fix by artifact update, not suppression.",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.sarif (+ .stderr.txt naming the final digest)",
+        ".engineering/evidence/PH-M01-WO-004/receipts/09-premise-revalidation.txt (dpkg diff: exactly two package updates)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "L1",
+      "obligation": "VEX state on the entering artifact",
+      "invariant": "VEX on the FINAL digest: every HIGH/CRITICAL row reset to UNDER_INVESTIGATION with only a PROPOSED NOT_AFFECTED; 0 AFFECTED; independentAuditor and ownerApproval null everywhere. Prior approvals on sha256:aee3ad8c… are historical only.",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/08-vex-state-machine.json (24 UNDER_INVESTIGATION / 24 proposed NOT_AFFECTED / 0 AFFECTED / 0 auditor / 0 owner; 24 compared / 0 divergences vs the canonical WO-002 record)",
+        ".engineering/evidence/PH-M01-WO-003-OWNER-APPROVAL.md (historical: bound to the superseded digest)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "L2",
+      "obligation": "No artifact-delta event in WO-004",
+      "invariant": "Audit CR-03 was an artifact-delta event (Dockerfile.dev pinned the base by digest) and was handled as such: rebuild, new digest, fresh scan, VEX reset, premises re-measured.",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/02-docker-clean-acceptance.txt (build + running containers = candidate)",
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.sarif",
+        ".engineering/evidence/PH-M01-WO-004/receipts/09-premise-revalidation.txt"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    },
+    {
+      "id": "L3",
+      "obligation": "No suppression / downgrade",
+      "invariant": "Suppressions 0, ignore rules 0, severity downgrades 0; the executor proposes nothing new and approves nothing",
+      "evidence": [
+        ".engineering/evidence/PH-M01-WO-004/receipts/08-vex-state-machine.json :: suppressionPolicy { suppressionsAdded: 0, ignoreRulesAdded: 0, severityDowngradesApplied: 0 }",
+        ".engineering/evidence/PH-M01-WO-004/receipts/07-final-image-scan.stderr.txt (fresh scan; nothing suppressed)"
+      ],
+      "result": "PASS",
+      "head": "921544a251e87cdb587750a382db960fee31a1cd (branch start) + WO-004 delta — final head recorded in the PR body",
+      "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+      "residualGap": null,
+      "reviewerState": "INDEPENDENT_AUDIT_APPROVED"
+    }
+  ],
+  "jevAdjustments": [
+    "L3: the first evidence citation pointed at the WO-004 evidence document before it existed; JEV classified the row EVIDENCE_WEAK (0.63) and it was corrected to cite the existing machine-readable suppressionPolicy block instead.",
+    "CR round: the matrix was re-bound to the FINAL artifact digest; rows F1/F2/G/H/J/K/L gained the regenerated receipts (CR-01..CR-04)."
+  ],
+  "artifactHistory": [
+    "sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2 — superseded by the CR-03 round; approvals issued on it do not carry over.",
+    "sha256:8bd3e85a… — CR-01..CR-04 rebuild (WO-003 round).",
+    "sha256:f810df3a… — first WO-003 rebuild.",
+    "sha256:eddda17a… — WO-002 artifact."
+  ],
+  "crRound": "audit CR-01..CR-04 (review 5434141055) applied on 2026-10-06",
+  "independentAudit": {
+    "head": "d0273ba74d1de82e8e8007e233ca540826a541f4",
+    "reviewId": "5434550393",
+    "verdict": "APPROVED_AS_EVIDENCE",
+    "acceptedRows": 37
+  },
+  "ownerVexApproval": {
+    "date": "2026-10-06",
+    "artifact": "polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60",
+    "approvedDispositions": 24,
+    "receipt": ".engineering/evidence/PH-M01-WO-004-OWNER-APPROVAL.md",
+    "note": "This approves the final-artifact VEX dispositions only. Module checkpoint promotion and PR #41 merge require a separate Project Owner decision."
+  }
+}

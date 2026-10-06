@@ -1,0 +1,59 @@
+PH-M01-WO-004 — audit CR-03 premise revalidation on the FINAL artifact
+artifact: polyhunter-dev:local@sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60
+generated: 2026-10-06T20:47:30Z
+
+== base image (pinned) ==
+node:24-bookworm-slim@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20
+base image id == pinned digest == docker.io/library/node:24-bookworm-slim resolved 2026-10-06
+
+== dpkg inventory vs the WO-002 baseline (88 packages) ==
+88 packages each side; diff:
+  56c56
+  < libpcre2-8-0 10.42-1+deb12u1
+  ---
+  > libpcre2-8-0 10.42-1+deb12u2
+  84c84
+  < tzdata 2026b-0+deb12u1
+  ---
+  > tzdata 2026c-0+deb12u1
+
+Reconciliation: CVE-2026-103111 (pcre2) was dispositioned in WO-002 and is ABSENT
+from the final scan because the vulnerable version (deb12u1) is no longer installed;
+the base ships deb12u2. Fix-by-artifact-update - not a suppression (counters below).
+tzdata is not a dispositioned row.
+
+== dispositioned scan content (final vs the CR-05..CR-10 committed scan) ==
+rows 82 -> 81 | identical 81 | added 0 | removed 1 (CVE-2026-103111 pcre2)
+HIGH/CRITICAL 25 -> 24
+removed row: HIGH CVE-2026-103111 pkg:deb/debian/pcre2@10.42-1+deb12u1
+
+== perl bitness (unchanged) ==
+ivsize='8'; longsize='8'; ptrsize='8'; use64bitint='define'  (perl-base 5.36.0-7+deb12u3)
+
+== native artifacts recomputed INSIDE the final image ==
+  /usr/local/bin/node                            7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c  IDENTICAL to baseline
+  libstdc++.so.6.0.30                            e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4  IDENTICAL
+  sharp-linux-x64-0.35.5.node                    cf896cc1b7f3ae9c3e8eb3d7b2b198b8de2824ff7d0681d684bab5a825def335  IDENTICAL
+  libvips-cpp.so.8.18.7                          4aa73553408c3964071728f4a231a8e86918e39bc49f1fbae75355f7ea933ea9  IDENTICAL
+  node --version: v24.21.0
+
+== P1/P2 re-measured ==
+P1 dependency graph: package.json 746e6bedeabbc49cd68f58227d86b73dcef28feb87e43a761076aaf3e94d335e and package-lock.json
+   484c8cd56386b60b2013016984a84fba00379a7af5d16fa0a4a996c29d08f722 - unchanged this round.
+P2 subprocess premise: git ls-files apps packages tests (code extensions) = 56 files, 0 matching
+   child_process|execSync|spawnSync|execFile|spawn( — the harness scripts live under .engineering/ and
+   the acceptance suite itself contains no subprocess primitive.
+
+== build-input hashes on the final candidate (from receipt 02) ==
+Dockerfile.dev            199807fa0e792f99f0136e3c76bc039bb3b53b8aefe6bd60a3044aaeafc32074  (CHANGED: base pinned by digest)
+package.json              746e6bedeabbc49cd68f58227d86b73dcef28feb87e43a761076aaf3e94d335e
+package-lock.json         484c8cd56386b60b2013016984a84fba00379a7af5d16fa0a4a996c29d08f722
+tsconfig.base.json        810a550ea242b01f65ec9c65163fd515f176e406c1aabb57e0dc40b842ecff32
+workspace package.json set unchanged (web/worker/contracts/domain/db/testkit hashes as recorded in receipt 02)
+
+== conclusion ==
+Every dispositioned row's premise was re-measured on the FINAL candidate: the four native
+artifacts the node/libstdc++/libvips proofs rest on are byte-identical; every perl/gcc/util-linux/
+zlib/npm version is unchanged; the only two package updates reconcile the one removed CVE. No
+premise that any preserved prior proof rested on was altered. Suppressions 0, ignores 0,
+downgrades 0.

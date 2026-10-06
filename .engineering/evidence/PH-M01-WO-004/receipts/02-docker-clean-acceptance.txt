@@ -1,0 +1,61 @@
+PH-M01-WO-004 — FINAL artifact acceptance on the single final candidate (transcript)
+generated: 2026-10-06T20:47:38Z
+REGENERATED for audit CR-03: there is now ONE artifact. The clean build IS the runtime: compose runs it with --no-build and the containers' image ids are asserted equal to the recorded candidate. No second 'acceptance-rebuild' image exists any longer, and no acceptance step runs on a different image.
+harness: .engineering/evidence/PH-M01-WO-004/harness/docker-acceptance.sh (also commits the CR-01 gate discipline: no key material in argv/env anywhere)
+
+== 0. record the artifact that is being replaced ==
+previous local tag: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+== 1. clean tree: remove stale build output ==
+removed packages/*/dist and apps/web/.next
+== 2. npm ci (host) ==
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+== 3. build-input hashes ==
+199807fa0e792f99f0136e3c76bc039bb3b53b8aefe6bd60a3044aaeafc32074 *Dockerfile.dev
+746e6bedeabbc49cd68f58227d86b73dcef28feb87e43a761076aaf3e94d335e *package.json
+484c8cd56386b60b2013016984a84fba00379a7af5d16fa0a4a996c29d08f722 *package-lock.json
+810a550ea242b01f65ec9c65163fd515f176e406c1aabb57e0dc40b842ecff32 *tsconfig.base.json
+354df2b45faca2c7e444f546a9536c0430f0cc0e8edb8bce91a1b2aa9d787ed8 *apps/web/package.json
+e7d6b9d53cc90b590910aec15d790a591c2bd2a893fc4d4198bf81be87f21f80 *apps/worker/package.json
+a4f5ce7743875b6d82373fd6e9f6421f6ca0b7bc448b9a6148364776ae140fd4 *packages/contracts/package.json
+86dac71a3979297092e9873fce3f2c8ee2f85c8b698c4f3b4f0d66fdb3a77e2f *packages/domain/package.json
+975a2016760471ca7485a8ceb32c4463fa0e128966c868094288e4b416320ca0 *packages/db/package.json
+7b2388cab7622e3a2a2be4357a4ee316ff7cfb65921eacb1dca1a6c165e57f51 *packages/testkit/package.json
+== 4. build the FINAL candidate (pinned base) and tag it ==
+#18 unpacking to docker.io/library/polyhunter-dev:local 47.9s done
+#18 DONE 139.6s
+final candidate id: sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60
+pinned base id:     sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20
+== 5. compose down + up --no-build (the candidate IS the runtime) ==
+ Network hive-v102_default Removed 
+ Container polyhunter-web Starting 
+ Container polyhunter-web Started 
+ Container polyhunter-worker Started 
+polyhunter-postgres Up About a minute (healthy)
+polyhunter-web Up About a minute (healthy)
+polyhunter-worker Up About a minute
+== 6. assert the running containers ARE the recorded candidate ==
+web container image:    sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60
+worker container image: sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60
+OK: web and worker run THE final candidate sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60
+== 7. HTTP probes ==
+GET / -> 200
+GET /api/secrets -> 401 | cache-control: no-store
+GET /api/secrets/<uuid> -> 401 | cache-control: no-store
+GET /api/me -> 401
+GET /auth/login -> 200
+== 8. vault probes on the candidate: no-keyring fail-closed + ephemeral path ==
+OK   no-keyring: isConfigured() is false
+OK   no-keyring: every operation fails closed with VAULT_UNAVAILABLE — code=VAULT_UNAVAILABLE
+OK   ephemeral keyring: isConfigured() is true
+OK   create — purpose=accept.probe
+OK   withDecryptedSecret returns the canary
+OK   rotate — status=already_current
+OK   listMetadata sees the record
+OK   cross-tenant handle refused — code=SECRET_FORBIDDEN
+OK   remove leaves no record
+cleanup: probe rows removed; keys were never persisted
+docker probe: all checks passed
+== 9. module resolution sweep ==
+web module errors:    0
+worker module errors: 0
+== final artifact acceptance complete; candidate: sha256:6a7c210bcbad1f59a0b86e9d1b6e1b2a7eb51f018d6c229c4180cd78c2240c60 ==
