@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "project": "PolyHunter",
+  "module": "PH-M02",
+  "workOrder": "PH-M02-WO-001",
+  "issue": 42,
+  "risk": "ELEVATED_EXTERNAL_PROVIDER_READ_ONLY",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "base": {
+    "ref": "main",
+    "sha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+    "requiredMergeBase": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c"
+  },
+  "executionState": {
+    "checkpointPhase": "M01_IMPLEMENTATION_COMPLETE",
+    "checkpointStopState": "STOP_AFTER_PH_M01_WO_004",
+    "completedThroughModule": "PH-M01",
+    "nextLegalStageAtAdmission": "AWAIT_OWNER_DIRECTION",
+    "ownerDirection": "Start PH-M02",
+    "activeWorkOrderAtAdmission": "NONE",
+    "preparedWorkOrderAtAdmission": "NONE",
+    "liveTradingAuthorized": false,
+    "jevMcpRequired": true
+  },
+  "fingerprints": {
+    "modulePlan": {
+      "path": ".engineering/modules/PH-M02-POLYMARKET-INTEGRATION.md",
+      "sha": "8fc1095664a41466fb065e73fc79c05d700d8267"
+    },
+    "workOrder": {
+      "path": ".engineering/work-orders/PH-M02-WO-001.md",
+      "sha": "701cbf424a7cb48b533dad504934ae5e5037d415"
+    }
+  },
+  "frozenSources": {
+    ".engineering/CHECKPOINT.json": "ce6379063a39e4914e9d67d1584c574d3f4cf7a7",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/INTEGRATION-CONTRACTS.md": "0d0d85db742d938a47334409703a10e2ae525248",
+    ".engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    ".engineering/ARCHITECTURE.md": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    ".engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    ".engineering/policies/JEV-PROMPT-POLICY.md": "c163b1ec843dbe3588bc8740074f224e42003c89"
+  },
+  "runtimeFingerprints": {
+    "package.json": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+    "package-lock.json": "ea8e7e7b5f08034dc297db3f18c9fe5dbbb531ae",
+    "Dockerfile.dev": "2887253f45c1a3f91f10b6e8385764a7aaaadab2",
+    "compose.yaml": "784f0abe357bf35c4a81c7dbb0230057a285a5b2",
+    "packages/contracts/package.json": "56bbd4d99956817bded9af3412c758728ed80a8f",
+    "packages/domain/package.json": "f4562aa8a97c5f537b9ef6a5fa8cb12a44c98199",
+    "packages/testkit/package.json": "4cb367fec8b022f47f41056f382b26067ee22286",
+    "apps/worker/package.json": "6b2f802ad76b7c1f76112ff8e43bf11b9b566ed3",
+    "apps/web/package.json": "40728a474b9d20a36198ef9caab35d0fc989c8c4"
+  },
+  "externalProviderSnapshot": {
+    "revalidatedDate": "2026-10-06",
+    "authoritativeDomain": "docs.polymarket.com",
+    "facts": [
+      "Gamma API is documented for events/markets/metadata.",
+      "CLOB API is documented for prices/order books/order management.",
+      "Public market data is documented as available without credentials.",
+      "Public market WebSocket is documented separately from authenticated user WebSocket.",
+      "CLOB authentication is documented as L1 wallet/EIP-712 plus L2 API-credential/HMAC layers.",
+      "Session Keys are documented as beta, Deposit-Wallet-only, scoped/time-limited and non-withdrawing, with Builder API authorization required for the documented management flow.",
+      "Official geoblock preflight is GET https://polymarket.com/api/geoblock and must be checked before future order placement.",
+      "Official TypeScript unified SDK is currently documented as @polymarket/client; execution must resolve and lock an exact current version."
+    ],
+    "references": [
+      "https://docs.polymarket.com/getting-started/api",
+      "https://docs.polymarket.com/market-data/realtime-data",
+      "https://docs.polymarket.com/trading/session-keys",
+      "https://docs.polymarket.com/api-reference/geoblock"
+    ]
+  },
+  "allowedMutationClasses": [
+    "create packages/polymarket public read-only adapter",
+    "provider-neutral public market-data contracts",
+    "read-only provider dependency/package manifest changes",
+    "public market discovery/book/price/stream integration",
+    "deterministic simulator/fixtures",
+    "reconnect/staleness/backoff helpers",
+    "tests/evidence/governance required by PH-M02-WO-001"
+  ],
+  "prohibited": [
+    "L1/L2 trading credentials",
+    "Session Keys",
+    "Builder API credentials",
+    "tenant trading credentials",
+    "private/user WebSocket",
+    "authenticated private account data",
+    "order create/cancel/query authenticated operations",
+    "wallet signing",
+    "geoblock eligibility decision implementation",
+    "strategy/risk/execution",
+    "PH-M03+",
+    "liveTradingAuthorized=true",
+    "canonical checkpoint promotion during executor phase",
+    "merge during executor phase",
+    "JEV emulation when actual MCP is required"
+  ],
+  "failClosedOn": [
+    "merge-base drift",
+    "frozen-source drift not explicitly admitted",
+    "JEV MCP unavailable",
+    "provider contract ambiguity that affects correctness",
+    "provider SDK type leakage across adapter boundary",
+    "credential/signing dependency entering WO-001",
+    "unbounded retry/reconnect behavior",
+    "stale/unknown stream state represented as LIVE",
+    "unresolved HIGH/CRITICAL"
+  ],
+  "expectedCheckpointProposal": {
+    "status": "SOURCE_PACK_FROZEN",
+    "phase": "M02_INCREMENT_IMPLEMENTED",
+    "stopState": "STOP_AFTER_PH_M02_WO_001",
+    "completedThroughModule": "PH-M01",
+    "activeWorkOrder": "NONE",
+    "preparedWorkOrder": "NONE",
+    "nextLegalStage": "AWAIT_OWNER_DIRECTION",
+    "liveTradingAuthorized": false
+  }
+}
