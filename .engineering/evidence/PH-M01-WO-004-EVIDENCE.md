@@ -13,9 +13,9 @@ system; this Work Order adds **no product capability**.
 historical only). Earlier: `8bd3e85a…`, `f810df3a…`, `eddda17a…`.
 **Date:** 2026-10-06 / 2026-10-07
 
-**STOP STATE: `OWNER VEX APPROVED / READY_FOR_MODULE CHECKPOINT+MERGE DECISION`**
+**STOP STATE: `OWNER APPROVED / CHECKPOINT PROMOTED / READY_FOR_MERGE`**
 
-`liveTradingAuthorized` remains `false`. PR #41 is not merged and the checkpoint is not promoted. Independent HIGH_ASSURANCE audit passed at `d0273ba74d1de82e8e8007e233ca540826a541f4` (review `5434550393`), and the Project Owner explicitly approved all 24 final-artifact VEX dispositions. PH-M02 remains unadmitted.
+`liveTradingAuthorized` remains `false`. The Project Owner separately approved module checkpoint promotion + PR #41 merge at closure head `8439873f8d110bbf4c47124435dbdeeb2d75dfb0`. The canonical checkpoint is now promoted to `M01_IMPLEMENTATION_COMPLETE / STOP_AFTER_PH_M01_WO_004 / completedThroughModule=PH-M01`; PR #41 remains unmerged only until the approved merge is executed. Independent HIGH_ASSURANCE audit passed at `d0273ba74d1de82e8e8007e233ca540826a541f4` (review `5434550393`), and the Project Owner explicitly approved all 24 final-artifact VEX dispositions. PH-M02 remains unadmitted.
 
 ---
 
@@ -216,4 +216,4 @@ Audit CR-04 note:
 - independent audit inspected both current versions and found no secret/key/token patterns;
 - post-audit owner/VEX closure commits are governance-only and do not change the artifact or its runtime premises.
 
-The PH-M01 technical acceptance and VEX security chain are complete. The canonical checkpoint remains unchanged until a separate Project Owner module checkpoint-promotion + PR #41 merge decision.
+The PH-M01 technical acceptance and VEX security chain are complete. The Project Owner separately approved module checkpoint promotion + PR #41 merge, and the canonical checkpoint has now been promoted. PH-M02 remains unadmitted.
