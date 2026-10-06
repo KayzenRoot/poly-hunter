@@ -491,3 +491,26 @@ All 25 HIGH/CRITICAL rows remain **`UNDER_INVESTIGATION`** with **25 proposed `N
 approval has been requested**. No suppression, ignore, waiver, accepted risk or severity downgrade
 was used. The canonical `.engineering/CHECKPOINT.json` is untouched, the checkpoint delta remains
 **`PROPOSED / NOT_PROMOTED`**, PH-M01-WO-003 was **not** started, and no merge was performed.
+
+## 15. Independent audit and Project Owner approval
+
+Final independent HIGH_ASSURANCE audit:
+- audit head: `a4a0039512292aec38b19e78b37ebc716baac730`
+- review: `5428454026`
+- verdict: `APPROVED AS EVIDENCE + READY_FOR_OWNER_APPROVAL`
+
+Project Owner approval:
+- date: 2026-10-06
+- artifact: `polyhunter-dev:local@sha256:eddda17a805b36468dec362df328778cfb285681c9252e4f5e88480064b1cb7c`
+- scope: exactly the 25 dispositions enumerated in `.engineering/evidence/PH-M01-WO-002/receipts/cr01-revalidation/PH-M01-WO-002-VEX-FINAL.json` at the audit head above
+- receipt: `.engineering/evidence/PH-M01-WO-002-OWNER-APPROVAL.md`
+
+ADR-0007 approval chain is complete for all 25 HIGH/CRITICAL rows on this exact artifact.
+
+Current security state:
+- 25/25 `NOT_AFFECTED`
+- 0 `UNDER_INVESTIGATION`
+- 0 `AFFECTED`
+- no suppression, ignore, waiver, accepted-risk shortcut or severity downgrade
+
+The checkpoint remains NOT_PROMOTED and PR #37 remains unmerged until a separate Project Owner merge/checkpoint decision.
