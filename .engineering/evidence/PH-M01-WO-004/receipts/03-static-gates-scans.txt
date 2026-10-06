@@ -1,0 +1,41 @@
+PH-M01-WO-004 — static gates, scans and exact-artifact reconciliation
+generated: 2026-10-06T20:00:32Z
+
+== npm run validate (host, exit 0) ==
+[2m Test Files [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+[2m      Tests [22m [1m[32m189 passed[39m[22m[90m (189)[39m
+found 0 vulnerabilities
+
+== npm audit --audit-level=high ==
+found 0 vulnerabilities
+
+== full PostgreSQL integration suite (container) ==
+[2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[32m65 passed[39m[22m[90m (65)[39m
+  files: secret-vault (39) + identity-rbac (10) + tenancy (4) + m01-acceptance (12) = 65
+
+== git diff --check ==
+clean (exit 0)
+
+== client bundle scan (host production build; .next/static = what a browser downloads) ==
+  9 client files / 203 server files; 15 patterns:
+  every pattern 0 in static; every pattern non-zero in server (positive control) —
+  POLYHUNTER_SECRET_KEYRING_JSON 0/2, envelope-v1 0/5, createCipheriv 0/2,
+  ciphertext 0/7, withDecryptedSecret 0/4, openSecret 0/2, sealSecret 0/2,
+  VaultKeyring 0/2, readVaultKeyringFromEnvironment 0/1, parseVaultKeyring 0/2,
+  keyringJson 0/2, api/secrets 0/17.
+
+== P2 subprocess premise re-measured ==
+  git ls-files apps packages tests (code extensions): 56 files after this round
+  (55 before; the new m01-acceptance.integration.test.ts adds one)
+  files matching child_process|execSync|spawnSync|execFile|spawn(: 0
+
+== exact artifact scan reconciliation ==
+  docker scout cves polyhunter-dev:local --format sarif (fresh, 2026-10-06T20:00Z)
+  rows: 82 (committed scan: 82) | added 0 | removed 0 | HIGH/CRITICAL 25
+  md5(fresh SARIF) == md5(committed 14-image-scan.sarif) == f30da92d3318b5b0a4eba98b6d7dd01e
+
+== secret scan of the WO-004 delta ==
+  7 new/changed files scanned: 0 base64-32-byte literals, 0 keyring values,
+  0 NEXT_PUBLIC secret names. The 4 long strings in the drill transcript are the
+  sha256 envelope hashes (64 hex chars), not key material.

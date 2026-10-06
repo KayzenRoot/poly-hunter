@@ -1,0 +1,119 @@
+PH-M01-WO-004 — JEV MCP execution receipt
+generated: 2026-10-06T21:34Z
+
+PURPOSE. The Work Order, the execution brief and .engineering/policies/JEV-PROMPT-POLICY.md
+require the ACTUAL locally installed JEV MCP server for bounded triage during this
+acceptance round. This receipt records the health check, the live tool inventory, every
+call made, its bounded purpose and result, the escalations, and the no-secrets
+statement. JEV output is advisory: it approves no CVE, no security property, no
+checkpoint and no merge, and no JEV score is cited anywhere as evidence of such.
+
+== 1. PREFLIGHT — HEALTH AND DISCOVERY ==
+
+  Status: HEALTHY. Stdio MCP server (`@jkudish/jev-mcp@0.13.0` launcher, model
+  `jev-latest`, provider typesafe, model version jev-1.13.0 reported per call) via the
+  committed minimal driver receipts/jev-driver.mjs (inherited from WO-003; contains no
+  credentials — the launcher owns them). Discovery performed with initialize +
+  tools/list, using the schemas the server actually advertises:
+
+    jev_verify   (claims, evidence)          jev_classify (items, classes)
+    jev_screen   (text)                      jev_decide   (decision, evidence, priorities, candidates)
+    jev_noul     (propositions)              jev_rerank   (query, candidates)
+    jev_find     (query, candidates)         jev_compare  (passage_a, passage_b)
+    jev_extract  (document, fields)          jev_audit    (source, records)
+    jev_review   (request)                   jev_gate     (request, claims, evidence)
+
+  Used this round: jev_classify (obligation→evidence quality), jev_rerank (minimum
+  evidence set), jev_verify (three bounded claims), jev_review (diff pre-review),
+  jev_gate (final combined pre-gate). Not used, and why: jev_screen (no external or
+  untrusted text entered any decision — all inputs are repository artifacts);
+  jev_noul / jev_decide (no proposition or bounded choice beyond the claims verified);
+  jev_find (the rerank already returned the full ordering);
+  jev_compare (no pairwise passage reconciliation arose);
+  jev_extract / jev_audit (all values are verbatim deterministic reads — test titles
+  and file paths).
+
+== 2. CALLS — BOUNDED PURPOSE AND RESULT ==
+
+  A. jev_classify — obligation→evidence mapping quality (37 acceptance-matrix rows).
+     Question: does each row cite a CONCRETE named test/receipt whose subject matches
+     the obligation? (Not: is the system secure.) Result: 36 EVIDENCE_SPECIFIC /
+     1 EVIDENCE_WEAK — row L3 (0.63), whose first citation pointed at the WO-004
+     evidence document before it existed. ACTION TAKEN: L3 was corrected to cite the
+     existing machine-readable suppressionPolicy block
+     (14-vex-state-machine.json: suppressionsAdded 0, ignoreRulesAdded 0,
+     severityDowngradesApplied 0) plus the fresh scan receipt; the correction is
+     recorded in the matrix `jevAdjustments`. 6,761 / 1,510 tokens.
+  B. jev_rerank — minimum evidence set for the final M01 audit (13 candidates).
+     Top with relevance: (1) receipt 01 recovery/rotation 0.97; (2) receipt 02 docker
+     acceptance 0.95; (3) receipt 03 static gates/scans 0.94; (4) the acceptance
+     matrix 0.93; then a drop to ~0.4 for the suite files and prior-round receipts.
+     Advisory context-reduction only. 1,736 / 241 tokens.
+  C. jev_verify — three bounded claims against sanitized evidence:
+     (1) every matrix row cites concrete, subject-matching evidence -> VERIFIED, 0.93;
+     (2) the delta changes no Docker build input; digest aee3ad8c stays authoritative
+         -> VERIFIED, 0.99;
+     (3) the recovery drill proved restore-preserves-isolation, callback-only decrypt,
+         missing-key fail-closed without corruption, and rotate-changes-envelope with
+         stable identity -> VERIFIED, 1.00.
+     All action=auto. 1,869 / 187 tokens.
+  D. jev_review — bounded advisory pre-review of the acceptance delta (new acceptance
+     test file + the two key-handling harness scripts; 49 KB of diff after trimming).
+     Result: correctness 1.66/2, spec_match 1.85/2, test_gap 0.34, blast_radius 0.41
+     (limiting), composite 0.853, action = ESCALATE, reason codes
+     confidence_below_review + safe_to_apply_below_review. 15,199 / 79 tokens.
+  E. jev_gate — final combined pre-gate (patch review + completion claims vs evidence).
+     See section 3 for the result recorded at completion time.
+
+== 3. FINAL GATE (jev_gate) — TWO RUNS, BOTH RECORDED ==
+
+  Run 1: action=escalate; verification 5 verified / 0 contradicted / 1 unsupported.
+  The unsupported item was claim 1 ("integration is 65/65: 39+12+10+4") — the
+  supplied evidence held the 65/65 summary but NOT the per-file breakdown, so the
+  bounded checker could not support the specific numbers (probabilities {verified
+  0.45, unsupported 0.45, contradicted 0.10} — unsupported, NOT contradicted).
+  Action per policy: add the missing evidence rather than reword the claim.
+
+  Run 2 (same claims; evidence extended with the verbatim per-file counts from the
+  run output): verification 6 verified / 0 contradicted / 0 unsupported, action auto
+  — claim 1 0.85, validate 0.98, drill 0.97, docker 0.93, no-product-no-build-input
+  0.89, artifact scan identity 0.91. Review half: correctness 1.75, spec_match 1.66,
+  test_gap 0.37, blast_radius 0.35, composite 0.8425, safe_to_apply 0.46 -> action
+  escalate (conservative; recorded, not treated as an approval). Both runs usage:
+  18,160/318 and 18,248/318 tokens.
+
+  The first run is kept in this receipt on purpose: a gate whose packaging gap was
+  observed and corrected is more informative than one reported clean on the first
+  try.
+
+== 4. ESCALATIONS TO THE PRIMARY MODEL (policy stop rule) ==
+
+  D escalated on blast_radius/safe_to_apply — a bounded model declining to stamp a
+  security-acceptance patch safe is the desired conservative behaviour. Resolution,
+  by the primary model, from deterministic evidence: the delta contains no product
+  change (file-set proof), the suites are green on real PostgreSQL (65/65), the drill
+  and Docker acceptance exited 0 with per-step assertions, and the artifact identity
+  is proven byte-stable. No JEV score is used as evidence of anything; the definitive
+  judgment belongs to the independent audit. No call returned invalid_response; no
+  call was re-run with reworded input to obtain a denied answer.
+
+== 5. NO SECRETS SENT ==
+
+  Inputs contained only: acceptance-matrix rows (invariants, test titles, repository
+  paths), receipt summaries, diffs of the acceptance test and harness scripts before
+  any key material exists, and deterministic result summaries. No plaintext vault
+  secret, canary value, keyring content, AES key, Supabase credential, session token,
+  private key, provider key or JEV/TypeSafe credential was read, sent, printed or
+  stored. The ephemeral drill keys and canary live only in the orchestrator shell and
+  in container process memory (stdin/in-process), which JEV inputs never touched.
+
+== 6. POLICY COMPLIANCE SUMMARY ==
+
+  deterministic first               yes — every JEV input was produced by git/diff/
+                                    tests/drill runs first; JEV judged pre-digested
+                                    sanitized fields only.
+  real MCP, not simulated           yes — live server, advertised schemas, 6 calls,
+                                    discovery recorded above.
+  batch where useful                yes — one catalog per decision.
+  advisory only                     yes — escalations recorded; nothing approved or
+                                    waived; independent audit and owner gates intact.

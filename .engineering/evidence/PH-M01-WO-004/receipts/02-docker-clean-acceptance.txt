@@ -1,0 +1,58 @@
+PH-M01-WO-004 — clean-environment Docker acceptance (transcript)
+generated: 2026-10-06T19:52:23Z
+orchestrator: .engineering/evidence/PH-M01-WO-004/harness/docker-acceptance.sh
+in-container probe: .engineering/evidence/PH-M01-WO-004/harness/docker-probe.mjs
+
+Artifact identity: the canonical tag polyhunter-dev:local was NOT re-tagged and remains
+sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2 throughout.
+The separate rebuild of the SAME inputs produced a different image id
+(sha256:40782d8c...) — docker builds of this recipe are not bit-reproducible, and that
+is recorded here rather than hidden. No Docker build input changed in WO-004, so the
+artifact of record and its VEX approvals are unaffected by that observation.
+
+== 1. remove stale build output ==
+removed packages/*/dist and apps/web/.next
+== 2. npm ci (host) ==
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+== 3. rebuild into a separate tag and compare identity ==
+#18 unpacking to docker.io/library/polyhunter-dev:acceptance-rebuild
+#18 unpacking to docker.io/library/polyhunter-dev:acceptance-rebuild 0.3s done
+#18 DONE 4.0s
+canonical: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+rebuild:   sha256:40782d8c8102a618701b6383943e72fa6c00071c26c1b023d67be04c2baa834b
+identity: rebuild differs from the canonical artifact (recorded, not hidden).
+The canonical tag and the artifact digest are UNCHANGED; no build input changed,
+so this is a reproducibility observation, not an artifact-delta event.
+== 4. compose down + up on the canonical image ==
+ Network hive-v102_default Removing 
+ Network hive-v102_default Removed 
+ Container polyhunter-web Starting 
+ Container polyhunter-worker Started 
+ Container polyhunter-web Started 
+polyhunter-postgres Up 2 minutes (healthy)
+polyhunter-web Up About a minute (healthy)
+polyhunter-worker Up About a minute
+== 5. HTTP probes ==
+GET / -> 200
+GET /api/secrets -> 401 | cache-control: no-store
+GET /api/secrets/<uuid> -> 401 | cache-control: no-store
+GET /api/me -> 401
+== 6. vault probes: no-keyring fail-closed + ephemeral admitted path ==
+OK   no-keyring: isConfigured() is false
+OK   no-keyring: every operation fails closed with VAULT_UNAVAILABLE — code=VAULT_UNAVAILABLE
+OK   ephemeral keyring: isConfigured() is true
+OK   create — purpose=accept.probe
+OK   withDecryptedSecret returns the canary
+OK   rotate — status=already_current
+OK   listMetadata sees the record
+OK   cross-tenant handle refused — code=SECRET_FORBIDDEN
+OK   remove leaves no record
+cleanup: probe rows removed; keys were never persisted
+docker probe: all checks passed
+== 7. module resolution sweep ==
+web module errors:    0
+worker module errors: 0
+== 8. remove the acceptance rebuild tag (the canonical tag is untouched) ==
+canonical image still: sha256:aee3ad8c254bb435cb26817296c461a9d5ac34d9b6150a82925afeb81dce77b2
+== docker acceptance complete ==

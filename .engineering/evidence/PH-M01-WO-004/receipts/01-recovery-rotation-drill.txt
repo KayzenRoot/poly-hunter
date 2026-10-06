@@ -1,0 +1,51 @@
+PH-M01-WO-004 — disposable backup/destroy/restore + v1->v2 rotation drill (transcript)
+generated: 2026-10-06T19:45:54Z
+orchestrator: .engineering/evidence/PH-M01-WO-004/harness/recovery-rotation-drill.sh
+in-container phases: .engineering/evidence/PH-M01-WO-004/harness/drill-vault.mjs
+
+Key material (k1, k2) and the canary were generated in the orchestrator shell, passed
+to the container over the exec stdin pipe only, and discarded at the end. They were
+never written to a file, argv or environment, and this transcript contains no key
+material or canary value — only ids, hashes, counts and status words.
+
+== drill database: phm01_drill_941af8354e15ad02 (disposable) ==
+== 1. empty DB -> migrations ==
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[⡿] applying migrations...[2K[1G[⢿] applying migrations...[2K[1G[✓] migrations applied successfully!== 2. migration repeat on the same DB (must be a no-op) ==
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[✓] migrations applied successfully!== 3. seed representative PH-M01 state + v1 secret via the vault ==
+seed: tenantA=9f47d274-3e14-47d0-b828-b26316f67f5f userA=a35e0d68-23b5-4083-924f-6327268b8997 secretA=29f94946-926b-4d82-a352-6059ed69a659
+seed: tenantB=0d0fe0b5-bf2f-4d88-ad3b-47a65281956d userB=22446940-714a-40b7-90c9-e5a58ad3cbe6 secretB=c29ec68d-a623-4793-8ac4-d696d6075470
+seed: isolation + authorized decrypt OK
+seed: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e
+phase seed: OK
+(ids captured: tenantA, userA, secretA, tenantB, userB and the envelope hash; no key material printed)
+== 4. logical backup (pg_dump -Fc) ==
+dump size bytes: 17358
+== 5. destroy the database ==
+database dropped
+== 6. fresh database + restore (pg_restore) ==
+restore completed (exit 0)
+== 7. roll-forward guidance: migrations re-applied on the restored DB ==
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[✓] migrations applied successfully!== 8. verify restored state: isolation, metadata, authorized decrypt ==
+verify: applied migrations=3
+verify: metadata id=29f94946-926b-4d82-a352-6059ed69a659 purpose=drill.secret.a rotation=current
+verify: tenant B sees nothing of tenant A (null, no oracle)
+verify: unmapped context refused (SECRET_FORBIDDEN)
+verify: authorized decrypt with ephemeral v1 returns the canary
+verify: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e
+phase verify-restored: OK
+== 9. required old key version missing: fail closed, row intact ==
+missing-key: decrypt fails closed with KEY_VERSION_UNAVAILABLE
+missing-key: envelopeHashA=d3979b01c33efbc93a858399d89193979ac09a33ec6c09e76eed1ceacdac309e (row intact)
+phase missing-key: OK
+== 10. re-introduce v1, active v2, rotate; k2-only decrypt afterwards ==
+rotate: status=rotated rotationNow=current
+rotate: envelopeHashA=b5bb57e4fbb1e6d32ab79731b486e5738f9a7f5e8b126f0350e117f41c0d20d3 (changed, identity stable)
+rotate: k2-only keyring decrypts the rotated envelope
+rotate: metadata rotation=current
+phase rotate: OK
+== 11. cleanup: drop the database, the dump, and the copied harness ==
+dropped phm01_drill_941af8354e15ad02
+== drill complete: test keys and canary discarded (never persisted) ==
