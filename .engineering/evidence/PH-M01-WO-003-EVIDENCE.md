@@ -1014,14 +1014,28 @@ artifact that contained the defect.
 
 ## 17. AUDIT REQUEST
 
-`READY_FOR_FINAL_INDEPENDENT_AUDIT` — pending the CI result on the final HEAD, which
-is recorded in the PR body and in the section below.
+`READY_FOR_FINAL_INDEPENDENT_AUDIT` — the CI result on the final HEAD is recorded here
+and in the real PR #39 body.
 
-The audit target is the tip of `feat/ph-m01-encrypted-secret-vault` after the
-CR-05..CR-08 commits. GitHub Actions Validate and CodeRabbit are both required to be
-SUCCESS on that exact commit; the run IDs and the commit SHA are recorded in the
-real PR #39 body and in the head of this document rather than duplicated here,
-because a SHA written into a file invalidates itself on the next commit.
+**GitHub Actions Validate is SUCCESS on this branch.** The audit target is the commit
+carrying the code, tests, evidence and the scan-binding fix of this round,
+`7511ec76a545154999d4b419f01529163898daa3` (it contains the code commit
+`025ff1eb87cf2b904e68f0106b7e75cbda2ca7b7`), validated by run `37507882222` — the
+`Node 24 validation` job green. CodeRabbit reports `success` on the same commit
+(review skipped while the PR is a draft — its configured behavior; the status is
+green). That run is also an independent CR-01 proof: the runner does a clean Git
+checkout with no `packages/**/dist` and runs the gates green.
+
+Every commit after the audit target is **documentation-only** (recording the CI result
+itself) and carries its own green run; the live list, including the tip commit and its
+run ID, is kept in the real PR body rather than here, because a SHA written into a file
+cannot name the commit that carries the file.
+
+Two adjacent signals are recorded rather than suppressed: **Socket Security** passes,
+and **SonarCloud Code Analysis fails — pre-existing**, identically on the previously
+audited heads `a55ef18` and `59ae44b`, on "New Code" ratings (10 issue instances listed
+in the checkpoint delta). It is not a gate of this Work Order; none of the instances is
+introduced by this round.
 
 Points an auditor should weigh most heavily:
 
