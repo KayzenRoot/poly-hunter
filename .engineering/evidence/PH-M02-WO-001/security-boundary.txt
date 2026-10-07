@@ -1,0 +1,11 @@
+## provider SDK import outside packages/polymarket
+(no matches)
+rg exit: 1
+
+## secret environment/API/signing/order mutation identifiers in provider source
+(no matches)
+rg exit: 1
+
+## provider implementation strings in browser static bundle
+(no matches)
+rg exit: 1

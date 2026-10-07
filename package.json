@@ -12,6 +12,7 @@
     "packages/domain",
     "packages/db",
     "packages/testkit",
+    "packages/polymarket",
     "apps/worker",
     "apps/web"
   ],
