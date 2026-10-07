@@ -2,7 +2,7 @@
 
 Status: ACTIVE
 Effective: 2026-10-06
-Owner decision: JEV is installed locally and MUST be used through its real MCP server during PolyHunter development.
+Owner decision: JEV MCP and the TypeSafe/JEV agent skill are installed in Codex and MUST be used during PolyHunter development according to this policy.
 Scope: repository-wide engineering governance.
 Applies to: Codex execution, coding/debugging, Work Orders, correction rounds, reviews, evidence triage, long-running development sessions and future agent prompts.
 
@@ -261,3 +261,110 @@ This revision supersedes the earlier 2026-10-06 wording that described JEV mainl
 The Project Owner clarified that the intended requirement is use of the **actual locally installed JEV MCP and all applicable functionality it exposes**.
 
 Future PolyHunter prompts must follow this corrected interpretation unless a later explicit Project Owner decision supersedes it.
+
+
+## Codex TypeSafe/JEV skill requirement
+
+Effective: 2026-10-07.
+Official documentation: https://docs.typesafe.ai/introduction
+Agent skill reference: https://docs.typesafe.ai/agent-skill
+
+The Project Owner has installed BOTH:
+- the actual JEV/TypeSafe MCP in Codex; and
+- the TypeSafe/JEV agent skill in Codex.
+
+Every future PolyHunter Codex prompt MUST explicitly instruct the executor to use the installed TypeSafe/JEV skill and the actual JEV MCP when appropriate.
+
+### Skill preflight
+
+At the beginning of every substantial Codex execution:
+1. load/invoke the installed TypeSafe/JEV skill (equivalent to "use the TypeSafe skill");
+2. read its current instructions/references rather than relying on stale remembered API fields;
+3. verify the actual JEV MCP is connected and discover its live tool surface;
+4. use the skill to choose correct Jev primitives/patterns and the MCP to execute bounded decisions;
+5. record skill/MCP use in evidence when practical.
+
+If the skill is unavailable but the task materially depends on Jev integration/pattern choice, report `BLOCKED_JEV_SKILL_UNAVAILABLE` rather than inventing TypeSafe API behavior.
+If the MCP is unavailable when required, preserve `BLOCKED_JEV_MCP_UNAVAILABLE`.
+
+### When Codex should use Jev to save tokens
+
+Use Jev when a decision is narrow, atomic and can be represented as typed judgment over supplied state, especially:
+- choose one item from a closed set;
+- classify/rerank candidate files, logs, receipts, docs or findings;
+- score a candidate against an explicit rubric;
+- answer a bounded true/false proposition;
+- verify whether supplied evidence supports a specific claim;
+- route a task to deterministic logic vs Codex reasoning;
+- detect likely relevance/scope/regression before loading broad context;
+- batch many independent judgments over the same state.
+
+Official TypeSafe primitives:
+- Choice: pick among known options;
+- Score: rate against ordered descriptive levels;
+- Noul: probability that a clearly defined statement is true.
+
+Prefer atomic questions. If a decision has several independent factors, split it into multiple atomic questions and combine the answers deterministically in code.
+
+### Batch-first token-saving rule
+
+When several independent Jev questions use the same state, batch them in one MCP/API decision when the live tool/schema supports it.
+
+Do NOT default to one Jev call per question.
+
+Speculative questions that share the same state may be included in the same batch when cheap and useful; unused answers may be ignored by deterministic code.
+
+### Confidence / escalation rule
+
+Choice and Score confidence/probabilities are routing signals, not authority.
+
+- high-confidence bounded result: may drive low-risk triage/routing;
+- low confidence, conflicting evidence, ambiguous option set, or security-sensitive consequence: escalate to Codex/GPT reasoning or deterministic proof;
+- Noul near uncertainty must not be forced into an allow decision;
+- deterministic evidence always overrides Jev.
+
+Do not invent universal confidence thresholds. Thresholds, when needed, must be explicit, reviewable and proportional to consequence.
+
+### Jev is not the coding model
+
+Per official TypeSafe guidance, Jev is not a chat/code-completion LLM.
+
+Never ask Jev to:
+- write or patch production code;
+- perform open-ended architecture;
+- replace debugging that needs causal reasoning;
+- replace cryptographic/concurrency/security reasoning;
+- approve HIGH/CRITICAL VEX;
+- approve merge/checkpoint/live-money actions.
+
+Codex remains the engineering/code model. Jev is the fast System One decision layer.
+
+### Prompt header requirement
+
+Every future PolyHunter Codex execution/correction prompt must include a compact header equivalent to:
+
+```
+TYPESAFE/JEV SKILL: REQUIRED
+JEV MCP: REQUIRED
+
+Use the installed TypeSafe/JEV agent skill first so you follow the current TypeSafe primitives/patterns/API guidance.
+Verify and discover the actual local JEV MCP tool surface.
+Use deterministic tools first.
+Whenever you need a narrow/atomic judgment that can be represented as Choice, Score, Noul, classification, verification, reranking or another live JEV capability, use JEV instead of spending broad Codex reasoning/context.
+Batch independent questions over the same state whenever practical.
+Use confidence/probabilities to decide when to escalate; never force uncertain/high-risk judgments.
+Do not send secrets, private keys, tokens or provider credentials to Jev.
+Codex remains responsible for implementation and open-ended engineering reasoning.
+```
+
+Then provide only the exact Work Order/correction delta.
+
+### Reviewability
+
+Questions, criteria/rubrics and any thresholds materially used by Jev should be centralized or recorded compactly enough to audit.
+
+Do not hide important product policy in unreviewable free-form Jev prompts.
+
+### Source freshness
+
+The installed TypeSafe/JEV skill and the official TypeSafe documentation are authoritative for current Jev API/pattern behavior. If remembered behavior conflicts with the current skill/docs or live MCP schema, the current skill/docs/schema wins.
