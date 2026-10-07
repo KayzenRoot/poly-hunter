@@ -113,6 +113,11 @@ describe("polymarket wire event normalization", () => {
         JSON.parse(JSON.stringify({ event_type: "book" })),
       ),
     ).toThrow(PolymarketProviderError);
+    for (const event_type of ["best_bid_ask", "market_resolved"]) {
+      expect(() => normalizeWireMarketEvent({ event_type })).toThrow(
+        PolymarketProviderError,
+      );
+    }
     expect(brokenJsonWire().length).toBeGreaterThan(0);
   });
 

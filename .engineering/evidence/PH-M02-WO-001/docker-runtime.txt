@@ -1,13 +1,1 @@
-docker compose config --quiet
-exit 0
-docker compose ps
-NAME                  IMAGE                                                                                               COMMAND                  SERVICE    CREATED          STATUS                    PORTS
-polyhunter-postgres   postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24   "docker-entrypoint.s…"   postgres   34 minutes ago   Up 33 minutes (healthy)   5432/tcp
-polyhunter-web        polyhunter-dev:local                                                                                "docker-entrypoint.s…"   web        33 minutes ago   Up 33 minutes (healthy)   127.0.0.1:3000->3000/tcp
-polyhunter-worker     polyhunter-dev:local                                                                                "docker-entrypoint.s…"   worker     34 minutes ago   Up 33 minutes
-GET http://localhost:3000
-HTTP 200
-polyhunter-dev:local image
-sha256:d38a0a1222ef551cf5926496ffdc8c0fd06d8950e2d0a1b6d0c2f5c8d1a54b62 ["polyhunter-dev@sha256:d38a0a1222ef551cf5926496ffdc8c0fd06d8950e2d0a1b6d0c2f5c8d1a54b62"]
-postgres:17.11-alpine3.24 image
-sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 ["postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"]
+Historical pre-correction runtime receipt superseded by docker-runtime-final.txt and docker-smoke.md. Use the final receipt for the post-CR-06 image digest, explicit Compose project polyhunter-local, Node 24.21.0 worker import smoke and current service health.

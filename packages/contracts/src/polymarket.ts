@@ -150,22 +150,6 @@ export type MarketStreamEvent =
       timestamp: number | null;
     }>
   | Readonly<{
-      type: "best_bid_ask";
-      assetId: AssetId;
-      conditionId: ConditionId;
-      bestBid: DecimalString | null;
-      bestAsk: DecimalString | null;
-      spread: DecimalString | null;
-      timestamp: number | null;
-    }>
-  | Readonly<{
-      type: "market_resolved";
-      conditionId: ConditionId;
-      winningAssetId: AssetId | null;
-      winningOutcome: string | null;
-      timestamp: number | null;
-    }>
-  | Readonly<{
       type: "stream_error";
       code: ProviderErrorCode;
       message: string;
@@ -270,10 +254,8 @@ export interface PolymarketDiscovery {
     readonly maxPages?: number;
     readonly pageSize?: number;
   }) => Promise<DiscoveryPage>;
-  /** Fetches one market's detail by condition id. */
-  readonly fetchMarketDetail: (
-    conditionId: ConditionId,
-  ) => Promise<MarketDetail>;
+  /** Fetches one market's detail by its positive-integer Gamma market id. */
+  readonly fetchMarketDetail: (marketId: MarketId) => Promise<MarketDetail>;
   readonly close: () => Promise<void>;
 }
 

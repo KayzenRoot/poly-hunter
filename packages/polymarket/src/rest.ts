@@ -16,7 +16,7 @@ import {
   type OrderBookSnapshot,
   type BookLevel,
   PolymarketProviderError,
-} from "./contracts.ts";
+} from "@polyhunter/contracts";
 import {
   isPlainObject,
   normalizeProviderCall,
@@ -301,18 +301,18 @@ function validConditionId(value: string): boolean {
   return /^0x[a-f0-9]{64}$/i.test(value);
 }
 
-function validAssetId(value: string): boolean {
-  return /^(?:0x[a-f0-9]{64}|\d{1,78})$/i.test(value);
-}
-
-function requireConditionId(value: string): ConditionId {
-  if (!validConditionId(value)) {
+function requireMarketId(value: string): MarketId {
+  if (!/^[1-9]\d*$/.test(value)) {
     throw new PolymarketProviderError(
       "PROVIDER_BAD_REQUEST",
-      "market condition id is invalid",
+      "market id must be a positive integer",
     );
   }
-  return value as ConditionId;
+  return value as MarketId;
+}
+
+function validAssetId(value: string): boolean {
+  return /^(?:0x[a-f0-9]{64}|\d{1,78})$/i.test(value);
 }
 
 function requireAssetId(value: string): AssetId {
@@ -447,16 +447,25 @@ export function createPolymarketDiscovery(
       });
     },
 
-    async fetchMarketDetail(conditionId) {
+    async fetchMarketDetail(marketId) {
       return normalizeProviderCall(async () => {
-        const requestedConditionId = requireConditionId(conditionId);
+        const requestedMarketId = requireMarketId(marketId);
         const market = assertMarketShape(
-          await client.fetchMarket({ id: requestedConditionId }),
+          await client.fetchMarket({ id: requestedMarketId }),
         );
-        if (market.conditionId !== requestedConditionId) {
+        if (market.id !== requestedMarketId) {
           throw new PolymarketProviderError(
             "PROVIDER_MALFORMED",
-            "market detail response does not match the requested condition id",
+            "market detail response does not match the requested market id",
+          );
+        }
+        if (
+          typeof market.conditionId !== "string" ||
+          !validConditionId(market.conditionId)
+        ) {
+          throw new PolymarketProviderError(
+            "PROVIDER_MALFORMED",
+            "market detail response has no valid condition id",
           );
         }
         const outcomes: OutcomeAsset[] = [
@@ -480,10 +489,7 @@ export function createPolymarketDiscovery(
         };
         const detail: MarketDetail = {
           marketId: market.id as MarketId,
-          conditionId:
-            typeof market.conditionId === "string"
-              ? (market.conditionId as ConditionId)
-              : null,
+          conditionId: market.conditionId as ConditionId,
           question: market.question ?? null,
           slug: market.slug ?? null,
           status: lifecycleOf(market.state, market.resolution),

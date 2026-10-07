@@ -15,7 +15,7 @@ import {
   type MarketStreamEvent,
   type ProviderOrderSide,
   PolymarketProviderError,
-} from "./contracts.ts";
+} from "@polyhunter/contracts";
 import {
   compareDecimal,
   normalizeNonNegativeDecimal,
@@ -233,49 +233,6 @@ export function normalizeWireMarketEvent(raw: unknown): MarketStreamEvent {
         oldTickSize: nullablePositiveDecimal(tick.old_tick_size),
         newTickSize: requiredPositiveDecimal(tick.new_tick_size),
         timestamp: asTimestamp(tick.timestamp),
-      };
-    }
-    case "best_bid_ask": {
-      const bba = parseWire(
-        z.object({
-          asset_id: z.string(),
-          market: z.string(),
-          best_bid: z.string().nullish(),
-          best_ask: z.string().nullish(),
-          spread: z.string().nullish(),
-          timestamp: z.union([z.number(), z.string()]).nullish(),
-        }),
-        raw,
-      );
-      return {
-        type: "best_bid_ask",
-        assetId: asAsset(bba.asset_id),
-        conditionId: asCondition(bba.market),
-        bestBid: nullableDecimal(bba.best_bid),
-        bestAsk: nullableDecimal(bba.best_ask),
-        spread: nullableDecimal(bba.spread),
-        timestamp: asTimestamp(bba.timestamp),
-      };
-    }
-    case "market_resolved": {
-      const resolved = parseWire(
-        z.object({
-          market: z.string(),
-          winning_asset_id: z.string().nullish(),
-          winning_outcome: z.string().nullish(),
-          timestamp: z.union([z.number(), z.string()]).nullish(),
-        }),
-        raw,
-      );
-      return {
-        type: "market_resolved",
-        conditionId: asCondition(resolved.market),
-        winningAssetId:
-          resolved.winning_asset_id == null
-            ? null
-            : asAsset(resolved.winning_asset_id),
-        winningOutcome: resolved.winning_outcome ?? null,
-        timestamp: asTimestamp(resolved.timestamp),
       };
     }
     default:

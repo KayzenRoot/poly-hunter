@@ -1,7 +1,7 @@
 import {
   PolymarketProviderError,
   type ProviderErrorCode,
-} from "./contracts.ts";
+} from "@polyhunter/contracts";
 
 /**
  * Normalizes anything thrown by the official SDK, a transport, or a response
@@ -48,8 +48,12 @@ export function normalizeProviderError(
   const message = rawMessage.slice(0, 300);
 
   let code: ProviderErrorCode = "PROVIDER_UNAVAILABLE";
-  if (/RateLimitError/i.test(name) || status === 429) {
+  if (/UserInputError/i.test(name)) {
+    code = "PROVIDER_BAD_REQUEST";
+  } else if (/RateLimitError/i.test(name) || status === 429) {
     code = "PROVIDER_RATE_LIMITED";
+  } else if (/TransportError/i.test(name)) {
+    code = "PROVIDER_UNAVAILABLE";
   } else if (/TimeoutError/i.test(name)) {
     code = "PROVIDER_TIMEOUT";
   } else if (/UnexpectedResponseError/i.test(name)) {

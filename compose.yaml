@@ -127,6 +127,9 @@ services:
       - type: bind
         source: ./packages/db
         target: /workspace/packages/db
+      - type: bind
+        source: ./packages/polymarket
+        target: /workspace/packages/polymarket
     depends_on:
       postgres:
         condition: service_healthy

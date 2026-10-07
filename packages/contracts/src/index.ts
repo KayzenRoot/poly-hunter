@@ -20,6 +20,38 @@ export type IdentityProvider = (typeof identityProviders)[number];
 export const platformRoles = ["platform_admin"] as const;
 export type PlatformRole = (typeof platformRoles)[number];
 
+export type {
+  AssetId,
+  BestPrices,
+  BookLevel,
+  ConditionId,
+  ConnectionState,
+  DecimalString,
+  DiscoveryPage,
+  MarketDetail,
+  MarketFeeMetadata,
+  MarketId,
+  MarketLifecycleStatus,
+  MarketStreamEvent,
+  MarketStreamHandle,
+  MarketStreamOptions,
+  MarketSummary,
+  OutcomeAsset,
+  OrderBookSnapshot,
+  PolymarketBook,
+  PolymarketDiscovery,
+  PriceChangeItem,
+  ProviderErrorCategory,
+  ProviderErrorCode,
+  ProviderOrderSide,
+  StreamScheduler,
+  StreamSocket,
+  StreamSocketFactory,
+  StreamSocketHandler,
+  StreamState,
+} from "./polymarket.ts";
+export { PolymarketProviderError } from "./polymarket.ts";
+
 /**
  * Verified provider identity produced only by a server-side authentication
  * boundary after signature verification (e.g. getClaims/getUser). The subject

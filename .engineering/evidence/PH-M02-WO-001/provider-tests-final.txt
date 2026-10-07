@@ -1,0 +1,8 @@
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+
+ Test Files  4 passed (4)
+      Tests  35 passed (35)
+   Start at  18:35:41
+   Duration  21.35s (transform 10.00s, setup 0ms, import 58.73s, tests 3.76s, environment 4ms)

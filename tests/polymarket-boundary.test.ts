@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -16,6 +16,7 @@ import * as publicSurface from "../packages/polymarket/src/index.ts";
 
 const repositoryRoot = fileURLToPath(new URL("..", import.meta.url));
 const packageRoot = join(repositoryRoot, "packages", "polymarket");
+const contractsRoot = join(repositoryRoot, "packages", "contracts");
 
 function walk(directory: string): string[] {
   const files: string[] = [];
@@ -58,6 +59,30 @@ describe("polymarket package boundary", () => {
       }
     }
     expect(offenders).toEqual([]);
+  });
+
+  it("keeps provider-neutral contracts in the owned contracts package", () => {
+    expect(existsSync(join(packageRoot, "src", "contracts.ts"))).toBe(false);
+    const neutralContracts = join(contractsRoot, "src", "polymarket.ts");
+    expect(existsSync(neutralContracts)).toBe(true);
+    const neutralSource = readFileSync(neutralContracts, "utf8");
+    const providerSdkImport = new RegExp(
+      "(?:from|import)\\s*[\"']" + "@polymarket" + "/",
+    );
+    expect(neutralSource).not.toMatch(providerSdkImport);
+    const manifest = JSON.parse(
+      readFileSync(join(contractsRoot, "package.json"), "utf8"),
+    ) as { dependencies?: Record<string, string> };
+    expect(manifest.dependencies ?? {}).not.toHaveProperty(
+      "@polymarket/client",
+    );
+
+    const providerManifest = JSON.parse(
+      readFileSync(join(packageRoot, "package.json"), "utf8"),
+    ) as { dependencies: Record<string, string> };
+    expect(providerManifest.dependencies["@polyhunter/contracts"]).toBe(
+      "0.0.0",
+    );
   });
 
   it("exposes only the provider-neutral public surface", async () => {

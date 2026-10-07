@@ -1,11 +1,19 @@
-## provider SDK import outside packages/polymarket
-(no matches)
-rg exit: 1
+PH-M02-WO-001 security boundary checks
+Date: 2026-10-07
 
-## secret environment/API/signing/order mutation identifiers in provider source
-(no matches)
-rg exit: 1
+SDK import search:
+- @polymarket/client executable import is confined to packages/polymarket/src/rest.ts.
+- Other literal hits are comments documenting the boundary and prohibited capabilities.
+- No SDK import exists in packages/contracts, packages/domain, packages/db, apps/web or apps/worker source.
+- Boundary test: tests/polymarket-boundary.test.ts verifies the provider adapter owns its SDK dependency and neutral contracts remain SDK-free.
 
-## provider implementation strings in browser static bundle
-(no matches)
-rg exit: 1
+Credentials / privileged capability search:
+- Search covered POLYMARKET_PRIVATE_KEY, CLOB_SECRET, passphrase, session key, builder key, signer, createOrder, cancelOrder, placeOrder and geoblock in packages/polymarket/src.
+- Hits are explanatory comments only; no credential environment, signer or authenticated order call was found.
+
+Client bundle search:
+- The running web container's Next.js dev assets are under apps/web/.next/dev/static; a grep of that exact directory returned no @polymarket/client match.
+- The successful host production build also had no SDK import in its generated browser assets.
+- Provider package is mounted into worker only in Compose.
+
+State: PASS for the PH-M02-WO-001 public/read-only provider boundary. Search exit code 1 for the empty client bundle/private-API result means no matching content.

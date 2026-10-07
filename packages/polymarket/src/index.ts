@@ -25,8 +25,8 @@ export type {
   StreamSocketFactory,
   StreamSocketHandler,
   StreamState,
-} from "./contracts.ts";
-export { PolymarketProviderError } from "./contracts.ts";
+} from "@polyhunter/contracts";
+export { PolymarketProviderError } from "@polyhunter/contracts";
 export { normalizeWireMarketEvent } from "./wire.ts";
 export {
   compareDecimal,

@@ -1,19 +1,19 @@
 # PH-M02-WO-001 validation receipt
 
-Date: 2026-10-07. Commands ran in the repository on the authorized branch. `npm ci`, `npm run validate`, and the separate `npm audit --audit-level=high` all exited 0.
+Date: 2026-10-07. Final clean install and full validation ran in the authorized branch worktree. The host runtime was Node v26.4.0 with npm 11.17.0, inside the declared >=24 <27 range. The final Docker runtime is Node v24.21.0.
 
 | Check | Result |
 |---|---|
-| `npm ci` | PASS; 159 packages added, 167 audited, 0 vulnerabilities. npm emitted deprecated `@esbuild-kit/*` warnings and an allow-scripts notice for esbuild; install and build completed. |
-| `npm run lint` (inside validate) | PASS; 93 files. One existing informational `noUselessContinue` hint in `packages/db/tests/m01-acceptance.integration.test.ts:945`; not changed in this WO. |
-| `npm run format:check` | PASS; no formatter changes needed. |
-| `npm run typecheck` | PASS across contracts, domain, db, testkit, new polymarket package, worker, web, and root tests. |
-| `npm test` | PASS; 14 files, 223 tests. |
-| `npm run build` | PASS; all workspaces and Next.js web production build completed. |
-| `npm audit --audit-level=high` | PASS; 0 dependency vulnerabilities. Run once within validate and once separately after validate. |
-| Targeted provider suite (`npx vitest run` with four `tests/polymarket-*.test.ts` files) | PASS; 4 files, 34 tests. Full output: `provider-tests.txt`. |
-| `git diff --check` | PASS before evidence composition; will be repeated on the exact staged diff before commit. |
+| npm ci | PASS; 159 packages added, 167 audited, zero dependency vulnerabilities. npm reported legacy @esbuild-kit deprecation warnings and four esbuild install-script approval warnings; install completed. |
+| npm run lint (inside validate) | PASS; 94 files. One pre-existing informational noUselessContinue hint at packages/db/tests/m01-acceptance.integration.test.ts:945; this Work Order did not alter that test. |
+| npm run format:check | PASS; 94 files, no changes required. |
+| npm run typecheck | PASS across contracts, domain, db, testkit, polymarket, worker, web and root tests. |
+| npm test (inside validate) | PASS; 15 files, 238 tests. |
+| npm run build (inside validate) | PASS; all workspaces and Next.js 16.3.8 production build completed. |
+| npm audit --audit-level=high | PASS; zero dependency vulnerabilities, both inside validate and as a separate command. |
+| Focused provider suite | PASS; 4 files, 35 tests covering boundary, decimals/events, REST behavior and stream lifecycle. Raw output: provider-tests-final.txt. |
+| Docker Compose config | PASS with explicit project polyhunter-local. |
+| Docker runtime | PASS; web HTTP 200/healthy, PostgreSQL healthy, worker process running; Node 24.21.0 worker import smoke resolves the provider adapter. |
+| git diff --cached --check | PASS on the exact staged source, checkpoint and evidence set. |
 
-`npm run validate` also runs the dependency audit. The dependency audit result does not override the exact-image Docker Scout HIGH/CRITICAL blockers documented in `security-scans.md`.
-
-The full test/build output was observed in the command tool; only the targeted provider test output is retained as raw test text. The command-level outcomes and counts above are summaries, not claimed as a raw transcript.
+The npm dependency audit does not clear exact-image Docker Scout findings. Exact image findings and digest-bound dispositions are recorded in security-scans.md and security-scans.json. Final gate remains BLOCKED_UNRESOLVED for unresolved image findings.

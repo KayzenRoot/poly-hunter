@@ -18,7 +18,8 @@ See `.engineering/SOURCE-HIERARCHY.md` for authority and `.engineering/BACKLOG.m
 
 ## Development
 
-Use Node.js `>=22 <27` and npm. CI uses Node.js 24 LTS.
+Use Node.js `>=24 <27` and npm. The official `@polymarket/client` workspace
+requires Node.js 24 or newer; CI and the local Docker image use Node.js 24.
 
 ```sh
 npm ci

@@ -1,4 +1,4 @@
-import type { DecimalString } from "./contracts.ts";
+import type { DecimalString } from "@polyhunter/contracts";
 
 /**
  * Exact decimal-string handling for provider prices/sizes.

@@ -5,7 +5,7 @@ import {
   createPolymarketBook,
   createPolymarketDiscovery,
   type AssetId,
-  type ConditionId,
+  type MarketId,
 } from "../packages/polymarket/src/index.ts";
 import { GAMMA_KEYSET_PAGE_1 } from "../packages/polymarket/src/fixtures/gamma-keyset.ts";
 import {
@@ -206,19 +206,37 @@ describe("polymarket discovery over the official SDK", () => {
   it("fetches market detail with outcome/asset mapping and fee metadata", async () => {
     const discovery = createPolymarketDiscovery({ gammaRestUrl: gammaUrl });
     try {
-      const detail = await discovery.fetchMarketDetail(
-        GAMMA_KEYSET_PAGE_1.markets[0]?.conditionId as ConditionId,
-      );
+      const marketId = GAMMA_KEYSET_PAGE_1.markets[0]?.id as MarketId;
+      const detail = await discovery.fetchMarketDetail(marketId);
       expect(detail.marketId).toBe("559001");
+      expect(seenRequests).toContain("GET /markets/559001");
       expect(detail.status).toBe("active");
       expect(detail.outcomes.length).toBe(2);
       expect(detail.fees.feesEnabled).toBe(true);
+      const countBeforeInvalidInput = seenRequests.length;
       await expect(
         discovery.fetchMarketDetail(
-          "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809" as ConditionId,
+          "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809" as MarketId,
         ),
-      ).rejects.toMatchObject({ code: "PROVIDER_MALFORMED" });
+      ).rejects.toMatchObject({ code: "PROVIDER_BAD_REQUEST" });
+      expect(seenRequests).toHaveLength(countBeforeInvalidInput);
+
+      marketDetailOverride = {
+        ...GAMMA_KEYSET_PAGE_1.markets[0],
+        id: "559002",
+      };
+      await expect(discovery.fetchMarketDetail(marketId)).rejects.toMatchObject(
+        { code: "PROVIDER_MALFORMED" },
+      );
+      marketDetailOverride = {
+        ...GAMMA_KEYSET_PAGE_1.markets[0],
+        conditionId: "not-a-condition-id",
+      };
+      await expect(discovery.fetchMarketDetail(marketId)).rejects.toMatchObject(
+        { code: "PROVIDER_MALFORMED" },
+      );
     } finally {
+      marketDetailOverride = null;
       await discovery.close();
     }
   });
@@ -240,7 +258,7 @@ describe("polymarket discovery over the official SDK", () => {
     };
     try {
       const detail = await discovery.fetchMarketDetail(
-        GAMMA_KEYSET_PAGE_1.markets[0]?.conditionId as ConditionId,
+        GAMMA_KEYSET_PAGE_1.markets[0]?.id as MarketId,
       );
       expect(detail.status).toBe("resolved");
       expect(detail.outcomes.map((outcome) => outcome.assetId)).toEqual(
@@ -349,16 +367,30 @@ describe("polymarket book/price over the official SDK", () => {
   it("normalizes SDK error names without importing SDK types across tests", async () => {
     // Duck-typed classification is part of the boundary contract: these plain
     // fakes replicate the SDK error shapes by name only.
-    const fake = Object.assign(new Error("too many"), {
-      name: "RateLimitError",
-    });
     const { normalizeProviderError } = await import(
       "../packages/polymarket/src/errors.ts"
     );
-    expect(normalizeProviderError(fake).code).toBe("PROVIDER_RATE_LIMITED");
-    const timeout = Object.assign(new Error("timed out"), {
-      name: "TimeoutError",
+    const namedError = (name: string, message: string) =>
+      Object.assign(new Error(message), { name });
+    expect(
+      normalizeProviderError(namedError("UserInputError", "bad input")),
+    ).toMatchObject({ code: "PROVIDER_BAD_REQUEST", category: "permanent" });
+    expect(
+      normalizeProviderError(namedError("TransportError", "offline")),
+    ).toMatchObject({ code: "PROVIDER_UNAVAILABLE", category: "transient" });
+    expect(
+      normalizeProviderError(
+        namedError("UnexpectedResponseError", "unexpected body"),
+      ),
+    ).toMatchObject({ code: "PROVIDER_MALFORMED", category: "malformed" });
+    expect(
+      normalizeProviderError(namedError("RateLimitError", "too many")),
+    ).toMatchObject({
+      code: "PROVIDER_RATE_LIMITED",
+      category: "rate_limited",
     });
-    expect(normalizeProviderError(timeout).code).toBe("PROVIDER_TIMEOUT");
+    expect(
+      normalizeProviderError(namedError("TimeoutError", "timed out")),
+    ).toMatchObject({ code: "PROVIDER_TIMEOUT", category: "transient" });
   });
 });

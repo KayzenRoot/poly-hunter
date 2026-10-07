@@ -10,7 +10,7 @@ import {
   type StreamScheduler,
   type StreamState,
   PolymarketProviderError,
-} from "./contracts.ts";
+} from "@polyhunter/contracts";
 import { normalizeWireMarketEvent } from "./wire.ts";
 
 /**
