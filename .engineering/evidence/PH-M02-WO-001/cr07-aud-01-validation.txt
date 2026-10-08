@@ -32,6 +32,6 @@ Evidence checks:
 - TypeSafe JEV MCP `jev_gate` v1.13.0 — `escalate`, composite 0.8563 / safe_to_apply 0.19; four claims verified, one unsupported and two needing review. The advisory verified expanded consumer/indirect-path uncertainty but does not approve or clear the CVE. Full receipt: `jev-cr07-aud-01-gate.json`.
 
 Hosted validation:
-The input HEAD had GitHub Actions Validate PASS, run 37712387792. A new exact-head GitHub Actions Validate is required after pushing this evidence-only correction; its final SHA, run URL, and conclusion are recorded in the PR #43 body. The CI result does not resolve the security finding.
+Input HEAD d4b48a8605719df818c0b7cd8517ab55d2b553d3: GitHub Actions Validate PASS, run 37712387792. Correction head 5ea9950eb34ac5070885664ef5d9997946106732: Validate PASS, run 37725131129 (https://github.com/KayzenRoot/poly-hunter/actions/runs/37725131129). The next evidence-only final head receives a separate exact-head Validate; its SHA and result are recorded in PR #43. CI does not resolve the security finding.
 
 This receipt records test and artifact validation only; it does not approve the pending security findings. PostgreSQL zlib CVE-2026-85091 remains UNDER_INVESTIGATION with no proposed disposition because the exact PostgreSQL-ABI trigger chain and attacker-controlled arbitrary SQL path remain unproven.

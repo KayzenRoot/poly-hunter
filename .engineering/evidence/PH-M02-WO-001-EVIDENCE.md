@@ -1,6 +1,6 @@
 # PH-M02-WO-001 — Evidence Bundle / CR-07
 
-- Audited input head `d4b48a8605719df818c0b7cd8517ab55d2b553d3`: GitHub Actions Validate PASS, run [37712387792](https://github.com/KayzenRoot/poly-hunter/actions/runs/37712387792). The old `PENDING_EXACT_HEAD_CI` note was stale. This correction changes evidence/governance only; Validate must also pass on the final pushed correction head, recorded in PR #43. Work Order disposition is `BLOCKED_UNRESOLVED` due the zlib reachability proof gap, independent of CI.
+- Audited input head `d4b48a8605719df818c0b7cd8517ab55d2b553d3`: GitHub Actions Validate PASS, run [37712387792](https://github.com/KayzenRoot/poly-hunter/actions/runs/37712387792). Correction head `5ea9950eb34ac5070885664ef5d9997946106732`: Validate PASS, run [37725131129](https://github.com/KayzenRoot/poly-hunter/actions/runs/37725131129). The old `PENDING_EXACT_HEAD_CI` note was stale. This correction changes evidence/governance only; the subsequent evidence-only final head is validated separately and recorded in PR #43. Work Order disposition is `BLOCKED_UNRESOLVED` due the zlib reachability proof gap, independent of CI.
 - Review: 5450599754
 - PR: #43
 - Branch: `feat/ph-m02-public-provider-foundation`
@@ -50,7 +50,7 @@ Full per-occurrence proof and evidence hashes: [CR-07-VEX.json](PH-M02-WO-001/CR
 
 ## Validation and runtime evidence
 
-The final follow-up image was rebuilt with `--pull --no-cache` after adding `--ignore-scripts`. Its exact image ID is `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1`; the full fresh scans were rerun against this artifact and yielded the same CVE result set. The audited input head d4 has GitHub Actions Validate PASS (run 37712387792). The evidence-only correction head starts a new exact-head workflow run after push; the final SHA and result will be recorded in PR #43. No CI result changes the unresolved VEX finding.
+The final follow-up image was rebuilt with `--pull --no-cache` after adding `--ignore-scripts`. Its exact image ID is `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1`; the full fresh scans were rerun against this artifact and yielded the same CVE result set. The audited input head d4 has GitHub Actions Validate PASS (run 37712387792), and the correction head 5ea9950 has Validate PASS (run 37725131129). The final evidence-only follow-up head is gated by exact-head Validate; its SHA and result are recorded in PR #43. No CI result changes the unresolved VEX finding.
 
 The actual final Dockerfile/image tree was checked with:
 
