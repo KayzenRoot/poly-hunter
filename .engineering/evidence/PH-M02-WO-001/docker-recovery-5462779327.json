@@ -1,0 +1,87 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "review": "5462779327",
+  "observedAtUtc": "2026-10-08T21:19:42Z",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "headBeforeEvidenceUpdate": "9880bc4377aa0be25d59ac00e5241ea7342db2e3",
+  "base": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "result": "BLOCKED_OS_ADMIN_APPROVAL_REQUIRED",
+  "host": {
+    "user": "GOODZ\\csn19",
+    "isAdministrator": false,
+    "dockerDesktopExecutable": "C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe",
+    "dockerDesktopExecutablePresent": true
+  },
+  "docker": {
+    "context": "desktop-linux",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "clientVersion": "29.7.2",
+    "composeVersion": "v5.4.0",
+    "serverReachable": false,
+    "serverError": "The system cannot find the file specified while opening //./pipe/dockerDesktopLinuxEngine.",
+    "composePs": {
+      "result": "FAILED",
+      "error": "Same missing dockerDesktopLinuxEngine named pipe; container state could not be read."
+    },
+    "imageIdentity": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE",
+    "containerHealth": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE"
+  },
+  "service": {
+    "name": "com.docker.service",
+    "state": "Stopped",
+    "startType": "Manual",
+    "account": "LocalSystem",
+    "binaryPath": "C:\\Program Files\\Docker\\Docker\\com.docker.service",
+    "windowsExitCode": 1077,
+    "unprivilegedStartAttempt": "FAILED: Cannot open 'com.docker.service' service on computer '.'"
+  },
+  "wsl": {
+    "service": {
+      "name": "WSLService",
+      "state": "Running",
+      "startType": "Automatic"
+    },
+    "dockerDesktopDistribution": {
+      "name": "docker-desktop",
+      "state": "Stopped",
+      "version": 2
+    },
+    "dataWasModified": false
+  },
+  "recoveryAttempts": [
+    {
+      "action": "Start Docker Desktop using the installed executable with the standard Windows RunAs/UAC mechanism",
+      "observation": "A process was returned, but the Docker service remained Stopped and the Engine pipe remained unavailable."
+    },
+    {
+      "action": "Request standard UAC elevation for a PowerShell helper that only runs Start-Service -Name com.docker.service and writes a status receipt",
+      "observation": "No helper result receipt or elevated helper process was observed; the service remained Stopped. Administrative consent/start was not established in this session."
+    }
+  ],
+  "runtimeProbes": {
+    "composeProject": "polyhunter-local",
+    "composePs": "FAILED: Docker Engine endpoint unavailable",
+    "webUrl": "http://localhost:3000",
+    "httpStatus": null,
+    "httpResult": "Connection refused",
+    "postgresHealthy": null,
+    "workerRunning": null,
+    "containerRestartCounts": null,
+    "startupLogs": "NOT_AVAILABLE: no Docker Engine connection; Docker log directory contained only host/vm directories and no recent files."
+  },
+  "scopeProtection": {
+    "dockerComposeUpInvoked": false,
+    "imagesRebuilt": false,
+    "imagesRescanned": false,
+    "volumesDeletedOrChanged": false,
+    "wslUnregisteredOrReset": false,
+    "credentialsReadOrPrinted": false,
+    "productFilesChanged": false
+  },
+  "manualActionRequired": "A Windows administrator must approve the normal UAC prompt for Docker Desktop/service startup, or open an elevated PowerShell and run Start-Service -Name com.docker.service; then launch Docker Desktop and wait until docker info succeeds. Resume this Work Order after Engine health is restored.",
+  "limitations": [
+    "No current Compose container, healthcheck, restart count, process, or image digest can be verified while the Engine endpoint is absent.",
+    "Historical runtime and image receipts are not treated as current proof."
+  ]
+}

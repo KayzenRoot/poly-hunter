@@ -203,3 +203,31 @@ Canonical completion remains through PH-M01; production-weighted completion rema
 - Final Compose check: web HTTP 200 and healthy, worker running, PostgreSQL healthy. No image or volume changes occurred after the exact-image scans.
 - The Evidence Bundle manifest was reconciled for the replacement final validation log and explicit audit receipt. SHA-256 integrity verification passed across 87 pre-receipt entries; integrity receipt `dev-alpine-final-evidence-integrity.json` is bound in `CR-07-VEX.json`, and the post-binding check passed across all 88 entries.
 - Terminal-captured text receipts had trailing spaces and blank tail lines removed for clean diff validation; substantive command output and exit results were preserved.
+
+## CR-07-AUD-09 — Windows Docker Desktop recovery attempt (review 5462779327)
+
+Observed 2026-10-08 21:19:42 UTC on branch `feat/ph-m02-public-provider-foundation`, starting HEAD `9880bc4377aa0be25d59ac00e5241ea7342db2e3` (PR #43 base `a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c`). The working tree was clean before this evidence-only update.
+
+Current Docker CLI is 29.7.2; Compose CLI is v5.4.0; context is `desktop-linux` at `npipe:////./pipe/dockerDesktopLinuxEngine`. `docker version` and `docker info` can read client metadata but cannot connect to the server because the named pipe does not exist. `docker compose --project-name polyhunter-local ps` fails for the same reason. `http://localhost:3000` refused the connection. Current image IDs/digests, container health, restart counts, PostgreSQL readiness, worker process, startup logs, and container logs therefore remain unverified; prior runtime receipts are historical only.
+
+Installed executable: `C:\Program Files\Docker\Docker\Docker Desktop.exe`. Current account `GOODZ\csn19` is not a Windows administrator. `com.docker.service` is `Stopped`, `Manual`, runs as `LocalSystem`, and points to `C:\Program Files\Docker\Docker\com.docker.service`; its Windows service exit code is 1077 (no start attempt since boot). An unprivileged `Start-Service` attempt failed with `Cannot open 'com.docker.service' service on computer '.'`. `WSLService` is `Running`/`Automatic`; WSL distro `docker-desktop` is version 2 and `Stopped`. The local Docker log directory had only `host` and `vm` directories and no recent files to inspect.
+
+The installed Desktop executable was started through the normal RunAs/UAC mechanism, but the service stayed stopped and the Engine remained unavailable. A separate standard UAC request for a helper limited to starting `com.docker.service` produced no helper result receipt or elevated helper process; no successful administrative authorization is evidenced. No `npm run docker:up` was run because the Engine precondition failed. No images were rebuilt/rescanned; no volume, WSL data, credentials, or product files were changed.
+
+**STOP: `BLOCKED_OS_ADMIN_APPROVAL_REQUIRED`.** Manual action: a Windows administrator must approve the normal UAC prompt for Docker Desktop/service startup, or open elevated PowerShell and run `Start-Service -Name com.docker.service`; then launch Docker Desktop and wait until `docker info` succeeds. Resume PH-M02-WO-001 after that. Receipt: `.engineering/evidence/PH-M02-WO-001/docker-recovery-5462779327.json`.
+
+Receipt SHA-256: `c93bd2ae744ca5626dcf1ca062166c2418ff6df79e2851cda8f5cdf225afc997`.
+
+### Project Progress Snapshot — review 5462779327
+
+Review: PH-M02-WO-001 / PR #43 — `BLOCKED_OS_ADMIN_APPROVAL_REQUIRED` — starting head `9880bc4377aa0be25d59ac00e5241ea7342db2e3`; evidence-only recovery record follows.
+
+Canonical completed through: PH-M01 (`M01_IMPLEMENTATION_COMPLETE / STOP_AFTER_PH_M01_WO_004`). Canonical completion: N/A (production denominator is 0). Estimated MVP completion: ~17–22% done / ~78–83% remaining. Active PH-M02-WO-001 estimate: ~95–98% evidence complete, still below completion because current local runtime proof is required.
+
+Done: approved technical evidence through CR-07-AUD-08; exact dev and PostgreSQL image security evidence; historical local integration/runtime receipts; exact prior-head GitHub validation. The canonical checkpoint remains unchanged.
+
+Remaining: obtain Windows administrator UAC approval, start Docker Desktop/Engine without resetting data, run canonical `npm run docker:up`, and collect current Compose health, web HTTP 200, worker, PostgreSQL, image identity, restart and sanitized log evidence. The 24 current PostgreSQL VEX proposals still await independent audit and owner decisions. No VEX was approved.
+
+Estimated time: Next milestone ~15–30 minutes active execution after administrator access; wall-clock is externally gated by Windows admin availability. MVP timing: unknown because later necessary Work Orders remain governed/external. Estimated prompts: 1 executor prompt to runtime proof after admin access; ~12–25 to MVP. Review/correction cycles: 1–2 for this increment; further increments remain separately gated.
+
+Confidence: LOW. Basis: current Windows service/WSL state, Docker CLI errors, HTTP probe and exact PR state. The administrative action is not available to this executor session; no runtime success is inferred from historical evidence.
