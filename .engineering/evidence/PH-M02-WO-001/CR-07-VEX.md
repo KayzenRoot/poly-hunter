@@ -1,0 +1,50 @@
+# PH-M02-WO-001 — CR-07 VEX reconciliation
+
+- Review: 5448950464
+- Branch: `feat/ph-m02-public-provider-foundation`
+- Base: `a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c`
+- Reviewed code head: `d298c0610dd5dce0e4e08a14640c361e00b285ff`
+- Scanner: Docker Scout CLI 1.24.0
+- Assessment date: 2026-10-07
+
+## Result
+
+**READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT.** The stable remediation candidates have been exhausted and each remaining image finding or version-applicable source row has an individual proposed disposition with exact runtime evidence. Every proposal remains `UNDER_INVESTIGATION`, with `proposedDisposition: NOT_AFFECTED`; independent auditor and owner approval are still pending. This is readiness for review only. It does not clear scanner findings, authorize merge, promote the canonical checkpoint, or change `liveTradingAuthorized=false`.
+
+## Frozen final artifacts and full scans
+
+| Image | Immutable local digest | SARIF results | LOW | MEDIUM | HIGH | CRITICAL | Suppressed |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `polyhunter-dev:local` | `sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47` | 35 | 26 | 7 | 2 | 0 | 0 |
+| `postgres:17.11-alpine3.24` | `sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | 58 | 7 | 26 | 23 | 2 | 0 |
+
+The dev scan contains only `CVE-2026-85091` and `CVE-2026-95619` at HIGH. PostgreSQL has 25 HIGH/CRITICAL results: 24 retain prior owner/auditor-approved dispositions bound to this exact unchanged digest, and zlib `CVE-2026-85091` is the sole new proposal. Full scan receipts and SHA-256 values are in [cr07-full-final-scan-reconciliation.txt](cr07-full-final-scan-reconciliation.txt), [polyhunter-dev-cr07-full-final.sarif.json](polyhunter-dev-cr07-full-final.sarif.json), and [postgres-cr07-full-final.sarif.json](postgres-cr07-full-final.sarif.json).
+
+## Individual proposals
+
+| Occurrence | Component/version | KEV | EPSS (2026-10-07) | Code and execution path | Attacker control / prerequisites | Proposed VEX |
+|---|---|---:|---:|---|---|---|
+| Dev — CVE-2026-95619 | Debian `gcc-14` / libstdc++ `14.2.0-19` | No | 0.00363 / 0.28083 | Aligned `operator new` exists, but the exact final library validates alignment and passes the original size to `posix_memalign`; the vulnerable overflow/round-up operation is absent. Exact library hash is recorded. | Requires an attacker-controlled sufficiently large aligned allocation through a C++ consumer. The image links the operator, but the inspected implementation does not perform vulnerable arithmetic. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_not_present`. |
+| Dev — CVE-2026-85091 | Debian `zlib1g` `1:1.3.dfsg+really1.3.1-1+b1`; Node bundled zlib `1.3.2.1-motley-8002e91` | No | 0.00592 / 0.46608 | Exact Debian 1.3.1 source lacks `gz_vacate`. Node's vendored zlib version is separately recorded; Node's v24.21.0 JS binding uses `deflate`/`inflate` stream contexts and does not expose/call `gzprintf` or `gzvprintf`; Node does not link the system `libz.so.1`. | Requires non-blocking `gzwrite` to stall, followed by `gzprintf`/`gzvprintf`. Provider data has no app path to those C entry points. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_not_in_execute_path`. |
+| PostgreSQL — CVE-2026-85091 | Alpine `zlib` `1.3.2-r0`; library hash recorded | No | 0.00592 / 0.46608 | Vulnerable code is present. Exact imports: `postgres` uses `deflate`; `pg_dump` and `pg_restore` import `gzwrite`/`gzopen`, but none imports `gzprintf`/`gzvprintf`. Only PostgreSQL server processes run; dump/restore are not invoked by the app. | Requires a stalled non-blocking gzip write and a subsequent formatted gzip call. No installed consumer imports the trigger API. PostgreSQL has no published host port and runs as UID 70 with zero effective capabilities. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_not_in_execute_path`. |
+| Dev — CVE-2026-76642 | Debian `util-linux` `2.41.5-0+deb13u1` | No | 0.00216 / 0.10985 | Mount/libmount and X-mount hook code exist. Runtime fstab is root-owned mode 0644 and contains only the unconfigured-base comment; no external mount helper exists. App has no mount invocation. | Requires an fstab-authorized external helper entry and X-mount hook usable by the local account. Neither the entry nor helper exists, and UID 1000 cannot create them. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_cannot_be_controlled_by_adversary`. |
+| Dev — CVE-2026-78408 | Debian `util-linux` `2.41.5-0+deb13u1` | No | 0.00186 / 0.07543 | `nsenter --join-cgroup` code exists. `nsenter` is mode 0755, not SUID; app has no call site; container PID namespace is private; effective capabilities are zero and `CAP_SYS_ADMIN` is absent from the bounding set. | Requires a privileged operator to run `nsenter --join-cgroup` against an attacker-controlled target. The app has no command, PID, or namespace input path to that operation. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_cannot_be_controlled_by_adversary`. |
+| Dev — CVE-2026-78410 | Debian `util-linux` `2.41.5-0+deb13u1` | No | 0.00156 / 0.04143 | `mount` and `X-mount.owner/group/mode` code exist. Root-owned fstab has no entries; the service cannot change it; app has no mount call site. | Requires an fstab-authorized restricted bind source with the owner/group/mode hook and attacker control of that source or ancestor. Those prerequisites are absent. | `UNDER_INVESTIGATION`; propose `NOT_AFFECTED`, `vulnerable_code_cannot_be_controlled_by_adversary`. |
+
+The three util-linux rows above are source-tracker reconciliation rows, not rows in final Scout SARIF. They remain disclosed because the current Trixie version is in upstream affected ranges for CVE-2026-76642, CVE-2026-78408, and CVE-2026-78410. Their absence from SARIF is not counted as a fix. CVE-2026-78409 is excluded from final findings because Red Hat's affected range begins at v2.42 and explicitly says v2.40/v2.41 are not affected; final util-linux is v2.41.5.
+
+## Source and evidence references
+
+- CVE-2026-95619: [Red Hat advisory](https://access.redhat.com/security/cve/cve-2026-95619); exact disassembly [gcc-aligned-new-runtime.txt](gcc-aligned-new-runtime.txt), byte-identity check [cr07-native-library-revalidation.txt](cr07-native-library-revalidation.txt).
+- CVE-2026-85091: [Debian tracker](https://security-tracker.debian.org/tracker/CVE-2026-85091), [exact Debian 1.3.1 source](https://sources.debian.org/src/zlib/1%3A1.3.dfsg%2Breally1.3.1-1/gzwrite.c/), [upstream non-blocking introduction](https://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d), [upstream fix](https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148), [Node v24.21.0 binding](https://github.com/nodejs/node/blob/v24.21.0/src/node_zlib.cc). Runtime and import receipts: [dev-cr07-final-runtime-inspection.txt](dev-cr07-final-runtime-inspection.txt), [postgres-cr07-runtime-inspection.txt](postgres-cr07-runtime-inspection.txt), [postgres-cr07-symbol-reachability-exact.txt](postgres-cr07-symbol-reachability-exact.txt).
+- CVE-2026-76642: [Debian tracker](https://security-tracker.debian.org/tracker/CVE-2026-76642), [upstream advisory](https://github.com/util-linux/util-linux/security/advisories/GHSA-m25x-3hj9-m26f), [Debian fixed-source notice](https://tracker.debian.org/news/1793594/accepted-util-linux-2423-1-source-into-unstable/).
+- CVE-2026-78408: [Red Hat advisory](https://access.redhat.com/security/cve/cve-2026-78408).
+- CVE-2026-78409 version reconciliation: [Red Hat advisory](https://access.redhat.com/security/cve/cve-2026-78409).
+- CVE-2026-78410: [upstream advisory](https://github.com/util-linux/util-linux/security/advisories/GHSA-rh77-686x-2f2m), [Red Hat advisory](https://access.redhat.com/security/cve/cve-2026-78410).
+- KEV/EPSS and exact values: [cr07-kev-epss-reconciliation.json](cr07-kev-epss-reconciliation.json). Current KEV catalog version `2026.10.04`; none of the listed CVEs is in KEV.
+- Runtime configuration, fstab, utilities, capabilities and process commands: [dev-cr07-util-linux-runtime-context.txt](dev-cr07-util-linux-runtime-context.txt), [dev-cr07-util-linux-features.txt](dev-cr07-util-linux-features.txt), [cr07-compose-runtime-final.json](cr07-compose-runtime-final.json), [provider-subprocess-reachability-cr07.txt](provider-subprocess-reachability-cr07.txt).
+- No newer Debian Trixie package candidate for the three remaining base packages: [trixie-security-candidate-apt-policy.txt](trixie-security-candidate-apt-policy.txt).
+
+## Approval state and expiry
+
+Executor disposition for all six proposals: `UNDER_INVESTIGATION` with `proposedDisposition=NOT_AFFECTED`. `independentAuditor=null`, `ownerApproval=null`; no suppression or executor self-approval exists. Local-dev proposal expiry is 2026-10-14T23:59:59Z, or earlier on a new image digest, scan result, advisory, KEV change, or material runtime/exposure change. Machine-readable rows and per-artifact hashes are in [CR-07-VEX.json](CR-07-VEX.json).

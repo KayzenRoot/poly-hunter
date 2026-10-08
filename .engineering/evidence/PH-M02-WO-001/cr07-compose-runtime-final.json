@@ -1,0 +1,59 @@
+[
+  {
+    "service": "web",
+    "containerId": "26efc056acb857e2ec8793ebf5c55b47274c830f1c7052e3efb4e3b35a663f6f",
+    "name": "polyhunter-web",
+    "image": "polyhunter-dev:local",
+    "imageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+    "state": "running",
+    "health": "healthy",
+    "user": "node",
+    "pidMode": "",
+    "capAdd": null,
+    "capDrop": null,
+    "readonlyRootfs": false,
+    "ports": {
+      "3000/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "3000"
+        }
+      ]
+    },
+    "processEvidence": "Name:\tdocker-init\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=/sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 "
+  },
+  {
+    "service": "worker",
+    "containerId": "4f11035dcde8a08970638eebeec33f00b80fd717bc3e743a9320f8c3aebfa9e7",
+    "name": "polyhunter-worker",
+    "image": "polyhunter-dev:local",
+    "imageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+    "state": "running",
+    "health": null,
+    "user": "node",
+    "pidMode": "",
+    "capAdd": null,
+    "capDrop": null,
+    "readonlyRootfs": false,
+    "ports": {},
+    "processEvidence": "Name:\tdocker-init\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=/sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts "
+  },
+  {
+    "service": "postgres",
+    "containerId": "08cb837767cf9b2a53058a8d7cd514eb18dcd2a0c4a86e1abdf02186a0987e7d",
+    "name": "polyhunter-postgres",
+    "image": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+    "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+    "state": "running",
+    "health": "healthy",
+    "user": "",
+    "pidMode": "",
+    "capAdd": null,
+    "capDrop": null,
+    "readonlyRootfs": false,
+    "ports": {
+      "5432/tcp": null
+    },
+    "processEvidence": "Name:\tpostgres\nUid:\t70\t70\t70\t70\nGid:\t70\t70\t70\t70\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=postgres "
+  }
+]

@@ -1,0 +1,484 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Docker Scout",
+          "informationUri": "https://docker.com/products/docker-scout",
+          "name": "docker scout",
+          "rules": [
+            {
+              "id": "CVE-2026-102276",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-102276: Uncontrolled Resource Consumption"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-102276?s=github&n=brace-expansion&t=npm&vr=%3E%3D4.0.0%2C%3C5.0.10",
+              "help": {
+                "text": "### Summary\n\n`parseCommaParts()` can exhaust the native stack and crash the process. There are two distinct ways to trigger it, both reachable from a single untrusted pattern string.\n\nThis is the parsing-side counterpart to CVE-2026-14257 / GHSA-mh99-v99m-4gvg. That fix made `expand_()` iterative and documented a constant-stack-depth guarantee, but `parseCommaParts()` was left recursive, so the guarantee only held for one of the two parsing paths.\n\n### Vector 1 - unbounded recursion on `post`\n\n`parseCommaParts()` recursed on the remainder of the string once per brace group:\n\n```js\nconst postParts = parseCommaParts(post)   // unbounded\n```\n\nA brace group containing many comma-separated groups drives one recursion level per group:\n\n```js\nexpand('{' + '{a},'.repeat(7000) + 'b}')\n// RangeError: Maximum call stack size exceeded\n```\n\nAbout 7,300 repetitions - roughly 29 KB of input - is enough on Node 24; roughly 6,300 (25 KB) on Node 18. The threshold is identical on every affected release line.\n\n### Vector 2 - `push.apply` with an unbounded array\n\nEven with the recursion removed, `parseCommaParts()` spread whole arrays into an argument list:\n\n```js\np.push.apply(p, postParts)\nparts.push.apply(parts, p)\n```\n\n`Function.prototype.apply` places one argument per element on the stack, so a single large array overflows it. This needs **no recursion depth at all** - the following reaches a recursion depth of exactly 1:\n\n```js\nexpand('{{x},' + 'a,'.repeat(125000) + 'b}')\n// RangeError: Maximum call stack size exceeded\n```\n\nThreshold is about 124,300 repetitions (~249 KB). This vector was not part of the original report; it was found while verifying the fix. A patch that only de-recurses but keeps `push.apply` leaves a working denial of service behind.\n\n### Why `max` and `maxLength` do not help\n\nBoth crashes happen during **parsing**, before any expansion. The payloads produce one result per group, so output size grows linearly with input and is never the limiter. `expand(payload, { max: 1, maxLength: 1 })` still overflows.\n\n### Impact\n\nAny application that passes an untrusted string to `expand()` - directly, or through `minimatch` / `glob` where it is a user-supplied glob pattern - can be crashed. In Node, a `RangeError` that the application does not catch terminates the process, so a server that globs user input is exposed to remote unauthenticated denial of service.\n\n`minimatch`'s own `MAX_PATTERN_LENGTH` cap (65,536) does not help against vector 1: the overflow threshold sits well below it. Confirmed on minimatch 10.2.6 - a 64,003-byte pattern passes the length check and overflows both `minimatch.braceExpand()` and `new minimatch.Minimatch()`.\n\nThis is an availability-only issue. No code execution and no data exposure.\n\n### Not a regression\n\n5.0.8 and 5.0.9 overflow at the same repetition count, so the gap predates the recent advisories; those fixes simply did not reach it. Verified affected on 1.1.18, 2.1.4, 3.0.6, 5.0.8 and 5.0.9, all at an identical threshold.\n\n### Patch\n\n`parseCommaParts()` is rewritten as a loop that carries the partial part across chunks, and every array append uses an element-by-element loop rather than `push.apply`. The redundant `if (!str) return ['']` guard is dropped - the loop returns `['']` for the empty string on its own.\n\nEquivalence of the old and new implementations was checked by differential testing: exhaustive over every string of `{`, `}`, `,`, `a` up to length 7 plus 300,000 random inputs - 322,000 cases, zero mismatches.\n\n### Severity note\n\nScored 7.5 High under CVSS 3.1 for consistency with the other availability advisories on this package (GHSA-mh99-v99m-4gvg, GHSA-rgw5-rvv9-x895), which use the same vector. The reporter self-assessed 6.9 Medium under CVSS 4.0 (`CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N`).\n\n### Credit\n\nReported by baeseungwon1010, with a working proof of concept and a proposed patch. Vector 2 was identified during maintainer verification.\n",
+                "markdown": "> ### Summary\n\n`parseCommaParts()` can exhaust the native stack and crash the process. There are two distinct ways to trigger it, both reachable from a single untrusted pattern string.\n\nThis is the parsing-side counterpart to CVE-2026-14257 / GHSA-mh99-v99m-4gvg. That fix made `expand_()` iterative and documented a constant-stack-depth guarantee, but `parseCommaParts()` was left recursive, so the guarantee only held for one of the two parsing paths.\n\n### Vector 1 - unbounded recursion on `post`\n\n`parseCommaParts()` recursed on the remainder of the string once per brace group:\n\n```js\nconst postParts = parseCommaParts(post)   // unbounded\n```\n\nA brace group containing many comma-separated groups drives one recursion level per group:\n\n```js\nexpand('{' + '{a},'.repeat(7000) + 'b}')\n// RangeError: Maximum call stack size exceeded\n```\n\nAbout 7,300 repetitions - roughly 29 KB of input - is enough on Node 24; roughly 6,300 (25 KB) on Node 18. The threshold is identical on every affected release line.\n\n### Vector 2 - `push.apply` with an unbounded array\n\nEven with the recursion removed, `parseCommaParts()` spread whole arrays into an argument list:\n\n```js\np.push.apply(p, postParts)\nparts.push.apply(parts, p)\n```\n\n`Function.prototype.apply` places one argument per element on the stack, so a single large array overflows it. This needs **no recursion depth at all** - the following reaches a recursion depth of exactly 1:\n\n```js\nexpand('{{x},' + 'a,'.repeat(125000) + 'b}')\n// RangeError: Maximum call stack size exceeded\n```\n\nThreshold is about 124,300 repetitions (~249 KB). This vector was not part of the original report; it was found while verifying the fix. A patch that only de-recurses but keeps `push.apply` leaves a working denial of service behind.\n\n### Why `max` and `maxLength` do not help\n\nBoth crashes happen during **parsing**, before any expansion. The payloads produce one result per group, so output size grows linearly with input and is never the limiter. `expand(payload, { max: 1, maxLength: 1 })` still overflows.\n\n### Impact\n\nAny application that passes an untrusted string to `expand()` - directly, or through `minimatch` / `glob` where it is a user-supplied glob pattern - can be crashed. In Node, a `RangeError` that the application does not catch terminates the process, so a server that globs user input is exposed to remote unauthenticated denial of service.\n\n`minimatch`'s own `MAX_PATTERN_LENGTH` cap (65,536) does not help against vector 1: the overflow threshold sits well below it. Confirmed on minimatch 10.2.6 - a 64,003-byte pattern passes the length check and overflows both `minimatch.braceExpand()` and `new minimatch.Minimatch()`.\n\nThis is an availability-only issue. No code execution and no data exposure.\n\n### Not a regression\n\n5.0.8 and 5.0.9 overflow at the same repetition count, so the gap predates the recent advisories; those fixes simply did not reach it. Verified affected on 1.1.18, 2.1.4, 3.0.6, 5.0.8 and 5.0.9, all at an identical threshold.\n\n### Patch\n\n`parseCommaParts()` is rewritten as a loop that carries the partial part across chunks, and every array append uses an element-by-element loop rather than `push.apply`. The redundant `if (!str) return ['']` guard is dropped - the loop returns `['']` for the empty string on its own.\n\nEquivalence of the old and new implementations was checked by differential testing: exhaustive over every string of `{`, `}`, `,`, `a` up to length 7 plus 300,000 random inputs - 322,000 cases, zero mismatches.\n\n### Severity note\n\nScored 7.5 High under CVSS 3.1 for consistency with the other availability advisories on this package (GHSA-mh99-v99m-4gvg, GHSA-rgw5-rvv9-x895), which use the same vector. The reporter self-assessed 6.9 Medium under CVSS 4.0 (`CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N`).\n\n### Credit\n\nReported by baeseungwon1010, with a working proof of concept and a proposed patch. Vector 2 was identified during maintainer verification.\n\n|                                                                                                              |\n|Package                                                                        pkg:npm/brace-expansion@5.0.7  |\n|Affected range                                                                 >=4.0.0,<5.0.10                |\n|Fixed version                                                                  5.0.10                         |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                                 |\n"
+              },
+              "properties": {
+                "affected_version": ">=4.0.0,<5.0.10",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "5.0.10",
+                "purls": [
+                  "pkg:npm/brace-expansion@5.0.7"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-102278",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-102278: Uncontrolled Resource Consumption"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-102278?s=github&n=brace-expansion&t=npm&vr=%3E%3D4.0.0%2C%3C5.0.11",
+              "help": {
+                "text": "### Summary\n\n`expand_()` recurses once per level of brace *nesting*. Deeply nested input exhausts the native stack and crashes the process.\n\nThis is distinct from CVE-2026-14257 / GHSA-mh99-v99m-4gvg, which made the *tail* iterative (recursion on `m.post`, driven by how many groups are chained). Nesting depth drives a different recursion that the tail fix never touched, so the documented constant-stack-depth guarantee only ever covered chained input, not nested input.\n\nIt is also distinct from GHSA-6j4f-fj2g-mc7p, which fixed recursion in `parseCommaParts()`. Both payloads below still crash with that fix applied.\n\n### Two recursion sites\n\n**Comma members.** Each alternative of a brace set is expanded by a recursive call, so nesting a set inside every alternative recurses once per level:\n\n```js\nexpand('{a,'.repeat(4000) + 'z' + '}'.repeat(4000))\n// RangeError: Maximum call stack size exceeded\n```\n\nCrashes at depth 3,907 - about **15.6 KB** of input.\n\n**Single set.** A brace set whose body parses to a single part is expanded by a recursive call before being re-wrapped (`x{{a,b}}y` -> `x{a}y x{b}y`), which recurses once per nesting level:\n\n```js\nexpand('{'.repeat(3200) + 'a,b' + '}'.repeat(3200))\n// RangeError: Maximum call stack size exceeded\n```\n\nCrashes at depth 3,125 - about **6.25 KB** of input. This is the cheapest stack-exhaustion payload known against this package: roughly a quarter the input of GHSA-6j4f-fj2g-mc7p (29 KB), and about a tenth of minimatch's `MAX_PATTERN_LENGTH` (65,536).\n\n### Why `max` and `maxLength` do not help\n\nBoth crashes happen while recursing into sub-expansions, before the result set grows. The payloads produce almost no output - the single-set case yields 2 results - so neither bound is ever the limiter. `expand(payload, { max: 1, maxLength: 1 })` still overflows.\n\n### Impact\n\nAny application passing an untrusted string to `expand()`, directly or through `minimatch` / `glob` as a user-supplied glob pattern, can be crashed. In Node a `RangeError` the application does not catch terminates the process, so a server globbing user input is exposed to remote unauthenticated denial of service.\n\nAvailability only. No code execution, no data exposure.\n\n### Affected versions\n\nVerified affected on 1.1.18, 2.1.4, 3.0.6 and 5.0.9, at near-identical depths on every line (single set: 3,125 on all four; comma members: 3,907-4,102). Not a regression from any recent fix - the gap predates them.\n\n### Patch\n\nA `maxDepth` bound (default `EXPANSION_MAX_DEPTH`) is threaded through `expand_()`. Past the cap a group is treated as non-expanding and returned literally, which is how the parser already handles a group that cannot expand. This matches the existing `max` / `maxLength` caps, which truncate rather than throw, so `expand()` continues never to throw on any input.\n\nThe default sits far above any realistic nesting depth and well below the crash threshold.\n",
+                "markdown": "> ### Summary\n\n`expand_()` recurses once per level of brace *nesting*. Deeply nested input exhausts the native stack and crashes the process.\n\nThis is distinct from CVE-2026-14257 / GHSA-mh99-v99m-4gvg, which made the *tail* iterative (recursion on `m.post`, driven by how many groups are chained). Nesting depth drives a different recursion that the tail fix never touched, so the documented constant-stack-depth guarantee only ever covered chained input, not nested input.\n\nIt is also distinct from GHSA-6j4f-fj2g-mc7p, which fixed recursion in `parseCommaParts()`. Both payloads below still crash with that fix applied.\n\n### Two recursion sites\n\n**Comma members.** Each alternative of a brace set is expanded by a recursive call, so nesting a set inside every alternative recurses once per level:\n\n```js\nexpand('{a,'.repeat(4000) + 'z' + '}'.repeat(4000))\n// RangeError: Maximum call stack size exceeded\n```\n\nCrashes at depth 3,907 - about **15.6 KB** of input.\n\n**Single set.** A brace set whose body parses to a single part is expanded by a recursive call before being re-wrapped (`x{{a,b}}y` -> `x{a}y x{b}y`), which recurses once per nesting level:\n\n```js\nexpand('{'.repeat(3200) + 'a,b' + '}'.repeat(3200))\n// RangeError: Maximum call stack size exceeded\n```\n\nCrashes at depth 3,125 - about **6.25 KB** of input. This is the cheapest stack-exhaustion payload known against this package: roughly a quarter the input of GHSA-6j4f-fj2g-mc7p (29 KB), and about a tenth of minimatch's `MAX_PATTERN_LENGTH` (65,536).\n\n### Why `max` and `maxLength` do not help\n\nBoth crashes happen while recursing into sub-expansions, before the result set grows. The payloads produce almost no output - the single-set case yields 2 results - so neither bound is ever the limiter. `expand(payload, { max: 1, maxLength: 1 })` still overflows.\n\n### Impact\n\nAny application passing an untrusted string to `expand()`, directly or through `minimatch` / `glob` as a user-supplied glob pattern, can be crashed. In Node a `RangeError` the application does not catch terminates the process, so a server globbing user input is exposed to remote unauthenticated denial of service.\n\nAvailability only. No code execution, no data exposure.\n\n### Affected versions\n\nVerified affected on 1.1.18, 2.1.4, 3.0.6 and 5.0.9, at near-identical depths on every line (single set: 3,125 on all four; comma members: 3,907-4,102). Not a regression from any recent fix - the gap predates them.\n\n### Patch\n\nA `maxDepth` bound (default `EXPANSION_MAX_DEPTH`) is threaded through `expand_()`. Past the cap a group is treated as non-expanding and returned literally, which is how the parser already handles a group that cannot expand. This matches the existing `max` / `maxLength` caps, which truncate rather than throw, so `expand()` continues never to throw on any input.\n\nThe default sits far above any realistic nesting depth and well below the crash threshold.\n\n|                                                                                                              |\n|Package                                                                        pkg:npm/brace-expansion@5.0.7  |\n|Affected range                                                                 >=4.0.0,<5.0.11                |\n|Fixed version                                                                  5.0.11                         |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                                 |\n"
+              },
+              "properties": {
+                "affected_version": ">=4.0.0,<5.0.11",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "5.0.11",
+                "purls": [
+                  "pkg:npm/brace-expansion@5.0.7"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-14257",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-14257: Uncontrolled Resource Consumption"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-14257?s=github&n=brace-expansion&t=npm&vr=%3E%3D4.0.0%2C%3C5.0.8",
+              "help": {
+                "text": "### Summary\n\n`expand()` bounds the *number* of results it produces (the `max` option,\n`100_000` by default) but not their *length*. By chaining many brace groups,\nan attacker keeps the result count under `max` while making every result grow\nwith the number of groups. Building `max` long results — plus the intermediate\narrays combined at each brace group — exhausts memory and crashes the Node\nprocess with an **uncatchable** out-of-memory error. `try/catch` around\n`expand()` does not help: the fatal error terminates the process.\n\nA ~7.5 KB input (`'{a,b}'.repeat(1500)`) is enough to crash a default Node\nprocess.\n\n### Details\n\nFor `N` chained brace groups such as `'{a,b}'.repeat(N)`:\n\n- the result count is `2^N`, immediately capped at `max` (`100_000`), so the\n  `max` protection appears to hold, but\n- each result is `N` characters long, so the total output size is\n  `max × N` characters, which grows without bound in `N`.\n\n`expand_` combines each brace set with the fully-expanded tail:\n\n```js\nconst post = m.post.length ? expand_(m.post, max, false) : ['']\n...\nfor (let j = 0; j < N.length; j++) {\n  for (let k = 0; k < post.length && expansions.length < max; k++) {\n    const expansion = pre + N[j] + post[k]   // grows one group longer per level\n    ...\n    expansions.push(expansion)\n  }\n}\n```\n\nThe loop guard `expansions.length < max` limits how many strings are built, but\nnothing limits how long they get. Each recursion level materializes another\narray of up to `max` strings, one character longer than the level below, and —\nbecause V8 represents `pre + N[j] + post[k]` as a cons-string (rope) that\nreferences `post[k]` — those intermediate strings stay reachable through the\nwhole chain. Memory therefore scales with `max × N`.\n\nMeasured on `5.0.7` (`'{a,b}'.repeat(N)`, default `max`):\n\n| groups (N) | input bytes | result count | peak RSS |\n|---|---|---|---|\n| 20 | 100 | 100,000 | ~80 MB |\n| 50 | 250 | 100,000 | ~214 MB |\n| 100 | 500 | 100,000 | ~409 MB |\n| 300 | 1,500 | 100,000 | ~1,148 MB |\n| 1500 | 7,500 | — | **OOM crash** |\n\n### Proof of concept\n\n```js\nconst { expand } = require('brace-expansion')\n\n// ~7.5 KB input — crashes the process with a fatal, uncatchable OOM:\n//   FATAL ERROR: ... JavaScript heap out of memory\ntry {\n  expand('{a,b}'.repeat(1500))\n} catch (e) {\n  // never reached — the process is already dead\n}\n```\n\n### Impact\n\nAny application that passes attacker-influenced strings to\n`brace-expansion.expand()` — directly, or transitively via `minimatch` / `glob`\nbrace patterns — can be crashed by a small request. Because the failure is a\nfatal V8 out-of-memory error rather than a thrown exception, it cannot be caught\nand it takes down the whole worker/process, denying service.\n\n### Remediation\n\nUpgrade to a patched release. The fix bounds the total number of characters a\nsingle `expand()` call may accumulate (`EXPANSION_MAX_LENGTH`, default\n`4_000_000`, configurable via a new `maxLength` option), applied inside the\noutput-building loops so intermediate arrays are bounded too. Once the limit is\nreached, output is truncated — consistent with how `max` already truncates —\ninstead of growing without bound. The limit sits well above any realistic\nexpansion (100,000 results hitting `max` measure ~1M characters), so legitimate\ninput is unaffected.\n\nAfter the fix, `'{a,b}'.repeat(1500)` returns a bounded, truncated result in\n~0.7 s using ~340 MB and never crashes, including under a constrained 512 MB\nheap.\n\nThe fix bounds memory but the algorithm still rebuilds intermediate arrays at\neach level (roughly `O(N × maxLength)` work on this input class). A streaming\nrewrite that produces output in `O(total output size)` can be a non-urgent\nfollow-up.\n\nIf immediate upgrade isn't possible, avoid passing untrusted input to\n`expand()` / glob brace patterns, or pass a small explicit `max` **and**\n`maxLength`.\n",
+                "markdown": "> ### Summary\n\n`expand()` bounds the *number* of results it produces (the `max` option,\n`100_000` by default) but not their *length*. By chaining many brace groups,\nan attacker keeps the result count under `max` while making every result grow\nwith the number of groups. Building `max` long results — plus the intermediate\narrays combined at each brace group — exhausts memory and crashes the Node\nprocess with an **uncatchable** out-of-memory error. `try/catch` around\n`expand()` does not help: the fatal error terminates the process.\n\nA ~7.5 KB input (`'{a,b}'.repeat(1500)`) is enough to crash a default Node\nprocess.\n\n### Details\n\nFor `N` chained brace groups such as `'{a,b}'.repeat(N)`:\n\n- the result count is `2^N`, immediately capped at `max` (`100_000`), so the\n  `max` protection appears to hold, but\n- each result is `N` characters long, so the total output size is\n  `max × N` characters, which grows without bound in `N`.\n\n`expand_` combines each brace set with the fully-expanded tail:\n\n```js\nconst post = m.post.length ? expand_(m.post, max, false) : ['']\n...\nfor (let j = 0; j < N.length; j++) {\n  for (let k = 0; k < post.length && expansions.length < max; k++) {\n    const expansion = pre + N[j] + post[k]   // grows one group longer per level\n    ...\n    expansions.push(expansion)\n  }\n}\n```\n\nThe loop guard `expansions.length < max` limits how many strings are built, but\nnothing limits how long they get. Each recursion level materializes another\narray of up to `max` strings, one character longer than the level below, and —\nbecause V8 represents `pre + N[j] + post[k]` as a cons-string (rope) that\nreferences `post[k]` — those intermediate strings stay reachable through the\nwhole chain. Memory therefore scales with `max × N`.\n\nMeasured on `5.0.7` (`'{a,b}'.repeat(N)`, default `max`):\n\n| groups (N) | input bytes | result count | peak RSS |\n|---|---|---|---|\n| 20 | 100 | 100,000 | ~80 MB |\n| 50 | 250 | 100,000 | ~214 MB |\n| 100 | 500 | 100,000 | ~409 MB |\n| 300 | 1,500 | 100,000 | ~1,148 MB |\n| 1500 | 7,500 | — | **OOM crash** |\n\n### Proof of concept\n\n```js\nconst { expand } = require('brace-expansion')\n\n// ~7.5 KB input — crashes the process with a fatal, uncatchable OOM:\n//   FATAL ERROR: ... JavaScript heap out of memory\ntry {\n  expand('{a,b}'.repeat(1500))\n} catch (e) {\n  // never reached — the process is already dead\n}\n```\n\n### Impact\n\nAny application that passes attacker-influenced strings to\n`brace-expansion.expand()` — directly, or transitively via `minimatch` / `glob`\nbrace patterns — can be crashed by a small request. Because the failure is a\nfatal V8 out-of-memory error rather than a thrown exception, it cannot be caught\nand it takes down the whole worker/process, denying service.\n\n### Remediation\n\nUpgrade to a patched release. The fix bounds the total number of characters a\nsingle `expand()` call may accumulate (`EXPANSION_MAX_LENGTH`, default\n`4_000_000`, configurable via a new `maxLength` option), applied inside the\noutput-building loops so intermediate arrays are bounded too. Once the limit is\nreached, output is truncated — consistent with how `max` already truncates —\ninstead of growing without bound. The limit sits well above any realistic\nexpansion (100,000 results hitting `max` measure ~1M characters), so legitimate\ninput is unaffected.\n\nAfter the fix, `'{a,b}'.repeat(1500)` returns a bounded, truncated result in\n~0.7 s using ~340 MB and never crashes, including under a constrained 512 MB\nheap.\n\nThe fix bounds memory but the algorithm still rebuilds intermediate arrays at\neach level (roughly `O(N × maxLength)` work on this input class). A streaming\nrewrite that produces output in `O(total output size)` can be a non-urgent\nfollow-up.\n\nIf immediate upgrade isn't possible, avoid passing untrusted input to\n`expand()` / glob brace patterns, or pass a small explicit `max` **and**\n`maxLength`.\n\n|                                                                                                              |\n|Package                                                                        pkg:npm/brace-expansion@5.0.7  |\n|Affected range                                                                 >=4.0.0,<5.0.8                 |\n|Fixed version                                                                  5.0.8                          |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                                 |\n"
+              },
+              "properties": {
+                "affected_version": ">=4.0.0,<5.0.8",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "5.0.8",
+                "purls": [
+                  "pkg:npm/brace-expansion@5.0.7"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-19534",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-19534: Uncaught Exception"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-19534?s=github&n=undici&t=npm&vr=%3E%3D6.7.0%2C%3C6.28.1",
+              "help": {
+                "text": "### Impact\n\nThe undici WebSocket client throws an uncaught `TypeError` during the opening handshake when a server's `101` response includes a `Sec-WebSocket-Protocol` header that the client never requested. The throw occurs in a `queueMicrotask` callback with no surrounding `try`/`catch`, so it propagates as an uncaught exception and terminates the Node.js process. This is a remote, unauthenticated denial of service against any application that opens a WebSocket to an attacker controlled or compromised server, or over a plaintext `ws://` connection subject to a machine-in-the-middle. It affects the default `new WebSocket(url)` usage, where no subprotocol is requested. Per RFC 6455 section 4.1, an unrequested subprotocol must fail the connection, not crash it.\n\nAll releases starting at undici 6.7.0 are affected.\n\n### Patches\n\nUpgrade to undici 6.28.1, 7.29.1, or 8.10.2.\n\n### Workarounds\n\nNo workaround is available. The fix must be applied through an upgrade.\n",
+                "markdown": "> ### Impact\n\nThe undici WebSocket client throws an uncaught `TypeError` during the opening handshake when a server's `101` response includes a `Sec-WebSocket-Protocol` header that the client never requested. The throw occurs in a `queueMicrotask` callback with no surrounding `try`/`catch`, so it propagates as an uncaught exception and terminates the Node.js process. This is a remote, unauthenticated denial of service against any application that opens a WebSocket to an attacker controlled or compromised server, or over a plaintext `ws://` connection subject to a machine-in-the-middle. It affects the default `new WebSocket(url)` usage, where no subprotocol is requested. Per RFC 6455 section 4.1, an unrequested subprotocol must fail the connection, not crash it.\n\nAll releases starting at undici 6.7.0 are affected.\n\n### Patches\n\nUpgrade to undici 6.28.1, 7.29.1, or 8.10.2.\n\n### Workarounds\n\nNo workaround is available. The fix must be applied through an upgrade.\n\n|                                                                                                      |\n|Package                                                                        pkg:npm/undici@6.27.0  |\n|Affected range                                                                 >=6.7.0,<6.28.1        |\n|Fixed version                                                                  6.28.1                 |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                         |\n"
+              },
+              "properties": {
+                "affected_version": ">=6.7.0,<6.28.1",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "6.28.1",
+                "purls": [
+                  "pkg:npm/undici@6.27.0"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-69152",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-69152: Uncontrolled Resource Consumption"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-69152?s=github&n=brace-expansion&t=npm&vr=%3E%3D4.0.0%2C%3C5.0.9",
+              "help": {
+                "text": "### Summary\n\nThe `maxLength` mitigation added in `5.0.8` for GHSA-mh99-v99m-4gvg / CVE-2026-14257 is incomplete. It bounds the accumulator where results are *combined*, but not the intermediate arrays that feed it. A ~25 KB input still crashes the Node process with an **uncatchable** out-of-memory error, so `try/catch` around `expand()` does not help.\n\nA second, related path in the same function lets a ~400 KB input block the event loop for over two minutes without ever exceeding the memory bound.\n\n### Details\n\n`maxLength` was enforced in `combine()`, the single place output grows. Two arrays are built *before* `combine()` runs, and neither was bounded.\n\n**1. Comma alternatives accumulate without a running total (memory exhaustion)**\n\nEach alternative in `{a,b,c,...}` is expanded by its own recursive `expand_()` call, so each receives a full, independent `maxLength` allowance. The results were then concatenated into a single `values` array with no cumulative limit:\n\n```js\nvalues = []\nfor (let j = 0; j < n.length; j++) {\n  values.push.apply(values, expand_(n[j], max, maxLength, false))\n}\n\nacc = combine(acc, pre, values, max, maxLength, ...)\n```\n\nWith `A` alternatives, `values` can reach `A * maxLength` characters before `combine()` gets a chance to truncate it. At the default `maxLength` of 4,000,000 and 400 alternatives, that is well past any default heap.\n\n**2. Padded sequences ignore `maxLength` while generating (CPU exhaustion)**\n\n`expandSequence()` was bounded by `max` (the result *count*) but never consulted `maxLength`. A padded sequence's element width follows the input, so `{0...01..100000}` with a wide pad generates `max` elements, each as wide as the input, only for `combine()` to discard all but a handful.\n\nMemory stays flat here, because V8 represents the padded strings as cons-strings, which is likely why this path was not caught alongside the original issue. The cost is time: work proportional to `max * width`.\n\n| pad width | input bytes | results kept | time (5.0.8) | time (patched) |\n|---|---|---|---|---|\n| 20,000 | 20 KB | 199 | ~7.3 s | ~20 ms |\n| 100,000 | 100 KB | 39 | ~32 s | ~20 ms |\n| 400,000 | 400 KB | 9 | ~124 s | ~18 ms |\n\nOutput is byte-identical before and after the fix; only the wasted work is removed.\n\n### Proof of concept\n\nMemory exhaustion, against `5.0.8`:\n\n```js\nimport { expand } from 'brace-expansion'\n\nconst part = '{' + '0'.repeat(50) + '1..100000}'\nconst input = '{' + Array(400).fill(part).join(',') + '}'  // ~25 KB\n\ntry {\n  expand(input)\n} catch (e) {\n  // never reached - the process is already dead\n}\n```\n\n```\nFATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory\nAborted\n```\n\nEvent-loop stall, against `5.0.8`:\n\n```js\nimport { expand } from 'brace-expansion'\n\n// ~400 KB input, returns 9 results after roughly two minutes of blocking CPU\nexpand('{' + '0'.repeat(400_000) + '1..100000}')\n```\n\n### Impact\n\nDenial of service. Any application that passes attacker-controlled input to `expand()`, directly or transitively through a glob or pattern-matching library, can be remotely crashed or stalled. The out-of-memory variant terminates the process and cannot be handled with `try/catch`.\n\nApplications already on `5.0.8` are affected: the `5.0.8` mitigation does not cover these paths.\n\n### Patches\n\nBoth intermediate arrays are now bounded as they are built, using the same `max` and `maxLength` limits already applied in `combine()`:\n\n- `values` tracks a running result count and character length while alternatives are appended, and stops once either bound is reached.\n- `expandSequence()` accepts `maxLength` and stops generating once the sequence's own characters reach it.\n\nAs with the existing limits, output is truncated rather than allowed to grow without bound, which matches how `max` already behaves. The defaults sit well above any realistic expansion, so legitimate input is unaffected.\n\n### Workarounds\n\nIf upgrading is not immediately possible, avoid passing untrusted input to `expand()` or to glob brace patterns, or pass an explicitly small `max` **and** `maxLength`.\n\nNote that a small `maxLength` alone was not sufficient on affected versions: it was applied per alternative rather than cumulatively, which is the root of the first issue above.\n\n### Credits\n\nThe memory-exhaustion bypass was reported by Alessio Della Libera, CEO & Co-founder at [Numyra](https://numyra.ai/).\n\nThe sequence-generation issue was found while verifying that report.\n",
+                "markdown": "> ### Summary\n\nThe `maxLength` mitigation added in `5.0.8` for GHSA-mh99-v99m-4gvg / CVE-2026-14257 is incomplete. It bounds the accumulator where results are *combined*, but not the intermediate arrays that feed it. A ~25 KB input still crashes the Node process with an **uncatchable** out-of-memory error, so `try/catch` around `expand()` does not help.\n\nA second, related path in the same function lets a ~400 KB input block the event loop for over two minutes without ever exceeding the memory bound.\n\n### Details\n\n`maxLength` was enforced in `combine()`, the single place output grows. Two arrays are built *before* `combine()` runs, and neither was bounded.\n\n**1. Comma alternatives accumulate without a running total (memory exhaustion)**\n\nEach alternative in `{a,b,c,...}` is expanded by its own recursive `expand_()` call, so each receives a full, independent `maxLength` allowance. The results were then concatenated into a single `values` array with no cumulative limit:\n\n```js\nvalues = []\nfor (let j = 0; j < n.length; j++) {\n  values.push.apply(values, expand_(n[j], max, maxLength, false))\n}\n\nacc = combine(acc, pre, values, max, maxLength, ...)\n```\n\nWith `A` alternatives, `values` can reach `A * maxLength` characters before `combine()` gets a chance to truncate it. At the default `maxLength` of 4,000,000 and 400 alternatives, that is well past any default heap.\n\n**2. Padded sequences ignore `maxLength` while generating (CPU exhaustion)**\n\n`expandSequence()` was bounded by `max` (the result *count*) but never consulted `maxLength`. A padded sequence's element width follows the input, so `{0...01..100000}` with a wide pad generates `max` elements, each as wide as the input, only for `combine()` to discard all but a handful.\n\nMemory stays flat here, because V8 represents the padded strings as cons-strings, which is likely why this path was not caught alongside the original issue. The cost is time: work proportional to `max * width`.\n\n| pad width | input bytes | results kept | time (5.0.8) | time (patched) |\n|---|---|---|---|---|\n| 20,000 | 20 KB | 199 | ~7.3 s | ~20 ms |\n| 100,000 | 100 KB | 39 | ~32 s | ~20 ms |\n| 400,000 | 400 KB | 9 | ~124 s | ~18 ms |\n\nOutput is byte-identical before and after the fix; only the wasted work is removed.\n\n### Proof of concept\n\nMemory exhaustion, against `5.0.8`:\n\n```js\nimport { expand } from 'brace-expansion'\n\nconst part = '{' + '0'.repeat(50) + '1..100000}'\nconst input = '{' + Array(400).fill(part).join(',') + '}'  // ~25 KB\n\ntry {\n  expand(input)\n} catch (e) {\n  // never reached - the process is already dead\n}\n```\n\n```\nFATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory\nAborted\n```\n\nEvent-loop stall, against `5.0.8`:\n\n```js\nimport { expand } from 'brace-expansion'\n\n// ~400 KB input, returns 9 results after roughly two minutes of blocking CPU\nexpand('{' + '0'.repeat(400_000) + '1..100000}')\n```\n\n### Impact\n\nDenial of service. Any application that passes attacker-controlled input to `expand()`, directly or transitively through a glob or pattern-matching library, can be remotely crashed or stalled. The out-of-memory variant terminates the process and cannot be handled with `try/catch`.\n\nApplications already on `5.0.8` are affected: the `5.0.8` mitigation does not cover these paths.\n\n### Patches\n\nBoth intermediate arrays are now bounded as they are built, using the same `max` and `maxLength` limits already applied in `combine()`:\n\n- `values` tracks a running result count and character length while alternatives are appended, and stops once either bound is reached.\n- `expandSequence()` accepts `maxLength` and stops generating once the sequence's own characters reach it.\n\nAs with the existing limits, output is truncated rather than allowed to grow without bound, which matches how `max` already behaves. The defaults sit well above any realistic expansion, so legitimate input is unaffected.\n\n### Workarounds\n\nIf upgrading is not immediately possible, avoid passing untrusted input to `expand()` or to glob brace patterns, or pass an explicitly small `max` **and** `maxLength`.\n\nNote that a small `maxLength` alone was not sufficient on affected versions: it was applied per alternative rather than cumulatively, which is the root of the first issue above.\n\n### Credits\n\nThe memory-exhaustion bypass was reported by Alessio Della Libera, CEO & Co-founder at [Numyra](https://numyra.ai/).\n\nThe sequence-generation issue was found while verifying that report.\n\n|                                                                                                              |\n|Package                                                                        pkg:npm/brace-expansion@5.0.7  |\n|Affected range                                                                 >=4.0.0,<5.0.9                 |\n|Fixed version                                                                  5.0.9                          |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                                 |\n"
+              },
+              "properties": {
+                "affected_version": ">=4.0.0,<5.0.9",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "5.0.9",
+                "purls": [
+                  "pkg:npm/brace-expansion@5.0.7"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-73566",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-73566: Uncontrolled Resource Consumption"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-73566?s=github&n=tar&t=npm&vr=%3C%3D7.5.20",
+              "help": {
+                "text": "## Summary\n`node-tar` (npm `tar`) contains an uncontrolled-recursion stack-exhaustion DoS in the internal `mapHas` helper used by `filesFilter`. When a consumer calls `tar.t(...)` or `tar.x(...)` with a non-empty member-selection list, node-tar installs a filter that closes over the recursive `mapHas` (`src/list.ts:33-44`). `mapHas` walks an entry path upward one `path.dirname()` call per recursion **with no segment cap**. A single crafted tar with a GNU-`L` (or PAX-`x`) long-path header can deliver a path of tens of thousands of `/`-separated segments (up to `maxMetaEntrySize` = 1 MiB). The recursion overflows the call stack, throwing an uncatchable `RangeError` that terminates the Node process on async/streaming consumers.\n\n## Root Cause\n`filesFilter` (`src/list.ts:27-51`) is installed whenever a caller passes a member-selection list (`src/list.ts:119-122`, `src/extract.ts:55-57`). Its filter is invoked at `src/parse.ts:253` (`entry.ignore = entry.ignore || !this.filter(entry.path, entry)`) inside `Parser[CONSUMEHEADER]` — and crucially **outside** the only try/catch in that method (which wraps `new Header` at `src/parse.ts:179-183`). `mapHas` recurses once per path segment with no depth limit. The `Unpack` `maxDepth` guard (`src/unpack.ts:342`, in `[CHECKPATH]`) only runs on the `'entry'` event, which fires *after* `CONSUMEHEADER` has already invoked the filter — so the stack overflows before any depth guard executes. `tar.t` (list) has no `maxDepth` at all.\n\n## Impact\nUnauthenticated, remotely-triggerable denial of service: a ~188-byte gzip (≈26 KB tar) crashes any service that lists or extracts *selected members* from an untrusted archive (package registries, CI artifact/cache restore, upload processors). On async (`await tar.t(...)`/`tar.x(...)`) and streaming/`pipe` consumers the `RangeError` escapes the promise as an `uncaughtException` and terminates the process — standard defensive `try/catch` around the async call does NOT prevent it. (The synchronous API is catchable; the async/stream paths — the dominant server pattern — are not.)\n\n## Proof of Concept\n```js\n// Build a tar whose single entry has a GNU-L long path of ~12,000 \"a/\" segments (~26 KB),\n// gzip it (≈188 bytes), then have a consumer list/extract with member selection:\nconst tar = require('tar');\nawait tar.t({ file: 'evil.tar.gz', gzip: true }, ['some-member']); // -> RangeError, process exit\n```\nEmpirically reproduced on Node v24.18.0 against built `dist/commonjs` of node-tar 7.5.20: 188-byte gzip → 26,112-byte tar (12,000 segments) → uncaught `RangeError: Maximum call stack size exceeded` → process exit. A control run with no member-selection list (filter not installed) parses cleanly (exit 0), isolating `mapHas` as the sole cause.\n\n## Attack Chain\n1. **Entry.** Attacker crafts a tar with a GNU `L` (or PAX `x`) long-path header whose body is `\"a/\"`×~12000 (~26 KB), followed by a normal file entry.\n   - **Guard:** `maxMetaEntrySize` caps the meta body at 1 MiB (`src/parse.ts:241`).\n   - **Bypass proof:** 26 KB ≪ 1 MiB → accepted (verified: 26 KB archive parsed up to the filter).\n2. **Trigger.** Victim service calls `tar.t({file},[sel])` or `tar.x({file,cwd},[sel])` (member selection — a documented, common API).\n   - **Guard:** `Unpack.maxDepth` (default 1024) at `src/unpack.ts:342`; decompression-ratio guard.\n   - **Bypass proof:** `maxDepth` lives in `[CHECKPATH]` on the `'entry'` event, which fires *after* `CONSUMEHEADER`'s filter call — the crash occurs before it (extract exits 1 with default maxDepth). `tar.t` has no maxDepth. Ratio is ~139× (trivial); no total-bytes cap applies to the uncompressed meta body.\n3. **Sink.** `this.filter(entry.path)` → `mapHas` recurses once per `/` segment (`src/list.ts:39`).\n   - **Guard:** try/catch in `CONSUMEHEADER`.\n   - **Bypass proof:** the only try/catch wraps `new Header` (`src/parse.ts:179-183`); the `this.filter(...)` call at `src/parse.ts:253` is outside it. The `RangeError` propagates out of the stream write/`'data'` path → uncaught exception (verified: `process.on('uncaughtException')` fires; async `await`+`try/catch` does NOT intercept).\n4. **Impact.** Node process termination; a 188-byte gzip crashes any consumer that lists/extracts selected members from untrusted archives.\n\n## Bypass Evidence\n- `mapHas` recursion is member-name-independent: the crash fires even when the requested members do not match the malicious entry path — the attacker only needs the consumer to *use* member selection.\n- Standalone `mapHas` overflows at 20k–30k segments; on the real streaming path (atop `write → CONSUMECHUNK → CONSUMEHEADER → filter`) it crashes at ≤8k segments (finder's ~12k estimate is accurate for the reachable path).\n- Control (no member list → no filter) parses cleanly (exit 0), isolating `mapHas`.\n\n## Affected Versions\n`<= 7.5.20` (npm `tar`). `mapHas` present verbatim on tag `v7.5.20` (latest GitHub release and npm `dist-tag latest`); no segment/depth cap in `src/list.ts` or the `CONSUMEHEADER` filter path; HEAD == 7.5.20, no unreleased fix.\n\n## Suggested Fix\nRewrite `mapHas` iteratively (walk `dirname` in a `while` loop with a segment/visited cap), or enforce a hard path-segment limit in `Header`/`Parser` independent of `maxMetaEntrySize`, applied before any per-entry filter runs.\n\n## Dedup Note\nDistinct from CVE-2024-28863 / GHSA-f5x3-32g6-qm9j \"lack of folders depth validation\" (that bounds `mkdir` recursion during *extraction* via `maxDepth` in `Unpack[CHECKPATH]` on the `'entry'` event — a different sink, code path, and fix; runs after the filter and does not apply to `tar.t`). Also distinct from the PAX NUL/numeric-path crash advisories (improper-input-to-fs / type confusion, not recursion) and the gzip-bomb advisory (resource exhaustion on disk writes). None touch `list.ts`/`filesFilter`/`mapHas` or require member selection.\n\n---\nReported by **zx (Jace)** — GitHub: @manus-use\n",
+                "markdown": "> ## Summary\n`node-tar` (npm `tar`) contains an uncontrolled-recursion stack-exhaustion DoS in the internal `mapHas` helper used by `filesFilter`. When a consumer calls `tar.t(...)` or `tar.x(...)` with a non-empty member-selection list, node-tar installs a filter that closes over the recursive `mapHas` (`src/list.ts:33-44`). `mapHas` walks an entry path upward one `path.dirname()` call per recursion **with no segment cap**. A single crafted tar with a GNU-`L` (or PAX-`x`) long-path header can deliver a path of tens of thousands of `/`-separated segments (up to `maxMetaEntrySize` = 1 MiB). The recursion overflows the call stack, throwing an uncatchable `RangeError` that terminates the Node process on async/streaming consumers.\n\n## Root Cause\n`filesFilter` (`src/list.ts:27-51`) is installed whenever a caller passes a member-selection list (`src/list.ts:119-122`, `src/extract.ts:55-57`). Its filter is invoked at `src/parse.ts:253` (`entry.ignore = entry.ignore || !this.filter(entry.path, entry)`) inside `Parser[CONSUMEHEADER]` — and crucially **outside** the only try/catch in that method (which wraps `new Header` at `src/parse.ts:179-183`). `mapHas` recurses once per path segment with no depth limit. The `Unpack` `maxDepth` guard (`src/unpack.ts:342`, in `[CHECKPATH]`) only runs on the `'entry'` event, which fires *after* `CONSUMEHEADER` has already invoked the filter — so the stack overflows before any depth guard executes. `tar.t` (list) has no `maxDepth` at all.\n\n## Impact\nUnauthenticated, remotely-triggerable denial of service: a ~188-byte gzip (≈26 KB tar) crashes any service that lists or extracts *selected members* from an untrusted archive (package registries, CI artifact/cache restore, upload processors). On async (`await tar.t(...)`/`tar.x(...)`) and streaming/`pipe` consumers the `RangeError` escapes the promise as an `uncaughtException` and terminates the process — standard defensive `try/catch` around the async call does NOT prevent it. (The synchronous API is catchable; the async/stream paths — the dominant server pattern — are not.)\n\n## Proof of Concept\n```js\n// Build a tar whose single entry has a GNU-L long path of ~12,000 \"a/\" segments (~26 KB),\n// gzip it (≈188 bytes), then have a consumer list/extract with member selection:\nconst tar = require('tar');\nawait tar.t({ file: 'evil.tar.gz', gzip: true }, ['some-member']); // -> RangeError, process exit\n```\nEmpirically reproduced on Node v24.18.0 against built `dist/commonjs` of node-tar 7.5.20: 188-byte gzip → 26,112-byte tar (12,000 segments) → uncaught `RangeError: Maximum call stack size exceeded` → process exit. A control run with no member-selection list (filter not installed) parses cleanly (exit 0), isolating `mapHas` as the sole cause.\n\n## Attack Chain\n1. **Entry.** Attacker crafts a tar with a GNU `L` (or PAX `x`) long-path header whose body is `\"a/\"`×~12000 (~26 KB), followed by a normal file entry.\n   - **Guard:** `maxMetaEntrySize` caps the meta body at 1 MiB (`src/parse.ts:241`).\n   - **Bypass proof:** 26 KB ≪ 1 MiB → accepted (verified: 26 KB archive parsed up to the filter).\n2. **Trigger.** Victim service calls `tar.t({file},[sel])` or `tar.x({file,cwd},[sel])` (member selection — a documented, common API).\n   - **Guard:** `Unpack.maxDepth` (default 1024) at `src/unpack.ts:342`; decompression-ratio guard.\n   - **Bypass proof:** `maxDepth` lives in `[CHECKPATH]` on the `'entry'` event, which fires *after* `CONSUMEHEADER`'s filter call — the crash occurs before it (extract exits 1 with default maxDepth). `tar.t` has no maxDepth. Ratio is ~139× (trivial); no total-bytes cap applies to the uncompressed meta body.\n3. **Sink.** `this.filter(entry.path)` → `mapHas` recurses once per `/` segment (`src/list.ts:39`).\n   - **Guard:** try/catch in `CONSUMEHEADER`.\n   - **Bypass proof:** the only try/catch wraps `new Header` (`src/parse.ts:179-183`); the `this.filter(...)` call at `src/parse.ts:253` is outside it. The `RangeError` propagates out of the stream write/`'data'` path → uncaught exception (verified: `process.on('uncaughtException')` fires; async `await`+`try/catch` does NOT intercept).\n4. **Impact.** Node process termination; a 188-byte gzip crashes any consumer that lists/extracts selected members from untrusted archives.\n\n## Bypass Evidence\n- `mapHas` recursion is member-name-independent: the crash fires even when the requested members do not match the malicious entry path — the attacker only needs the consumer to *use* member selection.\n- Standalone `mapHas` overflows at 20k–30k segments; on the real streaming path (atop `write → CONSUMECHUNK → CONSUMEHEADER → filter`) it crashes at ≤8k segments (finder's ~12k estimate is accurate for the reachable path).\n- Control (no member list → no filter) parses cleanly (exit 0), isolating `mapHas`.\n\n## Affected Versions\n`<= 7.5.20` (npm `tar`). `mapHas` present verbatim on tag `v7.5.20` (latest GitHub release and npm `dist-tag latest`); no segment/depth cap in `src/list.ts` or the `CONSUMEHEADER` filter path; HEAD == 7.5.20, no unreleased fix.\n\n## Suggested Fix\nRewrite `mapHas` iteratively (walk `dirname` in a `while` loop with a segment/visited cap), or enforce a hard path-segment limit in `Header`/`Parser` independent of `maxMetaEntrySize`, applied before any per-entry filter runs.\n\n## Dedup Note\nDistinct from CVE-2024-28863 / GHSA-f5x3-32g6-qm9j \"lack of folders depth validation\" (that bounds `mkdir` recursion during *extraction* via `maxDepth` in `Unpack[CHECKPATH]` on the `'entry'` event — a different sink, code path, and fix; runs after the filter and does not apply to `tar.t`). Also distinct from the PAX NUL/numeric-path crash advisories (improper-input-to-fs / type confusion, not recursion) and the gzip-bomb advisory (resource exhaustion on disk writes). None touch `list.ts`/`filesFilter`/`mapHas` or require member selection.\n\n---\nReported by **zx (Jace)** — GitHub: @manus-use\n\n|                                                                                                   |\n|Package                                                                        pkg:npm/tar@7.5.19  |\n|Affected range                                                                 <=7.5.20            |\n|Fixed version                                                                  7.5.21              |\n|[[CVSS Score 7.5] [CVSS Vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H]]                      |\n"
+              },
+              "properties": {
+                "affected_version": "<=7.5.20",
+                "cvssV3": 7.5,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                "fixed_version": "7.5.21",
+                "purls": [
+                  "pkg:npm/tar@7.5.19"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-69192",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-69192: Improper Input Validation"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-69192?s=github&n=ip-address&t=npm&vr=%3C%3D10.3.0",
+              "help": {
+                "text": "### Summary\n\n`Address4` accepts an octet written with a leading zero and decodes it as decimal, while the WHATWG URL host parser, `inet_aton`, and `getaddrinfo` all decode a leading zero as octal. The library and the network stack therefore disagree about which host a string names. `new Address4('012.0.0.1')` reports `correctForm()` of `12.0.0.1` and `isPrivate()` of `false`, but `fetch('http://012.0.0.1/')` connects to `10.0.0.1`.\n\nAn application that builds a network trust-boundary decision on these checks (for example a filter intended to block Server-Side Request Forgery, or SSRF) will classify an internal target as external and allow the request. SSRF is an attack in which a user-supplied address coaxes the server into making a request to an internal destination the user could not otherwise reach, such as a loopback service or a cloud metadata endpoint.\n\n### Details\n\n`Address4.parse` gates untrusted input on `RE_ADDRESS` (`src/v4/constants.ts:5`), whose per-octet alternative is:\n\n```\n(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\n```\n\nThe `[01]?[0-9][0-9]?` branch matches a leading zero, so `012` passes validation. Every downstream decode then reads the octet with `parseInt(part, 10)` (`src/common.ts:87`), yielding 12. A resolver reading the same string treats the leading `0` as base 8 and yields 10.\n\nThe defect is in the parse gate rather than in any one classifier, so every consumer of `Address4` inherits it: `isPrivate()`, `isLoopback()`, `isLinkLocal()`, `isCGNAT()`, `isInSubnet()`, `isHostInSubnet()`, and `correctForm()` are all computed from the mis-decoded octets.\n\n`Address6` already rejects this notation on its IPv4-in-IPv6 path, throwing \"IPv4 addresses can't have leading zeroes.\" (`src/ipv6.ts:751-762`), so `Address4` is the outlier within the library.\n\n### Affected versions\n\n`<= 10.3.0`. Unlike GHSA-22jq-vg5j-6vgg and GHSA-4xrf-jv44-h6hh, which were bounded below by the `is*` classification API introduced in 10.1.1, this defect is in `parse` and reaches every release: a guard built on `isInSubnet()` against the RFC 1918 ranges is affected in versions predating that API.\n\n### Impact\n\nThe disagreement runs in both directions. Under-blocking is the security-relevant case; over-blocking is a correctness and availability problem.\n\n| Input | `correctForm()` | Classified as | Resolver reaches | Effect |\n|---|---|---|---|---|\n| `012.0.0.1` | `12.0.0.1` | public | `10.0.0.1` | internal target allowed |\n| `012.012.012.012` | `12.12.12.12` | public | `10.10.10.10` | internal target allowed |\n| `010.0.0.1` | `10.0.0.1` | private | `8.0.0.1` | public target blocked |\n\nReachable targets are those whose leading octet is expressible as a three-character octal literal, which covers the whole of `10.0.0.0/8` and `0.0.0.0/8`. A four-character octet such as `0177` for 127 is rejected by the regex, so loopback is not reachable through this path; see the note on rejection below for why rejection is not the same as safety.\n\n### Reachability\n\nA leading-zero address is a legal URL host, so this is reachable through the ordinary URL path with no unusual application shape required:\n\n```js\nnew URL('http://012.0.0.1/').hostname   // '10.0.0.1'\n```\n\nThis distinguishes it from GHSA-4xrf-jv44-h6hh, where the `/0` CIDR suffix could not survive URL parsing and exploitation therefore required an application that accepted a bare suffix-bearing string. Here the attack rides the same code path a normal user-supplied URL takes.\n\n### Proof of concept\n\n`npm i ip-address@10.3.0`, then:\n\n```js\nconst { Address4 } = require('ip-address');\n\n// A guard of the shape the library documents.\nfunction isBlocked(host) {\n  return Address4.isValid(host) && new Address4(host).isPrivate();\n}\n\nfor (const h of ['10.0.0.1', '012.0.0.1', '012.012.012.012']) {\n  console.log(isBlocked(h) ? 'BLOCK' : 'ALLOW', h,\n              '-> resolver reaches', new URL('http://' + h + '/').hostname);\n}\n```\n\nOn affected versions:\n\n```\nBLOCK 10.0.0.1 -> resolver reaches 10.0.0.1\nALLOW 012.0.0.1 -> resolver reaches 10.0.0.1\nALLOW 012.012.012.012 -> resolver reaches 10.10.10.10\n```\n\nThe literal RFC 1918 address is blocked as expected; the octal-ambiguous spellings of the same destinations are allowed through.\n\n### Remediation\n\nUpgrade to the patched release. In the fix, `Address4.parse` rejects any octet with a leading zero followed by further digits, mirroring the check `Address6` already applies at `src/ipv6.ts:751`, and `RE_ADDRESS` is tightened so those forms no longer appear in the valid corpus. After upgrading, `Address4.isValid('012.0.0.1')` returns `false` and the constructor throws `AddressError`.\n\nThis rejects input that previous releases accepted. An application that deliberately feeds zero-padded addresses such as `010.010.010.010` from a legacy system must strip the padding before parsing.\n\nIf you cannot upgrade immediately, reject any host whose octets carry a leading zero before you parse it:\n\n```js\nif (host.split('.').some((octet) => /^0\\d/.test(octet))) throw new Error('ambiguous address');\n```\n\n### A note on SSRF defense\n\nThese methods are address classifiers, not a complete SSRF defense. Regardless of this fix, a robust SSRF guard must resolve the hostname and validate the *resolved* IP against the socket it connects to, and account for DNS rebinding and redirects. Treat these checks as one layer, not the only one.\n\nOne specific pitfall is worth naming, because the fix above does not remove it. `Address4.isValid()` returning `false` means \"this is not a dotted-quad IPv4 literal\"; it does not mean \"this is not an address that will reach an internal host\". Every one of the following is rejected by `isValid()` and still resolves to loopback:\n\n```\n0177.0.0.1    0x7f.0.0.1    0x7f000001    2130706433\n127.1         127.0.1       127.0.0.1.    １２７.0.0.1\n```\n\nA guard shaped `if (Address4.isValid(h)) { check() } else { treatAsHostname() }` therefore routes all of them past the IP check. Rejecting these is correct behavior for an IPv4 parser and is not changed by this advisory, but a guard must treat \"not a valid literal\" as a case to resolve and re-check, never as a case to allow.\n",
+                "markdown": "> ### Summary\n\n`Address4` accepts an octet written with a leading zero and decodes it as decimal, while the WHATWG URL host parser, `inet_aton`, and `getaddrinfo` all decode a leading zero as octal. The library and the network stack therefore disagree about which host a string names. `new Address4('012.0.0.1')` reports `correctForm()` of `12.0.0.1` and `isPrivate()` of `false`, but `fetch('http://012.0.0.1/')` connects to `10.0.0.1`.\n\nAn application that builds a network trust-boundary decision on these checks (for example a filter intended to block Server-Side Request Forgery, or SSRF) will classify an internal target as external and allow the request. SSRF is an attack in which a user-supplied address coaxes the server into making a request to an internal destination the user could not otherwise reach, such as a loopback service or a cloud metadata endpoint.\n\n### Details\n\n`Address4.parse` gates untrusted input on `RE_ADDRESS` (`src/v4/constants.ts:5`), whose per-octet alternative is:\n\n```\n(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\n```\n\nThe `[01]?[0-9][0-9]?` branch matches a leading zero, so `012` passes validation. Every downstream decode then reads the octet with `parseInt(part, 10)` (`src/common.ts:87`), yielding 12. A resolver reading the same string treats the leading `0` as base 8 and yields 10.\n\nThe defect is in the parse gate rather than in any one classifier, so every consumer of `Address4` inherits it: `isPrivate()`, `isLoopback()`, `isLinkLocal()`, `isCGNAT()`, `isInSubnet()`, `isHostInSubnet()`, and `correctForm()` are all computed from the mis-decoded octets.\n\n`Address6` already rejects this notation on its IPv4-in-IPv6 path, throwing \"IPv4 addresses can't have leading zeroes.\" (`src/ipv6.ts:751-762`), so `Address4` is the outlier within the library.\n\n### Affected versions\n\n`<= 10.3.0`. Unlike GHSA-22jq-vg5j-6vgg and GHSA-4xrf-jv44-h6hh, which were bounded below by the `is*` classification API introduced in 10.1.1, this defect is in `parse` and reaches every release: a guard built on `isInSubnet()` against the RFC 1918 ranges is affected in versions predating that API.\n\n### Impact\n\nThe disagreement runs in both directions. Under-blocking is the security-relevant case; over-blocking is a correctness and availability problem.\n\n| Input | `correctForm()` | Classified as | Resolver reaches | Effect |\n|---|---|---|---|---|\n| `012.0.0.1` | `12.0.0.1` | public | `10.0.0.1` | internal target allowed |\n| `012.012.012.012` | `12.12.12.12` | public | `10.10.10.10` | internal target allowed |\n| `010.0.0.1` | `10.0.0.1` | private | `8.0.0.1` | public target blocked |\n\nReachable targets are those whose leading octet is expressible as a three-character octal literal, which covers the whole of `10.0.0.0/8` and `0.0.0.0/8`. A four-character octet such as `0177` for 127 is rejected by the regex, so loopback is not reachable through this path; see the note on rejection below for why rejection is not the same as safety.\n\n### Reachability\n\nA leading-zero address is a legal URL host, so this is reachable through the ordinary URL path with no unusual application shape required:\n\n```js\nnew URL('http://012.0.0.1/').hostname   // '10.0.0.1'\n```\n\nThis distinguishes it from GHSA-4xrf-jv44-h6hh, where the `/0` CIDR suffix could not survive URL parsing and exploitation therefore required an application that accepted a bare suffix-bearing string. Here the attack rides the same code path a normal user-supplied URL takes.\n\n### Proof of concept\n\n`npm i ip-address@10.3.0`, then:\n\n```js\nconst { Address4 } = require('ip-address');\n\n// A guard of the shape the library documents.\nfunction isBlocked(host) {\n  return Address4.isValid(host) && new Address4(host).isPrivate();\n}\n\nfor (const h of ['10.0.0.1', '012.0.0.1', '012.012.012.012']) {\n  console.log(isBlocked(h) ? 'BLOCK' : 'ALLOW', h,\n              '-> resolver reaches', new URL('http://' + h + '/').hostname);\n}\n```\n\nOn affected versions:\n\n```\nBLOCK 10.0.0.1 -> resolver reaches 10.0.0.1\nALLOW 012.0.0.1 -> resolver reaches 10.0.0.1\nALLOW 012.012.012.012 -> resolver reaches 10.10.10.10\n```\n\nThe literal RFC 1918 address is blocked as expected; the octal-ambiguous spellings of the same destinations are allowed through.\n\n### Remediation\n\nUpgrade to the patched release. In the fix, `Address4.parse` rejects any octet with a leading zero followed by further digits, mirroring the check `Address6` already applies at `src/ipv6.ts:751`, and `RE_ADDRESS` is tightened so those forms no longer appear in the valid corpus. After upgrading, `Address4.isValid('012.0.0.1')` returns `false` and the constructor throws `AddressError`.\n\nThis rejects input that previous releases accepted. An application that deliberately feeds zero-padded addresses such as `010.010.010.010` from a legacy system must strip the padding before parsing.\n\nIf you cannot upgrade immediately, reject any host whose octets carry a leading zero before you parse it:\n\n```js\nif (host.split('.').some((octet) => /^0\\d/.test(octet))) throw new Error('ambiguous address');\n```\n\n### A note on SSRF defense\n\nThese methods are address classifiers, not a complete SSRF defense. Regardless of this fix, a robust SSRF guard must resolve the hostname and validate the *resolved* IP against the socket it connects to, and account for DNS rebinding and redirects. Treat these checks as one layer, not the only one.\n\nOne specific pitfall is worth naming, because the fix above does not remove it. `Address4.isValid()` returning `false` means \"this is not a dotted-quad IPv4 literal\"; it does not mean \"this is not an address that will reach an internal host\". Every one of the following is rejected by `isValid()` and still resolves to loopback:\n\n```\n0177.0.0.1    0x7f.0.0.1    0x7f000001    2130706433\n127.1         127.0.1       127.0.0.1.    １２７.0.0.1\n```\n\nA guard shaped `if (Address4.isValid(h)) { check() } else { treatAsHostname() }` therefore routes all of them past the IP check. Rejecting these is correct behavior for an IPv4 parser and is not changed by this advisory, but a guard must treat \"not a valid literal\" as a case to resolve and re-check, never as a case to allow.\n\n|                                                                                                                             |\n|Package                                                                                           pkg:npm/ip-address@10.2.0  |\n|Affected range                                                                                    <=10.3.0                   |\n|Fixed version                                                                                     10.3.1                     |\n|[[CVSS Score 7.7] [CVSS Vector CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:H/SI:N/SA:N]]                             |\n"
+              },
+              "properties": {
+                "affected_version": "<=10.3.0",
+                "cvssV3": 7.7,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:H/SI:N/SA:N",
+                "fixed_version": "10.3.1",
+                "purls": [
+                  "pkg:npm/ip-address@10.2.0"
+                ],
+                "security-severity": "7.7",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-95619",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-95619"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-95619?s=debian&n=gcc-14&ns=debian&t=deb&osn=debian&osv=13&vr=%3E0",
+              "help": {
+                "text": "A flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability.\n\n---\n- gcc-15 <unfixed>\n- gcc-16 <unfixed>\n- gcc-14 <unfixed>\n[trixie] - gcc-14 <no-dsa> (Minor issue)\n- gcc-12 <unfixed>\n[trixie] - gcc-12 <no-dsa> (Minor issue)\nhttps://github.com/gcc-mirror/gcc/commit/59d235ffa5a69231eb42e5290d52dc8c90d28b7a\nhttps://bugzilla.redhat.com/show_bug.cgi?id=2537811\n",
+                "markdown": "> A flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability.\n\n---\n- gcc-15 <unfixed>\n- gcc-16 <unfixed>\n- gcc-14 <unfixed>\n[trixie] - gcc-14 <no-dsa> (Minor issue)\n- gcc-12 <unfixed>\n[trixie] - gcc-12 <no-dsa> (Minor issue)\nhttps://github.com/gcc-mirror/gcc/commit/59d235ffa5a69231eb42e5290d52dc8c90d28b7a\nhttps://bugzilla.redhat.com/show_bug.cgi?id=2537811\n\n|                                                                                               |\n|Package         pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13  |\n|Affected range  >0                                                                             |\n|Fixed version   not fixed                                                                      |\n"
+              },
+              "properties": {
+                "affected_version": ">0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13"
+                ],
+                "security-severity": "7.7",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-85091",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-85091"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-85091?s=debian&n=zlib&ns=debian&t=deb&osn=debian&osv=13&vr=%3E0",
+              "help": {
+                "text": "zlib versions 1.3.1.2 through 1.3.2 contain a heap buffer overflow vulnerability in the gz_vacate() function when processing non-blocking gzwrite() operations with stale external buffer pointers. Attackers can trigger the overflow by calling gzprintf() or gzvprintf() after a write stall, causing an unchecked memmove() to write beyond the internal input buffer boundary.\n\n---\n- zlib <unfixed> (bug https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1146895)\nhttps://gist.github.com/thesmartshadow/e0b9481792afb7c31e86fee1ff084490\nhttps://github.com/madler/zlib/issues/1310\nhttps://github.com/madler/zlib/pull/1317\nFixed by: https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148\nDiscussion on affected range: https://github.com/madler/zlib/issues/1310#issuecomment-5979623265\nSupport non-blocking devices in the gz* routines introduced with:\nhttps://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d (v1.3.1.2)\n",
+                "markdown": "> zlib versions 1.3.1.2 through 1.3.2 contain a heap buffer overflow vulnerability in the gz_vacate() function when processing non-blocking gzwrite() operations with stale external buffer pointers. Attackers can trigger the overflow by calling gzprintf() or gzvprintf() after a write stall, causing an unchecked memmove() to write beyond the internal input buffer boundary.\n\n---\n- zlib <unfixed> (bug https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1146895)\nhttps://gist.github.com/thesmartshadow/e0b9481792afb7c31e86fee1ff084490\nhttps://github.com/madler/zlib/issues/1310\nhttps://github.com/madler/zlib/pull/1317\nFixed by: https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148\nDiscussion on affected range: https://github.com/madler/zlib/issues/1310#issuecomment-5979623265\nSupport non-blocking devices in the gz* routines introduced with:\nhttps://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d (v1.3.1.2)\n\n|                                                                                                                |\n|Package         pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13  |\n|Affected range  >0                                                                                              |\n|Fixed version   not fixed                                                                                       |\n"
+              },
+              "properties": {
+                "affected_version": ">0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13"
+                ],
+                "security-severity": "8.3",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-93748",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-93748: Use of Cache Containing Sensitive Information"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-93748?s=github&n=http-cache-semantics&t=npm&vr=%3C%3D4.2.0",
+              "help": {
+                "text": "http-cache-semantics through 4.2.0 fails to properly validate security-zeroed cache entries when processing client max-stale directives, allowing unauthenticated attackers to retrieve cached responses belonging to other users. Attackers can request the same URL with a large max-stale value to obtain another user's Set-Cookie session credentials from shared-cache entries that were deliberately zeroed for security reasons.\n",
+                "markdown": "> http-cache-semantics through 4.2.0 fails to properly validate security-zeroed cache entries when processing client max-stale directives, allowing unauthenticated attackers to retrieve cached responses belonging to other users. Attackers can request the same URL with a large max-stale value to obtain another user's Set-Cookie session credentials from shared-cache entries that were deliberately zeroed for security reasons.\n\n|                                                                                                                                      |\n|Package                                                                                           pkg:npm/http-cache-semantics@4.2.0  |\n|Affected range                                                                                    <=4.2.0                             |\n|Fixed version                                                                                     not fixed                           |\n|[[CVSS Score 8.7] [CVSS Vector CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N]]                                      |\n"
+              },
+              "properties": {
+                "affected_version": "<=4.2.0",
+                "cvssV3": 8.7,
+                "cvssV3_severity": "HIGH",
+                "cvssV3_vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:npm/http-cache-semantics@4.2.0"
+                ],
+                "security-severity": "8.7",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            }
+          ],
+          "version": "1.24.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2026-102276",
+          "ruleIndex": 0,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-102276                               \nSeverity         :HIGH                                          \nPackage          :pkg:npm/brace-expansion@5.0.7                 \nAffected range   :>=4.0.0,<5.0.10                               \nFixed version    :5.0.10                                        \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.003500                                      \nEPSS Percentile  :0.264960                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-102278",
+          "ruleIndex": 1,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-102278                               \nSeverity         :HIGH                                          \nPackage          :pkg:npm/brace-expansion@5.0.7                 \nAffected range   :>=4.0.0,<5.0.11                               \nFixed version    :5.0.11                                        \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.003500                                      \nEPSS Percentile  :0.264960                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-14257",
+          "ruleIndex": 2,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-14257                                \nSeverity         :HIGH                                          \nPackage          :pkg:npm/brace-expansion@5.0.7                 \nAffected range   :>=4.0.0,<5.0.8                                \nFixed version    :5.0.8                                         \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.006430                                      \nEPSS Percentile  :0.491050                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-19534",
+          "ruleIndex": 3,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-19534                                \nSeverity         :HIGH                                          \nPackage          :pkg:npm/undici@6.27.0                         \nAffected range   :>=6.7.0,<6.28.1                               \nFixed version    :6.28.1                                        \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.003940                                      \nEPSS Percentile  :0.313530                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/undici/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-69152",
+          "ruleIndex": 4,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-69152                                \nSeverity         :HIGH                                          \nPackage          :pkg:npm/brace-expansion@5.0.7                 \nAffected range   :>=4.0.0,<5.0.9                                \nFixed version    :5.0.9                                         \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.006470                                      \nEPSS Percentile  :0.492920                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-73566",
+          "ruleIndex": 5,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-73566                                \nSeverity         :HIGH                                          \nPackage          :pkg:npm/tar@7.5.19                            \nAffected range   :<=7.5.20                                      \nFixed version    :7.5.21                                        \nCVSS Score       :7.5                                           \nCVSS Vector      :CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H  \nEPSS Score       :0.005310                                      \nEPSS Percentile  :0.429900                                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/tar/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-69192",
+          "ruleIndex": 6,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-69192                                                   \nSeverity         :HIGH                                                             \nPackage          :pkg:npm/ip-address@10.2.0                                        \nAffected range   :<=10.3.0                                                         \nFixed version    :10.3.1                                                           \nCVSS Score       :7.7                                                              \nCVSS Vector      :CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:H/SI:N/SA:N  \nEPSS Score       :0.006630                                                         \nEPSS Percentile  :0.500360                                                         \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/ip-address/package.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 7,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-95619                                                                 \nSeverity         :HIGH                                                                           \nPackage          :pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13  \nAffected range   :>0                                                                             \nFixed version    :not fixed                                                                      \nEPSS Score       :0.003630                                                                       \nEPSS Percentile  :0.280000                                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/doc/gcc-14-base/copyright"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/var/lib/dpkg/status"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-85091",
+          "ruleIndex": 8,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-85091                                                                                  \nSeverity         :HIGH                                                                                            \nPackage          :pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13  \nAffected range   :>0                                                                                              \nFixed version    :not fixed                                                                                       \nEPSS Score       :0.005920                                                                                        \nEPSS Percentile  :0.465260                                                                                        \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/doc/zlib1g/copyright"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/var/lib/dpkg/status"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-93748",
+          "ruleIndex": 9,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-93748                                                   \nSeverity         :HIGH                                                             \nPackage          :pkg:npm/http-cache-semantics@4.2.0                               \nAffected range   :<=4.2.0                                                          \nFixed version    :not fixed                                                        \nCVSS Score       :8.7                                                              \nCVSS Vector      :CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N  \nEPSS Score       :0.005310                                                         \nEPSS Percentile  :0.430100                                                         \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/node_modules/npm/node_modules/http-cache-semantics/package.json"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

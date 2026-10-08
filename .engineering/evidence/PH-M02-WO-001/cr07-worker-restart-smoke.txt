@@ -1,0 +1,15 @@
+Timestamp: 2026-10-07T21:11:17.4836879-03:00
+HTTP before worker restart: 200
+docker compose restart worker exit: 0
+Container polyhunter-worker Restarting
+Container polyhunter-worker Started
+Worker container ID: 4f11035dcde8a08970638eebeec33f00b80fd717bc3e743a9320f8c3aebfa9e7
+Initial in-container `ps` probe: unavailable because `ps` is not installed in the minimal runtime image (`sh: 1: ps: not found`). The daemon-side process listing below was used instead.
+docker top polyhunter-worker:
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+1000                15032               15009               0                   00:11               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+1000                15056               15032               10                  00:11               ?                   00:00:01            node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+Provider import: createPolymarketDiscovery=function
+Worker Compose state: running / Up 7 seconds
+HTTP after worker restart: 200
+PostgreSQL Compose state: running / Up 4 hours (healthy)

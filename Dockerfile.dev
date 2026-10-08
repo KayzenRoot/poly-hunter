@@ -1,7 +1,5 @@
-# Audit CR-03: the base is pinned to the immutable resolved digest of
-# node:24-bookworm-slim (resolved 2026-10-06), so a future clean build cannot
-# silently depend on the moving tag.
-FROM node:24-bookworm-slim@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20
+# CR-07: use the current official Node 24 Trixie image by immutable digest.
+FROM node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
 
 WORKDIR /workspace
 
@@ -17,6 +15,31 @@ COPY --chown=node:node packages/testkit/package.json packages/testkit/package.js
 COPY --chown=node:node packages/polymarket/package.json packages/polymarket/package.json
 
 RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+
+# Keep Node 24 and npm stable, then refresh only npm's vulnerable bundled
+# dependencies within the ranges declared by npm's own dependency tree.
+RUN set -eu; \
+    npm install --global --no-audit --no-fund npm@12.2.0; \
+    root="$(npm root --global)/npm/node_modules"; \
+    test "$root" = "/usr/local/lib/node_modules/npm/node_modules"; \
+    tmp="$(mktemp -d)"; \
+    cd "$tmp"; \
+    npm pack --ignore-scripts --json \
+      brace-expansion@5.0.11 \
+      undici@6.28.1 \
+      http-cache-semantics@4.3.0 > pack.json; \
+    node -e 'const fs=require("node:fs");const expected={"brace-expansion":["5.0.11","sha512-awigjhi6cLTh90bdw6+QJ9CtmJmyYhEIi70iCbc8Rozn04Fw9FeQIBjv/E22FFGuCGx1bLJyUfB64x/szUSXUg=="],"undici":["6.28.1","sha512-zWpdTVD54H48CIybL0rWQ3ukpb9d23wM7eH5RtfdmeP70cWHNjtfo7P4vZX+5CoDcO53J4Pu5uXp7lNfjc6DRA=="],"http-cache-semantics":["4.3.0","sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA=="]};const packed=JSON.parse(fs.readFileSync("pack.json","utf8"));for(const [name,[version,integrity]] of Object.entries(expected)){const item=packed[name];if(!item||item.version!==version||item.integrity!==integrity)throw new Error("npm tarball identity mismatch: "+name)}'; \
+    for spec in brace-expansion:5.0.11 undici:6.28.1 http-cache-semantics:4.3.0; do \
+      package="${spec%%:*}"; \
+      version="${spec#*:}"; \
+      rm -rf "$root/$package"; \
+      mkdir -p "$root/$package"; \
+      tar -xzf "$tmp/$package-$version.tgz" --strip-components=1 -C "$root/$package"; \
+    done; \
+    node -e 'const fs=require("node:fs");const path=require("node:path");const root="/usr/local/lib/node_modules/npm/node_modules";const semver=require(path.join(root,"semver"));const pkg=name=>JSON.parse(fs.readFileSync(path.join(root,name,"package.json"),"utf8"));const expected={"brace-expansion":"5.0.11",undici:"6.28.1","http-cache-semantics":"4.3.0",tar:"7.5.22","ip-address":"10.5.0"};for(const [name,version] of Object.entries(expected)){if(pkg(name).version!==version)throw new Error(name+" version mismatch")}for(const [parent,dependency] of [["minimatch","brace-expansion"],["node-gyp","undici"],["make-fetch-happen","http-cache-semantics"]]){if(!semver.satisfies(pkg(dependency).version,pkg(parent).dependencies[dependency]))throw new Error(dependency+" falls outside "+parent+" declared range")}if(!semver.satisfies(pkg("balanced-match").version,pkg("brace-expansion").dependencies["balanced-match"]))throw new Error("balanced-match falls outside brace-expansion declared range")'; \
+    npm --version; \
+    npm ls --global --all brace-expansion undici tar ip-address http-cache-semantics balanced-match; \
+    rm -rf "$tmp"
 
 USER node
 

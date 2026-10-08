@@ -1,0 +1,42 @@
+NODE
+{"version":"v24.21.0","zlib":"1.3.2.1-motley-8002e91","arch":"x64","NODE_PATH":"<unset>"}
+NPM
+12.2.0
+/usr/local/lib/node_modules
+PACKAGES
+libstdc++6:amd64	14.2.0-19
+perl-base	5.40.1-6+deb13u1
+util-linux	2.41.5-0+deb13u1
+zlib1g:amd64	1:1.3.dfsg+really1.3.1-1+b1
+HASHES
+972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00  /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e  /usr/lib/x86_64-linux-gnu/libz.so.1
+NODE_LINKS
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007adb0372c000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007adb0360f000)
+FSTAB
+644 root:root /etc/fstab
+4755 root:root /usr/bin/mount
+755 root:root /usr/bin/nsenter
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+PROC
+Name:	docker-init
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+/sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0
+NPM_MODULE_RESOLUTION
+brace-expansion /workspace/node_modules/brace-expansion/dist/commonjs/index.js 5.0.12
+undici not present in application graph
+tar not present in application graph
+ip-address not present in application graph
+http-cache-semantics not present in application graph
+NPM_GLOBAL
+brace-expansion 5.0.11
+undici 6.28.1
+tar 7.5.22
+ip-address 10.5.0
+http-cache-semantics 4.3.0

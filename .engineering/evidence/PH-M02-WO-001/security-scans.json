@@ -1,256 +1,59 @@
 {
   "workOrder": "PH-M02-WO-001",
+  "review": "5448950464",
   "scanDate": "2026-10-07",
-  "policy": "ADR-0007; H/C defaults to UNDER_INVESTIGATION and blocks unless exact-digest FIXED or approved NOT_AFFECTED evidence applies; executor does not self-approve.",
+  "policy": "ADR-0007; raw HIGH/CRITICAL defaults to UNDER_INVESTIGATION. Proposed NOT_AFFECTED is not approval. Exact image digest, evidence, independent auditor and owner approval are required.",
   "images": [
     {
       "image": "polyhunter-dev:local",
-      "digest": "sha256:1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792",
-      "localImageId": "sha256:1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792",
+      "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+      "localImageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
       "scanner": "docker scout",
       "scannerVersion": "1.24.0",
-      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-final.sarif.json",
-      "sarifSha256": "97a0d713e1ba7c46f00066672b350b4d227d5923e762e59c035548bc807bdbfb",
-      "resultCount": 79,
-      "uniqueCveCount": 79,
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+      "sarifSha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc",
+      "resultCount": 35,
+      "uniqueCveCount": 35,
       "counts": {
-        "UNKNOWN": 4,
-        "LOW": 33,
-        "MEDIUM": 19,
-        "HIGH": 19,
-        "CRITICAL": 4
+        "UNKNOWN": 0,
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 2,
+        "CRITICAL": 0
       },
       "suppressedResultCount": 0,
       "highCritical": [
         {
-          "cve": "CVE-2026-102276",
+          "cve": "CVE-2026-95619",
           "severity": "HIGH",
-          "component": "pkg:npm/brace-expansion@5.0.7",
-          "fixedVersion": "5.0.10",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-102278",
-          "severity": "HIGH",
-          "component": "pkg:npm/brace-expansion@5.0.7",
-          "fixedVersion": "5.0.11",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-12087",
-          "severity": "CRITICAL",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-13221",
-          "severity": "CRITICAL",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-14257",
-          "severity": "HIGH",
-          "component": "pkg:npm/brace-expansion@5.0.7",
-          "fixedVersion": "5.0.8",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-19534",
-          "severity": "HIGH",
-          "component": "pkg:npm/undici@6.27.0",
-          "fixedVersion": "6.28.1",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-42496",
-          "severity": "CRITICAL",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-42497",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-48959",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-48962",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-57432",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-69152",
-          "severity": "HIGH",
-          "component": "pkg:npm/brace-expansion@5.0.7",
-          "fixedVersion": "5.0.9",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-69192",
-          "severity": "HIGH",
-          "component": "pkg:npm/ip-address@10.2.0",
-          "fixedVersion": "10.3.1",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-73566",
-          "severity": "HIGH",
-          "component": "pkg:npm/tar@7.5.19",
-          "fixedVersion": "7.5.21",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-76642",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+          "component": "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13",
           "fixedVersion": "not fixed",
+          "epss": "0.003630000",
+          "epssPercentile": "0.280830000",
           "disposition": "UNDER_INVESTIGATION",
+          "proposedDisposition": "NOT_AFFECTED",
+          "justification": "vulnerable_code_not_present",
           "approvedVex": null,
           "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-78408",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-78409",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-78410",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-82560",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-8376",
-          "severity": "CRITICAL",
-          "component": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "5.36.0-7+deb12u4",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": false
+          "exactDigestMatchesApprovedVex": false,
+          "evidencePath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
+          "epssDate": "2026-10-07"
         },
         {
           "cve": "CVE-2026-85091",
           "severity": "HIGH",
-          "component": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12",
+          "component": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
           "fixedVersion": "not fixed",
+          "epss": "0.005920000",
+          "epssPercentile": "0.466080000",
           "disposition": "UNDER_INVESTIGATION",
+          "proposedDisposition": "NOT_AFFECTED",
+          "justification": "vulnerable_code_not_in_execute_path",
           "approvedVex": null,
           "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-93748",
-          "severity": "HIGH",
-          "component": "pkg:npm/http-cache-semantics@4.2.0",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
-        },
-        {
-          "cve": "CVE-2026-95619",
-          "severity": "HIGH",
-          "component": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
-          "fixedVersion": "not fixed",
-          "disposition": "UNDER_INVESTIGATION",
-          "approvedVex": null,
-          "priorDevVexDigest": "sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3",
-          "exactDigestMatchesApprovedVex": false
+          "exactDigestMatchesApprovedVex": false,
+          "evidencePath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
+          "epssDate": "2026-10-07"
         }
       ]
     },
@@ -260,11 +63,12 @@
       "localImageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
       "scanner": "docker scout",
       "scannerVersion": "1.24.0",
-      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-final.sarif.json",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-full-final.sarif.json",
       "sarifSha256": "307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6",
       "resultCount": 58,
       "uniqueCveCount": 58,
       "counts": {
+        "UNKNOWN": 0,
         "LOW": 7,
         "MEDIUM": 26,
         "HIGH": 23,
@@ -276,241 +80,580 @@
           "cve": "CVE-2025-58187",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "0.004060",
+          "epssPercentile": "0.326690",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-58188",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.003810",
+          "epssPercentile": "0.299120",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-61723",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.006610",
+          "epssPercentile": "0.499920",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-61725",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.006470",
+          "epssPercentile": "0.493360",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-61726",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "0.023260",
+          "epssPercentile": "0.829460",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-61729",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "0.004570",
+          "epssPercentile": "0.375370",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-25679",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "0.008340",
+          "epssPercentile": "0.562820",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-32280",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.006150",
+          "epssPercentile": "0.477210",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-32281",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.003550",
+          "epssPercentile": "0.270800",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-32283",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.006210",
+          "epssPercentile": "0.480690",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-33811",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.008130",
+          "epssPercentile": "0.556170",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-33814",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007810",
+          "epssPercentile": "0.545080",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-33818",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "epssPercentile": "0.452060",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-39820",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007840",
+          "epssPercentile": "0.545820",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-39836",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.006200",
+          "epssPercentile": "0.479760",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-42499",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007980",
+          "epssPercentile": "0.550700",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-42504",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "0.005600",
+          "epssPercentile": "0.447650",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-56853",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "epssPercentile": "0.452070",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-56859",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "epssPercentile": "0.452070",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-56862",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "epssPercentile": "0.452070",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-39822",
           "severity": "HIGH",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "0.002320",
+          "epssPercentile": "0.129070",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2026-86140",
           "severity": "HIGH",
           "component": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "0.001570",
+          "epssPercentile": "0.042610",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json"
         },
         {
           "cve": "CVE-2026-85091",
           "severity": "HIGH",
           "component": "pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24",
+          "fixedVersion": "1.3.2-r1",
+          "epss": "0.005920000",
+          "epssPercentile": "0.466080000",
           "disposition": "UNDER_INVESTIGATION",
+          "proposedDisposition": "NOT_AFFECTED",
+          "justification": "vulnerable_code_not_in_execute_path",
           "approvedVex": null,
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": false
+          "exactDigestMatchesApprovedVex": false,
+          "evidencePath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
+          "epssDate": "2026-10-07"
         },
         {
           "cve": "CVE-2026-39821",
           "severity": "CRITICAL",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.006920",
+          "epssPercentile": "0.512750",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         },
         {
           "cve": "CVE-2025-68121",
           "severity": "CRITICAL",
           "component": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "0.009150",
+          "epssPercentile": "0.588520",
           "disposition": "NOT_AFFECTED",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json",
           "priorDevVexDigest": null,
-          "exactDigestMatchesApprovedVex": true
+          "exactDigestMatchesApprovedVex": true,
+          "evidencePath": ".engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json"
         }
       ]
     }
   ],
   "summary": {
-    "devHighCritical": 23,
-    "devCritical": 4,
-    "devHigh": 19,
+    "devHighCritical": 2,
+    "devCritical": 0,
+    "devHigh": 2,
     "postgresHighCritical": 25,
     "postgresCritical": 2,
     "postgresHigh": 23,
     "approvedPostgresNotAffectedAtExactDigest": 24,
-    "unresolvedPostgresHighCritical": 1,
-    "unresolvedDevHighCriticalAtCurrentDigest": 23,
-    "overall": "BLOCKED_UNRESOLVED"
+    "unresolvedPostgresScannerRows": 1,
+    "developmentScannerRowsWithProposedNotAffected": 2,
+    "postgresScannerRowsWithProposedNotAffected": 1,
+    "supplementalUtilLinuxSourceRowsWithProposedNotAffected": 3,
+    "proposalRowsPendingIndependentAuditAndOwner": 6,
+    "legacyDevelopmentCveRowsReconciled": 23,
+    "overall": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT"
   },
-  "scannerNotice": "Docker Scout CLI v1.24.0 reported 4 exceptions obtained for PostgreSQL. The preserved final SARIF contains zero per-result suppressions. This receipt does not interpret the terminal exception notice as clearing a CVE; VEX dispositions are reconciled separately and only by exact image digest."
+  "legacyDevelopmentReconciliation": [
+    {
+      "cve": "CVE-2026-102276",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/brace-expansion@5.0.7",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-102278",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/brace-expansion@5.0.7",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-12087",
+      "oldSeverity": "CRITICAL",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-13221",
+      "oldSeverity": "CRITICAL",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-14257",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/brace-expansion@5.0.7",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-19534",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/undici@6.27.0",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-42496",
+      "oldSeverity": "CRITICAL",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-42497",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-48959",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-48962",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-57432",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-69152",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/brace-expansion@5.0.7",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-69192",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/ip-address@10.2.0",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-73566",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/tar@7.5.19",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-76642",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "util_linux_source_reconciliation",
+      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+    },
+    {
+      "cve": "CVE-2026-78408",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "util_linux_source_reconciliation",
+      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+    },
+    {
+      "cve": "CVE-2026-78409",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "util_linux_source_reconciliation",
+      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+    },
+    {
+      "cve": "CVE-2026-78410",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "util_linux_source_reconciliation",
+      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+    },
+    {
+      "cve": "CVE-2026-82560",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-8376",
+      "oldSeverity": "CRITICAL",
+      "oldComponent": "pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "perl_base_changed_or_module_absent",
+      "currentExactImageNote": "Pod::Text is absent for CVE-2026-82560; remaining Perl findings are absent after the Bookworm-to-Trixie package-line change, with no approval transferred."
+    },
+    {
+      "cve": "CVE-2026-85091",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "current_zlib_proposals",
+      "currentExactImageNote": "Current exact-image zlib occurrences have individual proposed VEX records; status remains UNDER_INVESTIGATION."
+    },
+    {
+      "cve": "CVE-2026-93748",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:npm/http-cache-semantics@4.2.0",
+      "reconciliationCategory": "npm_bundle_patched",
+      "currentExactImageNote": "Global npm bundle now contains the stable patched package version; final exact-image scan contains no row."
+    },
+    {
+      "cve": "CVE-2026-95619",
+      "oldSeverity": "HIGH",
+      "oldComponent": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
+      "reconciliationCategory": "current_gcc_proposal",
+      "currentExactImageNote": "Current exact-image GCC occurrence has an individual proposed VEX record; status remains UNDER_INVESTIGATION."
+    }
+  ],
+  "sourceReconciliation": {
+    "supplementalRows": [
+      "CVE-2026-76642",
+      "CVE-2026-78408",
+      "CVE-2026-78410"
+    ],
+    "notAffectedByFinalVersion": [
+      "CVE-2026-78409"
+    ],
+    "detailsPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json"
+  },
+  "vexPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
+  "scannerNotice": "Docker Scout CLI v1.24.0 reported 4 exceptions obtained for PostgreSQL. Full SARIF has zero per-result suppressions; the notice is not treated as clearing a CVE.",
+  "approvalState": {
+    "executor": "Proposed only",
+    "independentAuditor": "PENDING",
+    "ownerApproval": "PENDING",
+    "selfApproved": false,
+    "mergeAuthorized": false,
+    "checkpointPromotionAuthorized": false,
+    "liveTradingAuthorized": false
+  }
 }

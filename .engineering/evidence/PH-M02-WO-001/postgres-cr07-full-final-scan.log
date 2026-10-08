@@ -1,0 +1,5 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    v SBOM of image already cached, 66 packages indexed
+    v 4 exceptions obtained
+    x Detected 4 vulnerable packages with a total of 58 vulnerabilities
+    v Report written to .engineering/evidence/PH-M02-WO-001/postgres-cr07-full-final.sarif.json

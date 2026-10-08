@@ -1,0 +1,890 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "review": "5448950464",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "reviewedHeadSha": "d298c0610dd5dce0e4e08a14640c361e00b285ff",
+  "contentHeadSemantics": "The CR-07 artifacts are assessed against the exact final images listed below. This receipt does not claim its own eventual commit SHA; the pushed head is recorded in the PR and final CI receipt.",
+  "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
+  "statusRationale": "Stable remediation candidates are exhausted. All three current Scout HIGH/CRITICAL occurrences and three additional version-applicable Trixie util-linux source rows have individually documented proposals with exact runtime evidence. Every proposed row remains UNDER_INVESTIGATION; independent auditor and owner approval are pending. This is audit readiness only and is not clearance, merge, checkpoint promotion, or live-trading authorization.",
+  "scanner": {
+    "tool": "Docker Scout CLI",
+    "version": "1.24.0",
+    "suppressionPolicy": "No suppressions. SARIF per-result suppressions are zero."
+  },
+  "images": [
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+      "sarifSha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc",
+      "resultCount": 35,
+      "uniqueCveCount": 35,
+      "counts": {
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2026-95619",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "0.003630",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "0.005920",
+          "suppressed": false
+        }
+      ]
+    },
+    {
+      "image": "postgres:17.11-alpine3.24",
+      "digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-full-final.sarif.json",
+      "sarifSha256": "307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6",
+      "resultCount": 58,
+      "uniqueCveCount": 58,
+      "counts": {
+        "LOW": 7,
+        "MEDIUM": 26,
+        "HIGH": 23,
+        "CRITICAL": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2025-58187",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "0.004060",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-58188",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.003810",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61723",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.006610",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61725",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "0.006470",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61726",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "0.023260",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61729",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "0.004570",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-25679",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "0.008340",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32280",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.006150",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32281",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.003550",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32283",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "0.006210",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33811",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.008130",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33814",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007810",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33818",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39820",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007840",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39836",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.006200",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42499",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "0.007980",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42504",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "0.005600",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56853",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56859",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56862",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.005680",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39822",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "0.002320",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-86140",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "0.001570",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24",
+          "fixedVersion": "1.3.2-r1",
+          "epss": "0.005920",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39821",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "0.006920",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-68121",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "0.009150",
+          "suppressed": false
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "developmentImageScoutHighCritical": 2,
+    "postgresImageScoutHighCritical": 25,
+    "postgresApprovedExactDigestFindings": 24,
+    "currentScoutOccurrencesWithProposal": 3,
+    "supplementalUtilLinuxOccurrencesWithProposal": 3,
+    "proposalsPendingIndependentAuditAndOwner": 6,
+    "legacyDevelopmentCveRowsReconciled": 23,
+    "legacyCveIds": [
+      "CVE-2026-102276",
+      "CVE-2026-102278",
+      "CVE-2026-12087",
+      "CVE-2026-13221",
+      "CVE-2026-14257",
+      "CVE-2026-19534",
+      "CVE-2026-42496",
+      "CVE-2026-42497",
+      "CVE-2026-48959",
+      "CVE-2026-48962",
+      "CVE-2026-57432",
+      "CVE-2026-69152",
+      "CVE-2026-69192",
+      "CVE-2026-73566",
+      "CVE-2026-76642",
+      "CVE-2026-78408",
+      "CVE-2026-78409",
+      "CVE-2026-78410",
+      "CVE-2026-82560",
+      "CVE-2026-8376",
+      "CVE-2026-85091",
+      "CVE-2026-93748",
+      "CVE-2026-95619"
+    ],
+    "allProposalsStatus": "UNDER_INVESTIGATION",
+    "allProposedDisposition": "NOT_AFFECTED",
+    "independentAuditor": "PENDING",
+    "ownerApproval": "PENDING",
+    "selfApproval": false
+  },
+  "findings": [
+    {
+      "occurrenceId": "dev-CVE-2026-95619",
+      "cve": "CVE-2026-95619",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "docker_scout_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+      },
+      "component": {
+        "package": "pkg:deb/debian/gcc-14@14.2.0-19",
+        "detectedVersion": "14.2.0-19",
+        "present": true,
+        "vulnerableCodeAssessment": "libstdc++.so.6 and aligned operator new symbol are present. The exact vulnerable size-rounding/overflow sequence is absent: alignment is validated and posix_memalign receives the requested size unchanged."
+      },
+      "upstreamFix": {
+        "fixedVersion": "not fixed in current Debian Trixie repository",
+        "upstreamFix": "No fixed Trixie package candidate; exact aligned operator new implementation takes the safe posix_memalign path."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.003630000",
+        "percentile": "0.280830000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Untrusted application/provider data may affect Node allocations, but no vulnerable size arithmetic exists in the exact operator implementation.",
+      "exploitPrerequisites": [
+        "An attacker must cause a C++ consumer to request a sufficiently large aligned allocation through the affected operator new."
+      ],
+      "reachability": "The libstdc++ symbol is linked into Node; the exact symbol implementation is inspected in the final image by matching SHA-256 to the selected candidate. The overflow operation from the advisory is absent.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Services run as UID 1000/node with zero effective/permitted capabilities.",
+      "mitigation": "Safe alignment validation plus posix_memalign with original size; no scanner suppression. Candidate package refresh unavailable.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_present",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+          "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
+          "sha256": "040d9379cbd2192995e496248ad47fcc371cc54a8d0953e6d8b3348224736040"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/gcc-aligned-new-runtime.txt",
+          "sha256": "6a13542f15c59167477e3764cbbadb88f0b3225e1d269934c5c13e18658d0d47"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-native-library-revalidation.txt",
+          "sha256": "e1f4c79bcedb12fed45e3108f89bac4abb15af9d6a1293f20fa8d4399470b691"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://access.redhat.com/security/cve/cve-2026-95619"
+      ]
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-85091",
+      "cve": "CVE-2026-85091",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "docker_scout_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+      },
+      "component": {
+        "package": "pkg:deb/debian/zlib@1:1.3.dfsg+really1.3.1-1",
+        "detectedVersion": "1:1.3.dfsg+really1.3.1-1+b1",
+        "present": true,
+        "vulnerableCodeAssessment": "System zlib package is present, but exact Debian 1.3.1 source lacks gz_vacate; Node embeds separate zlib 1.3.2.1-motley-8002e91. Node source contains gz routines, but the v24.21.0 binding exposes deflate/inflate stream contexts and does not invoke gzprintf/gzvprintf. Node does not dynamically link system libz."
+      },
+      "upstreamFix": {
+        "fixedVersion": "not fixed in current Debian Trixie repository",
+        "upstreamFix": "zlib commit df84af25dc1942490e1d1c899a07619152a46148; not backported in the exact Debian package."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.005920000",
+        "percentile": "0.466080000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Provider response bytes are untrusted data, but no application/provider code reaches gzprintf/gzvprintf or the system zlib gzip API.",
+      "exploitPrerequisites": [
+        "The vulnerable path requires non-blocking gzwrite to stall and a subsequent gzprintf/gzvprintf call using stale input pointers."
+      ],
+      "reachability": "Exact Debian system source lacks gz_vacate; Node JS binding uses the low-level streaming API. No child-process or native-addon route invokes gzip C APIs.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Services run as UID 1000/node with zero effective/permitted capabilities.",
+      "mitigation": "Vulnerable system function absent; Node gzip C entry points are not exposed to app. No suppression. Debian Trixie has no newer zlib candidate.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+          "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
+          "sha256": "040d9379cbd2192995e496248ad47fcc371cc54a8d0953e6d8b3348224736040"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/npm-application-lock-reconciliation.txt",
+          "sha256": "04408e2d8419f8dca3762b77c71f69ba44850b9db22a82970e7fd29762c425f4"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-85091",
+        "https://sources.debian.org/src/zlib/1%3A1.3.dfsg%2Breally1.3.1-1/gzwrite.c/",
+        "https://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d",
+        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148",
+        "https://github.com/nodejs/node/blob/v24.21.0/src/node_zlib.cc"
+      ]
+    },
+    {
+      "occurrenceId": "postgres-CVE-2026-85091",
+      "cve": "CVE-2026-85091",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "docker_scout_final_sarif",
+      "image": {
+        "reference": "postgres:17.11-alpine3.24",
+        "digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+      },
+      "component": {
+        "package": "pkg:apk/alpine/zlib@1.3.2-r0",
+        "detectedVersion": "1.3.2-r0",
+        "present": true,
+        "vulnerableCodeAssessment": "Alpine zlib library is present. Consumer imports: postgres=deflate; pg_dump/pg_restore=deflate,inflate,gzwrite,gzopen. No consumer imports gzprintf/gzvprintf, the functions that trigger the vulnerable post-stall path."
+      },
+      "upstreamFix": {
+        "fixedVersion": "1.3.2-r1 reported by scanner; current official PostgreSQL tag still uses r0 at the same digest",
+        "upstreamFix": "zlib commit df84af25dc1942490e1d1c899a07619152a46148."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.005920000",
+        "percentile": "0.466080000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "PostgreSQL query/data input is untrusted, but the running server imports only deflate and no pg_dump/restore process or app call invokes gzprintf/gzvprintf.",
+      "exploitPrerequisites": [
+        "A consumer must perform a non-blocking gzwrite that stalls, then call gzprintf/gzvprintf with stale external buffer state."
+      ],
+      "reachability": "Exact scanelf imports on postgres, pg_dump, and pg_restore show no gzprintf/gzvprintf references; runtime process list contains only PostgreSQL server processes.",
+      "networkExposure": "Project-scoped Compose network; no PostgreSQL host port is published.",
+      "privilegeContext": "PostgreSQL runs UID 70 with CapEff/CapPrm zero; worker and web have no PostgreSQL CLI subprocess path.",
+      "mitigation": "CVE-specific formatted gzip entrypoint is not imported by installed consumers; no suppression. Official image tag was freshly pulled and remained unchanged.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_not_in_execute_path",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-full-final.sarif.json",
+          "sha256": "307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-runtime-inspection.txt",
+          "sha256": "8786e91e1e5a45c4314b3ed9fc5f836b6338ce08ab019033e25a5c652ee8656a"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-symbol-reachability-exact.txt",
+          "sha256": "aed76b8fe50ecda3cb8d57c55a1755baacc5d3c7af040b1c518937fde76cdf2a"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-85091",
+        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148"
+      ]
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-76642",
+      "cve": "CVE-2026-76642",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "mount and libmount are present; vulnerable X-mount post-hook code is present. Exact runtime fstab is empty except base comment; no external mount helper executable is installed."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.42.3-1 in Debian unstable; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.42.3 / Debian 2.42.3-1."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.002160000",
+        "percentile": "0.109850000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "The app does not accept mount command arguments or invoke mount; UID 1000 cannot modify root-owned fstab or add a privileged helper.",
+      "exploitPrerequisites": [
+        "SUID mount call using a root-controlled, fstab-authorized external-helper entry and X-mount.idmap or X-mount.owner/group/mode; attacker must be able to use the authorized entry."
+      ],
+      "reachability": "The advisory-specific path is not callable by the app because required fstab entry/helper configuration is absent; exact image process inventory has no mount process.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "mount is SUID root, but app services are UID 1000 with zero effective capabilities; no fstab-authorized entry or helper is configured.",
+      "mitigation": "Root-owned mode-0644 fstab has no entries; no mount helper is installed; no app call site. No suppression. Fixed package unavailable in Trixie repositories.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-76642",
+        "https://github.com/util-linux/util-linux/security/advisories/GHSA-m25x-3hj9-m26f",
+        "https://tracker.debian.org/news/1793594/accepted-util-linux-2423-1-source-into-unstable/"
+      ]
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-78408",
+      "cve": "CVE-2026-78408",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "nsenter and --join-cgroup implementation are present; nsenter is mode 0755 and not SUID."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.41.6 / 2.42.3."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.001860000",
+        "percentile": "0.075430000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "No app code invokes nsenter or accepts a process/namespace target; provider input cannot select a host PID or execute this binary.",
+      "exploitPrerequisites": [
+        "A privileged operator must invoke nsenter --join-cgroup against an attacker-controlled target; the target must expose relevant cgroup state."
+      ],
+      "reachability": "No runtime invocation exists in web/worker processes; container PID namespace is private, CapEff zero and CAP_SYS_ADMIN absent from CapBnd.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "nsenter is not SUID; services are UID 1000 with zero effective capabilities; app does not automate privileged operator operations.",
+      "mitigation": "No --join-cgroup call path, private PID namespace and no CAP_SYS_ADMIN; no suppression. Fixed package unavailable in Trixie repositories.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://access.redhat.com/security/cve/cve-2026-78408",
+        "https://github.com/util-linux/util-linux/security/advisories"
+      ]
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-78410",
+      "cve": "CVE-2026-78410",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "mount and X-mount.owner/group/mode code are present. Exact fstab has no entries and is root-owned mode 0644."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.41.6 / 2.42.3."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.001560000",
+        "percentile": "0.041430000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "The app has no mount call path and cannot modify /etc/fstab as UID 1000; no mount helper is installed.",
+      "exploitPrerequisites": [
+        "A root-controlled fstab-authorized restricted bind entry with X-mount.owner/group/mode; attacker must be able to replace the authorized source path or an ancestor."
+      ],
+      "reachability": "The fstab-authorized source plus post-hook operation cannot be configured or invoked by app-controlled input in this runtime.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "mount is SUID root but app services run UID 1000 with zero effective capabilities; root-owned fstab lacks authorized entries.",
+      "mitigation": "No authorized source entry, hook option or app invocation exists; no suppression. Fixed package unavailable in Trixie repositories.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ]
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        }
+      ],
+      "sourceRefs": [
+        "https://github.com/util-linux/util-linux/security/advisories/GHSA-rh77-686x-2f2m",
+        "https://access.redhat.com/security/cve/cve-2026-78410"
+      ]
+    }
+  ],
+  "historicalSourceReconciliation": [
+    {
+      "cve": "CVE-2026-78409",
+      "finalImageVersion": "util-linux 2.41.5-0+deb13u1",
+      "finalScoutResult": "absent",
+      "sourceConclusion": "Red Hat states versions v2.40/v2.41 are not affected; vulnerable detached-tree path begins in v2.42. Not a current final-image VEX finding."
+    }
+  ],
+  "approvalPolicy": {
+    "required": "Independent security auditor and project owner approval under ADR-0007 and PH-SEC-VEX-POLICY.",
+    "approvalsRecorded": false,
+    "promotionAllowed": false,
+    "mergeAllowed": false,
+    "liveTradingAuthorized": false
+  },
+  "evidenceManifest": [
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+      "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+      "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+      "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+      "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-worker-restart-smoke.txt",
+      "sha256": "d6762a8352b79f3285e5262999bab0bc848ce5f4dc33d6a3a5429f2664fc29de"
+    }
+  ]
+}

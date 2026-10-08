@@ -1,74 +1,37 @@
-# Exact-image vulnerability scan reconciliation
+# Exact-image scan and VEX reconciliation — PH-M02-WO-001 CR-07
 
-Date: 2026-10-07. Scanner: Docker Scout CLI v1.24.0. Both final SARIF receipts were freshly generated against the final local image IDs; SHA-256 values are recorded below.
+Date: 2026-10-07. Scanner: Docker Scout CLI v1.24.0. Both full SARIF scans were freshly generated after the clean/no-cache final build and final PostgreSQL tag refresh.
 
-| Image | Immutable digest | Findings (all severities) | HIGH | CRITICAL | SARIF SHA-256 |
-|---|---|---:|---:|---:|---|
-| polyhunter-dev:local | sha256:1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792 | 79 unique | 19 | 4 | 97a0d713e1ba7c46f00066672b350b4d227d5923e762e59c035548bc807bdbfb |
-| postgres:17.11-alpine3.24 | sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 | 58 unique | 23 | 2 | 307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6 |
+| Image | Exact local digest | All findings | LOW | MEDIUM | HIGH | CRITICAL | SARIF SHA-256 |
+|---|---|---:|---:|---:|---:|---:|---|
+| `polyhunter-dev:local` | `sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47` | 35 | 26 | 7 | 2 | 0 | `3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc` |
+| `postgres:17.11-alpine3.24` | `sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | 58 | 7 | 26 | 23 | 2 | `307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6` |
 
-Both SARIF files contain zero per-result suppression entries. The Scout terminal summary stated "4 exceptions obtained" for PostgreSQL; that notice is preserved and does not clear any finding. Machine-readable findings and digest-bound VEX reconciliation are in [security-scans.json](security-scans.json).
+Both final SARIF files contain zero per-result suppressions. Docker Scout printed “4 exceptions obtained” for PostgreSQL; that notice is preserved and does not clear any finding.
 
-## Development image HIGH/CRITICAL — 23 unresolved on the current digest
+## Current final-scan findings
 
-CVE-2026-102276 (HIGH; pkg:npm/brace-expansion@5.0.7; fixed upstream: 5.0.10; UNDER_INVESTIGATION)
-CVE-2026-102278 (HIGH; pkg:npm/brace-expansion@5.0.7; fixed upstream: 5.0.11; UNDER_INVESTIGATION)
-CVE-2026-12087 (CRITICAL; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-13221 (CRITICAL; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-14257 (HIGH; pkg:npm/brace-expansion@5.0.7; fixed upstream: 5.0.8; UNDER_INVESTIGATION)
-CVE-2026-19534 (HIGH; pkg:npm/undici@6.27.0; fixed upstream: 6.28.1; UNDER_INVESTIGATION)
-CVE-2026-42496 (CRITICAL; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-42497 (HIGH; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-48959 (HIGH; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-48962 (HIGH; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-57432 (HIGH; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-69152 (HIGH; pkg:npm/brace-expansion@5.0.7; fixed upstream: 5.0.9; UNDER_INVESTIGATION)
-CVE-2026-69192 (HIGH; pkg:npm/ip-address@10.2.0; fixed upstream: 10.3.1; UNDER_INVESTIGATION)
-CVE-2026-73566 (HIGH; pkg:npm/tar@7.5.19; fixed upstream: 7.5.21; UNDER_INVESTIGATION)
-CVE-2026-76642 (HIGH; pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-78408 (HIGH; pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-78409 (HIGH; pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-78410 (HIGH; pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-82560 (HIGH; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-8376 (CRITICAL; pkg:deb/debian/perl@5.36.0-7%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: 5.36.0-7+deb12u4; UNDER_INVESTIGATION)
-CVE-2026-85091 (HIGH; pkg:deb/debian/zlib@1%3A1.2.13.dfsg-1?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-93748 (HIGH; pkg:npm/http-cache-semantics@4.2.0; fixed upstream: not fixed; UNDER_INVESTIGATION)
-CVE-2026-95619 (HIGH; pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12; fixed upstream: not fixed; UNDER_INVESTIGATION)
+### Development image — 2 HIGH, 0 CRITICAL
 
-Fresh final image digest: sha256:1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792 (local image ID matches). All 23 H/C records default to UNDER_INVESTIGATION because no approval/VEX exists for this exact digest. Prior exact-image approvals are bound to the older digest sha256:ed140fd525aaacea4ddceb51e97c7215f6a6a9af1bfc0f62d7f8db5419297ba3 and are not transferred. The new final image scan contains zero of the 35 unique Go stdlib CVEs previously in scope; those 35 remain 0 HIGH/CRITICAL.
+- `CVE-2026-95619`, HIGH — Debian `gcc-14`/libstdc++ `14.2.0-19`. The aligned `operator new` symbol is present, but exact final library disassembly shows alignment validation and `posix_memalign` with the original requested size. The vulnerable size-overflow operation is absent. Proposal: `NOT_AFFECTED`, justification `vulnerable_code_not_present`; status remains `UNDER_INVESTIGATION` pending independent audit and owner approval.
+- `CVE-2026-85091`, HIGH — Debian `zlib1g 1:1.3.dfsg+really1.3.1-1+b1`. Exact Debian source lacks `gz_vacate`; Node's separate bundled zlib is reached through streaming `deflate`/`inflate` APIs, with no `gzprintf`/`gzvprintf` route from the runtime/application. Proposal: `NOT_AFFECTED`, justification `vulnerable_code_not_in_execute_path`; status remains `UNDER_INVESTIGATION` pending independent audit and owner approval.
 
-The final Docker Scout recommendation receipt for the dev image reports the pinned official node:24-bookworm-slim base is up to date and offers no base refresh that would remove these findings. No generic suppression or self-approval was applied.
+### PostgreSQL image — 23 HIGH, 2 CRITICAL
 
-## PostgreSQL HIGH/CRITICAL — 25 total, 1 unresolved
+The same digest remains unchanged after a fresh pull. Twenty-four Go/libxml2 findings retain their existing exact-digest owner/auditor approvals. The one remaining proposal is `CVE-2026-85091`, HIGH, Alpine zlib `1.3.2-r0`. The vulnerable library is present, but `postgres` imports only `deflate`; `pg_dump` and `pg_restore` import `gzwrite`/`gzopen` and do not import `gzprintf`/`gzvprintf`, the CVE trigger functions. Only PostgreSQL server processes run; dump/restore are not called by the application. Proposal: `NOT_AFFECTED`, justification `vulnerable_code_not_in_execute_path`; status remains `UNDER_INVESTIGATION` pending independent audit and owner approval.
 
-CVE-2025-58187 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-58188 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-61723 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-61725 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-61726 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-61729 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2025-68121 (CRITICAL; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-25679 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-32280 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-32281 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-32283 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-33811 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-33814 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-33818 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-39820 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-39821 (CRITICAL; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-39822 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-39836 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-42499 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-42504 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-56853 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-56859 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-56862 (HIGH; pkg:golang/stdlib@1.24.6; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-002-GOSU-VEX.json)
-CVE-2026-85091 (HIGH; pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24; UNDER_INVESTIGATION)
-CVE-2026-86140 (HIGH; pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24; NOT_AFFECTED — approved exact-digest VEX at .engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json)
+## Additional exact-version source reconciliation
 
-The official tag postgres:17.11-alpine3.24 was freshly pulled; Docker reported it already up to date at the exact same digest. The recommendation receipt reports no tag recommendation. The image still contains Alpine zlib 1.3.2-r0; CVE-2026-85091 remains UNDER_INVESTIGATION. Existing exact-digest, owner-approved and independently audited VEX dispositions cover 23 Go stdlib findings and one libxml2 finding; no disposition was changed here.
+Final Scout does not report util-linux HIGH/CRITICAL findings, but the exact Debian Trixie package is `2.41.5-0+deb13u1`. Debian's current tracker/upstream sources still include that release for CVE-2026-76642, CVE-2026-78408, and CVE-2026-78410. The binaries/features are present, so their absence from final SARIF is not treated as remediation. Individual proposals are recorded in [CR-07-VEX.md](CR-07-VEX.md) and [CR-07-VEX.json](CR-07-VEX.json): no authorized `fstab` entry or mount helper for CVE-76642; no app call or privileged operator path to `nsenter --join-cgroup` for CVE-78408; and no fstab-authorized restricted bind source/hook for CVE-78410. Each remains `UNDER_INVESTIGATION` pending audit/owner.
 
-## Gate
+CVE-2026-78409 is not a final-image finding: Red Hat defines the affected range as util-linux v2.42–v2.42.2 and explicitly marks v2.40/v2.41 not affected; final image is v2.41.5. The prior Bookworm scanner row was a package/version mismatch, not a final-image disposition.
 
-Result: BLOCKED_UNRESOLVED. 23 development-image and one PostgreSQL HIGH/CRITICAL finding remain unresolved. No suppression, executor self-approval, or old-digest approval was treated as a current disposition.
+Current CISA KEV catalog `2026.10.04` lists none of the six proposed CVEs. FIRST EPSS values dated 2026-10-07 are in [cr07-kev-epss-reconciliation.json](cr07-kev-epss-reconciliation.json). Low EPSS is prioritization context only.
+
+## Reconciliation and decision
+
+All 23 development-image CVE IDs from the prior Bookworm digest are reconciled in [security-scans.json](security-scans.json): patched npm global-bundle packages, the Bookworm-to-Trixie Perl package-line change/module absence, util-linux source-version/path analysis, and exact zlib/libstdc++ proposals. No old-digest VEX approval has been transferred to the final development image.
+
+Final exact scans, complete output, and Compose status: [cr07-full-final-scan-reconciliation.txt](cr07-full-final-scan-reconciliation.txt), [polyhunter-dev-cr07-full-final-scan.log](polyhunter-dev-cr07-full-final-scan.log), [postgres-cr07-full-final-scan.log](postgres-cr07-full-final-scan.log). Detailed per-occurrence fields, evidence hashes, expiry, and pending approval state: [CR-07-VEX.json](CR-07-VEX.json).
+
+**Result: `READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT`.** All six proposed rows remain `UNDER_INVESTIGATION`, independent auditor and owner approval are pending, and no suppression or executor self-approval exists. This does not authorize merge, checkpoint promotion, or any trading capability.

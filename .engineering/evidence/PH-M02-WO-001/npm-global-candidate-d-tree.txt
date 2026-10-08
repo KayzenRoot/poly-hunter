@@ -1,0 +1,18 @@
+/usr/local/lib
+`-- npm@12.2.0
+  +-- libnpmdiff@9.0.3
+  | `-- tar@7.5.22 deduped
+  +-- make-fetch-happen@16.0.1
+  | +-- @npmcli/agent@5.0.2
+  | | `-- socks-proxy-agent@10.1.0
+  | |   `-- socks@2.8.9
+  | |     `-- ip-address@10.5.0
+  | `-- http-cache-semantics@4.2.0
+  +-- minimatch@10.2.5
+  | `-- brace-expansion@5.0.9
+  +-- node-gyp@13.0.0
+  | +-- tar@7.5.22 deduped
+  | `-- undici@6.28.0
+  +-- pacote@22.0.0
+  | `-- tar@7.5.22 deduped
+  `-- tar@7.5.22

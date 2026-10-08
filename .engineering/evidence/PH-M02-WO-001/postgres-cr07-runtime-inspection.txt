@@ -1,0 +1,34 @@
+IMAGE
+3.24.2
+zlib: A compression/decompression Library
+zlib: https://zlib.net/
+zlib: 105 KiB
+zlib: A compression/decompression Library
+zlib: https://zlib.net/
+zlib: 105 KiB
+LIB
+/usr/lib/libz.so.1.3.2
+a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57  /usr/lib/libz.so.1
+FSTAB
+-rw-r--r--    1 root     root            89 Mar 24  2026 /etc/fstab
+lrwxrwxrwx    1 root     root            12 Sep 17 17:32 /usr/bin/nsenter -> /bin/busybox
+/dev/cdrom	/media/cdrom	iso9660	noauto,ro 0 0
+/dev/usbdisk	/media/usb	vfat	noauto,ro 0 0
+PROCESS
+Name:	postgres
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+CMD
+postgres
+SYMBOL_IMPORTS
+ TYPE   SYM FILE
+ET_DYN deflate /usr/local/bin/postgres
+ET_DYN deflate,gzwrite,gzopen /usr/local/bin/pg_dump
+ET_DYN deflate,gzwrite,gzopen /usr/local/bin/pg_restore
+PROCESSES
+sh: ps
+: not found

@@ -1,0 +1,42 @@
+Candidate D original npm@12.2.0 tree:
+npm@12.2.0 /usr/local/lib/node_modules/npm
++-- libnpmdiff@9.0.3
+| `-- tar@7.5.22 deduped
++-- make-fetch-happen@16.0.1
+| +-- @npmcli/agent@5.0.2
+| | `-- socks-proxy-agent@10.1.0
+| |   `-- socks@2.8.9
+| |     `-- ip-address@10.5.0
+| `-- http-cache-semantics@4.2.0
++-- minimatch@10.2.5
+| `-- brace-expansion@5.0.9
+|   `-- balanced-match@4.0.4
++-- node-gyp@13.0.0
+| +-- tar@7.5.22 deduped
+| `-- undici@6.28.0
++-- pacote@22.0.0
+| `-- tar@7.5.22 deduped
+`-- tar@7.5.22
+
+Candidate E fixed in-range tree:
+npm@12.2.0 /usr/local/lib/node_modules/npm
++-- libnpmdiff@9.0.3
+| `-- tar@7.5.22 deduped
++-- make-fetch-happen@16.0.1
+| +-- @npmcli/agent@5.0.2
+| | `-- socks-proxy-agent@10.1.0
+| |   `-- socks@2.8.9
+| |     `-- ip-address@10.5.0
+| `-- http-cache-semantics@4.3.0
++-- minimatch@10.2.5
+| `-- brace-expansion@5.0.11
+|   `-- balanced-match@4.0.4
++-- node-gyp@13.0.0
+| +-- tar@7.5.22 deduped
+| `-- undici@6.28.1
++-- pacote@22.0.0
+| `-- tar@7.5.22 deduped
+`-- tar@7.5.22
+
+Parent-declared ranges from npm tree:
+minimatch@10.2.5 -> brace-expansion ^5.0.5; node-gyp@13.0.0 -> undici ^6.25.0; make-fetch-happen@16.0.1 -> http-cache-semantics ^4.1.1; brace-expansion@5.0.11 -> balanced-match ^4.0.2.

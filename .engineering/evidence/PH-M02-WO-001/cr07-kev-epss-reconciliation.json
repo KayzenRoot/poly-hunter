@@ -1,0 +1,60 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5448950464",
+  "checkedAt": "2026-10-07",
+  "kevSource": {
+    "catalogVersion": "2026.10.04",
+    "dateReleased": "2026-10-04T18:52:56.0635Z",
+    "receipt": ".engineering/evidence/PH-M02-WO-001/cisa-kev-current.json",
+    "sha256": "f51fed1c9213e7b797104fcd6dbeb1b0dc0c7073a80467b9d4b1fc25e7dd786b"
+  },
+  "epssSource": {
+    "date": "2026-10-07",
+    "receipt": ".engineering/evidence/PH-M02-WO-001/epss-current.json",
+    "sha256": "9aa4e5468946ccc512df2189f521063a11df8893e0595761e43923e1b04d9346"
+  },
+  "results": [
+    {
+      "cve": "CVE-2026-85091",
+      "inCisaKev": false,
+      "epss": "0.005920000",
+      "epssPercentile": "0.466080000",
+      "epssDate": "2026-10-07"
+    },
+    {
+      "cve": "CVE-2026-95619",
+      "inCisaKev": false,
+      "epss": "0.003630000",
+      "epssPercentile": "0.280830000",
+      "epssDate": "2026-10-07"
+    },
+    {
+      "cve": "CVE-2026-76642",
+      "inCisaKev": false,
+      "epss": "0.002160000",
+      "epssPercentile": "0.109850000",
+      "epssDate": "2026-10-07"
+    },
+    {
+      "cve": "CVE-2026-78408",
+      "inCisaKev": false,
+      "epss": "0.001860000",
+      "epssPercentile": "0.075430000",
+      "epssDate": "2026-10-07"
+    },
+    {
+      "cve": "CVE-2026-78409",
+      "inCisaKev": false,
+      "epss": "0.001540000",
+      "epssPercentile": "0.039600000",
+      "epssDate": "2026-10-07"
+    },
+    {
+      "cve": "CVE-2026-78410",
+      "inCisaKev": false,
+      "epss": "0.001560000",
+      "epssPercentile": "0.041430000",
+      "epssDate": "2026-10-07"
+    }
+  ]
+}

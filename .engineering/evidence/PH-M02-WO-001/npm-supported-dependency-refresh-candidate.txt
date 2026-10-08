@@ -1,0 +1,19 @@
+brace-expansion=5.0.11
+undici=6.28.1
+http-cache-semantics=4.3.0
+tar=7.5.22
+ip-address=10.5.0
+minimatch->brace-expansion=5.0.11; path=/usr/local/lib/node_modules/npm/node_modules/brace-expansion/package.json
+node-gyp->undici=6.28.1; path=/usr/local/lib/node_modules/npm/node_modules/undici/package.json
+make-fetch-happen->http-cache-semantics=4.3.0; path=/usr/local/lib/node_modules/npm/node_modules/http-cache-semantics/package.json
+12.2.0
+Lifecycle scripts included in @polyhunter/web@0.0.0:
+  start
+    next start
+available via `npm run`:
+  dev
+    next dev
+  build
+    next build
+  typecheck
+    tsc --noEmit -p tsconfig.json

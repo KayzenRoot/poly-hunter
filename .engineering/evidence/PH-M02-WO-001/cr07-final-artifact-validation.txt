@@ -1,0 +1,12 @@
+PH-M02-WO-001 CR-07 final artifact validation
+Branch: feat/ph-m02-public-provider-foundation
+Parent head before correction: d298c0610dd5dce0e4e08a14640c361e00b285ff
+JSON/NDJSON parse: PASS (21 files; compose-runtime-final.json parsed line by line)
+VEX state: PASS (6 individual rows; all UNDER_INVESTIGATION; proposed NOT_AFFECTED; auditor/owner approvals unset)
+VEX evidence-reference SHA-256: PASS (49 references)
+Final full SARIF SHA-256: PASS (dev 3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc; PostgreSQL 307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6)
+Text evidence whitespace: PASS (64 text receipts; trailing spaces removed and LF-normalized; structured JSON/SARIF byte-preserved)
+Authored-file whitespace: PASS (7 files)
+JEV final gate: ESCALATE; composite 0.81975; safe_to_apply 0.08; claim verification 4 verified / 0 contradicted / 2 unsupported / 6 needs_review; low-confidence test_gap (0.08) and blast_radius (0.00 confidence). Full response: jev-cr07-final-gate.json. Codex manually checked unsupported scope/control claims against the staged diff and canonical state; no retry performed.
+git diff --cached --check: PASS
+Image digests: dev sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47; PostgreSQL sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24

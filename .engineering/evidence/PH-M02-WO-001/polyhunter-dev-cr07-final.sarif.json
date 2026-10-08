@@ -1,0 +1,132 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Docker Scout",
+          "informationUri": "https://docker.com/products/docker-scout",
+          "name": "docker scout",
+          "rules": [
+            {
+              "id": "CVE-2026-95619",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-95619"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-95619?s=debian&n=gcc-14&ns=debian&t=deb&osn=debian&osv=13&vr=%3E0",
+              "help": {
+                "text": "A flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability.\n\n---\n- gcc-15 <unfixed>\n- gcc-16 <unfixed>\n- gcc-14 <unfixed>\n[trixie] - gcc-14 <no-dsa> (Minor issue)\n- gcc-12 <unfixed>\n[trixie] - gcc-12 <no-dsa> (Minor issue)\nhttps://github.com/gcc-mirror/gcc/commit/59d235ffa5a69231eb42e5290d52dc8c90d28b7a\nhttps://bugzilla.redhat.com/show_bug.cgi?id=2537811\n",
+                "markdown": "> A flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability.\n\n---\n- gcc-15 <unfixed>\n- gcc-16 <unfixed>\n- gcc-14 <unfixed>\n[trixie] - gcc-14 <no-dsa> (Minor issue)\n- gcc-12 <unfixed>\n[trixie] - gcc-12 <no-dsa> (Minor issue)\nhttps://github.com/gcc-mirror/gcc/commit/59d235ffa5a69231eb42e5290d52dc8c90d28b7a\nhttps://bugzilla.redhat.com/show_bug.cgi?id=2537811\n\n|                                                                                               |\n|Package         pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13  |\n|Affected range  >0                                                                             |\n|Fixed version   not fixed                                                                      |\n"
+              },
+              "properties": {
+                "affected_version": ">0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13"
+                ],
+                "security-severity": "7.7",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-85091",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-85091"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-85091?s=debian&n=zlib&ns=debian&t=deb&osn=debian&osv=13&vr=%3E0",
+              "help": {
+                "text": "zlib versions 1.3.1.2 through 1.3.2 contain a heap buffer overflow vulnerability in the gz_vacate() function when processing non-blocking gzwrite() operations with stale external buffer pointers. Attackers can trigger the overflow by calling gzprintf() or gzvprintf() after a write stall, causing an unchecked memmove() to write beyond the internal input buffer boundary.\n\n---\n- zlib <unfixed> (bug https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1146895)\nhttps://gist.github.com/thesmartshadow/e0b9481792afb7c31e86fee1ff084490\nhttps://github.com/madler/zlib/issues/1310\nhttps://github.com/madler/zlib/pull/1317\nFixed by: https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148\nDiscussion on affected range: https://github.com/madler/zlib/issues/1310#issuecomment-5979623265\nSupport non-blocking devices in the gz* routines introduced with:\nhttps://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d (v1.3.1.2)\n",
+                "markdown": "> zlib versions 1.3.1.2 through 1.3.2 contain a heap buffer overflow vulnerability in the gz_vacate() function when processing non-blocking gzwrite() operations with stale external buffer pointers. Attackers can trigger the overflow by calling gzprintf() or gzvprintf() after a write stall, causing an unchecked memmove() to write beyond the internal input buffer boundary.\n\n---\n- zlib <unfixed> (bug https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1146895)\nhttps://gist.github.com/thesmartshadow/e0b9481792afb7c31e86fee1ff084490\nhttps://github.com/madler/zlib/issues/1310\nhttps://github.com/madler/zlib/pull/1317\nFixed by: https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148\nDiscussion on affected range: https://github.com/madler/zlib/issues/1310#issuecomment-5979623265\nSupport non-blocking devices in the gz* routines introduced with:\nhttps://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d (v1.3.1.2)\n\n|                                                                                                                |\n|Package         pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13  |\n|Affected range  >0                                                                                              |\n|Fixed version   not fixed                                                                                       |\n"
+              },
+              "properties": {
+                "affected_version": ">0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13"
+                ],
+                "security-severity": "8.3",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            }
+          ],
+          "version": "1.24.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 0,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-95619                                                                 \nSeverity         :HIGH                                                                           \nPackage          :pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13  \nAffected range   :>0                                                                             \nFixed version    :not fixed                                                                      \nEPSS Score       :0.003630                                                                       \nEPSS Percentile  :0.280000                                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/doc/gcc-14-base/copyright"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/var/lib/dpkg/status"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-85091",
+          "ruleIndex": 1,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-85091                                                                                  \nSeverity         :HIGH                                                                                            \nPackage          :pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13  \nAffected range   :>0                                                                                              \nFixed version    :not fixed                                                                                       \nEPSS Score       :0.005920                                                                                        \nEPSS Percentile  :0.465260                                                                                        \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/doc/zlib1g/copyright"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/var/lib/dpkg/status"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
