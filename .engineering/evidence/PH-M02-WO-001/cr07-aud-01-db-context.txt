@@ -1,0 +1,9 @@
+PH-M02-WO-001 CR-07-AUD-01 database privilege and runtime context
+Image identity from docker inspect: sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 running healthy privileged=false capAdd=null ports={"5432/tcp":null}
+Command 1: docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT current_user || '|' || r.rolsuper::text FROM pg_roles r WHERE r.rolname = current_user;"
+Result: polyhunter|true
+Command 2: docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT lanname || '|' || lanpltrusted::text FROM pg_language WHERE lanname IN ('c','internal','plpgsql') ORDER BY lanname;"
+Result: c|false; internal|false; plpgsql|true
+Command 3: docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT extname || '|' || extversion FROM pg_extension ORDER BY extname;"
+Result: plpgsql|1.0
+No DDL, extension installation, or data mutation was performed. The database role privilege increases the consequence of any attacker-controlled SQL path; that app-level path was not evaluated in this narrow delta.

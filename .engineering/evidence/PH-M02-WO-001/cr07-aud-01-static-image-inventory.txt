@@ -1,0 +1,262 @@
+PH-M02-WO-001 CR-07-AUD-01 static image inventory
+Immutable image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Command: docker run --rm --network none --entrypoint sh <immutable image above> -ec <script below>
+The command is read-only; no network, container entrypoint, package installation or filesystem mutation. scanelf 1.3.9 scans the immutable root filesystem recursively with mount-point traversal disabled (`-m`), excluding procfs/sysfs/dev tmpfs runtime mounts. The `-s` output is filtered for the requested symbol to avoid listing objects without a match.
+Limits: DT_NEEDED/symbol inventory is static and cannot prove reachability or exclude generic dlsym paths. Hash list covers all installed PostgreSQL loadable .so objects and every direct libz.so.1 consumer.
+COMMAND_SCRIPT:
+set -eu
+printf '%s\n' 'IMAGE_IDENTITY'; cat /etc/alpine-release; postgres --version; grep -A3 '^P:zlib$' /lib/apk/db/installed
+printf '%s\n' 'ZLIB_REALPATH_AND_SHA256'; readlink -f /usr/lib/libz.so.1; sha256sum /usr/lib/libz.so.1
+printf '%s\n' 'SCANELF_VERSION'; scanelf --version | head -n 1
+printf 'ELF_COUNT='; scanelf -R -m -n / 2>/dev/null | grep -E -c 'ET_DYN|ET_EXEC'
+printf 'PG_EXTENSION_SO_COUNT='; find /usr/local/lib/postgresql -type f -name '*.so' | wc -l
+printf 'PG_EXTENSION_CONTROL_COUNT='; find /usr/local/share/postgresql/extension -type f -name '*.control' | wc -l
+printf '%s\n' 'DIRECT_DT_NEEDED_LIBZ_CONSUMERS (recursive root scan; exact DT_NEEDED libz.so.1; library itself excluded)'
+scanelf -R -m -n / 2>/dev/null | awk '$0 ~ /libz\.so\.1/ && $0 !~ /\/usr\/lib\/libz\.so/ {print}' | sort
+printf '%s\n' 'SHA256_DIRECT_LIBZ_NEEDED_CONSUMERS'; for file in /sbin/apk /usr/lib/libapk.so.3.0.0 /usr/lib/libLLVM.so.21.1 /usr/lib/libxml2.so.2.13.9 /usr/local/bin/postgres /usr/local/bin/pg_recvlogical /usr/local/bin/pg_dump /usr/local/bin/pg_restore /usr/local/bin/pg_basebackup /usr/local/bin/pg_receivewal /usr/local/lib/postgresql/pgcrypto.so; do sha256sum "$file"; done
+printf '%s\n' 'DYNAMIC_SYMBOL_MATCHES (recursive root scan; scanelf rows filtered to exact requested symbol)'
+for symbol in gzprintf gzvprintf gzwrite gzopen gz_vacate dlsym dlopen; do printf '%s\n' "-- $symbol --"; scanelf -R -m -s "$symbol" / 2>/dev/null | grep -F "$symbol" | sort || true; done
+printf '%s\n' 'POSTGRESQL_LOADABLE_SHARED_OBJECTS_WITH_GZIP_SYMBOL_MATCHES (all 87 .so objects scanned)'
+for symbol in gzprintf gzvprintf gzwrite gzopen; do printf '%s\n' "-- $symbol --"; scanelf -R -m -s "$symbol" /usr/local/lib/postgresql 2>/dev/null | grep -F "$symbol" | sort || true; done
+printf '%s\n' 'INSTALLED_POSTGRESQL_EXTENSION_CONTROL_NAMES'
+find /usr/local/share/postgresql/extension -type f -name '*.control' | sort
+printf '%s\n' 'SHA256_EVERY_POSTGRESQL_SHARED_OBJECT'
+find /usr/local/lib/postgresql -type f -name '*.so' -exec sha256sum '{}' + | sort
+
+OBSERVED_OUTPUT:
+IMAGE_IDENTITY
+3.24.2
+postgres (PostgreSQL) 17.11
+P:zlib
+V:1.3.2-r0
+A:x86_64
+S:56195
+ZLIB_REALPATH_AND_SHA256
+/usr/lib/libz.so.1.3.2
+a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57  /usr/lib/libz.so.1
+SCANELF_VERSION
+pax-utils-1.3.9: 1.3.9
+ELF_COUNT=237
+PG_EXTENSION_SO_COUNT=87
+PG_EXTENSION_CONTROL_COUNT=59
+DIRECT_DT_NEEDED_LIBZ_CONSUMERS (recursive root scan; exact DT_NEEDED libz.so.1; library itself excluded)
+ET_DYN libapk.so.3.0.0,libz.so.1,libc.musl-x86_64.so.1 /sbin/apk
+ET_DYN libcrypto.so.3,libz.so.1,libc.musl-x86_64.so.1 /usr/local/lib/postgresql/pgcrypto.so
+ET_DYN libffi.so.8,libz.so.1,libzstd.so.1,libxml2.so.2,libstdc++.so.6,libgcc_s.so.1,libc.musl-x86_64.so.1 /usr/lib/libLLVM.so.21.1
+ET_DYN libpq.so.5,liblz4.so.1,libz.so.1,libc.musl-x86_64.so.1 /usr/local/bin/pg_recvlogical
+ET_DYN libpq.so.5,libzstd.so.1,liblz4.so.1,libcrypto.so.3,libz.so.1,libc.musl-x86_64.so.1 /usr/local/bin/pg_dump
+ET_DYN libpq.so.5,libzstd.so.1,liblz4.so.1,libcrypto.so.3,libz.so.1,libc.musl-x86_64.so.1 /usr/local/bin/pg_restore
+ET_DYN libpq.so.5,libzstd.so.1,liblz4.so.1,libz.so.1,libc.musl-x86_64.so.1 /usr/local/bin/pg_basebackup
+ET_DYN libpq.so.5,libzstd.so.1,liblz4.so.1,libz.so.1,libc.musl-x86_64.so.1 /usr/local/bin/pg_receivewal
+ET_DYN libssl.so.3,libcrypto.so.3,libz.so.1,libc.musl-x86_64.so.1 /usr/lib/libapk.so.3.0.0
+ET_DYN libz.so.1,liblzma.so.5,libc.musl-x86_64.so.1 /usr/lib/libxml2.so.2.13.9
+ET_DYN libzstd.so.1,liblz4.so.1,libxml2.so.2,libssl.so.3,libcrypto.so.3,libgssapi_krb5.so.2,libz.so.1,libldap.so.2,libicui18n.so.78,libicuuc.so.78,libc.musl-x86_64.so.1 /usr/local/bin/postgres
+SHA256_DIRECT_LIBZ_NEEDED_CONSUMERS
+80ac076736f35434f0df4a041578ec8f760eb545a71424fd6b6e1403a8a65312  /sbin/apk
+12a612195b5c7918ff48fa2aa84753025be7167f57d055353a81d338d3f1ae13  /usr/lib/libapk.so.3.0.0
+6c8e10fb2539d3691a5187cd5306ff4eacc7c8e579aae9285ef61f42f0cb4994  /usr/lib/libLLVM.so.21.1
+c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7  /usr/lib/libxml2.so.2.13.9
+b65c19ceb9ae7e18f6e271e08dda64557a92d5a7bf46b76257d58d8c95678555  /usr/local/bin/postgres
+959d13c53efa8ebd962595efd82dffb73c01a7138a4752b78e29b7010386e6b4  /usr/local/bin/pg_recvlogical
+8e114bd76190f3b99a181e6d67762cc395515324de6d44f315a68bc182e9d76c  /usr/local/bin/pg_dump
+a9cd3c9353c683c574319665bda246912198f1dc96d77feda0040f2912074e82  /usr/local/bin/pg_restore
+a6ed692cea523241da2239719c2d0cc86befd3c1b8bbf992b07fc61ac4e651b8  /usr/local/bin/pg_basebackup
+d3312cf7edbefa8dfae1c6e20354cb81cf586f648a1aee7b67f3da877b99c538  /usr/local/bin/pg_receivewal
+f5d5537a1f017e24f133ca67a8b0e303a190e700c967fc4aaa4452a9d9ada6fb  /usr/local/lib/postgresql/pgcrypto.so
+DYNAMIC_SYMBOL_MATCHES (recursive root scan; scanelf rows filtered to exact requested symbol)
+-- gzprintf --
+ET_DYN gzprintf /usr/lib/libz.so.1.3.2
+-- gzvprintf --
+ET_DYN gzvprintf /usr/lib/libz.so.1.3.2
+-- gzwrite --
+ET_DYN gzwrite /usr/lib/libxml2.so.2.13.9
+ET_DYN gzwrite /usr/lib/libz.so.1.3.2
+ET_DYN gzwrite /usr/local/bin/pg_basebackup
+ET_DYN gzwrite /usr/local/bin/pg_dump
+ET_DYN gzwrite /usr/local/bin/pg_receivewal
+ET_DYN gzwrite /usr/local/bin/pg_recvlogical
+ET_DYN gzwrite /usr/local/bin/pg_restore
+-- gzopen --
+ET_DYN gzopen /usr/lib/libz.so.1.3.2
+ET_DYN gzopen /usr/local/bin/pg_basebackup
+ET_DYN gzopen /usr/local/bin/pg_dump
+ET_DYN gzopen /usr/local/bin/pg_restore
+-- gz_vacate --
+-- dlsym --
+ET_DYN dlsym /bin/bash
+ET_DYN dlsym /lib/ld-musl-x86_64.so.1
+ET_DYN dlsym /usr/lib/libLLVM.so.21.1
+ET_DYN dlsym /usr/lib/libcrypto.so.3
+ET_DYN dlsym /usr/lib/libicuuc.so.78.1
+ET_DYN dlsym /usr/lib/libkrb5support.so.0.1
+ET_DYN dlsym /usr/lib/libnss_wrapper.so.0.3.2
+ET_DYN dlsym /usr/lib/libsasl2.so.3.0.0
+ET_DYN dlsym /usr/lib/libverto.so.1.0.0
+ET_DYN dlsym /usr/lib/libxml2.so.2.13.9
+ET_DYN dlsym /usr/local/bin/postgres
+-- dlopen --
+ET_DYN dlopen /bin/bash
+ET_DYN dlopen /lib/ld-musl-x86_64.so.1
+ET_DYN dlopen /usr/lib/libLLVM.so.21.1
+ET_DYN dlopen /usr/lib/libcrypto.so.3
+ET_DYN dlopen /usr/lib/libicuuc.so.78.1
+ET_DYN dlopen /usr/lib/libkrb5support.so.0.1
+ET_DYN dlopen /usr/lib/libnss_wrapper.so.0.3.2
+ET_DYN dlopen /usr/lib/libsasl2.so.3.0.0
+ET_DYN dlopen /usr/lib/libverto.so.1.0.0
+ET_DYN dlopen /usr/lib/libxml2.so.2.13.9
+ET_DYN dlopen /usr/local/bin/postgres
+POSTGRESQL_LOADABLE_SHARED_OBJECTS_WITH_GZIP_SYMBOL_MATCHES (all 87 .so objects scanned)
+-- gzprintf --
+-- gzvprintf --
+-- gzwrite --
+-- gzopen --
+INSTALLED_POSTGRESQL_EXTENSION_CONTROL_NAMES
+/usr/local/share/postgresql/extension/amcheck.control
+/usr/local/share/postgresql/extension/autoinc.control
+/usr/local/share/postgresql/extension/bloom.control
+/usr/local/share/postgresql/extension/bool_plperl.control
+/usr/local/share/postgresql/extension/bool_plperlu.control
+/usr/local/share/postgresql/extension/btree_gin.control
+/usr/local/share/postgresql/extension/btree_gist.control
+/usr/local/share/postgresql/extension/citext.control
+/usr/local/share/postgresql/extension/cube.control
+/usr/local/share/postgresql/extension/dblink.control
+/usr/local/share/postgresql/extension/dict_int.control
+/usr/local/share/postgresql/extension/dict_xsyn.control
+/usr/local/share/postgresql/extension/earthdistance.control
+/usr/local/share/postgresql/extension/file_fdw.control
+/usr/local/share/postgresql/extension/fuzzystrmatch.control
+/usr/local/share/postgresql/extension/hstore.control
+/usr/local/share/postgresql/extension/hstore_plperl.control
+/usr/local/share/postgresql/extension/hstore_plperlu.control
+/usr/local/share/postgresql/extension/hstore_plpython3u.control
+/usr/local/share/postgresql/extension/insert_username.control
+/usr/local/share/postgresql/extension/intagg.control
+/usr/local/share/postgresql/extension/intarray.control
+/usr/local/share/postgresql/extension/isn.control
+/usr/local/share/postgresql/extension/jsonb_plperl.control
+/usr/local/share/postgresql/extension/jsonb_plperlu.control
+/usr/local/share/postgresql/extension/jsonb_plpython3u.control
+/usr/local/share/postgresql/extension/lo.control
+/usr/local/share/postgresql/extension/ltree.control
+/usr/local/share/postgresql/extension/ltree_plpython3u.control
+/usr/local/share/postgresql/extension/moddatetime.control
+/usr/local/share/postgresql/extension/pageinspect.control
+/usr/local/share/postgresql/extension/pg_buffercache.control
+/usr/local/share/postgresql/extension/pg_freespacemap.control
+/usr/local/share/postgresql/extension/pg_prewarm.control
+/usr/local/share/postgresql/extension/pg_stat_statements.control
+/usr/local/share/postgresql/extension/pg_surgery.control
+/usr/local/share/postgresql/extension/pg_trgm.control
+/usr/local/share/postgresql/extension/pg_visibility.control
+/usr/local/share/postgresql/extension/pg_walinspect.control
+/usr/local/share/postgresql/extension/pgcrypto.control
+/usr/local/share/postgresql/extension/pgrowlocks.control
+/usr/local/share/postgresql/extension/pgstattuple.control
+/usr/local/share/postgresql/extension/plperl.control
+/usr/local/share/postgresql/extension/plperlu.control
+/usr/local/share/postgresql/extension/plpgsql.control
+/usr/local/share/postgresql/extension/plpython3u.control
+/usr/local/share/postgresql/extension/pltcl.control
+/usr/local/share/postgresql/extension/pltclu.control
+/usr/local/share/postgresql/extension/postgres_fdw.control
+/usr/local/share/postgresql/extension/refint.control
+/usr/local/share/postgresql/extension/seg.control
+/usr/local/share/postgresql/extension/sslinfo.control
+/usr/local/share/postgresql/extension/tablefunc.control
+/usr/local/share/postgresql/extension/tcn.control
+/usr/local/share/postgresql/extension/tsm_system_rows.control
+/usr/local/share/postgresql/extension/tsm_system_time.control
+/usr/local/share/postgresql/extension/unaccent.control
+/usr/local/share/postgresql/extension/uuid-ossp.control
+/usr/local/share/postgresql/extension/xml2.control
+SHA256_EVERY_POSTGRESQL_SHARED_OBJECT
+0061eeb59de756cd2c7ff158c8b7e7489c27ee0133d584874962d0538d1f85a2  /usr/local/lib/postgresql/utf8_and_uhc.so
+00d86ba15f2f11c34ae89de9909e4e0521cb9dbe421d38db09ae471938b6ce7f  /usr/local/lib/postgresql/tsm_system_time.so
+01993e7e9d65003529ded232b1a0932ff233b474fffa7dd154e764292efe9179  /usr/local/lib/postgresql/utf8_and_johab.so
+02278959bdebf7a7c856a8a7be99430c9f0119384b2d1f88b15bca7619e260ce  /usr/local/lib/postgresql/seg.so
+0bd6ce699071f7676398292d8fda4830649f4dcdb9dbe7ac9852066452c3d8b0  /usr/local/lib/postgresql/basic_archive.so
+1dce163e4a081ebb33dd42e0780846a422e6d9a12492f3b8167dc76b5d2208f5  /usr/local/lib/postgresql/utf8_and_iso8859_1.so
+21db2029e27ddf4c00e7e0b0efad4c7c0d6b7c39f723d63c5105db91bfc9e180  /usr/local/lib/postgresql/pg_freespacemap.so
+220307669c9f7b09214781eb7486ae206ef9ed3827884ea342c309efddf0132c  /usr/local/lib/postgresql/pg_buffercache.so
+2395279323c82d785fd0b566db9684be865c7370a23e764c181a753b57132d97  /usr/local/lib/postgresql/tablefunc.so
+284d7eed825e5ceb563e1e5d05e6ed18a37f94f3158e0331309758bd28065606  /usr/local/lib/postgresql/jsonb_plpython3.so
+28a44995b28170811a7b015504b908042ed76b6c3e7464000bd8c35c561f55fc  /usr/local/lib/postgresql/utf8_and_gbk.so
+28f42bb35f23ca15aa6dc873aa42f88d0dc1eb52295039ccf03e261f2fc344ca  /usr/local/lib/postgresql/utf8_and_euc2004.so
+2b59fc247b810a74c093a4510f15e7e23caa01ad3778bbea700f6cb56c111ab5  /usr/local/lib/postgresql/lo.so
+2d21db9795e98d3c861a91f238eb4662e31b65806e9ad568c60c2fd2d1805a66  /usr/local/lib/postgresql/tsm_system_rows.so
+33ddaac076fee9a1c77ee1db5e4e9d00ffe11d18d4d3450ae7a83ba2f811fa59  /usr/local/lib/postgresql/bool_plperl.so
+3586b128254bc8cc98b6be94b7c46ab0f98f0dc600aebf2c1b14e4c684b4d468  /usr/local/lib/postgresql/jsonb_plperl.so
+3970d4a6f10766d381a463685b8031ab54a9c15f324e0b1edac023c7065b9fbe  /usr/local/lib/postgresql/hstore_plpython3.so
+39aace93ad5e5188bd71548bc775ce6c3ef4ba4be92fcebab94ea7c856ef2a3b  /usr/local/lib/postgresql/euc2004_sjis2004.so
+3b53b49bf026ead88e84e532955c31a9411d2f1f31582a2ed4ca102c82717678  /usr/local/lib/postgresql/cyrillic_and_mic.so
+41b61ef12f7c51bbbce9640d230627dc4f1e8f9d1b0581db523cb7a7e17b68e0  /usr/local/lib/postgresql/latin2_and_win1250.so
+437b5a1bd958a9b2a45fc4188aeae52597f655a592519c6d6522a08f4020396a  /usr/local/lib/postgresql/pgoutput.so
+49ce6fafc93ee4fb58229c2833f725a58cc02d05752c76731439a5a848e41714  /usr/local/lib/postgresql/moddatetime.so
+4bbef166aef738f982b878f44fe2443920463401acc0d36b281585af4d2b7a7c  /usr/local/lib/postgresql/pageinspect.so
+4d94045d8b0a67379b9df1dc13a995e031b3f9c5601d63888ff3ea82ea483617  /usr/local/lib/postgresql/euc_kr_and_mic.so
+4d9d41ef9391996c4061cc90e6856db22eaa5019ffd71ea12b1207abe8f907d7  /usr/local/lib/postgresql/amcheck.so
+4dc1c8d558a2d334bbd34b0dd12396996498c4940741e0dc667af6325281d1b9  /usr/local/lib/postgresql/dict_xsyn.so
+4e6a0c98022341d3b8edda1b975477619fcd16adcef8f17d9b5b5987665fe4a3  /usr/local/lib/postgresql/fuzzystrmatch.so
+4f99b68e089f62bdf002f9461661b7b81c55f1cd2d9f614b1f8666a56f37245a  /usr/local/lib/postgresql/utf8_and_big5.so
+50d616116a9de2042f59de325b69318982b493c5e7654b5a2318e05ade49bfa4  /usr/local/lib/postgresql/pg_prewarm.so
+55347bd9d23445416461b89330d20015cd73efb7bd42526f4baaa775e0da4258  /usr/local/lib/postgresql/earthdistance.so
+5708e491b52b5e5db7c518495023f7aaabe12156bab9b03c3d9e40f962330d57  /usr/local/lib/postgresql/postgres_fdw.so
+5749fbfcce6e34e91f090444609be21be3b57332a25bfee49db552ec7fb60423  /usr/local/lib/postgresql/auto_explain.so
+5b282db62d45f33ba35c3edee994afbdeea86040c80d3fb70cc6fb690fc28c5a  /usr/local/lib/postgresql/sslinfo.so
+5b98c6abf60f89c6cd4569dc9ec03755bcd238b2ff38a5180024a5869e8f4a59  /usr/local/lib/postgresql/auth_delay.so
+5f147e5c26ee7dd88cb289199b033fd4823dda0b79e6a3adcd82c6800b2c5a0a  /usr/local/lib/postgresql/latin_and_mic.so
+62aa2749fc3e4b9ef699c383e8ec8e455cb2ae87dda7f015d5cf2a7bb4e901a5  /usr/local/lib/postgresql/pg_stat_statements.so
+64c1fa22b099a12473147c1aeb8e52f800e90d81c1c36538cef87dadc1c62fe0  /usr/local/lib/postgresql/pltcl.so
+64ea41027320e51f84889f403a4292bc5b9bb25dd920710fbda37daef4b6590c  /usr/local/lib/postgresql/insert_username.so
+6ab8cdc66d59df1802dce667a5b1650e912eb2bb996661ab88aa69acbb72a713  /usr/local/lib/postgresql/pg_surgery.so
+6b375f4ff8baa7e5d019270ffdf2b9d49470bb7c263c92c3daf145be9c494e13  /usr/local/lib/postgresql/pg_trgm.so
+6f40196e79a27a11b66c9d241311a2b1652436f1e8bc75b0d340f033f8cd8cc4  /usr/local/lib/postgresql/uuid-ossp.so
+73b2854ba092e4db1a22ae06dcf3ae0dd4d4f7869d8239254f47cd0454ab9d78  /usr/local/lib/postgresql/passwordcheck.so
+753e80d934ac8aad936aacdece54b8ec919fd86f9063ef7728efdaaadfd3a40f  /usr/local/lib/postgresql/refint.so
+7b00db695510b2a2908424220a2063efd5f2c88db90baeb3280095e8fcc6ac94  /usr/local/lib/postgresql/dict_snowball.so
+7c010c616cfe03cb814eac09227df520254378cf66be39a9318082f448c2c675  /usr/local/lib/postgresql/utf8_and_cyrillic.so
+7c1f5bf6e7e531a7d08b2d61e4145c9d4e5ff3c5bd7caf78cf862121112f628f  /usr/local/lib/postgresql/hstore.so
+7d9d23a391a4116b4ea441333fe20021c7d78a4d2466477cee08629efcb8f15a  /usr/local/lib/postgresql/plpython3.so
+8bab8d55b09c8761730b637e467621151c493881fd90e52e131fcf7435c88397  /usr/local/lib/postgresql/hstore_plperl.so
+8e042b7d69b9ae4fc7acf3f8d7a61bf355fdee3d969914ff69e290b970c2ab94  /usr/local/lib/postgresql/plpgsql.so
+8ea91609cbef088c9b67bf4bab5306e883935a6357d34783298549ad7badcb92  /usr/local/lib/postgresql/pgrowlocks.so
+8f01be772b96b261fa3fa2cf438ae46239fd9ab3144a21d1f096255a1eaa5f75  /usr/local/lib/postgresql/ltree_plpython3.so
+8fb359f1fa4536bb93d948987ea283ee75ae6758fe683f191d2edc3dffdc4236  /usr/local/lib/postgresql/isn.so
+9327a56d4f3f208e0a58b2588d72f49069b91f1ead42843f1b0d9098fed129cd  /usr/local/lib/postgresql/citext.so
+938664fbe56866ba9abfccfe15199034a8f268282581a23e79c20b048ad3773b  /usr/local/lib/postgresql/utf8_and_iso8859.so
+944057d5d26d78c1483444ca964c85b2cd4468854cec3b930e2d2b75ea7a4e21  /usr/local/lib/postgresql/utf8_and_sjis2004.so
+95240f00d921f95b3fc4ce5664571ff77ec055a79be32f99d1d1357d346ab15e  /usr/local/lib/postgresql/utf8_and_euc_cn.so
+981c6b608e596fdd21dc0a4cddb96254a075f3448df3e26b0f43ac036b1f3c51  /usr/local/lib/postgresql/dict_int.so
+9d867ca3ac60509877ab77a8538a825942b6a49b8c66ed45918b1380fa17304c  /usr/local/lib/postgresql/utf8_and_euc_kr.so
+9ea1affaa7a8d4993193e53b05c2703676e681240a4ae400af461085a386d3aa  /usr/local/lib/postgresql/llvmjit.so
+a1f5f33d5c2b9d5938071d4379fc520dee0555d3710969b0114506e23ff62d82  /usr/local/lib/postgresql/utf8_and_gb18030.so
+a367522901617cd4923eeae885c1f5c22ea357510664f9a477e898e01d6e2454  /usr/local/lib/postgresql/btree_gist.so
+a724cd85956f8715eee83b03e4e3597a28b7145b2a068ff2fb531748d8137823  /usr/local/lib/postgresql/_int.so
+a820fbe77c5f748cbfbe6f69f4398f981800369ace0fe5bc23584b3d57ad589d  /usr/local/lib/postgresql/unaccent.so
+a93c4b39300b2315d8ae59b21aa6bf656ea2ab88b6692b01959fe29c7a545b69  /usr/local/lib/postgresql/utf8_and_win.so
+af9f20551585311b6fb56f2ed88b767d7d795249effc1705488b5fbc2a37908b  /usr/local/lib/postgresql/file_fdw.so
+b3e0afeaa1b6ec6356d765cc27c30fd749d01feedec4d1cf333ef23e3ad8a6da  /usr/local/lib/postgresql/plperl.so
+b41177500fa4cec56cf9af070e5a510b9ed73d320d4fe5b83535dece3c91794e  /usr/local/lib/postgresql/utf8_and_sjis.so
+b50fc39d6b10d34fcc75f87cdb8963a859a7022daf182cbb0f4e9821f5893910  /usr/local/lib/postgresql/autoinc.so
+be1d1dc75df4411f5a58f4cd1273a5551abf7c1649df2cfe836c5ba9c225fb76  /usr/local/lib/postgresql/utf8_and_euc_jp.so
+bf73f57b332b0f11c312021b9a00da73bf85999ff58a77125dfd2cfd27bbf1a0  /usr/local/lib/postgresql/euc_tw_and_big5.so
+c1ca81c5c96ce3c61240517ba8843e5df9412ac6e32ef0de4c1bd2b841288b20  /usr/local/lib/postgresql/ltree.so
+c250dd449b2754635cdc22cdce329d12146b79c6686f0765b663c2eb9c8c9813  /usr/local/lib/postgresql/test_decoding.so
+c3aa749feed0be052ffff23fe8a2f52b52628f3179f4fa96d821255504dd166d  /usr/local/lib/postgresql/pg_walinspect.so
+c72767091a18a692b9b374728a9b02288861084ebe7f8ee60c294b464ba3a0ba  /usr/local/lib/postgresql/euc_cn_and_mic.so
+c86f6275105fd2ddc669f704e9584f1f765c05db203e157b76adbf7b8c5bbda0  /usr/local/lib/postgresql/tcn.so
+c8f685f512779673110c54a371d79c31073cc2942df0da782df12dc8a37d3257  /usr/local/lib/postgresql/pgstattuple.so
+c95a6b1af005315923287ddb43943d59afbc685c6024a8b35ab9f6c337e76fc9  /usr/local/lib/postgresql/btree_gin.so
+cc6e210b9a788f60102e2e01a3b68f42f92b374b42aced6e88d526a66d9bb8b0  /usr/local/lib/postgresql/basebackup_to_shell.so
+cc74bdbd056040c69bd39949682f33f82ded0bf5ceeaa326ca2fb8e111ce3019  /usr/local/lib/postgresql/euc_jp_and_sjis.so
+d1b83cae27279d62ea2542e09238c68d3bbf31f0735ec6f8e3724489307d5d34  /usr/local/lib/postgresql/pg_visibility.so
+d396f7677ac24da418f52e56b6d7276a46c20d60e92c6657b0721e8f8f40327d  /usr/local/lib/postgresql/libpqwalreceiver.so
+dadcdbb039efc710041d0128d7c57a650cc17eec2d4750fbf2472058b606bb7d  /usr/local/lib/postgresql/bloom.so
+dc36d6046660854a72025d5370816244a50c08d35a42f2683b905c15d03ad01a  /usr/local/lib/postgresql/dblink.so
+ed6b487d96b3933d06359976ec27208168ff443762a22d6cee66ec682fe60e8a  /usr/local/lib/postgresql/utf8_and_euc_tw.so
+f4ef73cfa0a80c592ab5a73fc50c955fd3ff029c5a7037d02300901c6aada1f2  /usr/local/lib/postgresql/cube.so
+f5d5537a1f017e24f133ca67a8b0e303a190e700c967fc4aaa4452a9d9ada6fb  /usr/local/lib/postgresql/pgcrypto.so
+f94c9865d35c693b5cecaf7a2112009e369fd511a051a9e061a8309e719911b9  /usr/local/lib/postgresql/pgxml.so
+Receipt normalization: trailing display padding removed; command results and values are unchanged.

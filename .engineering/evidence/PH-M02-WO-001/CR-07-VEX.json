@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-M02-WO-001",
-  "review": "5448950464",
+  "review": "5450599754",
   "branch": "feat/ph-m02-public-provider-foundation",
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
-  "reviewedHeadSha": "d298c0610dd5dce0e4e08a14640c361e00b285ff",
-  "contentHeadSemantics": "The CR-07 artifacts are assessed against the exact final images listed below. This receipt does not claim its own eventual commit SHA; the pushed head is recorded in the PR and final CI receipt.",
-  "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
-  "statusRationale": "Stable remediation candidates are exhausted. All three current Scout HIGH/CRITICAL occurrences and three additional version-applicable Trixie util-linux source rows have individually documented proposals with exact runtime evidence. Every proposed row remains UNDER_INVESTIGATION; independent auditor and owner approval are pending. This is audit readiness only and is not clearance, merge, checkpoint promotion, or live-trading authorization.",
+  "reviewedHeadSha": "d4b48a8605719df818c0b7cd8517ab55d2b553d3",
+  "contentHeadSemantics": "Assessment is bound to the exact image digests listed below and to reviewed code head d4b48a8605719df818c0b7cd8517ab55d2b553d3. Evidence-only correction commit does not change image artifacts; its final git head and exact-head CI are recorded in PR #43. This file does not claim its own commit SHA.",
+  "status": "BLOCKED_UNRESOLVED",
+  "statusRationale": "CR-07-AUD-01 remains unresolved for PostgreSQL CVE-2026-85091. The exact pinned zlib library is present and mapped. Expanded inventory shows no direct gzprintf/gzvprintf import in the 87 PostgreSQL loadable objects, but postgres uses generic dlopen/dlsym, pgcrypto.so depends on libz, and POSIX handle lookup includes dependencies. The database role is superuser. No valid PostgreSQL-ABI adapter path or attacker-controlled arbitrary SQL path was demonstrated, so the prior NOT_AFFECTED proposal is withdrawn and this occurrence has no proposed disposition. Five other exact-image proposals remain UNDER_INVESTIGATION and unapproved. This is BLOCKED_UNRESOLVED; no scanner finding is cleared, no approval/promotion/merge is recorded, and liveTradingAuthorized=false.",
   "scanner": {
     "tool": "Docker Scout CLI",
     "version": "1.24.0",
@@ -268,9 +268,9 @@
     "developmentImageScoutHighCritical": 2,
     "postgresImageScoutHighCritical": 25,
     "postgresApprovedExactDigestFindings": 24,
-    "currentScoutOccurrencesWithProposal": 3,
+    "currentScoutOccurrencesWithProposal": 2,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
-    "proposalsPendingIndependentAuditAndOwner": 6,
+    "proposalsPendingIndependentAuditAndOwner": 5,
     "legacyDevelopmentCveRowsReconciled": 23,
     "legacyCveIds": [
       "CVE-2026-102276",
@@ -301,7 +301,8 @@
     "allProposedDisposition": "NOT_AFFECTED",
     "independentAuditor": "PENDING",
     "ownerApproval": "PENDING",
-    "selfApproval": false
+    "selfApproval": false,
+    "unproposedUnderInvestigationOccurrences": 1
   },
   "findings": [
     {
@@ -506,7 +507,7 @@
         "package": "pkg:apk/alpine/zlib@1.3.2-r0",
         "detectedVersion": "1.3.2-r0",
         "present": true,
-        "vulnerableCodeAssessment": "Alpine zlib library is present. Consumer imports: postgres=deflate; pg_dump/pg_restore=deflate,inflate,gzwrite,gzopen. No consumer imports gzprintf/gzvprintf, the functions that trigger the vulnerable post-stall path."
+        "vulnerableCodeAssessment": "Exact image contains Alpine zlib 1.3.2-r0 (fixed version 1.3.2-r1) and mapped libz.so.1.3.2 SHA-256 a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57. A recursive scan of 237 ELF objects found gzprintf/gzvprintf definitions in libz but no direct imports in any of 87 PostgreSQL loadable .so files. Direct libz.so.1 consumers include postgres, libxml2, pgcrypto.so, libLLVM, PostgreSQL dump/backup/receive clients and apk/libapk. postgres imports dlopen/dlsym; pgcrypto.so has DT_NEEDED libz.so.1. Therefore import-only absence is insufficient: a handle-based dlsym path could search the extension dependency chain. No valid PG-ABI adapter or trigger call path was demonstrated."
       },
       "upstreamFix": {
         "fixedVersion": "1.3.2-r1 reported by scanner; current official PostgreSQL tag still uses r0 at the same digest",
@@ -521,19 +522,22 @@
         "percentile": "0.466080000",
         "date": "2026-10-07"
       },
-      "attackerControlledInput": "PostgreSQL query/data input is untrusted, but the running server imports only deflate and no pg_dump/restore process or app call invokes gzprintf/gzvprintf.",
+      "attackerControlledInput": "The current exact database role polyhunter is superuser and LANGUAGE C is untrusted. A caller able to submit arbitrary SQL could meet the privilege gate for C-function DDL, but no application-controlled SQL injection/arbitrary-SQL route was demonstrated. Targeted source search found only fixed Drizzle queries and schema constants; this bounded search does not prove whole-program absence. Provider/query bytes do not by themselves establish the required valid gzFile and call sequence.",
       "exploitPrerequisites": [
-        "A consumer must perform a non-blocking gzwrite that stalls, then call gzprintf/gzvprintf with stale external buffer state."
+        "A non-blocking gzwrite on a valid gzFile must stall while stale external input pointers remain.",
+        "A later gzprintf or gzvprintf call must operate on that same gzip state after the stall.",
+        "The call path must supply a valid zlib ABI context and formatted arguments; a raw zlib symbol invoked as a PostgreSQL version-1 C function does not match Datum funcname(PG_FUNCTION_ARGS). An ABI-compatible installed or later-loaded wrapper has not been ruled out.",
+        "An attacker-controlled path must reach the required operations. The database role is superuser, but application-controlled arbitrary SQL/C-function creation was not proven."
       ],
-      "reachability": "Exact scanelf imports on postgres, pg_dump, and pg_restore show no gzprintf/gzvprintf references; runtime process list contains only PostgreSQL server processes.",
-      "networkExposure": "Project-scoped Compose network; no PostgreSQL host port is published.",
-      "privilegeContext": "PostgreSQL runs UID 70 with CapEff/CapPrm zero; worker and web have no PostgreSQL CLI subprocess path.",
-      "mitigation": "CVE-specific formatted gzip entrypoint is not imported by installed consumers; no suppression. Official image tag was freshly pulled and remained unchanged.",
+      "reachability": "Expanded static coverage and one live process snapshot now include all 237 ELF objects, all 87 PostgreSQL loadable shared objects, 59 extension control files, all direct DT_NEEDED libz.so.1 consumers, dynamic symbol matches and current mapped libraries. pgcrypto.so is installed but not active; only plpgsql is active. postgres imports dlopen/dlsym. PostgreSQL 17.11 load_external_function() calls dlsym(handle, funcname); pgcrypto.so directly depends on libz.so.1; POSIX specifies that dlsym(handle, symbol) searches the handle object and automatically loaded dependencies. This makes indirect symbol lookup plausible, but it was not directly executed on musl and does not prove a valid ABI-compatible gzFile/stall/formatted-call sequence or attacker-controlled SQL path.",
+      "networkExposure": "Project-scoped Compose network; PostgreSQL has no published host port. This limits ingress but does not establish absence of an in-process database function path.",
+      "privilegeContext": "PostgreSQL server is UID/GID 70 with CapEff/CapPrm zero and container privileged=false/capAdd=null. Current database login polyhunter has rolsuper=true; LANGUAGE C is untrusted. Only plpgsql is active; pgcrypto is installed but not active.",
+      "mitigation": "No fixed zlib package is present; exact vulnerable library remains mapped. There is no suppression. No safe dynamic trigger test was performed because calling a raw symbol through a mismatched C ABI could crash a backend. No proposed NOT_AFFECTED disposition is retained until the ABI-compatible call sequence and attacker-controlled path are resolved.",
       "vex": {
         "status": "UNDER_INVESTIGATION",
-        "proposedDisposition": "NOT_AFFECTED",
-        "justification": "vulnerable_code_not_in_execute_path",
-        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "proposedDisposition": null,
+        "justification": null,
+        "rationale": "The previous NOT_AFFECTED proposal relied on absence of direct imports in only postgres, pg_dump and pg_restore and is withdrawn. Complete direct consumer/static extension inventory still cannot exclude PostgreSQL handle-based dlsym through pgcrypto.so -> libz.so.1. POSIX and PostgreSQL source make that lookup plausible, while no valid ABI-compatible wrapper/trigger sequence or attacker-controlled arbitrary SQL path has been demonstrated. Exact-runtime reachability is not proven or disproven. Remain UNDER_INVESTIGATION without a proposed disposition; no self-approval.",
         "independentAuditor": null,
         "ownerApproval": null,
         "expiry": "2026-10-14T23:59:59Z",
@@ -574,11 +578,31 @@
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
           "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-static-image-inventory.txt",
+          "sha256": "2eb12d8e42600402a8d1c9929aafc9e6d8ca3507d04605898e7cf5e1c45b74a6"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-runtime-maps.txt",
+          "sha256": "dc81478adec289aee0d5982f1e7ac58a81370d76ef142334003c6fba60f53e74"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-db-context.txt",
+          "sha256": "a4da1e671477b1cd0b8876256634712565c9fd5e7c18aa94f681c47f0f88f669"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-source-path-assessment.txt",
+          "sha256": "0feffecd44e808db74d3539ff2a2dbc449e84d318746d0b5d0037c25a823236a"
         }
       ],
       "sourceRefs": [
         "https://security-tracker.debian.org/tracker/CVE-2026-85091",
-        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148"
+        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148",
+        "https://github.com/postgres/postgres/blob/REL_17_11/src/backend/utils/fmgr/dfmgr.c",
+        "https://www.postgresql.org/docs/17/xfunc-c.html",
+        "https://github.com/madler/zlib/blob/v1.3.2/zlib.h",
+        "https://pubs.opengroup.org/onlinepubs/009604299/functions/dlsym.html"
       ]
     },
     {
@@ -885,6 +909,26 @@
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-worker-restart-smoke.txt",
       "sha256": "ba0506a4817cff1c0a30e1c95e02d2113c1634cb4c2c75c8dc132ada9e099719"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-preflight.txt",
+      "sha256": "412a7469b4086d33aacc568a6b466ce07c85245f7cfd1f4d948e8e98a12e69da"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-static-image-inventory.txt",
+      "sha256": "2eb12d8e42600402a8d1c9929aafc9e6d8ca3507d04605898e7cf5e1c45b74a6"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-runtime-maps.txt",
+      "sha256": "dc81478adec289aee0d5982f1e7ac58a81370d76ef142334003c6fba60f53e74"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-db-context.txt",
+      "sha256": "a4da1e671477b1cd0b8876256634712565c9fd5e7c18aa94f681c47f0f88f669"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-source-path-assessment.txt",
+      "sha256": "0feffecd44e808db74d3539ff2a2dbc449e84d318746d0b5d0037c25a823236a"
     }
   ]
 }

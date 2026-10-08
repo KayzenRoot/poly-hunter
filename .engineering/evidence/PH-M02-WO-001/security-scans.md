@@ -1,6 +1,6 @@
 # Exact-image scan and VEX reconciliation — PH-M02-WO-001 CR-07
 
-Date: 2026-10-07. Scanner: Docker Scout CLI v1.24.0. Both full SARIF scans were freshly generated after the clean/no-cache final build and final PostgreSQL tag refresh.
+Scan date: 2026-10-07. CR-07-AUD-01 evidence update: 2026-10-08. Scanner: Docker Scout CLI v1.24.0. Both full SARIF scans were freshly generated after the clean/no-cache final build and final PostgreSQL tag refresh.
 
 | Image | Exact local digest | All findings | LOW | MEDIUM | HIGH | CRITICAL | SARIF SHA-256 |
 |---|---|---:|---:|---:|---:|---:|---|
@@ -18,7 +18,7 @@ Both final SARIF files contain zero per-result suppressions. Docker Scout printe
 
 ### PostgreSQL image — 23 HIGH, 2 CRITICAL
 
-The same digest remains unchanged after a fresh pull. Twenty-four Go/libxml2 findings retain their existing exact-digest owner/auditor approvals. The one remaining proposal is `CVE-2026-85091`, HIGH, Alpine zlib `1.3.2-r0`. The vulnerable library is present, but `postgres` imports only `deflate`; `pg_dump` and `pg_restore` import `gzwrite`/`gzopen` and do not import `gzprintf`/`gzvprintf`, the CVE trigger functions. Only PostgreSQL server processes run; dump/restore are not called by the application. Proposal: `NOT_AFFECTED`, justification `vulnerable_code_not_in_execute_path`; status remains `UNDER_INVESTIGATION` pending independent audit and owner approval.
+The same digest remains unchanged; no rebuild or rescan was required for this evidence-only correction. Twenty-four Go/libxml2 findings retain their existing exact-digest owner/auditor approvals. PostgreSQL zlib `CVE-2026-85091` remains HIGH, Alpine zlib `1.3.2-r0`, and the vulnerable library is present and mapped. A recursive 237-ELF scan found additional direct libz consumers (`libxml2`, `pgcrypto.so`, `libLLVM`, utilities and others) and inspected all 87 PostgreSQL shared objects. No direct `gzprintf`/`gzvprintf` imports were found in those modules, but PostgreSQL uses generic `dlopen`/`dlsym`, and `pgcrypto.so` depends on libz. POSIX handle lookup includes dependencies. The exact PostgreSQL-ABI trigger sequence and attacker-controlled arbitrary SQL path were not proven. The prior `NOT_AFFECTED` proposal is withdrawn; this finding is `UNDER_INVESTIGATION` with no proposed disposition. Details and exact unresolved premises: [CR-07-VEX.md](CR-07-VEX.md#cr-07-aud-01-expanded-postgresql-evidence) and the `cr07-aud-01-*` receipts.
 
 ## Additional exact-version source reconciliation
 
@@ -34,4 +34,4 @@ All 23 development-image CVE IDs from the prior Bookworm digest are reconciled i
 
 Final exact scans, complete output, and Compose status: [cr07-full-final-scan-reconciliation.txt](cr07-full-final-scan-reconciliation.txt), [polyhunter-dev-cr07-full-final-scan.log](polyhunter-dev-cr07-full-final-scan.log), [postgres-cr07-full-final-scan.log](postgres-cr07-full-final-scan.log). Detailed per-occurrence fields, evidence hashes, expiry, and pending approval state: [CR-07-VEX.json](CR-07-VEX.json).
 
-**Result: `READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT`.** All six proposed rows remain `UNDER_INVESTIGATION`, independent auditor and owner approval are pending, and no suppression or executor self-approval exists. This does not authorize merge, checkpoint promotion, or any trading capability.
+**Result: `BLOCKED_UNRESOLVED`.** All six exact-image/source rows remain `UNDER_INVESTIGATION`; five have unapproved proposed dispositions and the PostgreSQL zlib occurrence has no proposed disposition because indirect symbol resolution and the attacker-controlled trigger path are unresolved. No suppression or executor self-approval exists. This does not authorize merge, checkpoint promotion, or any trading capability.

@@ -1,6 +1,6 @@
 {
   "workOrder": "PH-M02-WO-001",
-  "review": "5448950464",
+  "review": "5450599754",
   "scanDate": "2026-10-07",
   "policy": "ADR-0007; raw HIGH/CRITICAL defaults to UNDER_INVESTIGATION. Proposed NOT_AFFECTED is not approval. Exact image digest, evidence, independent auditor and owner approval are required.",
   "images": [
@@ -414,8 +414,8 @@
           "epss": "0.005920000",
           "epssPercentile": "0.466080000",
           "disposition": "UNDER_INVESTIGATION",
-          "proposedDisposition": "NOT_AFFECTED",
-          "justification": "vulnerable_code_not_in_execute_path",
+          "proposedDisposition": null,
+          "justification": null,
           "approvedVex": null,
           "priorDevVexDigest": null,
           "exactDigestMatchesApprovedVex": false,
@@ -465,11 +465,11 @@
     "approvedPostgresNotAffectedAtExactDigest": 24,
     "unresolvedPostgresScannerRows": 1,
     "developmentScannerRowsWithProposedNotAffected": 2,
-    "postgresScannerRowsWithProposedNotAffected": 1,
+    "postgresScannerRowsWithProposedNotAffected": 0,
     "supplementalUtilLinuxSourceRowsWithProposedNotAffected": 3,
-    "proposalRowsPendingIndependentAuditAndOwner": 6,
+    "proposalRowsPendingIndependentAuditAndOwner": 5,
     "legacyDevelopmentCveRowsReconciled": 23,
-    "overall": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT"
+    "overall": "BLOCKED_UNRESOLVED"
   },
   "legacyDevelopmentReconciliation": [
     {
