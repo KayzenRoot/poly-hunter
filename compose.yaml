@@ -2,7 +2,9 @@ name: polyhunter-local
 
 services:
   postgres:
-    image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    image: polyhunter-postgres@sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0
+    pull_policy: never
+    platform: linux/amd64
     container_name: polyhunter-postgres
     restart: unless-stopped
     environment:

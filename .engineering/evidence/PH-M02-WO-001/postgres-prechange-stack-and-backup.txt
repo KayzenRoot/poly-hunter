@@ -1,0 +1,8 @@
+NAME                  IMAGE                                                                                               COMMAND                  SERVICE    CREATED        STATUS                  PORTS
+polyhunter-postgres   postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24   "docker-entrypoint.s…"   postgres   11 hours ago   Up 11 hours (healthy)   5432/tcp
+polyhunter-web        polyhunter-dev:local                                                                                "docker-entrypoint.s…"   web        11 hours ago   Up 11 hours (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local                                                                                "docker-entrypoint.s…"   worker     11 hours ago   Up 11 hours
+stop_web_worker_exit=0
+pg_dumpall_exit=0 size=48012 sha256=06E59021255CFDAB29A9A7FBF4FB8C59D19655BA7FCBB18DB87F73A043637646 role_passwords=excluded
+stop_postgres_exit=0
+status=exited image=sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 volume=polyhunter-local-postgres17:/var/lib/postgresql/data

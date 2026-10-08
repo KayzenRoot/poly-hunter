@@ -1,0 +1,19 @@
+CREATE TABLE
+INSERT 0 1
+    probe_key    |               probe_value
+-----------------+-----------------------------------------
+ zlib-r1-restart | persisted-across-postgres-crash-restart
+(1 row)
+
+ph-m02-zlib-r1-build-final-db
+ph-m02-zlib-r1-build-final-db
+health=healthy image=sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0
+
+2026-10-08 12:11:05.272 UTC [29] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-08 12:11:05.384 UTC [29] LOG:  redo done at 0/3CBDB20 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2026-10-08 12:11:06.769 UTC [1] LOG:  database system is ready to accept connections
+2026-10-08 12:14:38.817 UTC [31] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-08 12:14:38.921 UTC [31] LOG:  redo done at 0/601FC88 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2026-10-08 12:14:40.734 UTC [1] LOG:  database system is ready to accept connections
+
+zlib-r1-restart|persisted-across-postgres-crash-restart

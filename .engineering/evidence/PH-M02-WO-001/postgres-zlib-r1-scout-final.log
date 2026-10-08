@@ -1,0 +1,9 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    ...Reading archive
+    v Archive read
+    ...Storing image for indexing
+    v Image stored for indexing
+    ...Indexing
+    v Indexed 66 packages
+    ! failed to parse image name: could not parse reference: c:\Users\csn19\AppData\Local\Temp\ph-m02-postgres-zlib-r1-final.tar    x Detected 3 vulnerable packages with a total of 57 vulnerabilities
+    v Report written to .engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json
