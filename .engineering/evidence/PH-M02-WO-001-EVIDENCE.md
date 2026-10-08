@@ -2,22 +2,23 @@
 
 ## Status and scope
 
-**Executor stop state: READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT.** This means the requested zlib remediation and evidence work are complete and ready for independent review. It is not an APPROVED VEX verdict, merge approval, checkpoint promotion, or trading authorization. Raw H/C findings still block promotion until fresh independent audit and owner approval.
+**Pre-push state: PENDING_EXACT_HEAD_CI.** Local implementation, scans, runtime, tests and evidence are ready; the final exact-HEAD GitHub Actions Validate and SonarCloud Security Quality Gate have not yet run on the pending commit. The final executor stop state will be set only after those hosted checks pass. This does not approve any VEX, authorize merge, checkpoint promotion or trading.
 
 - Repository: KayzenRoot/poly-hunter; PR #43; Issue #42.
 - Branch: feat/ph-m02-public-provider-foundation.
 - Work Order base: main@a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c.
 - Audited parent HEAD: 9d197abd78eae23173021cbb6e92fbde133a87e2.
 - Final correction HEAD and exact-head CI are recorded in PR #43 after push; this bundle does not self-reference its commit.
-- Review: 5455471016; preflight and exact fingerprint evidence are in postgres-zlib-r1-preflight.md and postgres-zlib-r1-context-lock-validation.json.
+- Originating zlib review: 5455471016. Active Correction Delta review: 5457414821, limited to CR-07-AUD-02, CR-07-AUD-03 and CR-07-AUD-04. Preflight and exact fingerprint evidence are in postgres-zlib-r1-preflight.md and postgres-zlib-r1-context-lock-validation.json.
+- Preflight found the Context Lock's JEV policy fingerprint differs from the committed policy at the audited parent (`expected c163b1ec843dbe3588bc8740074f224e42003c89`, actual `c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6`). This is the earlier operator-authorized policy hotfix in commit `4956676540ace9be9e7411db65a49a18f7223b49`; this Correction Delta does not modify that policy or expand its scope. The module-plan/work-order fingerprints and other frozen sources match. Context Lock runtime fingerprints are pre-implementation baselines: `package.json`/`package-lock.json` and `Dockerfile.dev` already reflect accepted PH-M02-WO-001 changes (`d298c06`, `82ce781`, `d4b48a8`); `compose.yaml` also includes the previously accepted zlib change at `86a7ed6`, with the current correction's Compose/package-script changes recorded in this delta. Other runtime fingerprints match.
 - CR-01 through CR-06 remain accepted; only CR-07 zlib remediation and dependent evidence were changed.
 - No PH-M02-WO-002, merge, canonical checkpoint promotion, signing, authenticated trading, or live trading. liveTradingAuthorized=false.
 
 ## Correction
 
-The official postgres:17.11-bookworm and postgres:17.11-trixie candidates were scanned first and both retained CVE-2026-85091. They were rejected. The selected image is a minimal derivative of the official pinned PostgreSQL 17.11 Alpine 3.24 image. Only zlib changed from 1.3.2-r0 to 1.3.2-r1 using Alpine v3.24/main; the build asserts all other package name/version pairs are unchanged. There was no repository mixing or general upgrade. The Dockerfile and Compose are the only product configuration files changed.
+The official postgres:17.11-bookworm and postgres:17.11-trixie candidates were scanned first and both retained CVE-2026-85091. They were rejected. The selected image is a minimal derivative of the official pinned PostgreSQL 17.11 Alpine 3.24 image. Only zlib changed from 1.3.2-r0 to 1.3.2-r1 using Alpine v3.24/main; the build asserts all other package name/version pairs are unchanged. There was no repository mixing or general upgrade. The PostgreSQL Dockerfile and Compose image reference are the only runtime product configuration changes; supporting changes are limited to the image lock/build helper, npm command routing, CI validation, documentation and evidence. No application logic, schema, migration or trading capability changed.
 
-The local immutable image reference is polyhunter-postgres@sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0 (linux/amd64). Compose pins this digest and uses pull_policy: never. No registry publication was performed; a clean clone must build/obtain the exact local image artifact before starting Compose. This is an explicit portability limitation for independent review.
+The canonical image is built from the exact official base digest by scripts/postgres-image.mjs and checked against docker/postgres/image.lock.json before Compose starts. Two independent --pull --no-cache BuildKit exports produced the same manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and config sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93. A clean checkout uses the documented npm run docker:up entry point, which builds and verifies this exact image, validates Compose configuration and only then starts the stack without a second implicit build. A digest mismatch fails closed before Compose startup. The corrected image was not published to a registry.
 
 ## Scan evidence
 
@@ -25,10 +26,11 @@ Docker Scout CLI 1.24.0, no per-result suppressions.
 
 | Image | Digest | Results | LOW | MEDIUM | HIGH | CRITICAL | SARIF SHA-256 |
 |---|---|---:|---:|---:|---:|---:|---|
-| polyhunter-dev:local | sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 | 35 | 26 | 7 | 2 | 0 | 3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc |
-| PostgreSQL 17.11 zlib-r1 | sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0 | 57 | 7 | 26 | 22 | 2 | 3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14 |
+| polyhunter-dev:local (prior snapshot) | sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 | 35 | 26 | 7 | 2 | 0 | 3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc |
+| polyhunter-dev:local (fresh rebuilt image) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | 34 | 26 | 7 | 1 | 0 | 25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622 |
+| PostgreSQL 17.11 zlib-r1 (locked current image) | sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 | 57 | 7 | 26 | 22 | 2 | 3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14 |
 
-The prior official Alpine digest scan was 58 results (7 LOW / 26 MEDIUM / 23 HIGH / 2 CRITICAL). Set reconciliation removed only CVE-2026-85091; no new H/C ID appeared. The new image has 24 H/C occurrences (22 HIGH, 2 CRITICAL). Every one was individually revalidated and has a fresh proposed NOT_AFFECTED record in postgres-zlib-r1-vex.json; all remain UNDER_INVESTIGATION with independentAuditor=null, ownerApproval=null, executorSelfApproval=false. Previous exact-digest approvals were not transferred. The unchanged dev findings remain under prior unapproved proposals.
+The prior official Alpine digest scan was 58 results (7 LOW / 26 MEDIUM / 23 HIGH / 2 CRITICAL). Set reconciliation removed only CVE-2026-85091; no new H/C ID appeared. The locked image has 24 H/C occurrences (22 HIGH, 2 CRITICAL). Each retains a proposed NOT_AFFECTED record in postgres-zlib-r1-vex.json; all 24 remain UNDER_INVESTIGATION with independentAuditor=null, ownerApproval=null and executorSelfApproval=false. Go stdlib/gosu rows now reflect the non-root postgres entrypoint, which skips gosu; the libxml2 row retains its PH-SEC-WO-003-specific reachability assessment. No proposal is approved and prior exact-digest approvals were not transferred. The fresh dev scan reports one current HIGH (zlib); its GCC proposal remains historical and UNDER_INVESTIGATION because it is absent from the fresh scan. All 29 VEX proposals remain unapproved.
 
 The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is listed. EPSS is refreshed as of 2026-10-07 and is prioritization context only. Receipts: cisa-kev-postgres-zlib-r1-final.json and epss-postgres-zlib-r1-final.json.
 
@@ -45,20 +47,21 @@ The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is 
 - Final candidate clean rebuild using --pull --no-cache: PASS; exact package change asserted; final digest and build log in postgres-zlib-r1-build-final.log.
 - Exact final Scout SARIF: PASS; 57 records, 0 suppressions, one baseline H/C removed, no H/C additions.
 - ABI comparison: PASS; SONAME and exported symbol list equal.
-- PostgreSQL fresh initialization: PASS on disposable candidate volume.
-- npm run db:migrate: PASS on disposable candidate database; receipt db-migrate-zlib-r1-final.txt.
-- npm run test:integration: PASS; 4 files, 66 tests on disposable candidate database; receipt postgres-integration-zlib-r1-final.txt.
-- Persistence/recovery: PASS; test marker survived PostgreSQL forced crash/restart and automatic recovery on a disposable volume; receipt postgres-recovery-zlib-r1-final.txt.
+- PostgreSQL fresh initialization: PASS on a disposable candidate volume using the exact locked digest.
+- npm run db:migrate --workspace @polyhunter/db: PASS on a fresh disposable candidate database; cr07-candidate-migrations.txt.
+- npm run test:integration: PASS; 4 files / 66 tests on a fresh disposable candidate database; cr07-candidate-integration.txt.
+- Persistence/recovery: PASS; marker survived forced crash/restart and PostgreSQL recovered on the disposable volume; cr07-candidate-recovery.txt. The volume was retained and not deleted.
 - Main persistent PGDATA: preserved. Before image swap, a logical pg_dumpall and a read-only physical volume archive were verified; details, sizes and SHA-256 values in postgres-pgdata-recovery-plan.md. No migration/integration/crash test ran against the main volume; no volume was deleted.
-- Current Compose: postgres healthy on exact digest, web healthy and HTTP 200 at http://localhost:3000, worker running, PostgreSQL port unpublished. Current snapshot: postgres-compose-runtime-zlib-r1-final.txt.
-- `npm run validate` — PASS (lint, format, typecheck, unit tests, workspace builds, Next production build and npm audit); raw output: `npm-validate-zlib-r1-final.txt`.
-- `npm audit --audit-level=high` — PASS; zero vulnerabilities; raw output: `npm-audit-zlib-r1-final.txt`.
+- Current Compose: postgres healthy on exact digest, web healthy and HTTP 200 at http://localhost:3000, worker running, PostgreSQL port unpublished. Current snapshot: cr07-compose-runtime-final.txt.
+- `npm ci` — PASS; summary receipt: cr07-npm-ci-result.txt.
+- `npm run validate` — initial attempt had two 5-second unit-test timeouts during concurrent Docker export; the two complete runs after export completion passed (15 files / 238 tests), with raw output in cr07-npm-validate-retry.txt and cr07-npm-validate-final.txt.
+- `npm audit --audit-level=high` — PASS; zero vulnerabilities; explicit final output: cr07-npm-audit-final.txt.
 - Focused security boundary suite — PASS, 5 files / 103 tests; raw output: `security-boundary-tests-zlib-r1-final.txt`.
-- `docker compose -p polyhunter-local config --quiet` — PASS. Final live stack recheck: PostgreSQL running/healthy on the exact digest, web HTTP 200/healthy at `http://localhost:3000`, worker running; current raw snapshot: `postgres-compose-runtime-zlib-r1-final.txt`.
-- `git diff --check` and evidence schema/hash validation are captured in the final local validation receipt; GitHub Actions Validate is checked on the final pushed HEAD and recorded in PR #43.
+- `docker compose -p polyhunter-local config --quiet` — PASS. Final live stack recheck: PostgreSQL running/healthy on the exact digest, web HTTP 200/healthy at `http://localhost:3000`, worker running; current raw snapshot: `cr07-compose-runtime-final.txt`.
+- `git diff --check`, JSON/VEX consistency and Evidence Bundle hash validation are captured in cr07-evidence-integrity.txt; GitHub Actions Validate and SonarCloud Security Quality Gate must pass on the final pushed HEAD and are recorded in PR #43.
 - Exact final scan invocation, image archive SHA-256, SARIF SHA-256, tool identity and Scout's nonfatal Windows archive-name warning are recorded in `postgres-zlib-r1-scan-receipt.json`.
 - Text command receipts have terminal trailing padding and surplus final blank lines trimmed for clean diffs; command data is unchanged. Raw Scout SARIF remains byte-preserved, and dependent evidence hashes were refreshed.
-- TypeSafe JEV 1.13.0 gate: `ESCALATE` (composite 0.79975; safe_to_apply 0.16; verification 7 verified / 2 unsupported / 4 review). It is advisory only and does not approve any CVE. I manually checked the source/config and exact receipts for its low-confidence items; the unsupported authorization statement is grounded in the operator request and canonical checkpoint. Receipt: `jev-postgres-zlib-r1-final-gate.json`.
+- TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`; 2 claims verified, 3 unsupported, 3 needing review; no contradicted claims). The receipt is `jev-cr07-aud-02-04-gate.json`. It verified matching independent-build identities and the unapproved VEX state, while it could not establish the clean-checkout/workflow/non-root claims at the time of review. Deterministic source review confirms the helper gates Compose on locked manifest/config/runtime identity and the workflow builds and exercises that image; exact-head hosted CI remains pending and is not claimed. JEV is advisory, cannot approve CVEs, and received no secrets.
 
 ## PostgreSQL application role risk
 
@@ -78,15 +81,15 @@ Role polyhunter has rolsuper=true in the exact final local database. Classificat
 
 The 24 current PostgreSQL proposals and the existing dev proposals are not approvals. Independent security audit and explicit owner approval remain required by ADR-0007. Raw Scout findings stay visible. A reviewer may reject any proposal, especially those whose prior evidence must be accepted against the changed image digest.
 
-The local image digest is not published to a registry, so clean-checkout portability depends on building/obtaining the candidate artifact. The app database role remains superuser. Proposed VEX rows expire 2026-10-15T23:59:59Z or earlier on digest, scan, advisory, KEV, runtime, exposure or evidence changes.
+The image is local-only and not published to a registry; clean-checkout portability is provided by the fail-closed pinned build helper and locked manifest/config digests. Building requires Docker Buildx timestamp-rewrite support and access to the exact official base plus Alpine v3.24/main. The app database role remains superuser. Proposed VEX rows expire 2026-10-15T23:59:59Z or earlier on digest, scan, advisory, KEV, runtime, exposure or evidence changes. All 29 proposals remain unapproved.
 
 ## Stop condition
 
-READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT. Stop here for the same PR #43 independent exact-head audit. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
+PENDING_EXACT_HEAD_CI before push. Mark READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT only after final-head GitHub Actions Validate and SonarCloud pass, while all 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
 
 ## Project Progress Snapshot
 
-Review: PH-M02-WO-001 / PR #43 — CORRECTION REQUIRED on input review 5455471016; correction response is executor-ready for independent audit — audited parent head `9d197abd78eae23173021cbb6e92fbde133a87e2` (final correction head and exact-head CI are in PR #43).
+Review: PH-M02-WO-001 / PR #43 — CORRECTION REQUIRED on input review 5457414821; only CR-07-AUD-02/-03/-04 are in this correction pass. Audited parent head `86a7ed6b0b6eea350a36873c1313c6f9db183176`; final correction head and exact-head CI are recorded in PR #43.
 
 Canonical completed through: PH-M01 (`M01_IMPLEMENTATION_COMPLETE / STOP_AFTER_PH_M01_WO_004`).
 Canonical completion: N/A (production denominator is 0).
@@ -96,7 +99,7 @@ Active module/WO: PH-M02-WO-001 ~100% executor evidence complete; independent au
 Done:
 - PH-M00 and PH-M01 are canonically complete through the current Checkpoint.
 - PH-M02-WO-001 provider foundation and CR-01 through CR-06 have prior accepted evidence.
-- CR-07 remediation-first delta updates PostgreSQL zlib to Alpine 3.24 `1.3.2-r1`, validates the exact image/runtime, and records fresh unapproved proposals for every remaining PostgreSQL H/C finding.
+- CR-07 zlib remediation was followed by the bounded AUD-02/-03/-04 correction: reproducible locked PostgreSQL image, exact-head CI, non-root startup, SonarCloud gate remediation, and fresh exact-image evidence. The 29 proposals remain unapproved.
 
 Remaining:
 - Independent audit and explicit owner decisions for current H/C VEX proposals; resolve any correction they identify.

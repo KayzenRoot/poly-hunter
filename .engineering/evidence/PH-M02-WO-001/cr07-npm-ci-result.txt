@@ -1,0 +1,5 @@
+npm ci
+exit=0
+159 packages added; 167 packages audited; 0 npm audit vulnerabilities.
+npm emitted allow-scripts warnings for 4 esbuild package instances; no approval policy or package files were changed.
+Source: completed terminal result from exact local run.

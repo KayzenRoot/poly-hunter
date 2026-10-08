@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "sourceBase": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "dockerBuildxVersion": "v0.36.1-desktop.1",
+  "buildCommand": "docker buildx build --pull --no-cache --platform linux/amd64 --provenance=false --build-arg SOURCE_DATE_EPOCH=0 --output type=docker,dest=<archive>,rewrite-timestamp=true --file docker/postgres/Dockerfile .",
+  "builds": [
+    {
+      "metadataPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-a-metadata.json",
+      "dockerArchiveSha256": "8c9d68acc1af17b86e6535a06277c1a0c08ffb4a0cea65482cd772e9709fceac",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+    },
+    {
+      "metadataPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-b-metadata.json",
+      "dockerArchiveSha256": "cbb21fea684d4378f84a011bb0e00a5b0c411c0bd783ba3abd992ce80a3e7aec",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+    }
+  ],
+  "manifestMatches": true,
+  "configMatches": true,
+  "interpretation": "Docker archive hashes differ because exported Docker manifest RepoTags differ by candidate build tag; BuildKit OCI manifest and config digests match, which bind identical config and layer descriptors."
+}

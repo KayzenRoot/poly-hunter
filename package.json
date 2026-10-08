@@ -17,9 +17,9 @@
     "apps/web"
   ],
   "scripts": {
-    "docker:up": "docker compose --project-name polyhunter-local up -d",
+    "docker:up": "node scripts/postgres-image.mjs up",
     "docker:down": "docker compose --project-name polyhunter-local down",
-    "docker:rebuild": "docker compose --project-name polyhunter-local up -d --build --force-recreate",
+    "docker:rebuild": "node scripts/postgres-image.mjs rebuild",
     "docker:ps": "docker compose --project-name polyhunter-local ps",
     "docker:logs": "docker compose --project-name polyhunter-local logs --follow --tail=100",
     "db:migrate": "docker compose --project-name polyhunter-local exec -T web npm run db:migrate --workspace @polyhunter/db",

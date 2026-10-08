@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "scanId": "PH-M02-WO-001-CR-07-AUD-02-04-dev",
+  "image": "polyhunter-dev:local",
+  "manifestDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+  "platform": "linux/amd64",
+  "scanner": "Docker Scout CLI",
+  "scannerVersion": "1.24.0",
+  "scanCommand": "docker scout cves polyhunter-dev:local --format sarif --output .engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+  "exitCode": 0,
+  "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+  "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+  "resultCount": 34,
+  "uniqueCveCount": 34,
+  "indexedPackageCount": 552,
+  "severityCounts": {
+    "LOW": 26,
+    "MEDIUM": 7,
+    "HIGH": 1
+  },
+  "highCriticalCount": 1,
+  "highCriticalCves": [
+    "CVE-2026-85091"
+  ],
+  "newHighCriticalComparedWithPreviousDigest": [],
+  "suppressionCount": 0,
+  "previousImageDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+  "previousHighCriticalCount": 2,
+  "imageRuntimeReceipt": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+  "scannerNotes": "Scout indexed the exact local image manifest. CLI warned its Windows temporary archive remained in use during cleanup; SARIF was written and command exited 0."
+}

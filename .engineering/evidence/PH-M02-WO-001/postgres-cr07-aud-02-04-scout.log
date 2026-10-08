@@ -1,0 +1,7 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    ...Storing image for indexing
+    v Image stored for indexing
+    ...Indexing
+    v Indexed 66 packages
+    ! failed to delete temporary image archive C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744\3be055e1-c40b-418b-bddd-9b54c38aab1b: unlinkat C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744\3be055e1-c40b-418b-bddd-9b54c38aab1b: O arquivo já está sendo usado por outro processo.    x Detected 3 vulnerable packages with a total of 57 vulnerabilities
+    v Report written to .engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json

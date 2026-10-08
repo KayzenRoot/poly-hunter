@@ -4,10 +4,12 @@ Scanner: Docker Scout CLI 1.24.0. Raw SARIF artifacts preserve findings and supp
 
 | Image | Digest | Results | LOW | MEDIUM | HIGH | CRITICAL | Suppressions |
 |---|---|---:|---:|---:|---:|---:|---:|
-| polyhunter-dev:local | sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 | 35 | 26 | 7 | 2 | 0 | 0 |
-| PostgreSQL 17.11 zlib-r1 local derivative | sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0 | 57 | 7 | 26 | 22 | 2 | 0 |
+| polyhunter-dev:local (prior snapshot) | sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 | 35 | 26 | 7 | 2 | 0 | 0 |
+| polyhunter-dev:local (fresh rebuilt image) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | 34 | 26 | 7 | 1 | 0 | 0 |
+| PostgreSQL 17.11 zlib-r1 (previous candidate) | sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0 | 57 | 7 | 26 | 22 | 2 | 0 |
+| PostgreSQL 17.11 zlib-r1 (locked current image) | sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 | 57 | 7 | 26 | 22 | 2 | 0 |
 
-The selected PostgreSQL scan removed exactly one H finding from its prior exact digest: CVE-2026-85091 (zlib 1.3.2-r0). It introduced no new H/C IDs. The remaining PostgreSQL H/C results are 22 HIGH and 2 CRITICAL. They are represented individually in postgres-zlib-r1-vex.json as fresh, unapproved proposals; no previous digest approval is transferred.
+The locked PostgreSQL scan removed CVE-2026-85091 (zlib 1.3.2-r0) from the official baseline. The 57 findings and severity counts match the previously corrected candidate exactly; no new H/C IDs appeared. The 24 remaining PostgreSQL H/C results are pending, unapproved proposals, and prior-digest approvals are not transferred. The rebuilt dev image reports one current HIGH (zlib); the former GCC proposal remains historical and pending because it is absent from the latest scan.
 
 ## Official image comparison
 
@@ -15,8 +17,8 @@ The official postgres:17.11-bookworm and postgres:17.11-trixie scans both still 
 
 ## Current VEX state
 
-- Development image: 2 current HIGH results plus three disclosed util-linux source-reconciliation proposals; prior CR-07 proposals remain unapproved.
+- Development image: 1 current HIGH result plus three disclosed util-linux source-reconciliation proposals; the earlier 2-H scan is historical and the GCC proposal is not auto-cleared.
 - PostgreSQL current digest: zlib FIXED; 24 current H/C occurrences have fresh exact-digest proposals with status UNDER_INVESTIGATION.
-- Current high/critical scanner occurrences across both images: 26; proposed rows exist for all 26. The three supplementary util-linux rows remain separate source reconciliations.
+- Current scanner H/C occurrences across the latest images: 25; proposal rows exist for all 25. Three supplementary util-linux rows and one absent GCC row remain historical pending proposals. All 29 VEX proposals remain unapproved.
 - Approval state: no executor self-approval, no transfer of old PostgreSQL digest approvals, fresh auditor/owner approvals are pending.
 - No suppressions were used. Passing CI or low EPSS does not clear a finding.

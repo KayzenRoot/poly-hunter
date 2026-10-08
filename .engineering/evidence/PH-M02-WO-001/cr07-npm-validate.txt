@@ -1,0 +1,113 @@
+
+> polyhunter@0.1.0 validate
+> npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high
+
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+packages\db\tests\m01-acceptance.integration.test.ts:945:15 lint/complexity/noUselessContinue  FIXABLE  ━━━━━━━━━━
+
+  i Unnecessary continue statement
+
+    943 │               }
+    944 │             } else if (value instanceof Date || typeof value === "number") {
+  > 945 │               continue;
+        │               ^^^^^^^^^
+    946 │             } else if (typeof value === "object") {
+    947 │               if (JSON.stringify(value).includes(canary)) {
+
+  i Safe fix: Delete the unnecessary continue statement
+
+     943  943 │                 }
+     944  944 │               } else if (value instanceof Date || typeof value === "number") {
+     945      │ - ··············continue;
+     946  945 │               } else if (typeof value === "object") {
+     947  946 │                 if (JSON.stringify(value).includes(canary)) {
+
+
+Checked 96 files in 846ms. No fixes applied.
+Found 1 info.
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+
+[0m[36mChecked 96 files in 248[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m
+
+> polyhunter@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json
+
+
+> @polyhunter/contracts@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/polymarket@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+ ❯ tests/route-handler-security.test.ts (33 tests | 1 failed) 8276ms
+     × sets httpOnly, SameSite=Lax, path=/ and Secure in production 7826ms
+ ❯ tests/auth-cache-headers.test.ts (16 tests | 1 failed) 9018ms
+     × accepts the exact library-delivered policy 7841ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/auth-cache-headers.test.ts > CR-07 adapter setAll honors the library second argument > accepts the exact library-delivered policy
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/auth-cache-headers.test.ts:330:3
+    328|   }
+    329|
+    330|   it("accepts the exact library-delivered policy", async () => {
+       |   ^
+    331|     const { recordAuthCookieMutation, centralized } = await loadPolicy…
+    332|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/route-handler-security.test.ts > CR-03 active tenant cookie attributes > sets httpOnly, SameSite=Lax, path=/ and Secure in production
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/route-handler-security.test.ts:393:3
+    391|   }
+    392|
+    393|   it("sets httpOnly, SameSite=Lax, path=/ and Secure in production", a…
+       |   ^
+    394|     vi.stubEnv("NODE_ENV", "production");
+    395|     const recorded = await captureWrite();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 13 passed (15)
+      Tests  2 failed | 236 passed (238)
+   Start at  12:03:37
+   Duration  29.47s (transform 15.41s, setup 0ms, import 94.33s, tests 54.47s, environment 9ms)

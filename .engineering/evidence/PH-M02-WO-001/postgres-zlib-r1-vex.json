@@ -9,17 +9,21 @@
   "auditedParentHeadSha": "9d197abd78eae23173021cbb6e92fbde133a87e2",
   "contentHeadSemantics": "Findings and runtime statements are bound to the exact image and evidence digests below. Final Git HEAD and exact-head CI are recorded in the PR #43 body; this file does not claim its own commit SHA.",
   "image": {
-    "reference": "polyhunter-postgres@sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-    "digest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+    "reference": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "platform": "linux/amd64",
     "postgresVersion": "17.11",
     "sourceBase": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
-    "distribution": "local Docker image store; no registry publication was performed in this correction"
+    "distribution": "Built locally from exact pinned official base; locked manifest/config identities verified; no registry publication.",
+    "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "lockPath": "docker/postgres/image.lock.json",
+    "lockedArtifact": "docker/postgres/Dockerfile plus deterministic scripts/postgres-image.mjs build"
   },
   "scanner": {
     "name": "Docker Scout CLI",
     "version": "1.24.0",
-    "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+    "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
     "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
     "suppressions": 0
   },
@@ -42,7 +46,11 @@
     "remainingHighCriticalSeverity": {
       "HIGH": 22,
       "CRITICAL": 2
-    }
+    },
+    "currentDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "currentDigestReproduciblyLocked": true,
+    "currentDigestHighCriticalOccurrences": 24,
+    "newHighCriticalComparedWithPriorCandidate": []
   },
   "packageChange": {
     "onlyChangedPackage": "zlib",
@@ -58,7 +66,7 @@
     "severity": "HIGH",
     "environment": "local-dev",
     "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-    "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "component": {
       "package": "pkg:apk/alpine/zlib@1.3.2-r1?os_name=alpine&os_version=3.24",
       "detectedVersion": "1.3.2-r1",
@@ -85,8 +93,8 @@
     "currentScan": {
       "scanner": "Docker Scout CLI",
       "version": "1.24.0",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
       "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
       "occurrencePresent": false,
       "totalResults": 57,
@@ -181,8 +189,8 @@
       "cve": "CVE-2025-68121",
       "goVulnerabilityId": "GO-2026-4337",
       "severity": "CRITICAL",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -325,18 +333,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "TLS resumption peer plus application mutation of ClientCAs/RootCAs between handshakes via Clone/GetConfigForClient.",
@@ -519,7 +522,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 56,
         "affectedRange": "<1.24.13",
@@ -633,15 +636,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-39821",
       "goVulnerabilityId": "GO-2026-5026",
       "severity": "CRITICAL",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -1010,18 +1050,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Crafted ASCII-only punycode hostname used in an idna ToASCII/ToUnicode privilege-check flow.",
@@ -1212,7 +1247,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 55,
         "affectedRange": "<1.25.13",
@@ -1326,15 +1361,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-58187",
       "goVulnerabilityId": "GO-2025-4007",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -1707,18 +1779,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Pathological attacker-supplied certificate chain with name constraints passed to crypto/x509 validation.",
@@ -1901,7 +1968,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 33,
         "affectedRange": "<1.24.9",
@@ -2015,15 +2082,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-58188",
       "goVulnerabilityId": "GO-2025-4013",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -2072,18 +2176,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Attacker-supplied certificate chain containing a DSA public key passed to crypto/x509 validation.",
@@ -2266,7 +2365,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 34,
         "affectedRange": "<1.24.8",
@@ -2380,15 +2479,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-61723",
       "goVulnerabilityId": "GO-2025-4009",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -2435,18 +2571,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Large malformed/invalid PEM data passed to encoding/pem parsing.",
@@ -2629,7 +2760,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 35,
         "affectedRange": "<1.24.8",
@@ -2743,15 +2874,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-61725",
       "goVulnerabilityId": "GO-2025-4006",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -2846,18 +3014,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Large domain-literal email address passed to net/mail.ParseAddress.",
@@ -3040,7 +3203,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 36,
         "affectedRange": "<1.24.8",
@@ -3154,15 +3317,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-61726",
       "goVulnerabilityId": "GO-2026-4341",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -3221,18 +3421,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "URL-encoded input with many unique parameters passed to net/http.Request.ParseForm/net/url.ParseQuery.",
@@ -3415,7 +3610,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 37,
         "affectedRange": "<1.24.12",
@@ -3529,15 +3724,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2025-61729",
       "goVulnerabilityId": "GO-2025-4155",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -3588,18 +3820,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Malicious certificate/input yielding a HostnameError with many hosts, then formatting that error.",
@@ -3782,7 +4009,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 38,
         "affectedRange": "<1.24.11",
@@ -3896,15 +4123,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-25679",
       "goVulnerabilityId": "GO-2026-4601",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -3995,18 +4259,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Malformed URL authority/IPv6 host literal passed to net/url parsing.",
@@ -4189,7 +4448,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 39,
         "affectedRange": "<1.25.8",
@@ -4303,15 +4562,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-32280",
       "goVulnerabilityId": "GO-2026-4947",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -4362,18 +4658,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Very large attacker-supplied intermediate certificate set passed to x509 VerifyOptions.Intermediates.",
@@ -4556,7 +4847,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 40,
         "affectedRange": "<1.25.9",
@@ -4670,15 +4961,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-32281",
       "goVulnerabilityId": "GO-2026-4946",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -4727,18 +5055,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Trusted chain with many policy mappings, trusted through VerifyOptions.Roots or system pool.",
@@ -4921,7 +5244,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 41,
         "affectedRange": "<1.25.9",
@@ -5035,15 +5358,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-32283",
       "goVulnerabilityId": "GO-2026-4870",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -5246,18 +5606,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "TLS 1.3 peer sends multiple post-handshake KeyUpdate messages in one record.",
@@ -5440,7 +5795,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 42,
         "affectedRange": "<1.25.9",
@@ -5554,15 +5909,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-33811",
       "goVulnerabilityId": "GO-2026-4981",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -5621,18 +6013,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Long attacker-influenced CNAME response processed through cgo resolver by net.LookupCNAME.",
@@ -5815,7 +6202,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 43,
         "affectedRange": "<1.25.10",
@@ -5929,15 +6316,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-33814",
       "goVulnerabilityId": "GO-2026-4918",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -6381,18 +6805,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "HTTP/2 peer sends SETTINGS_MAX_FRAME_SIZE=0 to vulnerable client transport.",
@@ -6583,7 +7002,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 44,
         "affectedRange": "<1.25.10",
@@ -6697,15 +7116,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-33818",
       "goVulnerabilityId": "GO-2026-5972",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -6772,18 +7228,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Deeply nested attacker-supplied ASN.1 passed to encoding/asn1.Unmarshal.",
@@ -6966,7 +7417,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 45,
         "affectedRange": "<1.25.13",
@@ -7080,15 +7531,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-39820",
       "goVulnerabilityId": "GO-2026-4986",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -7205,18 +7693,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Pathological mail address/comment input passed to net/mail parsing.",
@@ -7399,7 +7882,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 46,
         "affectedRange": "<1.25.10",
@@ -7513,15 +7996,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-39822",
       "goVulnerabilityId": "GO-2026-4970",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -7686,18 +8206,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Unix symlink outside os.Root plus trailing-slash path passed to Root.Open/file operations.",
@@ -7880,7 +8395,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 53,
         "affectedRange": "<1.25.12",
@@ -7994,15 +8509,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-39836",
       "goVulnerabilityId": "GO-2026-4971",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -8441,18 +8993,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Windows-only NUL input passed to net.Dial/net.LookupPort or related listed net functions.",
@@ -8635,7 +9182,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 47,
         "affectedRange": "<1.25.10",
@@ -8749,15 +9296,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-42499",
       "goVulnerabilityId": "GO-2026-4977",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -8852,18 +9436,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Pathological RFC 5322 phrase/address input passed to net/mail parsing.",
@@ -9046,7 +9625,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 48,
         "affectedRange": "<1.25.10",
@@ -9160,15 +9739,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-42504",
       "goVulnerabilityId": "GO-2026-5038",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -9207,18 +9823,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "MIME header with many invalid encoded-words passed to mime.WordDecoder.DecodeHeader.",
@@ -9401,7 +10012,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 49,
         "affectedRange": "<1.25.11",
@@ -9515,15 +10126,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-56853",
       "goVulnerabilityId": "GO-2026-6089",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -9662,18 +10310,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Bytes from a client to an h2c server configured with ReadHeaderTimeout.",
@@ -9856,7 +10499,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 50,
         "affectedRange": "<1.25.13",
@@ -9970,15 +10613,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-56859",
       "goVulnerabilityId": "GO-2026-6088",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -10123,18 +10803,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Deeply nested XML through Decoder.DecodeElement and XML depth accounting.",
@@ -10317,7 +10992,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 51,
         "affectedRange": "<1.25.13",
@@ -10431,15 +11106,52 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-56862",
       "goVulnerabilityId": "GO-2026-6090",
       "severity": "HIGH",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "component": "golang:stdlib@1.24.6",
       "componentVersion": "1.24.6",
       "componentPath": "/usr/local/bin/gosu",
@@ -10594,18 +11306,13 @@
         "basis": "All named vulnerable functions in the reviewed Go advisory are absent from the exact executable symbol table; no symbol-level result appears in govulncheck binary output. Not based on short process lifetime."
       },
       "actualInvocationPath": {
-        "condition": "Image entrypoint docker-entrypoint.sh receives postgres, _pg_want_help is false and Config.User is empty/default root; entrypoint line 343 runs exec gosu.",
-        "entrypoint": "exec gosu postgres \"$BASH_SOURCE\" \"$@\"",
-        "gosuArgv": [
-          "gosu",
-          "postgres",
-          "/usr/local/bin/docker-entrypoint.sh",
-          "postgres"
-        ],
-        "gosuExec": "SetupUser resolves postgres and calls Setgroups/Setgid/Setuid; LookPath then syscall.Exec replaces gosu with docker-entrypoint. The reentered script ultimately execs postgres.",
-        "steadyState": "Healthy PID 1 is postgres UID/GID 70:70; process view contains no gosu; no gosu socket is observed.",
-        "requestData": "gosu gets the fixed account, entrypoint path and postgres argv. It does not receive SQL/network request payloads; those are handled after exec by PostgreSQL.",
-        "transientSampling": "No direct /proc snapshot of the short-lived gosu process; no ptrace or extra capability used."
+        "condition": "The locked image has Config.User=postgres (uid/gid 70); docker-entrypoint.sh starts as uid 70, so its id -u == 0 branch is false and gosu is not invoked.",
+        "entrypoint": "The normal entrypoint path runs exec \"$@\" with argv postgres; no gosu argv is created for this image.",
+        "gosuArgv": [],
+        "gosuExec": "Not invoked in this exact image/runtime. Historical root-entrypoint analysis remains in the prior evidence and is not generalized to this configuration.",
+        "steadyState": "The verified container is healthy with postgres as the database process, UID/GID 70:70, and no gosu process/socket observed.",
+        "requestData": "Database/network inputs reach PostgreSQL after startup; they are not passed to gosu because gosu does not run.",
+        "transientSampling": "The conclusion is based on locked Config.User, exact entrypoint branch condition and current runtime process/user receipt; no ptrace or extra capability was used."
       },
       "attackerControlledInput": {
         "advisoryInputRequired": "Malicious TLS client repeatedly sends post-handshake KeyUpdate messages.",
@@ -10788,7 +11495,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "resultIndex": 52,
         "affectedRange": "<1.25.13",
@@ -10902,13 +11609,50 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+      }
     },
     {
       "cve": "CVE-2026-86140",
-      "image": "polyhunter-postgres (local build from official PostgreSQL 17.11 Alpine 3.24)",
-      "imageDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
       "environment": "local-dev",
       "severity": "HIGH",
       "component": "apk:alpine/libxml2@2.13.9-r2",
@@ -10946,7 +11690,7 @@
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
         "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
         "occurrenceCount": 1,
         "findings": [
@@ -11426,8 +12170,45 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh Docker Scout SARIF for locked exact PostgreSQL manifest"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic clean artifact build, manifest/config verification and runtime package identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current Compose PostgreSQL image, Config.User, entrypoint path, uid, capabilities and process snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+          "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+          "source": "Migration smoke on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+          "sha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+          "source": "PostgreSQL integration tests on a fresh disposable database using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+          "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+          "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
         }
-      ]
+      ],
+      "exactRuntimeRevalidation": {
+        "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+        "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+        "note": "This exact image digest and scan row are refreshed. The libxml2-specific reachability assessment remains as previously evidenced by PH-SEC-WO-003; this correction does not reclassify or approve it."
+      }
     }
   ],
   "priorApprovals": {
@@ -11453,8 +12234,20 @@
     "allCurrentProposalsUnapproved": true,
     "mergeAllowed": false,
     "checkpointPromotionAllowed": false,
-    "liveTradingAuthorized": false
+    "liveTradingAuthorized": false,
+    "independentAuditor": null,
+    "ownerApproval": null
   },
   "result": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
-  "resultRationale": "The exact PostgreSQL zlib finding is FIXED in the selected digest. All 24 remaining PostgreSQL HIGH/CRITICAL occurrences were individually re-bound to exact current scan results and revalidated against current image/runtime evidence; fresh NOT_AFFECTED proposals remain UNDER_INVESTIGATION pending independent audit and owner approval. This is readiness for independent audit only, not clearance, merge, promotion, or trading authorization."
+  "resultRationale": "The exact PostgreSQL zlib finding is FIXED in the selected digest. All 24 remaining PostgreSQL HIGH/CRITICAL occurrences were individually re-bound to exact current scan results and revalidated against current image/runtime evidence; fresh NOT_AFFECTED proposals remain UNDER_INVESTIGATION pending independent audit and owner approval. This is readiness for independent audit only, not clearance, merge, promotion, or trading authorization.",
+  "correctionDelta": {
+    "review": "5457414821",
+    "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+    "scope": [
+      "CR-07-AUD-02",
+      "CR-07-AUD-03",
+      "CR-07-AUD-04"
+    ],
+    "note": "Exact artifact portability, exact-head image CI, and non-root startup; all current proposals remain unapproved."
+  }
 }

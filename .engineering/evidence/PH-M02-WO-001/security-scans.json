@@ -247,15 +247,254 @@
           "suppressed": false
         }
       ]
+    },
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "resultCount": 34,
+      "uniqueCveCount": 34,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 1,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current rebuilt dev image; previous exact-digest scan retained"
+    },
+    {
+      "image": "polyhunter-postgres:local (reproducible locked build)",
+      "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "resultCount": 57,
+      "uniqueCveCount": 57,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 7,
+        "MEDIUM": 26,
+        "HIGH": 22,
+        "CRITICAL": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2025-58187",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-58188",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61723",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61725",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61726",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61729",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-68121",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-25679",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32280",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32281",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32283",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33811",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33814",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33818",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39820",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39821",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39822",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39836",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42499",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42504",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56853",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56859",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56862",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-86140",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current locked reproducible image; prior candidate retained"
     }
   ],
   "summary": {
-    "developmentImageScoutHighCritical": 2,
+    "developmentImageScoutHighCritical": 1,
     "postgresImageScoutHighCritical": 24,
     "postgresPreviousDigestHighCritical": 25,
     "postgresFixedOccurrencesOnCurrentDigest": 1,
     "postgresFreshHighCriticalProposals": 24,
-    "currentScoutHighCriticalOccurrencesWithProposal": 26,
+    "currentScoutHighCriticalOccurrencesWithProposal": 25,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
     "proposalsPendingIndependentAuditAndOwner": 29,
     "allProposedDispositionByClass": {
@@ -263,7 +502,16 @@
     },
     "selfApproval": false,
     "unproposedUnderInvestigationOccurrences": 0,
-    "note": "The PostgreSQL zlib occurrence is FIXED on the current digest. The two dev scanner findings and 24 PostgreSQL findings are still raw HIGH/CRITICAL and have fresh/unmodified proposals pending audit and owner approval; proposals do not clear scanner findings."
+    "note": "Latest exact dev scan has one raw HIGH finding (zlib); the prior GCC row remains historical and unapproved. The locked PostgreSQL scan has 24 raw HIGH/CRITICAL findings plus the zlib fixed occurrence absent from the scan. All 29 VEX proposals remain under investigation and unapproved; proposals do not clear raw scanner findings.",
+    "latestDevImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "latestDevImageHighCritical": 1,
+    "latestPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "latestPostgresImageHighCritical": 24,
+    "latestPostgresImageFixedCve": "CVE-2026-85091",
+    "currentScannerHighCriticalOccurrencesWithProposal": 25,
+    "totalPendingVexProposals": 29,
+    "allPendingUnapproved": true,
+    "developmentImagePreviousDigestHighCritical": 2
   },
   "legacyDevelopmentReconciliation": [
     {
@@ -448,10 +696,13 @@
     "postgresCurrentDigestOwnerApproval": false,
     "mergeAllowed": false,
     "checkpointPromotionAllowed": false,
-    "liveTradingAuthorized": false
+    "liveTradingAuthorized": false,
+    "postgresCurrentDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "postgresCurrentDigestConfig": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "all29VexProposalsUnapproved": true
   },
   "postgresDigestRevalidationVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-  "postgresDigestRevalidationVexSha256": "47951027bc54ae1c3642b8392e254f60dc2a952e3071d9d673f80965171e65d6",
+  "postgresDigestRevalidationVexSha256": "2cfc2c423bcab71f2437d9ae27d54f63aec0a9e12bf42cb6aa2462caef0b8de4",
   "officialPostgres17Candidates": [
     {
       "image": "postgres:17.11-bookworm",
@@ -485,5 +736,12 @@
       },
       "decision": "Rejected: official zlib candidate remains vulnerable."
     }
+  ],
+  "correctionReview": "5457414821",
+  "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+  "correctionScope": [
+    "CR-07-AUD-02",
+    "CR-07-AUD-03",
+    "CR-07-AUD-04"
   ]
 }

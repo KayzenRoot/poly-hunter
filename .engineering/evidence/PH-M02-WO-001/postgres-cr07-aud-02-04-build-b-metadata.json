@@ -1,0 +1,79 @@
+{
+  "buildx.build.provenance": {
+    "builder": {
+      "id": ""
+    },
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/docker/dockerfile@1.7",
+        "digest": {
+          "sha256": "a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e"
+        }
+      },
+      {
+        "uri": "pkg:docker/postgres@17.11-alpine3.24?digest=sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24\u0026platform=linux%2Famd64",
+        "digest": {
+          "sha256": "b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "Dockerfile"
+      },
+      "parameters": {
+        "frontend": "gateway.v0",
+        "args": {
+          "build-arg:SOURCE_DATE_EPOCH": "0",
+          "cmdline": "docker/dockerfile:1.7",
+          "no-cache": "",
+          "source": "docker/dockerfile:1.7"
+        },
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ],
+        "root": {
+          "configSource": {
+            "path": "Dockerfile"
+          },
+          "request": {
+            "args": {
+              "build-arg:SOURCE_DATE_EPOCH": "0",
+              "no-cache": "",
+              "vcs:localdir:context": ".",
+              "vcs:localdir:dockerfile": "docker\\postgres",
+              "vcs:revision": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+              "vcs:source": "https://github.com/KayzenRoot/poly-hunter.git"
+            }
+          }
+        },
+        "compatibilityVersion": 30
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    }
+  },
+  "buildx.build.ref": "desktop-linux/desktop-linux/1pfcka85b309wgj0pwrkvwwnm",
+  "containerimage.config.digest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.oci.image.manifest.v1+json",
+    "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "size": 2451,
+    "annotations": {
+      "org.opencontainers.image.created": "1970-01-01T00:00:00Z"
+    },
+    "platform": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "containerimage.digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+  "image.name": "docker.io/library/polyhunter-postgres:cr07-fixed-b"
+}

@@ -5,9 +5,9 @@
   "branch": "feat/ph-m02-public-provider-foundation",
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
   "reviewedHeadSha": "9d197abd78eae23173021cbb6e92fbde133a87e2",
-  "contentHeadSemantics": "Assessment is bound to the exact current image digests listed below. The current PostgreSQL digest is a local immutable image. Final Git HEAD and exact-head CI are recorded in PR #43. This file does not claim its own commit SHA.",
-  "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
-  "statusRationale": "The zlib CVE is fixed on the exact current PostgreSQL image. Current remaining scanner findings have exact-digest, fresh evidence and unapproved VEX proposals. Every current HIGH/CRITICAL occurrence is represented by a proposal or FIXED status; raw findings remain visible. Independent audit and owner approval remain pending; this status does not clear findings or authorize merge, checkpoint promotion, or trading.",
+  "contentHeadSemantics": "Assessment is bound to current image digests and exact evidence listed below. Prior image records are retained as historical snapshots. Final Git HEAD and exact-head CI are recorded in PR #43; this file does not claim its own commit SHA.",
+  "status": "PENDING_EXACT_HEAD_CI",
+  "statusRationale": "Local exact-image build, package assertions, scans, runtime and tests are recorded. Final exact-head GitHub Actions Validate and SonarCloud Security Quality Gate are pending on the correction commit; all 29 proposals remain unapproved.",
   "scanner": {
     "tool": "Docker Scout CLI",
     "version": "1.24.0",
@@ -257,15 +257,254 @@
           "suppressed": false
         }
       ]
+    },
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "resultCount": 34,
+      "uniqueCveCount": 34,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 1,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current rebuilt image for CR-07-AUD-02/-03/-04; previous digest snapshot retained above"
+    },
+    {
+      "image": "polyhunter-postgres:local (locked reproducible local build)",
+      "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "resultCount": 57,
+      "uniqueCveCount": 57,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 7,
+        "MEDIUM": 26,
+        "HIGH": 22,
+        "CRITICAL": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2025-58187",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-58188",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61723",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61725",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61726",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61729",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-68121",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-25679",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32280",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32281",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32283",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33811",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33814",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33818",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39820",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39821",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39822",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39836",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42499",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42504",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56853",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56859",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56862",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-86140",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current locked image; exact artifacts and runtime validated; previous digest snapshot retained above"
     }
   ],
   "summary": {
-    "developmentImageScoutHighCritical": 2,
+    "developmentImageScoutHighCritical": 1,
     "postgresImageScoutHighCritical": 24,
     "postgresPreviousDigestHighCritical": 25,
     "postgresFixedExactDigestFindings": 1,
     "postgresFreshDigestProposals": 24,
-    "currentScoutOccurrencesWithProposal": 26,
+    "currentScoutOccurrencesWithProposal": 25,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
     "proposalsPendingIndependentAuditAndOwner": 29,
     "legacyDevelopmentCveRowsReconciled": 23,
@@ -301,7 +540,11 @@
     "independentAuditor": null,
     "ownerApproval": null,
     "selfApproval": false,
-    "unproposedUnderInvestigationOccurrences": 0
+    "unproposedUnderInvestigationOccurrences": 0,
+    "developmentImagePreviousDigestHighCritical": 2,
+    "historicalOrSupplementalProposalsPending": 4,
+    "currentDevelopmentImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "currentPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
   },
   "findings": [
     {
@@ -356,7 +599,8 @@
           "KEV status change",
           "runtime/configuration/exposure change",
           "expiry date"
-        ]
+        ],
+        "executorSelfApproval": false
       },
       "evidenceRefs": [
         {
@@ -394,7 +638,23 @@
       ],
       "sourceRefs": [
         "https://access.redhat.com/security/cve/cve-2026-95619"
-      ]
+      ],
+      "latestScanReconciliation": {
+        "image": "polyhunter-dev:local",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "scannerResultPresent": false,
+        "currentHighCriticalCount": 1,
+        "status": "Historical proposal remains UNDER_INVESTIGATION and unapproved; disappearance from the fresh scan is not auto-classified as FIXED or NOT_AFFECTED.",
+        "evidence": [
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+            "sha256": "a98c133772e1d709f3065572c3862f52d0e3717d72ed9a8f20f6125c53dda2b5",
+            "source": "Current image no longer contains gcc-14; runtime evidence for fresh scan"
+          }
+        ]
+      }
     },
     {
       "occurrenceId": "dev-CVE-2026-85091",
@@ -404,7 +664,7 @@
       "findingSource": "docker_scout_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
       },
       "component": {
         "package": "pkg:deb/debian/zlib@1:1.3.dfsg+really1.3.1-1",
@@ -448,7 +708,8 @@
           "KEV status change",
           "runtime/configuration/exposure change",
           "expiry date"
-        ]
+        ],
+        "executorSelfApproval": false
       },
       "evidenceRefs": [
         {
@@ -482,6 +743,16 @@
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
           "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Fresh Docker Scout SARIF for rebuilt dev image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+          "sha256": "a98c133772e1d709f3065572c3862f52d0e3717d72ed9a8f20f6125c53dda2b5",
+          "source": "Fresh runtime package and binary inspection for rebuilt dev image"
         }
       ],
       "sourceRefs": [
@@ -499,8 +770,8 @@
       "environment": "local-dev",
       "findingSource": "docker_scout_final_sarif",
       "image": {
-        "reference": "polyhunter-postgres (local build)",
-        "digest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0"
+        "reference": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
       },
       "component": {
         "package": "pkg:apk/alpine/zlib@1.3.2-r1?os_name=alpine&os_version=3.24",
@@ -587,6 +858,21 @@
           "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
           "sha256": "a757db9dddb01f49e8e14fee709b4387bbc31dadebcaecea85731f63dd5a4c4a",
           "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh exact-digest Docker Scout SARIF"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic image build receipt and locked artifact identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+          "source": "Exact current PostgreSQL runtime and startup identity"
         }
       ],
       "sourceRefs": [
@@ -596,7 +882,8 @@
         "https://www.postgresql.org/docs/17/xfunc-c.html",
         "https://github.com/madler/zlib/blob/v1.3.2/zlib.h",
         "https://pubs.opengroup.org/onlinepubs/009604299/functions/dlsym.html"
-      ]
+      ],
+      "revalidationEvidenceRefs": []
     },
     {
       "occurrenceId": "dev-CVE-2026-76642",
@@ -650,7 +937,8 @@
           "KEV status change",
           "runtime/configuration/exposure change",
           "expiry date"
-        ]
+        ],
+        "executorSelfApproval": false
       },
       "evidenceRefs": [
         {
@@ -740,7 +1028,8 @@
           "KEV status change",
           "runtime/configuration/exposure change",
           "expiry date"
-        ]
+        ],
+        "executorSelfApproval": false
       },
       "evidenceRefs": [
         {
@@ -829,7 +1118,8 @@
           "KEV status change",
           "runtime/configuration/exposure change",
           "expiry date"
-        ]
+        ],
+        "executorSelfApproval": false
       },
       "evidenceRefs": [
         {
@@ -960,18 +1250,188 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-      "sha256": "47951027bc54ae1c3642b8392e254f60dc2a952e3071d9d673f80965171e65d6",
-      "source": "Fresh exact digest VEX for all current PostgreSQL H/C findings"
+      "sha256": "2cfc2c423bcab71f2437d9ae27d54f63aec0a9e12bf42cb6aa2462caef0b8de4",
+      "source": "Fresh locked-image PostgreSQL VEX proposals; no approval granted"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.json",
-      "sha256": "b7cdda6cd97396c6ef5838e9c519a8afa5282b9f8caf47256a161d019cd1940f",
-      "source": "Machine-readable current and baseline scans"
+      "sha256": "a8d3d4b12a0cee19f703e4c59ee8503262e54ef7a35cc2481c53b2fdd16baf5a",
+      "source": "Machine-readable latest and historical exact-digest scans"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-scan-receipt.json",
       "sha256": "28f222856258fb6618d519502d80c151cbd234ce84af7d8ed748365bd9aa6147",
       "source": "Exact build/Scout command, archived image digest, archive and SARIF hashes"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "source": "Fresh exact locked PostgreSQL image Scout SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-scan-receipt.json",
+      "sha256": "eaa52bbb5a4c09fbdc9b328f58e71984ba2fb854f0ff97129055563fdb2430ed",
+      "source": "Exact locked PostgreSQL image scan invocation and digest receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-scout.log",
+      "sha256": "2d805717356ec14a82d447bbe16ea0393623e88ab9f84e3e1d4576daa12ed045",
+      "source": "Raw Docker Scout execution log for exact PostgreSQL digest"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-reproducibility.json",
+      "sha256": "244d719f11b301bb6c069ceebd68d2c0cac05c08e0eaaf173cfe2244523575e9",
+      "source": "Two independent clean no-cache builds with matching manifest/config digests"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-a-metadata.json",
+      "sha256": "cc398966aea81d8f5fb724a45d86ce7f40e3780e088e8c16d42f3218111cb562",
+      "source": "Build A BuildKit manifest/config metadata"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-b-metadata.json",
+      "sha256": "4b08e85c2693f7e95404afc6c59b0ea190f491fe7619987f22e6c2b631daebc1",
+      "source": "Build B BuildKit manifest/config metadata"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+      "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+      "source": "Canonical exact image build and runtime verification receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+      "sha256": "f1e66aa59480b572c4764df0d1b122ab28cdb986488f60afcbddb860e05dc4fd",
+      "source": "Fresh disposable database migration test"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+      "sha256": "89787a5e9ef9ab0a4cc03099de2ec03a237d71ce92d916f42f8c8d98c9c1a111",
+      "source": "Fresh disposable PostgreSQL integration test"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+      "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
+      "source": "Disposable persistence and restart recovery proof"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+      "sha256": "0357e7f9cef545ff90672f11dc37403885bf5e06d1b82b2e46a6314e5dafe2b7",
+      "source": "Exact current Compose image identity, health, HTTP and worker receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "source": "Fresh rebuilt development image Scout SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-scan-receipt.json",
+      "sha256": "1177125d9793c688e841cf24fb4ce5f7f381cb96544a78d5c78fc7bb118bcb68",
+      "source": "Fresh rebuilt development image scan invocation and digest receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+      "sha256": "db78446cf7f028706266e7256e9c036e6c879d782b332ac60fd6e11c6a4029e5",
+      "source": "Fresh rebuilt development image runtime package inspection"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-ci-result.txt",
+      "sha256": "40cd6eeae2d94ee3dbdf2da64632d5503c81c2a0f2722eab568a811379ced9d9",
+      "source": "npm ci receipt for final dependency lock"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate.txt",
+      "sha256": "efc53e19d2ccad0b22d7a50cbd697e9863a386f4a3a801d62af1dc6c67dca006",
+      "source": "Initial npm validation attempt; preserves timeout failures before retry"
+    },
+    {
+      "path": "docker/postgres/Dockerfile",
+      "sha256": "87667706b5e69d8e27e171f7c3d4b992ddbe1019b2cbb3c3f548c7a8fd5aa622",
+      "source": "Corrected PostgreSQL base, deterministic package update and non-root runtime"
+    },
+    {
+      "path": "docker/postgres/image.lock.json",
+      "sha256": "d87477a06eb51249a6d17b3076fd05bf8bde0484a5dbe2723b3ae6889a4bb773",
+      "source": "Locked image manifest/config digests and package/runtime properties"
+    },
+    {
+      "path": "scripts/postgres-image.mjs",
+      "sha256": "767db10d54322f21a4b1184736fa59f1c15732eac7ffbdcae8b7c03869ad0330",
+      "source": "Fail-closed image build, runtime verification, Compose startup and exact-head CI receipt helper"
+    },
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "f1bc807e1b4d721bb7419e93bc4ba8fb2d88596defb60527e557cbf396f94516",
+      "source": "Exact PR-head checkout, locked image build, migration/integration validation and uploaded receipt"
+    },
+    {
+      "path": "compose.yaml",
+      "sha256": "68068d966de12cf0588ae4bce8734492b6c1449f59c170d7f36b0595bcbbaf6c",
+      "source": "Canonical local Compose image indirection and no implicit pull policy"
+    },
+    {
+      "path": "package.json",
+      "sha256": "b755240fc83ab732218d0ec682986684e8071ba71ea32a9268524f59743b9794",
+      "source": "Canonical docker:up/docker:rebuild command routing"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a0b73882bf313276a02402ebd5967558158c8f72bfb28b8dd5409b351dd9317b",
+      "source": "Clean-checkout Docker startup instructions"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-ci-final.txt",
+      "sha256": "eba1ae1eb319c391478499afb52d4b5393822c582b9f20603d827e0e1cc1e7b1",
+      "source": "Final clean npm ci raw output"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-retry.txt",
+      "sha256": "6f4ba87c416d192a0bcda88db2aaee03620eedc6a3da9f2c810b7304fd23999e",
+      "source": "Complete local validate run after Docker export contention ended"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-final.txt",
+      "sha256": "3041e071d5a5c024ad1f0f247f168d3b77c572777fe1959a11d7ca0aa500ce55",
+      "source": "Final complete npm run validate raw output; exit code 0"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-audit-final.txt",
+      "sha256": "4b02d4a3c23d969c46bd2041360f80bfcb1fe760d9db864009acdd710f9de601",
+      "source": "Explicit npm audit --audit-level=high output"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-evidence-integrity.txt",
+      "sha256": "a0047dd3a45a1ba779ef5a4ac2b27aeb3691e6ff585f9f97111fe454d117aca8",
+      "source": "Targeted machine-readable VEX and Evidence Bundle integrity validation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
+      "sha256": "ab224ed086d49476282cdf0c1dc4b9d1f261e8dddf916543fbe119389ff7427d",
+      "source": "Human-readable exact-digest PostgreSQL VEX revalidation and correction status"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+      "sha256": "0357e7f9cef545ff90672f11dc37403885bf5e06d1b82b2e46a6314e5dafe2b7",
+      "source": "Structured current local Compose runtime identity and health"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-02-04-gate.json",
+      "sha256": "2ab3c72ecaf4ae6cf06731d4160e0f0bdae4611c2140211c7d2e32da5b175e35",
+      "source": "TypeSafe JEV bounded pre-gate receipt; advisory only"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-scout.log",
+      "sha256": "e1d39ba0adb340bc494d10010c73eae286abe1026737e117c8436ce234bea837",
+      "source": "Raw Docker Scout log for fresh development image"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-superuser-risk.md",
+      "sha256": "14598fa19785f238727ee48581c3a5f9d668654c2eb14fe1648109a08c13ca4c",
+      "source": "Local application database superuser risk assessment"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/security-scans.md",
+      "sha256": "47fb9317c22fa16c29e9aa22abb9696c5b4be06fb27b6b063bfb7e378e3b1cba",
+      "source": "Human-readable current and historical scan reconciliation"
     }
   ],
   "postgresDigestRevalidation": {
@@ -984,5 +1444,31 @@
     "independentAuditor": null,
     "ownerApproval": null,
     "priorApprovalTransferred": false
+  },
+  "correctionDelta": {
+    "review": "5457414821",
+    "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+    "scope": [
+      "CR-07-AUD-02",
+      "CR-07-AUD-03",
+      "CR-07-AUD-04"
+    ],
+    "noScopeExpansion": true,
+    "status": "PENDING_EXACT_HEAD_CI",
+    "jevGate": {
+      "receiptPath": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-02-04-gate.json",
+      "receiptSha256": "2ab3c72ecaf4ae6cf06731d4160e0f0bdae4611c2140211c7d2e32da5b175e35",
+      "tool": "jev_gate",
+      "provider": "typesafe",
+      "model": "jev-1.13.0",
+      "action": "escalate",
+      "composite": 0.6941428571428573,
+      "safeToApply": 0.17,
+      "verified": 2,
+      "contradicted": 0,
+      "unsupported": 3,
+      "needsReview": 3,
+      "interpretation": "Advisory only; deterministic evidence and independent security/owner gates remain authoritative. No VEX proposal was approved."
+    }
   }
 }

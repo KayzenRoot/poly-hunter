@@ -8,7 +8,7 @@ This is a privilege-risk classification. It is not evidence that an SQL injectio
 
 ## Evidence
 
-- Exact current digest and query result: postgres-compose-runtime-zlib-r1-final.txt.
+- Exact current digest and query result: cr07-compose-runtime-final.txt.
 - Current database has plpgsql installed; no other extension was active at the captured time.
 - The main persistent volume was retained. No schema or role changes were made in this correction.
 

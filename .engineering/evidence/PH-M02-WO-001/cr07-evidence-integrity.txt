@@ -1,0 +1,10 @@
+PH-M02-WO-001 CR-07 evidence integrity validation
+Scope: exact image lock; latest scan reconciliation; all 29 proposal/approval states; receipt hashes and Evidence Manifest.
+Locked PostgreSQL image: manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744; config sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93.
+Current development image sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948: 1 HIGH / 0 CRITICAL in both machine-readable scan records: PASS.
+Current PostgreSQL image: 22 HIGH / 2 CRITICAL in both machine-readable scan records: PASS.
+All 29 VEX proposals remain UNDER_INVESTIGATION + proposed NOT_AFFECTED, auditor/owner approvals null, executor self-approval false: PASS.
+JEV gate receipt is hash-bound and recorded as ESCALATE advisory only: PASS.
+Evidence Manifest contains 52 unique entries; all paths exist and SHA-256 values are recalculated, including this receipt after writing.
+Context Lock drift provenance is documented in the Evidence Bundle; no policy change or scope expansion was made here.
+Overall: PASS
