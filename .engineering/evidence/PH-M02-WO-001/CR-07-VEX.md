@@ -10,11 +10,11 @@
 
 ## Result
 
-PENDING_EXACT_HEAD_CI until GitHub Actions Validate and SonarCloud pass on the final correction head; only then is the executor evidence ready for independent exact-head review. It does not clear raw scanner findings. CVE-2026-85091 is FIXED in this digest; the 24 remaining PostgreSQL H/C results have new, exact-digest NOT_AFFECTED proposals. All 24 remain UNDER_INVESTIGATION until independent audit and explicit owner approval under ADR-0007. Previous approvals for the old digest are recorded as history and transferred=false.
+Implementation head `a8725af302d7b7b21436ade68c49c360ecfb1aa2` passed GitHub Actions Validate (run 37806245360), including image build/runtime identity, validation gates, migrations and PostgreSQL integration; SonarCloud and Socket checks also passed. The downloaded runtime receipt is `ci-postgres-runtime-a8725.json`. The exact checks for the final evidence-only commit are tracked live in PR #43 to avoid a self-referential bundle. This does not clear raw scanner findings. CVE-2026-85091 is FIXED in this digest; the 24 remaining PostgreSQL H/C results have new, exact-digest NOT_AFFECTED proposals. All 24 remain UNDER_INVESTIGATION until independent audit and explicit owner approval under ADR-0007. Previous approvals for the old digest are recorded as history and transferred=false.
 
 The required TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`). It verified reproducible image identity and the unapproved proposal state, while marking other execution claims unsupported or needing review. This is advisory; deterministic code/evidence review and exact-head hosted checks remain the authority. No JEV result approves or suppresses a CVE, and no secret was sent.
 
-The first exact-head hosted attempt (run 37805774337 on `add8d8b0d216fe756922f2b88da78ebc21f1fefa`) failed before image build because the runner's default Buildx `docker` driver lacked the Docker archive exporter. The workflow now bootstraps a dedicated `docker-container` builder; the sanitized failure receipt is `cr07-ci-buildx-driver-failure.txt`. Final exact-head CI and SonarCloud are pending on the follow-up head.
+The first hosted attempt (run 37805774337 on `add8d8b0d216fe756922f2b88da78ebc21f1fefa`) failed before image build because the runner's default Buildx `docker` driver lacked the Docker archive exporter. The workflow now bootstraps a dedicated `docker-container` builder; the sanitized failure receipt is `cr07-ci-buildx-driver-failure.txt`. The corrected implementation head passed in run 37806245360; the final evidence-only head checks are surfaced by PR #43.
 
 ## Exact scan reconciliation
 

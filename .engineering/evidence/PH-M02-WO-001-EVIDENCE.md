@@ -2,13 +2,13 @@
 
 ## Status and scope
 
-**Current status: PENDING_EXACT_HEAD_CI.** Local implementation, scans, runtime, tests and evidence are ready. The first hosted run failed before image build due to the runner's default Buildx driver; the workflow now explicitly creates an exporter-capable builder. Follow-up GitHub Actions Validate and SonarCloud Security Quality Gate are pending. The executor stop state remains pending until those hosted checks pass. This does not approve any VEX, authorize merge, checkpoint promotion or trading.
+**Status: implementação validada no head `a8725af302d7b7b21436ade68c49c360ecfb1aa2`; a validação exata do commit de evidências fica registrada pelos checks atuais da PR #43.** O workflow corrigido passou no GitHub Actions Validate e nos gates SonarCloud/Socket desse head de implementação. Para evitar autorreferência, o resultado do commit final, que altera apenas evidências e documentação, é reportado no corpo e nos checks ao vivo da PR, não neste próprio bundle. Isso não aprova VEX, autoriza merge, promoção de checkpoint ou trading.
 
 - Repository: KayzenRoot/poly-hunter; PR #43; Issue #42.
 - Branch: feat/ph-m02-public-provider-foundation.
 - Work Order base: main@a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c.
 - Audited parent HEAD: 9d197abd78eae23173021cbb6e92fbde133a87e2.
-- Final correction HEAD and exact-head CI are recorded in PR #43 after push; this bundle does not self-reference its commit.
+- Implementation correction HEAD: `a8725af302d7b7b21436ade68c49c360ecfb1aa2`; GitHub Actions Validate and PR quality/security checks passed there. The final evidence-only HEAD and its exact-head checks are recorded in the current PR #43 body/checks; this bundle does not self-reference its commit.
 - Originating zlib review: 5455471016. Active Correction Delta review: 5457414821, limited to CR-07-AUD-02, CR-07-AUD-03 and CR-07-AUD-04. Preflight and exact fingerprint evidence are in postgres-zlib-r1-preflight.md and postgres-zlib-r1-context-lock-validation.json.
 - Preflight found the Context Lock's JEV policy fingerprint differs from the committed policy at the audited parent (`expected c163b1ec843dbe3588bc8740074f224e42003c89`, actual `c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6`). This is the earlier operator-authorized policy hotfix in commit `4956676540ace9be9e7411db65a49a18f7223b49`; this Correction Delta does not modify that policy or expand its scope. The module-plan/work-order fingerprints and other frozen sources match. Context Lock runtime fingerprints are pre-implementation baselines: `package.json`/`package-lock.json` and `Dockerfile.dev` already reflect accepted PH-M02-WO-001 changes (`d298c06`, `82ce781`, `d4b48a8`); `compose.yaml` also includes the previously accepted zlib change at `86a7ed6`, with the current correction's Compose/package-script changes recorded in this delta. Other runtime fingerprints match.
 - CR-01 through CR-06 remain accepted; only CR-07 zlib remediation and dependent evidence were changed.
@@ -55,14 +55,17 @@ The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is 
 - Current Compose: postgres healthy on exact digest, web healthy and HTTP 200 at http://localhost:3000, worker running, PostgreSQL port unpublished. Current snapshot: cr07-compose-runtime-final.txt.
 - `npm ci` — PASS; summary receipt: cr07-npm-ci-result.txt.
 - `npm run validate` — initial attempt had two 5-second unit-test timeouts during concurrent Docker export; the two complete runs after export completion passed (15 files / 238 tests), with raw output in cr07-npm-validate-retry.txt and cr07-npm-validate-final.txt.
+- Evidence-update rerun: `npm run validate` — PASS; raw output in `cr07-npm-validate-evidence-update.txt` (lint, formatting, typecheck, 15 files / 238 tests, builds and npm audit).
+- Evidence-update security boundary suite — PASS; 5 files / 103 tests; raw output in `cr07-security-boundary-evidence-update.txt`.
 - `npm audit --audit-level=high` — PASS; zero vulnerabilities; explicit final output: cr07-npm-audit-final.txt.
 - Focused security boundary suite — PASS, 5 files / 103 tests; raw output: `security-boundary-tests-zlib-r1-final.txt`.
 - `docker compose -p polyhunter-local config --quiet` — PASS. Final live stack recheck: PostgreSQL running/healthy on the exact digest, web HTTP 200/healthy at `http://localhost:3000`, worker running; current raw snapshot: `cr07-compose-runtime-final.txt`.
-- `git diff --check`, JSON/VEX consistency and Evidence Bundle hash validation are captured in cr07-evidence-integrity.txt; GitHub Actions Validate and SonarCloud Security Quality Gate must pass on the final pushed HEAD and are recorded in PR #43.
-- First hosted attempt: [GitHub Actions run 37805774337](https://github.com/KayzenRoot/poly-hunter/actions/runs/37805774337), exact input head `add8d8b0d216fe756922f2b88da78ebc21f1fefa`; failed in the image-build step because GitHub's default Buildx `docker` driver does not support the `type=docker` exporter. No image or downstream tests ran. The workflow now creates/bootstraps a `docker-container` Buildx builder and removes it during always-run cleanup. Sanitized receipt: `cr07-ci-buildx-driver-failure.txt`. Final exact-head validation and SonarCloud remain pending on the follow-up head.
+- `git diff --check`, JSON/VEX consistency and Evidence Bundle hash validation are captured in `cr07-evidence-integrity.txt`.
+- First hosted attempt: [GitHub Actions run 37805774337](https://github.com/KayzenRoot/poly-hunter/actions/runs/37805774337), exact input head `add8d8b0d216fe756922f2b88da78ebc21f1fefa`; failed in the image-build step because GitHub's default Buildx `docker` driver does not support the `type=docker` exporter. No image or downstream tests ran. The workflow now creates/bootstraps a `docker-container` Buildx builder and removes it during always-run cleanup. Sanitized receipt: `cr07-ci-buildx-driver-failure.txt`.
+- Corrected implementation-head CI: [GitHub Actions Validate run 37806245360](https://github.com/KayzenRoot/poly-hunter/actions/runs/37806245360) passed on `a8725af302d7b7b21436ade68c49c360ecfb1aa2`. Buildx setup, exact PostgreSQL image build/runtime checks, `npm ci`, required validation, migrations, PostgreSQL integration and receipt upload all passed. The downloaded receipt `ci-postgres-runtime-a8725.json` records the exact image/config digest and runtime identity. SonarCloud Code Analysis and both Socket checks also passed; CodeRabbit skipped because the PR remains draft.
 - Exact final scan invocation, image archive SHA-256, SARIF SHA-256, tool identity and Scout's nonfatal Windows archive-name warning are recorded in `postgres-zlib-r1-scan-receipt.json`.
 - Text command receipts have terminal trailing padding and surplus final blank lines trimmed for clean diffs; command data is unchanged. Raw Scout SARIF remains byte-preserved, and dependent evidence hashes were refreshed.
-- TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`; 2 claims verified, 3 unsupported, 3 needing review; no contradicted claims). The receipt is `jev-cr07-aud-02-04-gate.json`. It verified matching independent-build identities and the unapproved VEX state, while it could not establish the clean-checkout/workflow/non-root claims at the time of review. The first hosted attempt also exposed an exporter-driver mismatch, now corrected in the workflow; exact-head hosted validation remains pending and is not claimed. JEV is advisory, cannot approve CVEs, and received no secrets.
+- TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`; 2 claims verified, 3 unsupported, 3 needing review; no contradicted claims). The receipt is `jev-cr07-aud-02-04-gate.json`. It verified matching independent-build identities and the unapproved VEX state, while it could not establish the clean-checkout/workflow/non-root claims at the time of review. The first hosted attempt exposed an exporter-driver mismatch, corrected and then passed in run 37806245360. JEV is advisory, cannot approve CVEs, and received no secrets.
 
 ## PostgreSQL application role risk
 
@@ -75,6 +78,7 @@ Role polyhunter has rolsuper=true in the exact final local database. Classificat
 - Official and selected candidates: postgres-zlib-r1-official-candidates.md and raw SARIF.
 - Recovery plan/receipts: postgres-pgdata-recovery-plan.md, postgres-prechange-stack-and-backup.txt, postgres-recovery-zlib-r1-final.txt.
 - Build/runtime/test receipts and raw final SARIF are in .engineering/evidence/PH-M02-WO-001/.
+- Hosted PostgreSQL receipt for implementation head `a8725af` is `ci-postgres-runtime-a8725.json`; final evidence-commit checks are linked from PR #43.
 - Exact scan invocation and validation output: `postgres-zlib-r1-scan-receipt.json` and `postgres-zlib-r1-final-validation.txt`; JEV advisory receipt: `jev-postgres-zlib-r1-final-gate.json`.
 - Proposed checkpoint delta: .engineering/checkpoint-deltas/PH-M02-WO-001.md; not promoted.
 
@@ -86,7 +90,7 @@ The image is local-only and not published to a registry; clean-checkout portabil
 
 ## Stop condition
 
-PENDING_EXACT_HEAD_CI on the follow-up correction head. Mark READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT only after final-head GitHub Actions Validate and SonarCloud pass, while all 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
+Implementation-head validation passed on `a8725af302d7b7b21436ade68c49c360ecfb1aa2`. The final evidence-only commit is eligible for `READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT` only when its exact-head GitHub Actions Validate, SonarCloud and required PR checks pass; those live results are intentionally tracked in PR #43 to avoid a self-referential bundle. All 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
 
 ## Project Progress Snapshot
 

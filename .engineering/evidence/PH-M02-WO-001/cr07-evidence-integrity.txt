@@ -5,6 +5,6 @@ Current development image sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c5
 Current PostgreSQL image: 22 HIGH / 2 CRITICAL in both machine-readable scan records: PASS.
 All 29 VEX proposals remain UNDER_INVESTIGATION + proposed NOT_AFFECTED, auditor/owner approvals null, executor self-approval false: PASS.
 JEV gate receipt is hash-bound and recorded as ESCALATE advisory only: PASS.
-Evidence Manifest contains 53 unique entries; all paths exist and SHA-256 values are recalculated, including this receipt after writing.
+Evidence Manifest contains 56 unique entries; all paths exist and SHA-256 values are recalculated, including this receipt after writing.
 Context Lock drift provenance is documented in the Evidence Bundle; no policy change or scope expansion was made here.
 Overall: PASS

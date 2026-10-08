@@ -6,8 +6,8 @@
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
   "reviewedHeadSha": "9d197abd78eae23173021cbb6e92fbde133a87e2",
   "contentHeadSemantics": "Assessment is bound to current image digests and exact evidence listed below. Prior image records are retained as historical snapshots. Final Git HEAD and exact-head CI are recorded in PR #43; this file does not claim its own commit SHA.",
-  "status": "PENDING_EXACT_HEAD_CI",
-  "statusRationale": "Local exact-image build, package assertions, scans, runtime and tests are recorded. Final exact-head GitHub Actions Validate and SonarCloud Security Quality Gate are pending on the correction commit; all 29 proposals remain unapproved.",
+  "status": "IMPLEMENTATION_HEAD_VALIDATED; FINAL_EVIDENCE_HEAD_CHECKS_TRACKED_IN_PR",
+  "statusRationale": "GitHub Actions Validate and SonarCloud/Socket checks passed on implementation head a8725af302d7b7b21436ade68c49c360ecfb1aa2. This evidence-only successor is verified through the exact-head checks shown live on PR #43 to avoid a self-referential bundle; all 29 proposals remain unapproved.",
   "scanner": {
     "tool": "Docker Scout CLI",
     "version": "1.24.0",
@@ -1400,12 +1400,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-evidence-integrity.txt",
-      "sha256": "6fc44f18501463792109c741873e976d90b836a0bb911403a5d6c9041c7c6ef9",
+      "sha256": "c08f629361de7a479666e32ec17f7f0d2364181ff823a143152d0d2dd985623d",
       "source": "Targeted machine-readable VEX and Evidence Bundle integrity validation"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
-      "sha256": "0608802d5cbc5e962358bed0857214d14de42c4091fb13eced168ea4788f9c7a",
+      "sha256": "178a94b4b829252a6d94c2c577e6a2cf89c646cb1bf55dc41df4a774f84e4e9d",
       "source": "Human-readable exact-digest PostgreSQL VEX revalidation and correction status"
     },
     {
@@ -1437,6 +1437,21 @@
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-ci-buildx-driver-failure.txt",
       "sha256": "c0169bb1eb4b956e3c3c30087ff2652f962824ca3514bcdda4de88f8e051115e",
       "source": "Sanitized exact-head hosted build failure and Buildx correction"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/ci-postgres-runtime-a8725.json",
+      "sha256": "5e88c4fc9c966fcbfd8e702235dc78021fc191771f5b3e359f0a130432afc986",
+      "source": "GitHub Actions run 37806245360 exact implementation-head PostgreSQL build, runtime, migrations and integration receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-evidence-update.txt",
+      "sha256": "5dca05a507ed04ff751f4646ae34566ae6be30c8e3871987871d026b5a8825af",
+      "source": "Local full repository validation after hosted CI evidence reconciliation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-security-boundary-evidence-update.txt",
+      "sha256": "982a5880c63fb0211796cc74a83cb2ef9354bb79cfc0e90b69453214b8293c71",
+      "source": "Focused secret/trading security boundary regression tests after evidence update"
     }
   ],
   "postgresDigestRevalidation": {
@@ -1459,7 +1474,7 @@
       "CR-07-AUD-04"
     ],
     "noScopeExpansion": true,
-    "status": "PENDING_EXACT_HEAD_CI",
+    "status": "IMPLEMENTATION_HEAD_VALIDATED; FINAL_EVIDENCE_HEAD_CHECKS_TRACKED_IN_PR",
     "jevGate": {
       "receiptPath": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-02-04-gate.json",
       "receiptSha256": "2ab3c72ecaf4ae6cf06731d4160e0f0bdae4611c2140211c7d2e32da5b175e35",
@@ -1485,7 +1500,27 @@
         "step": "Build and verify the corrected PostgreSQL image",
         "reason": "Default docker Buildx driver does not support the type=docker exporter; the build exited before image build and before downstream tests.",
         "correction": "Create and bootstrap a dedicated docker-container Buildx builder; remove it in always-run cleanup.",
-        "finalHeadGate": "PENDING"
+        "finalHeadGate": "FAILURE_RECORDED_AND_CORRECTED"
+      },
+      {
+        "provider": "GitHub Actions",
+        "workflow": "Validate",
+        "runId": "37806245360",
+        "headSha": "a8725af302d7b7b21436ade68c49c360ecfb1aa2",
+        "result": "PASS",
+        "job": "Node 24 validation",
+        "steps": [
+          "exporter-capable Buildx builder setup",
+          "corrected PostgreSQL image build and verification",
+          "verified PostgreSQL image startup",
+          "npm ci",
+          "required validation gates",
+          "versioned PostgreSQL migrations",
+          "PostgreSQL tenancy integration tests",
+          "runtime receipt finalization and upload"
+        ],
+        "receiptPath": ".engineering/evidence/PH-M02-WO-001/ci-postgres-runtime-a8725.json",
+        "finalEvidenceHeadChecks": "tracked in PR #43 to avoid self-reference"
       }
     ]
   }
