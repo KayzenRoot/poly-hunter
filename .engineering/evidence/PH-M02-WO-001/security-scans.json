@@ -1,6 +1,6 @@
 {
   "workOrder": "PH-M02-WO-001",
-  "review": "5455471016",
+  "review": "5460654469",
   "scanDate": "2026-10-08",
   "policy": "ADR-0007; raw HIGH/CRITICAL defaults to UNDER_INVESTIGATION. Proposed NOT_AFFECTED is not approval. Exact image digest, evidence, independent auditor and owner approval are required.",
   "images": [
@@ -494,32 +494,36 @@
     "postgresPreviousDigestHighCritical": 25,
     "postgresFixedOccurrencesOnCurrentDigest": 1,
     "postgresFreshHighCriticalProposals": 24,
-    "currentScoutHighCriticalOccurrencesWithProposal": 25,
+    "currentScoutHighCriticalOccurrencesWithProposal": 24,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
-    "proposalsPendingIndependentAuditAndOwner": 28,
+    "proposalsPendingIndependentAuditAndOwner": 27,
     "allProposedDispositionByClass": {
-      "NOT_AFFECTED": 28
+      "NOT_AFFECTED": 27
     },
     "selfApproval": false,
-    "unproposedUnderInvestigationOccurrences": 0,
-    "note": "Latest exact dev scan has one raw HIGH finding (zlib). Three util-linux occurrences are current-digest supplemental proposals revalidated on sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948. GCC CVE-2026-95619 is absent from that scan and is archived as one historical occurrence without auto-classification. The locked PostgreSQL scan has 24 raw HIGH/CRITICAL findings; proposals remain UNDER_INVESTIGATION and unapproved.",
+    "unproposedUnderInvestigationOccurrences": 1,
+    "note": "Latest exact dev scan still has one raw HIGH zlib finding. Across both exact images there are 28 current VEX records under investigation: 27 unapproved NOT_AFFECTED proposals and 1 dev zlib record with no proposed disposition. The 3 util-linux records are current-digest supplemental proposals. GCC CVE-2026-95619 remains one archived prior-digest occurrence and is excluded from current counts. No approval or suppression is recorded.",
     "latestDevImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
     "latestDevImageHighCritical": 1,
     "latestPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "latestPostgresImageHighCritical": 24,
     "latestPostgresImageFixedCve": "CVE-2026-85091",
-    "currentScannerHighCriticalOccurrencesWithProposal": 25,
-    "totalPendingVexProposals": 28,
+    "currentScannerHighCriticalOccurrencesWithProposal": 24,
+    "totalPendingVexProposals": 27,
     "allPendingUnapproved": true,
     "developmentImagePreviousDigestHighCritical": 2,
     "currentProposalCounts": {
-      "currentPending": 28,
-      "currentScoutOccurrencesWithProposal": 25,
+      "currentPending": 27,
+      "currentScoutOccurrencesWithProposal": 24,
       "supplementalCurrentPending": 3,
-      "historicalArchived": 1
+      "historicalArchived": 1,
+      "currentVexRecordsUnderInvestigation": 28,
+      "unproposedUnderInvestigationOccurrences": 1
     },
     "historicalArchivedVexOccurrences": 1,
-    "supplementalCurrentUtilLinuxProposals": 3
+    "supplementalCurrentUtilLinuxProposals": 3,
+    "currentVexRecordsUnderInvestigation": 28,
+    "currentPendingVexRecords": 28
   },
   "legacyDevelopmentReconciliation": [
     {
@@ -719,7 +723,7 @@
     "allCurrentVexProposalsUnapproved": true
   },
   "postgresDigestRevalidationVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-  "postgresDigestRevalidationVexSha256": "0158c00e2c671f0621b1e19ad943a72d1c3b2618a56d0d6c0b10cb6d00a629fa",
+  "postgresDigestRevalidationVexSha256": "66fb122b6328bbdac2ecd88b2b8b6f01d3f73653474d540e1f8d8092267634c4",
   "officialPostgres17Candidates": [
     {
       "image": "postgres:17.11-bookworm",
@@ -768,5 +772,35 @@
       "CR-07-AUD-03",
       "CR-07-AUD-04"
     ]
+  },
+  "latestCorrectionReview": {
+    "id": "5460654469",
+    "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
+    "status": "BLOCKED_UNRESOLVED",
+    "devZlib": {
+      "cve": "CVE-2026-85091",
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "vexStatus": "UNDER_INVESTIGATION",
+      "proposedDisposition": null,
+      "unresolvedPremise": "Debian/Ubuntu scope disagreement over whether older 1.3.0/1.3.1 reproducer behavior is in the assigned CVE; exact indirect dynamic API reachability also not proven."
+    },
+    "matrix": {
+      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
+      "sha256": "b78e99fe67fe7d2dff9b50d2491930cb3d916fae3cec636251900a739fbe1b4b"
+    },
+    "sourceAndPathReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-source-and-path-review-5460654469.json",
+      "sha256": "a7602ed8e7fb40e4f484b2ad0d5f5b50fc89947ff0bf9c3941fddbef321af24d"
+    },
+    "runtimeReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-runtime-review-5460654469.json",
+      "sha256": "02a1a6384f04b2031cafdbbc2b93bc5bb2aecb2d5bfab8813b6f7550d62c01d3"
+    },
+    "noRebuildOrRescan": true,
+    "matrixMarkdown": {
+      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.md",
+      "sha256": "1fd13eb32ee62b9fb0b359dcbcf9e66ca4a9b86dc5e29dbd6ed471656008c52f",
+      "source": "Human-readable compact group matrix for 28 current VEX review records"
+    }
   }
 }

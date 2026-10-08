@@ -1,0 +1,93 @@
+Work Order PH-M02-WO-001; review 5460654469; audited HEAD 6579e97064570cc38530e69944173fde09920d7c
+Exact dev manifest digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; platform linux/amd64.
+Runtime image inspection was performed against the running Compose tag; no build/rebuild, migration, scan, app edits or volume operations were performed.
+Observed: web/worker Node v24.21.0, bundled process.versions.zlib=1.3.2.1-motley-8002e91; both UID/GID 1000, CapEff all zero. Current process maps show no system libz.so.1. Web HTTP 200; Postgres healthy; web healthy; worker running.
+System package: zlib1g:amd64 1:1.3.dfsg+really1.3.1-1+b1; /usr/lib/x86_64-linux-gnu/libz.so.1 SHA-256 85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e.
+Node ELF has no DT_NEEDED system libz according to ldd; the embedded Node build still exports gz* names in the static ELF inventory, and Node imports dlsym. Native addon marker scan is literal-only; it is not treated as proof against computed dlsym or all indirect paths.
+No conclusion of NOT_AFFECTED is drawn from runtime non-loading alone. The system library exposes gzprintf/gzvprintf/gzwrite/gzputc, and Debian/Ubuntu scope remains unresolved.
+Runtime receipt: dev-zlib-runtime-review-5460654469.json; addon marker receipt: dev-zlib-native-addon-marker-scan.json; prior full ELF inventory: dev-zlib-elf-inventory.txt (SHA-256 86e874c4c52dcbb9ce22e5ca3bdf097f79fc8f8843a51a56cf99296c8971d133).
+
+## dev-image-identity
+$ docker image inspect --format {{.Id}}|{{json .RepoDigests}}|{{.Os}}/{{.Architecture}} polyhunter-dev:local
+exit=0
+sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948|["polyhunter-dev@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"]|linux/amd64
+
+## compose-service-state
+$ docker compose --project-name polyhunter-local ps --format json
+exit=0
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-08 12:03:30 -0300 -03","ExitCode":0,"Health":"healthy","ID":"1216c4b12d59","Image":"polyhunter-postgres:local","Labels":"com.docker.compose.version=5.4.0,desktop.docker.io/ports.scheme=v2,com.docker.compose.config-hash=26954986acbbfce18d084911b643ad6e62c03850ef31af9b86605f70beca3386,com.docker.compose.container-number=1,com.docker.compose.image=sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744,com.docker.compose.oneoff=False,com.docker.compose.project=polyhunter-local,com.docker.compose.replace=polyhunter-postgres,com.docker.compose.service=postgres,com.docker.compose.depends_on=,com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter","LocalVolumes":"1","Mounts":"polyhunter-loc…","Name":"polyhunter-postgres","Names":"polyhunter-postgres","Networks":"polyhunter-local_default","Ports":"5432/tcp","Project":"polyhunter-local","Publishers":[{"URL":"","TargetPort":5432,"PublishedPort":0,"Protocol":"tcp"}],"RunningFor":"3 hours ago","Service":"postgres","Size":"0B","State":"running","Status":"Up 3 hours (healthy)"}
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-08 12:03:48 -0300 -03","ExitCode":0,"Health":"healthy","ID":"ecea5e0cbca0","Image":"polyhunter-dev:local","Labels":"com.docker.compose.image=sha256:c9b2e36ceb9075112a28451478956e63730422282e244ffaffd965c883ff49e3,com.docker.compose.project=polyhunter-local,desktop.docker.io/binds/6/Source=D:\\Projects\\poly-hunter\\apps\\web,com.docker.compose.version=5.4.0,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/2/Target=/workspace/packages/testkit,desktop.docker.io/binds/3/Source=D:\\Projects\\poly-hunter\\packages\\db,desktop.docker.io/binds/5/Source=D:\\Projects\\poly-hunter\\vitest.integration.config.ts,com.docker.compose.container-number=1,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/2/SourceKind=hostFile,com.docker.compose.config-hash=5a94fcb5373be502a9fafabd8e341a04e9916d7ffd57e245540207866e029f2c,com.docker.compose.depends_on=postgres:service_healthy:false,desktop.docker.io/binds/3/SourceKind=hostFile,com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,desktop.docker.io/binds/1/Source=D:\\Projects\\poly-hunter\\packages\\domain,desktop.docker.io/binds/5/SourceKind=hostFile,desktop.docker.io/ports/3000/tcp=127.0.0.1:3000,com.docker.compose.oneoff=False,desktop.docker.io/binds/5/Target=/workspace/vitest.integration.config.ts,desktop.docker.io/binds/0/Source=D:\\Projects\\poly-hunter\\packages\\contracts,desktop.docker.io/binds/0/Target=/workspace/packages/contracts,desktop.docker.io/binds/2/Source=D:\\Projects\\poly-hunter\\packages\\testkit,desktop.docker.io/binds/6/SourceKind=hostFile,desktop.docker.io/binds/6/Target=/workspace/apps/web,desktop.docker.io/ports.scheme=v2,com.docker.compose.replace=polyhunter-web,com.docker.compose.service=web,desktop.docker.io/binds/1/Target=/workspace/packages/domain,desktop.docker.io/binds/3/Target=/workspace/packages/db","LocalVolumes":"1","Mounts":"/run/desktop/m…,polyhunter-loc…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…","Name":"polyhunter-web","Names":"polyhunter-web","Networks":"polyhunter-local_default","Ports":"127.0.0.1:3000-\u003e3000/tcp","Project":"polyhunter-local","Publishers":[{"URL":"127.0.0.1","TargetPort":3000,"PublishedPort":3000,"Protocol":"tcp"}],"RunningFor":"3 hours ago","Service":"web","Size":"0B","State":"running","Status":"Up 3 hours (healthy)"}
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-08 12:03:45 -0300 -03","ExitCode":0,"Health":"","ID":"3d7d5a0e4b28","Image":"polyhunter-dev:local","Labels":"com.docker.compose.config-hash=dd28bdb31bb12a7458f738d524e4c248214ba0cc3d05406f843884d6c9976002,com.docker.compose.oneoff=False,com.docker.compose.version=5.4.0,desktop.docker.io/binds/3/Target=/workspace/packages/testkit,desktop.docker.io/binds/4/Target=/workspace/packages/db,com.docker.compose.depends_on=postgres:service_healthy:false,desktop.docker.io/binds/0/Source=D:\\Projects\\poly-hunter\\apps\\worker,desktop.docker.io/binds/5/SourceKind=hostFile,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/0/Target=/workspace/apps/worker,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/2/Source=D:\\Projects\\poly-hunter\\packages\\domain,desktop.docker.io/binds/3/Source=D:\\Projects\\poly-hunter\\packages\\testkit,com.docker.compose.project=polyhunter-local,desktop.docker.io/binds/1/Target=/workspace/packages/contracts,com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter,com.docker.compose.service=worker,desktop.docker.io/ports.scheme=v2,com.docker.compose.container-number=1,desktop.docker.io/binds/2/Target=/workspace/packages/domain,desktop.docker.io/binds/3/SourceKind=hostFile,desktop.docker.io/binds/5/Target=/workspace/packages/polymarket,desktop.docker.io/binds/2/SourceKind=hostFile,desktop.docker.io/binds/4/Source=D:\\Projects\\poly-hunter\\packages\\db,desktop.docker.io/binds/5/Source=D:\\Projects\\poly-hunter\\packages\\polymarket,com.docker.compose.image=sha256:c9b2e36ceb9075112a28451478956e63730422282e244ffaffd965c883ff49e3,com.docker.compose.replace=polyhunter-worker,desktop.docker.io/binds/1/Source=D:\\Projects\\poly-hunter\\packages\\contracts,desktop.docker.io/binds/4/SourceKind=hostFile","LocalVolumes":"0","Mounts":"/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…","Name":"polyhunter-worker","Names":"polyhunter-worker","Networks":"polyhunter-local_default","Ports":"","Project":"polyhunter-local","Publishers":[],"RunningFor":"3 hours ago","Service":"worker","Size":"0B","State":"running","Status":"Up 3 hours"}
+
+## container-runtime-identity
+$ docker inspect --format {{.Name}}|image={{.Image}}|user={{.Config.User}}|path={{.Path}}|args={{json .Args}}|state={{.State.Status}}|health={{if .State.Health}}{{.State.Health.Status}}{{end}} polyhunter-web polyhunter-worker polyhunter-postgres
+exit=0
+/polyhunter-web|image=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948|user=node|path=docker-entrypoint.sh|args=["npm","run","dev","--workspace","@polyhunter/web","--","--webpack","--hostname","0.0.0.0"]|state=running|health=healthy
+/polyhunter-worker|image=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948|user=node|path=docker-entrypoint.sh|args=["./node_modules/.bin/nodemon","--legacy-watch","--polling-interval","1000","--watch","apps/worker","--watch","packages","--ext","ts,json","--exec","node","apps/worker/src/index.ts"]|state=running|health=
+/polyhunter-postgres|image=sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744|user=postgres|path=docker-entrypoint.sh|args=["postgres"]|state=running|health=healthy
+
+## web-process-tree
+$ docker top polyhunter-web -eo pid,ppid,user,args
+exit=0
+PID                 PPID                USER                COMMAND
+98547               98523               1000                /sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0
+98610               98547               1000                npm run dev --webpack --hostname 0.0.0.0
+98649               98610               1000                sh -c next dev --webpack --hostname 0.0.0.0
+98650               98649               1000                node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0
+98662               98650               1000                next-server (v16.3.8)
+
+## worker-process-tree
+$ docker top polyhunter-worker -eo pid,ppid,user,args
+exit=0
+PID                 PPID                USER                COMMAND
+98512               98483               1000                /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+98589               98512               1000                node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+
+## web-active-node-processes
+$ docker exec polyhunter-web node -e const fs=require('fs');for(const p of fs.readdirSync('/proc').filter(x=>Number.isInteger(Number(x)))){try{const cmd=fs.readFileSync('/proc/'+p+'/cmdline').toString().split(String.fromCharCode(0)).join(' ').trim();if(cmd.includes('node -e'))continue;const exe=fs.readlinkSync('/proc/'+p+'/exe');if(!exe.includes('node'))continue;const s=fs.readFileSync('/proc/'+p+'/status','utf8').split(String.fromCharCode(10));const uid=s.find(x=>x.startsWith('Uid:'))?.trim();const cap=s.find(x=>x.startsWith('CapEff:'))?.trim();const maps=fs.readFileSync('/proc/'+p+'/maps','utf8').split(String.fromCharCode(10));console.log(JSON.stringify({pid:Number(p),cmd,uid,capEff:cap,libzLoaded:maps.some(x=>x.includes('libz.so')),mappedNative:[...new Set(maps.filter(x=>x.includes('.node')).map(x=>x.trim().split(' ').at(-1)))]}));}catch{}}
+exit=0
+{"pid":19,"cmd":"node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0","uid":"Uid:\t1000\t1000\t1000\t1000","capEff":"CapEff:\t0000000000000000","libzLoaded":false,"mappedNative":[]}
+{"pid":31,"cmd":"next-server (v16.3.8)","uid":"Uid:\t1000\t1000\t1000\t1000","capEff":"CapEff:\t0000000000000000","libzLoaded":false,"mappedNative":["/workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node"]}
+{"pid":6,"cmd":"npm run dev --webpack --hostname 0.0.0.0","uid":"Uid:\t1000\t1000\t1000\t1000","capEff":"CapEff:\t0000000000000000","libzLoaded":false,"mappedNative":[]}
+
+## worker-active-node-processes
+$ docker exec polyhunter-worker node -e const fs=require('fs');for(const p of fs.readdirSync('/proc').filter(x=>Number.isInteger(Number(x)))){try{const cmd=fs.readFileSync('/proc/'+p+'/cmdline').toString().split(String.fromCharCode(0)).join(' ').trim();if(cmd.includes('node -e'))continue;const exe=fs.readlinkSync('/proc/'+p+'/exe');if(!exe.includes('node'))continue;const s=fs.readFileSync('/proc/'+p+'/status','utf8').split(String.fromCharCode(10));const uid=s.find(x=>x.startsWith('Uid:'))?.trim();const cap=s.find(x=>x.startsWith('CapEff:'))?.trim();const maps=fs.readFileSync('/proc/'+p+'/maps','utf8').split(String.fromCharCode(10));console.log(JSON.stringify({pid:Number(p),cmd,uid,capEff:cap,libzLoaded:maps.some(x=>x.includes('libz.so')),mappedNative:[...new Set(maps.filter(x=>x.includes('.node')).map(x=>x.trim().split(' ').at(-1)))]}));}catch{}}
+exit=0
+{"pid":7,"cmd":"node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts","uid":"Uid:\t1000\t1000\t1000\t1000","capEff":"CapEff:\t0000000000000000","libzLoaded":false,"mappedNative":[]}
+
+## web-node-runtime
+$ docker exec polyhunter-web node -e console.log(JSON.stringify({version:process.version,zlib:process.versions.zlib,uid:process.getuid(),gid:process.getgid(),sharedObjects:process.report.getReport().sharedObjects.filter(x=>x.includes('libz'))}))
+exit=0
+{"version":"v24.21.0","zlib":"1.3.2.1-motley-8002e91","uid":1000,"gid":1000,"sharedObjects":[]}
+
+## worker-node-runtime
+$ docker exec polyhunter-worker node -e console.log(JSON.stringify({version:process.version,zlib:process.versions.zlib,uid:process.getuid(),gid:process.getgid(),sharedObjects:process.report.getReport().sharedObjects.filter(x=>x.includes('libz'))}))
+exit=0
+{"version":"v24.21.0","zlib":"1.3.2.1-motley-8002e91","uid":1000,"gid":1000,"sharedObjects":[]}
+
+## debian-zlib-package
+$ docker exec polyhunter-web dpkg-query -W zlib1g:amd64
+exit=0
+zlib1g:amd64	1:1.3.dfsg+really1.3.1-1+b1
+
+## system-libz-sha256
+$ docker exec polyhunter-web sha256sum /usr/lib/x86_64-linux-gnu/libz.so.1
+exit=0
+85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e  /usr/lib/x86_64-linux-gnu/libz.so.1
+
+## node-ldd
+$ docker exec polyhunter-web ldd /usr/local/bin/node
+exit=0
+linux-vdso.so.1 (0x000074b7b91d8000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x000074b7b91ca000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000074b7b8f64000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000074b7b8e74000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000074b7b8e47000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x000074b7b8e40000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000074b7b8c4c000)
+	/lib64/ld-linux-x86-64.so.2 (0x000074b7b91da000)
+
+## web-http-200
+$ powershell.exe -NoProfile -Command (Invoke-WebRequest -UseBasicParsing http://localhost:3000).StatusCode
+exit=0
+200

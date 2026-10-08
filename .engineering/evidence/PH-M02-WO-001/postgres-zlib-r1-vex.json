@@ -12367,7 +12367,14 @@
       "CR-07-AUD-05"
     ],
     "noScopeExpansion": true,
-    "status": "CORRECTED_PENDING_EXACT_HEAD_CI",
+    "status": "CORRECTED_EXACT_HEAD_CI_PASS",
+    "exactHeadCi": {
+      "headSha": "6579e97064570cc38530e69944173fde09920d7c",
+      "workflow": "Validate",
+      "runId": "37817366502",
+      "conclusion": "success",
+      "url": "https://github.com/KayzenRoot/poly-hunter/actions/runs/37817366502"
+    },
     "priorAcceptedCorrection": {
       "review": "5457414821",
       "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
