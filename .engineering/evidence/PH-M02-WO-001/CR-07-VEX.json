@@ -1360,7 +1360,7 @@
     },
     {
       "path": ".github/workflows/validate.yml",
-      "sha256": "f1bc807e1b4d721bb7419e93bc4ba8fb2d88596defb60527e557cbf396f94516",
+      "sha256": "936351112549d9cfdcdece5198c109cecf1eed11aa5fed9929f6f2258f359466",
       "source": "Exact PR-head checkout, locked image build, migration/integration validation and uploaded receipt"
     },
     {
@@ -1400,12 +1400,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-evidence-integrity.txt",
-      "sha256": "a0047dd3a45a1ba779ef5a4ac2b27aeb3691e6ff585f9f97111fe454d117aca8",
+      "sha256": "6fc44f18501463792109c741873e976d90b836a0bb911403a5d6c9041c7c6ef9",
       "source": "Targeted machine-readable VEX and Evidence Bundle integrity validation"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
-      "sha256": "ab224ed086d49476282cdf0c1dc4b9d1f261e8dddf916543fbe119389ff7427d",
+      "sha256": "0608802d5cbc5e962358bed0857214d14de42c4091fb13eced168ea4788f9c7a",
       "source": "Human-readable exact-digest PostgreSQL VEX revalidation and correction status"
     },
     {
@@ -1432,6 +1432,11 @@
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.md",
       "sha256": "47fb9317c22fa16c29e9aa22abb9696c5b4be06fb27b6b063bfb7e378e3b1cba",
       "source": "Human-readable current and historical scan reconciliation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-ci-buildx-driver-failure.txt",
+      "sha256": "c0169bb1eb4b956e3c3c30087ff2652f962824ca3514bcdda4de88f8e051115e",
+      "source": "Sanitized exact-head hosted build failure and Buildx correction"
     }
   ],
   "postgresDigestRevalidation": {
@@ -1469,6 +1474,19 @@
       "unsupported": 3,
       "needsReview": 3,
       "interpretation": "Advisory only; deterministic evidence and independent security/owner gates remain authoritative. No VEX proposal was approved."
-    }
+    },
+    "hostedValidationAttempts": [
+      {
+        "provider": "GitHub Actions",
+        "workflow": "Validate",
+        "runId": "37805774337",
+        "headSha": "add8d8b0d216fe756922f2b88da78ebc21f1fefa",
+        "result": "FAIL",
+        "step": "Build and verify the corrected PostgreSQL image",
+        "reason": "Default docker Buildx driver does not support the type=docker exporter; the build exited before image build and before downstream tests.",
+        "correction": "Create and bootstrap a dedicated docker-container Buildx builder; remove it in always-run cleanup.",
+        "finalHeadGate": "PENDING"
+      }
+    ]
   }
 }

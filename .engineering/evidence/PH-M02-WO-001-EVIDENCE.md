@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-**Pre-push state: PENDING_EXACT_HEAD_CI.** Local implementation, scans, runtime, tests and evidence are ready; the final exact-HEAD GitHub Actions Validate and SonarCloud Security Quality Gate have not yet run on the pending commit. The final executor stop state will be set only after those hosted checks pass. This does not approve any VEX, authorize merge, checkpoint promotion or trading.
+**Current status: PENDING_EXACT_HEAD_CI.** Local implementation, scans, runtime, tests and evidence are ready. The first hosted run failed before image build due to the runner's default Buildx driver; the workflow now explicitly creates an exporter-capable builder. Follow-up GitHub Actions Validate and SonarCloud Security Quality Gate are pending. The executor stop state remains pending until those hosted checks pass. This does not approve any VEX, authorize merge, checkpoint promotion or trading.
 
 - Repository: KayzenRoot/poly-hunter; PR #43; Issue #42.
 - Branch: feat/ph-m02-public-provider-foundation.
@@ -59,9 +59,10 @@ The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is 
 - Focused security boundary suite — PASS, 5 files / 103 tests; raw output: `security-boundary-tests-zlib-r1-final.txt`.
 - `docker compose -p polyhunter-local config --quiet` — PASS. Final live stack recheck: PostgreSQL running/healthy on the exact digest, web HTTP 200/healthy at `http://localhost:3000`, worker running; current raw snapshot: `cr07-compose-runtime-final.txt`.
 - `git diff --check`, JSON/VEX consistency and Evidence Bundle hash validation are captured in cr07-evidence-integrity.txt; GitHub Actions Validate and SonarCloud Security Quality Gate must pass on the final pushed HEAD and are recorded in PR #43.
+- First hosted attempt: [GitHub Actions run 37805774337](https://github.com/KayzenRoot/poly-hunter/actions/runs/37805774337), exact input head `add8d8b0d216fe756922f2b88da78ebc21f1fefa`; failed in the image-build step because GitHub's default Buildx `docker` driver does not support the `type=docker` exporter. No image or downstream tests ran. The workflow now creates/bootstraps a `docker-container` Buildx builder and removes it during always-run cleanup. Sanitized receipt: `cr07-ci-buildx-driver-failure.txt`. Final exact-head validation and SonarCloud remain pending on the follow-up head.
 - Exact final scan invocation, image archive SHA-256, SARIF SHA-256, tool identity and Scout's nonfatal Windows archive-name warning are recorded in `postgres-zlib-r1-scan-receipt.json`.
 - Text command receipts have terminal trailing padding and surplus final blank lines trimmed for clean diffs; command data is unchanged. Raw Scout SARIF remains byte-preserved, and dependent evidence hashes were refreshed.
-- TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`; 2 claims verified, 3 unsupported, 3 needing review; no contradicted claims). The receipt is `jev-cr07-aud-02-04-gate.json`. It verified matching independent-build identities and the unapproved VEX state, while it could not establish the clean-checkout/workflow/non-root claims at the time of review. Deterministic source review confirms the helper gates Compose on locked manifest/config/runtime identity and the workflow builds and exercises that image; exact-head hosted CI remains pending and is not claimed. JEV is advisory, cannot approve CVEs, and received no secrets.
+- TypeSafe JEV 1.13.0 bounded pre-gate returned `ESCALATE` (composite `0.694142857`, `safe_to_apply=0.17`; 2 claims verified, 3 unsupported, 3 needing review; no contradicted claims). The receipt is `jev-cr07-aud-02-04-gate.json`. It verified matching independent-build identities and the unapproved VEX state, while it could not establish the clean-checkout/workflow/non-root claims at the time of review. The first hosted attempt also exposed an exporter-driver mismatch, now corrected in the workflow; exact-head hosted validation remains pending and is not claimed. JEV is advisory, cannot approve CVEs, and received no secrets.
 
 ## PostgreSQL application role risk
 
@@ -85,7 +86,7 @@ The image is local-only and not published to a registry; clean-checkout portabil
 
 ## Stop condition
 
-PENDING_EXACT_HEAD_CI before push. Mark READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT only after final-head GitHub Actions Validate and SonarCloud pass, while all 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
+PENDING_EXACT_HEAD_CI on the follow-up correction head. Mark READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT only after final-head GitHub Actions Validate and SonarCloud pass, while all 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
 
 ## Project Progress Snapshot
 

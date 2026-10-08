@@ -33,6 +33,11 @@ jobs:
           node-version: 24
           cache: npm
 
+      - name: Set up an exporter-capable Buildx builder
+        run: |
+          docker buildx create --name polyhunter-ci --driver docker-container --use
+          docker buildx inspect --bootstrap
+
       - name: Build and verify the corrected PostgreSQL image
         run: node scripts/postgres-image.mjs build --no-cache --receipt "$RUNNER_TEMP/postgres-runtime-validation.json"
 
@@ -72,3 +77,7 @@ jobs:
       - name: Stop PostgreSQL CI container
         if: always()
         run: docker rm --force polyhunter-postgres-ci 2>/dev/null || true
+
+      - name: Remove Buildx builder
+        if: always()
+        run: docker buildx rm polyhunter-ci 2>/dev/null || true

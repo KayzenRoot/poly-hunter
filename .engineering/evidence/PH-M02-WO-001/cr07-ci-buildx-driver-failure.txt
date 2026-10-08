@@ -1,0 +1,11 @@
+PH-M02-WO-001 CR-07 exact-head CI failed-build receipt
+Repository: KayzenRoot/poly-hunter
+PR: #43
+Run: 37805774337
+Head: add8d8b0d216fe756922f2b88da78ebc21f1fefa
+Job: Node 24 validation
+Failed step: Build and verify the corrected PostgreSQL image
+Failure: Docker Buildx default `docker` driver does not support the `type=docker` exporter; the helper exited before image build and before downstream validation.
+No image identity, migrations, integration, or npm checks ran in this attempt. The ephemeral workflow credential values are intentionally omitted.
+Correction: the workflow now creates and bootstraps a dedicated `docker-container` Buildx builder, then removes it in an always-run cleanup step.
+Result: this run is recorded as failed; follow-up exact-head GitHub Actions and SonarCloud remain pending.
