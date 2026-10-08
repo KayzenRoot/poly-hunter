@@ -1,4 +1,7 @@
     i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
-    v SBOM of image already cached, 552 packages indexed
-    x Detected 17 vulnerable packages with a total of 35 vulnerabilities
+    ...Storing image for indexing
+    v Image stored for indexing
+    ...Indexing
+    v Indexed 552 packages
+    ! failed to delete temporary image archive C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1\652d7454-3ed9-4d03-82cb-2526f3d26c3f: unlinkat C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1\652d7454-3ed9-4d03-82cb-2526f3d26c3f: O arquivo já está sendo usado por outro processo.    x Detected 17 vulnerable packages with a total of 35 vulnerabilities
     v Report written to .engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json

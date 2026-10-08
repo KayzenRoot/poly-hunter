@@ -19,7 +19,7 @@ RUN mkdir -p apps/web/.next && chown -R node:node /workspace
 # Keep Node 24 and npm stable, then refresh only npm's vulnerable bundled
 # dependencies within the ranges declared by npm's own dependency tree.
 RUN set -eu; \
-    npm install --global --no-audit --no-fund npm@12.2.0; \
+    npm install --global --no-audit --no-fund --ignore-scripts npm@12.2.0; \
     root="$(npm root --global)/npm/node_modules"; \
     test "$root" = "/usr/local/lib/node_modules/npm/node_modules"; \
     tmp="$(mktemp -d)"; \

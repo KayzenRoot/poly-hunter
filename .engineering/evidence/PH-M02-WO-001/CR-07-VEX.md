@@ -15,10 +15,10 @@
 
 | Image | Immutable local digest | SARIF results | LOW | MEDIUM | HIGH | CRITICAL | Suppressed |
 |---|---|---:|---:|---:|---:|---:|---:|
-| `polyhunter-dev:local` | `sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47` | 35 | 26 | 7 | 2 | 0 | 0 |
+| `polyhunter-dev:local` | `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1` | 35 | 26 | 7 | 2 | 0 | 0 |
 | `postgres:17.11-alpine3.24` | `sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | 58 | 7 | 26 | 23 | 2 | 0 |
 
-The dev scan contains only `CVE-2026-85091` and `CVE-2026-95619` at HIGH. PostgreSQL has 25 HIGH/CRITICAL results: 24 retain prior owner/auditor-approved dispositions bound to this exact unchanged digest, and zlib `CVE-2026-85091` is the sole new proposal. Full scan receipts and SHA-256 values are in [cr07-full-final-scan-reconciliation.txt](cr07-full-final-scan-reconciliation.txt), [polyhunter-dev-cr07-full-final.sarif.json](polyhunter-dev-cr07-full-final.sarif.json), and [postgres-cr07-full-final.sarif.json](postgres-cr07-full-final.sarif.json).
+The dev scan contains only `CVE-2026-85091` and `CVE-2026-95619` at HIGH. PostgreSQL has 25 HIGH/CRITICAL results: 24 retain prior owner/auditor-approved dispositions bound to this exact unchanged digest, and zlib `CVE-2026-85091` is the sole new proposal. The dev image was rebuilt with `--pull --no-cache` after adding `--ignore-scripts` to the global npm install for SonarCloud docker:S6505; versions and the scan findings did not change. Full scan receipts and SHA-256 values are in [cr07-full-final-scan-reconciliation.txt](cr07-full-final-scan-reconciliation.txt), [polyhunter-dev-cr07-full-final.sarif.json](polyhunter-dev-cr07-full-final.sarif.json), and [postgres-cr07-full-final.sarif.json](postgres-cr07-full-final.sarif.json).
 
 ## Individual proposals
 

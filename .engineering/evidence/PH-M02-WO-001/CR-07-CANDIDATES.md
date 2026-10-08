@@ -38,3 +38,7 @@ After selecting and rebuilding Candidate E, `apt-get update` was run in an isola
 | libstdc++6 | `14.2.0-19` | `14.2.0-19` | No Trixie repository refresh available; the exact aligned `operator new` implementation is inspected in `gcc-aligned-new-runtime.txt`. |
 
 Raw apt policy output: `trixie-security-candidate-apt-policy.txt`. Candidate E remains the smallest stable image candidate tested; this check found no supported repository update that improves its residual findings.
+
+## SonarCloud follow-up on selected candidate
+
+The first CR-07 push exposed SonarCloud rule `docker:S6505` on the global npm install because lifecycle scripts were not disabled. The selected Candidate E Dockerfile now passes `--ignore-scripts` to `npm install --global npm@12.2.0`; no dependency versions, project manifests, package-lock, architecture, or product files changed. The final no-cache rebuild produced dev image ID `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1`. Fresh Docker Scout results remain 2 HIGH / 0 CRITICAL for dev and 23 HIGH / 2 CRITICAL for the unchanged pinned PostgreSQL image, with zero SARIF suppressions. Build, test and scan receipts are in the evidence directory. The SonarCloud result for the follow-up PR head remains pending until hosted checks finish.

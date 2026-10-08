@@ -6,8 +6,8 @@
   "images": [
     {
       "image": "polyhunter-dev:local",
-      "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
-      "localImageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+      "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "localImageId": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
       "scanner": "docker scout",
       "scannerVersion": "1.24.0",
       "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",

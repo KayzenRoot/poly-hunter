@@ -1,59 +1,70 @@
-[
-  {
-    "service": "web",
-    "containerId": "26efc056acb857e2ec8793ebf5c55b47274c830f1c7052e3efb4e3b35a663f6f",
-    "name": "polyhunter-web",
-    "image": "polyhunter-dev:local",
-    "imageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
-    "state": "running",
-    "health": "healthy",
-    "user": "node",
-    "pidMode": "",
-    "capAdd": null,
-    "capDrop": null,
-    "readonlyRootfs": false,
-    "ports": {
-      "3000/tcp": [
+{
+  "workOrder": "PH-M02-WO-001",
+  "correction": "CR-07 SonarCloud S6505 follow-up",
+  "capturedAt": "2026-10-07T22:12:58.8148856-03:00",
+  "dockerScout": {
+    "cliVersion": "1.24.0",
+    "devFindings": 35,
+    "devHigh": 2,
+    "devCritical": 0,
+    "devSuppressions": 0,
+    "postgresFindings": 58,
+    "postgresHigh": 23,
+    "postgresCritical": 2,
+    "postgresSuppressions": 0
+  },
+  "devImage": {
+    "tag": "polyhunter-dev:local",
+    "imageId": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+    "repoDigests": [
+      "polyhunter-dev@sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+    ],
+    "node": "v24.21.0",
+    "npm": "12.2.0"
+  },
+  "services": [
+    {
+      "service": "web",
+      "name": "polyhunter-web",
+      "containerId": "4e485b697cf9e5872e3c8e427cb5bf3b258cda5f422ba72551a9369be5f5b831",
+      "imageReference": "polyhunter-dev:local",
+      "imageId": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "state": "running",
+      "health": "healthy",
+      "publishedPorts": [
         {
-          "HostIp": "127.0.0.1",
-          "HostPort": "3000"
+          "containerPort": "3000/tcp",
+          "hostIp": "127.0.0.1",
+          "hostPort": "3000"
         }
-      ]
+      ],
+      "effectiveUser": "node UID 1000 (exact process inspection receipt)"
     },
-    "processEvidence": "Name:\tdocker-init\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=/sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0 "
-  },
-  {
-    "service": "worker",
-    "containerId": "4f11035dcde8a08970638eebeec33f00b80fd717bc3e743a9320f8c3aebfa9e7",
-    "name": "polyhunter-worker",
-    "image": "polyhunter-dev:local",
-    "imageId": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
-    "state": "running",
-    "health": null,
-    "user": "node",
-    "pidMode": "",
-    "capAdd": null,
-    "capDrop": null,
-    "readonlyRootfs": false,
-    "ports": {},
-    "processEvidence": "Name:\tdocker-init\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=/sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts "
-  },
-  {
-    "service": "postgres",
-    "containerId": "08cb837767cf9b2a53058a8d7cd514eb18dcd2a0c4a86e1abdf02186a0987e7d",
-    "name": "polyhunter-postgres",
-    "image": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
-    "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
-    "state": "running",
-    "health": "healthy",
-    "user": "",
-    "pidMode": "",
-    "capAdd": null,
-    "capDrop": null,
-    "readonlyRootfs": false,
-    "ports": {
-      "5432/tcp": null
+    {
+      "service": "worker",
+      "name": "polyhunter-worker",
+      "containerId": "06ab39722250c82a0773e31ee7ca02586a1efeb5dd745a4f8efa99624047f31c",
+      "imageReference": "polyhunter-dev:local",
+      "imageId": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "state": "running",
+      "health": null,
+      "publishedPorts": [],
+      "effectiveUser": "node UID 1000 (exact process inspection receipt)"
     },
-    "processEvidence": "Name:\tpostgres\nUid:\t70\t70\t70\t70\nGid:\t70\t70\t70\t70\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t00000000a80425fb\nNoNewPrivs:\t0\ncmdline=postgres "
-  }
-]
+    {
+      "service": "postgres",
+      "name": "polyhunter-postgres",
+      "containerId": "85ee49a7dff80e7bc615058c2e0ffb0a6265a5466e19aab230353c1798830d40",
+      "imageReference": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "imageId": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "state": "running",
+      "health": "healthy",
+      "publishedPorts": [],
+      "effectiveUser": "postgres container default UID 70 (prior exact runtime receipt)"
+    }
+  ],
+  "webHttpStatus": 200,
+  "workerTop": "UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD\r\n1000                44569               44546               0                   01:08               ?                   00:00:00            /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts\r\n1000                44594               44569               10                  01:08               ?                   00:00:29            node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts",
+  "workerProviderResolution": "/workspace/packages/polymarket/src/index.ts\r\nfunction",
+  "postgresPortPublished": false
+}

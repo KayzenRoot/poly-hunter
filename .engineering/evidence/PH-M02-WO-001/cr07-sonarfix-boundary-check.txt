@@ -1,0 +1,14 @@
+PH-M02-WO-001 CR-07 post-image boundary checks
+Date: 2026-10-07
+Dockerfile.dev change: global npm 12.2.0 install adds --ignore-scripts to address SonarCloud docker:S6505. No application source or package manifests changed.
+Static executable/source search under packages/polymarket/src:
+- Credential/order terms: the only hit is an explanatory comment in packages/polymarket/src/index.ts line 48; no key, credential, signer, authenticated API or create/cancel order capability was added.
+- Dedicated gitleaks/trufflehog/secretlint executable: not installed on this host. The deterministic repository boundary and credential-pattern search was rerun; this is not represented as a third-party secret scanner.
+Current running web image browser bundle:
+- Command searched apps/web/.next/dev/static for the exact @polymarket/client package import.
+- Result: no match; provider SDK remains absent from browser dev assets.
+Current worker exact image:
+- brace-expansion resolves to /workspace/node_modules/brace-expansion/dist/commonjs/index.js version 5.0.12.
+- undici, tar, ip-address and http-cache-semantics are not resolvable from the worker application graph.
+- NODE_PATH is unset, so global npm modules are not injected into Node's application module resolution.
+- @polyhunter/polymarket resolves to /workspace/packages/polymarket/src/index.ts and createPolymarketDiscovery is a function.

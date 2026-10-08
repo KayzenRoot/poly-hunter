@@ -4,7 +4,7 @@ Date: 2026-10-07. Scanner: Docker Scout CLI v1.24.0. Both full SARIF scans were 
 
 | Image | Exact local digest | All findings | LOW | MEDIUM | HIGH | CRITICAL | SARIF SHA-256 |
 |---|---|---:|---:|---:|---:|---:|---|
-| `polyhunter-dev:local` | `sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47` | 35 | 26 | 7 | 2 | 0 | `3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc` |
+| `polyhunter-dev:local` | `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1` | 35 | 26 | 7 | 2 | 0 | `3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc` |
 | `postgres:17.11-alpine3.24` | `sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24` | 58 | 7 | 26 | 23 | 2 | `307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6` |
 
 Both final SARIF files contain zero per-result suppressions. Docker Scout printed “4 exceptions obtained” for PostgreSQL; that notice is preserved and does not clear any finding.

@@ -1,0 +1,22 @@
+PH-M02-WO-001 CR-07 SonarCloud correction receipt
+
+Initial correction head: 82ce7816d78cd04377a20b17c33f3a644e08806e
+Workflow run: 37708411305 (Node 24 validation PASS; PostgreSQL integration PASS)
+SonarCloud result on that head: FAIL — Quality Gate, "C Security Rating on New Code".
+Official SonarCloud issue API result: Dockerfile.dev line 22, rule docker:S6505, MAJOR VULNERABILITY: global npm installation omitted --ignore-scripts, allowing lifecycle scripts to run.
+
+Correction: Dockerfile.dev now adds --ignore-scripts to the global npm 12.2.0 install. This retains the selected Node 24 Trixie base and package pins while preventing npm lifecycle scripts during the global installation. No suppression or quality-gate bypass was used.
+
+Rebuild, local validation, final-image scans, and SonarCloud exact-head recheck were pending when this initial receipt was captured. The original failure is retained as context; do not treat it as resolved until follow-up hosted gates pass.
+
+## Follow-up local evidence captured before the next push
+
+- `npm ci` — PASS; 159 packages added, zero audit findings.
+- `npm run validate` — PASS; 15 files / 238 tests, workspace checks/builds, Next.js production build, and audit.
+- `npm audit --audit-level=high` — PASS; zero findings.
+- Focused provider/security suite — PASS; 6 files / 46 tests.
+- Docker Compose `--pull --no-cache` build — PASS; exact image ID `sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1`.
+- Compose recreate, migration, PostgreSQL integration (4 files / 66 tests), worker restart, web HTTP 200, worker running, PostgreSQL healthy — PASS.
+- Fresh full Docker Scout CLI 1.24.0 scans: dev 35 results / 2 HIGH / 0 CRITICAL; PostgreSQL 58 results / 23 HIGH / 2 CRITICAL; zero SARIF suppressions. Digests and SARIF hashes are in `cr07-full-final-scan-reconciliation.txt`.
+
+At this addendum's capture time, exact-head hosted CI and the SonarCloud recheck are pending on the follow-up push. The live PR #43 checks are authoritative for the current head; this receipt does not claim hosted approval.

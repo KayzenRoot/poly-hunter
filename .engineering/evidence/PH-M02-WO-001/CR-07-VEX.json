@@ -16,7 +16,7 @@
   "images": [
     {
       "image": "polyhunter-dev:local",
-      "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47",
+      "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
       "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
       "sarifSha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc",
       "resultCount": 35,
@@ -312,7 +312,7 @@
       "findingSource": "docker_scout_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
       },
       "component": {
         "package": "pkg:deb/debian/gcc-14@14.2.0-19",
@@ -365,7 +365,7 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
-          "sha256": "040d9379cbd2192995e496248ad47fcc371cc54a8d0953e6d8b3348224736040"
+          "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/gcc-aligned-new-runtime.txt",
@@ -381,11 +381,11 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
-          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+          "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -404,7 +404,7 @@
       "findingSource": "docker_scout_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
       },
       "component": {
         "package": "pkg:deb/debian/zlib@1:1.3.dfsg+really1.3.1-1",
@@ -457,7 +457,7 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
-          "sha256": "040d9379cbd2192995e496248ad47fcc371cc54a8d0953e6d8b3348224736040"
+          "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/npm-application-lock-reconciliation.txt",
@@ -473,11 +473,11 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
-          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+          "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -565,11 +565,11 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
-          "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+          "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -589,7 +589,7 @@
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
@@ -658,7 +658,7 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -679,7 +679,7 @@
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
@@ -748,7 +748,7 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -768,7 +768,7 @@
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
         "reference": "polyhunter-dev:local",
-        "digest": "sha256:3e7475d7fce403540855f0397f023b20ad9ab79b3767ea6ee6499afd570fbc47"
+        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
@@ -837,7 +837,7 @@
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
@@ -868,7 +868,7 @@
   "evidenceManifest": [
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
-      "sha256": "cf00bf7e874a8be36a1a9a78ef95cd3c545a9a09b4f474e683708f8976317529"
+      "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
@@ -880,11 +880,11 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-      "sha256": "2f70e62f73a5e724045a5f1697883e8e04fa8d109cc117f1e36dac57e1b2424f"
+      "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-worker-restart-smoke.txt",
-      "sha256": "d6762a8352b79f3285e5262999bab0bc848ce5f4dc33d6a3a5429f2664fc29de"
+      "sha256": "ba0506a4817cff1c0a30e1c95e02d2113c1634cb4c2c75c8dc132ada9e099719"
     }
   ]
 }
