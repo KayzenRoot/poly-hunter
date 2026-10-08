@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "review": "5462779327",
+  "observedAtUtc": "2026-10-08T22:38:15Z",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "headShaBeforeEvidenceUpdate": "b8e5e7b904240f40d02171cf66b95cb80063a1be",
+  "pullRequestState": "OPEN_DRAFT",
+  "operatorAuthorization": {
+    "normalUacHelperExitCode": 0,
+    "helperConfirmedElevated": true,
+    "dockerServiceAfterAuthorization": "RUNNING",
+    "wslServiceAfterAuthorization": "RUNNING"
+  },
+  "repository": {
+    "workingTreeBeforeEvidenceUpdate": "CLEAN",
+    "composeConfig": {
+      "command": "docker compose --project-name polyhunter-local config --quiet",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    "environmentFile": {
+      "present": true,
+      "sizeBytes": 172,
+      "contentsReadOrPrinted": false
+    },
+    "postgresImageLock": {
+      "image": "polyhunter-postgres:local",
+      "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "platform": "linux/amd64",
+      "postgresVersion": "17.11",
+      "alpineVersion": "3.24",
+      "zlibVersion": "1.3.2-r1"
+    }
+  },
+  "dockerDesktop": {
+    "installedVersion": "4.88.1.237512",
+    "installationMode": "all-users (installed under C:\\Program Files\\Docker\\Docker)",
+    "applicationProcessRunningAtFinalProbe": false,
+    "service": {
+      "name": "com.docker.service",
+      "state": "RUNNING",
+      "startType": "Manual"
+    },
+    "dataPathJunction": {
+      "path": "%LOCALAPPDATA%\\Docker",
+      "type": "JUNCTION",
+      "target": "D:\\Docker",
+      "targetExists": false
+    },
+    "officialUpdateAttempt": {
+      "targetVersion": "4.94.0",
+      "downloadUrl": "https://desktop.docker.com/win/main/amd64/241994/Docker%20Desktop%20Installer.exe",
+      "sizeBytes": 635493296,
+      "sha256": "a9814e31049d66156477a86614e83365669677733014ec72f74229623ff3890a",
+      "officialChecksumMatched": true,
+      "authenticodeStatus": "Valid",
+      "signer": "Docker Inc",
+      "command": "Docker Desktop Installer.exe install --quiet (standard RunAs/UAC)",
+      "exitCode": 1,
+      "versionAfterAttempt": "4.88.1.237512",
+      "upgradeApplied": false,
+      "explicitInstallerDiagnostic": "A subsequent read-only --help invocation failed while opening the installer log: it could not create %LOCALAPPDATA%\\Docker because that existing path is a junction. The installed application version remained unchanged."
+    }
+  },
+  "wslStorage": {
+    "service": "RUNNING",
+    "registeredDistribution": {
+      "name": "docker-desktop",
+      "version": 2,
+      "state": "STOPPED",
+      "registeredBasePath": "D:\\Docker\\wsl\\main",
+      "registeredSystemVhdx": "D:\\Docker\\wsl\\main\\ext4.vhdx",
+      "registeredSystemVhdxExists": false
+    },
+    "expectedDataVhdx": {
+      "path": "D:\\Docker\\wsl\\disk\\docker_data.vhdx",
+      "currentlyExists": false,
+      "lastObservedPresentUtc": "2026-10-08T21:54:49Z",
+      "lastObservedBytes": 65711112192,
+      "lastObservedUnchangedAcrossThatProbe": true
+    },
+    "programDataDataFolderSetting": "C:\\ProgramData\\DockerDesktop\\vm-data",
+    "programDataDataFolderCurrentlyExists": false,
+    "dDriveHealth": "Healthy",
+    "dDriveSearch": {
+      "command": "where.exe /R D:\\ docker_data.vhdx",
+      "result": "NO_MATCH",
+      "exitCode": 1
+    },
+    "alternateChecks": {
+      "programDataSearch": "NO_MATCH for docker_data.vhdx",
+      "targetedDockerWslAndBackupPaths": "NO_MATCH",
+      "elevatedDDriveShadowCopies": 0,
+      "fullCUserProfileSearch": "NOT_COMPLETED"
+    },
+    "wslUnregisterOrResetExecuted": false
+  },
+  "runtimeProbes": {
+    "dockerClientVersion": "29.7.2",
+    "composeVersion": "v5.4.0",
+    "context": "desktop-linux",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "dockerVersion": "FAILED: server pipe is absent; Windows reports the system cannot find the file",
+    "dockerInfo": "FAILED: no server version; same missing named pipe",
+    "dockerComposePs": "FAILED: same missing Docker Engine endpoint",
+    "dockerComposeUp": {
+      "command": "npm run docker:up",
+      "result": "FAILED",
+      "firstOperation": "docker compose --project-name polyhunter-local build --pull web worker",
+      "failure": "Docker Engine endpoint missing",
+      "postgresImageBuildStageReached": false,
+      "composeUpStageReached": false
+    },
+    "webUrl": "http://localhost:3000",
+    "webHttp": "CONNECTION_REFUSED",
+    "postgresHealth": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE",
+    "workerProcess": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE",
+    "currentContainerImageIds": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE",
+    "restartCountsAndStartupLogs": "NOT_VERIFIABLE_WITH_ENGINE_UNAVAILABLE"
+  },
+  "scopeProtection": {
+    "factoryResetExecuted": false,
+    "wslUnregisterExecuted": false,
+    "composeProjectUpReached": false,
+    "databaseVolumeDeletionExecuted": false,
+    "credentialsReadOrPrinted": false,
+    "productFilesModified": false,
+    "acceptedCr01ThroughCr07Reworked": false,
+    "vexApprovalOrCheckpointPromotion": false
+  },
+  "result": "BLOCKED_DOCKER_DATA_PATH_MISSING",
+  "manualActionRequired": "Restore the existing Docker Desktop storage tree at D:\\Docker from an operator-controlled backup, including the registered WSL system VHDX and docker_data.vhdx, or identify the correct currently mounted storage location. Do not initialize a replacement distro or database. After recovery, rerun docker version/docker info and resume npm run docker:up."
+}
