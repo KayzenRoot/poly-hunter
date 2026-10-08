@@ -1,10 +1,13 @@
-PH-M02-WO-001 CR-07 evidence integrity validation
-Scope: exact image lock; latest scan reconciliation; all 29 proposal/approval states; receipt hashes and Evidence Manifest.
-Locked PostgreSQL image: manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744; config sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93.
-Current development image sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948: 1 HIGH / 0 CRITICAL in both machine-readable scan records: PASS.
-Current PostgreSQL image: 22 HIGH / 2 CRITICAL in both machine-readable scan records: PASS.
-All 29 VEX proposals remain UNDER_INVESTIGATION + proposed NOT_AFFECTED, auditor/owner approvals null, executor self-approval false: PASS.
-JEV gate receipt is hash-bound and recorded as ESCALATE advisory only: PASS.
-Evidence Manifest contains 56 unique entries; all paths exist and SHA-256 values are recalculated, including this receipt after writing.
-Context Lock drift provenance is documented in the Evidence Bundle; no policy change or scope expansion was made here.
-Overall: PASS
+PH-M02-WO-001 focused CR-07-AUD-05/-06 evidence and VEX integrity validation
+Review 5460224915; audited base HEAD 3610088bf1c2183d46b1363af25a94b71f6378b8.
+PostgreSQL image digest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744; current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948.
+Gosu VEX rows: 23/23 initial user is Config.User=postgres UID/GID 70:70; no stale syscall.Exec rationale; original gosu SHA, symbols, source refs and approval state preserved: PASS.
+libxml2 row initial/steady runtime context UID/GID 70:70; reachability and unapproved VEX status preserved: PASS.
+Current dev scan: 34 results, 1 HIGH, 0 CRITICAL. PostgreSQL scan: 57 results, 22 HIGH, 2 CRITICAL.
+Current proposals: 25 scan occurrences + 3 supplemental current-digest util-linux = 28; historical GCC CVE-2026-95619 archived separately = 1. Current proposals remain UNDER_INVESTIGATION / proposed NOT_AFFECTED; auditor/owner approval null; executor self-approval false: PASS.
+Util-linux rows CVE-2026-76642, CVE-2026-78408 and CVE-2026-78410 individually bound to current digest; current SARIF and read-only runtime receipts hash-bound; fstab, user/capabilities, executable mode, helper absence and invocation premises reconciled: PASS.
+Machine rollups, current/historical counts and PostgreSQL VEX hash pointer: PASS.
+TypeSafe JEV 1.13.0 bounded verification receipt is present and advisory only; no VEX approval: PASS.
+No image rebuild/rescan, product/config/dependency/database change: PASS.
+Evidence Manifest contains 58 unique paths; final file hashes are refreshed below.
+Overall focused evidence/VEX integrity: PASS.

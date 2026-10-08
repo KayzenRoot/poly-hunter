@@ -1,6 +1,6 @@
 # PostgreSQL zlib-r1 image — fresh VEX revalidation
 
-- Work Order: PH-M02-WO-001; originating zlib review 5455471016; active correction review 5457414821 (CR-07-AUD-02/-03/-04); PR #43.
+- Work Order: PH-M02-WO-001; originating zlib review 5455471016; prior accepted correction review 5457414821 (CR-07-AUD-02/-03/-04); active correction review 5460224915 (CR-07-AUD-05/-06); PR #43. Audited HEAD: 3610088bf1c2183d46b1363af25a94b71f6378b8.
 - Exact image: polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 (linux/amd64; config sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93).
 - Base: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24.
 - Current scanner: Docker Scout CLI 1.24.0; raw SARIF SHA-256 3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14.
@@ -57,6 +57,22 @@ The only removed CVE is CVE-2026-85091. No new HIGH/CRITICAL ID appeared. The ch
 
 A current-row proposal does not transfer older auditor or owner decisions. For the 23 Go stdlib/gosu rows, the gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, but the locked image has Config.User=postgres; the official entrypoint root-only gosu branch is skipped. This exact runtime fact is recorded per Go occurrence and does not approve any proposal. The single libxml2 row retains its PH-SEC-WO-003-specific reachability analysis; its library SHA-256 is c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7, with current image/runtime evidence rebound. Detailed per-CVE evidence remains in the JSON with prior-analysis pointers.
 
+## CR-07-AUD-05/-06 — exact runtime and proposal reconciliation
+
+The current correction review found and corrected stale runtime assertions in all 23 gosu records. Each now records Config.User=postgres, initial entrypoint UID/GID 70:70, and the root-only gosu branch as skipped. Their justification no longer says syscall.Exec occurred. The exact gosu SHA, symbol inventories, advisory evidence, status, proposed disposition, and approval fields are preserved. The libxml2 row now also records the initial and steady PostgreSQL UID/GID 70:70; its CVE-specific reachability analysis is unchanged.
+
+Read-only Compose evidence is bound to PostgreSQL digest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948. The dev web and worker use the exact dev digest as UID/GID 1000:1000 with zero effective capabilities. Current util-linux packages are 2.41.5-0+deb13u1; /etc/fstab is root-owned mode 0644 with only its base-system comment. mount is SUID root; nsenter is not SUID. Runtime process inventory and source search found no application invocation of either tool. CAP_SYS_ADMIN is absent from the process capability bounding set.
+
+| Finding | Current image | Current SARIF result | Current exact-runtime premise | VEX |
+|---|---|---|---|---|
+| CVE-2026-76642 (mount/libmount) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | Absent; source-reconciled supplemental occurrence | No authorized fstab/helper entry and no application call path; SUID mount remains present | UNDER_INVESTIGATION; NOT_AFFECTED proposed, unapproved |
+| CVE-2026-78408 (nsenter) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | Absent; source-reconciled supplemental occurrence | nsenter mode 0755, no app invocation or target selector, and no CAP_SYS_ADMIN in CapBnd | UNDER_INVESTIGATION; NOT_AFFECTED proposed, unapproved |
+| CVE-2026-78410 (mount) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | Absent; source-reconciled supplemental occurrence | No authorized fstab source entry/path and no application call path; SUID mount remains present | UNDER_INVESTIGATION; NOT_AFFECTED proposed, unapproved |
+
+The current proposal count is **28**: 25 current scan occurrences with proposals plus 3 current-digest supplemental util-linux proposals. GCC CVE-2026-95619 is archived as **one historical occurrence** because it is absent from the current dev digest SARIF. Its prior UNDER_INVESTIGATION / proposed NOT_AFFECTED fields remain preserved in the archive; absence is not treated as FIXED or NOT_AFFECTED. It is excluded from current pending counts.
+
+Evidence receipts: cr07-aud-05-06-runtime-revalidation.txt (SHA-256 d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539) and jev-cr07-aud-05-06-verify.json (SHA-256 506793037c121387a059f94e765029f169f63c89570b9997c2d804813dd46e66). TypeSafe JEV verified the two bounded consistency claims; one was routed to review. Its output is advisory and approves no vulnerability.
+
 ## FIXED zlib occurrence
 
 Alpine 3.24 package zlib 1.3.2-r1 is installed. The library is /usr/lib/libz.so.1.3.2 with SHA-256 ecc8b9dfc45eb7fa29b410ffaca6257873890de53b80fe91735737b49067c5f2. The SONAME remains libz.so.1 and the old/new exported dynamic symbol-name sets match (111 symbols; list SHA-256 3a590bbd310d754b854576219134ba3858fef69d7c416f57ebff8fe69ccd5f5b). PostgreSQL resolves the updated library; startup, migrations, integration, persistence and crash recovery passed on disposable candidate databases. Exact fix and package references are linked in postgres-zlib-r1-official-candidates.md and postgres-zlib-r1-abi.txt.
@@ -65,4 +81,4 @@ Alpine 3.24 package zlib 1.3.2-r1 is installed. The library is /usr/lib/libz.so.
 
 The current local application role polyhunter is superuser; classify as HIGH privilege blast radius for local development. This is not evidence of SQL injection. Recommendation: plan a separate least-privileged runtime-role change before broader or production exposure. No DB role, schema, application or migration changes were made.
 
-The artifact remains unpublished. A clean checkout obtains it through canonical `npm run docker:up`, which builds from the pinned official base, verifies the locked manifest/config identities and fails closed before Compose startup on mismatch. CI checks out the PR head SHA, repeats the image build/runtime assertions, migrations and PostgreSQL integration tests, and uploads a receipt bound to that SHA. Raw findings and all 29 proposals remain subject to ADR-0007, with auditor and owner approvals null. No merge, checkpoint promotion, WO-002, signing or trading is authorized; liveTradingAuthorized=false.
+The artifact remains unpublished. A clean checkout obtains it through canonical `npm run docker:up`, which builds from the pinned official base, verifies the locked manifest/config identities and fails closed before Compose startup on mismatch. CI checks out the PR head SHA, repeats the image build/runtime assertions, migrations and PostgreSQL integration tests, and uploads a receipt bound to that SHA. Raw findings remain visible; 28 current proposals remain subject to ADR-0007 with auditor and owner approvals null, and one absent GCC occurrence is archived as historical. No merge, checkpoint promotion, WO-002, signing or trading is authorized; liveTradingAuthorized=false.

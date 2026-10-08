@@ -496,22 +496,30 @@
     "postgresFreshHighCriticalProposals": 24,
     "currentScoutHighCriticalOccurrencesWithProposal": 25,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
-    "proposalsPendingIndependentAuditAndOwner": 29,
+    "proposalsPendingIndependentAuditAndOwner": 28,
     "allProposedDispositionByClass": {
-      "NOT_AFFECTED": 29
+      "NOT_AFFECTED": 28
     },
     "selfApproval": false,
     "unproposedUnderInvestigationOccurrences": 0,
-    "note": "Latest exact dev scan has one raw HIGH finding (zlib); the prior GCC row remains historical and unapproved. The locked PostgreSQL scan has 24 raw HIGH/CRITICAL findings plus the zlib fixed occurrence absent from the scan. All 29 VEX proposals remain under investigation and unapproved; proposals do not clear raw scanner findings.",
+    "note": "Latest exact dev scan has one raw HIGH finding (zlib). Three util-linux occurrences are current-digest supplemental proposals revalidated on sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948. GCC CVE-2026-95619 is absent from that scan and is archived as one historical occurrence without auto-classification. The locked PostgreSQL scan has 24 raw HIGH/CRITICAL findings; proposals remain UNDER_INVESTIGATION and unapproved.",
     "latestDevImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
     "latestDevImageHighCritical": 1,
     "latestPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "latestPostgresImageHighCritical": 24,
     "latestPostgresImageFixedCve": "CVE-2026-85091",
     "currentScannerHighCriticalOccurrencesWithProposal": 25,
-    "totalPendingVexProposals": 29,
+    "totalPendingVexProposals": 28,
     "allPendingUnapproved": true,
-    "developmentImagePreviousDigestHighCritical": 2
+    "developmentImagePreviousDigestHighCritical": 2,
+    "currentProposalCounts": {
+      "currentPending": 28,
+      "currentScoutOccurrencesWithProposal": 25,
+      "supplementalCurrentPending": 3,
+      "historicalArchived": 1
+    },
+    "historicalArchivedVexOccurrences": 1,
+    "supplementalCurrentUtilLinuxProposals": 3
   },
   "legacyDevelopmentReconciliation": [
     {
@@ -617,14 +625,14 @@
       "oldSeverity": "HIGH",
       "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "reconciliationCategory": "util_linux_source_reconciliation",
-      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+      "currentExactImageNote": "The supplemental VEX occurrence is rebound and revalidated against current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; see the individual current digest record in CR-07-VEX.json and receipt cr07-aud-05-06-runtime-revalidation.txt."
     },
     {
       "cve": "CVE-2026-78408",
       "oldSeverity": "HIGH",
       "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "reconciliationCategory": "util_linux_source_reconciliation",
-      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+      "currentExactImageNote": "The supplemental VEX occurrence is rebound and revalidated against current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; see the individual current digest record in CR-07-VEX.json and receipt cr07-aud-05-06-runtime-revalidation.txt."
     },
     {
       "cve": "CVE-2026-78409",
@@ -638,7 +646,7 @@
       "oldSeverity": "HIGH",
       "oldComponent": "pkg:deb/debian/util-linux@2.38.1-5%2Bdeb12u3?os_distro=bookworm&os_name=debian&os_version=12",
       "reconciliationCategory": "util_linux_source_reconciliation",
-      "currentExactImageNote": "Retained as supplemental exact-version source review; see individual CR-07 VEX records and the CVE-2026-78409 version conclusion."
+      "currentExactImageNote": "The supplemental VEX occurrence is rebound and revalidated against current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; see the individual current digest record in CR-07-VEX.json and receipt cr07-aud-05-06-runtime-revalidation.txt."
     },
     {
       "cve": "CVE-2026-82560",
@@ -672,8 +680,8 @@
       "cve": "CVE-2026-95619",
       "oldSeverity": "HIGH",
       "oldComponent": "pkg:deb/debian/gcc-12@12.2.0-14%2Bdeb12u1?os_distro=bookworm&os_name=debian&os_version=12",
-      "reconciliationCategory": "current_gcc_proposal",
-      "currentExactImageNote": "Current exact-image GCC occurrence has an individual proposed VEX record; status remains UNDER_INVESTIGATION."
+      "reconciliationCategory": "historical_archived_not_current",
+      "currentExactImageNote": "Absent from Docker Scout SARIF for current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; archived historical only. Absence is not FIXED or NOT_AFFECTED evidence."
     }
   ],
   "sourceReconciliation": {
@@ -685,7 +693,13 @@
     "notAffectedByFinalVersion": [
       "CVE-2026-78409"
     ],
-    "detailsPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json"
+    "detailsPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
+    "currentDevDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "supplementalCurrentRows": [
+      "CVE-2026-76642",
+      "CVE-2026-78408",
+      "CVE-2026-78410"
+    ]
   },
   "vexPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
   "scannerNotice": "Docker Scout CLI v1.24.0 reported 4 exceptions obtained for PostgreSQL. Full SARIF has zero per-result suppressions; the notice is not treated as clearing a CVE.",
@@ -699,10 +713,13 @@
     "liveTradingAuthorized": false,
     "postgresCurrentDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "postgresCurrentDigestConfig": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
-    "all29VexProposalsUnapproved": true
+    "currentVexProposalsUnapproved": 28,
+    "historicalArchivedOccurrences": 1,
+    "historicalGccStatusPreserved": "UNDER_INVESTIGATION / proposed NOT_AFFECTED; excluded from current pending count; not auto-classified",
+    "allCurrentVexProposalsUnapproved": true
   },
   "postgresDigestRevalidationVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-  "postgresDigestRevalidationVexSha256": "2cfc2c423bcab71f2437d9ae27d54f63aec0a9e12bf42cb6aa2462caef0b8de4",
+  "postgresDigestRevalidationVexSha256": "0158c00e2c671f0621b1e19ad943a72d1c3b2618a56d0d6c0b10cb6d00a629fa",
   "officialPostgres17Candidates": [
     {
       "image": "postgres:17.11-bookworm",
@@ -737,11 +754,19 @@
       "decision": "Rejected: official zlib candidate remains vulnerable."
     }
   ],
-  "correctionReview": "5457414821",
-  "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+  "correctionReview": "5460224915",
+  "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
   "correctionScope": [
-    "CR-07-AUD-02",
-    "CR-07-AUD-03",
-    "CR-07-AUD-04"
-  ]
+    "CR-07-AUD-05",
+    "CR-07-AUD-06"
+  ],
+  "priorAcceptedCorrection": {
+    "review": "5457414821",
+    "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+    "scope": [
+      "CR-07-AUD-02",
+      "CR-07-AUD-03",
+      "CR-07-AUD-04"
+    ]
+  }
 }

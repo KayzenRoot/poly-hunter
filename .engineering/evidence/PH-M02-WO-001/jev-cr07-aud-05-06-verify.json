@@ -1,0 +1,38 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "correctionDelta": ["CR-07-AUD-05", "CR-07-AUD-06"],
+  "independentReview": "5460224915",
+  "provider": "TypeSafe",
+  "tool": "jev_verify",
+  "model": "jev-1.13.0",
+  "purpose": "Bounded consistency review of exact PostgreSQL non-root/gosu facts and current-versus-historical dev-image proposal reconciliation; not a vulnerability approval.",
+  "claims": [
+    {
+      "id": "claim0",
+      "claim": "For the exact locked PostgreSQL image, the initial entrypoint process runs as postgres UID/GID 70:70, so the root-only gosu branch is skipped; the 23 gosu records should describe gosu as not invoked and must not claim its syscall.Exec path corroborates runtime behavior.",
+      "verdict": "verified",
+      "probabilities": {"supports": 0.84, "contradicts": 0.03, "says_nothing": 0.13},
+      "confidence": 0.76,
+      "action": "review",
+      "supportingEvidence": null,
+      "sameSubject": 0.76
+    },
+    {
+      "id": "claim1",
+      "claim": "The current exact development digest is sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; the three util-linux records must be rebound to that digest using current runtime evidence while the absent GCC result is archived as historical, not auto-classified as fixed or not affected.",
+      "verdict": "verified",
+      "probabilities": {"supports": 0.95, "contradicts": 0.02, "says_nothing": 0.03},
+      "confidence": 0.92,
+      "action": "auto",
+      "supportingEvidence": null,
+      "sameSubject": 0.86
+    }
+  ],
+  "summary": {"verified": 2, "contradicted": 0, "unsupported": 0, "needsReview": 1},
+  "usage": {"inputTokens": 1531, "outputTokens": 126},
+  "limitations": [
+    "JEV is advisory; confidence/action do not establish technical truth.",
+    "JEV did not approve any CVE or VEX proposal.",
+    "No secrets were sent."
+  ]
+}

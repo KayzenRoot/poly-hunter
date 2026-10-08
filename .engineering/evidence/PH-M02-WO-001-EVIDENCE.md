@@ -9,7 +9,7 @@
 - Work Order base: main@a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c.
 - Audited parent HEAD: 9d197abd78eae23173021cbb6e92fbde133a87e2.
 - Implementation correction HEAD: `a8725af302d7b7b21436ade68c49c360ecfb1aa2`; GitHub Actions Validate and PR quality/security checks passed there. The final evidence-only HEAD and its exact-head checks are recorded in the current PR #43 body/checks; this bundle does not self-reference its commit.
-- Originating zlib review: 5455471016. Active Correction Delta review: 5457414821, limited to CR-07-AUD-02, CR-07-AUD-03 and CR-07-AUD-04. Preflight and exact fingerprint evidence are in postgres-zlib-r1-preflight.md and postgres-zlib-r1-context-lock-validation.json.
+- Originating zlib review: 5455471016. Prior accepted Correction Delta: review 5457414821 (AUD-02/-03/-04). Active Correction Delta: review 5460224915, limited to CR-07-AUD-05/-06. Audited HEAD: 3610088bf1c2183d46b1363af25a94b71f6378b8. Preflight and exact fingerprint evidence are in postgres-zlib-r1-preflight.md and postgres-zlib-r1-context-lock-validation.json.
 - Preflight found the Context Lock's JEV policy fingerprint differs from the committed policy at the audited parent (`expected c163b1ec843dbe3588bc8740074f224e42003c89`, actual `c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6`). This is the earlier operator-authorized policy hotfix in commit `4956676540ace9be9e7411db65a49a18f7223b49`; this Correction Delta does not modify that policy or expand its scope. The module-plan/work-order fingerprints and other frozen sources match. Context Lock runtime fingerprints are pre-implementation baselines: `package.json`/`package-lock.json` and `Dockerfile.dev` already reflect accepted PH-M02-WO-001 changes (`d298c06`, `82ce781`, `d4b48a8`); `compose.yaml` also includes the previously accepted zlib change at `86a7ed6`, with the current correction's Compose/package-script changes recorded in this delta. Other runtime fingerprints match.
 - CR-01 through CR-06 remain accepted; only CR-07 zlib remediation and dependent evidence were changed.
 - No PH-M02-WO-002, merge, canonical checkpoint promotion, signing, authenticated trading, or live trading. liveTradingAuthorized=false.
@@ -30,7 +30,7 @@ Docker Scout CLI 1.24.0, no per-result suppressions.
 | polyhunter-dev:local (fresh rebuilt image) | sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 | 34 | 26 | 7 | 1 | 0 | 25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622 |
 | PostgreSQL 17.11 zlib-r1 (locked current image) | sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 | 57 | 7 | 26 | 22 | 2 | 3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14 |
 
-The prior official Alpine digest scan was 58 results (7 LOW / 26 MEDIUM / 23 HIGH / 2 CRITICAL). Set reconciliation removed only CVE-2026-85091; no new H/C ID appeared. The locked image has 24 H/C occurrences (22 HIGH, 2 CRITICAL). Each retains a proposed NOT_AFFECTED record in postgres-zlib-r1-vex.json; all 24 remain UNDER_INVESTIGATION with independentAuditor=null, ownerApproval=null and executorSelfApproval=false. Go stdlib/gosu rows now reflect the non-root postgres entrypoint, which skips gosu; the libxml2 row retains its PH-SEC-WO-003-specific reachability assessment. No proposal is approved and prior exact-digest approvals were not transferred. The fresh dev scan reports one current HIGH (zlib); its GCC proposal remains historical and UNDER_INVESTIGATION because it is absent from the fresh scan. All 29 VEX proposals remain unapproved.
+The prior official Alpine digest scan was 58 results (7 LOW / 26 MEDIUM / 23 HIGH / 2 CRITICAL). Set reconciliation removed only CVE-2026-85091; no new H/C ID appeared. The locked image has 24 H/C occurrences (22 HIGH, 2 CRITICAL). Each retains a proposed NOT_AFFECTED record in postgres-zlib-r1-vex.json; all 24 remain UNDER_INVESTIGATION with independentAuditor=null, ownerApproval=null and executorSelfApproval=false. CR-07-AUD-05 corrected all 23 gosu runtime records to the exact non-root Config.User=postgres path and removed the false syscall.Exec rationale; the libxml2 row also now identifies initial/steady UID 70. No proposal is approved and prior exact-digest approvals were not transferred. The fresh dev scan reports one current HIGH (zlib). The current proposal set is 25 scan occurrences plus 3 current-digest util-linux supplements = 28 pending. GCC CVE-2026-95619 is one historical archived occurrence because it is absent from the fresh scan; it remains unapproved and is not classified FIXED or NOT_AFFECTED.
 
 The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is listed. EPSS is refreshed as of 2026-10-07 and is prioritization context only. Receipts: cisa-kev-postgres-zlib-r1-final.json and epss-postgres-zlib-r1-final.json.
 
@@ -71,9 +71,20 @@ The fresh KEV catalog is 2026.10.04; none of the current PostgreSQL H/C CVEs is 
 
 Role polyhunter has rolsuper=true in the exact final local database. Classification: HIGH privilege blast radius in local development. This does not establish SQL injection. Recommend a separately approved least-privilege runtime-role follow-up before broader or production exposure. The issue, evidence and recommendation are in postgres-superuser-risk.md; no role/schema changes are in this scope.
 
+## CR-07-AUD-05/-06 evidence reconciliation
+
+- PostgreSQL image identity: sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744, Config.User=postgres, live initial/steady process UID/GID 70:70, CapEff zero. All 23 gosu VEX records now match this exact runtime and no longer imply gosu executed syscall.Exec. The libxml2 user context also matches the exact initial/steady runtime; its reachability conclusion is unchanged.
+- Development image identity: sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; current SARIF SHA-256 25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622 (34 findings; 1 HIGH, 0 CRITICAL; current H/C is zlib only).
+- The three util-linux records are bound to that current digest and individually retain their CVE-specific fstab, UID/capability, SUID/mode, process-invocation and attacker-input premises in CR-07-VEX.json. Current package set: util-linux/libmount/libblkid/libuuid 2.41.5-0+deb13u1. Runtime/source evidence: cr07-aud-05-06-runtime-revalidation.txt, SHA-256 d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539.
+- Current-vs-historical proposal count: 25 current scan occurrences + 3 current-digest supplemental util-linux proposals = 28 current pending; 1 absent GCC CVE-2026-95619 is archived historically and excluded. Its status remains UNDER_INVESTIGATION/unapproved; disappearance is not treated as FIXED or NOT_AFFECTED. All 28 current proposals remain UNDER_INVESTIGATION with proposed NOT_AFFECTED, independent auditor/owner approval unset, and executor self-approval false.
+- TypeSafe JEV 1.13.0 verified the two bounded consistency claims (one routed to review); advisory only, no vulnerability disposition or approval. Receipt: jev-cr07-aud-05-06-verify.json; SHA-256 is recorded in the machine VEX manifest.
+- Context Lock module/work-order fingerprints and seven unchanged frozen-source fingerprints match. The sole mismatch is the previously operator-authorized JEV policy hotfix (commit 4956676); this correction did not modify that policy.
+- No image rebuild/rescan, product/config/dependency/database change, merge, checkpoint promotion, WO-002, signing or trading. Exact-head Validate and PR checks for this evidence commit are tracked in PR #43. liveTradingAuthorized=false.
+
 ## Evidence index
 
 - Fresh current PostgreSQL VEX: postgres-zlib-r1-vex.json and CR-07-VEX.md.
+- CR-07-AUD-05/-06 read-only runtime and TypeSafe JEV receipts: cr07-aud-05-06-runtime-revalidation.txt and jev-cr07-aud-05-06-verify.json.
 - Machine scanner rollup: security-scans.json; human scan summary: security-scans.md.
 - Official and selected candidates: postgres-zlib-r1-official-candidates.md and raw SARIF.
 - Recovery plan/receipts: postgres-pgdata-recovery-plan.md, postgres-prechange-stack-and-backup.txt, postgres-recovery-zlib-r1-final.txt.
@@ -86,13 +97,13 @@ Role polyhunter has rolsuper=true in the exact final local database. Classificat
 
 The 24 current PostgreSQL proposals and the existing dev proposals are not approvals. Independent security audit and explicit owner approval remain required by ADR-0007. Raw Scout findings stay visible. A reviewer may reject any proposal, especially those whose prior evidence must be accepted against the changed image digest.
 
-The image is local-only and not published to a registry; clean-checkout portability is provided by the fail-closed pinned build helper and locked manifest/config digests. Building requires Docker Buildx timestamp-rewrite support and access to the exact official base plus Alpine v3.24/main. The app database role remains superuser. Proposed VEX rows expire 2026-10-15T23:59:59Z or earlier on digest, scan, advisory, KEV, runtime, exposure or evidence changes. All 29 proposals remain unapproved.
+The image is local-only and not published to a registry; clean-checkout portability is provided by the fail-closed pinned build helper and locked manifest/config digests. Building requires Docker Buildx timestamp-rewrite support and access to the exact official base plus Alpine v3.24/main. The app database role remains superuser. Proposed VEX rows expire 2026-10-15T23:59:59Z or earlier on digest, scan, advisory, KEV, runtime, exposure or evidence changes. All 28 current proposals remain unapproved; the single archived GCC occurrence is excluded from the current proposal count.
 
 ## Stop condition
 
-Implementation-head validation passed on `a8725af302d7b7b21436ade68c49c360ecfb1aa2`. The final evidence-only commit is eligible for `READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT` only when its exact-head GitHub Actions Validate, SonarCloud and required PR checks pass; those live results are intentionally tracked in PR #43 to avoid a self-referential bundle. All 29 proposals remain unapproved. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
+Implementation-head validation passed on `a8725af302d7b7b21436ade68c49c360ecfb1aa2`; exact checks for the prior evidence-only head passed on review head `3610088bf1c2183d46b1363af25a94b71f6378b8`. The current AUD-05/-06 evidence-only commit is eligible for `READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT` only after its exact-head GitHub Actions Validate and required PR checks pass; final results are tracked in PR #43 to avoid a self-referential bundle. All 28 current proposals remain unapproved; one absent GCC occurrence is historical. Do not merge, promote the canonical checkpoint, start WO-002, sign, or enable trading.
 
-## Project Progress Snapshot
+## Historical Project Progress Snapshot — review 5457414821
 
 Review: PH-M02-WO-001 / PR #43 — CORRECTION REQUIRED on input review 5457414821; only CR-07-AUD-02/-03/-04 are in this correction pass. Audited parent head `86a7ed6b0b6eea350a36873c1313c6f9db183176`; final correction head and exact-head CI are recorded in PR #43.
 
@@ -104,7 +115,7 @@ Active module/WO: PH-M02-WO-001 ~100% executor evidence complete; independent au
 Done:
 - PH-M00 and PH-M01 are canonically complete through the current Checkpoint.
 - PH-M02-WO-001 provider foundation and CR-01 through CR-06 have prior accepted evidence.
-- CR-07 zlib remediation was followed by the bounded AUD-02/-03/-04 correction: reproducible locked PostgreSQL image, exact-head CI, non-root startup, SonarCloud gate remediation, and fresh exact-image evidence. The 29 proposals remain unapproved.
+- CR-07 zlib remediation was followed by the bounded AUD-02/-03/-04 correction: reproducible locked PostgreSQL image, exact-head CI, non-root startup, SonarCloud gate remediation, and fresh exact-image evidence. At this historical snapshot the proposal count was 29, including the absent GCC item and three util-linux rows tied to the prior dev digest; review 5460224915 reconciles these to 28 current plus one archived historical occurrence.
 
 Remaining:
 - Independent audit and explicit owner decisions for current H/C VEX proposals; resolve any correction they identify.
@@ -122,3 +133,15 @@ Estimated prompts:
 
 Confidence: LOW.
 Basis: canonical Checkpoint, frozen Backlog, PR #43 exact-head CI, and this Evidence Bundle. The completion percentage is an estimate because canonical production weighting is uninitialized and the remaining Work Orders are not admitted.
+
+## Project Progress Snapshot — review 5460224915
+
+Review: PH-M02-WO-001 / PR #43 — CORRECTION REQUIRED on audited HEAD 3610088bf1c2183d46b1363af25a94b71f6378b8; this pass executes only CR-07-AUD-05/-06. Final correction HEAD and exact-head CI are tracked in PR #43.
+
+Canonical completed through: PH-M01 (M01_IMPLEMENTATION_COMPLETE / STOP_AFTER_PH_M01_WO_004). Canonical completion: N/A (production denominator is 0). Estimated MVP completion: about 17–22% done / 78–83% remaining; estimates only, not proof.
+
+Proven done: accepted PH-M02-WO-001 implementation and CR-01..06 evidence; AUD-02/-03/-04 accepted; AUD-05 corrects 23 gosu records to the actual non-root PostgreSQL runtime and aligns libxml2 user context; AUD-06 rebinds 3 util-linux proposals to exact current dev digest and archives GCC historically. Current pending proposal count is 28 (25 scan + 3 supplemental); one GCC occurrence is historical. All current proposals remain unapproved.
+
+Active Work Order estimate: ~100% executor evidence complete; exact-head CI and independent audit/owner VEX dispositions remain external gates, so this is not complete. Remaining: final exact-head GitHub Actions Validate and required PR checks; independent audit and explicit owner decisions for VEX proposals; any further review correction. Necessary modules remain PH-M02 remainder, PH-M03 through PH-M09, PH-M11 and PH-M12. PH-M10 is IMPORTANT; PH-M13/PH-M14 are FUTURE and excluded from the MVP denominator. No merge/checkpoint/WO-002/trading authorization is included.
+
+Estimated time: next milestone about 0.5–1 active work day for final evidence/CI follow-through, excluding external wait; MVP timing unknown because later Work Orders are not frozen. External waits include CI queue, independent security audit and owner decisions. Estimated prompts: 1 executor prompt to the next milestone; 12–25 to MVP (LOW-confidence range); review/correction cycles 1–3 for this increment and 8–15 across remaining increments. Confidence LOW; basis is canonical Checkpoint, current Work Order backlog and externally gated review/owner timing.

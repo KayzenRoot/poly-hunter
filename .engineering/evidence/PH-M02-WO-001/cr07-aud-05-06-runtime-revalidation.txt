@@ -1,0 +1,79 @@
+PH-M02-WO-001 CR-07-AUD-05/-06 read-only runtime revalidation
+Captured UTC: 2026-10-08T17:15:42Z
+No image rebuild, image mutation, scan, database mutation, or product-code change performed.
+
+--- Exact image identities and Compose services ---
+polyhunter-dev:local id=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 platform=linux/amd64
+NAME                  IMAGE                       COMMAND                  SERVICE    CREATED       STATUS                 PORTS
+polyhunter-postgres   polyhunter-postgres:local   "docker-entrypoint.s…"   postgres   2 hours ago   Up 2 hours (healthy)   5432/tcp
+polyhunter-web        polyhunter-dev:local        "docker-entrypoint.s…"   web        2 hours ago   Up 2 hours (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local        "docker-entrypoint.s…"   worker     2 hours ago   Up 2 hours
+postgres configUser=postgres image=sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 state=running
+web configUser=node image=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 state=running
+worker configUser=node image=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 state=running
+
+--- PostgreSQL actual initial/steady runtime ---
+uid=70(postgres) gid=70(postgres) groups=70(postgres)
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+postgres
+
+--- Dev runtime web ---
+uid=1000(node) gid=1000(node) groups=1000(node)
+
+
+
+
+644 root:root /etc/fstab
+4755 root:root /usr/bin/mount
+755 root:root /usr/bin/nsenter
+755 root:root /usr/bin/findmnt
+755 root:root /usr/bin/lsblk
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+pid=1 uid=1000 cmd=/sbin/docker-init -- docker-entrypoint.sh npm run dev --workspace @polyhunter/web -- --webpack --hostname 0.0.0.0
+pid=18 uid=1000 cmd=sh -c next dev --webpack --hostname 0.0.0.0
+pid=18328 uid=1000 cmd=sh -c id; dpkg-query -W -f="${Package} ${Version}\n" util-linux libmount1 libblkid1 libuuid1 2>/dev/null; stat -c "%a %U:%G %n" /etc/fstab /usr/bin/mount /usr/bin/nsenter /usr/bin/findmnt /usr/bin/lsblk; cat /etc/fstab; awk "/^(Uid|Gid|CapEff|CapBnd|NoNewPrivs):/ {print}" /proc/1/status; for p in /proc/[0-9]*; do [ -r "$p/cmdline" ] || continue; c=$(tr "\\000" " " <"$p/cmdline"); u=$(awk "/^Uid:/ {print \$2}" "$p/status"); [ -n "$c" ] && printf "pid=%s uid=%s cmd=%s\\n" "${p##*/}" "$u" "$c"; done
+pid=19 uid=1000 cmd=node /workspace/node_modules/.bin/next dev --webpack --hostname 0.0.0.0
+pid=31 uid=1000 cmd=next-server (v16.3.8)
+pid=6 uid=1000 cmd=npm run dev --webpack --hostname 0.0.0.0
+
+--- Dev runtime worker ---
+uid=1000(node) gid=1000(node) groups=1000(node)
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+pid=1 uid=1000 cmd=/sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+pid=2388 uid=1000 cmd=sh -c id; awk "/^(Uid|Gid|CapEff|CapBnd|NoNewPrivs):/ {print}" /proc/1/status; for p in /proc/[0-9]*; do [ -r "$p/cmdline" ] || continue; c=$(tr "\\000" " " <"$p/cmdline"); u=$(awk "/^Uid:/ {print \$2}" "$p/status"); [ -n "$c" ] && printf "pid=%s uid=%s cmd=%s\\n" "${p##*/}" "$u" "$c"; done
+pid=7 uid=1000 cmd=node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+
+--- Static application reachability search ---
+Command: rg -n -i "child_process|spawn\\(|execFile\\(|execSync\\(|fork\\(|mount|nsenter|findmnt|lsblk" apps packages --glob "*.ts" --glob "*.tsx" --glob "!**/node_modules/**"
+packages\db\tests\m01-acceptance.integration.test.ts:45: * It deliberately contains NO `child_process` usage: the P2 subprocess premise
+--- Exact current dev image package and mount privilege revalidation ---
+Command: docker compose -p polyhunter-local exec -T web dpkg-query -W util-linux libmount1 libblkid1 libuuid1
+libblkid1:amd64 2.41.5-0+deb13u1
+libmount1:amd64 2.41.5-0+deb13u1
+libuuid1:amd64 2.41.5-0+deb13u1
+util-linux 2.41.5-0+deb13u1
+Docker inspect current web: privileged=false, capAdd=null, pidMode empty (Docker default); worker uses the same exact image ID and Config.User=node.
+CapBnd raw value for both dev processes: 00000000a80425fb. CAP_SYS_ADMIN mask 0x200000 is absent from the bounding set; CapEff is all zero.
+Invocation review: the process inventories show only Node/Next/nodemon and the read-only inventory shell. Neither mount nor nsenter is invoked by web or worker.
+CVE-2026-76642 revalidation: current digest contains mount/libmount 2.41.5-0+deb13u1; fstab is 0644 root:root and contains only the base-system comment; mount is SUID root, but no app code callsite or authorized fstab/helper entry exists.
+CVE-2026-78408 revalidation: current digest contains nsenter 2.41.5-0+deb13u1, mode 0755 root:root, not SUID; --join-cgroup is a binary feature, but no app invocation/target selector exists and CAP_SYS_ADMIN is absent from CapBnd.
+CVE-2026-78410 revalidation: current digest contains mount 2.41.5-0+deb13u1; no authorized fstab entry/source path exists, the file is root-owned, and no app invocation exists.
+All three remain UNDER_INVESTIGATION with proposed NOT_AFFECTED, pending independent audit and owner approval; these checks are exact-runtime evidence only and do not approve VEX.
+--- Current exact-digest mount-helper enumeration ---
+Command: docker compose -p polyhunter-local exec -T web sh -c 'find /sbin /usr/sbin /bin /usr/bin -maxdepth 1 -type f -name "mount.*" -printf "%m %u:%g %p\n"'
+Result: no mount.<type> helper executables found in the current exact dev image.
+The same filesystem is shared with the worker service from this exact dev image; both process identities/configuration were captured above.
+Additional helper check: the same find was repeated without a file-type filter, including symlinks; output empty, exit code 0. No mount.<type> helper files or aliases were found in the searched executable directories.

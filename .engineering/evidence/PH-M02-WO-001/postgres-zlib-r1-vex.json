@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-M02-WO-001",
-  "review": "5455471016",
+  "review": "5460224915",
   "branch": "feat/ph-m02-public-provider-foundation",
   "pr": 43,
   "issue": 42,
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
-  "auditedParentHeadSha": "9d197abd78eae23173021cbb6e92fbde133a87e2",
+  "auditedParentHeadSha": "3610088bf1c2183d46b1363af25a94b71f6378b8",
   "contentHeadSemantics": "Findings and runtime statements are bound to the exact image and evidence digests below. Final Git HEAD and exact-head CI are recorded in the PR #43 body; this file does not claim its own commit SHA.",
   "image": {
     "reference": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
@@ -363,21 +363,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4337 lists 10 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4337 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -666,6 +666,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -1080,21 +1085,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5026 lists 29 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-5026 lists 29 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -1391,6 +1396,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -1809,21 +1819,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4007 lists 33 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2025-4007 lists 33 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -2112,6 +2122,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -2206,21 +2221,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4013 lists 2 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2025-4013 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -2509,6 +2524,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -2601,21 +2621,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4009 lists 2 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2025-4009 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -2904,6 +2924,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -3044,21 +3069,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4006 lists 6 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2025-4006 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -3347,6 +3372,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -3451,21 +3481,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4341 lists 3 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4341 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -3754,6 +3784,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -3850,21 +3885,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4155 lists 2 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2025-4155 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -4153,6 +4188,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -4289,21 +4329,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4601 lists 6 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4601 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -4592,6 +4632,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -4688,21 +4733,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4947 lists 2 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4947 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -4991,6 +5036,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -5085,21 +5135,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4946 lists 2 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4946 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -5388,6 +5438,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -5636,21 +5691,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4870 lists 15 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4870 lists 15 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -5939,6 +5994,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -6043,21 +6103,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4981 lists 3 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4981 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -6346,6 +6406,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -6835,21 +6900,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4918 lists 35 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4918 lists 35 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -7146,6 +7211,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -7258,21 +7328,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5972 lists 4 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-5972 lists 4 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -7561,6 +7631,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -7723,21 +7798,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4986 lists 8 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4986 lists 8 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -8026,6 +8101,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -8236,21 +8316,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4970 lists 12 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4970 lists 12 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -8539,6 +8619,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -9023,21 +9108,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4971 lists 37 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4971 lists 37 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -9326,6 +9411,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -9466,21 +9556,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4977 lists 6 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-4977 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -9769,6 +9859,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -9853,21 +9948,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5038 lists 1 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-5038 lists 1 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -10156,6 +10251,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -10340,21 +10440,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6089 lists 10 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-6089 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -10643,6 +10743,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -10833,21 +10938,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6088 lists 10 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-6088 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -11136,6 +11241,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -11336,21 +11446,21 @@
           "0.0.0.0:5432",
           ":::5432"
         ],
-        "entrypointInitialUser": "root (derived from empty Config.User and default image behavior)",
+        "entrypointInitialUser": "postgres UID/GID 70:70 (image Config.User=postgres; initial docker-entrypoint.sh process)",
         "steadyUser": "postgres UID/GID 70:70",
         "steadyCapEff": "0000000000000000",
         "steadyCapBnd": "00000000a80425fb",
         "privileged": false,
         "capAdd": null,
         "capDrop": null,
-        "gosuTransientCapEff": "not captured; do not infer from PostgreSQL steady state",
+        "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
       "status": "UNDER_INVESTIGATION",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6090 lists 11 vulnerable symbols. Zero are present in the exact gosu executable and govulncheck binary mode has no symbol result. The startup argv and syscall.Exec process replacement corroborate the boundary; short lifetime alone is not the basis. Fresh exact-digest proposal: current image is a zlib-only derivative; the exact gosu SHA-256 remains 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0, matching the previously analyzed binary. The current scan still reports this Go stdlib finding. Previous approval is recorded only as history and is not transferred; independent audit and owner approval are unset."
+        "rationale": "GO-2026-6090 lists 11 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
       },
       "authoritativeRefs": [
         {
@@ -11639,6 +11749,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only exact-digest Compose runtime confirms Config.User=postgres and initial/steady UID/GID 70:70; root-only gosu branch is not taken"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -11797,7 +11912,7 @@
         "services": [
           "polyhunter-postgres"
         ],
-        "user": "Steady-state PostgreSQL process UID/GID 70:70; image Config.User is empty and entrypoint establishes postgres user",
+        "user": "Initial docker-entrypoint.sh process and steady-state PostgreSQL process run as Config.User=postgres, UID/GID 70:70; the entrypoint root-only gosu branch is skipped.",
         "privileged": false,
         "CapEff": "0000000000000000",
         "CapBnd": "00000000a80425fb",
@@ -11815,7 +11930,7 @@
           "listenAddresses": "*",
           "port": 5432
         },
-        "assessment": "PostgreSQL is reachable by authenticated peers on the project-scoped Compose bridge; its port is not published on the host. User, capabilities and topology are recorded as context and are not the VEX justification.",
+        "assessment": "Current exact-image Config.User and runtime both establish PostgreSQL UID/GID 70:70 from the start; the root-only gosu branch is skipped. User, capabilities and topology are context, not the libxml2 VEX justification.",
         "databaseRoleSuperuser": true,
         "loadedExtensions": [
           "plpgsql"
@@ -12200,6 +12315,11 @@
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
           "sha256": "3ce423fdaf2f361507b999dc4881a9bd9323ca25d2b06de24c6f5c9d5cb947b6",
           "source": "Disposable volume persistence and crash/restart recovery using the exact locked image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Exact-digest PostgreSQL image Config.User and live initial/steady runtime UID/GID 70:70"
         }
       ],
       "exactRuntimeRevalidation": {
@@ -12207,7 +12327,7 @@
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
         "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "This exact image digest and scan row are refreshed. The libxml2-specific reachability assessment remains as previously evidenced by PH-SEC-WO-003; this correction does not reclassify or approve it."
+        "note": "The exact image digest and scan row are refreshed. Current live Compose inspection confirms Config.User=postgres and initial/steady UID/GID 70:70. The libxml2-specific reachability assessment remains as previously evidenced by PH-SEC-WO-003; this correction does not reclassify or approve it."
       }
     }
   ],
@@ -12241,6 +12361,29 @@
   "result": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
   "resultRationale": "The exact PostgreSQL zlib finding is FIXED in the selected digest. All 24 remaining PostgreSQL HIGH/CRITICAL occurrences were individually re-bound to exact current scan results and revalidated against current image/runtime evidence; fresh NOT_AFFECTED proposals remain UNDER_INVESTIGATION pending independent audit and owner approval. This is readiness for independent audit only, not clearance, merge, promotion, or trading authorization.",
   "correctionDelta": {
+    "review": "5460224915",
+    "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
+    "scope": [
+      "CR-07-AUD-05"
+    ],
+    "noScopeExpansion": true,
+    "status": "CORRECTED_PENDING_EXACT_HEAD_CI",
+    "priorAcceptedCorrection": {
+      "review": "5457414821",
+      "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+      "scope": [
+        "CR-07-AUD-02",
+        "CR-07-AUD-03",
+        "CR-07-AUD-04"
+      ]
+    },
+    "runtimeReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+      "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539"
+    },
+    "note": "Corrected 23 gosu rows to the exact non-root image Config.User/entrypoint path; corrected the libxml2 row runtime context. Symbols, source evidence, statuses, proposed dispositions, approval fields and hashes of analyzed binaries were preserved. No VEX was self-approved."
+  },
+  "priorCorrectionDelta": {
     "review": "5457414821",
     "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
     "scope": [

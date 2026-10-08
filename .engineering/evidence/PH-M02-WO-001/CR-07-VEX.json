@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-M02-WO-001",
-  "review": "5455471016",
+  "review": "5460224915",
   "branch": "feat/ph-m02-public-provider-foundation",
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
-  "reviewedHeadSha": "9d197abd78eae23173021cbb6e92fbde133a87e2",
+  "reviewedHeadSha": "3610088bf1c2183d46b1363af25a94b71f6378b8",
   "contentHeadSemantics": "Assessment is bound to current image digests and exact evidence listed below. Prior image records are retained as historical snapshots. Final Git HEAD and exact-head CI are recorded in PR #43; this file does not claim its own commit SHA.",
-  "status": "IMPLEMENTATION_HEAD_VALIDATED; FINAL_EVIDENCE_HEAD_CHECKS_TRACKED_IN_PR",
-  "statusRationale": "GitHub Actions Validate and SonarCloud/Socket checks passed on implementation head a8725af302d7b7b21436ade68c49c360ecfb1aa2. This evidence-only successor is verified through the exact-head checks shown live on PR #43 to avoid a self-referential bundle; all 29 proposals remain unapproved.",
+  "status": "CR-07-AUD-05/-06_CORRECTED; FINAL_EXACT_HEAD_CI_TRACKED_IN_PR",
+  "statusRationale": "The 23 gosu VEX records and libxml2 runtime context are corrected to the exact PostgreSQL Config.User=postgres UID 70 runtime. Current dev reconciliation is 25 scan-occurrence proposals plus 3 exact-current-digest util-linux supplemental proposals (28 current pending); one absent GCC occurrence is archived as historical and is not auto-classified. Final exact-head CI is tracked live on PR #43 to avoid self-reference; all current proposals remain unapproved.",
   "scanner": {
     "tool": "Docker Scout CLI",
     "version": "1.24.0",
@@ -506,7 +506,7 @@
     "postgresFreshDigestProposals": 24,
     "currentScoutOccurrencesWithProposal": 25,
     "supplementalUtilLinuxOccurrencesWithProposal": 3,
-    "proposalsPendingIndependentAuditAndOwner": 29,
+    "proposalsPendingIndependentAuditAndOwner": 28,
     "legacyDevelopmentCveRowsReconciled": 23,
     "legacyCveIds": [
       "CVE-2026-102276",
@@ -535,127 +535,20 @@
     ],
     "allCurrentProposalsStatus": "UNDER_INVESTIGATION",
     "allProposedDispositionByClass": {
-      "NOT_AFFECTED": 29
+      "NOT_AFFECTED": 28
     },
     "independentAuditor": null,
     "ownerApproval": null,
     "selfApproval": false,
     "unproposedUnderInvestigationOccurrences": 0,
     "developmentImagePreviousDigestHighCritical": 2,
-    "historicalOrSupplementalProposalsPending": 4,
     "currentDevelopmentImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
-    "currentPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+    "currentPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "supplementalCurrentProposalsPending": 3,
+    "historicalProposalsArchived": 1,
+    "legacyCveIdsSemantics": "Historical source-reconciliation identifiers only; not current proposal count."
   },
   "findings": [
-    {
-      "occurrenceId": "dev-CVE-2026-95619",
-      "cve": "CVE-2026-95619",
-      "severity": "HIGH",
-      "environment": "local-dev",
-      "findingSource": "docker_scout_final_sarif",
-      "image": {
-        "reference": "polyhunter-dev:local",
-        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
-      },
-      "component": {
-        "package": "pkg:deb/debian/gcc-14@14.2.0-19",
-        "detectedVersion": "14.2.0-19",
-        "present": true,
-        "vulnerableCodeAssessment": "libstdc++.so.6 and aligned operator new symbol are present. The exact vulnerable size-rounding/overflow sequence is absent: alignment is validated and posix_memalign receives the requested size unchanged."
-      },
-      "upstreamFix": {
-        "fixedVersion": "not fixed in current Debian Trixie repository",
-        "upstreamFix": "No fixed Trixie package candidate; exact aligned operator new implementation takes the safe posix_memalign path."
-      },
-      "cisaKev": {
-        "listed": false,
-        "catalogVersion": "2026.10.04"
-      },
-      "epss": {
-        "score": "0.003630000",
-        "percentile": "0.280830000",
-        "date": "2026-10-07"
-      },
-      "attackerControlledInput": "Untrusted application/provider data may affect Node allocations, but no vulnerable size arithmetic exists in the exact operator implementation.",
-      "exploitPrerequisites": [
-        "An attacker must cause a C++ consumer to request a sufficiently large aligned allocation through the affected operator new."
-      ],
-      "reachability": "The libstdc++ symbol is linked into Node; the exact symbol implementation is inspected in the final image by matching SHA-256 to the selected candidate. The overflow operation from the advisory is absent.",
-      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
-      "privilegeContext": "Services run as UID 1000/node with zero effective/permitted capabilities.",
-      "mitigation": "Safe alignment validation plus posix_memalign with original size; no scanner suppression. Candidate package refresh unavailable.",
-      "vex": {
-        "status": "UNDER_INVESTIGATION",
-        "proposedDisposition": "NOT_AFFECTED",
-        "justification": "vulnerable_code_not_present",
-        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
-        "independentAuditor": null,
-        "ownerApproval": null,
-        "expiry": "2026-10-14T23:59:59Z",
-        "revalidateOn": [
-          "new image digest",
-          "new scanner result",
-          "new vendor/upstream advisory",
-          "KEV status change",
-          "runtime/configuration/exposure change",
-          "expiry date"
-        ],
-        "executorSelfApproval": false
-      },
-      "evidenceRefs": [
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
-          "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
-          "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/gcc-aligned-new-runtime.txt",
-          "sha256": "6a13542f15c59167477e3764cbbadb88f0b3225e1d269934c5c13e18658d0d47"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/cr07-native-library-revalidation.txt",
-          "sha256": "e1f4c79bcedb12fed45e3108f89bac4abb15af9d6a1293f20fa8d4399470b691"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
-          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
-          "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
-          "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
-        },
-        {
-          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
-          "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
-        }
-      ],
-      "sourceRefs": [
-        "https://access.redhat.com/security/cve/cve-2026-95619"
-      ],
-      "latestScanReconciliation": {
-        "image": "polyhunter-dev:local",
-        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
-        "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
-        "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
-        "scannerResultPresent": false,
-        "currentHighCriticalCount": 1,
-        "status": "Historical proposal remains UNDER_INVESTIGATION and unapproved; disappearance from the fresh scan is not auto-classified as FIXED or NOT_AFFECTED.",
-        "evidence": [
-          {
-            "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
-            "sha256": "a98c133772e1d709f3065572c3862f52d0e3717d72ed9a8f20f6125c53dda2b5",
-            "source": "Current image no longer contains gcc-14; runtime evidence for fresh scan"
-          }
-        ]
-      }
-    },
     {
       "occurrenceId": "dev-CVE-2026-85091",
       "cve": "CVE-2026-85091",
@@ -892,14 +785,14 @@
       "environment": "local-dev",
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
-        "reference": "polyhunter-dev:local",
-        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
         "detectedVersion": "2.41.5-0+deb13u1",
         "present": true,
-        "vulnerableCodeAssessment": "mount and libmount are present; vulnerable X-mount post-hook code is present. Exact runtime fstab is empty except base comment; no external mount helper executable is installed."
+        "vulnerableCodeAssessment": "Current exact digest contains mount/libmount 2.41.5-0+deb13u1 and the vulnerable X-mount post-hook code; /etc/fstab is root-owned mode 0644 with only the base comment and no helper/authorized entry; no executable application invocation exists."
       },
       "upstreamFix": {
         "fixedVersion": "2.42.3-1 in Debian unstable; no newer Trixie candidate",
@@ -914,14 +807,14 @@
         "percentile": "0.109850000",
         "date": "2026-10-07"
       },
-      "attackerControlledInput": "The app does not accept mount command arguments or invoke mount; UID 1000 cannot modify root-owned fstab or add a privileged helper.",
+      "attackerControlledInput": "Web/provider input is not mapped to mount arguments or an application subprocess; the current services run UID 1000 with CapEff zero and cannot modify root-owned /etc/fstab. The SUID mount binary remains present, so the proposal relies on the absent fstab/helper prerequisites and absent application call path.",
       "exploitPrerequisites": [
         "SUID mount call using a root-controlled, fstab-authorized external-helper entry and X-mount.idmap or X-mount.owner/group/mode; attacker must be able to use the authorized entry."
       ],
-      "reachability": "The advisory-specific path is not callable by the app because required fstab entry/helper configuration is absent; exact image process inventory has no mount process.",
+      "reachability": "Current-digest runtime shows no mount process or application invocation; the advisory-specific fstab-authorized helper/post-hook path lacks its required root-controlled fstab entry and helper.",
       "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
-      "privilegeContext": "mount is SUID root, but app services are UID 1000 with zero effective capabilities; no fstab-authorized entry or helper is configured.",
-      "mitigation": "Root-owned mode-0644 fstab has no entries; no mount helper is installed; no app call site. No suppression. Fixed package unavailable in Trixie repositories.",
+      "privilegeContext": "Current exact image: mount is SUID root; web/worker UID 1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd; /etc/fstab root:root 0644 has no entries.",
+      "mitigation": "Exact current fstab has no authorized mount/helper entry; application code has no mount call path; no suppression. Proposal remains unapproved.",
       "vex": {
         "status": "UNDER_INVESTIGATION",
         "proposedDisposition": "NOT_AFFECTED",
@@ -974,6 +867,38 @@
         "https://security-tracker.debian.org/tracker/CVE-2026-76642",
         "https://github.com/util-linux/util-linux/security/advisories/GHSA-m25x-3hj9-m26f",
         "https://tracker.debian.org/news/1793594/accepted-util-linux-2423-1-source-into-unstable/"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
       ]
     },
     {
@@ -983,14 +908,14 @@
       "environment": "local-dev",
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
-        "reference": "polyhunter-dev:local",
-        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
         "detectedVersion": "2.41.5-0+deb13u1",
         "present": true,
-        "vulnerableCodeAssessment": "nsenter and --join-cgroup implementation are present; nsenter is mode 0755 and not SUID."
+        "vulnerableCodeAssessment": "Current exact digest contains util-linux/nsenter 2.41.5-0+deb13u1 and --join-cgroup support; nsenter is root:root mode 0755, not SUID."
       },
       "upstreamFix": {
         "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
@@ -1005,14 +930,14 @@
         "percentile": "0.075430000",
         "date": "2026-10-07"
       },
-      "attackerControlledInput": "No app code invokes nsenter or accepts a process/namespace target; provider input cannot select a host PID or execute this binary.",
+      "attackerControlledInput": "No application code invokes nsenter or accepts a process/namespace target; web/provider data cannot select a target PID or invoke the binary through the application.",
       "exploitPrerequisites": [
         "A privileged operator must invoke nsenter --join-cgroup against an attacker-controlled target; the target must expose relevant cgroup state."
       ],
-      "reachability": "No runtime invocation exists in web/worker processes; container PID namespace is private, CapEff zero and CAP_SYS_ADMIN absent from CapBnd.",
+      "reachability": "Current-digest web/worker process inventories contain no nsenter invocation; no application call site exists, CapEff is zero, and CAP_SYS_ADMIN is absent from CapBnd. This does not assess a privileged operator deliberately launching nsenter.",
       "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
-      "privilegeContext": "nsenter is not SUID; services are UID 1000 with zero effective capabilities; app does not automate privileged operator operations.",
-      "mitigation": "No --join-cgroup call path, private PID namespace and no CAP_SYS_ADMIN; no suppression. Fixed package unavailable in Trixie repositories.",
+      "privilegeContext": "Current exact image: nsenter root:root 0755 and not SUID; web/worker UID/GID 1000:1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd.",
+      "mitigation": "No application target-selection/invocation path, nsenter is not SUID, and CAP_SYS_ADMIN is absent from the process bounding set; no suppression. Proposal remains unapproved.",
       "vex": {
         "status": "UNDER_INVESTIGATION",
         "proposedDisposition": "NOT_AFFECTED",
@@ -1064,6 +989,38 @@
       "sourceRefs": [
         "https://access.redhat.com/security/cve/cve-2026-78408",
         "https://github.com/util-linux/util-linux/security/advisories"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
       ]
     },
     {
@@ -1073,14 +1030,14 @@
       "environment": "local-dev",
       "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
       "image": {
-        "reference": "polyhunter-dev:local",
-        "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
       },
       "component": {
         "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
         "detectedVersion": "2.41.5-0+deb13u1",
         "present": true,
-        "vulnerableCodeAssessment": "mount and X-mount.owner/group/mode code are present. Exact fstab has no entries and is root-owned mode 0644."
+        "vulnerableCodeAssessment": "Current exact digest contains mount and X-mount.owner/group/mode code in util-linux 2.41.5-0+deb13u1; current /etc/fstab is root:root 0644 with no authorized source entries."
       },
       "upstreamFix": {
         "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
@@ -1095,14 +1052,14 @@
         "percentile": "0.041430000",
         "date": "2026-10-07"
       },
-      "attackerControlledInput": "The app has no mount call path and cannot modify /etc/fstab as UID 1000; no mount helper is installed.",
+      "attackerControlledInput": "Application input is not mapped to mount arguments or subprocess calls; UID 1000 cannot modify /etc/fstab or an authorized source entry in this runtime. The SUID mount binary remains present.",
       "exploitPrerequisites": [
         "A root-controlled fstab-authorized restricted bind entry with X-mount.owner/group/mode; attacker must be able to replace the authorized source path or an ancestor."
       ],
-      "reachability": "The fstab-authorized source plus post-hook operation cannot be configured or invoked by app-controlled input in this runtime.",
+      "reachability": "Current-digest process inventory and source search show no application mount invocation; no fstab-authorized source entry/path exists for the post-hook operation.",
       "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
-      "privilegeContext": "mount is SUID root but app services run UID 1000 with zero effective capabilities; root-owned fstab lacks authorized entries.",
-      "mitigation": "No authorized source entry, hook option or app invocation exists; no suppression. Fixed package unavailable in Trixie repositories.",
+      "privilegeContext": "Current exact image: mount is SUID root; web/worker UID 1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd; /etc/fstab is root-owned 0644 with no entries.",
+      "mitigation": "No authorized fstab source entry/path and no application invocation; no suppression. Proposal remains unapproved.",
       "vex": {
         "status": "UNDER_INVESTIGATION",
         "proposedDisposition": "NOT_AFFECTED",
@@ -1154,6 +1111,38 @@
       "sourceRefs": [
         "https://github.com/util-linux/util-linux/security/advisories/GHSA-rh77-686x-2f2m",
         "https://access.redhat.com/security/cve/cve-2026-78410"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
       ]
     }
   ],
@@ -1250,12 +1239,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-      "sha256": "2cfc2c423bcab71f2437d9ae27d54f63aec0a9e12bf42cb6aa2462caef0b8de4",
+      "sha256": "0158c00e2c671f0621b1e19ad943a72d1c3b2618a56d0d6c0b10cb6d00a629fa",
       "source": "Fresh locked-image PostgreSQL VEX proposals; no approval granted"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.json",
-      "sha256": "a8d3d4b12a0cee19f703e4c59ee8503262e54ef7a35cc2481c53b2fdd16baf5a",
+      "sha256": "f9867f2576fffa69fdbcf84db625add9dc01988d9b336980c8ce18dd461c8240",
       "source": "Machine-readable latest and historical exact-digest scans"
     },
     {
@@ -1400,12 +1389,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-evidence-integrity.txt",
-      "sha256": "c08f629361de7a479666e32ec17f7f0d2364181ff823a143152d0d2dd985623d",
-      "source": "Targeted machine-readable VEX and Evidence Bundle integrity validation"
+      "sha256": "116f28a2a43f8818405accfa36472d98a1cd98f59c94f3d05bbb97fe9b0b88c8",
+      "source": "Focused CR-07-AUD-05/-06 VEX, count, approval and receipt-hash integrity validation"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
-      "sha256": "178a94b4b829252a6d94c2c577e6a2cf89c646cb1bf55dc41df4a774f84e4e9d",
+      "sha256": "336f35d91e5de400aafb82631efa6852e2f0fb473e483b3eadde330603e18d8d",
       "source": "Human-readable exact-digest PostgreSQL VEX revalidation and correction status"
     },
     {
@@ -1430,7 +1419,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.md",
-      "sha256": "47fb9317c22fa16c29e9aa22abb9696c5b4be06fb27b6b063bfb7e378e3b1cba",
+      "sha256": "4cbef37e426ecc62e9ea11c3c9f84c80c47713a62050fe2da3e03981ce6c6008",
       "source": "Human-readable current and historical scan reconciliation"
     },
     {
@@ -1452,6 +1441,16 @@
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-security-boundary-evidence-update.txt",
       "sha256": "982a5880c63fb0211796cc74a83cb2ef9354bb79cfc0e90b69453214b8293c71",
       "source": "Focused secret/trading security boundary regression tests after evidence update"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+      "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+      "source": "Exact-digest read-only PostgreSQL and development runtime evidence for CR-07-AUD-05/-06"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-05-06-verify.json",
+      "sha256": "506793037c121387a059f94e765029f169f63c89570b9997c2d804813dd46e66",
+      "source": "TypeSafe JEV bounded consistency verification; advisory only"
     }
   ],
   "postgresDigestRevalidation": {
@@ -1466,6 +1465,196 @@
     "priorApprovalTransferred": false
   },
   "correctionDelta": {
+    "review": "5460224915",
+    "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
+    "scope": [
+      "CR-07-AUD-05",
+      "CR-07-AUD-06"
+    ],
+    "noScopeExpansion": true,
+    "status": "FINAL_EXACT_HEAD_CI_TRACKED_IN_PR",
+    "proposalCounts": {
+      "currentPending": 28,
+      "currentScoutOccurrencesWithProposal": 25,
+      "supplementalCurrentPending": 3,
+      "historicalArchived": 1,
+      "currentProposalStatus": "UNDER_INVESTIGATION",
+      "currentProposedDisposition": "NOT_AFFECTED",
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "executorSelfApproval": false
+    },
+    "exactRuntimeReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+      "sha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539"
+    },
+    "jevVerifyReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-05-06-verify.json",
+      "sha256": "506793037c121387a059f94e765029f169f63c89570b9997c2d804813dd46e66",
+      "provider": "TypeSafe",
+      "model": "jev-1.13.0",
+      "result": "2 claims verified; advisory only; no VEX approval"
+    },
+    "currentDevImage": {
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "findings": {
+        "HIGH": 1,
+        "CRITICAL": 0
+      }
+    },
+    "priorAcceptedCorrection": {
+      "review": "5457414821",
+      "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+      "scope": [
+        "CR-07-AUD-02",
+        "CR-07-AUD-03",
+        "CR-07-AUD-04"
+      ]
+    },
+    "note": "No image rebuild/rescan, product change, VEX approval, merge, checkpoint promotion, signing, trading, or WO-002."
+  },
+  "historicalArchived": [
+    {
+      "occurrenceId": "dev-CVE-2026-95619",
+      "cve": "CVE-2026-95619",
+      "archiveStatus": "HISTORICAL_NOT_CURRENT",
+      "archiveReason": "CVE-2026-95619 is absent from Docker Scout SARIF for current dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948. Absence is not FIXED or NOT_AFFECTED evidence.",
+      "priorImageDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "currentImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "currentScannerResultPresent": false,
+      "excludedFromCurrentProposalCounts": true,
+      "approvalStatePreserved": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "executorSelfApproval": false
+      },
+      "record": {
+        "occurrenceId": "dev-CVE-2026-95619",
+        "cve": "CVE-2026-95619",
+        "severity": "HIGH",
+        "environment": "local-dev",
+        "findingSource": "docker_scout_final_sarif",
+        "image": {
+          "reference": "polyhunter-dev:local",
+          "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        },
+        "component": {
+          "package": "pkg:deb/debian/gcc-14@14.2.0-19",
+          "detectedVersion": "14.2.0-19",
+          "present": true,
+          "vulnerableCodeAssessment": "libstdc++.so.6 and aligned operator new symbol are present. The exact vulnerable size-rounding/overflow sequence is absent: alignment is validated and posix_memalign receives the requested size unchanged."
+        },
+        "upstreamFix": {
+          "fixedVersion": "not fixed in current Debian Trixie repository",
+          "upstreamFix": "No fixed Trixie package candidate; exact aligned operator new implementation takes the safe posix_memalign path."
+        },
+        "cisaKev": {
+          "listed": false,
+          "catalogVersion": "2026.10.04"
+        },
+        "epss": {
+          "score": "0.003630000",
+          "percentile": "0.280830000",
+          "date": "2026-10-07"
+        },
+        "attackerControlledInput": "Untrusted application/provider data may affect Node allocations, but no vulnerable size arithmetic exists in the exact operator implementation.",
+        "exploitPrerequisites": [
+          "An attacker must cause a C++ consumer to request a sufficiently large aligned allocation through the affected operator new."
+        ],
+        "reachability": "The libstdc++ symbol is linked into Node; the exact symbol implementation is inspected in the final image by matching SHA-256 to the selected candidate. The overflow operation from the advisory is absent.",
+        "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+        "privilegeContext": "Services run as UID 1000/node with zero effective/permitted capabilities.",
+        "mitigation": "Safe alignment validation plus posix_memalign with original size; no scanner suppression. Candidate package refresh unavailable.",
+        "vex": {
+          "status": "UNDER_INVESTIGATION",
+          "proposedDisposition": "NOT_AFFECTED",
+          "justification": "vulnerable_code_not_present",
+          "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+          "independentAuditor": null,
+          "ownerApproval": null,
+          "expiry": "2026-10-14T23:59:59Z",
+          "revalidateOn": [
+            "new image digest",
+            "new scanner result",
+            "new vendor/upstream advisory",
+            "KEV status change",
+            "runtime/configuration/exposure change",
+            "expiry date"
+          ],
+          "executorSelfApproval": false
+        },
+        "evidenceRefs": [
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+            "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
+            "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/gcc-aligned-new-runtime.txt",
+            "sha256": "6a13542f15c59167477e3764cbbadb88f0b3225e1d269934c5c13e18658d0d47"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-native-library-revalidation.txt",
+            "sha256": "e1f4c79bcedb12fed45e3108f89bac4abb15af9d6a1293f20fa8d4399470b691"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+            "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+            "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+            "sha256": "231f61c91053469000d04de7bb08b7c061a0ed1fdb503987987e882f60261662"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+            "sha256": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662"
+          }
+        ],
+        "sourceRefs": [
+          "https://access.redhat.com/security/cve/cve-2026-95619"
+        ],
+        "latestScanReconciliation": {
+          "image": "polyhunter-dev:local",
+          "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+          "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "scannerResultPresent": false,
+          "currentHighCriticalCount": 1,
+          "status": "Historical proposal remains UNDER_INVESTIGATION and unapproved; disappearance from the fresh scan is not auto-classified as FIXED or NOT_AFFECTED.",
+          "evidence": [
+            {
+              "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+              "sha256": "a98c133772e1d709f3065572c3862f52d0e3717d72ed9a8f20f6125c53dda2b5",
+              "source": "Current image no longer contains gcc-14; runtime evidence for fresh scan"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "proposalCounts": {
+    "currentPending": 28,
+    "currentScoutOccurrencesWithProposal": 25,
+    "supplementalCurrentPending": 3,
+    "historicalArchived": 1,
+    "currentProposalStatus": "UNDER_INVESTIGATION",
+    "currentProposedDisposition": "NOT_AFFECTED",
+    "independentAuditor": null,
+    "ownerApproval": null,
+    "executorSelfApproval": false
+  },
+  "priorCorrectionDelta": {
     "review": "5457414821",
     "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
     "scope": [
