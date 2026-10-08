@@ -1,8 +1,6 @@
-# CR-07: official Node 24 Alpine 3.24 linux/amd64 image pinned by digest.
+# Isolated PH-M02-WO-001 Node 24 Alpine 3.24 canary; do not use as canonical before gates pass.
 FROM --platform=linux/amd64 node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a
 
-# Update only zlib from the Alpine 3.24 main repository; fail if another
-# installed Alpine package changes during this security correction.
 RUN set -eux; \
     printf '%s\n' 'https://dl-cdn.alpinelinux.org/alpine/v3.24/main' > /tmp/alpine.repositories; \
     apk list --installed | sed 's/ .*//' | sort > /tmp/alpine-packages.before; \
@@ -10,7 +8,6 @@ RUN set -eux; \
     apk list --installed | sed 's/ .*//' | sort > /tmp/alpine-packages.after; \
     node -e 'const fs=require("node:fs");const names=p=>fs.readFileSync(p,"utf8").trim().split(/\r?\n/).map(x=>x.replace(/^zlib-.*$/,"zlib-<version>")).sort().join("\n");if(names("/tmp/alpine-packages.before")!==names("/tmp/alpine-packages.after"))throw new Error("package set changed beyond zlib");const installed=fs.readFileSync("/tmp/alpine-packages.after","utf8");if(!installed.split(/\r?\n/).some(x=>x.startsWith("zlib-1.3.2-r1")))throw new Error("zlib 1.3.2-r1 absent");console.log("only zlib updated to 1.3.2-r1")'; \
     rm -f /tmp/alpine.repositories /tmp/alpine-packages.before /tmp/alpine-packages.after
-
 WORKDIR /workspace
 
 RUN mkdir -p /workspace && chown node:node /workspace

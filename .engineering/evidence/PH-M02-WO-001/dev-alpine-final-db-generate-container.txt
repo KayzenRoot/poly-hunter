@@ -1,0 +1,12 @@
+npm notice run @polyhunter/db@0.0.0 db:generate
+npm notice run drizzle-kit generate --config drizzle.config.ts
+Reading config file '/workspace/packages/db/drizzle.config.ts'
+6 tables
+encrypted_secrets 10 columns 1 indexes 1 fks
+identity_links 5 columns 1 indexes 1 fks
+platform_roles 4 columns 1 indexes 1 fks
+tenant_memberships 6 columns 1 indexes 2 fks
+tenants 6 columns 1 indexes 0 fks
+users 4 columns 0 indexes 0 fks
+
+No schema changes, nothing to migrate 😴

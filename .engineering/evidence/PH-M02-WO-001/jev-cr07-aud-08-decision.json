@@ -1,0 +1,54 @@
+{
+  "tool": "jev_decide",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "recommendation": {
+    "selected": "promote_candidate",
+    "escaped": false,
+    "confidence": 0.96,
+    "probabilities": {
+      "promote_candidate": 0.98,
+      "reject_candidate": 0.02
+    },
+    "contradicted_requirements": []
+  },
+  "requirements_checked": 3,
+  "checks": [
+    {
+      "candidate": "promote_candidate",
+      "requirement": 0,
+      "answer": "supported"
+    },
+    {
+      "candidate": "promote_candidate",
+      "requirement": 1,
+      "answer": "supported"
+    },
+    {
+      "candidate": "promote_candidate",
+      "requirement": 2,
+      "answer": "supported"
+    },
+    {
+      "candidate": "reject_candidate",
+      "requirement": 0,
+      "answer": "contradicted"
+    },
+    {
+      "candidate": "reject_candidate",
+      "requirement": 1,
+      "answer": "contradicted"
+    },
+    {
+      "candidate": "reject_candidate",
+      "requirement": 2,
+      "answer": "supported"
+    }
+  ],
+  "warnings": [],
+  "usage": {
+    "input_tokens": 2124,
+    "output_tokens": 298
+  },
+  "interpretation": "Advisory only. JEV cannot approve, suppress or classify any CVE; deterministic evidence, ADR-0007 and independent review remain authoritative."
+}

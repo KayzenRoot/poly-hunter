@@ -1,0 +1,115 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5461309598",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "reviewedHeadSha": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+  "candidate": {
+    "base": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+    "platform": "linux/amd64",
+    "finalDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "zlib": "1.3.2-r1",
+    "dockerfileSha256": "f4f44ec432ab17af89bf0ec23560ea49f13df559e025fbeb767bc9a0a6421e91",
+    "composeSha256": "d2ec3e59dd251c37a98210518b11a34bc90079806f7018187d8eb44a3c00d5ce",
+    "ciWorkflowSha256": "09e3072d5c215a0693e564bdd171410bfb71f0de2383974518b221e5ff0c1530"
+  },
+  "earlyCanary": {
+    "result": "PASS",
+    "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate-experiment.md",
+    "scanReceipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate-scan-receipt.json",
+    "targetedProviderAndBoundaryTests": "5 files / 43 tests PASS",
+    "web": "HTTP 200 on isolated port 3100",
+    "worker": "running",
+    "postgres": "healthy"
+  },
+  "finalImageScan": {
+    "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json",
+    "high": 0,
+    "critical": 0,
+    "medium": 6,
+    "zeroSuppressions": true
+  },
+  "validation": {
+    "npmCi": {
+      "result": "PASS",
+      "note": "Clean host npm ci: 159 added, 167 audited, zero vulnerabilities.",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-npm-ci.txt"
+    },
+    "npmRunValidate": {
+      "result": "PASS",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-npm-validate.txt",
+      "tests": "238 passed in 15 files",
+      "build": "workspaces and Next production build passed",
+      "audit": "0 vulnerabilities"
+    },
+    "npmAuditHigh": {
+      "result": "PASS",
+      "findings": 0
+    },
+    "dbGenerate": {
+      "result": "PASS",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-db-generate-container.txt",
+      "outcome": "No schema changes, nothing to migrate."
+    },
+    "migrations": {
+      "result": "PASS",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-migrations.txt"
+    },
+    "postgresIntegration": {
+      "result": "PASS",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-integration-container.txt",
+      "testFiles": 4,
+      "tests": 66
+    },
+    "composeConfig": "PASS (docker compose --project-name polyhunter-local config --quiet)",
+    "finalRuntime": {
+      "result": "PASS",
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+      "web": "healthy; HTTP 200 at http://localhost:3000",
+      "worker": "running under node user",
+      "postgres": "healthy; exact digest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+    }
+  },
+  "preservedPostgres": {
+    "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "rebuilt": false,
+    "volumeDeleted": false
+  },
+  "vex": {
+    "pendingNotAffectedProposals": 27,
+    "currentPostgresDigestProposals": 24,
+    "historicalOldDebianDevDigestProposals": 3,
+    "currentDevZlibStatus": "FIXED",
+    "oldDebianDevZlibStatus": "UNDER_INVESTIGATION / no proposed disposition / historical only",
+    "auditorApproval": null,
+    "ownerApproval": null,
+    "executorSelfApproval": false,
+    "approvalsTransferred": false
+  },
+  "jev": {
+    "receipt": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-08-decision.json",
+    "recommendation": "promote_candidate",
+    "confidence": 0.96,
+    "advisoryOnly": true,
+    "cvEsApproved": false
+  },
+  "evidenceHashes": {
+    "candidateScanSarif": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+    "finalScanSarif": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+    "finalImageInspect": "c6087f960597554826c087a517aa90d39df2a9bac6ee0416c8e7036002d629a4",
+    "finalRuntime": "d284e0cbba6cddfa5169c96cc01ea730e757ea9e3afbcbae45f07ce1f50a0c0c",
+    "candidateDockerfile": "270f825b3fe778159fcecda5a3fe242c8f6089d3e58c295f630391cb8bcd51e6"
+  },
+  "exactHeadCi": "Run on final commit; verify exact SHA and green result from PR #43 before the stop condition.",
+  "result": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT after exact-head CI is green",
+  "restrictions": {
+    "noScopeExpansion": true,
+    "noWo002": true,
+    "noMerge": true,
+    "noCheckpointPromotion": true,
+    "noSigning": true,
+    "noAuthenticatedTrading": true,
+    "liveTradingAuthorized": false
+  }
+}

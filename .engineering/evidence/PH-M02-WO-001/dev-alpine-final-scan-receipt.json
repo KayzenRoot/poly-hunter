@@ -1,0 +1,81 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5461309598",
+  "scanDate": "2026-10-08",
+  "scanner": {
+    "name": "Docker Scout CLI",
+    "version": "1.24.0",
+    "platform": "windows/amd64",
+    "command": "docker scout cves polyhunter-dev:local --format sarif --output .engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+    "exitCode": 0
+  },
+  "image": {
+    "reference": "polyhunter-dev:local",
+    "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "configDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "platform": "linux/amd64",
+    "officialBase": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+    "os": "Alpine Linux 3.24",
+    "node": "v24.21.0",
+    "npm": "12.2.0",
+    "zlib": "1.3.2-r1"
+  },
+  "sarif": {
+    "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+    "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+    "resultCount": 6,
+    "uniqueCveCount": 6,
+    "counts": {
+      "UNKNOWN": 0,
+      "LOW": 0,
+      "MEDIUM": 6,
+      "HIGH": 0,
+      "CRITICAL": 0
+    },
+    "suppressedResultCount": 0,
+    "findings": [
+      {
+        "cve": "CVE-2026-102277",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/brace-expansion@5.0.11"
+      },
+      {
+        "cve": "CVE-2026-104844",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/postcss-selector-parser@7.1.4"
+      },
+      {
+        "cve": "CVE-2026-101911",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101912",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101913",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101910",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      }
+    ]
+  },
+  "baselineComparison": {
+    "image": "polyhunter-dev:local",
+    "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "high": 1,
+    "critical": 0,
+    "finding": "CVE-2026-85091 / Debian zlib 1.3.1",
+    "finalHigh": 0,
+    "finalCritical": 0,
+    "result": "one HIGH removed; no HIGH/CRITICAL introduced"
+  },
+  "suppressions": 0,
+  "nonFatalNotice": "Docker Scout wrote the SARIF successfully and then reported a Windows temporary archive file still in use during cleanup."
+}

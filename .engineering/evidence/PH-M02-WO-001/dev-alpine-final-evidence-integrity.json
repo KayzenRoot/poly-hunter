@@ -1,0 +1,10 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5461309598",
+  "verification": "SHA-256 over UTF-8 evidence with CRLF normalized to LF",
+  "preReceiptManifestEntries": 87,
+  "preReceiptMismatches": 0,
+  "result": "PASS",
+  "scope": "Evidence hashes only; no VEX disposition or approval changed",
+  "createdAt": "2026-10-08T20:30:27.246Z"
+}

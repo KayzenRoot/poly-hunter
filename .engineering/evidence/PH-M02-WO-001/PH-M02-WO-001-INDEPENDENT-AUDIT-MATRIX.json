@@ -1,14 +1,18 @@
 {
   "schemaVersion": "1.0.0",
   "workOrder": "PH-M02-WO-001",
-  "securityReview": "5460654469",
-  "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
+  "securityReview": "5461309598",
+  "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
   "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
-  "purpose": "Compact group-level independent audit map. Rows are evidence records, never approvals.",
+  "purpose": "Compact per-group independent audit map for 27 existing unapproved VEX proposals plus digest-specific historical/current remediation records. Rows are evidence records, never approvals.",
   "counts": {
-    "currentVexRecordsUnderInvestigation": 28,
-    "proposedNotAffectedAwaitingIndependentAuditAndOwnerApproval": 27,
-    "underInvestigationWithoutProposedDisposition": 1,
+    "currentVexRecordsUnderInvestigation": 24,
+    "currentPostgresNotAffectedProposalsAwaitingIndependentAuditAndOwnerApproval": 24,
+    "historicalPriorDevDigestNotAffectedProposalsPendingSeparateAudit": 3,
+    "totalExistingNotAffectedProposalsPending": 27,
+    "currentUnderInvestigationWithoutProposedDisposition": 0,
+    "historicalUnderInvestigationWithoutProposedDisposition": 1,
+    "currentFixedOccurrences": 1,
     "historicalArchivedOutsideCurrentCount": 1,
     "executorSelfApproval": false
   },
@@ -86,7 +90,7 @@
       "residualRisk": "Superuser role and arbitrary native-extension capability leave conditional reachability; no broad extension claim."
     },
     {
-      "id": "dev-zlib-cve-scope",
+      "id": "dev-zlib-debian-historical",
       "count": 1,
       "cves": [
         "CVE-2026-85091"
@@ -97,7 +101,7 @@
       "proposedDisposition": null,
       "independentAuditor": null,
       "ownerApproval": null,
-      "auditFocus": "Resolve whether the older-version 1.3.0/1.3.1 reproducer/crash is a separate issue or part of CVE-2026-85091; then independently assess the exact native C API and indirect dlsym paths under this digest.",
+      "auditFocus": "Historical digest-specific record only. Preserve UNDER_INVESTIGATION with no proposal; do not transfer the old Debian 1.3.1 ambiguity to the current Alpine fixed package.",
       "evidenceRefs": [
         {
           "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
@@ -124,10 +128,12 @@
           "sha256": "bd6411e1df3ba1ce26fafad9e6422ac089342333944ea3efc883fde1ea9f1ab7"
         }
       ],
-      "residualRisk": "Debian maintainer declined not-affected pending upstream scope; Ubuntu reports reproducer failure on older releases. Exact CVE scope and indirect paths remain unproven; no NOT_AFFECTED proposal is made."
+      "residualRisk": "The old Debian image digest had one unresolved H/C zlib occurrence; that artifact is no longer canonical. Current Alpine digest has fixed zlib 1.3.2-r1 and zero H/C.",
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
     },
     {
-      "id": "dev-util-linux",
+      "id": "dev-util-linux-prior-digest",
       "count": 3,
       "cves": [
         "CVE-2026-76642",
@@ -140,7 +146,7 @@
       "proposedDisposition": "NOT_AFFECTED",
       "independentAuditor": null,
       "ownerApproval": null,
-      "auditFocus": "Review each CVE prerequisite against the exact fstab, SUID/mode, capability, process, source-call and current digest receipts. Do not generalize one finding-specific preconditions to another.",
+      "auditFocus": "Audit these three proposals only against the exact prior Debian dev digest listed here. They are not current scan findings and are not transferred or treated as clearance for the Alpine digest.",
       "evidenceRefs": [
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
@@ -151,9 +157,41 @@
           "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
         }
       ],
-      "residualRisk": "Three findings remain unapproved; mount is SUID root and current evidence is bound to the exact local dev runtime."
+      "residualRisk": "All 3 proposed NOT_AFFECTED records remain UNDER_INVESTIGATION, unapproved and bound to the old Debian digest. The current Alpine image scan reports zero HIGH/CRITICAL.",
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+    },
+    {
+      "id": "dev-zlib-alpine-current-fixed",
+      "count": 1,
+      "cves": [
+        "CVE-2026-85091"
+      ],
+      "imageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "component": "Alpine 3.24 zlib 1.3.2-r1 from the official v3.24/main repository",
+      "artifactStatus": "CURRENT",
+      "vexStatus": "FIXED",
+      "proposedDisposition": null,
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "auditFocus": "Confirm the exact final image digest, fixed package version and exact-image Scout SARIF with no CVE-2026-85091 result. This is a digest-specific FIXED record, not a transferred approval.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+          "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+          "sha256": "d284e0cbba6cddfa5169c96cc01ea730e757ea9e3afbcbae45f07ce1f50a0c0c"
+        },
+        {
+          "path": "Dockerfile.dev",
+          "sha256": "f4f44ec432ab17af89bf0ec23560ea49f13df559e025fbeb767bc9a0a6421e91"
+        }
+      ],
+      "residualRisk": "Six MEDIUM findings remain in the final scan; no HIGH or CRITICAL finding remains in this dev artifact."
     }
   ],
-  "approvalBoundary": "All 27 proposed NOT_AFFECTED dispositions require independent auditor verification and explicit owner approval under ADR-0007. The zlib record has no proposed disposition. No record is approved; no raw scanner finding is suppressed.",
-  "historical": "GCC CVE-2026-95619 is one archived prior-digest occurrence and is excluded from the current count; archive status is not FIXED or NOT_AFFECTED."
+  "approvalBoundary": "The 27 existing proposed NOT_AFFECTED dispositions remain UNDER_INVESTIGATION and unapproved: 24 current proposals on the exact PostgreSQL digest and 3 historical proposals bound only to the superseded Debian dev digest. independentAuditor=null, ownerApproval=null, executorSelfApproval=false. No approval transfers to a different image digest. Current dev zlib is FIXED only for its exact Alpine digest. Raw Scout findings are not suppressed.",
+  "historical": "The prior Debian development image's zlib CVE-2026-85091 record remains UNDER_INVESTIGATION with no proposed disposition and is historical only. The three util-linux proposals remain digest-bound to that old Debian dev image and are not transferred. GCC CVE-2026-95619 remains one archived prior-digest occurrence, excluded from current counts; absence is not FIXED or NOT_AFFECTED evidence."
 }

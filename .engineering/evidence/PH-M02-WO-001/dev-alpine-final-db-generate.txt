@@ -1,0 +1,13 @@
+
+> @polyhunter/db@0.0.0 db:generate
+> drizzle-kit generate --config drizzle.config.ts
+
+Reading config file 'D:\Projects\poly-hunter\packages\db\drizzle.config.ts'
+DATABASE_URL must be set for Drizzle migrations.
+npm error Lifecycle script `db:generate` failed with error:
+npm error code 1
+npm error path D:\Projects\poly-hunter\packages\db
+npm error workspace @polyhunter/db@0.0.0
+npm error location D:\Projects\poly-hunter\packages\db
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c drizzle-kit generate --config drizzle.config.ts

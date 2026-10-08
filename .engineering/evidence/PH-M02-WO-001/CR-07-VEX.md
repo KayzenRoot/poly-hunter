@@ -1,6 +1,6 @@
 # PostgreSQL zlib-r1 image — fresh VEX revalidation
 
-- Work Order: PH-M02-WO-001; prior corrections preserved; current security correction review 5460654469; PR #43. This document retains earlier scan/image history; the current dev-zlib assessment is in the AUD-07 section below.
+- Work Order: PH-M02-WO-001; prior corrections preserved; current security correction review 5461309598; PR #43. Earlier scan/image history remains below; current dev image and VEX state are in CR-07-AUD-08. The old Debian assessment in AUD-07 is historical and digest-bound.
 - Exact image: polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 (linux/amd64; config sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93).
 - Base: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24.
 - Current scanner: Docker Scout CLI 1.24.0; raw SARIF SHA-256 3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14.
@@ -100,3 +100,16 @@ Receipts: dev-zlib-debian-source-archive-verification.json; dev-zlib-source-and-
 The current matrix has 28 VEX records: 27 unapproved proposed NOT_AFFECTED dispositions and this one unresolved zlib record without a disposition. See PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.md / .json.
 
 Result: BLOCKED_UNRESOLVED. No image rebuild, scan, product change, database operation, merge, checkpoint promotion, WO-002, signing or trading was performed. liveTradingAuthorized=false.
+
+
+## CR-07-AUD-08 — Node 24 Alpine remediation-first canary (review 5461309598)
+
+The Debian dev zlib blocker was resolved by one isolated canary using official `node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a` (linux/amd64). The canary updated only zlib from Alpine v3.24/main, exactly `1.3.2-r0 → 1.3.2-r1`, enforced by an installed-package inventory guard. The candidate and promoted canonical image are digest-pinned; final canonical dev digest is sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2. The corrected PostgreSQL image remains sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and was not rebuilt or changed.
+
+The exact final Docker Scout scan is `polyhunter-dev-alpine-final.sarif.json`: 6 findings (6 MEDIUM, 0 HIGH, 0 CRITICAL), zero suppressions. The prior exact Debian dev image sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 had one HIGH CVE-2026-85091. This exact Alpine image carries fixed zlib 1.3.2-r1; CVE-2026-85091 is recorded FIXED for this digest only. The prior Debian zlib record remains UNDER_INVESTIGATION with no proposed disposition and is historical only; the prior 3 util-linux proposals remain unapproved and bound to the old Debian digest. No prior disposition or approval transfers.
+
+Candidate early gates passed: Node v24.21.0/npm 12.2.0; clean image npm ci; all seven workspaces; musl Next SWC and Rollup native binaries; Biome; 43 provider/boundary tests; isolated Compose web HTTP 200, worker running and PostgreSQL healthy. The canonical final stack is healthy at http://localhost:3000 with worker running and unchanged PostgreSQL healthy. Migrations passed, PostgreSQL integration passed (66/66), db:generate reported no schema drift, `npm run validate` passed (238 tests, builds and npm audit with 0 vulnerabilities), and `docker compose config --quiet` passed. Full receipts are listed in dev-alpine-remediation-receipt.json.
+
+The existing **27** NOT_AFFECTED proposals remain UNDER_INVESTIGATION and unapproved: 24 current on the PostgreSQL digest and 3 historical on the old Debian development digest. independentAuditor=null, ownerApproval=null, executorSelfApproval=false. The application PostgreSQL superuser risk remains as previously documented. Six MEDIUM npm findings remain in the dev image.
+
+TypeSafe/JEV 1.13.0 returned a bounded advisory recommendation to promote the candidate (0.96 confidence; no contradicted requirements); this is not vulnerability approval. Final status is READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT only after GitHub Actions Validate and required checks pass on the exact pushed HEAD. Checkpoint Delta remains PROPOSED / NOT_PROMOTED. No merge, checkpoint promotion, WO-002, signing or trading; `liveTradingAuthorized=false`.

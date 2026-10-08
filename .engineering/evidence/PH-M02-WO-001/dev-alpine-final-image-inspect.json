@@ -1,0 +1,76 @@
+[
+    {
+        "Id": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+        "RepoTags": [
+            "polyhunter-dev:local"
+        ],
+        "RepoDigests": [
+            "polyhunter-dev@sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-08T19:44:30.084308369Z",
+        "Config": {
+            "User": "node",
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NODE_VERSION=24.21.0",
+                "YARN_VERSION=1.22.22"
+            ],
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "Cmd": [
+                "node"
+            ],
+            "WorkingDir": "/workspace",
+            "Labels": {
+                "com.docker.compose.project": "polyhunter-local",
+                "com.docker.compose.service": "web",
+                "com.docker.compose.version": "5.4.0"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 362045070,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:74d97c428c51a828f9051a7a40a53ff1fc99e54fc30323ce36760701b0b7f711",
+                "sha256:7c732ed82ebdb575d2af70ebb84786b7421107ae929359e8e180c636040cbe88",
+                "sha256:6f3bd0caa7c25469ef663d37b3d333f7cda0b2887c78a1653af1f7bc6babef2d",
+                "sha256:a3b40bc0bbc6fc169200dd4069eac2195573e96112b64ad82c795d6ef3636719",
+                "sha256:6decb37851adb366111784e6a543b612d788bbde15096be6216e1d3c7ab626a0",
+                "sha256:6e462d93d4b4616d45cdea83313af5fa148725ba8a3ea8b8725e482b0c074d63",
+                "sha256:dcd441e78af5c7421081a982d0e434903c51dfd59d6c63f8613c710729a7eff1",
+                "sha256:3a18e869d86225af6ff5563f96ccaf92f8bbbaed3c764eebbd50f6d9bc957585",
+                "sha256:dadfe4df917f4477f9646d4c546ef5e4758c33a4f6dbeca36e80a066cf942978",
+                "sha256:4e397ee61635c0d60fe73000235b2046578079bb30d5b31ace87544d316d5fb1",
+                "sha256:56ea53bfba5b9fa4b17dcc0cc39996a17e5d627e3a311ba2cbf72e00afe14b3f",
+                "sha256:7f742a8b9b69078165478abac4c072ca6786263465b0db3f0d4e4e05e3530884",
+                "sha256:4f7555ac64b833b57f075bc3c81512632c288df04385ae3e538b46954fb2d7d0",
+                "sha256:9f7f4b0ee32836455c4d8e241ddf0f4e4af011bb836ae0574ac4428b1ad8e67d",
+                "sha256:288d688546da2430956bdcc37b08393ce4d401785d82e73d2f65349d482b83c2",
+                "sha256:f8c11ffe14682909978b15816fd0423aeefbb882bd9488d1334c94957a91b8d7",
+                "sha256:4383c0cd5ff88d38328dc125b9c1a5c6b75d403fb96b21e0d2d9bfc4a85f9de9",
+                "sha256:57a40929eb1d2235eeda18b70eb2750e45926e86a903e18ade2a3b648a90a0df",
+                "sha256:e21c5b8ac5a987c60c8e7071df662bc0e385175fb915e56476bc7f6684394b82"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-08T19:47:42.779220954Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+            "size": 856
+        },
+        "Identity": {
+            "Build": [
+                {
+                    "Ref": "v0nrt854tl9os0f25ec71hgkn",
+                    "CreatedAt": "2026-10-08T19:49:29.947677049Z"
+                }
+            ]
+        }
+    }
+]

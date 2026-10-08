@@ -1,0 +1,56 @@
+npm notice run polyhunter@0.1.0 test:integration
+npm notice run vitest run --config vitest.integration.config.ts
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/workspace[39m
+
+ [32m✓[39m packages/db/tests/secret-vault.integration.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 44227[2mms[22m[39m
+       [33m[2m✓[22m[39m enforces envelope sizes, canonical values and nonce uniqueness in the database [33m 1006[2mms[22m[39m
+       [33m[2m✓[22m[39m lets owner and admin manage secrets [33m 983[2mms[22m[39m
+       [33m[2m✓[22m[39m denies a member every vault operation [33m 492[2mms[22m[39m
+       [33m[2m✓[22m[39m never lets a platform_admin reach tenant secrets without a membership [33m 559[2mms[22m[39m
+       [33m[2m✓[22m[39m isolates tenant A from tenant B completely [33m 618[2mms[22m[39m
+       [33m[2m✓[22m[39m revokes access on the next authoritative request after any suspension [33m 1686[2mms[22m[39m
+       [33m[2m✓[22m[39m treats an invited or missing membership as no membership [33m 636[2mms[22m[39m
+       [33m[2m✓[22m[39m honours a downgrade that lands after the context was resolved [33m 862[2mms[22m[39m
+       [33m[2m✓[22m[39m never widens a member context to the stored role or to the claimed one [33m 334[2mms[22m[39m
+       [33m[2m✓[22m[39m never treats a platform role as tenant authority [33m 496[2mms[22m[39m
+       [33m[2m✓[22m[39m keeps the window closed through withDecryptedSecret and fails closed afterwards [33m 4097[2mms[22m[39m
+       [33m[2m✓[22m[39m keeps the window closed through a mutation and fails closed afterwards [33m 4522[2mms[22m[39m
+       [33m[2m✓[22m[39m stores an envelope and returns metadata only [33m 351[2mms[22m[39m
+       [33m[2m✓[22m[39m fails every operation closed when the keyring is absent or malformed [33m 634[2mms[22m[39m
+       [33m[2m✓[22m[39m retries with a fresh nonce and succeeds after one collision [33m 349[2mms[22m[39m
+       [33m[2m✓[22m[39m fails closed with NONCE_COLLISION once the retry budget is exhausted [33m 322[2mms[22m[39m
+       [33m[2m✓[22m[39m re-encrypts to the active key atomically and preserves record identity [33m 377[2mms[22m[39m
+       [33m[2m✓[22m[39m fails closed without mutating the row when the envelope is corrupted [33m 867[2mms[22m[39m
+       [33m[2m✓[22m[39m fails closed when a stored row's tenant binding no longer matches its envelope [33m 421[2mms[22m[39m
+       [33m[2m✓[22m[39m serializes two rotations and never mixes envelope metadata [33m 344[2mms[22m[39m
+       [33m[2m✓[22m[39m keeps update and rotate consistent under concurrency [33m 1634[2mms[22m[39m
+       [33m[2m✓[22m[39m resolves delete against rotate deterministically without resurrecting [33m 813[2mms[22m[39m
+       [33m[2m✓[22m[39m never lets concurrent writes reuse a nonce under the active key [33m 1097[2mms[22m[39m
+       [33m[2m✓[22m[39m refuses an envelope physically copied onto another tenant row [33m 466[2mms[22m[39m
+       [33m[2m✓[22m[39m returns exactly the allow-listed fields for one record [33m 342[2mms[22m[39m
+       [33m[2m✓[22m[39m tells one tenant nothing at all about another tenant's record [33m 424[2mms[22m[39m
+       [33m[2m✓[22m[39m refuses the single-record read to a member and to a bare platform_admin [33m 478[2mms[22m[39m
+ [32m✓[39m packages/db/tests/m01-acceptance.integration.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 21324[2mms[22m[39m
+       [33m[2m✓[22m[39m keeps every vault operation inside the caller's tenant [33m 598[2mms[22m[39m
+       [33m[2m✓[22m[39m never treats an object id as authorization evidence [33m 308[2mms[22m[39m
+       [33m[2m✓[22m[39m does not turn the cross-tenant miss into an existence oracle [33m 355[2mms[22m[39m
+       [33m[2m✓[22m[39m refuses forged member->admin/owner and admin->owner at every vault surface [33m 626[2mms[22m[39m
+       [33m[2m✓[22m[39m honours downgrades and suspensions on the next authoritative operation [33m 1081[2mms[22m[39m
+       [33m[2m✓[22m[39m resolves only an active membership for the authenticated user and selector [33m 712[2mms[22m[39m
+       [33m[2m✓[22m[39m switches between two valid tenants without cross-contamination [33m 505[2mms[22m[39m
+       [33m[2m✓[22m[39m completes interleaved rotations and authority changes without deadlock and stays consistent [33m 1466[2mms[22m[39m
+       [33m[2m✓[22m[39m never lets the canary escape through logs, errors, metadata, the database or the working tree [33m 3797[2mms[22m[39m
+       [33m[2m✓[22m[39m detects canary bytes deliberately placed in a BYTEA column (negative control) [33m 574[2mms[22m[39m
+ [32m✓[39m packages/db/tests/identity-rbac.integration.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 8933[2mms[22m[39m
+     [33m[2m✓[22m[39m platform_admin comes only from authoritative platform_roles rows [33m 395[2mms[22m[39m
+     [33m[2m✓[22m[39m tenant A selector cannot obtain tenant B context; forged selector fails closed [33m 352[2mms[22m[39m
+     [33m[2m✓[22m[39m suspended tenant/membership or suspended user fails authoritative resolution [33m 337[2mms[22m[39m
+ [32m✓[39m packages/db/tests/tenancy.integration.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 7599[2mms[22m[39m
+     [33m[2m✓[22m[39m applies versioned migrations to separate empty databases and is repeatable [33m 369[2mms[22m[39m
+     [33m[2m✓[22m[39m enforces unique keys, enum domains, foreign keys and delete cascades [33m 635[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[32m66 passed[39m[22m[90m (66)[39m
+[2m   Start at [22m 19:56:05
+[2m   Duration [22m 101.64s[2m (transform 2.45s, setup 0ms, import 15.56s, tests 82.08s, environment 6ms)[22m

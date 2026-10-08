@@ -1,6 +1,6 @@
 {
   "workOrder": "PH-M02-WO-001",
-  "review": "5460654469",
+  "review": "5461309598",
   "scanDate": "2026-10-08",
   "policy": "ADR-0007; raw HIGH/CRITICAL defaults to UNDER_INVESTIGATION. Proposed NOT_AFFECTED is not approval. Exact image digest, evidence, independent auditor and owner approval are required.",
   "images": [
@@ -273,7 +273,8 @@
           "suppressed": false
         }
       ],
-      "snapshotRole": "current rebuilt dev image; previous exact-digest scan retained"
+      "snapshotRole": "historical Debian dev digest superseded by the fixed Alpine image; proposals remain bound to this digest",
+      "artifactStatus": "HISTORICAL_SUPERSEDED"
     },
     {
       "image": "polyhunter-postgres:local (reproducible locked build)",
@@ -486,44 +487,104 @@
         }
       ],
       "snapshotRole": "current locked reproducible image; prior candidate retained"
+    },
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "configDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "platform": "linux/amd64",
+      "baseImage": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "os": "Alpine Linux 3.24",
+      "node": "v24.21.0",
+      "npm": "12.2.0",
+      "zlib": "1.3.2-r1",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+      "sarifSha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "resultCount": 6,
+      "uniqueCveCount": 6,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 0,
+        "MEDIUM": 6,
+        "HIGH": 0,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [],
+      "snapshotRole": "current canonical development image after CR-07-AUD-08 remediation",
+      "artifactStatus": "CURRENT"
     }
   ],
   "summary": {
-    "developmentImageScoutHighCritical": 1,
+    "developmentImageScoutHighCritical": 0,
     "postgresImageScoutHighCritical": 24,
     "postgresPreviousDigestHighCritical": 25,
     "postgresFixedOccurrencesOnCurrentDigest": 1,
     "postgresFreshHighCriticalProposals": 24,
     "currentScoutHighCriticalOccurrencesWithProposal": 24,
-    "supplementalUtilLinuxOccurrencesWithProposal": 3,
+    "supplementalUtilLinuxOccurrencesWithProposal": 0,
     "proposalsPendingIndependentAuditAndOwner": 27,
     "allProposedDispositionByClass": {
       "NOT_AFFECTED": 27
     },
     "selfApproval": false,
-    "unproposedUnderInvestigationOccurrences": 1,
-    "note": "Latest exact dev scan still has one raw HIGH zlib finding. Across both exact images there are 28 current VEX records under investigation: 27 unapproved NOT_AFFECTED proposals and 1 dev zlib record with no proposed disposition. The 3 util-linux records are current-digest supplemental proposals. GCC CVE-2026-95619 remains one archived prior-digest occurrence and is excluded from current counts. No approval or suppression is recorded.",
-    "latestDevImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
-    "latestDevImageHighCritical": 1,
+    "unproposedUnderInvestigationOccurrences": 0,
+    "note": "Current exact dev image has zero HIGH/CRITICAL findings; CVE-2026-85091 is FIXED in this Alpine digest. The unchanged PostgreSQL image has 24 H/C occurrences with pending unapproved proposals. Three util-linux proposals remain pending but are historical and bound only to the superseded Debian dev digest; no approvals transfer. One old Debian dev zlib record remains UNDER_INVESTIGATION without a disposition, historical only. GCC remains separately archived. No suppression or self-approval.",
+    "latestDevImageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "latestDevImageHighCritical": 0,
     "latestPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "latestPostgresImageHighCritical": 24,
     "latestPostgresImageFixedCve": "CVE-2026-85091",
     "currentScannerHighCriticalOccurrencesWithProposal": 24,
     "totalPendingVexProposals": 27,
     "allPendingUnapproved": true,
-    "developmentImagePreviousDigestHighCritical": 2,
+    "developmentImagePreviousDigestHighCritical": 1,
     "currentProposalCounts": {
-      "currentPending": 27,
-      "currentScoutOccurrencesWithProposal": 24,
-      "supplementalCurrentPending": 3,
+      "currentPending": 24,
+      "currentHistoricalPending": 3,
+      "totalPendingUnapproved": 27,
+      "currentVexRecordsUnderInvestigation": 24,
+      "historicalDevZlibWithoutProposal": 1,
       "historicalArchived": 1,
-      "currentVexRecordsUnderInvestigation": 28,
-      "unproposedUnderInvestigationOccurrences": 1
+      "unproposedCurrentOccurrences": 0
     },
     "historicalArchivedVexOccurrences": 1,
     "supplementalCurrentUtilLinuxProposals": 3,
-    "currentVexRecordsUnderInvestigation": 28,
-    "currentPendingVexRecords": 28
+    "currentVexRecordsUnderInvestigation": 24,
+    "currentPendingVexRecords": 24,
+    "historicalDevUtilLinuxProposals": 3,
+    "currentFixedDevZlibOccurrences": 1,
+    "latestCorrectionReview": {
+      "id": "5461309598",
+      "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+      "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
+      "candidateBaseDigest": "sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "candidateFinalDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "zlib": "1.3.2-r1",
+      "devScan": {
+        "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+        "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+        "counts": {
+          "UNKNOWN": 0,
+          "LOW": 0,
+          "MEDIUM": 6,
+          "HIGH": 0,
+          "CRITICAL": 0
+        },
+        "suppressions": 0
+      },
+      "postgresDigestPreserved": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "pendingProposals": {
+        "currentPostgres": 24,
+        "historicalPriorDev": 3,
+        "totalUnapproved": 27,
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "executorSelfApproval": false
+      },
+      "evidenceReceipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-remediation-receipt.json",
+      "exactHeadCi": "Run on final commit; verify exact SHA and green result from PR #43 before the stop condition."
+    }
   },
   "legacyDevelopmentReconciliation": [
     {
@@ -698,8 +759,9 @@
       "CVE-2026-78409"
     ],
     "detailsPath": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json",
-    "currentDevDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
-    "supplementalCurrentRows": [
+    "currentDevDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "supplementalCurrentRows": [],
+    "historicalPriorDigestRows": [
       "CVE-2026-76642",
       "CVE-2026-78408",
       "CVE-2026-78410"
@@ -717,10 +779,14 @@
     "liveTradingAuthorized": false,
     "postgresCurrentDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
     "postgresCurrentDigestConfig": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
-    "currentVexProposalsUnapproved": 28,
+    "currentVexProposalsUnapproved": 24,
     "historicalArchivedOccurrences": 1,
     "historicalGccStatusPreserved": "UNDER_INVESTIGATION / proposed NOT_AFFECTED; excluded from current pending count; not auto-classified",
-    "allCurrentVexProposalsUnapproved": true
+    "allCurrentVexProposalsUnapproved": true,
+    "historicalPendingDevProposals": 3,
+    "allKnownProposalsUnapproved": true,
+    "currentDevImageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "currentDevImageHighCritical": 0
   },
   "postgresDigestRevalidationVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
   "postgresDigestRevalidationVexSha256": "66fb122b6328bbdac2ecd88b2b8b6f01d3f73653474d540e1f8d8092267634c4",
@@ -758,11 +824,12 @@
       "decision": "Rejected: official zlib candidate remains vulnerable."
     }
   ],
-  "correctionReview": "5460224915",
-  "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
+  "correctionReview": "5461309598",
+  "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
   "correctionScope": [
-    "CR-07-AUD-05",
-    "CR-07-AUD-06"
+    "one isolated official Node 24 Alpine 3.24 canary with zlib 1.3.2-r1",
+    "canonical promotion after candidate gates passed",
+    "exact-digest scan/VEX reconciliation and preparation of 27 existing proposals"
   ],
   "priorAcceptedCorrection": {
     "review": "5457414821",
@@ -774,33 +841,34 @@
     ]
   },
   "latestCorrectionReview": {
-    "id": "5460654469",
-    "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
-    "status": "BLOCKED_UNRESOLVED",
-    "devZlib": {
-      "cve": "CVE-2026-85091",
-      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
-      "vexStatus": "UNDER_INVESTIGATION",
-      "proposedDisposition": null,
-      "unresolvedPremise": "Debian/Ubuntu scope disagreement over whether older 1.3.0/1.3.1 reproducer behavior is in the assigned CVE; exact indirect dynamic API reachability also not proven."
+    "id": "5461309598",
+    "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+    "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
+    "candidateBaseDigest": "sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+    "candidateFinalDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "zlib": "1.3.2-r1",
+    "devScan": {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+      "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 0,
+        "MEDIUM": 6,
+        "HIGH": 0,
+        "CRITICAL": 0
+      },
+      "suppressions": 0
     },
-    "matrix": {
-      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
-      "sha256": "b78e99fe67fe7d2dff9b50d2491930cb3d916fae3cec636251900a739fbe1b4b"
+    "postgresDigestPreserved": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "pendingProposals": {
+      "currentPostgres": 24,
+      "historicalPriorDev": 3,
+      "totalUnapproved": 27,
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "executorSelfApproval": false
     },
-    "sourceAndPathReceipt": {
-      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-source-and-path-review-5460654469.json",
-      "sha256": "a7602ed8e7fb40e4f484b2ad0d5f5b50fc89947ff0bf9c3941fddbef321af24d"
-    },
-    "runtimeReceipt": {
-      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-runtime-review-5460654469.json",
-      "sha256": "02a1a6384f04b2031cafdbbc2b93bc5bb2aecb2d5bfab8813b6f7550d62c01d3"
-    },
-    "noRebuildOrRescan": true,
-    "matrixMarkdown": {
-      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.md",
-      "sha256": "1fd13eb32ee62b9fb0b359dcbcf9e66ca4a9b86dc5e29dbd6ed471656008c52f",
-      "source": "Human-readable compact group matrix for 28 current VEX review records"
-    }
+    "evidenceReceipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-remediation-receipt.json",
+    "exactHeadCi": "Run on final commit; verify exact SHA and green result from PR #43 before the stop condition."
   }
 }
