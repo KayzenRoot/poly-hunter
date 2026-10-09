@@ -1293,7 +1293,7 @@
   "evidenceManifest": [
     {
       "path": ".engineering/checkpoint-deltas/PH-M02-WO-001.md",
-      "sha256": "10b0ee4b3147d297f66791879a5f2581d1c0d2d82c83f27c0f905356fd978706",
+      "sha256": "d9594b1ced1a9300bded569fb643da6cead7a22b36179fc50c00e8a3c6c0f608",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1538,7 +1538,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
-      "sha256": "ba08f8509788a769eabb8243fc4fd55911959e6037d30cb7b47e65d6f4f5172a",
+      "sha256": "b731e3f35594ef8b1ce1ba3581b464486abb838a90bbfb9a6c85f51a6184f0c9",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1663,7 +1663,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-      "sha256": "66fb122b6328bbdac2ecd88b2b8b6f01d3f73653474d540e1f8d8092267634c4",
+      "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
       "source": "Fresh locked-image PostgreSQL VEX proposals; no approval granted"
     },
     {
@@ -1723,7 +1723,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
-      "sha256": "77e100ddc349ba0eeb685dc0a8b6028772c8395c3a94af631c139c2a1eccf93f",
+      "sha256": "11486ade847ac7c6d30a6b758b653353b6c7afd1f0523605862fa60a5a3efe20",
       "source": "Top-level PH-M02-WO-001 Evidence Bundle"
     },
     {
@@ -1734,7 +1734,7 @@
   ],
   "postgresDigestRevalidation": {
     "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-    "sha256": "66fb122b6328bbdac2ecd88b2b8b6f01d3f73653474d540e1f8d8092267634c4",
+    "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
     "remainingHighCriticalOccurrences": 24,
     "freshProposals": 24,
     "allStatus": "UNDER_INVESTIGATION",

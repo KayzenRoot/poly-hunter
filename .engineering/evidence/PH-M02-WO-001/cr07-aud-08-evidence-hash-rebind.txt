@@ -1,0 +1,11 @@
+CR-07 PostgreSQL VEX evidence hash reconciliation — review 5460654469
+Source head: cf0fe09d30764cdf3ae0fcc8e836e84dd43d9958
+Image: polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744
+
+The canonical rule is SHA-256 over raw committed Git-blob bytes (`git show <commit>:<path>`), not Windows checkout bytes. The input VEX had 831 path/hash references over 99 files: 30 unique-path hashes matched the Git blobs, 97 matched checkout bytes, and two matched neither. All 99 checkout files are byte-equivalent to their Git blobs after CRLF normalization. The two anomalous references are detailed with previous, checkout and committed-blob hashes in cr07-aud-08-evidence-hash-rebind.json.
+
+Correction: rebind 707 repeated references over 69 distinct paths to current committed Git-blob SHA-256 values. Final deterministic validation: all 831 references/99 paths resolve, with no per-path conflicts or missing targets. The VEX semantic payload is unchanged: 22 HIGH and 2 CRITICAL, all UNDER_INVESTIGATION, all with unapproved NOT_AFFECTED proposals expiring 2026-10-15T23:59:59Z. Auditor/owner approvals remain null and executor self-approval remains false.
+
+The Compose receipt content records its exact image/runtime snapshot (PostgreSQL healthy, web HTTP 200/healthy, worker running); the integration receipt content records 4 files/66 tests passing. These are historical receipts, not a claim about current live runtime. No Docker/WSL/VHDX/volume/database operation, rebuild, rescan, product edit or VEX disposition change was performed.
+
+Current correction result: hash integrity corrected, pending independent re-audit and explicit owner decisions for all VEX proposals. Final commit SHA and exact-head CI are reported in PR #43 to avoid self-referential evidence.
