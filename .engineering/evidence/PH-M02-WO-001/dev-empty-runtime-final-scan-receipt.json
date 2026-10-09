@@ -1,0 +1,82 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "observedAt": "2026-10-09T16:52:59-03:00",
+  "scanner": {
+    "name": "Docker Scout CLI",
+    "version": "1.25.0",
+    "build": "go1.26.3 windows/amd64",
+    "gitCommit": "dac313a945b1fc7abe573ed1c5236c478d03ac63",
+    "command": "docker scout cves local://polyhunter-dev:local --format sarif --output .engineering/evidence/PH-M02-WO-001/dev-empty-runtime-final.sarif.json",
+    "exitCode": 0,
+    "filtersOrSuppressions": "None; full local image report, no severity/base/suppression filter flags"
+  },
+  "image": {
+    "reference": "local://polyhunter-dev:local",
+    "platform": "linux/amd64",
+    "localImageId": "sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+    "dockerInspectRepoDigest": "polyhunter-dev@sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+    "digestSemantics": "Locally built image identity from Docker image inspect; no registry push or registry manifest was performed.",
+    "officialBase": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+    "os": "Alpine Linux 3.24.2",
+    "node": "v24.21.0",
+    "npm": "12.2.0",
+    "alpineZlib": "1.3.2-r1",
+    "nodeBundledZlib": "1.3.2.1-motley-8002e91",
+    "packagesIndexed": 460
+  },
+  "sarif": {
+    "path": ".engineering/evidence/PH-M02-WO-001/dev-empty-runtime-final.sarif.json",
+    "sha256": "100e2b543e9adc8b5fcae7ef32aa645e65fd0df9f1907d4f923d124394c12fca",
+    "resultCount": 6,
+    "uniqueCveCount": 6,
+    "counts": {
+      "UNKNOWN": 0,
+      "LOW": 0,
+      "MEDIUM": 6,
+      "HIGH": 0,
+      "CRITICAL": 0
+    },
+    "findings": [
+      {
+        "cve": "CVE-2026-102277",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/brace-expansion@5.0.11"
+      },
+      {
+        "cve": "CVE-2026-104844",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/postcss-selector-parser@7.1.4"
+      },
+      {
+        "cve": "CVE-2026-101910",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101911",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101912",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101913",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      }
+    ]
+  },
+  "comparison": {
+    "baselineImage": "polyhunter-dev:local@sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "baselineSarif": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+    "baselineSarifSha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+    "findingSetMatch": true,
+    "highOrCriticalIntroduced": 0,
+    "result": "The new local image has the same six MEDIUM CVEs as the prior final dev digest and zero HIGH/CRITICAL findings."
+  },
+  "notice": "Docker Scout exited 0 and wrote the SARIF. It emitted a non-fatal Windows warning that the temporary image archive was still in use during cleanup; no manual cleanup was performed."
+}
