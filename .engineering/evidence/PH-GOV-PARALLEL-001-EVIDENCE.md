@@ -1,6 +1,6 @@
 # PH-GOV-PARALLEL-001 Evidence Bundle (planning-only)
 
-Status: PREPARED / INDEPENDENT AUDIT PENDING
+Status: CORRECTION APPLIED / FINAL-HEAD RE-AUDIT AND CI VERIFICATION
 Base: main@a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c
 Branch: docs/ph-gov-parallel-wave-001
 Final PR head: query from GitHub after this evidence commit (avoid self-referential SHA).
@@ -58,6 +58,14 @@ No executor performed product tests; this PR changes no product code. A green CI
 5. Is the checkpoint reconciliation factual and source-of-truth conformant?
 6. Does the batch validation cadence preserve exact-head quality gates?
 
+## Independent review correction
+
+- Independent review of PR #57 head `ecbf2aa41ecc1ac422963e703dde427d8e9907c4` returned `CORRECTION REQUIRED`.
+- Finding 1: plan Gate G0 and ADR-0008 allowed pure/mock M03+ preparation despite the active PH-GOV-PARALLEL-001 STOP, which forbids admitting M03+ while PR #43 is unapproved or unresolved.
+- Finding 2: `git diff --check origin/main...HEAD` found a new blank line at EOF in `.engineering/BACKLOG.md`.
+- Correction: plan Gate G0, ADR-0008 and BACKLOG now explicitly require all G0 conditions before admitting any M03+ Work Order or Context Lock, including pure/mock lanes; the redundant EOF blank line was removed.
+- Focused local validation: `git diff --check` PASS; governance text assertions PASS; PH-M00..PH-M14 each occur once as a BACKLOG table row; CHECKPOINT.json unchanged; changes limited to the three intended governance documents plus this Evidence Bundle.
+- Exact-head GitHub Actions/SonarCloud/Socket checks and independent re-audit must be checked against the PR head after this evidence commit. This correction does not admit modules, approve VEX, merge a PR or change checkpoint state.
 ## Proposed checkpoint delta
 
 NONE. This planning change does not advance completedThroughModule, activeWorkOrder, preparedWorkOrder, phase, nextLegalStage or liveTradingAuthorized. Approval only admits the scheduling policy to be used for later gated Work Orders.

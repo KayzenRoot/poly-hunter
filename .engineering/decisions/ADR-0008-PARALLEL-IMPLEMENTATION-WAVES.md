@@ -16,7 +16,7 @@ BACKLOG.md contains fifteen modules PH-M00..PH-M14 but its original linear order
 2. Keep stable PH-M IDs and module classifications unchanged. Do not count M10 IMPORTANT or M13/M14 FUTURE as MVP-NECESSARY.
 3. Require versioned contract-first preflight; one writer for shared contracts, DB schema, auth, Docker/CI, root manifests and checkpoint. No agent may write to another agent's worktree.
 4. Separate code-build phase (no voluntary broad test runs between small edits) from a consolidated, obligatory validation phase after code freeze; final unit/integration/CI/security/migration/replay/Docker and independent HIGH_ASSURANCE audit remain unchanged.
-5. Allow concurrency only for contract-stable, dependency-free or safely mocked foundations, not for unresolved dependencies or live-money behavior. Fail closed when an upstream Work Order is BLOCKED.
+5. Allow concurrency only for contract-stable, dependency-free or safely mocked foundations, not for unresolved dependencies or live-money behavior. This does not waive upstream admission gates: no PH-M03+ Work Order or Context Lock may be admitted while the PH-M02-WO-001 STOP is active, including for pure/mock foundations. Fail closed when an upstream Work Order is BLOCKED.
 6. Every lane retains its own Work Order, Context Lock, Evidence Bundle, PR and audit. The wave receipt records integration tests and merge ordering.
 7. No implicit LIVE activation, VEX approval, checkpoint promotion or merge. Existing PH-M02-WO-001 STOP rules remain binding while that PR is open.
 

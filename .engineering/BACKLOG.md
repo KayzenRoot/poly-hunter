@@ -26,10 +26,9 @@ This section is a proposed governance change until the planning PR is independen
 
 - Accepted: PH-M00, PH-M01 (see current machine-readable Checkpoint for canonical status).
 - Current dependency gate: PH-M02 public-provider foundation (#42, PR #43). PH-M02 order/signing/eligibility capabilities require separately admitted HIGH_ASSURANCE work and are not implied by public-adapter acceptance.
-- Wave A candidate, after contracts and per-lane dependencies are admitted: PH-M03 (#45), PH-M04 (#46), PH-M05 (#47), PH-M07 (#49), PH-M08 (#50), PH-M09 (#51), PH-M11 telemetry foundation (#53). Only pure or disabled/mock foundations may be concurrent before integration prerequisites exist; M03 live-data integration waits on accepted M02.
+- Wave A candidate, after Gate G0, contracts and per-lane dependencies pass: PH-M03 (#45), PH-M04 (#46), PH-M05 (#47), PH-M07 (#49), PH-M08 (#50), PH-M09 (#51), PH-M11 telemetry foundation (#53). Pure/disabled/mock scope does not waive PH-M02-WO-001 STOP, owner VEX decisions or any admission gate; M03 live-data integration waits on accepted M02.
 - Wave B after safe capabilities exist: PH-M06 (#48), M07/M08/M09/M11 integrated functionality, and M02 remaining gated provider subincrement(s).
 - Final: PH-M12 (#54) after all NECESSARY prerequisites and independent acceptance.
 - Not in MVP waves: PH-M10 IMPORTANT (#52); PH-M13/M14 FUTURE (#55/#56).
 
 Implementation Work Orders may be admitted in a multi-Work-Order batch only when their dependency paths have no unresolved correction/blocker, one-writer file ownership is frozen, and each has its own exact-base Context Lock, acceptance gates and Evidence Bundle. Shared contracts integrate through one coordinator. Finish code in isolated lanes before one consolidated full-wave test campaign, but never bypass required preflight, CI, security, HIGH_ASSURANCE or exact-head review gates. See `.engineering/plans/PH-PARALLEL-WAVES-001.md` and `.engineering/decisions/ADR-0008-PARALLEL-IMPLEMENTATION-WAVES.md`.
-
