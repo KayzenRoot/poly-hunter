@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "review": "5462779327",
+  "observedAtUtc": "2026-10-09T13:54:39.1190978-03:00",
+  "repository": {
+    "branch": "feat/ph-m02-public-provider-foundation",
+    "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+    "headShaBeforeEvidenceUpdate": "1375a877ffd2458860320a3eef6387bd149b0077",
+    "pullRequestState": "OPEN_DRAFT",
+    "pullRequestUrl": "https://github.com/KayzenRoot/poly-hunter/pull/43"
+  },
+  "storage": {
+    "cVolume": {
+      "fileSystem": "NTFS",
+      "volumeId": "\\\\?\\Volume{6fc6b1b3-6e2b-4e1b-aa8d-1c0d10c0bf3c}\\",
+      "mountedAs": "C:",
+      "disk": 1,
+      "model": "WDC WDS240G2G0-00EPW0",
+      "health": "Healthy",
+      "sizeBytes": 238930620416,
+      "freeBytes": 55006859264
+    },
+    "dVolume": {
+      "fileSystem": "NTFS",
+      "volumeId": "\\\\?\\Volume{2ffcd6dd-0c11-4601-a88e-f60e9f6322da}\\",
+      "mountedAs": "D:",
+      "disk": 0,
+      "model": "TOSHIBA MK3259GSXP",
+      "health": "Healthy",
+      "sizeBytes": 320071528448,
+      "freeBytes": 235806253056
+    },
+    "recoveryPartition": {
+      "disk": 1,
+      "partition": 4,
+      "type": "Recovery",
+      "driveLetter": null,
+      "sizeBytes": 897581056,
+      "health": "Healthy",
+      "driveLetterAssigned": false
+    },
+    "cDockerJunction": {
+      "path": "C:\\Users\\csn19\\AppData\\Local\\Docker",
+      "type": "Junction",
+      "reparseTag": "0xa0000003",
+      "substitutePath": "\\??\\D:\\Docker",
+      "printPath": "D:\\Docker",
+      "creationTimeUtc": "2026-09-01T18:01:07Z",
+      "lastWriteTimeUtc": "2026-09-01T18:01:07Z",
+      "targetCurrentlyExists": false,
+      "assessment": "Reparse metadata is valid; target tree is absent."
+    },
+    "desktopSettings": {
+      "file": "C:\\Users\\csn19\\AppData\\Roaming\\Docker\\settings-store.json",
+      "fileBytes": 415,
+      "lastWriteTimeUtc": "2026-10-08T21:56:55Z",
+      "dataFolder": "C:\\ProgramData\\DockerDesktop\\vm-data",
+      "dataFolderCurrentlyExists": false
+    },
+    "wslRegistration": {
+      "name": "docker-desktop",
+      "version": 2,
+      "state": "Stopped",
+      "basePath": "\\\\?\\D:\\Docker\\wsl\\main",
+      "registeredSystemVhdx": "D:\\Docker\\wsl\\main\\ext4.vhdx",
+      "registeredSystemVhdxExists": false,
+      "expectedDataVhdx": "D:\\Docker\\wsl\\disk\\docker_data.vhdx",
+      "expectedDataVhdxExists": false,
+      "lastObservedDataVhdxUtc": "2026-10-08T21:54:49Z",
+      "lastObservedDataVhdxBytes": 65711112192
+    },
+    "fileSystemDrives": [
+      {
+        "name": "C",
+        "root": "C:\\",
+        "displayRoot": null,
+        "network": false
+      },
+      {
+        "name": "D",
+        "root": "D:\\",
+        "displayRoot": null,
+        "network": false
+      },
+      {
+        "name": "Temp",
+        "root": "C:\\Users\\csn19\\AppData\\Local\\Temp\\",
+        "displayRoot": null,
+        "network": false,
+        "backingVolume": "C:"
+      }
+    ]
+  },
+  "mountedDiskHealth": [
+    {
+      "disk": 0,
+      "model": "TOSHIBA MK3259GSXP",
+      "bus": "SATA",
+      "status": "Online",
+      "health": "Healthy",
+      "sizeBytes": 320072933376
+    },
+    {
+      "disk": 1,
+      "model": "WDC WDS240G2G0-00EPW0",
+      "bus": "SATA",
+      "status": "Online",
+      "health": "Healthy",
+      "sizeBytes": 240057409536
+    }
+  ],
+  "cVhdxSearch": {
+    "command": "Single elevated, read-only .NET directory walk rooted at C:\\ for *.vhdx; reads path metadata only; all ReparsePoint directories skipped to avoid traversing C:\\Users\\csn19\\AppData\\Local\\Docker into D:; no D: rescan.",
+    "completed": true,
+    "result": {
+      "StartedAtUtc": "2026-10-09T16:30:28.3380056Z",
+      "FinishedAtUtc": "2026-10-09T16:46:29.8466314Z",
+      "ElapsedSeconds": 961.65,
+      "Root": "C:\\",
+      "SearchPattern": "*.vhdx",
+      "DirectoriesVisited": 479818,
+      "VhdxCandidateCount": 1,
+      "DockerWslRelevantCount": 1,
+      "FileEnumerationErrors": 7,
+      "DirectoryEnumerationErrors": 7,
+      "ReparseDirectoriesSkipped": 4840,
+      "ReparseExamples": [
+        "C:\\Arquivos de Programas",
+        "C:\\Documents and Settings",
+        "C:\\Windows\\System32\\config\\systemprofile\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Content.IE5",
+        "C:\\Users\\All Users",
+        "C:\\Users\\Default User",
+        "C:\\Users\\Todos os Usuários",
+        "C:\\Users\\Usuário Padrão",
+        "C:\\Users\\Public\\Documents\\Meus Vídeos",
+        "C:\\Users\\Public\\Documents\\Minhas Imagens",
+        "C:\\Users\\Public\\Documents\\Minhas Músicas",
+        "C:\\Users\\Default\\Ambiente de Impressão",
+        "C:\\Users\\Default\\Ambiente de Rede",
+        "C:\\Users\\Default\\Configurações Locais",
+        "C:\\Users\\Default\\Cookies",
+        "C:\\Users\\Default\\Dados de Aplicativos",
+        "C:\\Users\\Default\\Menu Iniciar",
+        "C:\\Users\\Default\\Meus Documentos",
+        "C:\\Users\\Default\\Modelos",
+        "C:\\Users\\Default\\Recent",
+        "C:\\Users\\Default\\SendTo",
+        "C:\\Users\\Default\\Documents\\Meus Vídeos",
+        "C:\\Users\\Default\\Documents\\Minhas Imagens",
+        "C:\\Users\\Default\\Documents\\Minhas Músicas",
+        "C:\\Users\\Default\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programas",
+        "C:\\Users\\Default\\AppData\\Local\\Dados de Aplicativos",
+        "C:\\Users\\Default\\AppData\\Local\\Histórico",
+        "C:\\Users\\Default\\AppData\\Local\\Temporary Internet Files",
+        "C:\\Users\\Default\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files",
+        "C:\\Users\\csn19\\Ambiente de Impressão",
+        "C:\\Users\\csn19\\Ambiente de Rede"
+      ],
+      "ErrorExamples": [
+        "C:\\Windows\\System32\\WebThreatDefSvc",
+        "C:\\Windows\\System32\\WebThreatDefSvc",
+        "C:\\Windows\\System32\\LogFiles\\WMI\\RtBackup",
+        "C:\\Windows\\System32\\LogFiles\\WMI\\RtBackup",
+        "C:\\Windows\\System32\\config\\BFS",
+        "C:\\Windows\\System32\\config\\BFS",
+        "C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Local\\Microsoft\\Ngc",
+        "C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Local\\Microsoft\\Ngc",
+        "C:\\System Volume Information",
+        "C:\\System Volume Information",
+        "C:\\ProgramData\\Microsoft\\Windows\\SystemData",
+        "C:\\ProgramData\\Microsoft\\Windows\\SystemData",
+        "C:\\ProgramData\\Microsoft\\Windows\\CapabilityAccessManager",
+        "C:\\ProgramData\\Microsoft\\Windows\\CapabilityAccessManager"
+      ],
+      "RelevantCandidates": [
+        {
+          "Path": "C:\\Program Files\\Docker\\Docker\\resources\\wsl\\ext4.vhdx",
+          "Name": "ext4.vhdx",
+          "Bytes": 100663296,
+          "CreationTimeUtc": "2026-08-27T21:34:24.6224744Z",
+          "LastWriteTimeUtc": "2026-08-25T09:48:54.7003921Z"
+        }
+      ]
+    },
+    "targetedCProfileProgramDataWalk": "A preliminary broad profile/ProgramData walk was stopped before completion; no conclusions were taken from it.",
+    "initialEnumeratorAttempt": "A preliminary enumerator overload visited only the root and was discarded; it is not counted as a search result."
+  },
+  "cVhdxCandidate": {
+    "path": "C:\\Program Files\\Docker\\Docker\\resources\\wsl\\ext4.vhdx",
+    "bytes": 100663296,
+    "creationTimeUtc": "2026-08-27T21:34:24.6224744Z",
+    "lastWriteTimeUtc": "2026-08-25T09:48:54.7003921Z",
+    "sha256": "B93D5879702DB141A76FA730990125C3BEBF16E5144BEE18B16192C88E68E7B3",
+    "headerAscii": "vhdxfile",
+    "siblings": [
+      "docker-wsl-cli.iso (818345984 bytes)",
+      "docker-wsl-cli.iso.sha256 (64 bytes)",
+      "wsl-data.tar (5226496 bytes)"
+    ],
+    "assessment": "Installed Docker Desktop WSL resource under the application installation directory. It is not at the registered WSL BasePath, is not the 65,711,112,192-byte docker_data.vhdx last observed in the user data path, and must not be used to initialize a replacement distro."
+  },
+  "recoveryMetadata": {
+    "cVolumeShadowCopies": [
+      {
+        "id": "{051e1ab1-f04b-4e30-86f9-87f9743d53d4}",
+        "device": "\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy3",
+        "createdLocal": "2026-10-08 20:10:13",
+        "volume": "C:"
+      },
+      {
+        "id": "{30c4cc30-19ca-4bc5-be94-3bd405523fdf}",
+        "device": "\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy4",
+        "createdLocal": "2026-10-09 12:54:39",
+        "volume": "C:"
+      }
+    ],
+    "cSnapshotTargetChecks": "In both snapshots: C:\\ProgramData\\DockerDesktop\\vm-data absent; C:\\ProgramData\\DockerDesktop\\wsl absent; C:\\Users\\csn19\\AppData\\Local\\Docker remains a junction to D:\\Docker.",
+    "restorePoint": {
+      "sequence": 71,
+      "description": "Windows Update",
+      "creationTimeRaw": "20261009155321.735914-000"
+    },
+    "windowsBackupCatalog": "wbadmin get versions: ERROR - No backup found.",
+    "recycleBin": {
+      "root": "C:\\$Recycle.Bin",
+      "metadataFilesScanned": 227,
+      "diskImageMatches": 0
+    },
+    "dShadowCopies": 0,
+    "dUsnJournal": "fsutil usn queryjournal D: returned error 1179: change journal is not active.",
+    "systemMountEvents": "0 matching System events for D:, Docker, the D volume ID, or mount-point text in selected storage providers during the queried interval; this does not prove no unlogged mount change.",
+    "dPriorSearchReceipt": ".engineering/evidence/PH-M02-WO-001/docker-recovery-5462779327-operator-followup.json",
+    "dPriorSearch": "NO_MATCH for docker_data.vhdx across D: and targeted Docker/WSL/backup paths; D: was not rescanned in this pass.",
+    "recoveryPartitionVhdxSearch": {
+      "Root": "\\\\?\\Volume{6ca02d0b-58ea-49a9-ba06-366defb82346}\\",
+      "DirectoriesVisited": 4,
+      "CandidateCount": 0,
+      "Candidates": [],
+      "ErrorCount": 2,
+      "ErrorExamples": [
+        "\\\\?\\Volume{6ca02d0b-58ea-49a9-ba06-366defb82346}\\System Volume Information",
+        "\\\\?\\Volume{6ca02d0b-58ea-49a9-ba06-366defb82346}\\System Volume Information"
+      ]
+    }
+  },
+  "runtime": {
+    "dockerDesktopVersion": "4.88.1.237512",
+    "desktopProcessRunning": false,
+    "dockerService": {
+      "state": "Running",
+      "startType": "Manual"
+    },
+    "wslService": {
+      "state": "Running",
+      "startType": "Automatic"
+    },
+    "dockerCli": "29.7.2",
+    "composeCli": "v5.4.0",
+    "context": "desktop-linux",
+    "enginePipe": "npipe:////./pipe/dockerDesktopLinuxEngine",
+    "enginePipeExists": false,
+    "dockerVersion": "FAILED: Engine named pipe not found",
+    "dockerInfo": "FAILED: Engine named pipe not found",
+    "web": {
+      "url": "http://localhost:3000",
+      "result": "CONNECTION_REFUSED"
+    },
+    "composeUp": "NOT_RUN: original Docker data store or verified backup not found; running Compose could initialize/rewrite missing storage."
+  },
+  "causalAssessment": {
+    "currentCondition": "Docker WSL registration and junction target point to D:\\Docker, but D:\\Docker tree and registered VHDXs are absent. C: settings DataFolder points to a different absent path under C:\\ProgramData.",
+    "junction": "The reparse point itself is intact and unchanged in current C and both C snapshots; its target directory is missing.",
+    "currentMount": "D: is currently mounted to the healthy Toshiba disk and its volume GUID is recorded. Previous recovery receipt did not record historical volume GUID, so a past drive-letter remap cannot be ruled out.",
+    "moveOrDeletion": "No original data VHDX or verified backup found in accessible C/D, checked C snapshots, recycle metadata or Windows backup catalog. D USN journal is disabled and no matching mount events were found; the evidence cannot distinguish a move from deletion or an earlier path/mount change.",
+    "status": "Data is absent from all searched accessible locations; do not claim permanently deleted or recovered."
+  },
+  "preservation": {
+    "dockerDataChanged": false,
+    "volumeDeleted": false,
+    "wslUnregistered": false,
+    "factoryReset": false,
+    "installerRetried": false,
+    "replacementDataStoreCreated": false,
+    "envContentsReadOrPrinted": false,
+    "composeUpAttempted": false,
+    "vexApproved": false,
+    "checkpointPromoted": false,
+    "liveTradingAuthorized": false,
+    "candidateHeaderBytesRead": 64,
+    "settingsDataFolderPropertyRead": true,
+    "vhdxMounted": false,
+    "databaseVolumeContentsRead": false,
+    "credentialValuesRead": false
+  },
+  "decision": {
+    "result": "BLOCKED_DOCKER_DATA_RECOVERY_DECISION",
+    "recoverySafe": false,
+    "reason": "The only C: VHDX is a 96 MiB installed WSL resource image; no registered/original Docker data disk or verified backup is available.",
+    "operatorDecisionRequired": [
+      "Provide or mount a verified backup containing the original Docker WSL system/data VHDXs, then identify its path.",
+      "If no backup exists, explicitly authorize a separate, empty and isolated Docker environment (prefer a separate VM/host or distinct data root) while leaving the existing docker-desktop registration and junction untouched; accept that the old PostgreSQL volume data is not present in that fresh environment."
+    ]
+  }
+}
