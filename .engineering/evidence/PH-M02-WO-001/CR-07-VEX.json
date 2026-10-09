@@ -1293,7 +1293,7 @@
   "evidenceManifest": [
     {
       "path": ".engineering/checkpoint-deltas/PH-M02-WO-001.md",
-      "sha256": "d9594b1ced1a9300bded569fb643da6cead7a22b36179fc50c00e8a3c6c0f608",
+      "sha256": "b4f75e6c7ee0700c9efbe261f2026a3fef5b1a7cafa26960b9ab8e3ada175b4c",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1538,7 +1538,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
-      "sha256": "b731e3f35594ef8b1ce1ba3581b464486abb838a90bbfb9a6c85f51a6184f0c9",
+      "sha256": "af45ee6b07663d089b25f682fb383b5c3f15b369a2618cbc256de892371682c5",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1663,7 +1663,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-      "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
+      "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
       "source": "Fresh locked-image PostgreSQL VEX proposals; no approval granted"
     },
     {
@@ -1673,7 +1673,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.json",
-      "sha256": "e44f6dd85084148005ce70e76aee7dc9beead852f0db69014d2f8756c47d88d3",
+      "sha256": "960aadb49752da6e7112dc54e319bbea3d780310637a5936a3051422afc114ae",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1723,18 +1723,28 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
-      "sha256": "11486ade847ac7c6d30a6b758b653353b6c7afd1f0523605862fa60a5a3efe20",
+      "sha256": "42a300805e7a24d9c0842f90a10e726e7a48f5d7b7db4aa9692aca1091a9e6ed",
       "source": "Top-level PH-M02-WO-001 Evidence Bundle"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-evidence-integrity.json",
       "sha256": "d42340144895a065c2bf9836fd072b1a508c0270011f03684d883c8f5063289a",
       "source": "Final evidence-manifest integrity check receipt; records the non-self-referential pre-inclusion pass"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+      "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705",
+      "source": "Independent audit correction receipt: expiry arithmetic and preserved VEX approval boundary"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+      "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7",
+      "source": "Human-readable receipt for the exact seven-day expiry correction"
     }
   ],
   "postgresDigestRevalidation": {
     "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-    "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
+    "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
     "remainingHighCriticalOccurrences": 24,
     "freshProposals": 24,
     "allStatus": "UNDER_INVESTIGATION",
@@ -2069,5 +2079,37 @@
       "authenticatedTrading": false,
       "liveTradingAuthorized": false
     }
+  },
+  "expiryMetadataCorrection": {
+    "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
+    "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
+    "findingCount": 24,
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+    "previousExpiry": "2026-10-15T23:59:59Z",
+    "expiry": "2026-10-15T13:00:00Z",
+    "durationHours": 168,
+    "statusesRemain": [
+      "UNDER_INVESTIGATION"
+    ],
+    "proposedDispositionRemains": "NOT_AFFECTED",
+    "independentAuditorApprovals": 0,
+    "ownerApprovals": 0,
+    "selfApproval": false,
+    "requiresIndependentReaudit": true,
+    "evidenceRefs": [
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+        "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705"
+      },
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+        "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7"
+      }
+    ]
   }
 }

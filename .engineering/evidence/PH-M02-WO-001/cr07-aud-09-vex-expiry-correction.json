@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
+  "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
+  "capturedAtUtc": "2026-10-09T23:18:55Z",
+  "finding": {
+    "affectedRecords": 24,
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+    "oldExpiry": "2026-10-15T23:59:59Z",
+    "newExpiry": "2026-10-15T13:00:00Z",
+    "durationHours": 168,
+    "policySource": ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+    "correctedVexSha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
+  },
+  "correction": "The 7-day local-dev/CI expiry rule in .engineering/proposals/PH-SEC-VEX-POLICY.md is applied as 168 hours from dispositionTimestampUtc.",
+  "unchanged": {
+    "statuses": [
+      "UNDER_INVESTIGATION"
+    ],
+    "proposedDisposition": "NOT_AFFECTED",
+    "independentAuditorApproval": null,
+    "ownerApproval": null,
+    "executorSelfApproval": false,
+    "scannerFindings": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    }
+  },
+  "validation": {
+    "recordsChecked": 24,
+    "timestampsComputedFromDispositionPlus168Hours": true,
+    "vexJsonParses": true,
+    "imageDigestsUnchanged": true,
+    "securityArtifactUnchanged": true,
+    "runtimeOrDockerDataTouched": false
+  },
+  "evidenceRefs": [
+    ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+    ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+    ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
+    ".engineering/checkpoint-deltas/PH-M02-WO-001.md"
+  ],
+  "result": "METADATA_CORRECTED; ALL 24 FINDINGS REMAIN BLOCKING AND UNAPPROVED"
+}

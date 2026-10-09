@@ -517,7 +517,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -1247,7 +1247,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -1973,7 +1973,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -2375,7 +2375,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -2775,7 +2775,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -3223,7 +3223,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -3635,7 +3635,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -4039,7 +4039,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -4483,7 +4483,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -4887,7 +4887,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -5289,7 +5289,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -5845,7 +5845,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -6257,7 +6257,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -7062,7 +7062,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -7482,7 +7482,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -7952,7 +7952,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -8470,7 +8470,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -9262,7 +9262,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -9710,7 +9710,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -10102,7 +10102,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -10594,7 +10594,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -11092,7 +11092,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -11600,7 +11600,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "scanner": {
         "name": "Docker Scout CLI",
@@ -12222,7 +12222,7 @@
       "ownerApproval": null,
       "executorSelfApproval": false,
       "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
-      "expiry": "2026-10-15T23:59:59Z",
+      "expiry": "2026-10-15T13:00:00Z",
       "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
       "priorAnalysis": {
         "path": ".engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",

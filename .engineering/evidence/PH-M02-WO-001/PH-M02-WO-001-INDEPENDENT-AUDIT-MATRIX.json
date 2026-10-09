@@ -55,7 +55,7 @@
       "evidenceRefs": [
         {
           "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-          "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe"
+          "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
@@ -80,7 +80,7 @@
       "evidenceRefs": [
         {
           "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-          "sha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe"
+          "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
         },
         {
           "path": ".engineering/evidence/PH-M02-WO-001/postgres-superuser-risk.md",
@@ -193,5 +193,28 @@
     }
   ],
   "approvalBoundary": "The 27 existing proposed NOT_AFFECTED dispositions remain UNDER_INVESTIGATION and unapproved: 24 current proposals on the exact PostgreSQL digest and 3 historical proposals bound only to the superseded Debian dev digest. independentAuditor=null, ownerApproval=null, executorSelfApproval=false. No approval transfers to a different image digest. Current dev zlib is FIXED only for its exact Alpine digest. Raw Scout findings are not suppressed.",
-  "historical": "The prior Debian development image's zlib CVE-2026-85091 record remains UNDER_INVESTIGATION with no proposed disposition and is historical only. The three util-linux proposals remain digest-bound to that old Debian dev image and are not transferred. GCC CVE-2026-95619 remains one archived prior-digest occurrence, excluded from current counts; absence is not FIXED or NOT_AFFECTED evidence."
+  "historical": "The prior Debian development image's zlib CVE-2026-85091 record remains UNDER_INVESTIGATION with no proposed disposition and is historical only. The three util-linux proposals remain digest-bound to that old Debian dev image and are not transferred. GCC CVE-2026-95619 remains one archived prior-digest occurrence, excluded from current counts; absence is not FIXED or NOT_AFFECTED evidence.",
+  "expiryMetadataCorrection": {
+    "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
+    "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
+    "findingCount": 24,
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+    "expiry": "2026-10-15T13:00:00Z",
+    "durationHours": 168,
+    "allRemainUnderInvestigation": true,
+    "proposedNotAffectedAwaitingAuditAndOwnerApproval": 24,
+    "auditorApprovals": 0,
+    "ownerApprovals": 0,
+    "evidenceRefs": [
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+        "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705"
+      },
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+        "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7"
+      }
+    ]
+  }
 }

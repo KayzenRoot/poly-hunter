@@ -789,7 +789,7 @@
     "currentDevImageHighCritical": 0
   },
   "postgresDigestRevalidationVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-  "postgresDigestRevalidationVexSha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
+  "postgresDigestRevalidationVexSha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
   "officialPostgres17Candidates": [
     {
       "image": "postgres:17.11-bookworm",
