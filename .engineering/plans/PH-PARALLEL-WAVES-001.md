@@ -1,13 +1,12 @@
 # PH-GOV-PARALLEL-001 — Module waves / multiagent orchestration
 
-Status: PROPOSED / NOT CANONICAL UNTIL APPROVED AUDIT AND MERGE
+Status: APPROVED SCHEDULING (D-0024 / ADR-0008 via merged PR #57); G0 VERIFIED SATISFIED AT main@c15ed37253c9ee7f250ba435434b17b71fa54526; G1/G2 PENDING
 Owner direction: 2026-10-09. Baseline: main@a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c.
 Purpose: fewer executor prompts through safe parallel lanes, without modifying the 15 frozen PH-M00..PH-M14 modules.
 
 ## Source hierarchy and admission
 
-CHECKPOINT.json remains M01_IMPLEMENTATION_COMPLETE, completedThroughModule PH-M01, nextLegalStage AWAIT_OWNER_DIRECTION, liveTradingAuthorized=false. PR #43 / PH-M02-WO-001 is OPEN+DRAFT with head cf0fe09d30764cdf3ae0fcc8e836e84dd43d9958 at planning time; its Docker runtime is reportedly recovered, but the independent HIGH_ASSURANCE audit and 24 PostgreSQL HIGH/CRITICAL VEX dispositions remain unresolved. Planning/tracking does not admit M03+ implementation. PR #44 modifies AGENTS.md; this plan deliberately does not touch that file.
-
+Current canonical CHECKPOINT.json at main@c15ed37253c9ee7f250ba435434b17b71fa54526: `phase=M02_INCREMENT_IMPLEMENTED`, `stopState=STOP_AFTER_PH_M02_WO_001`, `completedThroughModule=PH-M01`, `nextLegalStage=AWAIT_OWNER_DIRECTION`, `liveTradingAuthorized=false`. PR #43 accepted/merged in governance as `350f468789f655a6388fd2558265011a09859e65`; checkpoint promotion PR #58 merged as `c15ed37253c9ee7f250ba435434b17b71fa54526`. The exact image PostgreSQL VEX approvals are current for documented local-development runtime only, expiring `2026-10-15T13:00:00Z`; fresh Docker store stack has healthy historical receipt while old VHDX/PGDATA remains preserved and unavailable. PH-M02 overall and PH-M02-WO-002 remain incomplete/not admitted. PR #44 AGENTS.md remains separate. G0 conditions below have been met at this exact source baseline; G1 typed-contract freeze and G2 per-lane Work Order/Context Lock admission are still required. Coordination issue #59 owns G1/G2 preparation.
 Gate G0: PR #43 must pass exact-head independent review, owner-required VEX decisions, contain no unresolved HIGH/CRITICAL findings, have its M02 checkpoint accepted and be merged. Until every G0 condition passes, no PH-M03+ execution Work Order or Context Lock may be admitted, including pure/mock lanes. Tracking issues and non-binding planning may continue, but do not authorize contract freeze or implementation. No product increment can bypass an unresolved blocker in its dependency path.
 Gate G1: freeze versioned typed contracts and file ownership at a single exact base SHA. Validate compatibility with M02 current branch once accepted; recompile stale locks on any source/ADR/checkpoint change. An orchestrator locks shared files.
 Gate G2: create explicit same-baseline, stable-ID Work Orders for admitted module lanes; verify multiagent capability rather than assuming it. If absent, keep the same one-prompt work plan and execute isolated lanes sequentially with honest reporting.
@@ -74,7 +73,7 @@ One orchestration prompt may contain multiple stable-ID Work Orders. Each module
 
 ## Current blockers and stop rules
 
-- Preserve #43 exact-head independent audit, pending VEX security decisions, and no direct/implicit LIVE authorization.
+- PR #43 accepted and merged; maintain exact-digest VEX revalidation, security checks and no direct/implicit LIVE authorization.
 - Do not alter the previous historical Docker VHDX or databases; fresh empty volumes remain separate and historic storage remains untouched.
 - If #43 is still BLOCKED/CORRECTION REQUIRED, do not admit or execute dependent modules; report the specific dependency path and correction delta.
-- If accepted governance PR is absent, tracking cards remain PLANNED, not implementation authorizations.
+- PR #57 and checkpoint PR #58 are merged, satisfying G0 planning prerequisites at the recorded baseline. Tracking issues #45/#46/#47/#49/#50/#51/#53 remain PLANNED, NOT ADMITTED until G1 frozen contracts, G2 Work Orders/Context Locks, fresh security checks and owner batch direction are all reconciled.
