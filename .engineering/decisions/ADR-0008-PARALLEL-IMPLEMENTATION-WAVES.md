@@ -1,6 +1,6 @@
 # ADR-0008 — Dependency-aware parallel module waves
 
-Status: OWNER-APPROVED WITH CONDITIONS; EFFECTIVE FOR SCHEDULING AFTER PR #57 MERGE; G0 REMAINS CLOSED
+Status: OWNER-APPROVED WITH CONDITIONS; EFFECTIVE FOR SCHEDULING; G0 PREREQUISITES VERIFIED AT main@c15ed37253c9ee7f250ba435434b17b71fa54526; G1/G2 STILL REQUIRED
 Date: 2026-10-09
 Work Order: PH-GOV-PARALLEL-001
 Decision: D-0024 (owner approval recorded 2026-10-10 UTC)
@@ -22,7 +22,7 @@ BACKLOG.md contains fifteen modules PH-M00..PH-M14 but its original linear order
 
 ## Owner approval and effectiveness gate
 
-The Project Owner approved adoption of D-0024 in the current Codex task on 2026-10-10 UTC, conditional on maintaining all security, independent-audit, testing and dependency gates in this ADR and the canonical Work Orders. PR #57 passed the separate exact-head review at `b39a3e36bc040826a331537996ef673663954823` and was merged as `c869cd4fb0378ab1c0c850425497d08a9178552e`; therefore D-0024 is effective for scheduling. This does not admit PH-M03+ Work Orders or Context Locks. Gate G0 remains closed until PH-M02-WO-001 passes its exact-head review, all required VEX approvals are validly recorded with no unresolved HIGH/CRITICAL findings, and its checkpoint is accepted and merged. No checkpoint state or LIVE authority changes through this approval.
+The Project Owner approved adoption of D-0024 in the current Codex task on 2026-10-10 UTC, conditional on maintaining all security, independent-audit, testing and dependency gates in this ADR and the canonical Work Orders. PR #57 passed the separate exact-head review at `b39a3e36bc040826a331537996ef673663954823` and was merged as `c869cd4fb0378ab1c0c850425497d08a9178552e`; therefore D-0024 is effective for scheduling. This does not admit PH-M03+ Work Orders or Context Locks. Gate G0 required PH-M02-WO-001 exact-head review, valid owner/auditor VEX dispositions with no unresolved applicable HIGH/CRITICAL findings, and accepted/merged checkpoint. These prerequisites were verified as satisfied on `main@c15ed37253c9ee7f250ba435434b17b71fa54526`: PR #43 merged `350f468789f655a6388fd2558265011a09859e65` and checkpoint PR #58 merged `c15ed37253c9ee7f250ba435434b17b71fa54526`. This enables G1 planning, NOT automatic G2 admission or implementation. Recheck VEX expiry `2026-10-15T13:00:00Z`, artifact/source drift and any new security findings before each later gate. No checkpoint state or LIVE authority changes through this approval.
 
 ## Supersedes
 
