@@ -223,6 +223,8 @@
   "approvalBoundary": "Current state: 24 PostgreSQL NOT_AFFECTED proposals (22 HIGH, 2 CRITICAL) have formal per-occurrence independent audit and conditional owner approval for only the exact PostgreSQL manifest/config digest and documented local-development runtime, expiring 2026-10-15T13:00:00Z. Three historical util-linux proposals remain unapproved and bound only to the superseded Debian development digest; the old Debian development zlib remains UNDER_INVESTIGATION without a proposal. No approval transfers to another digest. Current Alpine development zlib is FIXED only for its exact digest. Raw Scout findings remain visible with zero suppressions; executorSelfApproval=false.",
   "historical": "The prior Debian development image's zlib CVE-2026-85091 record remains UNDER_INVESTIGATION with no proposed disposition and is historical only. The three util-linux proposals remain digest-bound to that old Debian dev image and are not transferred. GCC CVE-2026-95619 remains one archived prior-digest occurrence, excluded from current counts; absence is not FIXED or NOT_AFFECTED evidence.",
   "expiryMetadataCorrection": {
+    "historical": true,
+    "supersededBy": "latestApprovalUpdate",
     "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
     "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
     "findingCount": 24,
@@ -246,6 +248,8 @@
     ]
   },
   "latestPerOccurrenceAudit": {
+    "historical": true,
+    "supersededBy": "latestApprovalUpdate",
     "auditReport": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
     "auditReportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
     "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",

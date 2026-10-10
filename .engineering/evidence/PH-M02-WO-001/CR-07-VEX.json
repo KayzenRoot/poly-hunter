@@ -1298,7 +1298,7 @@
   "evidenceManifest": [
     {
       "path": ".engineering/checkpoint-deltas/PH-M02-WO-001.md",
-      "sha256": "4363e9e2803577e2bae672dd28eb2cc6d6d9d5fc61a3488d8a1550c4b8b50ef6",
+      "sha256": "f71b26b45c63e9d1eb4ed8d10b161d92a8dd28a3e195e4bfc4f3ed84bd17b996",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1313,7 +1313,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
-      "sha256": "7c73f4d3e759d9fc8954913cd2f4d8ae33e7b3faea8d9cb9c7ff199b136b7863",
+      "sha256": "5cea08e70dc6725f9563fdc6c87b223029a592b4579fcbc0054e6d4c98b23e1f",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1543,7 +1543,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
-      "sha256": "897636a278f98ab4e29fbd7e81daee51e8182819f24cf92e2e5bb08d0177f549",
+      "sha256": "d64cd5522c22d014ea1f3e9796cb425515662840ea2b58f272218eeaac4cef1f",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1728,7 +1728,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
-      "sha256": "1c304dcb5fd09947a3e0f9ec2ce2d1092e249405add658f618348971df133e00",
+      "sha256": "f87b87fc93f1108fb0cf578a7c90d1fc28fcd0a9f8028ea4e5eeebc55c174c10",
       "source": "Top-level PH-M02-WO-001 Evidence Bundle"
     },
     {
