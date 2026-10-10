@@ -60,7 +60,9 @@ function makeIsolatedFixture(): {
   });
   if (gitInit.error) throw gitInit.error;
   if (gitInit.status !== 0) {
-    throw new Error(`could not initialize isolated fixture repository: ${gitInit.stderr}`);
+    throw new Error(
+      `could not initialize isolated fixture repository: ${gitInit.stderr}`,
+    );
   }
 
   const sourceLockDir = join(sourcePack, "context-locks");
@@ -230,7 +232,9 @@ describe("Wave A Context Lock validator", () => {
         name: "altered runtime SHA-256 value",
         expectedError: "runtime SHA-256 mismatch: apps/web/tsconfig.json",
         mutate: (lock) => {
-          lock.runtimeSha256Fingerprints["apps/web/tsconfig.json"] = "f".repeat(64);
+          lock.runtimeSha256Fingerprints["apps/web/tsconfig.json"] = "f".repeat(
+            64,
+          );
         },
       },
       {
