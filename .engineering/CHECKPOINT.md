@@ -8,8 +8,9 @@ Canonical machine view: `.engineering/CHECKPOINT.json` (schemaVersion 2).
 - GEF Bootstrap 1.1.2 and Source Pack: APPROVED / MERGED.
 - PH-M00 Governance & Harness and local Docker runtime: COMPLETE / MERGED.
 - PH-M01 Identity, Tenancy & Secrets: COMPLETE / CHECKPOINT PROMOTED via PH-M01-WO-004.
-- phase: `M01_IMPLEMENTATION_COMPLETE`
-- stopState: `STOP_AFTER_PH_M01_WO_004`
+- PH-M02-WO-001: public read-only Polymarket provider foundation ACCEPTED / MERGED in PR #43 (merge commit `350f468789f655a6388fd2558265011a09859e65`). This is one increment only, not full PH-M02 completion.
+- phase: `M02_INCREMENT_IMPLEMENTED`
+- stopState: `STOP_AFTER_PH_M02_WO_001`
 - completedThroughModule: `PH-M01`
 - activeWorkOrder: `NONE`
 - preparedWorkOrder: `NONE`
@@ -18,10 +19,11 @@ Canonical machine view: `.engineering/CHECKPOINT.json` (schemaVersion 2).
 - overallCompletionPercent: `0` (uninitialized weighting; do not interpret as 0% actual work)
 - production weights: denominator `0`, earned `0`.
 
-## Unmerged active work does not change the promoted checkpoint
+## Scope and subsequent gate
 
-- PH-M02-WO-001 / PR #43 is OPEN+DRAFT and not promoted into the machine checkpoint. At planning-time snapshot head `cf0fe09d30764cdf3ae0fcc8e836e84dd43d9958`, post-owner-authorized fresh Docker store runs web+worker+PostgreSQL and exact-head hosted checks are reported PASS; independent HIGH_ASSURANCE audit and PostgreSQL VEX approval remain unresolved.
-- PH-GOV-PARALLEL-001 is a planning-only proposed workflow update. Neither creation of planning issues #45..#56 nor its PR admits M03+ implementation.
+- PR #43 was accepted during governance at HEAD `0ee24cb361b16259dd7ee505f3023f03d5211e94` after independent review and exact-head CI. PostgreSQL VEX dispositions are limited to the documented local runtime/digest and expire `2026-10-15T13:00:00Z`. The old Docker/PGDATA storage remains unavailable and preserved; the authorized new-store stack had a healthy runtime receipt.
+- PH-M02-WO-002 and authenticated/money-moving paths remain NOT ADMITTED; this checkpoint advances only WO-001 and retains `completedThroughModule=PH-M01`.
+- PR #57 was merged and D-0024/ADR-0008 is effective for scheduling only. After this checkpoint change is merged, governance may reassess Gate G0 and then freeze contracts/file owners before compiling PH-M03+ Work Orders and Context Locks. Planning issues #45..#56 alone never authorize implementation.
 - Existing PR #44 also remains separate.
 
 ## Frozen security boundary
@@ -32,4 +34,4 @@ Canonical machine view: `.engineering/CHECKPOINT.json` (schemaVersion 2).
 
 ## Reconciliation note
 
-This human-readable file previously retained a PH-M01-PLAN-001 planning-era snapshot, while CHECKPOINT.json had already been promoted to `M01_IMPLEMENTATION_COMPLETE`. This governance PR proposes reconciling the human view to the proven machine state without modifying CHECKPOINT.json and without claiming any new module completion. Historical planning/lineage lives in existing checkpoint deltas and PRs.
+This human-readable checkpoint and the machine view are promoted together by the narrow governance PR #58, matching only the accepted PH-M02-WO-001 phase and stop state. The baseline checkpoint was PH-M01; only WO-001 of PH-M02 is accepted, with no claim of full module completion. Historical executor proposals and lineage remain in checkpoint deltas and PRs.
