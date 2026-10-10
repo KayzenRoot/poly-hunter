@@ -79,3 +79,13 @@ No database, integration, Docker, container scan, or VEX re-investigation was ru
 ## 9. Checkpoint
 
 No checkpoint delta is proposed. `.engineering/CHECKPOINT.md` and `.engineering/CHECKPOINT.json` are unchanged. This PR requests governance review only; it does not merge, admit a module, promote a checkpoint, or start implementation.
+
+## 10. PR #61 integrity correction — review 5479421095
+
+- Corrected `validate-candidate-pack.mjs` to require exactly the six candidate artifact labels and their stem-bound canonical paths per each of the seven Context Locks. Work Order and shared contract bindings are exact as well.
+- Frozen-source and runtime Git fingerprint sets now match independently declared canonical path sets; companion SHA-256 maps must contain the same complete key sets. Duplicate JSON keys, malformed hashes, path substitution/traversal, symbolic-link inputs, and unsafe manifest entries fail closed.
+- Candidate-lock and artifact validation completes before manifest handling. `--write-manifest` writes only after all gates pass and uses a temporary file plus atomic rename; failed validation leaves the existing manifest untouched.
+- Added `tests/wave-a-validator.test.ts` using temporary isolated fixtures. Thirteen malformed/incomplete variants are each exercised in normal and `--write-manifest` modes, including changed frozen-source/runtime SHA-256 values, with the fixture sentinel manifest checked byte-for-byte after every rejection and the repository manifest checked unchanged.
+- Focused correction checks: `node --check .engineering/proposals/PH-GOV-WAVE-A-G1-G2/validate-candidate-pack.mjs` PASS; validator `--write-manifest` PASS (37 entries); normal validator PASS; `npm exec vitest run tests/wave-a-validator.test.ts` PASS (1 test); `npm run typecheck` PASS; `npm exec biome lint tests/wave-a-validator.test.ts` PASS; `git diff --check` PASS. Exact-head GitHub Actions, independent correction review and CodeRabbit re-review are recorded in the PR description after completion.
+- TypeSafe JEV MCP 1.13.0 reviewed the bounded patch and returned `escalate` with low-confidence safe-to-apply/test-gap assessments. This is advisory; deterministic checks and the independent correction review control. JEV did not approve governance, execution, VEX, or checkpoint state.
+- Scope remains preparation only: all seven lanes remain `CANDIDATE_NOT_ADMITTED`; no module implementation, checkpoint edit/promotion, Docker rebuild, VEX change, or security re-investigation occurred. The PH-M02 STOP remains active, and the frozen PH-M03 dependency on PH-M02-WO-005 promotion remains explicit.
