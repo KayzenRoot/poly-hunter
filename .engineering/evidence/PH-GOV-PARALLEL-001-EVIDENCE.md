@@ -73,3 +73,22 @@ NONE. This planning change does not advance completedThroughModule, activeWorkOr
 ## Stop
 
 Return for independent exact-head review. Do not merge or promote, do not auto-admit M03+, do not authorize LIVE.
+
+## Owner decision and current PR #43 security gate — 2026-10-10 UTC
+
+The Project Owner approved adoption of D-0024 / ADR-0008 in the current Codex task, conditional on preserving all security, independent-audit, test and dependency gates. The approval is recorded in the Decisions Ledger and ADR-0008; it does not admit PH-M03+ work, promote a checkpoint or authorize LIVE. D-0024 remains ineffective until the corrected PR #57 head passes independent re-audit and is merged.
+
+The Owner also conditionally approved the 24 proposed `NOT_AFFECTED` PostgreSQL VEX dispositions on PR #43, bound only to `sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744`, the documented runtime and expiry `2026-10-15T13:00:00Z`. The condition is a formal independent audit for every occurrence. As of this bundle entry that occurrence-by-occurrence audit is pending; no VEX status or approval field has been changed. All 24 findings therefore remain blocking until the audit result and approvals are recorded in PR #43. The checkpoint delta remains `PROPOSED / NOT_PROMOTED`; G0 stays closed.
+
+### PR #43 exact-head check receipts
+
+At query time PR #43 was OPEN+DRAFT at exact HEAD `8a4cb2e6c91a5ff458e02dd64f877311a5af9665` on base `a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c`. Each successful check below reported that exact `head_sha`:
+
+| Check | Result | Completed (UTC) | Exact run |
+|---|---|---|---|
+| Node 24 validation | PASS | 2026-10-09T23:28:18Z | https://github.com/KayzenRoot/poly-hunter/actions/runs/38004377005/job/114069664067 |
+| SonarCloud Code Analysis | PASS | 2026-10-09T23:26:31Z | https://github.com/KayzenRoot/poly-hunter/runs/114069851882 |
+| Socket Security: Pull Request Alerts | PASS | 2026-10-09T23:26:01Z | https://github.com/KayzenRoot/poly-hunter/runs/114069696738 |
+| Socket Security: Project Report | PASS | 2026-10-09T23:25:55Z | https://github.com/KayzenRoot/poly-hunter/runs/114069665411 |
+
+CodeRabbit was skipped because PR #43 is draft; it is not counted among these four successful checks. These CI receipts do not replace the independent VEX audit or owner approval. Docker evidence remains limited to the existing receipts: historical VHDX and database data were not recovered or modified, and no new live-runtime claim is made by this planning bundle.

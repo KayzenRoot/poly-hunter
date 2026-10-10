@@ -1,16 +1,16 @@
 # ADR-0008 — Dependency-aware parallel module waves
 
-Status: PROPOSED for independent governance audit and owner merge decision
+Status: OWNER-APPROVED WITH CONDITIONS; PENDING INDEPENDENT RE-AUDIT AND MERGE
 Date: 2026-10-09
 Work Order: PH-GOV-PARALLEL-001
-Decision request: D-0024
+Decision: D-0024 (owner approval recorded 2026-10-10 UTC)
 Scope: engineering workflow and scheduling, not new feature scope.
 
 ## Context
 
 BACKLOG.md contains fifteen modules PH-M00..PH-M14 but its original linear order forces a separate prompt for nearly every increment. The owner wants one orchestrated Codex prompt to assign one agent per module, maximize feasible concurrency and defer broad repeated tests until all code in the wave is integrated.
 
-## Decision proposed
+## Decision approved with conditions
 
 1. A Work Order batch may include several non-overlapping module Work Orders after their individual dependency-path gates pass. One agent per module, one coordinator for common contracts and integration.
 2. Keep stable PH-M IDs and module classifications unchanged. Do not count M10 IMPORTANT or M13/M14 FUTURE as MVP-NECESSARY.
@@ -19,6 +19,10 @@ BACKLOG.md contains fifteen modules PH-M00..PH-M14 but its original linear order
 5. Allow concurrency only for contract-stable, dependency-free or safely mocked foundations, not for unresolved dependencies or live-money behavior. This does not waive upstream admission gates: no PH-M03+ Work Order or Context Lock may be admitted while the PH-M02-WO-001 STOP is active, including for pure/mock foundations. Fail closed when an upstream Work Order is BLOCKED.
 6. Every lane retains its own Work Order, Context Lock, Evidence Bundle, PR and audit. The wave receipt records integration tests and merge ordering.
 7. No implicit LIVE activation, VEX approval, checkpoint promotion or merge. Existing PH-M02-WO-001 STOP rules remain binding while that PR is open.
+
+## Owner approval and effectiveness gate
+
+The Project Owner approved adoption of D-0024 in the current Codex task on 2026-10-10 UTC, conditional on maintaining all security, independent-audit, testing and dependency gates in this ADR and the canonical Work Orders. This owner decision approves the scheduling policy; it does not bypass the exact-head independent audit or merge requirement. D-0024 is not effective until this PR passes independent re-audit and is merged. Gate G0 remains closed: no PH-M03+ Work Order or Context Lock may be admitted until PH-M02-WO-001 passes its exact-head review, all required VEX approvals are recorded with no unresolved HIGH/CRITICAL findings, and its checkpoint is accepted and merged. No checkpoint state or LIVE authority changes through this approval.
 
 ## Supersedes
 
