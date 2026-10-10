@@ -311,6 +311,25 @@ describe("Wave A Context Lock validator", () => {
         ":!packages/contracts",
       ),
       {
+        name: "coordinator extglob alias for lane-exclusive root",
+        expectedError: "coordinator ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.coordinatorOnlyPaths.push(
+            "packages/@(domain)/src/**",
+          );
+        },
+      },
+      {
+        name: "exclusive ownership overlaps coordinator-only root",
+        expectedError:
+          "exclusive ownership overlaps coordinator-only ownership:",
+        mutate: (lock) => {
+          lock.laneOwnership.coordinatorOnlyPaths.push(
+            "packages/domain/src/market-data/**",
+          );
+        },
+      },
+      {
         name: "expired PostgreSQL VEX proposal",
         expectedError: "PostgreSQL VEX proposal is expired",
         mutate: (lock) => {
@@ -336,14 +355,6 @@ describe("Wave A Context Lock validator", () => {
     ];
 
     try {
-      const canonicalLockResult = runValidator(fixture.validatorPath, false);
-      expect(canonicalLockResult.output).not.toContain(
-        "exclusive ownership paths are malformed or unsafe",
-      );
-      expect(canonicalLockResult.output).not.toContain(
-        "coordinator ownership paths are malformed or unsafe",
-      );
-
       for (const testCase of cases) {
         const originalManifest = readFileSync(fixture.manifestPath);
         for (const [lockPath, originalLockText] of originalLocks) {

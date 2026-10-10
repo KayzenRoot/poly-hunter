@@ -152,7 +152,57 @@ function isLiteralOwnershipPath(path) {
 }
 
 function isSafeCoordinatorOwnershipPath(path) {
-  return isSafeRepoRelativePath(path) && !path.includes(":");
+  if (
+    !isSafeRepoRelativePath(path) ||
+    path.includes(":") ||
+    /[@+!]\(/.test(path)
+  ) {
+    return false;
+  }
+  const root = path.endsWith("/**") ? path.slice(0, -3) : path;
+  const segments = root.split("/");
+  const globSegments = segments.filter((segment) => /[*?\[\]{}]/.test(segment));
+  if (globSegments.length === 0) return true;
+  return (
+    globSegments.length === 1 &&
+    globSegments[0] === segments.at(-1) &&
+    /^[A-Za-z0-9._-]*\*[A-Za-z0-9._-]*$/.test(globSegments[0])
+  );
+}
+
+function ownershipRootsOverlap(left, right) {
+  return (
+    left === right ||
+    left.startsWith(`${right}/`) ||
+    right.startsWith(`${left}/`)
+  );
+}
+
+function coordinatorRootOverlapsExclusive(exclusiveRoot, coordinatorPath) {
+  const coordinatorRoot = coordinatorPath.endsWith("/**")
+    ? coordinatorPath.slice(0, -3)
+    : coordinatorPath;
+  const coordinatorSegments = coordinatorRoot.split("/");
+  const globIndex = coordinatorSegments.findIndex((segment) => segment.includes("*"));
+  if (globIndex === -1) {
+    return ownershipRootsOverlap(exclusiveRoot, coordinatorRoot);
+  }
+
+  const exclusiveSegments = exclusiveRoot.split("/");
+  const globRegexSource = coordinatorSegments[globIndex]
+    .split("*")
+    .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join(".*");
+  const globPattern = new RegExp(`^${globRegexSource}$`);
+  const sharedLength = Math.min(exclusiveSegments.length, coordinatorSegments.length);
+  for (let index = 0; index < sharedLength; index += 1) {
+    if (index === globIndex) {
+      if (!globPattern.test(exclusiveSegments[index])) return false;
+    } else if (exclusiveSegments[index] !== coordinatorSegments[index]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function resolveRepoFile(path, label) {
@@ -427,6 +477,7 @@ function checkCandidateLocks() {
   }
 
   const exclusiveRoots = [];
+  const coordinatorRoots = new Set();
   for (const module of requiredModules) {
     const stem = `${module}-WO-001`;
     const lockRelative = `${packRelative}/context-locks/${stem}.json`;
@@ -595,6 +646,8 @@ function checkCandidateLocks() {
     }
     if (!Array.isArray(coordinatorPaths) || !coordinatorPaths.every(isSafeCoordinatorOwnershipPath)) {
       fail(`${stem} coordinator ownership paths are malformed or unsafe`);
+    } else {
+      for (const path of coordinatorPaths) coordinatorRoots.add(path);
     }
   }
 
@@ -609,6 +662,14 @@ function checkCandidateLocks() {
         right.path.startsWith(`${left.path}/`)
       ) {
         fail(`exclusive ownership overlap: ${left.module}:${left.path} / ${right.module}:${right.path}`);
+      }
+    }
+  }
+
+  for (const exclusive of exclusiveRoots) {
+    for (const coordinator of coordinatorRoots) {
+      if (coordinatorRootOverlapsExclusive(exclusive.path, coordinator)) {
+        fail(`exclusive ownership overlaps coordinator-only ownership: ${exclusive.module}:${exclusive.path} / ${coordinator}`);
       }
     }
   }
