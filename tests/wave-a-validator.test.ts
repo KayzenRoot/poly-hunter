@@ -136,6 +136,23 @@ function runValidator(validatorPath: string, writeManifest: boolean) {
   };
 }
 
+function ownershipPathCase(
+  name: string,
+  owner: keyof ContextLock["laneOwnership"],
+  path: string,
+) {
+  const isExclusive = owner === "exclusiveWritePaths";
+  return {
+    name,
+    expectedError: isExclusive
+      ? "exclusive ownership paths are malformed or unsafe"
+      : "coordinator ownership paths are malformed or unsafe",
+    mutate: (lock: ContextLock) => {
+      lock.laneOwnership[owner] = [path];
+    },
+  };
+}
+
 describe("Wave A Context Lock validator", () => {
   it("rejects malformed or incomplete locks in both modes without rewriting the manifest", () => {
     const fixture = makeIsolatedFixture();
@@ -241,79 +258,51 @@ describe("Wave A Context Lock validator", () => {
           );
         },
       },
-      {
-        name: "whole-repository ownership glob",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = ["**"];
-        },
-      },
-      {
-        name: "embedded ownership glob",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = ["packages/*/src/**"];
-        },
-      },
-      {
-        name: "ownership extglob alternative",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = [
-            "packages/@(domain)/src/**",
-          ];
-        },
-      },
-      {
-        name: "ownership extglob repetition",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = [
-            "packages/+(domain)/src/**",
-          ];
-        },
-      },
-      {
-        name: "ownership extglob negation",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = [
-            "packages/!(domain)/src/**",
-          ];
-        },
-      },
-      {
-        name: "ownership Git pathspec long magic",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = [
-            ":(literal)packages/contracts",
-          ];
-        },
-      },
-      {
-        name: "ownership Git pathspec short magic",
-        expectedError: "exclusive ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.exclusiveWritePaths = [":!packages/contracts"];
-        },
-      },
-      {
-        name: "coordinator Git pathspec long magic",
-        expectedError: "coordinator ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.coordinatorOnlyPaths = [
-            ":(literal)packages/contracts",
-          ];
-        },
-      },
-      {
-        name: "coordinator Git pathspec short magic",
-        expectedError: "coordinator ownership paths are malformed or unsafe",
-        mutate: (lock) => {
-          lock.laneOwnership.coordinatorOnlyPaths = [":!packages/contracts"];
-        },
-      },
+      ownershipPathCase(
+        "whole-repository ownership glob",
+        "exclusiveWritePaths",
+        "**",
+      ),
+      ownershipPathCase(
+        "embedded ownership glob",
+        "exclusiveWritePaths",
+        "packages/*/src/**",
+      ),
+      ownershipPathCase(
+        "ownership extglob alternative",
+        "exclusiveWritePaths",
+        "packages/@(domain)/src/**",
+      ),
+      ownershipPathCase(
+        "ownership extglob repetition",
+        "exclusiveWritePaths",
+        "packages/+(domain)/src/**",
+      ),
+      ownershipPathCase(
+        "ownership extglob negation",
+        "exclusiveWritePaths",
+        "packages/!(domain)/src/**",
+      ),
+      ownershipPathCase(
+        "ownership Git pathspec long magic",
+        "exclusiveWritePaths",
+        ":(literal)packages/contracts",
+      ),
+      ownershipPathCase(
+        "ownership Git pathspec short magic",
+        "exclusiveWritePaths",
+        ":!packages/contracts",
+      ),
+      ownershipPathCase(
+        "coordinator Git pathspec long magic",
+        "coordinatorOnlyPaths",
+        ":(literal)packages/contracts",
+      ),
+      ownershipPathCase(
+        "coordinator Git pathspec short magic",
+        "coordinatorOnlyPaths",
+        ":!packages/contracts",
+      ),
       {
         name: "malformed JSON",
         expectedError: "Context Lock is malformed JSON",
