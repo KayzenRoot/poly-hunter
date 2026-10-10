@@ -140,6 +140,21 @@ function isSafeRepoRelativePath(path) {
   return path.split("/").every((segment) => segment !== "" && segment !== "." && segment !== "..");
 }
 
+function isLiteralOwnershipPath(path) {
+  if (!isSafeRepoRelativePath(path)) return false;
+  const literalPath = path.endsWith("/**") ? path.slice(0, -3) : path;
+  return (
+    literalPath.length > 0 &&
+    !literalPath.includes(":") &&
+    !/[?*\[\]{}]/.test(literalPath) &&
+    !/[@+!]\(/.test(literalPath)
+  );
+}
+
+function isSafeCoordinatorOwnershipPath(path) {
+  return isSafeRepoRelativePath(path) && !path.includes(":");
+}
+
 function resolveRepoFile(path, label) {
   if (!isSafeRepoRelativePath(path)) {
     fail(`${label} has an unsafe repository-relative path`);
@@ -560,17 +575,17 @@ function checkCandidateLocks() {
     }
     const lanePaths = lock.laneOwnership.exclusiveWritePaths;
     const coordinatorPaths = lock.laneOwnership.coordinatorOnlyPaths;
-    if (!Array.isArray(lanePaths) || !lanePaths.every(isSafeRepoRelativePath)) {
+    if (!Array.isArray(lanePaths) || !lanePaths.every(isLiteralOwnershipPath)) {
       fail(`${stem} exclusive ownership paths are malformed or unsafe`);
     } else {
       for (const path of lanePaths) {
         exclusiveRoots.push({
           module,
-          path: path.replace(/\*\*$/, "").replace(/\/$/, ""),
+          path: path.replace(/\/\*\*$/, ""),
         });
       }
     }
-    if (!Array.isArray(coordinatorPaths) || !coordinatorPaths.every(isSafeRepoRelativePath)) {
+    if (!Array.isArray(coordinatorPaths) || !coordinatorPaths.every(isSafeCoordinatorOwnershipPath)) {
       fail(`${stem} coordinator ownership paths are malformed or unsafe`);
     }
   }

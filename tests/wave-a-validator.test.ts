@@ -23,6 +23,10 @@ type ContextLock = {
   candidateArtifactFingerprints: Partial<Record<string, { path: string }>>;
   contractFingerprint: { path: string };
   frozenSources: Record<string, string>;
+  laneOwnership: {
+    coordinatorOnlyPaths: string[];
+    exclusiveWritePaths: string[];
+  };
   runtimeFingerprints: Record<string, string>;
   runtimeSha256Fingerprints: Record<string, string>;
   sha256Fingerprints: Record<string, string>;
@@ -238,6 +242,79 @@ describe("Wave A Context Lock validator", () => {
         },
       },
       {
+        name: "whole-repository ownership glob",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = ["**"];
+        },
+      },
+      {
+        name: "embedded ownership glob",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = ["packages/*/src/**"];
+        },
+      },
+      {
+        name: "ownership extglob alternative",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = [
+            "packages/@(domain)/src/**",
+          ];
+        },
+      },
+      {
+        name: "ownership extglob repetition",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = [
+            "packages/+(domain)/src/**",
+          ];
+        },
+      },
+      {
+        name: "ownership extglob negation",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = [
+            "packages/!(domain)/src/**",
+          ];
+        },
+      },
+      {
+        name: "ownership Git pathspec long magic",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = [
+            ":(literal)packages/contracts",
+          ];
+        },
+      },
+      {
+        name: "ownership Git pathspec short magic",
+        expectedError: "exclusive ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.exclusiveWritePaths = [":!packages/contracts"];
+        },
+      },
+      {
+        name: "coordinator Git pathspec long magic",
+        expectedError: "coordinator ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.coordinatorOnlyPaths = [
+            ":(literal)packages/contracts",
+          ];
+        },
+      },
+      {
+        name: "coordinator Git pathspec short magic",
+        expectedError: "coordinator ownership paths are malformed or unsafe",
+        mutate: (lock) => {
+          lock.laneOwnership.coordinatorOnlyPaths = [":!packages/contracts"];
+        },
+      },
+      {
         name: "malformed JSON",
         expectedError: "Context Lock is malformed JSON",
         mutate: () => undefined,
@@ -256,6 +333,15 @@ describe("Wave A Context Lock validator", () => {
     ];
 
     try {
+      const canonicalLockResult = runValidator(
+        join(repositoryRoot, validatorRelative),
+        false,
+      );
+      expect(
+        canonicalLockResult.status,
+        `canonical coordinator globs: ${canonicalLockResult.output}`,
+      ).toBe(0);
+
       for (const testCase of cases) {
         const originalManifest = readFileSync(fixture.manifestPath);
         for (const [lockPath, originalLockText] of originalLocks) {
@@ -296,5 +382,5 @@ describe("Wave A Context Lock validator", () => {
       ).toBe(true);
       rmSync(fixture.root, { recursive: true, force: true });
     }
-  }, 120_000);
+  }, 300_000);
 });
