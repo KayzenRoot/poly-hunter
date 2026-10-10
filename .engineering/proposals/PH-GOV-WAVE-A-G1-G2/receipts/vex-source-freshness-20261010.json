@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "retrievedAtUtc": "2026-10-10T13:38:22Z",
+  "scope": "Only the 24 PostgreSQL CVEs in the approved exact-runtime VEX matrix; no disposition decision is inferred.",
+  "cveCount": 24,
+  "cves": [
+    "CVE-2025-58187",
+    "CVE-2025-58188",
+    "CVE-2025-61723",
+    "CVE-2025-61725",
+    "CVE-2025-61726",
+    "CVE-2025-61729",
+    "CVE-2025-68121",
+    "CVE-2026-25679",
+    "CVE-2026-32280",
+    "CVE-2026-32281",
+    "CVE-2026-32283",
+    "CVE-2026-33811",
+    "CVE-2026-33814",
+    "CVE-2026-33818",
+    "CVE-2026-39820",
+    "CVE-2026-39821",
+    "CVE-2026-39822",
+    "CVE-2026-39836",
+    "CVE-2026-42499",
+    "CVE-2026-42504",
+    "CVE-2026-56853",
+    "CVE-2026-56859",
+    "CVE-2026-56862",
+    "CVE-2026-86140"
+  ],
+  "kev": {
+    "source": "CISA Known Exploited Vulnerabilities catalog",
+    "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+    "catalogVersion": "2026.10.08",
+    "dateReleased": "2026-10-08T20:09:18.9833Z",
+    "receiptPath": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/cisa-kev-2026.10.08.json",
+    "sha256": "fb1621beec7db19d99c1f919dede3d4cc01ad88acd16f79f1592929c4826dfee",
+    "inScopeMatches": []
+  },
+  "epss": {
+    "source": "FIRST EPSS API",
+    "url": "https://api.first.org/data/v1/epss",
+    "receiptPath": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/first-epss-2026-10-09.json",
+    "sha256": "ce5043353eb8b90dc15dae0a5a5ff416d5a657c61cffe47af3103191520a534a",
+    "recordCount": 24,
+    "dates": [
+      "2026-10-09"
+    ],
+    "missingCves": [],
+    "usage": "Prioritization only; not exploitability, VEX, or authorization evidence."
+  },
+  "result": {
+    "kevOverlapCount": 0,
+    "epssRecordCount": 24,
+    "epssDates": [
+      "2026-10-09"
+    ],
+    "vexDispositionChanges": 0,
+    "dispositionReview": "No item-level KEV overlap was observed. Existing per-occurrence exploitability investigation and approval are not reopened or transferred; refresh only the source receipt before admission and reconcile changes."
+  }
+}

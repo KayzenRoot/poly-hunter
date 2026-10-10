@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "project": "PolyHunter",
+  "module": "PH-M05",
+  "workOrder": "candidate/PH-M05-WO-001",
+  "issue": 47,
+  "status": "CANDIDATE_NOT_ADMITTED",
+  "risk": "HIGH_ASSURANCE",
+  "branch": "feat/ph-m05-risk",
+  "base": {
+    "ref": "main",
+    "sha": "85489b2d5f7745e9e4dd81495cda41dcaba1090e",
+    "requiredMergeBase": "85489b2d5f7745e9e4dd81495cda41dcaba1090e"
+  },
+  "executionState": {
+    "checkpointPhase": "M02_INCREMENT_IMPLEMENTED",
+    "checkpointStopState": "STOP_AFTER_PH_M02_WO_001",
+    "completedThroughModule": "PH-M01",
+    "nextLegalStageAtAdmission": "AWAIT_OWNER_DIRECTION",
+    "activeWorkOrder": "NONE",
+    "preparedWorkOrder": "NONE",
+    "liveTradingAuthorized": false,
+    "jevMcpRequired": true
+  },
+  "candidateAdmission": {
+    "executionAuthorized": false,
+    "governanceAcceptanceRequired": true,
+    "recompileAfterGovernanceMerge": true,
+    "globalStop": "ADR-0008 PH-M02-WO-001 STOP active; planning authority must reconcile before any PH-M03+ admission.",
+    "laneSpecificGate": "Candidate only; HIGH_ASSURANCE; requires owner resolution of safety ambiguity and independent review."
+  },
+  "workOrderFingerprint": {
+    "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M05-WO-001.md",
+    "sha": "6c321d173bd85a050b19a378a1537491260d7f9a",
+    "sha256": "8275ff84118dd21de0e0a4663feec185a313c68c375b202aa4d2b0573eaf655f"
+  },
+  "contractFingerprint": {
+    "path": "packages/contracts/src/wave-a.ts",
+    "sha": "fad03c2c732774c60120eb2e8867cbd60b7e1ae3",
+    "sha256": "f9b137b759132f82d9f8a71e91eadfaf6063c1be2911833297ba5a24677356aa"
+  },
+  "frozenSources": {
+    ".engineering/API-CONTRACTS.md": "b512940d2fa728c9cf0d39d842ac3ea557333c3d",
+    ".engineering/ARCHITECTURE.md": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+    ".engineering/BACKLOG.md": "8a724fd084bca9f9c4a23dc34b019398e3b98795",
+    ".engineering/CHECKPOINT.json": "f507941bcba8e3832e4405f6914ca2dc698ac5ac",
+    ".engineering/CHECKPOINT.md": "f59c2c010db6e37f91495a388966002461bb18af",
+    ".engineering/DATA-MODEL.md": "e5521176052159b13fa8d2875a485002a5b7a7ce",
+    ".engineering/DECISIONS-LEDGER.md": "08cb43ec669f67d5a0829bf835a7b8c011d47258",
+    ".engineering/DEFINITION-OF-DONE.md": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+    ".engineering/INTEGRATION-CONTRACTS.md": "0d0d85db742d938a47334409703a10e2ae525248",
+    ".engineering/REQUIREMENTS.md": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+    ".engineering/REVIEW-PROGRESS-REPORTING.md": "ce58f49fcfaf9b37015cf37a869298d7f32174be",
+    ".engineering/SCOPE.md": "510e4bbf60bd34bb4e8b2273c08cad16d3662ccd",
+    ".engineering/SECURITY.md": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+    ".engineering/SOURCE-HIERARCHY.md": "71f13c5ab18855c952025f8dcb44bb23017711d6",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "f4c775d76a6660c5545def14c5f38afa98013818",
+    ".engineering/TRACEABILITY.md": "63b357e9d869d1bc29a273829d5990f05ca0b378",
+    ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "d5325dfa8327429e3c5d0f9a559c800a162e8022",
+    ".engineering/decisions/ADR-0008-PARALLEL-IMPLEMENTATION-WAVES.md": "fa079eeee339055202f6c9aa1aa22baf6a98000d",
+    ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json": "3598e2f299a94ea2eaa4c467331d05a8a5680f2c",
+    ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json": "874f266f3f707ec8e0f95ecdde1250dc1cadcd38",
+    ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json": "f4a9460bd7a90fd4649e35dd1a3aca210e531438",
+    ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json": "0badcda22e287793d88b80be9971a2a0b417bf72",
+    ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json": "0aef6f93b811233d8fa74624ad9ebf824aa0a802",
+    ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json": "3b3560f0f91ba726f7f45aa29aebcde7e0476438",
+    ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json": "09e38db6012df592e8158d26f894367af6f62cd7",
+    ".engineering/modules/PH-M02-POLYMARKET-INTEGRATION.md": "8fc1095664a41466fb065e73fc79c05d700d8267",
+    ".engineering/plans/PH-PARALLEL-WAVES-001.md": "b52d2522b8f6b27afdb5172a3fd2e8b4c8f21153",
+    ".engineering/policies/JEV-PROMPT-POLICY.md": "c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/EXECUTION-PLAN.md": "943eaf59fdb0593a5822d681273e1ab5ca9324a5",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/G1-CONTRACT-FREEZE.md": "016196ea8ff34c4a649296abf18d2ab02e950e45",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/OWNERSHIP-MATRIX.md": "855c269ddd80f158d2e68a67c13b74e6973b71f5",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/README.md": "1e0dd1fbe61f7d36fd2663b857e9479b4dd49124",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/cisa-kev-2026.10.08.json": "6f372ee8735d4c21d2e5ddf97b8bfc6bf78a55ec",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/first-epss-2026-10-09.json": "bee1ffe8a3ac567e44e2917e8b93c0575f4117a0",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/jev-decisions-20261010.md": "b2960305238e0be43175337e3933f47ae8d03526",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/vex-source-freshness-20261010.json": "3b557dc3872c376b758e3bc839b27bf0c77d9adc",
+    "AGENTS.md": "4bf213bfc6c09a31d76c6bffbefdb3d4db17c053",
+    "apps/web/package.json": "40728a474b9d20a36198ef9caab35d0fc989c8c4",
+    "apps/web/tsconfig.json": "bf7a99f860d75ee6ecc8dd22ec74c1d080eea199",
+    "apps/worker/package.json": "6b2f802ad76b7c1f76112ff8e43bf11b9b566ed3",
+    "apps/worker/src/index.ts": "9b30344191dfecde8c18e061e3d897e9079447b9",
+    "apps/worker/tsconfig.json": "021de2ae0d76bac305a020bfa3bd50e59aa8a1f5",
+    "package-lock.json": "4be06cf850bcfb46af46e0e87c72af5f7b21aa56",
+    "package.json": "b22c5d426f69f463ade06ab39f9edad0ab153ce3",
+    "packages/contracts/package.json": "56bbd4d99956817bded9af3412c758728ed80a8f",
+    "packages/contracts/src/index.ts": "0e4981934bf31c356a389244275580b6069d166c",
+    "packages/contracts/src/polymarket.ts": "1153c1557ef36b409addfb505a2f3f416cbbb616",
+    "packages/contracts/src/wave-a.ts": "fad03c2c732774c60120eb2e8867cbd60b7e1ae3",
+    "packages/contracts/tsconfig.json": "57e645ade6b8345f2e6c39642b9934a509f97c5c",
+    "packages/domain/package.json": "f4562aa8a97c5f537b9ef6a5fa8cb12a44c98199",
+    "packages/domain/src/index.ts": "d3c8f0a4a46b1292a5c3803b21ae86b5e0cf5a43",
+    "packages/domain/tsconfig.json": "bb0ca57e20089ff8e5531c636163e549e953f096",
+    "packages/testkit/package.json": "4cb367fec8b022f47f41056f382b26067ee22286",
+    "packages/testkit/src/index.ts": "234b3593d7cffac3acf413d96681a01abb96153c",
+    "packages/testkit/tsconfig.json": "bb0ca57e20089ff8e5531c636163e549e953f096",
+    "tests/wave-a-contracts.test.ts": "f9580454b1ef460f5b7dbcb015158ac56a7d40a2",
+    "tsconfig.base.json": "b17356aa564b03822786b5b55336c17691d261e3",
+    "vitest.config.ts": "7e7530e039384016a06e5cc12a2af2a2fcc681bd"
+  },
+  "runtimeFingerprints": {
+    "package.json": "b22c5d426f69f463ade06ab39f9edad0ab153ce3",
+    "package-lock.json": "4be06cf850bcfb46af46e0e87c72af5f7b21aa56",
+    "vitest.config.ts": "7e7530e039384016a06e5cc12a2af2a2fcc681bd",
+    "packages/contracts/package.json": "56bbd4d99956817bded9af3412c758728ed80a8f",
+    "packages/contracts/tsconfig.json": "57e645ade6b8345f2e6c39642b9934a509f97c5c",
+    "packages/domain/package.json": "f4562aa8a97c5f537b9ef6a5fa8cb12a44c98199",
+    "packages/domain/tsconfig.json": "bb0ca57e20089ff8e5531c636163e549e953f096",
+    "packages/testkit/package.json": "4cb367fec8b022f47f41056f382b26067ee22286",
+    "packages/testkit/tsconfig.json": "bb0ca57e20089ff8e5531c636163e549e953f096",
+    "apps/worker/package.json": "6b2f802ad76b7c1f76112ff8e43bf11b9b566ed3",
+    "apps/worker/tsconfig.json": "021de2ae0d76bac305a020bfa3bd50e59aa8a1f5",
+    "apps/web/package.json": "40728a474b9d20a36198ef9caab35d0fc989c8c4",
+    "apps/web/tsconfig.json": "bf7a99f860d75ee6ecc8dd22ec74c1d080eea199"
+  },
+  "laneOwnership": {
+    "exclusiveWritePaths": [
+      "packages/domain/src/risk/**",
+      "tests/risk/**"
+    ],
+    "coordinatorOnlyPaths": [
+      "packages/contracts/**",
+      "root manifests/lockfiles/tsconfig/Vitest config",
+      "packages/db/**",
+      "auth/identity/TenantContext/secrets",
+      "apps/worker/src/index.ts",
+      "apps/web/app/layout.tsx",
+      "apps/web/proxy.ts",
+      "apps/web/app/api/**",
+      ".github/**",
+      "Dockerfile.dev",
+      "compose.yaml",
+      ".engineering/policies/**",
+      ".engineering/CHECKPOINT.*"
+    ]
+  },
+  "dependencies": [
+    "M01 accepted; version 1 proposal/limits/exposure/decision contracts accepted.",
+    "M04 is required for end-to-end proposal evaluation; M06 execution integration is outside this wave.",
+    "ADR-0008 PH-M02 STOP must be reconciled before PH-M03+ admission."
+  ],
+  "security": {
+    "liveTradingAuthorized": false,
+    "signingAllowed": false,
+    "authenticatedOrdersAllowed": false,
+    "historicalDockerStorageMutationAllowed": false,
+    "postgresVex": {
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "environment": "documented local development runtime only",
+      "proposalCount": 24,
+      "expiresAtUtc": "2026-10-15T13:00:00Z",
+      "transferAllowed": false,
+      "revalidateOn": [
+        "expiry",
+        "digest/runtime/component/config change",
+        "new applicable finding",
+        "advisory/KEV/evidence change"
+      ],
+      "configurationDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "currentPerOccurrence": {
+        "status": "NOT_AFFECTED",
+        "count": 24,
+        "high": 22,
+        "critical": 2,
+        "rawVisible": 24,
+        "suppressed": 0,
+        "independentAudit": "APPROVED",
+        "ownerApproval": "APPROVED"
+      },
+      "ownerApprovalConditions": [
+        "exact digest and local runtime only",
+        "no transfer",
+        "expires 2026-10-15T13:00:00Z",
+        "revalidate on trigger or expiry"
+      ],
+      "sourceProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+      "matrixStatus": "Current state: 24 PostgreSQL NOT_AFFECTED proposals (22 HIGH, 2 CRITICAL) have formal per-occurrence independent audit and conditional owner approval for only the exact PostgreSQL manifest/config digest and documented local-development runtime, expiring 2026-10-15T13:00:00Z. Three historical util-linux proposals remain unapproved and bound only to the superseded Debian development digest; the old Debian development zlib remains UNDER_INVESTIGATION without a proposal. No approval transfers to another digest. Current Alpine development zlib is FIXED only for its exact digest. Raw Scout findings remain visible with zero suppressions; executorSelfApproval=false."
+    },
+    "securitySourceFreshness": {
+      "repositorySnapshot": {
+        "kevCatalog": "2026.10.04",
+        "epssDate": "2026-10-07"
+      },
+      "latestCheckedSnapshot": {
+        "kevCatalog": "2026.10.08",
+        "epssDates": [
+          "2026-10-09"
+        ]
+      },
+      "kevOverlapCount": 0,
+      "epssRecordCount": 24,
+      "receipt": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/vex-source-freshness-20261010.json",
+      "receiptSha256": "f311868be7c3f12292f239e47f786743f769d76fe2d8d5481e929154a3341759",
+      "rawReceipts": {
+        "kev": {
+          "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/cisa-kev-2026.10.08.json",
+          "sha256": "fb1621beec7db19d99c1f919dede3d4cc01ad88acd16f79f1592929c4826dfee"
+        },
+        "epss": {
+          "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/first-epss-2026-10-09.json",
+          "sha256": "ce5043353eb8b90dc15dae0a5a5ff416d5a657c61cffe47af3103191520a534a"
+        }
+      },
+      "beforeAdmission": "Refresh and reconcile exact item-level inputs. No accepted CR-07 exploitability analysis is reopened unless evidence changes a disposition premise."
+    },
+    "developmentImage": {
+      "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "finding": "CVE-2026-85091 FIXED only for this exact digest; no other image/runtime inherits it.",
+      "high": 0,
+      "critical": 0,
+      "receipt": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json"
+    }
+  },
+  "allowedMutationClasses": [
+    "packages/domain/src/risk/**",
+    "tests/risk/**",
+    "lane-specific tests",
+    "own Evidence Bundle",
+    "proposal-only checkpoint delta"
+  ],
+  "prohibited": [
+    "implementation before governance admission",
+    "cross-lane writes",
+    "shared contract/manifest/DB/auth/Docker/CI/checkpoint changes",
+    "signing",
+    "authenticated order operations",
+    "LIVE enablement",
+    "geographic bypass",
+    "credential/secret exposure",
+    "VEX transfer",
+    "historical Docker VHDX/backup/volume/PGDATA mutation"
+  ],
+  "failClosedOn": [
+    "base/frozen-source drift",
+    "contract fingerprint drift",
+    "JEV MCP unavailable",
+    "dependency or upstream STOP active",
+    "unresolved applicable HIGH/CRITICAL",
+    "unknown safety/authorization semantics",
+    "path ownership collision",
+    "expired/stale VEX or unresolved trigger"
+  ],
+  "validationPlan": {
+    "focusedCommand": "npx vitest run tests/risk",
+    "consolidatedCampaign": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/EXECUTION-PLAN.md",
+    "exactHeadCiRequired": true,
+    "independentReviewRequired": true,
+    "checkpointPromotionAllowed": false
+  },
+  "candidateArtifacts": {
+    "workOrder": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M05-WO-001.md",
+    "acceptance": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M05-WO-001-ACCEPTANCE.md",
+    "evidenceTemplate": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M05-WO-001-EVIDENCE-TEMPLATE.md"
+  },
+  "sha256Fingerprints": {
+    ".engineering/API-CONTRACTS.md": "d5f6200ce2fb4480f1f00ac6a8e1ecdf0dafd7dd2e27c3dc71182b059ff8098a",
+    ".engineering/ARCHITECTURE.md": "6ae7afcae01c6a56bfd2067f383b424dde213ac1c4ba8a4f6029008bfb747b38",
+    ".engineering/BACKLOG.md": "17dc50f1c640f305ad5cc181f70e2db0061b1911edc8d8d5bad5c035c8663440",
+    ".engineering/CHECKPOINT.json": "6674415a5e5b2897878d2ad570470cfb62502a9d898178191d6310bf38bc3546",
+    ".engineering/CHECKPOINT.md": "cc3e8a514f2082953b977e0e5db728353946b7e41c3dfeb0469ab5dd01132bb5",
+    ".engineering/DATA-MODEL.md": "8159b950c861da3b260e7245e5acb9b85e835b027812f24af8741ac72503f1a7",
+    ".engineering/DECISIONS-LEDGER.md": "67b72764d1111288840392b5e0c6458e83d8ab394a05a6c158ba91a47c426a04",
+    ".engineering/DEFINITION-OF-DONE.md": "e734c0a7dd3c9cfb6e611e376be22197ba1ab5e176b112f2c9b2a34d046117f8",
+    ".engineering/INTEGRATION-CONTRACTS.md": "2ce53c59678f0f7da08deef44d8487a707af1a43098d659d334b071cb2ab4b10",
+    ".engineering/REQUIREMENTS.md": "4d1bcd120697be98938af475a3079622522526b5501ad2323ff807719be91928",
+    ".engineering/REVIEW-PROGRESS-REPORTING.md": "7f8cf141258bb4c1513b90f5373cd1f2a86d4c6c1830db83cde4e53ba12da7de",
+    ".engineering/SCOPE.md": "ef23ec689dcdeb021f27fef78e804e121433f2ee4b4a688364c459158e8f2ad4",
+    ".engineering/SECURITY.md": "de49ea5dfd7054bc65095492e711a3f246fcf72cd79f72d7827c2c2d57a57071",
+    ".engineering/SOURCE-HIERARCHY.md": "5f40ccb391f0fe17d3c1175688417cef2466fc74b6312d97ee3661db5a138101",
+    ".engineering/TEST-BENCHMARK-PLAN.md": "6cf8b4b25ec97c7df15426e062491e60c3b4694cbb983fa4902021ff3784631e",
+    ".engineering/TRACEABILITY.md": "dde04f4c6084b564605f29278e5bc7275ca6af442d8dd82da0e31e88275535ef",
+    ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md": "4af68ec4f76e657d7edef0fa7ea5e56339f7ea4cf72f1451ca12db0e3a91d71b",
+    ".engineering/decisions/ADR-0008-PARALLEL-IMPLEMENTATION-WAVES.md": "70cdc2cf4400452c5d2b16d44615f8c19cccada23d729a74eccf17553c1c89c0",
+    ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.json": "9f1803b416bb2e103cc1a2a5bd58b9124a24bcd6c6358518bc64e3d8d5cb3d39",
+    ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json": "d64cd5522c22d014ea1f3e9796cb425515662840ea2b58f272218eeaac4cef1f",
+    ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json": "62f06d114c6e7e9f31dc9857491ca6da52a7ccceedd9377d0bbdbc97b2502662",
+    ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380",
+    ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json": "18e4492acac7b0084d4897360d1ef08f80a6395b062527efb01898fc79f58c99",
+    ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    ".engineering/modules/PH-M02-POLYMARKET-INTEGRATION.md": "6b7dc87e9d23e905bb2d0af976ebea52edd43f8f6f30e6f4cb62a8c0857a3943",
+    ".engineering/plans/PH-PARALLEL-WAVES-001.md": "b6ba8ef73e1c936561a3ae027239eec5f6c8920a118a7535a36076ccf33a8aa4",
+    ".engineering/policies/JEV-PROMPT-POLICY.md": "3152505c999d8d8e3cd1742f01d50acadca0874841b18b01cb283e833e90d2ff",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/EXECUTION-PLAN.md": "af7259707f1f730433c724def8374a8b90bb13fd1b9788591dc2acc76c97b558",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/G1-CONTRACT-FREEZE.md": "e2b1b25fa064bd0adccb4acabae43574ae9fc5919bddcb930a3f57ff94fa1650",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/OWNERSHIP-MATRIX.md": "32cdfb529785b1fefae3fcfbe91ccab38b03755685103c3fa03e58263be47d37",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/README.md": "cacce61e23e59192850023c8cc7bdaf0c0ff62751fdecdf4a0af34f9f3535e3d",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/cisa-kev-2026.10.08.json": "fb1621beec7db19d99c1f919dede3d4cc01ad88acd16f79f1592929c4826dfee",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/first-epss-2026-10-09.json": "ce5043353eb8b90dc15dae0a5a5ff416d5a657c61cffe47af3103191520a534a",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/jev-decisions-20261010.md": "7fd41be3ca26a7fc96d235af0b27c16b92063c700af48f40cd343f9912fc4834",
+    ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/vex-source-freshness-20261010.json": "f311868be7c3f12292f239e47f786743f769d76fe2d8d5481e929154a3341759",
+    "AGENTS.md": "5c8f26d90451c12b9f7eea53f86445aad262eb550027e52dfdc95d3a3382c34b",
+    "apps/web/package.json": "354df2b45faca2c7e444f546a9536c0430f0cc0e8edb8bce91a1b2aa9d787ed8",
+    "apps/web/tsconfig.json": "97e6c4ad46af5a3c7e605a2e8cbfbd5fc74fc5d196fbbac38be0db72036d3e99",
+    "apps/worker/package.json": "e7d6b9d53cc90b590910aec15d790a591c2bd2a893fc4d4198bf81be87f21f80",
+    "apps/worker/src/index.ts": "d78530e04986aefabe922bbed40abea1fcc02e7e1d62e0518e4f78628f1d8ec5",
+    "apps/worker/tsconfig.json": "dd0ddfbb9db6ad72e6cf6aae65f295654049fe15e79ad79cb4e19c369e0953ff",
+    "package-lock.json": "81db743d1ed1001fa04028f40f92d4eadd716abef79d3502a08482a05e036b83",
+    "package.json": "b755240fc83ab732218d0ec682986684e8071ba71ea32a9268524f59743b9794",
+    "packages/contracts/package.json": "a4f5ce7743875b6d82373fd6e9f6421f6ca0b7bc448b9a6148364776ae140fd4",
+    "packages/contracts/src/index.ts": "4f2bf1c69ad46c10631cc665f5085276e88d6c9803130ddfa9d4d5b65a82bcdb",
+    "packages/contracts/src/polymarket.ts": "7eb957645841640b9a9f8a0492d62444678c653f6f199272ee35b2fbe8768226",
+    "packages/contracts/src/wave-a.ts": "f9b137b759132f82d9f8a71e91eadfaf6063c1be2911833297ba5a24677356aa",
+    "packages/contracts/tsconfig.json": "1f6c7b73a8df4781f53d38f2a142cfd9a086cf63ffc6a63a0a9e7c8e840eb319",
+    "packages/domain/package.json": "86dac71a3979297092e9873fce3f2c8ee2f85c8b698c4f3b4f0d66fdb3a77e2f",
+    "packages/domain/src/index.ts": "21d8dc36fba9e0705de006ad15e7989c920eb066d28af10d610da2155a2a3bf4",
+    "packages/domain/tsconfig.json": "e4093027230de38f25f70855ce74409dfcbaccb54b6a6c119aca8f5cb5d07440",
+    "packages/testkit/package.json": "7b2388cab7622e3a2a2be4357a4ee316ff7cfb65921eacb1dca1a6c165e57f51",
+    "packages/testkit/src/index.ts": "c741b3ead663c86070e1f59b525f967d6fbe23a0b58ef81b0d70eeb84d047829",
+    "packages/testkit/tsconfig.json": "e4093027230de38f25f70855ce74409dfcbaccb54b6a6c119aca8f5cb5d07440",
+    "tests/wave-a-contracts.test.ts": "9fc8abd425ed70c7037dfb7a0bba4d862dbafe4fbbdb60a2adf3c003448cb2c8",
+    "tsconfig.base.json": "810a550ea242b01f65ec9c65163fd515f176e406c1aabb57e0dc40b842ecff32",
+    "vitest.config.ts": "7523011f070d94be785b753f8c252c20d12b73540299195a5af4748a4bbb0bbc"
+  },
+  "runtimeSha256Fingerprints": {
+    "package.json": "b755240fc83ab732218d0ec682986684e8071ba71ea32a9268524f59743b9794",
+    "package-lock.json": "81db743d1ed1001fa04028f40f92d4eadd716abef79d3502a08482a05e036b83",
+    "vitest.config.ts": "7523011f070d94be785b753f8c252c20d12b73540299195a5af4748a4bbb0bbc",
+    "packages/contracts/package.json": "a4f5ce7743875b6d82373fd6e9f6421f6ca0b7bc448b9a6148364776ae140fd4",
+    "packages/contracts/tsconfig.json": "1f6c7b73a8df4781f53d38f2a142cfd9a086cf63ffc6a63a0a9e7c8e840eb319",
+    "packages/domain/package.json": "86dac71a3979297092e9873fce3f2c8ee2f85c8b698c4f3b4f0d66fdb3a77e2f",
+    "packages/domain/tsconfig.json": "e4093027230de38f25f70855ce74409dfcbaccb54b6a6c119aca8f5cb5d07440",
+    "packages/testkit/package.json": "7b2388cab7622e3a2a2be4357a4ee316ff7cfb65921eacb1dca1a6c165e57f51",
+    "packages/testkit/tsconfig.json": "e4093027230de38f25f70855ce74409dfcbaccb54b6a6c119aca8f5cb5d07440",
+    "apps/worker/package.json": "e7d6b9d53cc90b590910aec15d790a591c2bd2a893fc4d4198bf81be87f21f80",
+    "apps/worker/tsconfig.json": "dd0ddfbb9db6ad72e6cf6aae65f295654049fe15e79ad79cb4e19c369e0953ff",
+    "apps/web/package.json": "354df2b45faca2c7e444f546a9536c0430f0cc0e8edb8bce91a1b2aa9d787ed8",
+    "apps/web/tsconfig.json": "97e6c4ad46af5a3c7e605a2e8cbfbd5fc74fc5d196fbbac38be0db72036d3e99"
+  },
+  "candidateArtifactFingerprints": {
+    "workOrder": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M05-WO-001.md",
+      "sha": "6c321d173bd85a050b19a378a1537491260d7f9a",
+      "sha256": "8275ff84118dd21de0e0a4663feec185a313c68c375b202aa4d2b0573eaf655f"
+    },
+    "acceptance": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M05-WO-001-ACCEPTANCE.md",
+      "sha": "20504030932ff5983258c0c5546d312d1d614d91",
+      "sha256": "bbf9a2bbc0e70ef2c249a446af9b455b3689fb57e32d96583bc1006291ef1020"
+    },
+    "evidenceTemplate": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M05-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha": "d9a2b08ab102de58047d53e554eba92fee4cbdff",
+      "sha256": "9b7d201456bcd3ae27d28402a298b6efa8f9485f9b8472e967560767fabad9af"
+    },
+    "contractFreeze": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/G1-CONTRACT-FREEZE.md",
+      "sha": "016196ea8ff34c4a649296abf18d2ab02e950e45",
+      "sha256": "e2b1b25fa064bd0adccb4acabae43574ae9fc5919bddcb930a3f57ff94fa1650"
+    },
+    "ownershipMatrix": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/OWNERSHIP-MATRIX.md",
+      "sha": "855c269ddd80f158d2e68a67c13b74e6973b71f5",
+      "sha256": "32cdfb529785b1fefae3fcfbe91ccab38b03755685103c3fa03e58263be47d37"
+    },
+    "executionPlan": {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/EXECUTION-PLAN.md",
+      "sha": "943eaf59fdb0593a5822d681273e1ab5ca9324a5",
+      "sha256": "af7259707f1f730433c724def8374a8b90bb13fd1b9788591dc2acc76c97b558"
+    }
+  }
+}

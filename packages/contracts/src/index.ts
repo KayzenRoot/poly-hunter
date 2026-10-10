@@ -36,8 +36,8 @@ export type {
   MarketStreamHandle,
   MarketStreamOptions,
   MarketSummary,
-  OutcomeAsset,
   OrderBookSnapshot,
+  OutcomeAsset,
   PolymarketBook,
   PolymarketDiscovery,
   PriceChangeItem,
@@ -51,6 +51,37 @@ export type {
   StreamState,
 } from "./polymarket.ts";
 export { PolymarketProviderError } from "./polymarket.ts";
+export type {
+  AdminDashboardSection,
+  AdminHealthDTO,
+  BookStaleness,
+  DashboardSectionState,
+  ExposureSnapshot,
+  FeeModel,
+  KillSwitchCommand,
+  MarketFilter,
+  MarketSnapshot,
+  ObservabilityEvent,
+  PaperFill,
+  PaperFillAssumptionCode,
+  ProviderHealth,
+  ReplayClock,
+  ReplayTick,
+  RiskDecision,
+  RiskDecisionReasonCode,
+  RiskLimits,
+  StrategyContext,
+  StrategyId,
+  StrategyProposal,
+  UserDashboardDTO,
+  UserDashboardSection,
+  WaveAContractVersion,
+} from "./wave-a.ts";
+export {
+  disabledKillSwitchCommand,
+  riskDecisionReasonCodes,
+  waveAContractVersion,
+} from "./wave-a.ts";
 
 /**
  * Verified provider identity produced only by a server-side authentication
