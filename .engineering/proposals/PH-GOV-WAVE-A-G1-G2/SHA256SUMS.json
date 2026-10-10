@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceBaseline": "85489b2d5f7745e9e4dd81495cda41dcaba1090e",
+  "scope": "All proposal-pack files except this manifest and the external evidence bundle.",
+  "entries": [
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/EXECUTION-PLAN.md",
+      "sha256": "af7259707f1f730433c724def8374a8b90bb13fd1b9788591dc2acc76c97b558"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/G1-CONTRACT-FREEZE.md",
+      "sha256": "e2b1b25fa064bd0adccb4acabae43574ae9fc5919bddcb930a3f57ff94fa1650"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/OWNERSHIP-MATRIX.md",
+      "sha256": "32cdfb529785b1fefae3fcfbe91ccab38b03755685103c3fa03e58263be47d37"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/README.md",
+      "sha256": "cacce61e23e59192850023c8cc7bdaf0c0ff62751fdecdf4a0af34f9f3535e3d"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M03-WO-001-ACCEPTANCE.md",
+      "sha256": "d543aa42525af1909e2597c4dfb0be1563df041bbf35e4f56f57c6f82c11ddd0"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M04-WO-001-ACCEPTANCE.md",
+      "sha256": "d53e76e4505c30c3c1a764f4d2824768c0ebd473d04a8d95f7648d6c82a40e50"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M05-WO-001-ACCEPTANCE.md",
+      "sha256": "bbf9a2bbc0e70ef2c249a446af9b455b3689fb57e32d96583bc1006291ef1020"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M07-WO-001-ACCEPTANCE.md",
+      "sha256": "dc9d05f35d6de24d2c36ca187fe5be49d249d53b4d88baa8768a438723470e64"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M08-WO-001-ACCEPTANCE.md",
+      "sha256": "5c23cb3b17f4218bdc442b335259fd9f3166e3f5b234eb03e116f63e3460b681"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M09-WO-001-ACCEPTANCE.md",
+      "sha256": "6c8bc1dbb6e0cf16b0e82aa9285db695944de61506ce01328a61ead7b38bb8b6"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/acceptance/PH-M11-WO-001-ACCEPTANCE.md",
+      "sha256": "8ae791a35196c22ee05f6d3af22115e567e994dc25f77aa1aa8a7f11b72a5f6d"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M03-WO-001.json",
+      "sha256": "ee55ad2728bbba6052ef108d337bfa784ea743b1eda4a477a7cd1dea952de419"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M04-WO-001.json",
+      "sha256": "a5ddef4238cf880a642d0c2f790a95f26430e723bfe26faf9b7cc798c8527e6f"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M05-WO-001.json",
+      "sha256": "938115643b918e2f8bd65b7aad625bc75ee2ea5cfb23e74fe3d200cf517430c5"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M07-WO-001.json",
+      "sha256": "411c4834f2a0deb093756350c4b05f2fe3dc895b51d0dc97b9cbc4280506fd47"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M08-WO-001.json",
+      "sha256": "e4e5154f5dd488d69c3c818bfc7e28bcd7a4a0c94bc6e6ead2287f8499d95db1"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M09-WO-001.json",
+      "sha256": "02c80da1dee6e3e41345be39da7a074350b60f58f8b66d25923de9fc7a5fb552"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/context-locks/PH-M11-WO-001.json",
+      "sha256": "18b43f0f50c1e074cf3d7a425a404208e2de6df73c1f0ae14b42d005860165dd"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M03-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "b17b7a887050fc56e3f7da5cbdc29a528f21bfcbb8a923474f9b4d4971a161ee"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M04-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "658179c3ad4212fd0952ea7c2879338abb26d83fa948fdc0c95451e7af15e5b8"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M05-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "9b7d201456bcd3ae27d28402a298b6efa8f9485f9b8472e967560767fabad9af"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M07-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "da83f1620251bb9d76083644b8ff6d15cf8701588484eaecb0512f1b94c12348"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M08-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "a6e300de0a86cd061e7d015f80bd97046b733d9fddea3a2d0944c4cbbf41331a"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M09-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "b07a0a50addd77d1f3eb5aa69d4947d349ae782071b19f56f96f5ee9d6425d7e"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/evidence-templates/PH-M11-WO-001-EVIDENCE-TEMPLATE.md",
+      "sha256": "5799071bab9d56f0893f87e655d0d606cc6426ecfb25a8bd97fd115c05914134"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/cisa-kev-2026.10.08.json",
+      "sha256": "fb1621beec7db19d99c1f919dede3d4cc01ad88acd16f79f1592929c4826dfee"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/first-epss-2026-10-09.json",
+      "sha256": "ce5043353eb8b90dc15dae0a5a5ff416d5a657c61cffe47af3103191520a534a"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/jev-decisions-20261010.md",
+      "sha256": "7fd41be3ca26a7fc96d235af0b27c16b92063c700af48f40cd343f9912fc4834"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/receipts/vex-source-freshness-20261010.json",
+      "sha256": "f311868be7c3f12292f239e47f786743f769d76fe2d8d5481e929154a3341759"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/validate-candidate-pack.mjs",
+      "sha256": "37dc3be926fd7b9f9922493f7551543f0a9ace3a1bafba6e941e99e2351d2760"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M03-WO-001.md",
+      "sha256": "77500b73e77238ffc6caf2d854050c05d4f88d52d31a330940aab1432eb856bc"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M04-WO-001.md",
+      "sha256": "2646182c0f5e92518e561cafdff315eb33d19b984ec347f13805063fa13d6cda"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M05-WO-001.md",
+      "sha256": "8275ff84118dd21de0e0a4663feec185a313c68c375b202aa4d2b0573eaf655f"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M07-WO-001.md",
+      "sha256": "c59f03f252d5360900d8cf04018f8f2beece1958ada017e6ee27154d0f4856ca"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M08-WO-001.md",
+      "sha256": "2ec7fe83d303c88ef3baf74c414cd919186ec3b91f6f42dc231387a73dfd08f7"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M09-WO-001.md",
+      "sha256": "86752551193aafa4259a3d35271dc6206ddb52a787efd0fdca9f5c0683307c8d"
+    },
+    {
+      "path": ".engineering/proposals/PH-GOV-WAVE-A-G1-G2/work-orders/PH-M11-WO-001.md",
+      "sha256": "cc9c4ccc3d21e8b575b5b17fb0684ed721b097f14474eb45723c683e32756a96"
+    }
+  ]
+}
