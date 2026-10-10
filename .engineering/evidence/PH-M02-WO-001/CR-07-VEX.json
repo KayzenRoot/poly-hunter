@@ -7,7 +7,7 @@
   "reviewedHeadSha": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
   "contentHeadSemantics": "Assessment is bound to exact image digests and evidence. Historical artifacts and proposals retain their original digest binding and are not transferred. Final commit SHA and exact-head CI are linked from PR #43 to avoid a self-referential bundle.",
   "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
-  "statusRationale": "The current exact development image is the official Node 24 Alpine 3.24 linux/amd64 digest with zlib 1.3.2-r1. The exact final Scout scan has zero HIGH/CRITICAL findings and no suppressions; the Debian zlib finding is fixed in the new artifact. The unchanged PostgreSQL digest retains 24 HIGH/CRITICAL records, each with a digest-bound NOT_AFFECTED proposal. The 3 prior development util-linux proposals remain unapproved and bound to the superseded Debian digest; the prior Debian zlib record remains UNDER_INVESTIGATION without a proposed disposition and is historical only. All 27 proposals remain unapproved for independent audit and explicit owner approval. Exact-head CI must pass before the stop condition is reported.",
+  "statusRationale": "The 24 current PostgreSQL raw HIGH/CRITICAL occurrences (22 HIGH, 2 CRITICAL) now have individually audited and owner-approved NOT_AFFECTED dispositions for the exact documented local-development runtime and expiry. The current dev image has zero HIGH/CRITICAL findings. The fail-closed malformed-provider corrections are applied. Raw findings remain visible and unsuppressed; final review and exact-head CI remain mandatory before merge or checkpoint work.",
   "scanner": {
     "tool": "Docker Scout CLI",
     "version": "1.24.0",
@@ -533,7 +533,7 @@
     "postgresFreshDigestProposals": 24,
     "currentScoutOccurrencesWithProposal": 24,
     "supplementalUtilLinuxOccurrencesWithProposal": 0,
-    "proposalsPendingIndependentAuditAndOwner": 27,
+    "proposalsPendingIndependentAuditAndOwner": 3,
     "legacyDevelopmentCveRowsReconciled": 23,
     "legacyCveIds": [
       "CVE-2026-102276",
@@ -560,12 +560,12 @@
       "CVE-2026-93748",
       "CVE-2026-95619"
     ],
-    "allCurrentProposalsStatus": "UNDER_INVESTIGATION",
+    "allCurrentProposalsStatus": "NOT_AFFECTED",
     "allProposedDispositionByClass": {
       "NOT_AFFECTED": 27
     },
-    "independentAuditor": null,
-    "ownerApproval": null,
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
     "selfApproval": false,
     "unproposedUnderInvestigationOccurrences": 0,
     "developmentImagePreviousDigestHighCritical": 1,
@@ -574,13 +574,18 @@
     "supplementalCurrentProposalsPending": 0,
     "historicalProposalsArchived": 1,
     "legacyCveIdsSemantics": "Historical source-reconciliation identifiers only; not current proposal count.",
-    "currentVexRecordsUnderInvestigation": 24,
-    "currentScoutOccurrencesUnderInvestigation": 24,
+    "currentVexRecordsUnderInvestigation": 0,
+    "currentScoutOccurrencesUnderInvestigation": 0,
     "supersededDevelopmentImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
     "historicalDevelopmentProposalsPending": 3,
     "historicalDevelopmentUnproposedOccurrences": 1,
     "currentFixedDevZlibOccurrences": 1,
-    "historicalDevZlibStatus": "UNDER_INVESTIGATION without proposal; prior Debian digest only"
+    "historicalDevZlibStatus": "UNDER_INVESTIGATION without proposal; prior Debian digest only",
+    "currentEvidenceAuditRowsReviewed": 24,
+    "currentEvidenceAuditVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME",
+    "currentAuditorQualification": "QUALIFIED_FORMAL_INDEPENDENT_AUDIT",
+    "conditionalOwnerApprovalRecorded": 24,
+    "operativeCurrentOwnerApprovals": 24
   },
   "findings": [
     {
@@ -1285,7 +1290,7 @@
   ],
   "approvalPolicy": {
     "required": "Fresh independent security auditor and project owner approval under ADR-0007 and PH-SEC-VEX-POLICY.",
-    "approvalsRecorded": false,
+    "approvalsRecorded": true,
     "promotionAllowed": false,
     "mergeAllowed": false,
     "liveTradingAuthorized": false
@@ -1293,7 +1298,7 @@
   "evidenceManifest": [
     {
       "path": ".engineering/checkpoint-deltas/PH-M02-WO-001.md",
-      "sha256": "b4f75e6c7ee0700c9efbe261f2026a3fef5b1a7cafa26960b9ab8e3ada175b4c",
+      "sha256": "4363e9e2803577e2bae672dd28eb2cc6d6d9d5fc61a3488d8a1550c4b8b50ef6",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1308,7 +1313,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
-      "sha256": "0f453fb8e0936da929052124aef7ce5739001946fd1b178817f6f0b24a90bd8d",
+      "sha256": "7c73f4d3e759d9fc8954913cd2f4d8ae33e7b3faea8d9cb9c7ff199b136b7863",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1538,12 +1543,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
-      "sha256": "af45ee6b07663d089b25f682fb383b5c3f15b369a2618cbc256de892371682c5",
+      "sha256": "93ad15c87e6564734d2bf21f8239280c2176ad4862c5c7bc7bb3c7b6009f59b2",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.md",
-      "sha256": "b8349c6009ab3c5756f4b26362dcf400357a4c88fb210574d89bf0a9a5ab65b1",
+      "sha256": "45a211136bed753de39ea83b3c805088b3aef3c59e0d40a4675e25e38f7752ee",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1663,8 +1668,8 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-      "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
-      "source": "Fresh locked-image PostgreSQL VEX proposals; no approval granted"
+      "sha256": "b75fb5301f85493fdef659886ccf40d0bc72311cdf7adf3abd44bd8a0f9e979a",
+      "source": "Exact-digest VEX dispositions applied after per-occurrence audit and owner decision."
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-review-5460654469-receipt.json",
@@ -1673,12 +1678,12 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.json",
-      "sha256": "960aadb49752da6e7112dc54e319bbea3d780310637a5936a3051422afc114ae",
+      "sha256": "978bc31a01206d08bf244eb8e9c7879508add857ab0d59533385db425a2fd4ea",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001/security-scans.md",
-      "sha256": "6da71ce30557c4b7ffd837932f8e7eb7d2eb9f28b77af31e0c8928508a0d219d",
+      "sha256": "b0276fe5f86a8af93ea474afdc31ce1a0f19d66433c9bcb8b8dfecd576aef24a",
       "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
     },
     {
@@ -1723,7 +1728,7 @@
     },
     {
       "path": ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
-      "sha256": "42a300805e7a24d9c0842f90a10e726e7a48f5d7b7db4aa9692aca1091a9e6ed",
+      "sha256": "762aeeda6959edbd0f6ee21f355a541925e5a374169b6d37ee2c2b46e5eca426",
       "source": "Top-level PH-M02-WO-001 Evidence Bundle"
     },
     {
@@ -1740,18 +1745,69 @@
       "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
       "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7",
       "source": "Human-readable receipt for the exact seven-day expiry correction"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+      "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+      "source": "Independent per-occurrence evidence review; no VEX approval."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+      "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+      "source": "Direct conditional Project Owner VEX decision receipt."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+      "sha256": "9feefe0c2fd0543842b2d784c582462180aa3b317a66a10118fa72870700caa1",
+      "source": "Advisory bounded JEV decision on auditor qualification; no CVE approval."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-20261010.json",
+      "sha256": "b901487d51fb273a0f42441a5d1d7ae13aff9a32df82ec822cad49ef90450831",
+      "source": "Superseded historical audit-qualification snapshot; resolution is recorded separately."
+    },
+    {
+      "path": ".engineering/decisions/ADR-0008-PARALLEL-IMPLEMENTATION-WAVES.md",
+      "sha256": "212fa04adea428bfd432dbcaa131d1a7bb9d0119485235d7bbe2fbe08172314a",
+      "source": "D-0024 effectiveness after PR #57 merge; G0 remains closed."
+    },
+    {
+      "path": ".engineering/DECISIONS-LEDGER.md",
+      "sha256": "76fedb16f94c7c2f26b56901e00ad503f1971dbb1c37e6f1ef0fe7610d883cea",
+      "source": "Current D-0024 ledger status."
+    },
+    {
+      "path": ".engineering/evidence/PH-GOV-PARALLEL-001-EVIDENCE.md",
+      "sha256": "481795284926e560783d5ab8d68ead7c6bb3a7b393b4f4b3b0138cc178699083",
+      "source": "PR #57 merge and PR #43 audit-qualification reconciliation."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+      "sha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+      "source": "Canonical qualification resolution for the role-separated independent per-occurrence audit."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/provider-malformed-shape-correction-20261010.json",
+      "sha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+      "source": "Fail-closed provider shape correction and final local validation receipt."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
+      "sha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380",
+      "source": "Current exact Git-blob VEX evidence/hash and approval reconciliation receipt."
     }
   ],
   "postgresDigestRevalidation": {
     "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
-    "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
+    "sha256": "b75fb5301f85493fdef659886ccf40d0bc72311cdf7adf3abd44bd8a0f9e979a",
     "remainingHighCriticalOccurrences": 24,
     "freshProposals": 24,
-    "allStatus": "UNDER_INVESTIGATION",
+    "allStatus": "NOT_AFFECTED",
     "allProposedDisposition": "NOT_AFFECTED",
-    "independentAuditor": null,
-    "ownerApproval": null,
-    "priorApprovalTransferred": false
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
+    "priorApprovalTransferred": false,
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
   },
   "correctionDelta": {
     "review": "5460224915",
@@ -1933,22 +1989,26 @@
     }
   ],
   "proposalCounts": {
-    "currentPending": 24,
+    "currentPending": 0,
     "currentScoutOccurrencesWithProposal": 24,
     "supplementalCurrentPending": 0,
     "historicalPending": 3,
-    "totalPendingUnapproved": 27,
+    "totalPendingUnapproved": 3,
     "historicalDevZlibWithoutProposal": 1,
     "historicalArchived": 1,
-    "currentProposalStatus": "UNDER_INVESTIGATION",
+    "currentProposalStatus": "NOT_AFFECTED",
     "currentProposedDisposition": "NOT_AFFECTED",
-    "independentAuditor": null,
-    "ownerApproval": null,
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
     "executorSelfApproval": false,
-    "currentVexRecordsUnderInvestigation": 24,
+    "currentVexRecordsUnderInvestigation": 0,
     "currentProposedDispositionCount": 24,
     "unproposedUnderInvestigationOccurrences": 0,
-    "currentFixedOccurrences": 1
+    "currentFixedOccurrences": 1,
+    "currentEvidenceAuditRowsReviewed": 24,
+    "currentAuditorQualification": "QUALIFIED_FORMAL_INDEPENDENT_AUDIT",
+    "conditionalOwnerApprovalRecorded": 24,
+    "operativeCurrentOwnerApprovals": 24
   },
   "priorCorrectionDelta": {
     "review": "5457414821",
@@ -2111,5 +2171,82 @@
         "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7"
       }
     ]
+  },
+  "currentAuditQualification": {
+    "auditReport": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditReportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "occurrences": 24,
+    "severity": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "qualification": "QUALIFIED",
+    "qualificationRationale": "The formal audit is per occurrence, was performed by a role-separated reviewer other than the implementation/execution task, and supports all 24 exact-digest proposals. The canonical criteria do not require a human/third-party reviewer or blind process. The reviewer did not implement the evidence or exercise VEX approval authority. The owner’s recorded condition is therefore met for this exact digest/runtime and expiry only.",
+    "sourceVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+    "sourceVexSha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
+    "sourceSarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+    "sourceSarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+    "ownerDecisionPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerDecisionSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "ownerApprovalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "ownerApprovalRecordedAtUtc": "2026-10-10T00:36:03Z",
+    "ownerApprovalConditional": true,
+    "ownerApprovalOperative": true,
+    "ownerApprovalExpiry": "2026-10-15T13:00:00Z",
+    "jevAdvisoryPath": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+    "jevIndependenceDecision": "require_human_or_third_party",
+    "jevIndependenceConfidence": 0.9,
+    "jevIsAdvisoryOnly": true,
+    "qualificationReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationReceiptSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "approvalFieldsChanged": true,
+    "vexRowsChanged": true
+  },
+  "latestApprovalUpdate": {
+    "dateUtc": "2026-10-10",
+    "sourceProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "exactImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "exactConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "ownerApprovalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "ownerApprovalPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerApprovalSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "qualificationReceipt": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "appliedCurrentRows": 24,
+    "currentRowsStatus": "NOT_AFFECTED",
+    "rawHighCriticalRemainVisible": 24,
+    "rawFindingsSuppressed": 0,
+    "historicalPendingUnapproved": 3,
+    "providerShapeCorrectionReceipt": ".engineering/evidence/PH-M02-WO-001/provider-malformed-shape-correction-20261010.json",
+    "providerShapeCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "imageOrRuntimeChanged": false,
+    "mergeAllowed": false,
+    "checkpointPromotionAllowed": false,
+    "liveTradingAuthorized": false,
+    "finalExactHeadCi": "Record the exact post-push SHA and Validate run in PR #43 body.",
+    "providerCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "integrityReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
+  },
+  "evidenceManifestReconciliation": {
+    "hashRule": "SHA-256 over the committed Git blob bytes for each referenced path.",
+    "selfReferenceExcluded": true,
+    "referencedFiles": 100,
+    "unresolvedPaths": 0,
+    "mismatchedHashes": 0,
+    "auditAndOwnerReceiptsBound": true,
+    "providerCorrectionReceiptBound": true,
+    "generatedAgainstStagedGitIndex": true,
+    "result": "PASS"
   }
 }

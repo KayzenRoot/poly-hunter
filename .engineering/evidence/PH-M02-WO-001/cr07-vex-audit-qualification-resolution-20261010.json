@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "receiptId": "PH-M02-WO-001-CR07-AUDIT-QUALIFICATION-RESOLUTION-20261010",
+  "supersedesReceipt": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-20261010.json",
+  "status": "QUALIFIED_FORMAL_INDEPENDENT_AUDIT",
+  "reviewedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+  "prHeadAtQualification": "d29f2b5b4babf36621977cc57044d097a9e08ca6",
+  "baseHead": "c869cd4fb0378ab1c0c850425497d08a9178552e",
+  "scope": {
+    "environment": "documented local-development runtime only",
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "occurrences": 24,
+    "severity": { "HIGH": 22, "CRITICAL": 2 },
+    "groups": { "gosu": 23, "libxml2": 1 }
+  },
+  "canonicalRequirements": {
+    "adr": ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+    "policy": ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+    "requiresIndependentAuditor": true,
+    "requiresHumanOrThirdParty": false,
+    "requiresBlindReview": false,
+    "basis": "ADR-0007 and the canonical VEX policy require an independent security auditor and owner approval. Neither source requires the auditor to be human or third-party, or the review to be blind. The direct owner condition likewise requires a formal independent audit per occurrence without imposing those additional criteria."
+  },
+  "independentReview": {
+    "reportPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "reportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "reviewerRole": "Separate reviewer subagent; not the implementation/execution task",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "all24OccurrencesIndividuallyReviewed": true,
+    "evidenceVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME",
+    "reviewDidNotImplementTheProviderOrVEXEvidence": true,
+    "vexApprovalAuthority": false
+  },
+  "ownerDecision": {
+    "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "recordedAtUtc": "2026-10-10T00:36:03Z",
+    "scopeMatchesAudit": true,
+    "conditionalAuditRequirementSatisfied": true,
+    "expiry": "2026-10-15T13:00:00Z",
+    "liveTradingAuthorized": false
+  },
+  "jevAdvisory": {
+    "path": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+    "recommendation": "require_human_or_third_party",
+    "confidence": 0.9,
+    "advisoryOnly": true,
+    "notUsedAsVexApproval": true,
+    "disposition": "The advisory applies a stricter reviewer criterion than ADR-0007 and the owner's stated condition. It is retained as a risk note and does not override those canonical requirements."
+  },
+  "qualification": {
+    "result": "QUALIFIED",
+    "rationale": "The formal audit is per occurrence, was performed by a role-separated reviewer other than the implementation/execution task, and supports all 24 exact-digest proposals. The canonical criteria do not require a human/third-party reviewer or blind process. The reviewer did not implement the evidence or exercise VEX approval authority. The owner’s recorded condition is therefore met for this exact digest/runtime and expiry only.",
+    "limitations": [
+      "The reviewer operates within the same Codex system and had prior project context.",
+      "The audit is not blind and is not a third-party certification.",
+      "Qualification does not extend to another image digest, environment, runtime, or expiry.",
+      "The independent audit and owner decision do not permit suppression of raw scanner findings or live trading."
+    ],
+    "executorSelfApproval": false
+  },
+  "liveTradingAuthorized": false
+}

@@ -138,6 +138,16 @@ function assertMarketShape(value: unknown): SdkMarket {
     }
   }
   if (
+    state.negRisk !== undefined &&
+    state.negRisk !== null &&
+    typeof state.negRisk !== "boolean"
+  ) {
+    throw new PolymarketProviderError(
+      "PROVIDER_MALFORMED",
+      "market neg-risk flag is invalid",
+    );
+  }
+  if (
     state.endDate !== undefined &&
     state.endDate !== null &&
     typeof state.endDate !== "string"
@@ -656,9 +666,15 @@ export function createPolymarketBook(
           const raw = await client.fetchLastTradePrice({
             assetId: asAssetId(assetId),
           });
-          return nullableDecimal(
-            typeof raw === "string" ? raw : (raw as { price?: string }).price,
-          );
+          if (raw === null) return null;
+          if (typeof raw === "string") return nullableDecimal(raw);
+          if (!isPlainObject(raw) || typeof raw.price !== "string") {
+            throw new PolymarketProviderError(
+              "PROVIDER_MALFORMED",
+              "last-trade response omitted its required price",
+            );
+          }
+          return nullableDecimal(raw.price);
         } catch (error: unknown) {
           const normalized = normalizeProviderError(error);
           if (normalized.code === "PROVIDER_NOT_FOUND") {

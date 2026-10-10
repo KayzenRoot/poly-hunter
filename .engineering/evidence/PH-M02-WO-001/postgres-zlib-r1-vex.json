@@ -373,11 +373,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4337 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4337 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 1/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -511,14 +511,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/79"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/0"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -677,8 +689,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -1095,11 +1107,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5026 lists 29 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-5026 lists 29 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 2/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -1241,14 +1253,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/78"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/1"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -1407,8 +1431,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -1829,11 +1853,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4007 lists 33 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2025-4007 lists 33 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 3/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -1967,14 +1991,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/56"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/2"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -2133,8 +2169,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -2231,11 +2267,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4013 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2025-4013 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 4/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -2369,14 +2405,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/57"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/3"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -2535,8 +2583,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -2631,11 +2679,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4009 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2025-4009 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 5/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -2769,14 +2817,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/58"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/4"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -2935,8 +2995,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -3079,11 +3139,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4006 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2025-4006 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 6/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -3217,14 +3277,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/59"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/5"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -3383,8 +3455,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -3491,11 +3563,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4341 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4341 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 7/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -3629,14 +3701,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/60"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/6"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -3795,8 +3879,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -3895,11 +3979,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2025-4155 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2025-4155 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 8/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -4033,14 +4117,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/61"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/7"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -4199,8 +4295,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -4339,11 +4435,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4601 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4601 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 9/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -4477,14 +4573,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/62"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/8"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -4643,8 +4751,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -4743,11 +4851,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4947 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4947 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 10/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -4881,14 +4989,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/63"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/9"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -5047,8 +5167,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -5145,11 +5265,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4946 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4946 lists 2 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 11/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -5283,14 +5403,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/64"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/10"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -5449,8 +5581,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -5701,11 +5833,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4870 lists 15 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4870 lists 15 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 12/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -5839,14 +5971,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/65"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/11"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -6005,8 +6149,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -6113,11 +6257,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4981 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4981 lists 3 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 13/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -6251,14 +6395,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/66"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/12"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -6417,8 +6573,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -6910,11 +7066,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4918 lists 35 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4918 lists 35 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 14/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -7056,14 +7212,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/67"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/13"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -7222,8 +7390,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -7338,11 +7506,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5972 lists 4 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-5972 lists 4 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 15/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -7476,14 +7644,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/68"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/14"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -7642,8 +7822,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -7808,11 +7988,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4986 lists 8 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4986 lists 8 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 16/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -7946,14 +8126,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/69"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/15"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -8112,8 +8304,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -8326,11 +8518,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4970 lists 12 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4970 lists 12 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 17/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -8464,14 +8656,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/76"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/16"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -8630,8 +8834,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -9118,11 +9322,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4971 lists 37 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4971 lists 37 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 18/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -9256,14 +9460,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/70"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/17"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -9422,8 +9638,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -9566,11 +9782,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-4977 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-4977 lists 6 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 19/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -9704,14 +9920,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/71"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/18"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -9870,8 +10098,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -9958,11 +10186,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-5038 lists 1 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-5038 lists 1 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 20/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -10096,14 +10324,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/72"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/19"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -10262,8 +10502,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -10450,11 +10690,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6089 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-6089 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 21/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -10588,14 +10828,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/73"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/20"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -10754,8 +11006,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -10948,11 +11200,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6088 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-6088 lists 10 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 22/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -11086,14 +11338,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/74"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/21"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -11252,8 +11516,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -11456,11 +11720,11 @@
         "gosuTransientCapEff": "not applicable; gosu is not invoked in this exact image/runtime; no transient gosu privilege is inferred",
         "context": "PostgreSQL is reachable by project network peers. Network isolation and privilege are not used as the VEX justification."
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_present",
-        "rationale": "GO-2026-6090 lists 11 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. This is an exact-image proposal only and remains UNDER_INVESTIGATION, unapproved pending independent audit and owner approval."
+        "rationale": "GO-2026-6090 lists 11 vulnerable symbols. None are present in the exact gosu executable (SHA-256 52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0); govulncheck binary mode has no symbol-level result. Independently, this image sets Config.User=postgres (UID/GID 70:70), so docker-entrypoint.sh starts non-root, its root-only gosu branch is skipped, and gosu does not execute or perform syscall.Exec in this runtime. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 23/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -11594,14 +11858,26 @@
           "sha256": "b57587bb12748ca15642d0aead0d664f51f8cd8f443aa274e740f4faa1097564",
           "commit": "e6a9457e8d8ff60341c6db90346d5916ee13fa61",
           "jsonPointer": "/items/75"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/22"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "scanner": {
         "name": "Docker Scout CLI",
         "version": "1.24.0",
@@ -11760,8 +12036,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "Package scan rows match the previous candidate SARIF; exact configuration is now non-root and skips gosu. This updates evidence only and does not approve the proposed disposition."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     },
     {
@@ -11952,11 +12228,11 @@
           "lack of XML application references"
         ]
       },
-      "status": "UNDER_INVESTIGATION",
+      "status": "NOT_AFFECTED",
       "proposedDisposition": "NOT_AFFECTED",
       "justification": {
         "code": "vulnerable_code_not_in_execute_path",
-        "rationale": "The exact vulnerable code is present, linked and loaded, and PostgreSQL XML parsing is enabled. The vulnerable formatter is called on DTD-validation content-model diagnostic paths. Exact PostgreSQL 17.11 core source omits XML_PARSE_DTDVALID, uses options 0 for XPath/XMLTABLE reads, and leaves xmlvalidate unimplemented. The live database role is superuser and may install the shipped xml2 extension, so that path was also evaluated: current DB has only plpgsql installed; exact xml2 SQL binds xml_valid directly to xml_is_well_formed, its REL_17_11 XPath/XSLT code uses XML_PARSE_NOENT without XML_PARSE_DTDVALID, and a benign exact-image disposable test accepted a well-formed document violating its internal DTD through xml_valid. PostgreSQL 17 documentation says XML input is not validated against DTDs. This supports a proposal that the DTD-validation formatter is outside the current core and shipped-extension execution paths; it does not cover custom extensions/native code, and it is not self-approved. Benign disposable tests also passed that DTD-inconsistent but well-formed document through xml2 xpath_string and xslt_process. Fresh proposal for the exact zlib-r1 digest. Installed libxml2 remains 2.13.9-r2 with matching SHA-256 c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7. Previous independent/owner approvals are not transferred."
+        "rationale": "The exact vulnerable code is present, linked and loaded, and PostgreSQL XML parsing is enabled. The vulnerable formatter is called on DTD-validation content-model diagnostic paths. Exact PostgreSQL 17.11 core source omits XML_PARSE_DTDVALID, uses options 0 for XPath/XMLTABLE reads, and leaves xmlvalidate unimplemented. The live database role is superuser and may install the shipped xml2 extension, so that path was also evaluated: current DB has only plpgsql installed; exact xml2 SQL binds xml_valid directly to xml_is_well_formed, its REL_17_11 XPath/XSLT code uses XML_PARSE_NOENT without XML_PARSE_DTDVALID, and a benign exact-image disposable test accepted a well-formed document violating its internal DTD through xml_valid. PostgreSQL 17 documentation says XML input is not validated against DTDs. This supports a proposal that the DTD-validation formatter is outside the current core and shipped-extension execution paths; it does not cover custom extensions/native code, and it is not self-approved. Benign disposable tests also passed that DTD-inconsistent but well-formed document through xml2 xpath_string and xslt_process. Fresh proposal for the exact zlib-r1 digest. Installed libxml2 remains 2.13.9-r2 with matching SHA-256 c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7. Previous independent/owner approvals are not transferred. The evidence for this exact image and documented local-development runtime was individually reviewed in PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009 (row 24/24), and the Project Owner approved this proposal under PH-M02-WO-001-OWNER-VEX-20261010. This disposition applies only to manifest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 and expires at 2026-10-15T13:00:00Z; raw scanner findings remain visible and unsuppressed."
       },
       "authoritativeRefs": [
         {
@@ -12216,14 +12492,26 @@
           "source": "Disposable xml2 XPath/XSLT test cleanup",
           "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-cleanup.txt",
           "sha256": "a24707c476705ab1fc960ab84e2ecef6dd542db7965a85c7cc99ba3a443d0c7c"
+        },
+        {
+          "source": "Independent per-occurrence audit; supports this exact digest/runtime proposal",
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+          "jsonPointer": "/perOccurrenceAudit/23"
+        },
+        {
+          "source": "Direct conditional Project Owner approval; audit condition satisfied for this exact scope",
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+          "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010"
         }
       ],
-      "independentAuditor": null,
-      "ownerApproval": null,
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
       "executorSelfApproval": false,
-      "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+      "dispositionTimestampUtc": "2026-10-10T00:36:03Z",
       "expiry": "2026-10-15T13:00:00Z",
-      "dispositionState": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
+      "dispositionState": "APPROVED_NOT_AFFECTED",
       "priorAnalysis": {
         "path": ".engineering/evidence/PH-SEC-WO-003-LIBXML2-VEX.json",
         "sha256": "1c770cbece7a155c3f270f6c71d8cc7da54e657bcb6e70e5126b77907eba81b5",
@@ -12326,8 +12614,8 @@
         "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
         "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
         "priorAnalysisDigest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
-        "status": "PROPOSED_PENDING_FRESH_INDEPENDENT_AUDIT_AND_OWNER_APPROVAL",
-        "note": "The exact image digest and scan row are refreshed. Current live Compose inspection confirms Config.User=postgres and initial/steady UID/GID 70:70. The libxml2-specific reachability assessment remains as previously evidenced by PH-SEC-WO-003; this correction does not reclassify or approve it."
+        "status": "APPROVED_NOT_AFFECTED",
+        "note": "The exact digest/configuration and evidence are covered by the individual audit and conditional owner approval. No prior-digest approval was transferred."
       }
     }
   ],
@@ -12336,10 +12624,10 @@
     "oldGosuApprovals": 23,
     "oldLibxmlApprovals": 1,
     "transferred": false,
-    "currentRowsStatus": "UNDER_INVESTIGATION",
+    "currentRowsStatus": "NOT_AFFECTED",
     "currentRowsProposedDisposition": "NOT_AFFECTED",
-    "auditorApprovalPresent": false,
-    "ownerApprovalPresent": false
+    "auditorApprovalPresent": true,
+    "ownerApprovalPresent": true
   },
   "databasePrivilegeRisk": {
     "classification": "HIGH",
@@ -12351,15 +12639,15 @@
   "approvalPolicy": {
     "required": "Fresh independent security audit and project-owner approval for every proposed HIGH/CRITICAL NOT_AFFECTED row under ADR-0007.",
     "executorSelfApproval": false,
-    "allCurrentProposalsUnapproved": true,
+    "allCurrentProposalsUnapproved": false,
     "mergeAllowed": false,
     "checkpointPromotionAllowed": false,
     "liveTradingAuthorized": false,
-    "independentAuditor": null,
-    "ownerApproval": null
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED"
   },
-  "result": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
-  "resultRationale": "The exact PostgreSQL zlib finding is FIXED in the selected digest. All 24 remaining PostgreSQL HIGH/CRITICAL occurrences were individually re-bound to exact current scan results and revalidated against current image/runtime evidence; fresh NOT_AFFECTED proposals remain UNDER_INVESTIGATION pending independent audit and owner approval. This is readiness for independent audit only, not clearance, merge, promotion, or trading authorization.",
+  "result": "OWNER_APPROVED_FINDINGS",
+  "resultRationale": "All 24 PostgreSQL HIGH/CRITICAL occurrences (22 HIGH, 2 CRITICAL) were individually audited and the evidence supports the proposed NOT_AFFECTED disposition for the documented local-development runtime. The Project Owner's conditional approval is now operative for the exact manifest/config digest and expiry recorded above. Raw Scout findings remain visible with zero suppressions. The three old Debian dev util-linux proposals and old dev zlib uncertainty remain historical and unapproved; no digest transfer, merge, checkpoint promotion, or trading authority is implied.",
   "correctionDelta": {
     "review": "5460224915",
     "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
@@ -12399,5 +12687,48 @@
       "CR-07-AUD-04"
     ],
     "note": "Exact artifact portability, exact-head image CI, and non-root startup; all current proposals remain unapproved."
+  },
+  "independentAudit": {
+    "status": "APPROVED",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "reportPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "reportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "exactImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "exactConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "occurrences": 24,
+    "severity": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "qualificationPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "reviewerRole": "Separate reviewer subagent from implementation/execution task",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "executorSelfApproval": false
+  },
+  "ownerApproval": {
+    "status": "APPROVED",
+    "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "receiptPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "receiptSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "recordedAtUtc": "2026-10-10T00:36:03Z",
+    "scope": {
+      "repository": "KayzenRoot/poly-hunter",
+      "pr": 43,
+      "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "environment": "documented local development runtime only",
+      "proposalCount": 24,
+      "groups": {
+        "gosu": 23,
+        "libxml2": 1
+      },
+      "expiresAtUtc": "2026-10-15T13:00:00Z"
+    },
+    "conditionSatisfied": "Formal independent audit recorded for all 24 occurrences",
+    "liveTradingAuthorized": false
   }
 }

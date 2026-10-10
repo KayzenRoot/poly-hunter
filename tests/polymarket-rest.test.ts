@@ -48,6 +48,7 @@ let clobUrl = "";
 const seenRequests: string[] = [];
 let malformedGamma = false;
 let marketDetailOverride: Record<string, unknown> | null = null;
+let lastTradeOverride: unknown;
 
 beforeAll(async () => {
   server = createServer((request, response) => {
@@ -126,7 +127,7 @@ beforeAll(async () => {
       return;
     }
     if (url.pathname === "/last-trade-price") {
-      respond(200, { price: "0.47", side: "SELL" });
+      respond(200, lastTradeOverride ?? { price: "0.47", side: "SELL" });
       return;
     }
     respond(404, { error: "not found" });
@@ -235,6 +236,21 @@ describe("polymarket discovery over the official SDK", () => {
       await expect(discovery.fetchMarketDetail(marketId)).rejects.toMatchObject(
         { code: "PROVIDER_MALFORMED" },
       );
+
+      const market = GAMMA_KEYSET_PAGE_1.markets[0];
+      const requestsBeforeInvalidNegRisk = seenRequests.length;
+      marketDetailOverride = {
+        ...market,
+        negRisk: "false",
+      };
+      await expect(discovery.fetchMarketDetail(marketId)).rejects.toMatchObject(
+        { code: "PROVIDER_MALFORMED" },
+      );
+      expect(
+        seenRequests
+          .slice(requestsBeforeInvalidNegRisk)
+          .some((request) => request.startsWith("GET /markets/")),
+      ).toBe(true);
     } finally {
       marketDetailOverride = null;
       await discovery.close();
@@ -360,6 +376,25 @@ describe("polymarket book/price over the official SDK", () => {
       );
       expect(last).toBeNull();
     } finally {
+      await book.close();
+    }
+  });
+
+  it("rejects a malformed last-trade payload that omits its price", async () => {
+    const book = createPolymarketBook({ clobRestUrl: clobUrl });
+    try {
+      const requestsBeforeMalformedTrade = seenRequests.length;
+      lastTradeOverride = { side: "SELL" };
+      await expect(
+        book.fetchLastTradePrice(FIXTURE_ASSET_ID_UP as AssetId),
+      ).rejects.toMatchObject({ code: "PROVIDER_MALFORMED" });
+      expect(
+        seenRequests
+          .slice(requestsBeforeMalformedTrade)
+          .some((request) => request.startsWith("GET /last-trade-price")),
+      ).toBe(true);
+    } finally {
+      lastTradeOverride = undefined;
       await book.close();
     }
   });

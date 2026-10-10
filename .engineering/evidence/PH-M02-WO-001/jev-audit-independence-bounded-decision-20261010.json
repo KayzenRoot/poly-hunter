@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "receiptId": "PH-M02-WO-001-JEV-AUDIT-INDEPENDENCE-20261010",
+  "tool": "TypeSafe Jev jev_decide",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "decision": "Whether a row-by-row audit by a separate Codex reviewer subagent satisfies the independent-auditor requirement in ADR-0007 when it is from the same Codex system, not human/third-party, and not blind.",
+  "recommendation": {
+    "selected": "require_human_or_third_party",
+    "confidence": 0.9,
+    "probabilities": {
+      "role_separated_audit_satisfies": 0,
+      "require_human_or_third_party": 0.92,
+      "preserve_pending": 0.08,
+      "ask_user": 0,
+      "investigate": 0,
+      "none": 0
+    },
+    "contradictedRequirements": []
+  },
+  "requirementsChecks": [
+    {
+      "requirement": "Do not claim the auditor was human or third-party.",
+      "roleSeparatedAudit": "supported",
+      "humanOrThirdPartyAudit": "supported",
+      "preservePending": "supported"
+    },
+    {
+      "requirement": "Do not approve any CVE or replace deterministic per-occurrence review.",
+      "roleSeparatedAudit": "supported",
+      "humanOrThirdPartyAudit": "supported",
+      "preservePending": "supported"
+    },
+    {
+      "requirement": "Comply with the owner's condition requiring formal independent audit per occurrence.",
+      "roleSeparatedAudit": "contradicted",
+      "humanOrThirdPartyAudit": "supported",
+      "preservePending": "supported"
+    }
+  ],
+  "evidence": {
+    "canonicalSources": [
+      ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+      ".engineering/proposals/PH-SEC-VEX-POLICY.md"
+    ],
+    "canonicalTextRequiresIndependentAuditor": true,
+    "canonicalTextExplicitlyRequiresHumanOrThirdParty": false,
+    "auditReport": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditReportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "ownerDecision": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerDecisionSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "scope": {
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "proposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+      "occurrences": 24,
+      "severity": {
+        "HIGH": 22,
+        "CRITICAL": 2
+      }
+    }
+  },
+  "advisoryOnly": true,
+  "jevApprovedVex": false,
+  "vexStatusChanged": false,
+  "executorSelfApproval": false,
+  "resultingGate": "BLOCKED_UNRESOLVED_INDEPENDENT_AUDITOR_QUALIFICATION",
+  "liveTradingAuthorized": false
+}

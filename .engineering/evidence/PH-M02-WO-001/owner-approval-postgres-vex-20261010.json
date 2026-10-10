@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+  "recordedAtUtc": "2026-10-10T00:36:03Z",
+  "source": {
+    "kind": "direct_authenticated_operator_input",
+    "location": "current Codex task",
+    "verbatim": "DECISÃO DO PROPRIETÁRIO — Poly Hunter\nAprovo a adoção da política de desenvolvimento paralelo D-0024 / ADR-0008 da PR #57, condicionada à manutenção integral dos gates de segurança, auditoria, testes e controle de dependências.\nPara a PR #43, aprovo como proprietário, de forma condicionada ao registro de auditoria independente formal por ocorrência, as 24 propostas NOT_AFFECTED identificadas individualmente na matriz VEX do HEAD 8a4cb2e6c91a5ff458e02dd64f877311a5af9665, exclusivamente para a imagem PostgreSQL de digest: sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744.\nEsta decisão abrange somente o runtime documentado, as 23 ocorrências ligadas ao gosu e a ocorrência libxml2, com expiração em 2026-10-15T13:00:00Z.\nNão autorizo aprovação automática de evidências insuficientes, extrapolação para outras imagens, ocultação de findings, bypass de auditoria ou ativação de LIVE trading. Ocorrências que não passarem na auditoria independente deverão permanecer bloqueadas e receber correção."
+  },
+  "scope": {
+    "repository": "KayzenRoot/poly-hunter",
+    "pr": 43,
+    "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "environment": "documented local development runtime only",
+    "proposalCount": 24,
+    "groups": {
+      "gosu": 23,
+      "libxml2": 1
+    },
+    "expiresAtUtc": "2026-10-15T13:00:00Z"
+  },
+  "conditions": [
+    "A formal independent audit must be recorded for each occurrence before the NOT_AFFECTED proposals are activated.",
+    "Any occurrence with insufficient or contradictory evidence remains blocked and requires correction.",
+    "Approval applies only to the exact digest, documented runtime, 23 gosu occurrences and one libxml2 occurrence.",
+    "No suppression, evidence bypass, approval transfer or LIVE-trading authority is granted."
+  ],
+  "decision": "CONDITIONAL_OWNER_APPROVAL",
+  "liveTradingAuthorized": false
+}

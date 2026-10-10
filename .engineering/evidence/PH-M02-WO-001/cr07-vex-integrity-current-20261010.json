@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "receiptId": "PH-M02-WO-001-CR07-VEX-INTEGRITY-20261010",
+  "scope": {
+    "vexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "hashSource": "Git index blobs staged for this PR commit; SHA-256 computed over exact blob bytes"
+  },
+  "integrity": {
+    "vexEvidencePathHashPairsChecked": 879,
+    "distinctEvidencePathsChecked": 101,
+    "missingPaths": 0,
+    "mismatchedHashes": 0,
+    "manifestFilesChecked": 100,
+    "manifestMismatches": 0,
+    "selfReference": false,
+    "result": "PASS",
+    "validationMethod": "Git cat-file --batch over the staged index; SHA-256 computed over exact blob bytes.",
+    "finalPassIncludesThisReceipt": true,
+    "finalPassIncludesAggregateManifest": true
+  },
+  "dispositionReconciliation": {
+    "rowCount": 24,
+    "statusCounts": {
+      "NOT_AFFECTED": 24
+    },
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "exactImageDigests": [
+      "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+    ],
+    "individualAuditReferences": 24,
+    "ownerApprovalReferences": 24,
+    "executorSelfApproval": false,
+    "rawScannerFindings": 24,
+    "rawScannerSuppressions": 0,
+    "expiry": "2026-10-15T13:00:00Z",
+    "result": "PASS"
+  },
+  "sourceReceipts": {
+    "auditPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "ownerPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "qualificationPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad"
+  },
+  "limits": [
+    "Evidence binds only to the exact PostgreSQL manifest/config digest and documented local-development runtime.",
+    "Raw Scout results are preserved; NOT_AFFECTED is not scanner suppression.",
+    "The three historical Debian util-linux proposals remain unapproved and are not transferred.",
+    "The old Debian development zlib record remains UNDER_INVESTIGATION without a proposed disposition.",
+    "The local application PostgreSQL role remains superuser; that risk is not cleared by these VEX decisions."
+  ],
+  "liveTradingAuthorized": false,
+  "manifestCorrectionReconciliation": {
+    "path": ".engineering/evidence/PH-GOV-PARALLEL-001-EVIDENCE.md",
+    "previousManifestSha256": "e5ff4d71f6d668de1708669faaaa2de7d055da26974a57d6822b5824bb6b9833",
+    "correctedStagedBlobSha256": "481795284926e560783d5ab8d68ead7c6bb3a7b393b4f4b3b0138cc178699083",
+    "reason": "Final staged-index verification found the aggregate manifest entry stale; the entry was corrected and all VEX references and manifest entries were rechecked against Git index blob bytes.",
+    "selfApproval": false
+  }
+}
