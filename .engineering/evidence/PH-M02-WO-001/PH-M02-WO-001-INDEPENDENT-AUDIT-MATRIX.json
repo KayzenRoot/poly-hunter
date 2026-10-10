@@ -303,7 +303,7 @@
     "finalExactHeadCi": "Record the exact post-push SHA and Validate run in PR #43 body.",
     "providerCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
     "integrityReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
-    "integrityReceiptSha256": "a3d0abbf11fff7462c5c6359d4d7e43394bbb09622e80c8ff6b821351ae78494"
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
   },
   "stopState": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT"
 }
