@@ -1,6 +1,6 @@
 # ADR-0009 — Conditional parallel foundations during the PH-M02 stop
 
-Status: **GOVERNANCE PROPOSAL / EFFECTIVE ONLY AFTER EXACT-HEAD REVIEW AND MERGE**
+Status: **OWNER-DIRECTED WITH CONDITIONS / EFFECTIVE ONLY AFTER EXACT-HEAD GOVERNANCE ACCEPTANCE AND MERGE**
 Date: 2026-10-10
 Decision: D-0025 (owner direction: maximize independently owned module development in the next local Codex Desktop orchestration, delegate GitHub governance to ChatGPT, do not relax safety)
 Supersedes: only the **blanket scheduling prohibition** on independent PH-M03+ *foundations* in ADR-0008 §5 and its related planning text; never the PH-M03 prerequisite or any existing module, work-order security/integration gate.
