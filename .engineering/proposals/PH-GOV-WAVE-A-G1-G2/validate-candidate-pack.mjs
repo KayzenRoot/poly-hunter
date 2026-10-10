@@ -565,6 +565,14 @@ function checkCandidateLocks() {
     ) {
       fail(`${stem} PostgreSQL VEX digest drift`);
     }
+    if (
+      isRecord(vex) &&
+      typeof vex.expiresAtUtc === "string" &&
+      Number.isFinite(Date.parse(vex.expiresAtUtc)) &&
+      Date.parse(vex.expiresAtUtc) <= Date.now()
+    ) {
+      fail(`${stem} PostgreSQL VEX proposal is expired`);
+    }
     if (!isRecord(vex) || vex.expiresAtUtc !== "2026-10-15T13:00:00Z" || vex.transferAllowed !== false) {
       fail(`${stem} PostgreSQL VEX expiry/transfer boundary drift`);
     }

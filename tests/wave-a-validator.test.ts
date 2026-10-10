@@ -30,6 +30,13 @@ type ContextLock = {
   runtimeFingerprints: Record<string, string>;
   runtimeSha256Fingerprints: Record<string, string>;
   sha256Fingerprints: Record<string, string>;
+  security: {
+    postgresVex: {
+      expiresAtUtc: string;
+      imageDigest: string;
+      transferAllowed: boolean;
+    };
+  };
   workOrderFingerprint: { path: string };
 };
 
@@ -303,6 +310,13 @@ describe("Wave A Context Lock validator", () => {
         "coordinatorOnlyPaths",
         ":!packages/contracts",
       ),
+      {
+        name: "expired PostgreSQL VEX proposal",
+        expectedError: "PostgreSQL VEX proposal is expired",
+        mutate: (lock) => {
+          lock.security.postgresVex.expiresAtUtc = "2000-01-01T00:00:00Z";
+        },
+      },
       {
         name: "malformed JSON",
         expectedError: "Context Lock is malformed JSON",
