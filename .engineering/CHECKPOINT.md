@@ -1,34 +1,35 @@
 # Checkpoint — PolyHunter
 
 Status: SOURCE_PACK_FROZEN.
+Canonical machine view: `.engineering/CHECKPOINT.json` (schemaVersion 2).
 
 ## Current promoted state
-- GEF Bootstrap 1.1.2: APPROVED and merged via PH-BS-001.
-- Canonical Source Pack: FROZEN via PH-PLAN-001.
-- PH-M00 Governance & Harness: COMPLETE and merged.
-- PH-M00 Local Docker development runtime: COMPLETE and merged via PH-M00-WO-002.
-- PH-M01 Identity, Tenancy & Secrets plan: APPROVED for promotion in PH-M01-PLAN-001; this branch carries the promoted state for merge.
-- Product behavior beyond engineering foundation: NOT_STARTED.
-- LIVE trading: NOT_AUTHORIZED.
-- Active Work Order after merge: NONE.
-- Prepared Work Order after merge: PH-M01-WO-001.
-- Next legal stage after merge: COMPILE_PH_M01_WO_001_CONTEXT_LOCK.
 
-## Frozen PH-M01 direction
-- PostgreSQL durable store; PostgreSQL 17 local Docker service.
-- Drizzle owns application schema/migrations.
-- Supabase Auth is the pilot identity provider behind IdentityPort.
-- TenantContext is server-derived from authenticated identity + active membership.
-- owner/admin/member are tenant roles; platform_admin is separate.
-- Tenant secrets use server-side authenticated encryption with version/rotation metadata.
-- PH-M01 is split into four HIGH_ASSURANCE increments; only PH-M01-WO-001 is prepared.
+- GEF Bootstrap 1.1.2 and Source Pack: APPROVED / MERGED.
+- PH-M00 Governance & Harness and local Docker runtime: COMPLETE / MERGED.
+- PH-M01 Identity, Tenancy & Secrets: COMPLETE / CHECKPOINT PROMOTED via PH-M01-WO-004.
+- phase: `M01_IMPLEMENTATION_COMPLETE`
+- stopState: `STOP_AFTER_PH_M01_WO_004`
+- completedThroughModule: `PH-M01`
+- activeWorkOrder: `NONE`
+- preparedWorkOrder: `NONE`
+- nextLegalStage: `AWAIT_OWNER_DIRECTION`
+- liveTradingAuthorized: `false`
+- overallCompletionPercent: `0` (uninitialized weighting; do not interpret as 0% actual work)
+- production weights: denominator `0`, earned `0`.
 
-## Validation summary
-PH-M01-PLAN-001 candidate head `927583dfb774b22b9207d1a662013372961189cb` passed GitHub Actions run `37145212050`; SonarQube Quality Gate passed with 0 new issues and 0 security hotspots. Planning audit found no runtime scope drift and confirmed independent-from-Codex HIGH_ASSURANCE review obligations.
+## Unmerged active work does not change the promoted checkpoint
 
-## Explicit non-claims
-No PH-M01 runtime exists yet. No Postgres service/schema/migration exists yet. No Supabase Auth integration exists yet. No encrypted secret vault exists yet. No Polymarket integration, profitability proof, live-readiness proof or production deployment exists.
+- PH-M02-WO-001 / PR #43 is OPEN+DRAFT and not promoted into the machine checkpoint. At planning-time snapshot head `cf0fe09d30764cdf3ae0fcc8e836e84dd43d9958`, post-owner-authorized fresh Docker store runs web+worker+PostgreSQL and exact-head hosted checks are reported PASS; independent HIGH_ASSURANCE audit and PostgreSQL VEX approval remain unresolved.
+- PH-GOV-PARALLEL-001 is a planning-only proposed workflow update. Neither creation of planning issues #45..#56 nor its PR admits M03+ implementation.
+- Existing PR #44 also remains separate.
 
-## Lineage
-- PH-M00 complete merge: main@5377ed44bcd1f962a5c121acf2e85495b991f7a7
-- PH-M01-PLAN-001 pre-promotion audited candidate: 927583dfb774b22b9207d1a662013372961189cb
+## Frozen security boundary
+
+- PostgreSQL + Drizzle durable state; Supabase Auth behind IdentityPort; server-derived TenantContext; AES-256-GCM key/version-aware tenant secret encryption.
+- LIVE is not authorized; strategy->risk->execution remains deterministic; geoblock/eligibility is fail-closed.
+- Any HIGH/CRITICAL VEX disposition requires independent exact-artifact evidence and owner approval under ADR-0007.
+
+## Reconciliation note
+
+This human-readable file previously retained a PH-M01-PLAN-001 planning-era snapshot, while CHECKPOINT.json had already been promoted to `M01_IMPLEMENTATION_COMPLETE`. This governance PR proposes reconciling the human view to the proven machine state without modifying CHECKPOINT.json and without claiming any new module completion. Historical planning/lineage lives in existing checkpoint deltas and PRs.
