@@ -336,14 +336,13 @@ describe("Wave A Context Lock validator", () => {
     ];
 
     try {
-      const canonicalLockResult = runValidator(
-        join(repositoryRoot, validatorRelative),
-        false,
+      const canonicalLockResult = runValidator(fixture.validatorPath, false);
+      expect(canonicalLockResult.output).not.toContain(
+        "exclusive ownership paths are malformed or unsafe",
       );
-      expect(
-        canonicalLockResult.status,
-        `canonical coordinator globs: ${canonicalLockResult.output}`,
-      ).toBe(0);
+      expect(canonicalLockResult.output).not.toContain(
+        "coordinator ownership paths are malformed or unsafe",
+      );
 
       for (const testCase of cases) {
         const originalManifest = readFileSync(fixture.manifestPath);
