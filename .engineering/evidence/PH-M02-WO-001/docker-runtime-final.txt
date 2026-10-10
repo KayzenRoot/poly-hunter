@@ -1,0 +1,14 @@
+PH-M02-WO-001 Docker runtime final receipt
+Date: 2026-10-07
+Compose project: polyhunter-local
+
+docker compose --project-name polyhunter-local config --quiet: exit 0
+Dev image ID: sha256:1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792
+PostgreSQL image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Worker Node: v24.21.0
+Worker import smoke: typeof createPolymarketDiscovery => function
+Worker process: nodemon supervisor and node apps/worker/src/index.ts process are running.
+Web GET http://localhost:3000: HTTP 200; container health: healthy.
+PostgreSQL container health: healthy; host port: not published.
+Worker Compose state: running; Compose healthcheck: not configured.
+Final: web, worker and PostgreSQL left running.

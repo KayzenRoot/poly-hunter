@@ -1,0 +1,21 @@
+{
+  "id": "5460654469",
+  "url": "https://github.com/KayzenRoot/poly-hunter/pull/43#pullrequestreview-5460654469",
+  "state": "COMMENTED",
+  "author": "KayzenRoot",
+  "submittedAt": "2026-10-08T17:42:04Z",
+  "commitId": "6579e97064570cc38530e69944173fde09920d7c",
+  "verdict": "CORRECTION REQUIRED \u2014 VEX evidence only",
+  "scope": [
+    "dev-image CVE-2026-85091 source/runtime reconciliation",
+    "compact group audit matrix for 28 current records"
+  ],
+  "constraints": [
+    "no image rebuild/rescan",
+    "no product/CI/checkpoint branch change",
+    "no VEX self-approval",
+    "no merge or checkpoint promotion",
+    "no WO-002/signing/trading"
+  ],
+  "rawReviewApi": "https://api.github.com/repos/KayzenRoot/poly-hunter/pulls/43/reviews/5460654469"
+}

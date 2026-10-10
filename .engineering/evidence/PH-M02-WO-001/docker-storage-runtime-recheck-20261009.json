@@ -1,0 +1,82 @@
+{
+  "receipt_id": "PH-M02-WO-001-docker-storage-runtime-recheck-20261009",
+  "collected_at_utc": "2026-10-09T18:28:17Z",
+  "repository": "KayzenRoot/poly-hunter",
+  "pull_request": 43,
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "observed_head_before_evidence_commit": "e368078a87f68b3f1a757453e5eed4410ecabc32",
+  "state": "BLOCKED_DOCKER_DATA_RECOVERY_DECISION",
+  "installer": {
+    "product": "Docker Desktop",
+    "version": "4.94.0.241994",
+    "mode": "per-user, WSL 2 backend",
+    "log_reported_success_at_utc": "2026-10-09T18:01:52Z",
+    "sanitized_command": "install -package <temporary-package> --user --backend=wsl-2 --wsl-default-data-root=D:\\Docker\\wsl --quiet",
+    "executor_invoked_installer": false,
+    "install_log_sha256": "91A31574CEDDB6A1E34A8D702AEC484071A80BB19EAEF9FCAB1BDD17E139F66B",
+    "install_cli_log_sha256": "0228949861C0925B5BBB1A5FD68A3362652AE1B1863921D10A9662364015CEC7",
+    "actor_attribution": "unknown; current logs do not identify who initiated this installation"
+  },
+  "runtime": {
+    "desktop_processes_started_local": "2026-10-09 15:05:35 America/Sao_Paulo",
+    "docker_cli_version": "29.8.2",
+    "docker_engine_version": "29.8.2",
+    "docker_compose_version": "v5.5.1",
+    "cli_path": "C:\\Users\\csn19\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+    "docker_cli_on_path": false,
+    "engine_pipe_available": true,
+    "docker_service_present": false,
+    "wsl_service_running": true,
+    "wsl_docker_desktop_state": "Stopped",
+    "wsl_base_path": "\\\\?\\D:\\Docker\\wsl\\main",
+    "docker_root": "/var/lib/docker",
+    "containers": 0,
+    "images": 0,
+    "volumes": 0,
+    "web_http": "connection refused on localhost:3000",
+    "project_compose_started": false,
+    "project_images_present": false
+  },
+  "storage": {
+    "docker_root_present": true,
+    "former_appdata_junction_path": "C:\\Users\\csn19\\AppData\\Local\\Docker",
+    "former_junction_current_type": "ordinary directory; no reparse-point target",
+    "former_junction_path_created_utc": "2026-10-09T17:59:36Z",
+    "current_data_vhdx": {
+      "path": "D:\\Docker\\wsl\\disk\\docker_data.vhdx",
+      "length_bytes": 1639972864,
+      "created_utc": "2026-10-09T18:05:43Z",
+      "last_write_utc": "2026-10-09T18:27:19Z",
+      "historical_original_length_bytes": 65711112192,
+      "historical_original_last_seen_utc": "2026-10-08T21:54:49Z"
+    },
+    "current_system_vhdx": {
+      "path": "D:\\Docker\\wsl\\main\\ext4.vhdx",
+      "length_bytes": 100663296,
+      "created_utc": "2026-10-09T18:05:40Z",
+      "last_write_utc": "2026-10-09T18:27:14Z",
+      "sha256": "not obtained: file was in use by Docker Desktop"
+    },
+    "previously_found_install_resource_vhdx_path_now": "C:\\Program Files\\Docker\\Docker\\resources\\wsl\\ext4.vhdx",
+    "previously_found_install_resource_currently_present": false,
+    "data_store_assessment": "current disk was created after the install log reports success and is far smaller than the prior original disk; current Engine has zero containers, images, and volumes. This is not evidence that original data was recovered."
+  },
+  "commands": [
+    "Get-Item on the two D:\\Docker VHDXs and former AppData\\Local\\Docker path",
+    "Get-Content on install-log.txt and install-cli-log.txt with installation-related line filtering; only sanitized metadata recorded",
+    "wsl --list --verbose; read Lxss registration BasePath",
+    "Docker Desktop docker.exe version; docker.exe info --format; docker.exe compose version; docker.exe ps -a; docker.exe image ls -a; docker.exe volume ls",
+    "curl.exe -I --max-time 5 http://localhost:3000",
+    "Get-FileHash on installer logs; attempted hash on the active system VHDX was denied because the file is in use"
+  ],
+  "actions_not_taken": [
+    "No installer was invoked by this executor; no retry of the prior installer command",
+    "No npm run docker:up, Compose up, or project container build/start",
+    "No WSL unregister, reset, volume deletion, data-store modification, or VEX/checkpoint action",
+    "No .env or credential values read"
+  ],
+  "decision_required": [
+    "Provide or mount a verified backup of the original WSL system/data VHDXs and identify its path; or",
+    "Explicitly authorize use of the currently running isolated empty Docker store, accepting that the prior PostgreSQL volume is not present"
+  ]
+}

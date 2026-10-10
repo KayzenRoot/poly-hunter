@@ -1,0 +1,4 @@
+ TYPE   SYM FILE
+ET_DYN deflate /usr/local/bin/postgres
+ET_DYN deflate,inflate,gzwrite,gzopen /usr/local/bin/pg_dump
+ET_DYN deflate,inflate,gzwrite,gzopen /usr/local/bin/pg_restore

@@ -1,0 +1,54 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5460654469",
+  "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
+  "sourcePackage": "zlib",
+  "sourceVersion": "1:1.3.dfsg+really1.3.1-1",
+  "binaryVersion": "1:1.3.dfsg+really1.3.1-1+b1",
+  "downloadBase": "https://deb.debian.org/debian/pool/main/z/zlib/",
+  "retrievedVia": "HTTPS from official Debian pool",
+  "archives": {
+    "zlib_1.3.dfsg+really1.3.1-1.dsc": {
+      "url": "https://deb.debian.org/debian/pool/main/z/zlib/zlib_1.3.dfsg+really1.3.1-1.dsc",
+      "size": 2637,
+      "sha256": "ede2791e29c1d3b422f9208bdd7edf040c20445ea1e7453a72037576e64fa197"
+    },
+    "zlib_1.3.dfsg+really1.3.1.orig.tar.gz": {
+      "url": "https://deb.debian.org/debian/pool/main/z/zlib/zlib_1.3.dfsg+really1.3.1.orig.tar.gz",
+      "size": 1325737,
+      "sha256": "60dd315c07f616887caa029408308a018ace66e3d142726a97db164b3b8f69fb",
+      "dscListedSha256": "60dd315c07f616887caa029408308a018ace66e3d142726a97db164b3b8f69fb",
+      "matchesDscSha256": true,
+      "matchesDscSize": true
+    },
+    "zlib_1.3.dfsg+really1.3.1-1.debian.tar.xz": {
+      "url": "https://deb.debian.org/debian/pool/main/z/zlib/zlib_1.3.dfsg+really1.3.1-1.debian.tar.xz",
+      "size": 16576,
+      "sha256": "9ed525955ce9fb0c1b39be8ff98f73450dbfc6305a9a27e6149c8972d38a0a9e",
+      "dscListedSha256": "9ed525955ce9fb0c1b39be8ff98f73450dbfc6305a9a27e6149c8972d38a0a9e",
+      "matchesDscSha256": true,
+      "matchesDscSize": true
+    }
+  },
+  "dscSourcePackageLine": "Source: zlib",
+  "sourcePathInOrigTar": "zlib-1.3.1/gzwrite.c",
+  "sourceFile": {
+    "path": ".engineering\\evidence\\PH-M02-WO-001\\debian-zlib-1.3.1-gzwrite.c",
+    "sha256": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47",
+    "size": 19237,
+    "matchesOrigArchive": true,
+    "contains": {
+      "gz_vacate": false,
+      "gz_write": true,
+      "gzvprintf": true,
+      "gzprintf": true,
+      "gzputc": true
+    }
+  },
+  "debianPatchSeries": {
+    "path": "debian/patches/series",
+    "empty": true,
+    "basis": "Exact source package patch series was empty in the authenticated package extraction recorded in the prior source receipt; no gzwrite.c Debian patch is listed."
+  },
+  "sourceInterpretation": "Absence of gz_vacate is confirmed for this exact source. The file still contains the gzwrite/gzputc/gzprintf/gzvprintf API family, so absence of that one helper is not conclusive that all behavior implicated by the CVE/reproducer is absent."
+}

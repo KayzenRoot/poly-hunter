@@ -1,0 +1,42 @@
+Disposable candidate DB recovery evidence
+image=
+sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744
+volume=polyhunter-postgres-cr07-aud04-20261008
+data directory=70:70:700
+pre-crash marker=recovered-on-same-volume
+termination=SIGKILL; state=
+exited
+restart=manual docker start; health=
+healthy
+post-restart marker=
+recovered-on-same-volume
+migrations=PASS
+integration=PASS (66 tests across 4 files)
+runtime=
+image=sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 user=postgres state=healthy
+container log tail:
+2026-10-08 14:39:15.264 UTC [491] STATEMENT:  INSERT INTO tenant_memberships (tenant_id, user_id, role, status) VALUES (gen_random_uuid(), gen_random_uuid(), 'platform_admin', 'active')
+2026-10-08 14:39:15.453 UTC [91] LOG:  checkpoint starting: immediate force wait
+2026-10-08 14:39:18.197 UTC [91] LOG:  checkpoint complete: wrote 950 buffers (5.8%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.246 s, sync=2.163 s, total=2.744 s; sync files=324, longest=0.289 s, average=0.007 s; distance=8891 kB, estimate=8891 kB; lsn=0/3C7AA30, redo lsn=0/3C7A9D8
+2026-10-08 14:39:18.298 UTC [91] LOG:  checkpoint starting: immediate force wait
+
+2026-10-08 14:39:18.843 UTC [91] LOG:  checkpoint complete: wrote 2 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.101 s, sync=0.111 s, total=0.546 s; sync files=2, longest=0.067 s, average=0.056 s; distance=2 kB, estimate=8002 kB; lsn=0/3C7B3E0, redo lsn=0/3C7B388
+2026-10-08 14:39:24.168 UTC [507] FATAL:  role "postgres" does not exist
+PostgreSQL Database directory appears to contain a database; Skipping initialization
+
+2026-10-08 14:41:29.867 UTC [1] LOG:  starting PostgreSQL 17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-10-08 14:41:29.870 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2026-10-08 14:41:29.871 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2026-10-08 14:41:30.034 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-10-08 14:41:30.239 UTC [16] LOG:  database system was interrupted; last known up at 2026-10-08 14:39:18 UTC
+2026-10-08 14:41:31.581 UTC [16] LOG:  database system was not properly shut down; automatic recovery in progress
+2026-10-08 14:41:31.669 UTC [16] LOG:  redo starts at 0/3C7B388
+2026-10-08 14:41:31.671 UTC [16] WARNING:  could not open directory "base/17304": No such file or directory
+2026-10-08 14:41:31.671 UTC [16] CONTEXT:  WAL redo at 0/3C7B458 for Database/DROP: dir 1663/17304
+2026-10-08 14:41:31.671 UTC [16] WARNING:  some useless files may be left behind in old database directory "base/17304"
+2026-10-08 14:41:31.671 UTC [16] CONTEXT:  WAL redo at 0/3C7B458 for Database/DROP: dir 1663/17304
+2026-10-08 14:41:31.675 UTC [16] LOG:  invalid record length at 0/3CA34E0: expected at least 24, got 0
+2026-10-08 14:41:31.675 UTC [16] LOG:  redo done at 0/3CA34A8 system usage: CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.00 s
+2026-10-08 14:41:31.975 UTC [14] LOG:  checkpoint starting: end-of-recovery immediate wait
+2026-10-08 14:41:32.664 UTC [14] LOG:  checkpoint complete: wrote 36 buffers (0.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.139 s, sync=0.293 s, total=0.766 s; sync files=33, longest=0.173 s, average=0.009 s; distance=160 kB, estimate=160 kB; lsn=0/3CA34E0, redo lsn=0/3CA34E0
+2026-10-08 14:41:32.758 UTC [1] LOG:  database system is ready to accept connections

@@ -14,32 +14,53 @@ jobs:
     name: Node 24 validation
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    services:
-      postgres:
-        image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
-        env:
-          POSTGRES_USER: polyhunter
-          POSTGRES_PASSWORD: ${{ github.run_id }}-${{ github.run_attempt }}-${{ github.repository_id }}
-          POSTGRES_DB: polyhunter_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U polyhunter -d polyhunter_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 20
-          --health-start-period 10s
     env:
+      POSTGRES_USER: polyhunter
+      POSTGRES_PASSWORD: ${{ github.run_id }}-${{ github.run_attempt }}-${{ github.repository_id }}
+      POSTGRES_DB: polyhunter_test
       DATABASE_URL: postgresql://polyhunter:${{ github.run_id }}-${{ github.run_attempt }}-${{ github.repository_id }}@localhost:5432/polyhunter_test
+      POLYHUNTER_POSTGRES_IMAGE: polyhunter-postgres:local
+      POLYHUNTER_VALIDATED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
+
+      - name: Set up an exporter-capable Buildx builder
+        run: |
+          docker buildx create --name polyhunter-ci --driver docker-container --use
+          docker buildx inspect --bootstrap
+
+      - name: Build and smoke the pinned Node 24 Alpine development image
+        run: |
+          docker buildx build --pull --no-cache --platform linux/amd64 --file Dockerfile.dev --tag polyhunter-dev:local --load .
+          docker run --rm --platform linux/amd64 --entrypoint sh polyhunter-dev:local -ec '
+            node -e "if (process.versions.node.split(\".\")[0] !== \"24\") process.exit(1)"
+            test "$(npm --version)" = "12.2.0"
+            apk list --installed zlib | grep -Eq "^zlib-1\\.3\\.2-r1 "
+            node -e "require(\"next/dist/build/swc\").loadBindings().then(bindings => { if (typeof bindings.transform !== \"function\") process.exit(1); console.log(\"Next SWC musl binding loaded\") })"
+            npm ls --workspaces --depth=0
+          '
+
+      - name: Build and verify the corrected PostgreSQL image
+        run: node scripts/postgres-image.mjs build --no-cache --receipt "$RUNNER_TEMP/postgres-runtime-validation.json"
+
+      - name: Start the verified PostgreSQL image
+        run: |
+          docker run --detach --name polyhunter-postgres-ci --platform linux/amd64 \
+            --publish 127.0.0.1:5432:5432 \
+            --env POSTGRES_USER --env POSTGRES_PASSWORD --env POSTGRES_DB \
+            --health-cmd "pg_isready -U polyhunter -d polyhunter_test" \
+            --health-interval 5s --health-timeout 5s --health-retries 20 \
+            --health-start-period 10s "$POLYHUNTER_POSTGRES_IMAGE"
+          node scripts/postgres-image.mjs verify-container --name polyhunter-postgres-ci --receipt "$RUNNER_TEMP/postgres-runtime-validation.json"
 
       - name: Install from lockfile
         run: npm ci
@@ -52,3 +73,22 @@ jobs:
 
       - name: Run PostgreSQL tenancy integration tests
         run: npm run test:integration
+
+      - name: Finalize PostgreSQL runtime validation receipt
+        run: node scripts/postgres-image.mjs record-ci --receipt "$RUNNER_TEMP/postgres-runtime-validation.json"
+
+      - name: Upload PostgreSQL runtime validation receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: postgres-runtime-validation
+          path: ${{ runner.temp }}/postgres-runtime-validation.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Stop PostgreSQL CI container
+        if: always()
+        run: docker rm --force polyhunter-postgres-ci 2>/dev/null || true
+
+      - name: Remove Buildx builder
+        if: always()
+        run: docker buildx rm polyhunter-ci 2>/dev/null || true

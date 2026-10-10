@@ -1,0 +1,1518 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactType": "Independent per-occurrence evidence audit",
+  "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+  "auditDateUtc": "2026-10-09",
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "auditedHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "auditScope": {
+    "environment": "local-dev",
+    "image": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "platform": "linux/amd64",
+    "postgresVersion": "17.11",
+    "scope": "Only the 24 current PostgreSQL H/C occurrences on this exact image/config; no transfer to other digest/environment."
+  },
+  "canonicalCriteria": {
+    "adr": ".engineering/decisions/ADR-0007-VEX-DISPOSITION-GATE.md",
+    "policy": ".engineering/proposals/PH-SEC-VEX-POLICY.md",
+    "inputs": [
+      "exact component/image and scanner result",
+      "upstream advisory/code presence",
+      "per-CVE reachability and attacker control",
+      "network/privilege and CISA KEV",
+      "expiry/revalidation"
+    ],
+    "rule": "Evidence adequacy only; this audit does not set VEX status or authorize promotion."
+  },
+  "sourceArtifacts": [
+    {
+      "role": "Current PostgreSQL VEX",
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+      "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
+    },
+    {
+      "role": "Exact-image Docker Scout SARIF",
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14"
+    }
+  ],
+  "scanSummary": {
+    "scanner": "Docker Scout CLI",
+    "version": "1.24.0",
+    "results": 57,
+    "highCritical": 24,
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "suppressed": 0
+  },
+  "expiryAssessment": {
+    "timestamp": "2026-10-08T13:00:00Z",
+    "expiry": "2026-10-15T13:00:00Z",
+    "hours": 168,
+    "validAtAuditDate": true,
+    "revalidateOn": [
+      "expiry",
+      "image/config/component/scanner change",
+      "new advisory/KEV change",
+      "material runtime/privilege/network change"
+    ]
+  },
+  "perOccurrenceAudit": [
+    {
+      "cve": "CVE-2025-68121",
+      "severity": "CRITICAL",
+      "goId": "GO-2026-4337",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/0"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 56,
+        "pointer": "/runs/0/results/56"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Unexpected session resumption in crypto/tls",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 10,
+      "symbolsPresent": 0,
+      "basis": "Unexpected session resumption in crypto/tls. Exact gosu executable: 0 of 10 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4337.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "df1a6110a54bb08c2d5c8726971cd51069a30f48deea2cace5e5cf97893def37"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-39821",
+      "severity": "CRITICAL",
+      "goId": "GO-2026-5026",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/1"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 55,
+        "pointer": "/runs/0/results/55"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Invoking failure to reject ASCII-only Punycode-encoded labels in golang.org/x/net/idna",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 29,
+      "symbolsPresent": 0,
+      "basis": "Invoking failure to reject ASCII-only Punycode-encoded labels in golang.org/x/net/idna. Exact gosu executable: 0 of 29 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-5026.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "6c8aed80ae71362ee6a2c4ca36ace9d5f6d991040d5242ffc4713e2a7a9a750c"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-58187",
+      "severity": "HIGH",
+      "goId": "GO-2025-4007",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/2"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 33,
+        "pointer": "/runs/0/results/33"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Quadratic complexity when checking name constraints in crypto/x509",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 33,
+      "symbolsPresent": 0,
+      "basis": "Quadratic complexity when checking name constraints in crypto/x509. Exact gosu executable: 0 of 33 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2025-4007.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "0f07506ead47d85dcfd4f66c0a779eda0efa89f3ca80771f61fa69a01e815346"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-58188",
+      "severity": "HIGH",
+      "goId": "GO-2025-4013",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/3"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 34,
+        "pointer": "/runs/0/results/34"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Panic when validating certificates with DSA public keys in crypto/x509",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 2,
+      "symbolsPresent": 0,
+      "basis": "Panic when validating certificates with DSA public keys in crypto/x509. Exact gosu executable: 0 of 2 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2025-4013.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "738c2d1997104469b33cf5d8fe13dfae88123521ef226a114b2bcad45b8b4c1d"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-61723",
+      "severity": "HIGH",
+      "goId": "GO-2025-4009",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/4"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 35,
+        "pointer": "/runs/0/results/35"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Quadratic complexity when parsing some invalid inputs in encoding/pem",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 2,
+      "symbolsPresent": 0,
+      "basis": "Quadratic complexity when parsing some invalid inputs in encoding/pem. Exact gosu executable: 0 of 2 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2025-4009.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "61e850b8a350228d8337e88c7ab3cb40ff260f7771df6228922f9cc96eb46a8c"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-61725",
+      "severity": "HIGH",
+      "goId": "GO-2025-4006",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/5"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 36,
+        "pointer": "/runs/0/results/36"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Excessive CPU consumption in ParseAddress in net/mail",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 6,
+      "symbolsPresent": 0,
+      "basis": "Excessive CPU consumption in ParseAddress in net/mail. Exact gosu executable: 0 of 6 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2025-4006.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "bab8cb1833750d2b8b6c575b2dfe9521dc13087f5a17481e1f8cdf32e8a2eb6b"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-61726",
+      "severity": "HIGH",
+      "goId": "GO-2026-4341",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/6"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 37,
+        "pointer": "/runs/0/results/37"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Memory exhaustion in query parameter parsing in net/url",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 3,
+      "symbolsPresent": 0,
+      "basis": "Memory exhaustion in query parameter parsing in net/url. Exact gosu executable: 0 of 3 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4341.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "793c9ed07e9cb09703932118676b276891394c3ad607c89d0a627feb7c3bf109"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2025-61729",
+      "severity": "HIGH",
+      "goId": "GO-2025-4155",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/7"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 38,
+        "pointer": "/runs/0/results/38"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Excessive resource consumption when printing error string for host certificate validation in crypto/x509",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 2,
+      "symbolsPresent": 0,
+      "basis": "Excessive resource consumption when printing error string for host certificate validation in crypto/x509. Exact gosu executable: 0 of 2 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2025-4155.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "49c2edcbaac29e167a8d893d952c598edc41a6adbae36d4952a985b125a0c74d"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-25679",
+      "severity": "HIGH",
+      "goId": "GO-2026-4601",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/8"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 39,
+        "pointer": "/runs/0/results/39"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Incorrect parsing of IPv6 host literals in net/url",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 6,
+      "symbolsPresent": 0,
+      "basis": "Incorrect parsing of IPv6 host literals in net/url. Exact gosu executable: 0 of 6 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4601.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "4ff9e79cc2660ca42160c072879b402164ea3240301f47d86b18c13579090b4f"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-32280",
+      "severity": "HIGH",
+      "goId": "GO-2026-4947",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/9"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 40,
+        "pointer": "/runs/0/results/40"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Unexpected work during chain building in crypto/x509",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 2,
+      "symbolsPresent": 0,
+      "basis": "Unexpected work during chain building in crypto/x509. Exact gosu executable: 0 of 2 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4947.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "769b4dc8c0abc8b137eb055f9f58cdc8361182447e42ead392e0528eb05222e7"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-32281",
+      "severity": "HIGH",
+      "goId": "GO-2026-4946",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/10"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 41,
+        "pointer": "/runs/0/results/41"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Inefficient policy validation in crypto/x509",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 2,
+      "symbolsPresent": 0,
+      "basis": "Inefficient policy validation in crypto/x509. Exact gosu executable: 0 of 2 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4946.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "632daf59e86d28eb2b53d8f75adfc832c389213f0926db50f5f41404511cc596"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-32283",
+      "severity": "HIGH",
+      "goId": "GO-2026-4870",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/11"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 42,
+        "pointer": "/runs/0/results/42"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Unauthenticated TLS 1.3 KeyUpdate record can cause persistent connection retention and DoS in crypto/tls",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 15,
+      "symbolsPresent": 0,
+      "basis": "Unauthenticated TLS 1.3 KeyUpdate record can cause persistent connection retention and DoS in crypto/tls. Exact gosu executable: 0 of 15 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4870.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "21de62394b41f5e008c751414bfad65492e114e9b2186e13fbf83d72e1b3f808"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-33811",
+      "severity": "HIGH",
+      "goId": "GO-2026-4981",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/12"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 43,
+        "pointer": "/runs/0/results/43"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Crash when handling long CNAME response in net",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 3,
+      "symbolsPresent": 0,
+      "basis": "Crash when handling long CNAME response in net. Exact gosu executable: 0 of 3 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4981.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "0b014f31a74551871fefcc920e8cf20da279874fb5a28f2ec9089bce533e0ef8"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-33814",
+      "severity": "HIGH",
+      "goId": "GO-2026-4918",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/13"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 44,
+        "pointer": "/runs/0/results/44"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Infinite loop in HTTP/2 transport when given bad SETTINGS_MAX_FRAME_SIZE in net/http/internal/http2 in golang.org/x/net",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 35,
+      "symbolsPresent": 0,
+      "basis": "Infinite loop in HTTP/2 transport when given bad SETTINGS_MAX_FRAME_SIZE in net/http/internal/http2 in golang.org/x/net. Exact gosu executable: 0 of 35 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4918.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "cf690ff9affe270dba8096b45883bb17dd8ac6ce43cfdf031bc218e3a54e2bc4"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-33818",
+      "severity": "HIGH",
+      "goId": "GO-2026-5972",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/14"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 45,
+        "pointer": "/runs/0/results/45"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Enforce maximum recursion depth in encoding/asn1",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 4,
+      "symbolsPresent": 0,
+      "basis": "Enforce maximum recursion depth in encoding/asn1. Exact gosu executable: 0 of 4 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-5972.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "0a5decf07d8113ebbbd7d126d55d5d463df99fa02dc965d6be252dee342339c6"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-39820",
+      "severity": "HIGH",
+      "goId": "GO-2026-4986",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/15"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 46,
+        "pointer": "/runs/0/results/46"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Quadratic string concatentation in consumeComment in net/mail",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 8,
+      "symbolsPresent": 0,
+      "basis": "Quadratic string concatentation in consumeComment in net/mail. Exact gosu executable: 0 of 8 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4986.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "9e7fc34d023a7639568470e63f5cd4c2b59ecbe8abd14835f3f7240924fa7e79"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-39822",
+      "severity": "HIGH",
+      "goId": "GO-2026-4970",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/16"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 53,
+        "pointer": "/runs/0/results/53"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Root escape via symlink plus trailing slash in os",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 12,
+      "symbolsPresent": 0,
+      "basis": "Root escape via symlink plus trailing slash in os. Exact gosu executable: 0 of 12 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4970.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "7cd0f040d0f20a62a8535191c5078a0602fe21eeb8348ca61a3115aed239bea9"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-39836",
+      "severity": "HIGH",
+      "goId": "GO-2026-4971",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/17"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 47,
+        "pointer": "/runs/0/results/47"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Panic in Dial and LookupPort when handling NUL byte on Windows in net",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 37,
+      "symbolsPresent": 0,
+      "basis": "Panic in Dial and LookupPort when handling NUL byte on Windows in net. Exact gosu executable: 0 of 37 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4971.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "b8f9bbfe15af49db7bff521201e4acbfbea4b5d652149a23137ba222693b7421"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-42499",
+      "severity": "HIGH",
+      "goId": "GO-2026-4977",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/18"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 48,
+        "pointer": "/runs/0/results/48"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Quadratic string concatenation in consumePhrase in net/mail",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 6,
+      "symbolsPresent": 0,
+      "basis": "Quadratic string concatenation in consumePhrase in net/mail. Exact gosu executable: 0 of 6 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-4977.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "0e4ac0b5be17849fd6decac446f67f762b03080eb217c17a980aae33e82536c0"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-42504",
+      "severity": "HIGH",
+      "goId": "GO-2026-5038",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/19"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 49,
+        "pointer": "/runs/0/results/49"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Quadratic complexity in WordDecoder.DecodeHeader in mime",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 1,
+      "symbolsPresent": 0,
+      "basis": "Quadratic complexity in WordDecoder.DecodeHeader in mime. Exact gosu executable: 0 of 1 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-5038.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "d37c57ccea415d869b2caa229819269fcce06829ba618129b07a6028d7bba6b9"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-56853",
+      "severity": "HIGH",
+      "goId": "GO-2026-6089",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/20"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 50,
+        "pointer": "/runs/0/results/50"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Apply ReadHeaderTimeout when doing unencrypted HTTP/2 check in net/http",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 10,
+      "symbolsPresent": 0,
+      "basis": "Apply ReadHeaderTimeout when doing unencrypted HTTP/2 check in net/http. Exact gosu executable: 0 of 10 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-6089.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "a2b4097de79210e5aaabb90365a70657a6fb19811fe3b6f093f7ee78efb728f5"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-56859",
+      "severity": "HIGH",
+      "goId": "GO-2026-6088",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/21"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 51,
+        "pointer": "/runs/0/results/51"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Add recursion depth guard during decode in encoding/xml",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 10,
+      "symbolsPresent": 0,
+      "basis": "Add recursion depth guard during decode in encoding/xml. Exact gosu executable: 0 of 10 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-6088.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "8a0a8b03822e77aeb92698759ed61a6eac38de4f58e1205419d13a22758f9836"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-56862",
+      "severity": "HIGH",
+      "goId": "GO-2026-6090",
+      "component": "golang:stdlib@1.24.6",
+      "version": "1.24.6",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/22"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 52,
+        "pointer": "/runs/0/results/52"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "advisorySummary": "Limit handshake messages we are willing to accept post-handshake in crypto/tls",
+      "gosuSha256": "52c8749d0142edd234e9d6bd5237dff2d81e71f43537e2f4f66f75dd4b243dd0",
+      "symbolsChecked": 11,
+      "symbolsPresent": 0,
+      "basis": "Limit handshake messages we are willing to accept post-handshake in crypto/tls. Exact gosu executable: 0 of 11 advisory-listed vulnerable symbols present. Config.User=postgres (70:70) skips the entrypoint's root-only gosu invocation, so this affected Go code in gosu is not executed in the scoped startup path. Supports this exact image/runtime only; network isolation, EPSS, and short lifetime are not proof.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/go-vulndb/GO-2026-6090.json",
+          "role": "Go advisory/symbol list",
+          "sha256": "a095ce22d74407d8422f4214aa9193527771a036a19ff4099990106f28fb2cb7"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/gosu-go-tool-nm.txt",
+          "role": "Exact gosu symbol table",
+          "sha256": "5178bf56d45e755e1247e296c91ff83436230d7d4ff9f15c87c93e890eb35114"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/binary-symbol-comparison.json",
+          "role": "All listed vulnerable symbols absent",
+          "sha256": "c75553018f19fe6c939d66f140066290593fcc4b09d804a4ca3496eeea40f293"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-002/docker-entrypoint.sh",
+          "role": "Entrypoint branch",
+          "sha256": "9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5",
+          "lineRange": "316-388"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Current exact-digest runtime user/config",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Other binaries, image digests, or runtime changes are outside this assessment and require reevaluation.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    },
+    {
+      "cve": "CVE-2026-86140",
+      "severity": "HIGH",
+      "goId": null,
+      "component": "apk:alpine/libxml2@2.13.9-r2",
+      "version": "2.13.9-r2",
+      "vexItem": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+        "pointer": "/items/23"
+      },
+      "sarif": {
+        "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+        "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+        "resultIndex": 54,
+        "pointer": "/runs/0/results/54"
+      },
+      "kevListed": false,
+      "proposed": "NOT_AFFECTED",
+      "status": "UNDER_INVESTIGATION",
+      "expiry": "2026-10-15T13:00:00Z",
+      "decision": "SUPPORTS_PROPOSED_NOT_AFFECTED_FOR_SCOPED_RUNTIME",
+      "componentCodePresence": "PRESENT_AND_LOADED",
+      "vexJustification": "vulnerable_code_not_in_execute_path",
+      "basis": "Stack-based overflow in xmlSnprintfElements. Vulnerable libxml2 code is present and loaded, so absence is not the basis. PostgreSQL core parser calls omit XML_PARSE_DTDVALID and xmlvalidate is unimplemented; shipped xml2 xml_valid is a well-formedness alias and XPath/XSLT paths omit DTD validation. Exact-image benign DTD tests show these shipped paths do not invoke the vulnerable validation diagnostic. The current superuser role and ability to install shipped xml2 were considered. Supports only the assessed core/shipped-extension paths; custom/native extensions or enabling DTD validation trigger reevaluation.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/exact-image-static-inspection.txt",
+          "role": "Installed library identity/code presence",
+          "sha256": "2abbb4d3260723d549bb725c0a57d5ecde16000b3dc28d5276ebdf769ea60679"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/vulnerable-call-path-analysis.txt",
+          "role": "Vulnerable diagnostic path",
+          "sha256": "85bf48f7b7b51d89d2fc099df7bcda45c5b7a82f1da7f5acdc262027b15d5076"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml-source-excerpts.txt",
+          "role": "Core parser flags and xmlvalidate stub",
+          "sha256": "4129e3764f75348a21b3c0c2288b8bb08f0d82279ce39c632eed4fa597d023b6"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/postgres-xml2-source-analysis.txt",
+          "role": "Shipped xml2 implementation",
+          "sha256": "9285583177c02c840217177255830fce54976e96e194a715b4eb3a9e4f0bbe3f"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-postgres-settings.txt",
+          "role": "Runtime XML settings",
+          "sha256": "2f0f87026f5e3b689a276483edbe790c7beb267ed9db6852ce3f34ee5e57bf8f"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/current-runtime-extensions.txt",
+          "role": "Current role and extension inventory",
+          "sha256": "437818340cb737eb6d083bb1964dc1ad9274eef3df07c85cd2afeaa0d64aad05"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-dtd-benign-test-result.txt",
+          "role": "Exact-image xml2 benign DTD test",
+          "sha256": "ba92536797e21b3c04137bd2b38a12bceb03f427c01bec76ed2a0d289b35c6c0"
+        },
+        {
+          "path": ".engineering/evidence/PH-SEC-WO-003/disposable-xml2-xpath-xslt-benign-test-result.txt",
+          "role": "Exact-image XPath/XSLT DTD tests",
+          "sha256": "5f0cf06d64c176ac4e9aeb998eb8044d9b199d72aa436d320760d9c505de5028"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "role": "Exact-digest runtime identity",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        }
+      ],
+      "scopeLimit": "Does not cover arbitrary custom/native extensions or future DTD validation use.",
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93"
+    }
+  ],
+  "overallEvidenceVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME",
+  "approvalBoundary": {
+    "vexApproval": false,
+    "classificationChanged": false,
+    "allSourceRowsRemain": "UNDER_INVESTIGATION",
+    "allSourceProposalsRemain": "NOT_AFFECTED",
+    "auditorFieldsNull": true,
+    "ownerApprovalFieldsNull": true,
+    "executorSelfApproval": false,
+    "ownerDecision": "Any separately reported conditional owner decision is not copied into or applied by this audit; source VEX approval fields remain null.",
+    "promotionOrTradingAuthorization": false
+  },
+  "independenceLimitations": {
+    "reviewerRole": "Separate reviewer subagent from implementation/execution task.",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "priorContext": "Prior preliminary per-occurrence review existed in this same Codex task; this pass rechecked exact-head VEX/SARIF pointers and reused existing receipts.",
+    "governance": "Project governance must decide whether this reviewer separation satisfies ADR-0007 independent-auditor requirement; no VEX approval field is populated."
+  },
+  "hashBindingValidation": {
+    "semantics": "SHA-256 is computed over committed Git-blob bytes at auditedHead, not raw checkout-normalized bytes.",
+    "checkoutNote": "core.autocrlf=true in the Windows worktree; text checkout bytes can therefore hash differently while the committed blob SHA-256 remains correct.",
+    "auditedHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "uniqueEvidencePathsChecked": 37,
+    "gitBlobHashMatches": 37,
+    "mismatches": 0,
+    "sourceVexAndSarifGitBlobsMatchDeclaredSha256": true,
+    "broaderRebindReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-08-evidence-hash-rebind.json",
+      "sha256": "bf8103180412fe69a15dd79bdde69274f8db473c6ed139241d9a665103697b1f",
+      "recordedScope": "831 references across 99 evidence paths"
+    },
+    "validationMethod": "Read each referenced blob at auditedHead using git cat-file blob, then SHA-256 the returned bytes."
+  },
+  "priorMatrixContext": {
+    "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
+    "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+    "interpretation": "Prior compact/grouped matrix; not the current exact-head per-occurrence artifact in this file."
+  },
+  "checkoutHeadAtFinalization": "d29f2b5b4babf36621977cc57044d097a9e08ca6"
+}

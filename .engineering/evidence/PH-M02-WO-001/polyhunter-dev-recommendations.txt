@@ -1,0 +1,47 @@
+    i New version 1.26.0 available (installed version is 1.24.0) at https://github.com/docker/scout-cli
+    ...Storing image for indexing
+    v Image stored for indexing
+    ...Indexing
+    v Indexed 566 packages
+
+    ! failed to delete temporary image archive C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792\eda45e6c-54d5-4684-89fd-3a3b1adfa249: unlinkat C:\Users\csn19\AppData\Local\Temp\docker-scout\sha256\1ae037eb5c185605951c688d14d19133f70e2f386fe956b20a4e4460d4338792\eda45e6c-54d5-4684-89fd-3a3b1adfa249: O arquivo já está sendo usado por outro processo.    i Base image was auto-detected. To get more accurate recommendations, build images with max-mode provenance attestations.
+      Review https://docs.docker.com/build/attestations/slsa-provenance/ for more information.
+      Alternatively, use  docker scout recommendations --tag <base image tag>  to pass a specific base image tag.
+
+ Target   │  local://polyhunter-dev:local
+   digest │  1ae037eb5c18
+
+## Recommended fixes
+
+  Base image is  node:24-bookworm-slim
+
+ Name            │  24-bookworm-slim
+ Digest          │  sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd
+ Vulnerabilities │    4C    19H    19M    33L     4?
+ Pushed          │ 1 day ago
+ Size            │ 81 MB
+ Packages        │ 273
+ Runtime         │ 24.21.0
+
+
+  | The base image is also available under the supported tag(s) 24-slim, 24.21-bookworm-
+  | slim, 24.21-slim, 24.21.0-bookworm-slim, 24.21.0-slim, krypton-bookworm-slim,
+  krypton-
+  | slim,
+  | lts-bookworm-slim, lts-slim. If you want to display recommendations specifically for
+  | a
+  | different tag, please re-run the command using the --tag flag.
+
+
+
+Refresh base image
+  Rebuild the image using a newer base image version. Updating this may result in breaking changes.
+
+  v This image version is up to date.
+
+
+Change base image
+  The list displays new recommended tags in descending order, where the top results are rated as most suitable.
+
+
+ Tag │ Details │ Pushed │ Vulnerabilities

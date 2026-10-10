@@ -1,0 +1,21 @@
+Rebuilt development image exact identity
+docker image inspect polyhunter-dev:local:
+id=sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 platform=linux/amd64
+Docker Scout local exact image scan: .engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json
+current dev image high-critical count=1; only CVE-2026-85091; zero suppressions
+runtime inventory:
+v24.21.0
+12.2.0
+1.3.2.1-motley-8002e91
+libblkid1:amd64	2.41.5-0+deb13u1
+libmount1:amd64	2.41.5-0+deb13u1
+libuuid1:amd64	2.41.5-0+deb13u1
+util-linux	2.41.5-0+deb13u1
+zlib1g:amd64	1:1.3.dfsg+really1.3.1-1+b1
+85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e  /usr/lib/x86_64-linux-gnu/libz.so.1
+mount from util-linux 2.41.5 (libmount 2.41.5: selinux, smack, btrfs, verity, namespaces, idmapping, fd-based-mount, statmount, statx, assert, debug)
+nsenter from util-linux 2.41.5
+findmnt from util-linux 2.41.5
+755 root:root /usr/bin/nsenter
+4755 root:root /usr/bin/mount
+# UNCONFIGURED FSTAB FOR BASE SYSTEM

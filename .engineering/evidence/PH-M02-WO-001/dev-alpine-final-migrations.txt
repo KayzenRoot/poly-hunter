@@ -1,0 +1,9 @@
+
+> polyhunter@0.1.0 db:migrate
+> docker compose --project-name polyhunter-local exec -T web npm run db:migrate --workspace @polyhunter/db
+
+npm notice run @polyhunter/db@0.0.0 db:migrate
+npm notice run drizzle-kit migrate --config drizzle.config.ts
+Reading config file '/workspace/packages/db/drizzle.config.ts'
+Using 'pg' driver for database querying
+[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[⡿] applying migrations...[2K[1G[⢿] applying migrations...[2K[1G[⣻] applying migrations...[2K[1G[⣽] applying migrations...[2K[1G[⣷] applying migrations...[2K[1G[⣯] applying migrations...[2K[1G[⣟] applying migrations...[2K[1G[✓] migrations applied successfully!

@@ -18,7 +18,8 @@ See `.engineering/SOURCE-HIERARCHY.md` for authority and `.engineering/BACKLOG.m
 
 ## Development
 
-Use Node.js `>=22 <27` and npm. CI uses Node.js 24 LTS.
+Use Node.js `>=24 <27` and npm. The official `@polymarket/client` workspace
+requires Node.js 24 or newer; CI and the local Docker image use Node.js 24.
 
 ```sh
 npm ci
@@ -34,6 +35,8 @@ With Docker Desktop using the Linux Engine, copy `.env.example` to the ignored l
 ```sh
 npm run docker:up
 ```
+
+This command builds the PostgreSQL image from the pinned upstream digest, verifies its immutable manifest/config digests, PostgreSQL and zlib versions, default user and `libz.so.1` hash against `docker/postgres/image.lock.json`, then starts Compose without rebuilding that service. A fresh checkout therefore uses the same vetted artifact or stops with a digest mismatch; it never silently falls back to the vulnerable upstream image. Docker Buildx with timestamp-rewrite exporter support is required.
 
 Open [http://localhost:3000](http://localhost:3000) to view the web shell. The PostgreSQL 17 service is reachable only on the Compose network; it has a persistent named volume and is not published to the host. Both Node services receive `DATABASE_URL` inside the container only. Local defaults are development-only and must never be reused in production.
 

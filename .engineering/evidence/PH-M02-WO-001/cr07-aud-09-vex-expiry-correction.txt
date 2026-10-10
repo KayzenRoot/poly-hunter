@@ -1,0 +1,1 @@
+Correction: aligned all 24 PostgreSQL proposal expiries with the seven-day local-dev/CI rule. Exact 168-hour window: 2026-10-08T13:00:00Z to 2026-10-15T13:00:00Z. The image digest, findings, status, proposal rationale, and approval fields are unchanged. This does not approve any CVE or unblock the gate.

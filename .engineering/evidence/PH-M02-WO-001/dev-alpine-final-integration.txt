@@ -1,0 +1,67 @@
+
+> polyhunter@0.1.0 test:integration
+> vitest run --config vitest.integration.config.ts
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+ ❯ packages/db/tests/secret-vault.integration.test.ts (0 test)
+ ❯ packages/db/tests/m01-acceptance.integration.test.ts (0 test)
+ ❯ packages/db/tests/identity-rbac.integration.test.ts (0 test)
+ ❯ packages/db/tests/tenancy.integration.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/db/tests/identity-rbac.integration.test.ts [ packages/db/tests/identity-rbac.integration.test.ts ]
+Error: DATABASE_URL must point to a disposable-capable PostgreSQL role for integration tests.
+ ❯ packages/db/tests/identity-rbac.integration.test.ts:27:9
+     25|
+     26| if (!configuredDatabaseUrl) {
+     27|   throw new Error(
+       |         ^
+     28|     "DATABASE_URL must point to a disposable-capable PostgreSQL role f…
+     29|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  packages/db/tests/m01-acceptance.integration.test.ts [ packages/db/tests/m01-acceptance.integration.test.ts ]
+Error: DATABASE_URL must point to a disposable-capable PostgreSQL role for acceptance tests.
+ ❯ packages/db/tests/m01-acceptance.integration.test.ts:54:9
+     52|
+     53| if (!configuredDatabaseUrl) {
+     54|   throw new Error(
+       |         ^
+     55|     "DATABASE_URL must point to a disposable-capable PostgreSQL role f…
+     56|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  packages/db/tests/secret-vault.integration.test.ts [ packages/db/tests/secret-vault.integration.test.ts ]
+Error: DATABASE_URL must point to a disposable-capable PostgreSQL role for integration tests.
+ ❯ packages/db/tests/secret-vault.integration.test.ts:22:9
+     20|
+     21| if (!configuredDatabaseUrl) {
+     22|   throw new Error(
+       |         ^
+     23|     "DATABASE_URL must point to a disposable-capable PostgreSQL role f…
+     24|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  packages/db/tests/tenancy.integration.test.ts [ packages/db/tests/tenancy.integration.test.ts ]
+Error: DATABASE_URL must point to a disposable-capable PostgreSQL role for integration tests.
+ ❯ packages/db/tests/tenancy.integration.test.ts:28:9
+     26|
+     27| if (!configuredDatabaseUrl) {
+     28|   throw new Error(
+       |         ^
+     29|     "DATABASE_URL must point to a disposable-capable PostgreSQL role f…
+     30|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  no tests
+   Start at  16:55:15
+   Duration  35.05s (transform 7.08s, setup 0ms, import 0ms, tests 0ms, environment 9ms)

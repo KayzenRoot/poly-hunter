@@ -1,0 +1,72 @@
+{
+  "tool": "jev_verify",
+  "model": "jev-1.13.0",
+  "provider": "typesafe",
+  "auto_accept": 0.8,
+  "subject_at": 0.5,
+  "summary": {
+    "verified": 4,
+    "contradicted": 0,
+    "unsupported": 0,
+    "needs_review": 0
+  },
+  "results": [
+    {
+      "id": "claim0",
+      "claim": "The PostgreSQL VEX still contains 24 rows for image digest sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744: 22 HIGH and 2 CRITICAL, all UNDER_INVESTIGATION with proposed NOT_AFFECTED, expiry 2026-10-15T23:59:59Z, and no independent-auditor or owner approval.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 0.91,
+        "contradicts": 0.07,
+        "says_nothing": 0.02
+      },
+      "confidence": 0.86,
+      "action": "auto",
+      "supporting_evidence": "deterministic-vex-integrity",
+      "same_subject": 0.85
+    },
+    {
+      "id": "claim1",
+      "claim": "The hash-only VEX correction preserves the semantic VEX payload and makes all 831 path/hash references across 99 unique paths match committed Git blob bytes; no unresolved paths or conflicting hashes remain.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 0.99,
+        "contradicts": 0.01,
+        "says_nothing": 0.0
+      },
+      "confidence": 0.98,
+      "action": "auto",
+      "supporting_evidence": "deterministic-vex-integrity",
+      "same_subject": 0.9
+    },
+    {
+      "id": "claim2",
+      "claim": "The focused polymarket and route-handler security boundary test files passed 39 tests, and the staged diff check passed.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 1.0,
+        "contradicts": 0.0,
+        "says_nothing": 0.0
+      },
+      "confidence": 1.0,
+      "action": "auto",
+      "supporting_evidence": "focused-checks",
+      "same_subject": 0.97
+    },
+    {
+      "id": "claim3",
+      "claim": "The Docker image, Compose/runtime artifacts, database and storage were unchanged, so no image rebuild or container rescan was required for this evidence-only correction.",
+      "verdict": "verified",
+      "probabilities": {
+        "supports": 1.0,
+        "contradicts": 0.0,
+        "says_nothing": 0.0
+      },
+      "confidence": 1.0,
+      "action": "auto",
+      "supporting_evidence": "scope",
+      "same_subject": 0.87
+    }
+  ],
+  "limits": "JEV is advisory. It did not analyze or approve CVEs, infer owner consent, or grant merge/checkpoint authority."
+}

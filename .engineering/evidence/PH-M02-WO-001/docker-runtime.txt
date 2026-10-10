@@ -1,0 +1,1 @@
+Historical pre-correction runtime receipt superseded by docker-runtime-final.txt and docker-smoke.md. Use the final receipt for the post-CR-06 image digest, explicit Compose project polyhunter-local, Node 24.21.0 worker import smoke and current service health.

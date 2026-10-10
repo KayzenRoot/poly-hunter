@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "image": "polyhunter-postgres:local",
+  "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+  "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+  "platform": "linux/amd64",
+  "sourceBase": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+  "sourceDateEpoch": 0,
+  "postgresVersion": "17.11",
+  "alpineVersion": "3.24",
+  "zlibVersion": "1.3.2-r1",
+  "libzSha256": "ecc8b9dfc45eb7fa29b410ffaca6257873890de53b80fe91735737b49067c5f2",
+  "runtimeUser": "postgres",
+  "runtimeUid": 70,
+  "pgdataPath": "/var/lib/postgresql/data"
+}

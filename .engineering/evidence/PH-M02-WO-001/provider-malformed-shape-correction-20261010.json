@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "receiptId": "PH-M02-WO-001-PROVIDER-SHAPE-CORRECTION-20261010",
+  "scope": [
+    "Reject non-boolean normalized market state negRisk values.",
+    "Reject successful last-trade SDK values that are neither null, string, nor an object with a required string price."
+  ],
+  "filesChanged": [
+    "packages/polymarket/src/rest.ts",
+    "tests/polymarket-rest.test.ts"
+  ],
+  "regressions": [
+    {
+      "case": "Malformed Gamma negRisk value",
+      "injection": "The deterministic local Gamma endpoint returns a string where negRisk must be boolean.",
+      "expected": "PROVIDER_MALFORMED",
+      "observed": "PASS"
+    },
+    {
+      "case": "Last trade omits required price",
+      "injection": "The deterministic local CLOB endpoint returns HTTP 200 with {side:'SELL'}.",
+      "transportProved": true,
+      "expected": "PROVIDER_MALFORMED",
+      "observed": "PASS",
+      "boundaryNote": "The locked official SDK 0.12.0 schema also rejects the malformed wire payload; the provider adapter now independently checks the normalized value before it crosses the domain boundary."
+    },
+    {
+      "case": "No last trade",
+      "injection": "The deterministic CLOB endpoint returns the existing documented HTTP 404 case.",
+      "expected": "null",
+      "observed": "PASS"
+    }
+  ],
+  "checks": [
+    {
+      "command": "npm test -- --run tests/polymarket-rest.test.ts",
+      "status": "PASS",
+      "result": "1 test file, 11 tests passed"
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run validate",
+      "status": "PASS",
+      "result": "lint PASS (one pre-existing informational noUselessContinue in packages/db/tests/m01-acceptance.integration.test.ts); format:check PASS; workspace typechecks PASS; 15 test files / 239 tests PASS; all workspace builds including Next.js PASS; npm audit --audit-level=high PASS with 0 vulnerabilities."
+    }
+  ],
+  "securityBoundaries": {
+    "providerRemainsReadOnly": true,
+    "credentialsAdded": false,
+    "tradingAdded": false,
+    "imageOrRuntimeChanged": false,
+    "vexApprovalsAlteredByCodeChange": false,
+    "liveTradingAuthorized": false
+  },
+  "independentReviewRequiredOnFinalHead": true,
+  "noImageRescanReason": "Only provider adapter validation and its regression tests changed; no image, Dockerfile, Compose, runtime configuration, or dependency changed."
+}

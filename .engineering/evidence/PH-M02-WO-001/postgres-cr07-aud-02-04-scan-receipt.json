@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scanId": "PH-M02-WO-001-CR-07-AUD-02-04",
+  "image": "polyhunter-postgres:local",
+  "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+  "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+  "platform": "linux/amd64",
+  "scanner": "Docker Scout CLI",
+  "scannerVersion": "1.24.0",
+  "scanCommand": "docker scout cves polyhunter-postgres:local --format sarif --output .engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+  "exitCode": 0,
+  "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+  "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+  "resultCount": 57,
+  "uniqueCveCount": 57,
+  "severityCounts": {
+    "HIGH": 22,
+    "CRITICAL": 2,
+    "LOW": 7,
+    "MEDIUM": 26
+  },
+  "highCriticalCount": 24,
+  "suppressionCount": 0,
+  "zlibCveCve85091Present": false,
+  "scannedArtifactDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+  "scannerNotes": "Scout indexed the local exact manifest. CLI warned that a temporary archive was still in use during cleanup; SARIF was written and the command exited 0."
+}

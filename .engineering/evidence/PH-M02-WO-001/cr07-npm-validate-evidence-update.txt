@@ -1,0 +1,144 @@
+
+> polyhunter@0.1.0 validate
+> npm run lint && npm run format:check && npm run typecheck && npm test && npm run build && npm audit --audit-level=high
+
+
+> polyhunter@0.1.0 lint
+> biome lint .
+
+packages\db\tests\m01-acceptance.integration.test.ts:945:15 lint/complexity/noUselessContinue  FIXABLE  ━━━━━━━━━━
+
+  i Unnecessary continue statement
+
+    943 │               }
+    944 │             } else if (value instanceof Date || typeof value === "number") {
+  > 945 │               continue;
+        │               ^^^^^^^^^
+    946 │             } else if (typeof value === "object") {
+    947 │               if (JSON.stringify(value).includes(canary)) {
+
+  i Safe fix: Delete the unnecessary continue statement
+
+     943  943 │                 }
+     944  944 │               } else if (value instanceof Date || typeof value === "number") {
+     945      │ - ··············continue;
+     946  945 │               } else if (typeof value === "object") {
+     947  946 │                 if (JSON.stringify(value).includes(canary)) {
+
+
+Checked 96 files in 237ms. No fixes applied.
+Found 1 info.
+
+> polyhunter@0.1.0 format:check
+> biome ci --formatter-enabled=true --linter-enabled=false --assist-enabled=false --reporter=summary .
+
+
+[0m[36mChecked 96 files in 166[0m[0m[2m[36mms[0m[0m[36m.[0m[0m[36m No fixes applied.[0m
+
+> polyhunter@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tests/tsconfig.json
+
+
+> @polyhunter/contracts@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/polymarket@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> polyhunter@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+
+ Test Files  15 passed (15)
+      Tests  238 passed (238)
+   Start at  13:54:50
+   Duration  10.32s (transform 10.36s, setup 0ms, import 29.81s, tests 16.62s, environment 14ms)
+
+
+> polyhunter@0.1.0 build
+> npm run build --workspaces --if-present
+
+
+> @polyhunter/contracts@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/domain@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/db@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/testkit@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/worker@0.0.0 build
+> tsc -p tsconfig.json
+
+
+> @polyhunter/web@0.0.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+✓ Running next.config.ts took 124ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 629ms
+  Running TypeScript ...
+  Finished TypeScript in 7.4s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/10) ...
+  Generating static pages using 7 workers (2/10)
+  Generating static pages using 7 workers (4/10)
+  Generating static pages using 7 workers (7/10)
+✓ Generating static pages using 7 workers (10/10) in 1350ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/auth/login
+├ ƒ /api/auth/logout
+├ ƒ /api/auth/select-tenant
+├ ƒ /api/me
+├ ƒ /api/secrets
+├ ƒ /api/secrets/[id]
+├ ƒ /api/secrets/[id]/rotate
+├ ƒ /auth/callback
+└ ○ /auth/login
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+found 0 vulnerabilities

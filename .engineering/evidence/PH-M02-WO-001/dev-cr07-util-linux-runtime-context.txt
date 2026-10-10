@@ -1,0 +1,11 @@
+644 root:root /etc/fstab
+4755 root:root /usr/bin/mount
+755 root:root /usr/bin/nsenter
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+MOUNT_HELPERS
+MOUNTERCAPS
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0

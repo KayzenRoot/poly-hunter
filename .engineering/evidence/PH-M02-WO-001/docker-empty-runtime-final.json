@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "observedHeadBeforeEvidenceCommit": "ceffca10f0fabe75f15d9ca0cb14ea080c5f6f97",
+  "observedAt": "2026-10-09T16:52:59-03:00",
+  "resultAtCapture": "LOCAL_RUNTIME_AND_VALIDATION_PASS; EXACT_HEAD_CI_REQUIRED_AFTER_EVIDENCE_PUSH",
+  "authorizationAndDataBoundary": {
+    "operatorAuthorizedUseOfCurrentEmptyDockerStore": true,
+    "historicalDockerDataRecovered": false,
+    "historicalVhdxOrBackupModified": false,
+    "historicalPostgresVolumePresentInCurrentEngine": false,
+    "newDevelopmentDatabaseIsEmptyOfHistoricalData": true,
+    "envFileValuesReadOrChanged": false,
+    "checkpointPromoted": false,
+    "mergePerformed": false,
+    "wo002Started": false,
+    "vexApprovedByExecutor": false,
+    "signingOrTradingPerformed": false,
+    "liveTradingAuthorized": false
+  },
+  "contextLockPreflight": {
+    "fingerprintsChecked": 19,
+    "exactCurrentMatches": 14,
+    "currentDifferencesReconciledToAdmittedBase": 5,
+    "unexplainedDifferences": 0,
+    "result": "PASS"
+  },
+  "docker": {
+    "desktop": "4.94.0.241994",
+    "client": "29.8.2",
+    "engine": "29.8.2",
+    "compose": "v5.5.1",
+    "context": "desktop-linux",
+    "engineOsArch": "linux/amd64",
+    "wslDockerDistro": "docker-desktop, running, WSL version 2",
+    "canonicalStartupCommand": "npm run docker:up",
+    "canonicalStartupResult": "PASS",
+    "coldBuildNote": "The first build had no local image/cache and produced no intermediate output through the synchronous script. The equivalent Compose build with plain progress completed; rerunning the canonical command then verified PostgreSQL image identity and started Compose. No engine reset, volume deletion, or historical storage operation was performed."
+  },
+  "images": {
+    "dev": {
+      "reference": "polyhunter-dev:local",
+      "localImageId": "sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+      "dockerInspectRepoDigest": "polyhunter-dev@sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+      "platform": "linux/amd64",
+      "base": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "node": "v24.21.0",
+      "npm": "12.2.0",
+      "alpine": "3.24.2",
+      "alpineZlib": "1.3.2-r1",
+      "nodeBundledZlib": "1.3.2.1-motley-8002e91",
+      "scoutReceipt": ".engineering/evidence/PH-M02-WO-001/dev-empty-runtime-final-scan-receipt.json",
+      "sarif": ".engineering/evidence/PH-M02-WO-001/dev-empty-runtime-final.sarif.json",
+      "high": 0,
+      "critical": 0
+    },
+    "postgres": {
+      "reference": "polyhunter-postgres:local",
+      "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "base": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "platform": "linux/amd64",
+      "postgres": "17.11",
+      "alpineZlib": "1.3.2-r1",
+      "runtimeUser": "postgres uid=70 gid=70",
+      "scanReceiptReusedByExactDigest": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-scan-receipt.json",
+      "scanReceiptSha256": "28f222856258fb6618d519502d80c151cbd234ce84af7d8ed748365bd9aa6147",
+      "rescanPerformed": false
+    }
+  },
+  "compose": {
+    "project": "polyhunter-local",
+    "configQuiet": "PASS",
+    "services": [
+      {
+        "name": "postgres",
+        "container": "polyhunter-postgres",
+        "status": "running",
+        "health": "healthy",
+        "restartCount": 0,
+        "imageId": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "publishedHostPort": false,
+        "manualRestartForPersistenceCheck": true
+      },
+      {
+        "name": "web",
+        "container": "polyhunter-web",
+        "status": "running",
+        "health": "healthy",
+        "restartCount": 0,
+        "imageId": "sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+        "publishedAddress": "127.0.0.1:3000",
+        "httpStatus": 200,
+        "title": "PolyHunter Engineering Shell"
+      },
+      {
+        "name": "worker",
+        "container": "polyhunter-worker",
+        "status": "running",
+        "health": "not-configured",
+        "restartCount": 0,
+        "imageId": "sha256:e477b1fd8190d833cb21cf9fdb2d5b3403a352dbe34e075e2fee508e1c8c5ae3",
+        "manualRestartSmoke": "PASS",
+        "supervisorProcess": "nodemon 3.1.14, node uid 1000, waiting for file changes",
+        "workerEntryPointBehavior": "The current PH-M02 placeholder prints 'PolyHunter worker shell started without product behavior.' and exits cleanly; nodemon remains running. No business worker behavior was added."
+      }
+    ],
+    "volumes": [
+      {
+        "name": "polyhunter-local-postgres17",
+        "driver": "local",
+        "composeProject": "polyhunter-local",
+        "purpose": "new empty development PostgreSQL data volume"
+      },
+      {
+        "name": "polyhunter-local-web-next",
+        "driver": "local",
+        "composeProject": "polyhunter-local",
+        "purpose": "Next.js development output"
+      }
+    ],
+    "network": "polyhunter-local_default"
+  },
+  "database": {
+    "database": "polyhunter_dev",
+    "role": "polyhunter",
+    "migrationCommand": "npm run db:migrate",
+    "migrationResult": "PASS",
+    "generateCommand": "docker compose --project-name polyhunter-local exec -T web npm run db:generate --workspace @polyhunter/db",
+    "generateResult": "PASS; 6 tables recognized; no schema changes, nothing to migrate",
+    "integrationCommand": "npm run db:test:integration",
+    "integrationResult": "PASS; 4 files, 66 tests",
+    "persistenceAcrossControlledPostgresRestart": {
+      "result": "PASS",
+      "migrationRowsBefore": 3,
+      "migrationRowsAfter": 3,
+      "publicTablesBefore": 6,
+      "publicTablesAfter": 6,
+      "postgresContainerStartedAtAfterRestart": "2026-10-09T19:48:56.373065917Z"
+    }
+  },
+  "checks": {
+    "npmCi": "PASS; 159 packages added, 167 audited, 0 vulnerabilities; npm reported the repository's install-script approval warning, with no scripts approved or changed",
+    "npmRunValidate": "PASS; lint, format, typecheck, 15 files/238 tests, workspaces and Next production build, included npm audit; one informational Biome noUselessContinue notice, exit 0",
+    "npmAuditHigh": "PASS; 0 vulnerabilities",
+    "focusedSecurityTests": "PASS; 5 files/103 tests",
+    "browserBundleBoundary": "PASS; no @polymarket/client in apps/web/.next/dev/static",
+    "composeConfig": "PASS",
+    "postgresMigrations": "PASS",
+    "postgresIntegration": "PASS; 4 files/66 tests",
+    "http": "PASS; current host request to http://localhost:3000 returned 200 after initial Next.js cold compilation",
+    "workerRestartSmoke": "PASS; StartedAt advanced from 2026-10-09T19:29:50.011563513Z to 2026-10-09T19:49:15.658697307Z, container restart count remained 0",
+    "postgresRestartPersistence": "PASS; migrations and public table counts unchanged across restart",
+    "dockerScoutDev": "PASS; 6 MEDIUM, 0 HIGH, 0 CRITICAL; exact finding set matches prior final dev scan",
+    "gitDiffCheck": "To be run after evidence-only changes are complete",
+    "githubActionsValidateExactFinalHead": "To be run on the pushed evidence commit; final run ID and status will be recorded in PR #43 body"
+  },
+  "securityAndGovernance": {
+    "existingVexProposals": 27,
+    "vexStatus": "UNDER_INVESTIGATION",
+    "independentAuditor": null,
+    "ownerApproval": null,
+    "executorSelfApproval": false,
+    "postgresHighCriticalFindings": 24,
+    "newDevImageHasHighCritical": false,
+    "newDevImageDigestReceivesPriorVexDisposition": false,
+    "checkpointDelta": "PROPOSED / NOT_PROMOTED",
+    "riskNotes": [
+      "Historical Docker VHDX/backup was not recovered and was not modified; the new development database has no prior PostgreSQL data.",
+      "The 24 PostgreSQL HIGH/CRITICAL findings and all VEX proposals remain unapproved pending independent audit and owner approval.",
+      "The PostgreSQL application role remains superuser as previously documented; this run made no architecture or privilege changes.",
+      "The dev image scan retains six MEDIUM findings; none are HIGH or CRITICAL.",
+      "The worker entry point remains a no-product-behavior placeholder; only its development supervisor remains running."
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+
+> polyhunter@0.1.0 test
+> vitest run tests/route-handler-security.test.ts tests/secret-material-containment.test.ts tests/polymarket-boundary.test.ts tests/secret-vault-crypto.test.ts tests/secret-vault-http.test.ts
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+
+ Test Files  5 passed (5)
+      Tests  103 passed (103)
+   Start at  13:50:42
+   Duration  6.11s (transform 3.65s, setup 0ms, import 10.94s, tests 4.02s, environment 3ms)

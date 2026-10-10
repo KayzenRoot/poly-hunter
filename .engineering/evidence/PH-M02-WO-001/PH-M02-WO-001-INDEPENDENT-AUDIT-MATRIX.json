@@ -1,0 +1,313 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "securityReview": "5461309598",
+  "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "purpose": "Compact per-group independent audit map for 27 existing unapproved VEX proposals plus digest-specific historical/current remediation records. Rows are evidence records, never approvals.",
+  "counts": {
+    "currentVexRecordsUnderInvestigation": 0,
+    "currentPostgresNotAffectedProposalsAwaitingIndependentAuditAndOwnerApproval": 0,
+    "historicalPriorDevDigestNotAffectedProposalsPendingSeparateAudit": 3,
+    "totalExistingNotAffectedProposalsPending": 3,
+    "currentUnderInvestigationWithoutProposedDisposition": 0,
+    "historicalUnderInvestigationWithoutProposedDisposition": 1,
+    "currentFixedOccurrences": 1,
+    "historicalArchivedOutsideCurrentCount": 1,
+    "executorSelfApproval": false,
+    "currentPostgresNotAffectedApproved": 24,
+    "historicalPriorDevProposalsPending": 3,
+    "rawCurrentPostgresHighCriticalVisible": 24,
+    "rawCurrentPostgresSuppressed": 0
+  },
+  "groups": [
+    {
+      "id": "postgres-gosu-stdlib",
+      "count": 23,
+      "cves": [
+        "CVE-2025-58187",
+        "CVE-2025-58188",
+        "CVE-2025-61723",
+        "CVE-2025-61725",
+        "CVE-2025-61726",
+        "CVE-2025-61729",
+        "CVE-2025-68121",
+        "CVE-2026-25679",
+        "CVE-2026-32280",
+        "CVE-2026-32281",
+        "CVE-2026-32283",
+        "CVE-2026-33811",
+        "CVE-2026-33814",
+        "CVE-2026-33818",
+        "CVE-2026-39820",
+        "CVE-2026-39821",
+        "CVE-2026-39822",
+        "CVE-2026-39836",
+        "CVE-2026-42499",
+        "CVE-2026-42504",
+        "CVE-2026-56853",
+        "CVE-2026-56859",
+        "CVE-2026-56862"
+      ],
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "component": "gosu / Go stdlib findings from the exact locked PostgreSQL image",
+      "vexStatus": "NOT_AFFECTED",
+      "proposedDisposition": "NOT_AFFECTED",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
+      "auditFocus": "Individually reviewed for the exact local-development image/config and expiry; no transfer to other digest or runtime.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+          "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+          "sha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad"
+        }
+      ],
+      "residualRisk": "Raw Scout findings remain visible and unsuppressed. Revalidate by 2026-10-15T13:00:00Z or on digest, runtime, component, advisory, KEV, or evidence change. Local database role remains superuser."
+    },
+    {
+      "id": "postgres-libxml2",
+      "count": 1,
+      "cves": [
+        "CVE-2026-86140"
+      ],
+      "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "component": "Alpine libxml2 2.13.9-r2",
+      "vexStatus": "NOT_AFFECTED",
+      "proposedDisposition": "NOT_AFFECTED",
+      "independentAuditor": "APPROVED",
+      "ownerApproval": "APPROVED",
+      "auditFocus": "Individually reviewed for the exact local-development image/config and expiry; no transfer to other digest or runtime.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+          "sha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-superuser-risk.md",
+          "sha256": "14598fa19785f238727ee48581c3a5f9d668654c2eb14fe1648109a08c13ca4c"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+          "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+          "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+          "sha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad"
+        }
+      ],
+      "residualRisk": "Raw Scout findings remain visible and unsuppressed. Revalidate by 2026-10-15T13:00:00Z or on digest, runtime, component, advisory, KEV, or evidence change. Local database role remains superuser."
+    },
+    {
+      "id": "dev-zlib-debian-historical",
+      "count": 1,
+      "cves": [
+        "CVE-2026-85091"
+      ],
+      "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "component": "Debian zlib1g 1:1.3.dfsg+really1.3.1-1+b1; source 1:1.3.dfsg+really1.3.1-1",
+      "vexStatus": "UNDER_INVESTIGATION",
+      "proposedDisposition": null,
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "auditFocus": "Historical digest-specific record only. Preserve UNDER_INVESTIGATION with no proposal; do not transfer the old Debian 1.3.1 ambiguity to the current Alpine fixed package.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-debian-source-archive-verification.json",
+          "sha256": "bd66e87ab96ceb9b7267cc298841eebc268374935e2e07ef0491247d01ec919e"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-source-and-path-review-5460654469.json",
+          "sha256": "a7602ed8e7fb40e4f484b2ad0d5f5b50fc89947ff0bf9c3941fddbef321af24d"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-runtime-review-5460654469.json",
+          "sha256": "02a1a6384f04b2031cafdbbc2b93bc5bb2aecb2d5bfab8813b6f7550d62c01d3"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-native-addon-marker-scan.json",
+          "sha256": "68908659ebb8252316efc18f94a1e58a4245e6311d29e6a62f16e15595031cf7"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-elf-inventory.txt",
+          "sha256": "bd6411e1df3ba1ce26fafad9e6422ac089342333944ea3efc883fde1ea9f1ab7"
+        }
+      ],
+      "residualRisk": "The old Debian image digest had one unresolved H/C zlib occurrence; that artifact is no longer canonical. Current Alpine digest has fixed zlib 1.3.2-r1 and zero H/C.",
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+    },
+    {
+      "id": "dev-util-linux-prior-digest",
+      "count": 3,
+      "cves": [
+        "CVE-2026-76642",
+        "CVE-2026-78408",
+        "CVE-2026-78410"
+      ],
+      "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "component": "util-linux 2.41.5-0+deb13u1 / libmount, nsenter, mount",
+      "vexStatus": "UNDER_INVESTIGATION",
+      "proposedDisposition": "NOT_AFFECTED",
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "auditFocus": "Audit these three proposals only against the exact prior Debian dev digest listed here. They are not current scan findings and are not transferred or treated as clearance for the Alpine digest.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
+          "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
+        }
+      ],
+      "residualRisk": "All 3 proposed NOT_AFFECTED records remain UNDER_INVESTIGATION, unapproved and bound to the old Debian digest. The current Alpine image scan reports zero HIGH/CRITICAL.",
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+    },
+    {
+      "id": "dev-zlib-alpine-current-fixed",
+      "count": 1,
+      "cves": [
+        "CVE-2026-85091"
+      ],
+      "imageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "component": "Alpine 3.24 zlib 1.3.2-r1 from the official v3.24/main repository",
+      "artifactStatus": "CURRENT",
+      "vexStatus": "FIXED",
+      "proposedDisposition": null,
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "auditFocus": "Confirm the exact final image digest, fixed package version and exact-image Scout SARIF with no CVE-2026-85091 result. This is a digest-specific FIXED record, not a transferred approval.",
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+          "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+          "sha256": "d284e0cbba6cddfa5169c96cc01ea730e757ea9e3afbcbae45f07ce1f50a0c0c"
+        },
+        {
+          "path": "Dockerfile.dev",
+          "sha256": "f4f44ec432ab17af89bf0ec23560ea49f13df559e025fbeb767bc9a0a6421e91"
+        }
+      ],
+      "residualRisk": "Six MEDIUM findings remain in the final scan; no HIGH or CRITICAL finding remains in this dev artifact."
+    }
+  ],
+  "approvalBoundary": "Current state: 24 PostgreSQL NOT_AFFECTED proposals (22 HIGH, 2 CRITICAL) have formal per-occurrence independent audit and conditional owner approval for only the exact PostgreSQL manifest/config digest and documented local-development runtime, expiring 2026-10-15T13:00:00Z. Three historical util-linux proposals remain unapproved and bound only to the superseded Debian development digest; the old Debian development zlib remains UNDER_INVESTIGATION without a proposal. No approval transfers to another digest. Current Alpine development zlib is FIXED only for its exact digest. Raw Scout findings remain visible with zero suppressions; executorSelfApproval=false.",
+  "historical": "The prior Debian development image's zlib CVE-2026-85091 record remains UNDER_INVESTIGATION with no proposed disposition and is historical only. The three util-linux proposals remain digest-bound to that old Debian dev image and are not transferred. GCC CVE-2026-95619 remains one archived prior-digest occurrence, excluded from current counts; absence is not FIXED or NOT_AFFECTED evidence.",
+  "expiryMetadataCorrection": {
+    "historical": true,
+    "supersededBy": "latestApprovalUpdate",
+    "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
+    "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
+    "findingCount": 24,
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+    "expiry": "2026-10-15T13:00:00Z",
+    "durationHours": 168,
+    "allRemainUnderInvestigation": true,
+    "proposedNotAffectedAwaitingAuditAndOwnerApproval": 24,
+    "auditorApprovals": 0,
+    "ownerApprovals": 0,
+    "evidenceRefs": [
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+        "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705"
+      },
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+        "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7"
+      }
+    ]
+  },
+  "latestPerOccurrenceAudit": {
+    "historical": true,
+    "supersededBy": "latestApprovalUpdate",
+    "auditReport": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditReportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "evidenceVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME",
+    "occurrences": 24,
+    "severity": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "reviewerRole": "Separate reviewer subagent from implementation/execution task",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "qualification": "UNRESOLVED — report explicitly leaves to project governance whether this reviewer separation meets ADR-0007.",
+    "sourceVexSha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
+    "sourceSarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+    "ownerDecisionPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerDecisionSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "ownerApprovalConditional": true,
+    "operativeApproval": false,
+    "currentVexRowsRemainUnderInvestigation": 24,
+    "jevIndependenceConfidence": 0.9,
+    "jevAdvisoryOnly": true,
+    "qualificationReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-20261010.json",
+    "dispositionResult": "NO_VEX_STATUS_CHANGE_PENDING_INDEPENDENT_AUDITOR_QUALIFICATION",
+    "jevIndependenceDecision": "require_human_or_third_party"
+  },
+  "latestApprovalUpdate": {
+    "dateUtc": "2026-10-10",
+    "sourceProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "exactImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "exactConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "ownerApprovalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "ownerApprovalPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerApprovalSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "qualificationReceipt": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "appliedCurrentRows": 24,
+    "currentRowsStatus": "NOT_AFFECTED",
+    "rawHighCriticalRemainVisible": 24,
+    "rawFindingsSuppressed": 0,
+    "historicalPendingUnapproved": 3,
+    "providerShapeCorrectionReceipt": ".engineering/evidence/PH-M02-WO-001/provider-malformed-shape-correction-20261010.json",
+    "providerShapeCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "imageOrRuntimeChanged": false,
+    "mergeAllowed": false,
+    "checkpointPromotionAllowed": false,
+    "liveTradingAuthorized": false,
+    "finalExactHeadCi": "Record the exact post-push SHA and Validate run in PR #43 body.",
+    "providerCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "integrityReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
+  },
+  "stopState": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT"
+}

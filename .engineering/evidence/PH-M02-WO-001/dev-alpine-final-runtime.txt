@@ -1,0 +1,61 @@
+Docker Compose exact final runtime receipt
+Date: 2026-10-08
+Compose config: docker compose --project-name polyhunter-local config --quiet => PASS
+Image inspection: .engineering/evidence/PH-M02-WO-001/dev-alpine-final-image-inspect.json
+
+NAME                  IMAGE                       COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+polyhunter-postgres   polyhunter-postgres:local   "docker-entrypoint.s…"   postgres   5 hours ago      Up 5 hours (healthy)      5432/tcp
+polyhunter-web        polyhunter-dev:local        "docker-entrypoint.s…"   web        19 minutes ago   Up 18 minutes (healthy)   127.0.0.1:3000->3000/tcp
+polyhunter-worker     polyhunter-dev:local        "docker-entrypoint.s…"   worker     19 minutes ago   Up 18 minutes
+
+Container identities:
+web image=sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2 status=running health=healthy configured-user=node
+worker image=sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2 status=running configured-user=node
+postgres image=sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744 status=running health=healthy configured-image=polyhunter-postgres:local
+
+HTTP:
+HTTP 200
+
+Web runtime:
+v24.21.0
+12.2.0
+zlib-1.3.2-r1 x86_64 {zlib} (Zlib) [installed]
+Next SWC musl binding loaded
+
+Worker process:
+PID   USER     GROUP    COMMAND
+    1 node     node     /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+    7 node     node     {MainThread} node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+  106 node     node     ps -o pid,user,group,args
+
+Worker startup log:
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+PolyHunter worker shell started without product behavior.
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+PolyHunter worker shell started without product behavior.
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+PolyHunter worker shell started without product behavior.
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+PolyHunter worker shell started without product behavior.
+[32m[nodemon] clean exit - waiting for changes before restart[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node apps/worker/src/index.ts`[39m
+PolyHunter worker shell started without product behavior.
+[32m[nodemon] clean exit - waiting for changes before restart[39m

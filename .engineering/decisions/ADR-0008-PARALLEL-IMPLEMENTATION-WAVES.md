@@ -1,6 +1,6 @@
 # ADR-0008 — Dependency-aware parallel module waves
 
-Status: OWNER-APPROVED WITH CONDITIONS; PENDING INDEPENDENT RE-AUDIT AND MERGE
+Status: OWNER-APPROVED WITH CONDITIONS; EFFECTIVE FOR SCHEDULING AFTER PR #57 MERGE; G0 REMAINS CLOSED
 Date: 2026-10-09
 Work Order: PH-GOV-PARALLEL-001
 Decision: D-0024 (owner approval recorded 2026-10-10 UTC)
@@ -22,7 +22,7 @@ BACKLOG.md contains fifteen modules PH-M00..PH-M14 but its original linear order
 
 ## Owner approval and effectiveness gate
 
-The Project Owner approved adoption of D-0024 in the current Codex task on 2026-10-10 UTC, conditional on maintaining all security, independent-audit, testing and dependency gates in this ADR and the canonical Work Orders. This owner decision approves the scheduling policy; it does not bypass the exact-head independent audit or merge requirement. D-0024 is not effective until this PR passes independent re-audit and is merged. Gate G0 remains closed: no PH-M03+ Work Order or Context Lock may be admitted until PH-M02-WO-001 passes its exact-head review, all required VEX approvals are recorded with no unresolved HIGH/CRITICAL findings, and its checkpoint is accepted and merged. No checkpoint state or LIVE authority changes through this approval.
+The Project Owner approved adoption of D-0024 in the current Codex task on 2026-10-10 UTC, conditional on maintaining all security, independent-audit, testing and dependency gates in this ADR and the canonical Work Orders. PR #57 passed the separate exact-head review at `b39a3e36bc040826a331537996ef673663954823` and was merged as `c869cd4fb0378ab1c0c850425497d08a9178552e`; therefore D-0024 is effective for scheduling. This does not admit PH-M03+ Work Orders or Context Locks. Gate G0 remains closed until PH-M02-WO-001 passes its exact-head review, all required VEX approvals are validly recorded with no unresolved HIGH/CRITICAL findings, and its checkpoint is accepted and merged. No checkpoint state or LIVE authority changes through this approval.
 
 ## Supersedes
 

@@ -1,0 +1,24 @@
+{
+  "review": "5460654469",
+  "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
+  "tool": "jev_verify",
+  "provider": "typesafe",
+  "model": "jev-1.13.0",
+  "advisoryOnly": true,
+  "canApproveVex": false,
+  "request": "Verify four source/runtime claims for evidence reconciliation only; do not classify or approve a CVE.",
+  "claims": [
+    "The Debian security maintainer's 2026-10-05 response declined to mark Bookworm/Trixie not affected until upstream decides whether the older-version crash is a separate issue or within CVE-2026-85091.",
+    "Ubuntu's advisory records uncertainty about scope because its reproducer crashes zlib 1.3.0/1.3.1 and a potentially fixing patch did not clear that reproducer.",
+    "The exact Debian zlib 1.3.1 source lacks gz_vacate but retains gz_write, gzvprintf, gzprintf, and gzputc; the exact image's system libz exports related gz APIs.",
+    "The running web/worker processes do not map system libz, while the Node binary exports embedded gz* names and imports dlsym; absence of a direct application call does not eliminate all possible indirect paths."
+  ],
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"tool\": \"jev_verify\",\n  \"model\": \"jev-1.13.0\",\n  \"provider\": \"typesafe\",\n  \"auto_accept\": 0.8,\n  \"subject_at\": 0.5,\n  \"summary\": {\n    \"verified\": 4,\n    \"contradicted\": 0,\n    \"unsupported\": 0,\n    \"needs_review\": 0\n  },\n  \"results\": [\n    {\n      \"id\": \"claim0\",\n      \"claim\": \"The Debian security maintainer's 2026-10-05 response declined to mark Bookworm/Trixie not affected until upstream decides whether the older-version crash is a separate issue or within CVE-2026-85091.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"debian-maintainer-2026-10-05\",\n      \"same_subject\": 0.92\n    },\n    {\n      \"id\": \"claim1\",\n      \"claim\": \"Ubuntu's advisory records uncertainty about scope because its reproducer crashes zlib 1.3.0/1.3.1 and a potentially fixing patch did not clear that reproducer.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"ubuntu-scope-note\",\n      \"same_subject\": 0.84\n    },\n    {\n      \"id\": \"claim2\",\n      \"claim\": \"The exact Debian zlib 1.3.1 source lacks gz_vacate but retains gz_write, gzvprintf, gzprintf, and gzputc; the exact image's system libz exports related gz APIs.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 1,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"exact-debian-source-and-elf\",\n      \"same_subject\": 0.95\n    },\n    {\n      \"id\": \"claim3\",\n      \"claim\": \"The running web/worker processes do not map system libz, while the Node binary exports embedded gz* names and imports dlsym; absence of a direct application call does not eliminate all possible indirect paths.\",\n      \"verdict\": \"verified\",\n      \"probabilities\": {\n        \"supports\": 1,\n        \"contradicts\": 0,\n        \"says_nothing\": 0\n      },\n      \"confidence\": 0.99,\n      \"action\": \"auto\",\n      \"supporting_evidence\": \"runtime-and-binding\",\n      \"same_subject\": 0.94\n    }\n  ],\n  \"usage\": {\n    \"input_tokens\": 2959,\n    \"output_tokens\": 581\n  }\n}"
+      }
+    ]
+  }
+}

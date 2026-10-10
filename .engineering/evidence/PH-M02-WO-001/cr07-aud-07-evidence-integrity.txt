@@ -1,0 +1,22 @@
+PH-M02-WO-001 — CR-07-AUD-07 focused evidence integrity receipt
+Date: 2026-10-08
+Branch: feat/ph-m02-public-provider-foundation
+Review: 5460654469
+Input/audited HEAD: 6579e97064570cc38530e69944173fde09920d7c
+Hash validation uses canonical committed Git blob bytes, avoiding platform working-tree newline conversion.
+
+Focused evidence validation: PASS.
+- CR-07-VEX.json parsed; all 139 path/SHA-256 references resolve with matching hashes.
+- security-scans.json parsed; all 4 path/SHA-256 references and the direct PostgreSQL VEX digest reference match.
+- PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json parsed; all 12 path/SHA-256 references match.
+- Independent audit matrix group counts are 23 gosu/Go stdlib + 1 libxml2 + 1 dev zlib + 3 util-linux = 28 current records.
+- Current state reconciles to 27 unapproved NOT_AFFECTED proposals and 1 dev-zlib CVE-2026-85091 UNDER_INVESTIGATION record with proposedDisposition=null; independentAuditor=null, ownerApproval=null, executorSelfApproval=false.
+- Exact current dev digest remains sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948; unchanged SARIF SHA-256 25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622. No rebuild or rescan was performed.
+- Historical PostgreSQL correction marker reconciled: GitHub Actions Validate run 37817366502 concluded success on exact HEAD 6579e97064570cc38530e69944173fde09920d7c. This does not approve a VEX proposal.
+
+Checks:
+- npm test -- tests/route-handler-security.test.ts: PASS; 1 file / 33 tests.
+- git diff --check: PASS.
+- Post-commit exact-head CI is recorded on PR #43; this receipt records local validation only.
+
+Security conclusion: BLOCKED_UNRESOLVED. Debian declined a NOT_AFFECTED conclusion pending upstream scope determination; Ubuntu reports older-release reproducer behavior; direct app paths are absent from inspection but indirect symbol/dlsym reachability and CVE assignment scope are not resolved. No VEX self-approval, suppression, image/product/database change, merge, checkpoint promotion, WO-002, signing or trading. liveTradingAuthorized=false.

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "receiptId": "PH-M02-WO-001-CR07-AUDIT-QUALIFICATION-20261010",
+  "status": "BLOCKED_UNRESOLVED_INDEPENDENT_AUDITOR_QUALIFICATION",
+  "reviewedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+  "currentPullRequestHeadBeforeThisEvidenceUpdate": "d29f2b5b4babf36621977cc57044d097a9e08ca6",
+  "baseHead": "c869cd4fb0378ab1c0c850425497d08a9178552e",
+  "image": {
+    "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "environment": "documented local development runtime only"
+  },
+  "occurrences": {
+    "total": 24,
+    "HIGH": 22,
+    "CRITICAL": 2,
+    "findingsSuppressed": 0,
+    "allRowsAuditedForEvidence": true,
+    "evidenceVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME"
+  },
+  "independentReview": {
+    "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditorRole": "Separate reviewer subagent from implementation/execution task",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "auditQualification": "UNRESOLVED — auditor report explicitly leaves to project governance whether this separation meets ADR-0007."
+  },
+  "conditionalOwnerApproval": {
+    "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "approvalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "recordedAtUtc": "2026-10-10T00:36:03Z",
+    "scope": "24 proposals only, exact PostgreSQL digest and documented local-development runtime, 23 gosu plus one libxml2",
+    "expiry": "2026-10-15T13:00:00Z",
+    "condition": "formal independent per-occurrence audit",
+    "conditionalApprovalRecorded": true,
+    "operativeVexApproval": false
+  },
+  "vexState": {
+    "status": "UNDER_INVESTIGATION",
+    "proposedDisposition": "NOT_AFFECTED",
+    "auditorApprovalRecorded": false,
+    "ownerApprovalRecordedOnEachRow": false,
+    "executorSelfApproval": false,
+    "unresolvedHighCritical": 24,
+    "rawScannerFindingsRemainVisible": true
+  },
+  "jevAdvisory": {
+    "path": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+    "advisoryOnly": true,
+    "recommendation": "require_human_or_third_party",
+    "confidence": 0.9,
+    "jevApprovedVex": false
+  },
+  "requiredCorrection": "Obtain a formal security audit from a reviewer demonstrably independent of the Codex implementation/execution task, or resolve the auditor-qualification requirement through an approved canonical governance change before changing any of the 24 VEX statuses.",
+  "noImageOrRuntimeChange": true,
+  "noCheckpointPromotion": true,
+  "noWaveAAdmission": true,
+  "liveTradingAuthorized": false
+}

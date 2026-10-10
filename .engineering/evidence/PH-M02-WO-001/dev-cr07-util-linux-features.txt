@@ -1,0 +1,11 @@
+FEATURES
+X-mount.idmap
+--join-cgroup
+--join-cgroup
+X-mount.subdir
+X-mount.owner
+X-mount.group
+X-mount.mode
+X-mount.idmap
+X-mount.subdir
+SUSE

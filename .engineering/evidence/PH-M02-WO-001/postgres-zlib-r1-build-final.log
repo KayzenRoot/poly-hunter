@@ -1,0 +1,69 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 1.44kB 0.0s done
+#1 DONE 0.5s
+
+#2 [internal] load metadata for docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+#2 ...
+
+#3 [auth] library/postgres:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+#2 DONE 3.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context:
+#4 transferring context: 208B 0.1s done
+#4 DONE 0.5s
+
+#5 [1/2] FROM docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+#5 resolve docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+#5 resolve docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 0.9s done
+#5 DONE 1.0s
+
+#5 [1/2] FROM docker.io/library/postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+#5 CACHED
+
+#6 [2/2] RUN set -eux;     test "$(cut -d. -f1,2 /etc/alpine-release)" = "3.24";     awk -F: '/^P:/{p=substr($0,3)} /^V:/{print p "-" substr($0,3)}' /lib/apk/db/installed | sort > /tmp/apk.before;     awk -F: '$1=="P"{p=$2} $1=="V"&&p=="zlib"{print $2; exit}' /lib/apk/db/installed > /tmp/zlib.before;     cp /etc/apk/repositories /tmp/apk.repositories;     printf '%s\n' 'https://dl-cdn.alpinelinux.org/alpine/v3.24/main' > /etc/apk/repositories;     apk update;     apk add --no-cache --upgrade 'zlib=1.3.2-r1';     mv /tmp/apk.repositories /etc/apk/repositories;     awk -F: '/^P:/{p=substr($0,3)} /^V:/{print p "-" substr($0,3)}' /lib/apk/db/installed | sort > /tmp/apk.after;     awk -F: '$1=="P"{p=$2} $1=="V"&&p=="zlib"{print $2; exit}' /lib/apk/db/installed > /tmp/zlib.after;     test "$(cat /tmp/zlib.before)" = '1.3.2-r0';     test "$(cat /tmp/zlib.after)" = '1.3.2-r1';     grep -v '^zlib-' /tmp/apk.before > /tmp/apk.before.other;     grep -v '^zlib-' /tmp/apk.after > /tmp/apk.after.other;     diff -u /tmp/apk.before.other /tmp/apk.after.other;     rm -rf /var/cache/apk/* /tmp/apk.before /tmp/apk.after /tmp/apk.before.other /tmp/apk.after.other /tmp/zlib.before /tmp/zlib.after
+#6 2.882 + cut -d. -f1,2 /etc/alpine-release
+#6 2.901 + test 3.24 '=' 3.24
+#6 2.904 + awk -F: '/^P:/{p=substr($0,3)} /^V:/{print p "-" substr($0,3)}' /lib/apk/db/installed
+#6 2.914 + sort
+#6 2.969 + awk -F: '$1=="P"{p=$2} $1=="V"&&p=="zlib"{print $2; exit}' /lib/apk/db/installed
+#6 3.032 + cp /etc/apk/repositories /tmp/apk.repositories
+#6 3.088 + printf '%s\n' https://dl-cdn.alpinelinux.org/alpine/v3.24/main
+#6 3.088 + apk update
+#6 4.311 v3.24.2-98-gbbcfbafeadf [https://dl-cdn.alpinelinux.org/alpine/v3.24/main]
+#6 4.311 OK: 5968 distinct packages available
+#6 4.404 + apk add --no-cache --upgrade 'zlib=1.3.2-r1'
+#6 5.370 (1/1) Upgrading zlib (1.3.2-r0 -> 1.3.2-r1)
+#6 5.477 OK: 225.2 MiB in 45 packages
+#6 5.553 + mv /tmp/apk.repositories /etc/apk/repositories
+#6 5.571 + awk -F: '/^P:/{p=substr($0,3)} /^V:/{print p "-" substr($0,3)}' /lib/apk/db/installed
+#6 5.574 + sort
+#6 5.625 + awk -F: '$1=="P"{p=$2} $1=="V"&&p=="zlib"{print $2; exit}' /lib/apk/db/installed
+#6 5.685 + cat /tmp/zlib.before
+#6 5.695 + test 1.3.2-r0 '=' 1.3.2-r0
+#6 5.699 + cat /tmp/zlib.after
+#6 5.720 + test 1.3.2-r1 '=' 1.3.2-r1
+#6 5.720 + grep -v ^zlib- /tmp/apk.before
+#6 5.736 + grep -v ^zlib- /tmp/apk.after
+#6 5.753 + diff -u /tmp/apk.before.other /tmp/apk.after.other
+#6 5.773 + rm -rf /var/cache/apk/APKINDEX.630cb808.tar.gz /tmp/apk.before /tmp/apk.after /tmp/apk.before.other /tmp/apk.after.other /tmp/zlib.before /tmp/zlib.after
+#6 DONE 7.1s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 3.2s done
+#7 exporting manifest sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0
+#7 exporting manifest sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0 0.6s done
+#7 exporting config sha256:ce5a660edfb815391f259ba27225d6b5dd10bd0c20461178ca9281be977e418e
+#7 exporting config sha256:ce5a660edfb815391f259ba27225d6b5dd10bd0c20461178ca9281be977e418e 0.6s done
+#7 naming to docker.io/library/polyhunter-postgres:17.11-alpine3.24-zlib-r1-final
+#7 naming to docker.io/library/polyhunter-postgres:17.11-alpine3.24-zlib-r1-final 0.1s done
+#7 unpacking to docker.io/library/polyhunter-postgres:17.11-alpine3.24-zlib-r1-final
+#7 unpacking to docker.io/library/polyhunter-postgres:17.11-alpine3.24-zlib-r1-final 1.0s done
+#7 DONE 5.8s

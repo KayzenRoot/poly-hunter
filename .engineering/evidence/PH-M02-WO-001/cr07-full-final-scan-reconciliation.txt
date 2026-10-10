@@ -1,0 +1,76 @@
+Docker Scout CLI:
+⢀⢀⢀             ⣀⣀⡤⣔⢖⣖⢽⢝
+   ⡠⡢⡣⡣⡣⡣⡣⡣⡢⡀    ⢀⣠⢴⡲⣫⡺⣜⢞⢮⡳⡵⡹⡅
+  ⡜⡜⡜⡜⡜⡜⠜⠈⠈        ⠁⠙⠮⣺⡪⡯⣺⡪⡯⣺
+ ⢘⢜⢜⢜⢜⠜               ⠈⠪⡳⡵⣹⡪⠇
+ ⠨⡪⡪⡪⠂    ⢀⡤⣖⢽⡹⣝⡝⣖⢤⡀    ⠘⢝⢮⡚       _____                 _
+  ⠱⡱⠁    ⡴⡫⣞⢮⡳⣝⢮⡺⣪⡳⣝⢦    ⠘⡵⠁      / ____| Docker        | |
+   ⠁    ⣸⢝⣕⢗⡵⣝⢮⡳⣝⢮⡺⣪⡳⣣    ⠁      | (___   ___ ___  _   _| |_
+        ⣗⣝⢮⡳⣝⢮⡳⣝⢮⡳⣝⢮⢮⡳            \___ \ / __/ _ \| | | | __|
+   ⢀    ⢱⡳⡵⣹⡪⡳⣝⢮⡳⣝⢮⡳⡣⡏    ⡀       ____) | (_| (_) | |_| | |_
+  ⢀⢾⠄    ⠫⣞⢮⡺⣝⢮⡳⣝⢮⡳⣝⠝    ⢠⢣⢂     |_____/ \___\___/ \__,_|\__|
+  ⡼⣕⢗⡄    ⠈⠓⠝⢮⡳⣝⠮⠳⠙     ⢠⢢⢣⢣
+ ⢰⡫⡮⡳⣝⢦⡀              ⢀⢔⢕⢕⢕⢕⠅
+ ⡯⣎⢯⡺⣪⡳⣝⢖⣄⣀        ⡀⡠⡢⡣⡣⡣⡣⡣⡃
+⢸⢝⢮⡳⣝⢮⡺⣪⡳⠕⠗⠉⠁    ⠘⠜⡜⡜⡜⡜⡜⡜⠜⠈
+⡯⡳⠳⠝⠊⠓⠉             ⠈⠈⠈⠈
+
+
+
+version: v1.24.0 (go1.26.3 - windows/amd64)
+git commit: b1c9331b2166aef7ec690aa16fd655b8798ea4c6
+
+Image: polyhunter-dev:local
+SARIF: .engineering\evidence\PH-M02-WO-001\polyhunter-dev-cr07-full-final.sarif.json
+SHA256: 3E61DDBFBAD2CA881DB4DE09A2668BE4700AC1D83E2A3D7BD31571F37C061CBC
+Image inspect: sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 polyhunter-dev@sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1
+Results: 35
+Suppressed rows: 0
+Counts by severity:
+HIGH=2, LOW=26, MEDIUM=7
+HIGH/CRITICAL rows:
+CVE-2026-85091 HIGH pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13 fixed=not fixed EPSS=0.005920
+CVE-2026-95619 HIGH pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13 fixed=not fixed EPSS=0.003630
+
+Image: postgres:17.11-alpine3.24
+SARIF: .engineering\evidence\PH-M02-WO-001\postgres-cr07-full-final.sarif.json
+SHA256: 307DF3F8CAB60C17141E51D1F3237CC198F5E376AEA2E4AD5581BAEC322A59C6
+Image inspect: sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24 postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Results: 58
+Suppressed rows: 0
+Counts by severity:
+CRITICAL=2, HIGH=23, LOW=7, MEDIUM=26
+HIGH/CRITICAL rows:
+CVE-2025-58187 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.9 EPSS=0.004060
+CVE-2025-58188 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.8 EPSS=0.003810
+CVE-2025-61723 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.8 EPSS=0.006610
+CVE-2025-61725 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.8 EPSS=0.006470
+CVE-2025-61726 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.12 EPSS=0.023260
+CVE-2025-61729 HIGH pkg:golang/stdlib@1.24.6 fixed=1.24.11 EPSS=0.004570
+CVE-2025-68121 CRITICAL pkg:golang/stdlib@1.24.6 fixed=1.24.13 EPSS=0.009150
+CVE-2026-25679 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.8 EPSS=0.008340
+CVE-2026-32280 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.9 EPSS=0.006150
+CVE-2026-32281 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.9 EPSS=0.003550
+CVE-2026-32283 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.9 EPSS=0.006210
+CVE-2026-33811 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.10 EPSS=0.008130
+CVE-2026-33814 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.10 EPSS=0.007810
+CVE-2026-33818 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.13 EPSS=0.005680
+CVE-2026-39820 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.10 EPSS=0.007840
+CVE-2026-39821 CRITICAL pkg:golang/stdlib@1.24.6 fixed=1.25.13 EPSS=0.006920
+CVE-2026-39822 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.12 EPSS=0.002320
+CVE-2026-39836 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.10 EPSS=0.006200
+CVE-2026-42499 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.10 EPSS=0.007980
+CVE-2026-42504 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.11 EPSS=0.005600
+CVE-2026-56853 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.13 EPSS=0.005680
+CVE-2026-56859 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.13 EPSS=0.005680
+CVE-2026-56862 HIGH pkg:golang/stdlib@1.24.6 fixed=1.25.13 EPSS=0.005680
+CVE-2026-85091 HIGH pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24 fixed=1.3.2-r1 EPSS=0.005920
+CVE-2026-86140 HIGH pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24 fixed=not fixed EPSS=0.001570
+
+Compose status:
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-07 17:15:14 -0300 -03","ExitCode":0,"Health":"healthy","ID":"08cb837767cf","Image":"postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24","Labels":"com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,com.docker.compose.service=postgres,desktop.docker.io/ports.scheme=v2,com.docker.compose.depends_on=,com.docker.compose.image=sha256:aa90e97ee862e558111d34cfb8b2c4bec768c2b039fb791341686928560263b3,com.docker.compose.oneoff=False,com.docker.compose.project=polyhunter-local,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter,com.docker.compose.version=5.4.0,com.docker.compose.config-hash=5d0730efed62c38aee00a9d56e7c11da045925c89b038e208c41e9eed8569fce,com.docker.compose.container-number=1","LocalVolumes":"1","Mounts":"polyhunter-loc…","Name":"polyhunter-postgres","Names":"polyhunter-postgres","Networks":"polyhunter-local_default","Ports":"5432/tcp","Project":"polyhunter-local","Publishers":[{"URL":"","TargetPort":5432,"PublishedPort":0,"Protocol":"tcp"}],"RunningFor":"4 hours ago","Service":"postgres","Size":"0B","State":"running","Status":"Up 4 hours (healthy)"}
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-07 20:43:03 -0300 -03","ExitCode":0,"Health":"healthy","ID":"26efc056acb8","Image":"polyhunter-dev:local","Labels":"com.docker.compose.image=sha256:6b8d4bdddb100612b0768fe66f5b834bb3b5632725f7fd600daa1b8d8aa7ee57,desktop.docker.io/binds/4/Source=D:\\Projects\\poly-hunter\\vitest.integration.config.ts,desktop.docker.io/binds/5/SourceKind=hostFile,desktop.docker.io/ports/3000/tcp=127.0.0.1:3000,com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,desktop.docker.io/binds/1/Target=/workspace/packages/testkit,desktop.docker.io/binds/4/Target=/workspace/vitest.integration.config.ts,desktop.docker.io/binds/5/Target=/workspace/apps/web,desktop.docker.io/binds/6/Target=/workspace/packages/contracts,com.docker.compose.project=polyhunter-local,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/0/Target=/workspace/packages/domain,desktop.docker.io/binds/6/Source=D:\\Projects\\poly-hunter\\packages\\contracts,com.docker.compose.depends_on=postgres:service_healthy:false,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter,com.docker.compose.replace=polyhunter-web,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/2/SourceKind=hostFile,desktop.docker.io/binds/2/Target=/workspace/packages/db,desktop.docker.io/binds/4/SourceKind=hostFile,com.docker.compose.oneoff=False,com.docker.compose.service=web,com.docker.compose.version=5.4.0,desktop.docker.io/binds/1/Source=D:\\Projects\\poly-hunter\\packages\\testkit,com.docker.compose.config-hash=5a94fcb5373be502a9fafabd8e341a04e9916d7ffd57e245540207866e029f2c,com.docker.compose.container-number=1,desktop.docker.io/binds/0/Source=D:\\Projects\\poly-hunter\\packages\\domain,desktop.docker.io/binds/2/Source=D:\\Projects\\poly-hunter\\packages\\db,desktop.docker.io/ports.scheme=v2,desktop.docker.io/binds/5/Source=D:\\Projects\\poly-hunter\\apps\\web,desktop.docker.io/binds/6/SourceKind=hostFile","LocalVolumes":"1","Mounts":"/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,polyhunter-loc…,/run/desktop/m…,/run/desktop/m…","Name":"polyhunter-web","Names":"polyhunter-web","Networks":"polyhunter-local_default","Ports":"127.0.0.1:3000-\u003e3000/tcp","Project":"polyhunter-local","Publishers":[{"URL":"127.0.0.1","TargetPort":3000,"PublishedPort":3000,"Protocol":"tcp"}],"RunningFor":"26 minutes ago","Service":"web","Size":"0B","State":"running","Status":"Up 26 minutes (healthy)"}
+{"Command":"\"docker-entrypoint.s…\"","CreatedAt":"2026-10-07 20:43:01 -0300 -03","ExitCode":0,"Health":"","ID":"4f11035dcde8","Image":"polyhunter-dev:local","Labels":"com.docker.compose.config-hash=dd28bdb31bb12a7458f738d524e4c248214ba0cc3d05406f843884d6c9976002,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=D:\\Projects\\poly-hunter\\compose.yaml,com.docker.compose.replace=polyhunter-worker,desktop.docker.io/binds/2/Source=D:\\Projects\\poly-hunter\\packages\\polymarket,desktop.docker.io/binds/3/Target=/workspace/apps/worker,com.docker.compose.service=worker,desktop.docker.io/binds/0/SourceKind=hostFile,desktop.docker.io/binds/4/SourceKind=hostFile,desktop.docker.io/binds/4/Target=/workspace/packages/contracts,desktop.docker.io/binds/5/SourceKind=hostFile,com.docker.compose.project.working_dir=D:\\Projects\\poly-hunter,desktop.docker.io/binds/1/Target=/workspace/packages/db,desktop.docker.io/binds/3/Source=D:\\Projects\\poly-hunter\\apps\\worker,com.docker.compose.version=5.4.0,desktop.docker.io/binds/0/Source=D:\\Projects\\poly-hunter\\packages\\testkit,desktop.docker.io/binds/1/Source=D:\\Projects\\poly-hunter\\packages\\db,desktop.docker.io/binds/1/SourceKind=hostFile,desktop.docker.io/binds/5/Target=/workspace/packages/domain,com.docker.compose.container-number=1,com.docker.compose.image=sha256:6b8d4bdddb100612b0768fe66f5b834bb3b5632725f7fd600daa1b8d8aa7ee57,com.docker.compose.project=polyhunter-local,desktop.docker.io/binds/2/SourceKind=hostFile,desktop.docker.io/binds/2/Target=/workspace/packages/polymarket,desktop.docker.io/binds/3/SourceKind=hostFile,desktop.docker.io/binds/5/Source=D:\\Projects\\poly-hunter\\packages\\domain,com.docker.compose.depends_on=postgres:service_healthy:false,desktop.docker.io/binds/0/Target=/workspace/packages/testkit,desktop.docker.io/binds/4/Source=D:\\Projects\\poly-hunter\\packages\\contracts,desktop.docker.io/ports.scheme=v2","LocalVolumes":"0","Mounts":"/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…,/run/desktop/m…","Name":"polyhunter-worker","Names":"polyhunter-worker","Networks":"polyhunter-local_default","Ports":"","Project":"polyhunter-local","Publishers":[],"RunningFor":"26 minutes ago","Service":"worker","Size":"0B","State":"running","Status":"Up 19 minutes"}
+
+Post-Sonar follow-up scan reconciliation
+The dev image was clean rebuilt with --pull --no-cache after adding --ignore-scripts to the global npm 12.2.0 install. Exact final image ID and RepoDigest: sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1. Docker Scout CLI v1.24.0 freshly generated both full SARIF reports. Dev: 35 results (LOW 26, MEDIUM 7, HIGH 2, CRITICAL 0), zero suppressions; PostgreSQL exact digest unchanged: 58 results (LOW 7, MEDIUM 26, HIGH 23, CRITICAL 2), zero suppressions. SARIF SHA-256 remained dev 3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc and PostgreSQL 307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6. The dev scan wrote its SARIF and reported findings successfully; Scout also logged a Windows file-lock warning while deleting its temporary archive. This cleanup warning did not suppress or alter findings. See the full Scout logs and SARIF receipts.

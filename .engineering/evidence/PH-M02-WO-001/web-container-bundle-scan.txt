@@ -1,0 +1,6 @@
+Command:
+docker compose --project-name polyhunter-local exec -T web sh -lc 'grep -R -F "@polymarket/client" apps/web/.next/dev/static'
+
+Result:
+No @polymarket/client in web container dev static bundle.
+Exit code: 0.

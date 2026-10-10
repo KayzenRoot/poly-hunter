@@ -1,0 +1,182 @@
+{
+  "contextLockPath": ".engineering/context-locks/PH-M02-WO-001.json",
+  "contextLockSha256": "22159a790b091498acd6b7b94dbc87492546d4249e2b16020ca4310a252f0a67",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "auditedHead": "9d197abd78eae23173021cbb6e92fbde133a87e2",
+  "fingerprintCount": 19,
+  "matches": 14,
+  "drift": [
+    {
+      "group": "frozenSources",
+      "path": ".engineering/policies/JEV-PROMPT-POLICY.md",
+      "expected": "c163b1ec843dbe3588bc8740074f224e42003c89",
+      "actualAtAuditedHead": "c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "package.json",
+      "expected": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+      "actualAtAuditedHead": "fc11d3ba182848a10a00a3201bdd11c4ab0f2639",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "package-lock.json",
+      "expected": "ea8e7e7b5f08034dc297db3f18c9fe5dbbb531ae",
+      "actualAtAuditedHead": "4be06cf850bcfb46af46e0e87c72af5f7b21aa56",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "Dockerfile.dev",
+      "expected": "2887253f45c1a3f91f10b6e8385764a7aaaadab2",
+      "actualAtAuditedHead": "97a38f5f4c3b0b8494820d4f84630170a57a9bc3",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "compose.yaml",
+      "expected": "784f0abe357bf35c4a81c7dbb0230057a285a5b2",
+      "actualAtAuditedHead": "f1fd16b8b1396583a6133ddd3f2ccd4a964fc7a7",
+      "matches": false
+    }
+  ],
+  "preexistingCorrectionContext": ".engineering/evidence/PH-M02-WO-001/cr07-aud-01-preflight.txt",
+  "fingerprints": [
+    {
+      "group": "workOrderFingerprints",
+      "path": ".engineering/modules/PH-M02-POLYMARKET-INTEGRATION.md",
+      "expected": "8fc1095664a41466fb065e73fc79c05d700d8267",
+      "actualAtAuditedHead": "8fc1095664a41466fb065e73fc79c05d700d8267",
+      "matches": true
+    },
+    {
+      "group": "workOrderFingerprints",
+      "path": ".engineering/work-orders/PH-M02-WO-001.md",
+      "expected": "701cbf424a7cb48b533dad504934ae5e5037d415",
+      "actualAtAuditedHead": "701cbf424a7cb48b533dad504934ae5e5037d415",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/CHECKPOINT.json",
+      "expected": "ce6379063a39e4914e9d67d1584c574d3f4cf7a7",
+      "actualAtAuditedHead": "ce6379063a39e4914e9d67d1584c574d3f4cf7a7",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/REQUIREMENTS.md",
+      "expected": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+      "actualAtAuditedHead": "233e38da7fdfaa434412bb4507715ca0492f2afc",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/INTEGRATION-CONTRACTS.md",
+      "expected": "0d0d85db742d938a47334409703a10e2ae525248",
+      "actualAtAuditedHead": "0d0d85db742d938a47334409703a10e2ae525248",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/SECURITY.md",
+      "expected": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "actualAtAuditedHead": "f9be6741fd4e5b6956ffc626b38c405c23a689b1",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/ARCHITECTURE.md",
+      "expected": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+      "actualAtAuditedHead": "f39fb36169a2aa6d26fc00696c56de651f1041c3",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/TEST-BENCHMARK-PLAN.md",
+      "expected": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "actualAtAuditedHead": "f4c775d76a6660c5545def14c5f38afa98013818",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/DEFINITION-OF-DONE.md",
+      "expected": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "actualAtAuditedHead": "78fc9f5c273a7a818e1bacf285fe42cffb3712b1",
+      "matches": true
+    },
+    {
+      "group": "frozenSources",
+      "path": ".engineering/policies/JEV-PROMPT-POLICY.md",
+      "expected": "c163b1ec843dbe3588bc8740074f224e42003c89",
+      "actualAtAuditedHead": "c11093ec10d2a06f7d19f8fafb3ab325d3b7d6d6",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "package.json",
+      "expected": "33b4308be60d466ef1b22eb47bb2f3a2ec7976ba",
+      "actualAtAuditedHead": "fc11d3ba182848a10a00a3201bdd11c4ab0f2639",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "package-lock.json",
+      "expected": "ea8e7e7b5f08034dc297db3f18c9fe5dbbb531ae",
+      "actualAtAuditedHead": "4be06cf850bcfb46af46e0e87c72af5f7b21aa56",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "Dockerfile.dev",
+      "expected": "2887253f45c1a3f91f10b6e8385764a7aaaadab2",
+      "actualAtAuditedHead": "97a38f5f4c3b0b8494820d4f84630170a57a9bc3",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "compose.yaml",
+      "expected": "784f0abe357bf35c4a81c7dbb0230057a285a5b2",
+      "actualAtAuditedHead": "f1fd16b8b1396583a6133ddd3f2ccd4a964fc7a7",
+      "matches": false
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "packages/contracts/package.json",
+      "expected": "56bbd4d99956817bded9af3412c758728ed80a8f",
+      "actualAtAuditedHead": "56bbd4d99956817bded9af3412c758728ed80a8f",
+      "matches": true
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "packages/domain/package.json",
+      "expected": "f4562aa8a97c5f537b9ef6a5fa8cb12a44c98199",
+      "actualAtAuditedHead": "f4562aa8a97c5f537b9ef6a5fa8cb12a44c98199",
+      "matches": true
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "packages/testkit/package.json",
+      "expected": "4cb367fec8b022f47f41056f382b26067ee22286",
+      "actualAtAuditedHead": "4cb367fec8b022f47f41056f382b26067ee22286",
+      "matches": true
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "apps/worker/package.json",
+      "expected": "6b2f802ad76b7c1f76112ff8e43bf11b9b566ed3",
+      "actualAtAuditedHead": "6b2f802ad76b7c1f76112ff8e43bf11b9b566ed3",
+      "matches": true
+    },
+    {
+      "group": "runtimeFingerprints",
+      "path": "apps/web/package.json",
+      "expected": "40728a474b9d20a36198ef9caab35d0fc989c8c4",
+      "actualAtAuditedHead": "40728a474b9d20a36198ef9caab35d0fc989c8c4",
+      "matches": true
+    }
+  ]
+}

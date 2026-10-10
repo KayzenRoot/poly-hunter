@@ -1,0 +1,22 @@
+PACKAGE
+zlib: A compression/decompression Library
+zlib: https://zlib.net/
+zlib: 105 KiB
+zlib: A compression/decompression Library
+zlib: https://zlib.net/
+zlib: 105 KiB
+a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57  /usr/lib/libz.so.1
+SYMBOL_IMPORTS
+expected zlib symbols only; no gzprintf/gzvprintf import
+ TYPE   SYM FILE
+ET_DYN deflate /usr/local/bin/postgres
+ET_DYN deflate,inflate,gzwrite,gzopen /usr/local/bin/pg_dump
+ET_DYN deflate,inflate,gzwrite,gzopen /usr/local/bin/pg_restore
+PROCESSES
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+70                  95192               95169               0                   Oct07               ?                   00:00:09            postgres
+70                  95236               95192               0                   Oct07               ?                   00:00:00            postgres: checkpointer
+70                  95237               95192               0                   Oct07               ?                   00:00:00            postgres: background writer
+70                  95239               95192               0                   Oct07               ?                   00:00:00            postgres: walwriter
+70                  95240               95192               0                   Oct07               ?                   00:00:00            postgres: autovacuum launcher
+70                  95241               95192               0                   Oct07               ?                   00:00:00            postgres: logical replication launcher

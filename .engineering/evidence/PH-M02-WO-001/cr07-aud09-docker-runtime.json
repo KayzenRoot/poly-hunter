@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "correctionDelta": "CR-07-AUD-09",
+  "review": "5462779327",
+  "observedAt": "2026-10-10T11:02:40Z",
+  "repository": {
+    "branch": "feat/ph-m02-public-provider-foundation",
+    "preExecutionHead": "7944edd023858b7841971bd3ea2ee1b52eda95ab",
+    "workingTreeProductChanges": false,
+    "contextLockPreflight": {
+      "fingerprintsChecked": 19,
+      "matched": 14,
+      "expectedHistoricalDrift": [
+        {
+          "path": ".engineering/policies/JEV-PROMPT-POLICY.md",
+          "changeCommit": "4956676540ace9be9e7411db65a49a18f7223b49",
+          "reason": "Previously accepted provenance-aware JEV policy correction"
+        },
+        {
+          "path": "package.json",
+          "changeCommit": "d298c0610dd5dce0e4e08a14640c361e00b285ff",
+          "reason": "Previously accepted PH-M02 review correction"
+        },
+        {
+          "path": "package-lock.json",
+          "changeCommit": "add8d8b0d216fe756922f2b88da78ebc21f1fefa",
+          "reason": "Previously accepted PostgreSQL runtime artifact correction"
+        },
+        {
+          "path": "Dockerfile.dev",
+          "changeCommit": "9880bc4377aa0be25d59ac00e5241ea7342db2e3",
+          "reason": "Previously accepted Node 24 Alpine development-image remediation"
+        },
+        {
+          "path": "compose.yaml",
+          "changeCommit": "9880bc4377aa0be25d59ac00e5241ea7342db2e3",
+          "reason": "Previously accepted Node 24 Alpine development-image remediation"
+        }
+      ],
+      "unexplainedDrift": 0,
+      "result": "PASS_WITH_ACCEPTED_DRIFT"
+    }
+  },
+  "docker": {
+    "installation": {
+      "product": "Docker Desktop",
+      "version": "4.94.0",
+      "scope": "per-user Windows installation",
+      "desktopPath": "C:\\Users\\csn19\\AppData\\Local\\Programs\\DockerDesktop\\Docker Desktop.exe",
+      "cliPath": "C:\\Users\\csn19\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe",
+      "cliOnDefaultPath": false,
+      "diagnosis": "Docker was installed and running; the default executor PATH did not include its per-user CLI directory."
+    },
+    "engine": {
+      "clientServerVersion": "29.8.2",
+      "context": "desktop-linux",
+      "operatingSystem": "Docker Desktop",
+      "dockerRootDir": "/var/lib/docker",
+      "composeVersion": "v5.5.1",
+      "engineAvailable": true
+    },
+    "wsl": {
+      "distribution": "docker-desktop",
+      "version": 2,
+      "state": "Running"
+    },
+    "dataPreservation": {
+      "operatorAuthorizedNewProjectResources": true,
+      "historicalDockerDataRecovered": false,
+      "historicalDockerDataStatus": "Unavailable per prior read-only recovery receipts; not deleted, reset, overwritten, unregistered, or migrated.",
+      "noPruneOrDown": true,
+      "currentStoreFiles": [
+        {
+          "path": "D:\\Docker\\wsl\\main\\ext4.vhdx",
+          "sizeBytes": 100663296,
+          "createdAt": "2026-10-09T18:05:40.7967863Z"
+        },
+        {
+          "path": "D:\\Docker\\wsl\\disk\\docker_data.vhdx",
+          "sizeBytes": 7244611584,
+          "createdAt": "2026-10-09T18:05:43.6519361Z"
+        }
+      ],
+      "note": "These are the active current Docker Desktop store files. Docker Engine writes to its active store during normal container operation; no historical disk was mounted or changed by this recovery."
+    }
+  },
+  "startup": {
+    "command": "npm run docker:up",
+    "exitCode": 0,
+    "result": "PASS",
+    "composeConfigQuiet": "PASS through the canonical startup script"
+  },
+  "images": {
+    "postgres": {
+      "reference": "polyhunter-postgres:local",
+      "manifestDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "baseReference": "postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "platform": "linux/amd64",
+      "postgresVersion": "17.11",
+      "alpineVersion": "3.24.2",
+      "zlibVersion": "1.3.2-r1",
+      "libzSha256": "ecc8b9dfc45eb7fa29b410ffaca6257873890de53b80fe91735737b49067c5f2",
+      "runtimeUser": "postgres (uid/gid 70:70)",
+      "health": "healthy"
+    },
+    "development": {
+      "reference": "polyhunter-dev:local",
+      "imageId": "sha256:8a709239eebf58e1ee6c75ccdfa6f3adc1bd548ba92fe627b1a32ddafab05e11",
+      "repoDigest": "polyhunter-dev@sha256:8a709239eebf58e1ee6c75ccdfa6f3adc1bd548ba92fe627b1a32ddafab05e11",
+      "platform": "linux/amd64",
+      "nodeVersion": "v24.21.0",
+      "npmVersion": "12.2.0",
+      "alpineVersion": "3.24.2",
+      "scout": {
+        "version": "v1.25.0",
+        "gitCommit": "dac313a945b1fc7abe573ed1c5236c478d03ac63",
+        "command": "docker scout cves local://polyhunter-dev:local --format sarif --output .engineering/evidence/PH-M02-WO-001/cr07-aud09-dev-image.sarif.json",
+        "exitCode": 0,
+        "rawSarifPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud09-dev-image.sarif.json",
+        "rawSarifSha256": "b05bc0a31e7634b782fffe57b5b509a2d24a331aad560de40b2e6b3c0c63be11",
+        "indexedPackages": 460,
+        "findingCounts": {
+          "LOW": 0,
+          "MEDIUM": 6,
+          "HIGH": 0,
+          "CRITICAL": 0
+        },
+        "suppressed": 0,
+        "findings": [
+          {
+            "cve": "CVE-2026-102277",
+            "severity": "MEDIUM",
+            "package": "brace-expansion",
+            "version": "5.0.11"
+          },
+          {
+            "cve": "CVE-2026-104844",
+            "severity": "MEDIUM",
+            "package": "postcss-selector-parser",
+            "version": "7.1.4"
+          },
+          {
+            "cve": "CVE-2026-101910",
+            "severity": "MEDIUM",
+            "package": "ip-address",
+            "version": "10.5.0"
+          },
+          {
+            "cve": "CVE-2026-101911",
+            "severity": "MEDIUM",
+            "package": "ip-address",
+            "version": "10.5.0"
+          },
+          {
+            "cve": "CVE-2026-101912",
+            "severity": "MEDIUM",
+            "package": "ip-address",
+            "version": "10.5.0"
+          },
+          {
+            "cve": "CVE-2026-101913",
+            "severity": "MEDIUM",
+            "package": "ip-address",
+            "version": "10.5.0"
+          }
+        ],
+        "previousFinalScanSetReconciliation": "Same six CVE IDs and severities as the prior final dev scan; image identity differs, so no VEX status transfers."
+      }
+    }
+  },
+  "runtime": {
+    "composeProject": "polyhunter-local",
+    "containers": [
+      {
+        "service": "postgres",
+        "container": "polyhunter-postgres",
+        "containerId": "b4583b0841c8e4d28ae690109c19f925fbe00e7003dc49294c301baae8bcffdf",
+        "imageId": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "state": "running",
+        "health": "healthy",
+        "restartCount": 0
+      },
+      {
+        "service": "web",
+        "container": "polyhunter-web",
+        "containerId": "dbf38d2c2f29801c5567a4d3c8f66718ca9a41204835ef7902fac63f781b8790",
+        "imageId": "sha256:8a709239eebf58e1ee6c75ccdfa6f3adc1bd548ba92fe627b1a32ddafab05e11",
+        "state": "running",
+        "health": "healthy",
+        "restartCount": 0,
+        "hostBinding": "127.0.0.1:3000"
+      },
+      {
+        "service": "worker",
+        "container": "polyhunter-worker",
+        "containerId": "a86e61d952af78de2725ca493bc21c51e661bc9b41a90c714f4779a67dbba111",
+        "imageId": "sha256:8a709239eebf58e1ee6c75ccdfa6f3adc1bd548ba92fe627b1a32ddafab05e11",
+        "state": "running",
+        "health": "no healthcheck configured",
+        "restartCount": 0,
+        "process": "nodemon supervisor running; node apps/worker/src/index.ts exits cleanly after logging PolyHunter worker shell started without product behavior.",
+        "classification": "intentional stub; no product worker behavior or trading"
+      }
+    ],
+    "postgresVolume": {
+      "name": "polyhunter-local-postgres17",
+      "createdAt": "2026-10-09T19:29:26Z",
+      "composeProjectLabel": "polyhunter-local",
+      "mount": "/var/lib/postgresql/data",
+      "readWrite": true,
+      "migrationLedgerCountBeforePostgresRestart": 3,
+      "migrationLedgerCountAfterPostgresRestart": 3,
+      "result": "PASS"
+    },
+    "webProbe": {
+      "url": "http://localhost:3000",
+      "statusCode": 200,
+      "pageTitle": "PolyHunter Engineering Shell"
+    }
+  },
+  "validation": {
+    "npmRunDockerUp": "PASS",
+    "npmRunDbMigrate": "PASS",
+    "npmRunDbTestIntegration": {
+      "result": "PASS",
+      "files": 4,
+      "tests": 66
+    },
+    "postgresHealthAndReadiness": "PASS",
+    "webHealthAndHttp": "PASS",
+    "workerProcess": "RUNNING_STUB",
+    "finalExactHeadCi": "Run required after evidence commit; tracked in PR #43.",
+    "liveTradingAuthorized": false
+  },
+  "vex": {
+    "recordsChanged": 0,
+    "postgresDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "postgresRawFindings": {
+      "HIGH": 22,
+      "CRITICAL": 2,
+      "suppressions": 0
+    },
+    "perOccurrenceIndependentAuditAndOwnerDecision": "Existing evidence preserved; 24 NOT_AFFECTED proposals remain limited to the exact PostgreSQL runtime and expire 2026-10-15T13:00:00Z.",
+    "noApprovalTransferredToDevelopmentImage": true,
+    "historicalUtilLinuxProposalsRemainUnapproved": true,
+    "oldDebianDevZlibRemainsHistoricalUnderInvestigation": true
+  },
+  "nonDestructiveOperations": {
+    "postgresRestartForPersistenceProof": true,
+    "volumesDeleted": false,
+    "imagesPruned": false,
+    "dockerReset": false,
+    "wslUnregistered": false,
+    "historicalDataMountedOrWritten": false,
+    "credentialsReadOrRecorded": false
+  },
+  "liveTradingAuthorized": false
+}

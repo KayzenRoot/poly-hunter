@@ -1,0 +1,17 @@
+{
+  "tool": "Node built-in fs/crypto byte scan",
+  "scope": "four linux x64 native addon binaries present in exact dev image workspace; literal string presence only, not a proof against computed names or semantic dlsym paths",
+  "scan": {
+    "name": "native-addon-literal-scan",
+    "command": [
+      "docker",
+      "exec",
+      "polyhunter-web",
+      "node",
+      "-e",
+      "const fs=require('fs'),c=require('crypto');const files=['/workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node','/workspace/node_modules/@napi-rs/lzma-linux-x64-gnu/lzma.linux-x64-gnu.node','/workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node','/workspace/node_modules/@rollup/rollup-linux-x64-gnu/rollup.linux-x64-gnu.node'];const terms=['gzprintf','gzvprintf','gzwrite','gzputc','gzopen','gz_vacate','libz.so.1','dlsym','dlopen'];for(const f of files){const b=fs.readFileSync(f);console.log(JSON.stringify({path:f,sha256:c.createHash('sha256').update(b).digest('hex'),strings:Object.fromEntries(terms.map(t=>[t,b.includes(Buffer.from(t))]))}));}"
+    ],
+    "exitCode": 0,
+    "output": "{\"path\":\"/workspace/node_modules/@img/sharp-linux-x64/lib/sharp-linux-x64-0.35.5.node\",\"sha256\":\"cf896cc1b7f3ae9c3e8eb3d7b2b198b8de2824ff7d0681d684bab5a825def335\",\"strings\":{\"gzprintf\":false,\"gzvprintf\":false,\"gzwrite\":false,\"gzputc\":false,\"gzopen\":false,\"gz_vacate\":false,\"libz.so.1\":false,\"dlsym\":false,\"dlopen\":false}}\n{\"path\":\"/workspace/node_modules/@napi-rs/lzma-linux-x64-gnu/lzma.linux-x64-gnu.node\",\"sha256\":\"1f62f0ff272b69f09dff7c867d840d407f2b43c5b6170fd6af0928ed0f542ed4\",\"strings\":{\"gzprintf\":false,\"gzvprintf\":false,\"gzwrite\":false,\"gzputc\":false,\"gzopen\":false,\"gz_vacate\":false,\"libz.so.1\":false,\"dlsym\":true,\"dlopen\":true}}\n{\"path\":\"/workspace/node_modules/@next/swc-linux-x64-gnu/next-swc.linux-x64-gnu.node\",\"sha256\":\"89fbdf990c4f0fdcf95c56463a026bbbc405e0b0970e6a0d8d12d50b773d97cd\",\"strings\":{\"gzprintf\":false,\"gzvprintf\":false,\"gzwrite\":false,\"gzputc\":false,\"gzopen\":false,\"gz_vacate\":false,\"libz.so.1\":false,\"dlsym\":true,\"dlopen\":false}}\n{\"path\":\"/workspace/node_modules/@rollup/rollup-linux-x64-gnu/rollup.linux-x64-gnu.node\",\"sha256\":\"1dea406eb2027814dcec59100419c8986a3674d3e4d970d9f0f3fa03c5252e0d\",\"strings\":{\"gzprintf\":false,\"gzvprintf\":false,\"gzwrite\":false,\"gzputc\":false,\"gzopen\":false,\"gz_vacate\":false,\"libz.so.1\":false,\"dlsym\":false,\"dlopen\":true}}"
+  }
+}

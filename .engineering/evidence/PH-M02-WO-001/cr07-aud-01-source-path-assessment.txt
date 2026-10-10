@@ -1,0 +1,46 @@
+PH-M02-WO-001 CR-07-AUD-01 source and resolution-path assessment
+Assessment date: 2026-10-08
+Exact runtime image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Exact installed zlib: Alpine zlib 1.3.2-r0; /usr/lib/libz.so.1 -> /usr/lib/libz.so.1.3.2; SHA-256 a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57.
+
+Vulnerability semantics and upstream correction
+- Debian CVE tracker CVE-2026-85091 describes affected zlib versions 1.3.1.2 through 1.3.2, a heap overflow in gz_vacate() following non-blocking gzwrite() with stale external input pointers, triggered by a subsequent gzprintf()/gzvprintf(): https://security-tracker.debian.org/tracker/CVE-2026-85091
+- Upstream fix commit df84af25dc1942490e1d1c899a07619152a46148 is titled as fixing the non-blocking gzwrite overflow. The diff resets avail_in and next_in when the write returns -1 (commit diff lines 245-249): https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148
+- Exact image scan confirms zlib 1.3.2-r0 and does not contain the fixed 1.3.2-r1 package. The immutable image ID and RepoDigest were rechecked; no image/configuration changes occurred.
+
+Exact commands and image inventory
+1. docker image inspect postgres:17.11-alpine3.24 --format '{{.Id}} {{json .RepoDigests}}' => image ID sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24; RepoDigest postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24.
+2. docker run --rm --network none --entrypoint sh <exact digest> -ec '<COMMAND_SCRIPT in cr07-aud-01-static-image-inventory.txt>' scanned 237 ELF objects with scanelf 1.3.9, all 87 PostgreSQL .so modules, all 59 extension control files, direct DT_NEEDED consumers of libz.so.1, requested dynamic symbols, SHA-256 for every PostgreSQL module and every direct libz consumer. Full command and output are in cr07-aud-01-static-image-inventory.txt.
+3. Direct DT_NEEDED consumers found: /sbin/apk; /usr/lib/libapk.so.3.0.0; /usr/lib/libLLVM.so.21.1; /usr/lib/libxml2.so.2.13.9; /usr/local/bin/postgres; pg_dump; pg_restore; pg_basebackup; pg_receivewal; pg_recvlogical; and /usr/local/lib/postgresql/pgcrypto.so. libz itself is excluded from consumer results.
+4. gzprintf and gzvprintf dynamic definitions were found in libz.so.1.3.2; no direct imports were found in any of the 87 PostgreSQL loadable .so modules. gzwrite references were found in libxml2 and the five PostgreSQL client utilities listed in the static receipt. postgres itself has dynamic references to dlopen and dlsym.
+5. docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT current_user || '|' || r.rolsuper::text FROM pg_roles r WHERE r.rolname = current_user;" => polyhunter|true.
+6. docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT lanname || '|' || lanpltrusted::text FROM pg_language WHERE lanname IN ('c','internal','plpgsql') ORDER BY lanname;" => c|false, internal|false, plpgsql|true.
+7. docker exec polyhunter-postgres psql -XAt -U polyhunter -d polyhunter_dev -c "SELECT extname || '|' || extversion FROM pg_extension ORDER BY extname;" => plpgsql|1.0 only.
+8. docker run --rm --read-only --tmpfs /tmp --pid=container:polyhunter-postgres --cap-add=SYS_PTRACE --security-opt=no-new-privileges --network none --user 0:0 --entrypoint sh <same exact image digest> -ec '<read-only procfs observer>' showed PID 1 postgres UID/GID 70, CapEff/CapPrm=0, and mapped /usr/lib/libz.so.1.3.2 and /usr/lib/libxml2.so.2.13.9. Full exact command/results are in cr07-aud-01-runtime-maps.txt. The temporary observer was read-only and removed automatically.
+9. Current Compose postgres is healthy, HostConfig.Privileged=false, CapAdd=null, and 5432/tcp has no published host binding. This is project-scoped network isolation, not evidence that the process cannot reach an in-container path.
+
+Generic indirect symbol resolution path
+- PostgreSQL 17.11 source REL_17_11: load_external_function() obtains a handle then executes dlsym(lib_handle, funcname) at src/backend/utils/fmgr/dfmgr.c lines 1735-1747. internal_load_library() opens the requested object with dlopen(..., RTLD_NOW | RTLD_GLOBAL) at lines 1939-1964 and also uses dlsym for module symbols. Source: https://github.com/postgres/postgres/blob/REL_17_11/src/backend/utils/fmgr/dfmgr.c
+- PostgreSQL documentation says a C function definition names both a loadable object and the link symbol, and an object is loaded when the function is first called (section 36.10.1, lines 37-59). It documents the version-1 C ABI as Datum funcname(PG_FUNCTION_ARGS) (section 36.10.3, lines 142-151): https://www.postgresql.org/docs/17/xfunc-c.html
+- POSIX dlsym(handle, symbol) lookup includes the object loaded from the handle and objects loaded automatically as dependencies, with dependency-order resolution: https://pubs.opengroup.org/onlinepubs/009604299/functions/dlsym.html
+- Exact static DT_NEEDED shows pgcrypto.so -> libz.so.1 and all 87 PostgreSQL modules were searched for gzprintf/gzvprintf imports. Therefore a dlsym(handle-to-pgcrypto, "gzprintf" or "gzvprintf") lookup could search the libz dependency even though the extension has no direct import. This is a standards-derived possibility, not an observed lookup against the running musl loader.
+- The raw zlib formatted functions use the zlib gzFile/format/variadic calling convention, whereas PostgreSQL invokes a C UDF as Datum funcname(PG_FUNCTION_ARGS). A raw function pointer resolved by name is not itself evidence of a valid gzFile, a prior stalled write, or attacker-controlled format/va_list. No executable test called either symbol: calling a mismatched function could crash a backend, so this audit used static inspection and read-only database queries only.
+
+Attacker control and unresolved proof
+- Exact current database user polyhunter is superuser; LANGUAGE C is untrusted. Thus an input source with arbitrary SQL authority could meet the privilege needed to define a C-language function, but the current pass did not establish an application-controlled SQL injection or arbitrary SQL execution path.
+- Targeted repository search for CREATE FUNCTION, LANGUAGE C, pgcrypto, zlib trigger symbols, sql.raw, and database execute calls found no app C-function definition or trigger-symbol use; the remaining Drizzle execute is a static tenant role probe, and schema sql.raw arguments are fixed schema constants. This bounded search is not a proof of whole-program injection absence.
+- No valid PostgreSQL-ABI wrapper among installed extensions was identified; nevertheless static imported-symbol matching alone cannot prove that no indirect code constructs a valid gzFile, induces a non-blocking write stall, then invokes a formatted gzip routine.
+- Therefore exact-runtime reachability is NOT PROVEN and NOT DISPROVEN. The prior NOT_AFFECTED proposal is withdrawn from this evidence set; machine VEX remains UNDER_INVESTIGATION with proposedDisposition=null. No independent approval is recorded.
+
+Evidence limits and residual risk
+- Full image consumer/symbol inventory is not a dynamic call graph. Current /proc maps are one runtime snapshot; pgcrypto.so is installed but not active in current database. PostgreSQL accepts future loadable extension calls when privileges and objects permit.
+- No exploit, malformed call, extension load, DDL, or data mutation was attempted. No app/runtime artifact was changed, so image rebuild and Docker Scout rescan were not required; exact image digest and library hash were reverified.
+- Residual unresolved premises are: (a) whether any application-controlled input can issue arbitrary SQL/C-function DDL as the current superuser role; (b) whether an installed or later-loaded ABI-compatible wrapper can construct the required gzFile and sequence stalled non-blocking gzwrite then gzprintf/gzvprintf; and (c) exact musl dlsym(handle) lookup behavior was not directly exercised, though the POSIX dependency rule and exact DT_NEEDED chain indicate the path is possible.
+
+Source references
+- https://security-tracker.debian.org/tracker/CVE-2026-85091
+- https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148
+- https://github.com/postgres/postgres/blob/REL_17_11/src/backend/utils/fmgr/dfmgr.c
+- https://www.postgresql.org/docs/17/xfunc-c.html
+- https://github.com/madler/zlib/blob/v1.3.2/zlib.h
+- https://pubs.opengroup.org/onlinepubs/009604299/functions/dlsym.html

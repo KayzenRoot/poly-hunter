@@ -1,0 +1,37 @@
+PH-M02-WO-001 CR-07-AUD-01 validation receipt
+Date: 2026-10-08
+Branch: feat/ph-m02-public-provider-foundation
+Input HEAD: d4b48a8605719df818c0b7cd8517ab55d2b553d3
+
+Focused security-boundary tests:
+Command: npm test -- tests/polymarket-boundary.test.ts tests/workspace-boundaries.test.ts tests/secret-material-containment.test.ts
+Result: PASS; 3 files, 17 tests.
+
+Repository validation:
+Command: npm run validate
+Result: PASS (exit 0).
+- Biome lint: PASS; one informational noUselessContinue diagnostic in packages/db/tests/m01-acceptance.integration.test.ts:945; no fixes applied.
+- Biome format check: PASS; 94 files.
+- Typecheck: PASS for contracts, domain, db, testkit, polymarket, worker, web, and tests.
+- Vitest: PASS; 15 files, 238 tests.
+- Workspace builds: PASS.
+- Next.js production build: PASS; 10 static pages generated.
+- npm audit --audit-level=high: PASS; 0 vulnerabilities.
+
+Current runtime observation:
+Command: docker compose ps
+Result: PASS as an observation; no project containers were running at the time of this correction check. Earlier exact-digest runtime/process evidence remains in cr07-aud-01-runtime-maps.txt and prior CR-07 receipts. This correction did not rebuild, rescan, start, or mutate containers.
+
+Evidence checks:
+- Tool-output receipts had trailing display padding and extra final blank lines removed; command values and evidence content are unchanged. All affected VEX evidence hashes were recomputed afterward.
+- `CR-07-VEX.json` parses; 58 embedded references (10 manifest entries, 48 finding refs) match the referenced file SHA-256 values.
+- Aggregate VEX rows reconcile against `security-scans.json` and the two preserved SARIF scans: dev 35 results, PostgreSQL 58 results, zero suppressions; one PostgreSQL scanner row unresolved; aggregate `BLOCKED_UNRESOLVED`.
+- PostgreSQL zlib VEX state is `UNDER_INVESTIGATION`, with no proposed disposition, independent auditor, or owner approval.
+- Trading/secret boundary tests above passed; no product code, dependency, image, or runtime configuration changed.
+- `git diff --cached --check` — PASS (exit 0) on the normalized staged correction.
+- TypeSafe JEV MCP `jev_gate` v1.13.0 — `escalate`, composite 0.8563 / safe_to_apply 0.19; four claims verified, one unsupported and two needing review. The advisory verified expanded consumer/indirect-path uncertainty but does not approve or clear the CVE. Full receipt: `jev-cr07-aud-01-gate.json`.
+
+Hosted validation:
+Input HEAD d4b48a8605719df818c0b7cd8517ab55d2b553d3: GitHub Actions Validate PASS, run 37712387792. Correction head 5ea9950eb34ac5070885664ef5d9997946106732: Validate PASS, run 37725131129 (https://github.com/KayzenRoot/poly-hunter/actions/runs/37725131129). The next evidence-only final head receives a separate exact-head Validate; its SHA and result are recorded in PR #43. CI does not resolve the security finding.
+
+This receipt records test and artifact validation only; it does not approve the pending security findings. PostgreSQL zlib CVE-2026-85091 remains UNDER_INVESTIGATION with no proposed disposition because the exact PostgreSQL-ABI trigger chain and attacker-controlled arbitrary SQL path remain unproven.

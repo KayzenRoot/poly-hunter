@@ -1,0 +1,71 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5461309598",
+  "artifactRole": "isolated official Node 24 Alpine 3.24 canary",
+  "scanner": {
+    "name": "Docker Scout CLI",
+    "version": "1.24.0",
+    "command": "docker scout cves polyhunter-dev:ph-m02-alpine-candidate --format sarif --output .engineering/evidence/PH-M02-WO-001/dev-alpine-candidate.sarif.json"
+  },
+  "image": {
+    "reference": "polyhunter-dev:ph-m02-alpine-candidate",
+    "manifestDigest": "sha256:c693fd1a325107969daf9dc4d2cfb06b10842fddbfe4f0304b06fd24bf149c32",
+    "configDigest": "sha256:5957b287053d30a5c647ff8979891703e52e3b16059e4bd0f3e28ab484a9b7cf",
+    "platform": "linux/amd64",
+    "officialBase": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+    "zlib": "1.3.2-r1"
+  },
+  "sarif": {
+    "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate.sarif.json",
+    "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+    "resultCount": 6,
+    "uniqueCveCount": 6,
+    "counts": {
+      "UNKNOWN": 0,
+      "LOW": 0,
+      "MEDIUM": 6,
+      "HIGH": 0,
+      "CRITICAL": 0
+    },
+    "suppressedResultCount": 0,
+    "findings": [
+      {
+        "cve": "CVE-2026-102277",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/brace-expansion@5.0.11"
+      },
+      {
+        "cve": "CVE-2026-104844",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/postcss-selector-parser@7.1.4"
+      },
+      {
+        "cve": "CVE-2026-101911",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101912",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101913",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      },
+      {
+        "cve": "CVE-2026-101910",
+        "severity": "MEDIUM",
+        "package": "pkg:npm/ip-address@10.5.0"
+      }
+    ]
+  },
+  "gate": {
+    "high": 0,
+    "critical": 0,
+    "suppressed": 0,
+    "result": "PASS"
+  },
+  "notice": "Scout emitted a non-fatal Windows temporary-archive-in-use warning after writing the SARIF. The raw SARIF is preserved; no suppression was used."
+}

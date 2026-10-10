@@ -1,0 +1,122 @@
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/x86_64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 9.)
+debconf: falling back to frontend: Teletype
+debconf: unable to initialize frontend: Teletype
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Noninteractive
+NM_ALIGNED
+00000000000b3cc0 T operator new[](unsigned long, std::align_val_t)@@CXXABI_1.3.11
+00000000000b3cd0 T operator new[](unsigned long, std::align_val_t, std::nothrow_t const&)@@CXXABI_1.3.11
+00000000000b3c20 T operator new(unsigned long, std::align_val_t)@@CXXABI_1.3.11
+00000000000b3ca0 T operator new(unsigned long, std::align_val_t, std::nothrow_t const&)@@CXXABI_1.3.11
+MANGLED
+00000000000b3c20 T _ZnwmSt11align_val_t@@CXXABI_1.3.11
+00000000000b3ca0 T _ZnwmSt11align_val_tRKSt9nothrow_t@@CXXABI_1.3.11
+IMPORTS
+0000000000000000      DF *UND*	0000000000000000 (GLIBC_2.2.5) posix_memalign
+DISASSEMBLY
+
+/usr/lib/x86_64-linux-gnu/libstdc++.so.6:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+Disassembly of section .fini:
+
+/usr/lib/x86_64-linux-gnu/libstdc++.so.6:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000b3c20 <operator new(unsigned long, std::align_val_t)@@CXXABI_1.3.11>:
+   b3c20:	f3 0f 1e fa          	endbr64
+   b3c24:	41 54                	push   %r12
+   b3c26:	48 8d 46 ff          	lea    -0x1(%rsi),%rax
+   b3c2a:	48 89 f2             	mov    %rsi,%rdx
+   b3c2d:	55                   	push   %rbp
+   b3c2e:	48 31 c2             	xor    %rax,%rdx
+   b3c31:	53                   	push   %rbx
+   b3c32:	48 83 ec 10          	sub    $0x10,%rsp
+   b3c36:	48 39 d0             	cmp    %rdx,%rax
+   b3c39:	0f 83 3c da fe ff    	jae    a167b <std::unexpected()@@GLIBCXX_3.4+0x92>
+   b3c3f:	48 85 ff             	test   %rdi,%rdi
+   b3c42:	b8 01 00 00 00       	mov    $0x1,%eax
+   b3c47:	4c 8d 64 24 08       	lea    0x8(%rsp),%r12
+   b3c4c:	48 0f 45 c7          	cmovne %rdi,%rax
+   b3c50:	48 89 c5             	mov    %rax,%rbp
+   b3c53:	b8 08 00 00 00       	mov    $0x8,%eax
+   b3c58:	48 39 c6             	cmp    %rax,%rsi
+   b3c5b:	48 0f 43 c6          	cmovae %rsi,%rax
+   b3c5f:	48 89 c3             	mov    %rax,%rbx
+   b3c62:	eb 14                	jmp    b3c78 <operator new(unsigned long, std::align_val_t)@@CXXABI_1.3.11+0x58>
+   b3c64:	0f 1f 40 00          	nopl   0x0(%rax)
+   b3c68:	e8 43 a2 fe ff       	call   9deb0 <std::get_new_handler()@plt>
+   b3c6d:	48 85 c0             	test   %rax,%rax
+   b3c70:	0f 84 33 da fe ff    	je     a16a9 <std::unexpected()@@GLIBCXX_3.4+0xc0>
+   b3c76:	ff d0                	call   *%rax
+   b3c78:	48 89 ea             	mov    %rbp,%rdx
+   b3c7b:	48 89 de             	mov    %rbx,%rsi
+   b3c7e:	4c 89 e7             	mov    %r12,%rdi
+   b3c81:	e8 ca 99 fe ff       	call   9d650 <posix_memalign@plt>
+   b3c86:	85 c0                	test   %eax,%eax
+   b3c88:	75 de                	jne    b3c68 <operator new(unsigned long, std::align_val_t)@@CXXABI_1.3.11+0x48>
+   b3c8a:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+   b3c8f:	48                   	rex.W
+
+/usr/lib/x86_64-linux-gnu/libstdc++.so.6:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+00000000000b3d00 <operator delete(void*, std::align_val_t, std::nothrow_t const&)@@CXXABI_1.3.11>:
+   b3d00:	f3 0f 1e fa          	endbr64
+   b3d04:	e9 87 ac fe ff       	jmp    9e990 <operator delete(void*, std::align_val_t)@plt>
+   b3d09:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000b3d10 <operator delete(void*, unsigned long, std::align_val_t)@@CXXABI_1.3.11>:
+   b3d10:	f3 0f 1e fa          	endbr64
+   b3d14:	48 89 d6             	mov    %rdx,%rsi
+   b3d17:	e9 74 ac fe ff       	jmp    9e990 <operator delete(void*, std::align_val_t)@plt>
+   b3d1c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000b3d20 <operator delete[](void*, std::align_val_t)@@CXXABI_1.3.11>:
+   b3d20:	f3 0f 1e fa          	endbr64
+   b3d24:	e9 67 ac fe ff       	jmp    9e990 <operator delete(void*, std::align_val_t)@plt>
+   b3d29:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000b3d30 <operator delete[](void*, std::align_val_t, std::nothrow_t const&)@@CXXABI_1.3.11>:
+   b3d30:	f3 0f 1e fa          	endbr64
+   b3d34:	e9 67 c3 fe ff       	jmp    a00a0 <operator delete[](void*, std::align_val_t)@plt>
+   b3d39:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000b3d40 <operator delete[](void*, unsigned long, std::align_val_t)@@CXXABI_1.3.11>:
+   b3d40:	f3 0f 1e fa          	endbr64
+   b3d44:	48 89 d6             	mov    %rdx,%rsi
+   b3d47:	e9 54 c3 fe ff       	jmp    a00a0 <operator delete[](void*, std::align_val_t)@plt>
+   b3d4c:	0f 1f 40 00          	nopl   0x0(%rax)
+
+00000000000b3d50 <__cxxabiv1::__pbase_type_info::__pointer_catch(__cxxabiv1::__pbase_type_info const*, void**, unsigned int) const@@CXXABI_1.3>:
+   b3d50:	f3 0f 1e fa          	endbr64
+   b3d54:	48 8b 7f 18          	mov    0x18(%rdi),%rdi
+   b3d58:	48 8b 76 18          	mov    0x18(%rsi),%rsi
+   b3d5c:	83 c1 02             	add    $0x2,%ecx
+   b3d5f:	48 8b 07             	mov    (%rdi),%rax
+   b3d62:	ff 60 20             	jmp    *0x20(%rax)
+   b3d65:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+   b3d6c:	00 00 00
+   b3d6f:	90                   	nop
+
+00000000000b3d70 <__cxxabiv1::__pbase_type_info::~__pbase_type_info()@@CXXABI_1.3>:
+   b3d70:	f3 0f 1e fa          	endbr64
+   b3d74:	48 8b 05 dd a2 1a 00 	mov    0x1aa2dd(%rip),%rax        # 25e058 <vtable for __cxxabiv1::__pbase_type_info@@CXXABI_1.3+0x75a0>
+   b3d7b:	48 83 c0 10          	add    $0x10,%rax
+   b3d7f:	48                   	rex.W

@@ -1,0 +1,240 @@
+{
+  "workOrder": "PH-M02-WO-001",
+  "review": "5460654469",
+  "auditedHead": "6579e97064570cc38530e69944173fde09920d7c",
+  "debianSourcePackageVersion": "1:1.3.dfsg+really1.3.1-1",
+  "debianBinaryPackageVersion": "1:1.3.dfsg+really1.3.1-1+b1",
+  "sourceArchiveReceipt": ".engineering/evidence/PH-M02-WO-001/dev-zlib-debian-source-archive-verification.json",
+  "debianPatchSeries": {
+    "url": "https://deb.debian.org/debian/pool/main/z/zlib/zlib_1.3.dfsg+really1.3.1-1.debian.tar.xz",
+    "sha256": "9ed525955ce9fb0c1b39be8ff98f73450dbfc6305a9a27e6149c8972d38a0a9e",
+    "seriesPath": "debian/patches/series",
+    "seriesContents": "",
+    "emptyOrAbsent": true
+  },
+  "nodeBindingSource": {
+    "url": "https://raw.githubusercontent.com/nodejs/node/v24.21.0/src/node_zlib.cc",
+    "sha256": "4c2ed66fc8d02757bd5a4f2acfcc328d9c78a15045efbd897068d5e870c6b842",
+    "bytes": 71359,
+    "version": "v24.21.0",
+    "apiChecks": {
+      "gz_vacate": {
+        "present": false,
+        "lines": []
+      },
+      "gzwrite": {
+        "present": false,
+        "lines": []
+      },
+      "gzprintf": {
+        "present": false,
+        "lines": []
+      },
+      "gzvprintf": {
+        "present": false,
+        "lines": []
+      },
+      "deflateInit2": {
+        "present": true,
+        "lines": [
+          1313,
+          1322
+        ]
+      },
+      "inflateInit2": {
+        "present": true,
+        "lines": [
+          1333
+        ]
+      },
+      "deflate(": {
+        "present": true,
+        "lines": [
+          1078
+        ]
+      },
+      "inflate(": {
+        "present": true,
+        "lines": [
+          1128,
+          1141,
+          1143,
+          1158,
+          1365
+        ]
+      }
+    }
+  },
+  "elfConsumerReview": {
+    "scanner": "pyelftools 0.33 over full exact image read-only rootfs export",
+    "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "inventoryPath": ".engineering/evidence/PH-M02-WO-001/dev-zlib-elf-inventory.txt",
+    "inventorySha256": "86e874c4c52dcbb9ce22e5ca3bdf097f79fc8f8843a51a56cf99296c8971d133",
+    "matchedRelevantElfCount": 31,
+    "directSystemLibzConsumers": [
+      {
+        "path": "/usr/bin/dpkg-deb",
+        "sha256": "5346e5fdfdc81d58bbc9d2a3de20ff3738dc479cdb04cc52b91503cbb13440eb",
+        "needed": [
+          "libz.so.1",
+          "liblzma.so.5",
+          "libzstd.so.1",
+          "libbz2.so.1.0",
+          "libmd.so.0",
+          "libc.so.6"
+        ],
+        "imports": [
+          "gzclose",
+          "gzdopen",
+          "gzwrite"
+        ]
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libapt-pkg.so.7.0.0",
+        "sha256": "d3dca8bc35a1addcc03808792768ce82ca59bb3623f8053e58b3402ac5898974",
+        "needed": [
+          "libz.so.1",
+          "libbz2.so.1.0",
+          "liblzma.so.5",
+          "liblz4.so.1",
+          "libzstd.so.1",
+          "libudev.so.1",
+          "libsystemd.so.0",
+          "libcrypto.so.3",
+          "libxxhash.so.0",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "imports": [
+          "gzclose",
+          "gzdopen",
+          "gzgets",
+          "gzwrite"
+        ]
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+        "sha256": "8ae56f0a9481280a68c19f59809cd242a07a91ad7142944d21a878221992244b",
+        "needed": [
+          "libz.so.1",
+          "libzstd.so.1",
+          "libc.so.6"
+        ],
+        "imports": [
+          "deflate",
+          "dlopen",
+          "dlsym",
+          "inflate"
+        ]
+      }
+    ],
+    "nodeExecutable": {
+      "exports": [
+        "deflate",
+        "deflateInit2_",
+        "gzclose",
+        "gzdopen",
+        "gzflush",
+        "gzgets",
+        "gzopen",
+        "gzprintf",
+        "gzputc",
+        "gzvprintf",
+        "gzwrite",
+        "inflate",
+        "inflateInit2_"
+      ],
+      "imports": [
+        "dlopen",
+        "dlsym"
+      ],
+      "needed": [
+        "libdl.so.2",
+        "libstdc++.so.6",
+        "libm.so.6",
+        "libgcc_s.so.1",
+        "libpthread.so.0",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "path": "/usr/local/bin/node",
+      "sha256": "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c",
+      "soname": null
+    },
+    "observations": [
+      "The system library exports the gzip APIs shown in the inventory; no gz_vacate export/import appears for system zlib 1.3.1.",
+      "Node executable imports dlopen/dlsym and has embedded gz* symbols in its dynamic symbol table, but has no DT_NEEDED libz.so.1.",
+      "Relevant native addons were byte-scanned for literal gz API and libz names; that is not a proof against computed names or semantic dynamic lookup."
+    ]
+  },
+  "applicationSourceSearch": {
+    "command": [
+      "rg",
+      "-n",
+      "-i",
+      "--glob",
+      "!**/node_modules/**",
+      "--glob",
+      "!package-lock.json",
+      "(node:zlib|from [\"\\x27]zlib|gzip|gzprintf|gzvprintf|gzwrite|gzopen|child_process|spawn\\(|execFile\\(|exec\\()",
+      "apps",
+      "packages"
+    ],
+    "exitCode": 0,
+    "output": "packages\\db\\tests\\m01-acceptance.integration.test.ts:45: * It deliberately contains NO `child_process` usage: the P2 subprocess premise"
+  },
+  "interpretation": "The exact package source proves no gz_vacate in the 1.3.1 source file but confirms related C gz APIs remain. Runtime has no loaded system libz in active Node processes and no application gz C API call was found. The Debian maintainer and Ubuntu scope evidence prevent resolving the CVE assignment by source-version/function absence alone. Exact affected-code/scope relationship remains an open premise.",
+  "attackerControlledInputAnalysis": {
+    "applicationInputs": [
+      "Public provider response bodies are untrusted data. Local web HTTP requests are also untrusted at the service boundary."
+    ],
+    "applicationPathFindings": [
+      "Focused source scan across apps/ and packages/ found no node:zlib/gzip/C gz API use and no subprocess spawn/exec path; one unrelated integration-test comment contains the child_process identifier.",
+      "Worker entrypoint currently logs only its shell-start message; it does not consume provider responses or execute package-manager operations."
+    ],
+    "knownInstalledConsumers": [
+      {
+        "path": "/usr/bin/dpkg-deb",
+        "sha256": "5346e5fdfdc81d58bbc9d2a3de20ff3738dc479cdb04cc52b91503cbb13440eb",
+        "symbols": [
+          "gzclose",
+          "gzdopen",
+          "gzwrite"
+        ],
+        "inputAndPrerequisite": "Would require invocation against an attacker-controlled local .deb/archive; no app subprocess or runtime invocation was observed."
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libapt-pkg.so.7.0.0",
+        "sha256": "d3dca8bc35a1addcc03808792768ce82ca59bb3623f8053e58b3402ac5898974",
+        "symbols": [
+          "gzclose",
+          "gzdopen",
+          "gzgets",
+          "gzwrite"
+        ],
+        "inputAndPrerequisite": "Would require loading APT package handling against attacker-controlled repository/package metadata; not mapped in active web/worker process and no application invocation was found."
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+        "sha256": "8ae56f0a9481280a68c19f59809cd242a07a91ad7142944d21a878221992244b",
+        "symbols": [
+          "deflate",
+          "inflate"
+        ],
+        "inputAndPrerequisite": "Imports stream deflate/inflate, not gzprintf/gzvprintf; not mapped in the active Node processes."
+      }
+    ],
+    "activeProcessData": {
+      "web": "Next server, Node v24.21.0, uid/gid 1000, CapEff zero; no system libz in maps; Next SWC .node mapped.",
+      "worker": "running",
+      "httpStatus": 200,
+      "postgres": "healthy",
+      "webHealth": "healthy"
+    },
+    "indirectLookupLimit": "Node ELF imports dlsym and exports embedded gz* symbols; the loaded SWC and other installed native addons have no literal gz API names in the byte scan, but computed strings, alternative resolution, future code and every potential runtime path were not formally excluded.",
+    "interpretation": "Known application attacker inputs were not shown to reach the system gz APIs. This is a reachability observation only and does not resolve whether the older 1.3.0/1.3.1 crash is within CVE-2026-85091."
+  }
+}

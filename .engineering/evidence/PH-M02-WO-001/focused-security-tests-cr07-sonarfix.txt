@@ -1,0 +1,12 @@
+
+> polyhunter@0.1.0 test
+> vitest run tests/polymarket-boundary.test.ts tests/polymarket-decimal.test.ts tests/polymarket-rest.test.ts tests/polymarket-stream.test.ts tests/workspace-boundaries.test.ts tests/secret-material-containment.test.ts
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+
+ Test Files  6 passed (6)
+      Tests  46 passed (46)
+   Start at  21:43:37
+   Duration  8.46s (transform 3.95s, setup 0ms, import 20.26s, tests 13.05s, environment 4ms)

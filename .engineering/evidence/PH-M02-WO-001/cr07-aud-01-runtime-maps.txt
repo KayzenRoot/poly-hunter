@@ -1,0 +1,87 @@
+PH-M02-WO-001 CR-07-AUD-01 live PostgreSQL process observation
+Exact immutable image: postgres:17.11-alpine3.24@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Command: docker run --rm --read-only --tmpfs /tmp --pid=container:polyhunter-postgres --cap-add=SYS_PTRACE --security-opt=no-new-privileges --network none --user 0:0 --entrypoint sh <same exact digest> -ec <script below>
+The helper shares only the target PID namespace and performs read-only procfs inspection. SYS_PTRACE was required because the target container does not grant it to PID 1. The helper was removed automatically. File hashes are of mapped paths in the identical image root.
+Limit: current runtime snapshot only; it does not prove absence of future extension loads or trigger execution.
+COMMAND_SCRIPT:
+set -eu
+printf '%s\n' 'OBSERVATION_ONLY_PID_NAMESPACE_HELPER; exact same immutable PostgreSQL image; no target writes; helper has SYS_PTRACE solely to read /proc.'
+printf '%s\n' 'TARGET_IDENTITY'
+tr '\000' ' ' </proc/1/cmdline; echo
+awk '/^(Name|Uid|Gid|CapEff|CapPrm|CapBnd|NSpid):/' /proc/1/status
+printf '%s\n' 'MAPPED_SHARED_OBJECT_PATHS'
+awk '$6 ~ /^\// {print $6}' /proc/1/maps | sort -u
+printf '%s\n' 'ZLIB_MAPPING_ROWS'
+grep -F '/usr/lib/libz.so.1.3.2' /proc/1/maps
+printf '%s\n' 'SHA256_RUNTIME_MAPPED_IMAGE_FILES'
+awk '$6 ~ /^\/(lib|usr)\// {print $6}' /proc/1/maps | sort -u | xargs sha256sum
+
+OBSERVED_OUTPUT:
+OBSERVATION_ONLY_PID_NAMESPACE_HELPER; exact same immutable PostgreSQL image; no target writes; helper has SYS_PTRACE solely to read /proc.
+TARGET_IDENTITY
+postgres
+Name:	postgres
+Uid:	70	70	70	70
+Gid:	70	70	70	70
+NSpid:	1
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+MAPPED_SHARED_OBJECT_PATHS
+/SYSV000578df
+/dev/shm/PostgreSQL.2305592176
+/dev/zero
+/lib/ld-musl-x86_64.so.1
+/usr/lib/libcom_err.so.2.1
+/usr/lib/libcrypto.so.3
+/usr/lib/libgcc_s.so.1
+/usr/lib/libgssapi_krb5.so.2.2
+/usr/lib/libicudata.so.78.1
+/usr/lib/libicui18n.so.78.1
+/usr/lib/libicuuc.so.78.1
+/usr/lib/libk5crypto.so.3.1
+/usr/lib/libkeyutils.so.1.10
+/usr/lib/libkrb5.so.3.3
+/usr/lib/libkrb5support.so.0.1
+/usr/lib/liblber.so.2.0.200
+/usr/lib/libldap.so.2.0.200
+/usr/lib/liblz4.so.1.10.0
+/usr/lib/liblzma.so.5.8.4
+/usr/lib/libsasl2.so.3.0.0
+/usr/lib/libssl.so.3
+/usr/lib/libstdc++.so.6.0.34
+/usr/lib/libxml2.so.2.13.9
+/usr/lib/libz.so.1.3.2
+/usr/lib/libzstd.so.1.5.7
+/usr/local/bin/postgres
+ZLIB_MAPPING_ROWS
+708030bec000-708030bef000 r--p 00000000 00:56 289599                     /usr/lib/libz.so.1.3.2
+708030bef000-708030bff000 r-xp 00003000 00:56 289599                     /usr/lib/libz.so.1.3.2
+708030bff000-708030c05000 r--p 00013000 00:56 289599                     /usr/lib/libz.so.1.3.2
+708030c05000-708030c06000 r--p 00019000 00:56 289599                     /usr/lib/libz.so.1.3.2
+708030c06000-708030c07000 rw-p 0001a000 00:56 289599                     /usr/lib/libz.so.1.3.2
+SHA256_RUNTIME_MAPPED_IMAGE_FILES
+38d022ce7425ff105ccfb53598f606e6e5f5f0a34bfbc793d65e6f34c9d72806  /lib/ld-musl-x86_64.so.1
+d424b938a88d14c5626a7f153aeb8f5941d95358f9355b23e3ace5f52ce0a109  /usr/lib/libcom_err.so.2.1
+b737ff6c1e585ba6be514d17c84e2d8347921558c13db2fdb5513578797d8413  /usr/lib/libcrypto.so.3
+5ea51dd885b6fc691eccc569d0bda739204204f6161e97075b26dc9c050d1ca1  /usr/lib/libgcc_s.so.1
+6964728663e40ea0989c654ed1b137558badacaac3f550cb2225f162f3cc5e58  /usr/lib/libgssapi_krb5.so.2.2
+e3b9c77978cc5aa646d8c93f0943df5d4a2d8264aa4970c24441b6f2fe149bd6  /usr/lib/libicudata.so.78.1
+4214a2cd169c2eee5478da385ed0807c4959f1ecd5d49657fe1e88cabe872d8b  /usr/lib/libicui18n.so.78.1
+a9a8e85f501bb532503cb30e825aa604bac26aa085cbba48a4b54631194577fd  /usr/lib/libicuuc.so.78.1
+6b184c829aed8b828dff6b54fea34b2fb71954596426fa2846f32d778a23ed65  /usr/lib/libk5crypto.so.3.1
+3bf4dbce722052c967ea148ece373beba2ca478cb09ba2c95e2f4af8074b157c  /usr/lib/libkeyutils.so.1.10
+f2220d87a771dd624d13f0726b554743ce30396b9699379b243a5e7d3b9fea02  /usr/lib/libkrb5.so.3.3
+57a225959b184a88a34016a8dfbff761afe7c20a29314f10cf0fa3fa15d7c25a  /usr/lib/libkrb5support.so.0.1
+379f5028f44c7bd8ff0ed1a32770cdc5d6559c64292a8193af3e84bcc70c4369  /usr/lib/liblber.so.2.0.200
+3de9fe7edd9ef421f8feff3f58410a3c42b49a8da8b16037b281547bc3bd4914  /usr/lib/libldap.so.2.0.200
+5de41e45e4994d0ab396c9a43c7337bdf44b58443b16a1e494ad747f9850b10e  /usr/lib/liblz4.so.1.10.0
+6106974ac44f821cf97633527c65e7413be657a95e55aafb0885bf84743bb8a4  /usr/lib/liblzma.so.5.8.4
+fb05edf23d10cf7a3a85526fc5593c7cef356c9a17117d582c50fa39adcae8fb  /usr/lib/libsasl2.so.3.0.0
+3bb7fa63a3d6fb71884976bcda01c2fb2cf4145774cfa480ee8a509103c7093a  /usr/lib/libssl.so.3
+67a940194aec6c44c3eb47a98e44c53d248e4dac5f4eb57c0971c0d6286eafe5  /usr/lib/libstdc++.so.6.0.34
+c7742d413585cee3e2750472e04da810a7a9883a1c10a8270c2f6e8c56231ad7  /usr/lib/libxml2.so.2.13.9
+a1e2c03dcdedba98a06a00cadfb67a0e0b1cd93986860ec0c5ce66e789c44e57  /usr/lib/libz.so.1.3.2
+a0a285da817a61e65d9e89bbfd38243cf8a4798cc429adc2772b5931f1d4fbb6  /usr/lib/libzstd.so.1.5.7
+b65c19ceb9ae7e18f6e271e08dda64557a92d5a7bf46b76257d58d8c95678555  /usr/local/bin/postgres
+Receipt normalization: trailing display padding removed; command results and values are unchanged.

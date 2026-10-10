@@ -1,0 +1,41 @@
+KERNEL
+6.18.33.2-microsoft-standard-WSL2
+FSTAB
+644 root:root /etc/fstab
+4755 root:root /usr/bin/mount
+755 root:root /usr/bin/nsenter
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+CAPABILITY
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+PACKAGES
+gcc-14-base:amd64	14.2.0-19
+libstdc++6:amd64	14.2.0-19
+perl-base	5.40.1-6+deb13u1
+util-linux	2.41.5-0+deb13u1
+zlib1g:amd64	1:1.3.dfsg+really1.3.1-1+b1
+NODE_LINKS
+	linux-vdso.so.1 (0x0000732e7f626000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x0000732e7f618000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000732e7f3b2000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000732e7f2c2000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000732e7f295000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x0000732e7f28e000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000732e7f09a000)
+	/lib64/ld-linux-x86-64.so.2 (0x0000732e7f628000)
+BINUTILS
+SOURCE_TOOLS
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:17:export { BuilderRfqError, CollateralReturnKnownOperationKind, CollateralReturnOperation, CollateralReturnOperationKind, CollateralReturnPlanResponse, CollateralReturnPositionAmount, CollateralReturnPositionSummary, CollateralReturnRouterCall, ComboAcceptFailureReason, ComboQuoteUnavailableReason, RfqConfirmationDecision, RfqConfirmationRequest, RfqDirection, RfqErrorCode, RfqExecutionStatus, RfqExecutionUpdate, RfqId, RfqKnownErrorCode, RfqQuoteId, RfqQuoteRequest, RfqRejectionCode, RfqRequestedSize, RfqRequestedSizeUnit, RfqRequestorPublicId, RfqSide, RfqStatus, RfqTrade } from '@polymarket/bindings/combos';
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:32: * Thrown when the approval amount is invalid.
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:34:declare function erc20ApprovalCall(tokenAddress: EvmAddress, spender: EvmAddress, amount: bigint): TransactionCall;
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:47: * Thrown when the transfer amount is invalid.
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:49:declare function erc20TransferCall(tokenAddress: EvmAddress, recipient: EvmAddress, amount: bigint): TransactionCall;
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:64: * Thrown when the deposit amount is invalid.
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:68:declare function perpsDepositCall(depositContractAddress: EvmAddress, tokenAddress: EvmAddress, amount: bigint, to: EvmAddress): TransactionCall;
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:81: * Thrown when the amount is invalid.
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:83:declare function ctfSplitPositionCall(targetAddress: EvmAddress, collateralTokenAddress: EvmAddress, conditionId: ConditionId, amount: bigint): TransactionCall;
+/workspace/packages/polymarket/node_modules/@polymarket/client/dist/index.d.ts:96: * Thrown when the amount is invalid.

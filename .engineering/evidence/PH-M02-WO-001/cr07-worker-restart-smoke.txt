@@ -1,0 +1,13 @@
+Timestamp: 2026-10-07T22:08:25.1306144-03:00
+HTTP before worker restart: 200
+Worker restart output:
+ Container polyhunter-worker Restarting
+ Container polyhunter-worker Started
+Worker process listing:
+UID                 PID                 PPID                CMD
+1000                44569               44546               /sbin/docker-init -- docker-entrypoint.sh ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+1000                44594               44569               node ./node_modules/.bin/nodemon --legacy-watch --polling-interval 1000 --watch apps/worker --watch packages --ext ts,json --exec node apps/worker/src/index.ts
+Provider import:
+createPolymarketDiscovery=function
+HTTP after worker restart: 200
+PostgreSQL: running healthy

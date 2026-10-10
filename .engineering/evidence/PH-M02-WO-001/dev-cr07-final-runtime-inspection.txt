@@ -1,0 +1,72 @@
+image=polyhunter-dev:local
+imageId=sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1
+workerContainerId=06ab39722250c82a0773e31ee7ca02586a1efeb5dd745a4f8efa99624047f31c
+container image digest label=polyhunter-dev:local
+runtime inspection below:
+--- runtime versions ---
+{"node":"v24.21.0","zlib":"1.3.2.1-motley-8002e91","arch":"x64","NODE_PATH":"<unset>"}
+12.2.0
+/usr/local/lib
+`-- npm@12.2.0
+  +-- libnpmdiff@9.0.3
+  | `-- tar@7.5.22 deduped
+  +-- make-fetch-happen@16.0.1
+  | +-- @npmcli/agent@5.0.2
+  | | `-- socks-proxy-agent@10.1.0
+  | |   `-- socks@2.8.9
+  | |     `-- ip-address@10.5.0
+  | `-- http-cache-semantics@4.3.0
+  +-- minimatch@10.2.5
+  | `-- brace-expansion@5.0.11
+  |   `-- balanced-match@4.0.4
+  +-- node-gyp@13.0.0
+  | +-- tar@7.5.22 deduped
+  | `-- undici@6.28.1
+  +-- pacote@22.0.0
+  | `-- tar@7.5.22 deduped
+  `-- tar@7.5.22
+
+--- system packages and hashes ---
+libstdc++6=14.2.0-19
+perl-base=5.40.1-6+deb13u1
+util-linux=2.41.5-0+deb13u1
+zlib1g=1:1.3.dfsg+really1.3.1-1+b1
+972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00  /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+85590dd58edf5445e18bc7193e5ebc01ac5841f1ae187e97705a662e90c6421e  /usr/lib/x86_64-linux-gnu/libz.so.1
+	linux-vdso.so.1 (0x00007c07a0bd7000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007c07a0bc9000)
+	libstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007c07a0963000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007c07a0873000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007c07a0846000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007c07a083f000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007c07a064b000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007c07a0bd9000)
+--- util-linux / privilege context ---
+uid=1000(node) gid=1000(node) groups=1000(node)
+-rw-r--r-- 644 root:root /etc/fstab
+-rwsr-xr-x 4755 root:root /usr/bin/mount
+-rwxr-xr-x 755 root:root /usr/bin/nsenter
+# UNCONFIGURED FSTAB FOR BASE SYSTEM
+Uid:	1000	1000	1000	1000
+Gid:	1000	1000	1000	1000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	00000000a80425fb
+NoNewPrivs:	0
+ -C, --cgroup[=<file>]  enter cgroup namespace
+ -c, --join-cgroup      join the cgroup of the target process
+--- mount helper inventory ---
+
+--- exact final runtime after Dockerfile S6505 correction ---
+ImageId=sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1
+The only Dockerfile correction since the prior CR-07 image is adding --ignore-scripts to the global npm 12.2.0 installation. Runtime npm versions and patched nested npm packages remain unchanged.
+Worker package resolution:
+brace-expansion=5.0.12 resolved=/workspace/node_modules/brace-expansion/dist/commonjs/index.js
+undici=NOT_RESOLVABLE_FROM_WORKER
+tar=NOT_RESOLVABLE_FROM_WORKER
+ip-address=NOT_RESOLVABLE_FROM_WORKER
+http-cache-semantics=NOT_RESOLVABLE_FROM_WORKER
+NODE_PATH=<unset>
+Provider module:
+ /workspace/packages/polymarket/src/index.ts
+createPolymarketDiscovery=function

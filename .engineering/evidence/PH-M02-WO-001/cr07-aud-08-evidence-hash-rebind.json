@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "pullRequest": 43,
+  "review": "5460654469",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "sourceHeadSha": "cf0fe09d30764cdf3ae0fcc8e836e84dd43d9958",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "recordedAtUtc": "2026-10-09T23:01:24Z",
+  "scope": "Evidence-reference integrity only for the exact PostgreSQL VEX; no finding disposition or runtime artifact changed.",
+  "postgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+  "hashRule": {
+    "algorithm": "SHA-256",
+    "bytes": "Raw bytes returned by git show <commit>:<path>, i.e. the committed Git blob. Windows checkout bytes are not used for canonical evidence references.",
+    "reason": "The prior CR-07-AUD-07 integrity receipt specifies Git-blob hashing to avoid core.autocrlf ambiguity."
+  },
+  "inputReceipts": [
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+      "sha256": "66fb122b6328bbdac2ecd88b2b8b6f01d3f73653474d540e1f8d8092267634c4",
+      "meaning": "Input PostgreSQL VEX at sourceHeadSha."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-07-evidence-integrity.txt",
+      "sha256": "b9b9f7e9e11ed4066ed44b9f5a31c799f3da1fd770c109e763a5d021c34f46f2",
+      "meaning": "Prior canonical hash-validation rule and audit context."
+    }
+  ],
+  "reconciliation": {
+    "pathSha256ReferenceOccurrencesBefore": 831,
+    "uniqueEvidencePaths": 99,
+    "uniquePathsMatchingCommittedGitBlobBefore": 30,
+    "uniquePathsMatchingWindowsCheckoutBytesBefore": 97,
+    "uniquePathsMatchingNeitherBefore": 2,
+    "uniquePathsEquivalentAfterCRLFNormalization": 99,
+    "distinctPathHashesRebound": 69,
+    "referenceOccurrencesChanged": 707,
+    "uniquePathsMatchingCommittedGitBlobAfter": 99,
+    "unresolvedPathsAfter": 0,
+    "conflictingHashesPerPathAfter": 0,
+    "semanticVexPayloadUnchangedWhenIgnoringPathSha256": true
+  },
+  "previouslyUnmatchedReceipts": [
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+      "previousSha256": "d93bc836b5971afb2b4db91cc68d7a1caea38b14c378226bd47784ca72470cc1",
+      "checkoutSha256": "0357e7f9cef545ff90672f11dc37403885bf5e06d1b82b2e46a6314e5dafe2b7",
+      "committedBlobSha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68",
+      "claimCheck": "Current artifact records PostgreSQL digest f9359595..., zlib 1.3.2-r1, PostgreSQL healthy, web HTTP 200/healthy and worker running. The evidence is a historical runtime snapshot, not a live assertion for this correction."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+      "previousSha256": "7060d5bd7272f331b8ab7c973286b7b8c893f449a52bfa1bca2cb236b80a171f",
+      "checkoutSha256": "89787a5e9ef9ab0a4cc03099de2ec03a237d71ce92d916f42f8c8d98c9c1a111",
+      "committedBlobSha256": "89787a5e9ef9ab0a4cc03099de2ec03a237d71ce92d916f42f8c8d98c9c1a111",
+      "claimCheck": "Current artifact records 4 integration test files and 66 passing tests."
+    }
+  ],
+  "vexStateBeforeAndAfter": {
+    "findingCount": 24,
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "statusCounts": {
+      "UNDER_INVESTIGATION": 24
+    },
+    "proposedDispositionCounts": {
+      "NOT_AFFECTED": 24
+    },
+    "independentAuditorNonNull": 0,
+    "ownerApprovalNonNull": 0,
+    "executorSelfApprovalTrue": 0,
+    "expiry": "2026-10-15T23:59:59Z",
+    "unchanged": true
+  },
+  "validation": {
+    "deterministicGitBlobReferenceCheck": "PASS: all 831 references across 99 unique paths resolve to current committed/staged Git-blob SHA-256 values; zero conflicts or missing targets.",
+    "semanticComparison": "PASS: after normalizing path-associated sha256 values, the VEX payload is byte-semantically unchanged.",
+    "rebuildOrRescan": "NOT RUN: image, digest, scanner result and runtime artifacts are unchanged.",
+    "databaseOrDockerStorage": "NOT TOUCHED: no Docker, WSL, VHDX, volume or database commands were run.",
+    "localSyntaxAndDiffChecks": "PENDING final staged integrity validation.",
+    "exactHeadCi": "Pending commit/push at receipt creation; final exact-head status and run are recorded in PR #43.",
+    "parentPointerIntegrity": "PASS: parent manifest references match staged Evidence Bundle, Checkpoint Delta, audit matrix and PostgreSQL VEX blobs; matrix/security-scans VEX pointers match the PostgreSQL VEX blob.",
+    "jsonSyntax": "PASS: modified VEX/manifests/receipt JSON parse successfully.",
+    "securityBoundaryChecks": "PASS: npm test -- tests/polymarket-boundary.test.ts tests/route-handler-security.test.ts (2 files, 39 tests).",
+    "gitDiffCheck": "PASS: git diff --cached --check.",
+    "jevVerification": "Advisory TypeSafe JEV 1.13.0 jev_verify: 4 claims verified, 0 contradicted, 0 unsupported, 0 needing review; it did not analyze or approve CVEs."
+  },
+  "result": "HASH_INTEGRITY_CORRECTED_PENDING_INDEPENDENT_REAUDIT_AND_OWNER_VEX_DECISIONS",
+  "approvalBoundary": "No VEX was approved. Independent auditor and owner approval remain null for all 24 findings. This receipt records evidence identity only.",
+  "parentPointerBlobs": {
+    "postgresVexSha256": "7d7391d8db6b564fa1cc1c52c76ccd8f98fe9f2310856964fa0b9c0b795bfbbe",
+    "evidenceBundleSha256": "11486ade847ac7c6d30a6b758b653353b6c7afd1f0523605862fa60a5a3efe20",
+    "checkpointDeltaSha256": "d9594b1ced1a9300bded569fb643da6cead7a22b36179fc50c00e8a3c6c0f608",
+    "auditMatrixSha256": "b731e3f35594ef8b1ce1ba3581b464486abb838a90bbfb9a6c85f51a6184f0c9",
+    "parentManifestVexSha256": "7f49e6c021f9cabbe3b5ab6af6c05b3a01ef77241a15395474162fcb1d7e9246",
+    "securityScansManifestSha256": "285e4d86d6c23a5052b1229f9388a864aa1d28c25173def99b0867988edf160f",
+    "hashSource": "SHA-256 of staged Git index blobs immediately before commit."
+  }
+}

@@ -1,0 +1,1084 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Docker Scout",
+          "informationUri": "https://docker.com/products/docker-scout",
+          "name": "docker scout",
+          "rules": [
+            {
+              "id": "CVE-2025-58187",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-58187"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-58187?s=golang&n=stdlib&t=golang&vr=%3C1.24.9",
+              "help": {
+                "text": "Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\nThis affects programs which validate arbitrary certificate chains.\n",
+                "markdown": "> Due to the design of the name constraint checking algorithm, the processing time of some inputs scale non-linearly with respect to the size of the certificate.\n\nThis affects programs which validate arbitrary certificate chains.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.9                   |\n|Fixed version   1.24.9                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.9",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.9",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-58188",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-58188"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-58188?s=golang&n=stdlib&t=golang&vr=%3C1.24.8",
+              "help": {
+                "text": "Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\nThis affects programs which validate arbitrary certificate chains.\n",
+                "markdown": "> Validating certificate chains which contain DSA public keys can cause programs to panic, due to a interface cast that assumes they implement the Equal method.\n\nThis affects programs which validate arbitrary certificate chains.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.8                   |\n|Fixed version   1.24.8                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.8",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.8",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-61723",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-61723"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-61723?s=golang&n=stdlib&t=golang&vr=%3C1.24.8",
+              "help": {
+                "text": "The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\nThis affects programs which parse untrusted PEM inputs.\n",
+                "markdown": "> The processing time for parsing some invalid inputs scales non-linearly with respect to the size of the input.\n\nThis affects programs which parse untrusted PEM inputs.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.8                   |\n|Fixed version   1.24.8                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.8",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.8",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-61725",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-61725"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-61725?s=golang&n=stdlib&t=golang&vr=%3C1.24.8",
+              "help": {
+                "text": "The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.\n",
+                "markdown": "> The ParseAddress function constructs domain-literal address components through repeated string concatenation. When parsing large domain-literal components, this can cause excessive CPU consumption.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.8                   |\n|Fixed version   1.24.8                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.8",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.8",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-61726",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-61726"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-61726?s=golang&n=stdlib&t=golang&vr=%3C1.24.12",
+              "help": {
+                "text": "The net/url package does not set a limit on the number of query parameters in a query.\n\nWhile the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption.\n",
+                "markdown": "> The net/url package does not set a limit on the number of query parameters in a query.\n\nWhile the maximum size of query parameters in URLs is generally limited by the maximum request header size, the net/http.Request.ParseForm method can parse large URL-encoded forms. Parsing a large form containing many unique query parameters can cause excessive memory consumption.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.12                  |\n|Fixed version   1.24.12                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.12",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.12",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-61729",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-61729"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-61729?s=golang&n=stdlib&t=golang&vr=%3C1.24.11",
+              "help": {
+                "text": "Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption.\n",
+                "markdown": "> Within HostnameError.Error(), when constructing an error string, there is no limit to the number of hosts that will be printed out. Furthermore, the error string is constructed by repeated string concatenation, leading to quadratic runtime. Therefore, a certificate provided by a malicious actor can result in excessive resource consumption.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.11                  |\n|Fixed version   1.24.11                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.11",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.24.11",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-25679",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-25679"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-25679?s=golang&n=stdlib&t=golang&vr=%3C1.25.8",
+              "help": {
+                "text": "url.Parse insufficiently validated the host/authority component and accepted some invalid URLs.\n",
+                "markdown": "> url.Parse insufficiently validated the host/authority component and accepted some invalid URLs.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.8                   |\n|Fixed version   1.25.8                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.8",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.8",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-32280",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-32280"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-32280?s=golang&n=stdlib&t=golang&vr=%3C1.25.9",
+              "help": {
+                "text": "During chain building, the amount of work that is done is not correctly limited when a large number of intermediate certificates are passed in VerifyOptions.Intermediates, which can lead to a denial of service. This affects both direct users of crypto/x509 and users of crypto/tls.\n",
+                "markdown": "> During chain building, the amount of work that is done is not correctly limited when a large number of intermediate certificates are passed in VerifyOptions.Intermediates, which can lead to a denial of service. This affects both direct users of crypto/x509 and users of crypto/tls.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.9                   |\n|Fixed version   1.25.9                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.9",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.9",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-32281",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-32281"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-32281?s=golang&n=stdlib&t=golang&vr=%3C1.25.9",
+              "help": {
+                "text": "Validating certificate chains which use policies is unexpectedly inefficient when certificates in the chain contain a very large number of policy mappings, possibly causing denial of service.\n\nThis only affects validation of otherwise trusted certificate chains, issued by a root CA in the VerifyOptions.Roots CertPool, or in the system certificate pool.\n",
+                "markdown": "> Validating certificate chains which use policies is unexpectedly inefficient when certificates in the chain contain a very large number of policy mappings, possibly causing denial of service.\n\nThis only affects validation of otherwise trusted certificate chains, issued by a root CA in the VerifyOptions.Roots CertPool, or in the system certificate pool.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.9                   |\n|Fixed version   1.25.9                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.9",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.9",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-32283",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-32283"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-32283?s=golang&n=stdlib&t=golang&vr=%3C1.25.9",
+              "help": {
+                "text": "If one side of the TLS connection sends multiple key update messages post-handshake in a single record, the connection can deadlock, causing uncontrolled consumption of resources. This can lead to a denial of service.\n\nThis only affects TLS 1.3.\n",
+                "markdown": "> If one side of the TLS connection sends multiple key update messages post-handshake in a single record, the connection can deadlock, causing uncontrolled consumption of resources. This can lead to a denial of service.\n\nThis only affects TLS 1.3.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.9                   |\n|Fixed version   1.25.9                    |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.9",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.9",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-33811",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-33811"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-33811?s=golang&n=stdlib&t=golang&vr=%3C1.25.10",
+              "help": {
+                "text": "When using LookupCNAME with the cgo DNS resolver, a very long CNAME response can trigger a double-free of C memory and a crash.\n",
+                "markdown": "> When using LookupCNAME with the cgo DNS resolver, a very long CNAME response can trigger a double-free of C memory and a crash.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.10                  |\n|Fixed version   1.25.10                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.10",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.10",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-33814",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-33814"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-33814?s=golang&n=stdlib&t=golang&vr=%3C1.25.10",
+              "help": {
+                "text": "When processing HTTP/2 SETTINGS frames, transport will enter an infinite loop of writing CONTINUATION frames if it receives a SETTINGS_MAX_FRAME_SIZE with a value of 0.\n",
+                "markdown": "> When processing HTTP/2 SETTINGS frames, transport will enter an infinite loop of writing CONTINUATION frames if it receives a SETTINGS_MAX_FRAME_SIZE with a value of 0.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.10                  |\n|Fixed version   1.25.10                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.10",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.10",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-33818",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-33818"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-33818?s=golang&n=stdlib&t=golang&vr=%3C1.25.13",
+              "help": {
+                "text": "Enforce a recursion limit in Unmarshal to prevent stack exhaustion when parsing deeply-nested, recursive structures.\n",
+                "markdown": "> Enforce a recursion limit in Unmarshal to prevent stack exhaustion when parsing deeply-nested, recursive structures.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.13                  |\n|Fixed version   1.25.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.13",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-39820",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-39820"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-39820?s=golang&n=stdlib&t=golang&vr=%3C1.25.10",
+              "help": {
+                "text": "Well-crafted inputs reaching ParseAddress, ParseAddressList, and ParseDate were able to trigger excessive CPU exhaustion and memory allocations.\n",
+                "markdown": "> Well-crafted inputs reaching ParseAddress, ParseAddressList, and ParseDate were able to trigger excessive CPU exhaustion and memory allocations.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.10                  |\n|Fixed version   1.25.10                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.10",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.10",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-39836",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-39836"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-39836?s=golang&n=stdlib&t=golang&vr=%3C1.25.10",
+              "help": {
+                "text": "The Dial and LookupPort functions panic on Windows when provided with an input containing a NUL (0).\n",
+                "markdown": "> The Dial and LookupPort functions panic on Windows when provided with an input containing a NUL (0).\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.10                  |\n|Fixed version   1.25.10                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.10",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.10",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42499",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-42499"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-42499?s=golang&n=stdlib&t=golang&vr=%3C1.25.10",
+              "help": {
+                "text": "Pathological inputs could cause DoS through consumePhrase when parsing an email address according to RFC 5322.\n",
+                "markdown": "> Pathological inputs could cause DoS through consumePhrase when parsing an email address according to RFC 5322.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.10                  |\n|Fixed version   1.25.10                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.10",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.10",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-42504",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-42504"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-42504?s=golang&n=stdlib&t=golang&vr=%3C1.25.11",
+              "help": {
+                "text": "Decoding a maliciously-crafted MIME header containing many invalid encoded-words can consume excessive CPU.\n",
+                "markdown": "> Decoding a maliciously-crafted MIME header containing many invalid encoded-words can consume excessive CPU.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.11                  |\n|Fixed version   1.25.11                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.11",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.11",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-56853",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-56853"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-56853?s=golang&n=stdlib&t=golang&vr=%3C1.25.13",
+              "help": {
+                "text": "When a server is configured to support unencrypted HTTP/2, it reads a few bytes from each new connection to see if they contain the HTTP/2 client preface. ReadHeaderTimeout is unexpectedly not being applied when doing this.\n",
+                "markdown": "> When a server is configured to support unencrypted HTTP/2, it reads a few bytes from each new connection to see if they contain the HTTP/2 client preface. ReadHeaderTimeout is unexpectedly not being applied when doing this.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.13                  |\n|Fixed version   1.25.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.13",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-56859",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-56859"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-56859?s=golang&n=stdlib&t=golang&vr=%3C1.25.13",
+              "help": {
+                "text": "Previously, DecodeElement would reset the depth counter causing it to never fire; this could lead to stack exhaustion.\n",
+                "markdown": "> Previously, DecodeElement would reset the depth counter causing it to never fire; this could lead to stack exhaustion.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.13                  |\n|Fixed version   1.25.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.13",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-56862",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-56862"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-56862?s=golang&n=stdlib&t=golang&vr=%3C1.25.13",
+              "help": {
+                "text": "Handshake messages, such as KeyUpdate, are always considered as state-advancing, regardless of whether a handshake has been completed or not. As a result, a malicious client can keep sending KeyUpdate messages to force the server to keep performing key derivation operations indefinitely.\n",
+                "markdown": "> Handshake messages, such as KeyUpdate, are always considered as state-advancing, regardless of whether a handshake has been completed or not. As a result, a malicious client can keep sending KeyUpdate messages to force the server to keep performing key derivation operations indefinitely.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.13                  |\n|Fixed version   1.25.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.13",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-39822",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-39822"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-39822?s=golang&n=stdlib&t=golang&vr=%3C1.25.12",
+              "help": {
+                "text": "On Unix systems, opening a file in an os.Root improperly follows symlinks to locations outside of the Root when the final path component of the a path is a symbolic link and the path ends in /.\n\nFor example, 'root.Open(\"symlink/\")' will open \"symlink\" even when \"symlink\" is a symbolic link pointing outside of the root.\n",
+                "markdown": "> On Unix systems, opening a file in an os.Root improperly follows symlinks to locations outside of the Root when the final path component of the a path is a symbolic link and the path ends in /.\n\nFor example, 'root.Open(\"symlink/\")' will open \"symlink\" even when \"symlink\" is a symbolic link pointing outside of the root.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.12                  |\n|Fixed version   1.25.12                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.12",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.25.12",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "7.8",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-86140",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-86140"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-86140?s=alpine&n=libxml2&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C%3D2.13.9-r2",
+              "help": {
+                "text": "\n",
+                "markdown": "> \n\n|                                                                                 |\n|Package         pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24  |\n|Affected range  <=2.13.9-r2                                                      |\n|Fixed version   not fixed                                                        |\n"
+              },
+              "properties": {
+                "affected_version": "<=2.13.9-r2",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "not fixed",
+                "purls": [
+                  "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24"
+                ],
+                "security-severity": "8.0",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-85091",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-85091"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-85091?s=alpine&n=zlib&ns=alpine&t=apk&osn=alpine&osv=3.24&vr=%3C1.3.2-r1",
+              "help": {
+                "text": "\n",
+                "markdown": "> \n\n|                                                                             |\n|Package         pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24  |\n|Affected range  <1.3.2-r1                                                    |\n|Fixed version   1.3.2-r1                                                     |\n"
+              },
+              "properties": {
+                "affected_version": "<1.3.2-r1",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.3.2-r1",
+                "purls": [
+                  "pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24"
+                ],
+                "security-severity": "8.3",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-39821",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2026-39821"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2026-39821?s=golang&n=stdlib&t=golang&vr=%3C1.25.13",
+              "help": {
+                "text": "The ToASCII and ToUnicode functions incorrectly accept Punycode-encoded labels that decode to an ASCII-only label. For example, ToUnicode(\"xn--example-.com\") incorrectly returns the name \"example.com\" rather than an error.\n\nThis behavior can lead to privilege escalation in programs using the idna package. For example, a program which performs privilege checks on the ASCII hostname may reject \"example.com\" but permit \"xn--example-.com\". If that program subsequently converts the ASCII hostname to Unicode, it will inadvertently permits access to the Unicode name \"example.com\".\n",
+                "markdown": "> The ToASCII and ToUnicode functions incorrectly accept Punycode-encoded labels that decode to an ASCII-only label. For example, ToUnicode(\"xn--example-.com\") incorrectly returns the name \"example.com\" rather than an error.\n\nThis behavior can lead to privilege escalation in programs using the idna package. For example, a program which performs privilege checks on the ASCII hostname may reject \"example.com\" but permit \"xn--example-.com\". If that program subsequently converts the ASCII hostname to Unicode, it will inadvertently permits access to the Unicode name \"example.com\".\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.25.13                  |\n|Fixed version   1.25.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.25.13",
+                "cvssV3_severity": "CRITICAL",
+                "fixed_version": "1.25.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "9.6",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2025-68121",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2025-68121"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2025-68121?s=golang&n=stdlib&t=golang&vr=%3C1.24.13",
+              "help": {
+                "text": "During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake.\n",
+                "markdown": "> During session resumption in crypto/tls, if the underlying Config has its ClientCAs or RootCAs fields mutated between the initial handshake and the resumed handshake, the resumed handshake may succeed when it should have failed. This may happen when a user calls Config.Clone and mutates the returned Config, or uses Config.GetConfigForClient. This can cause a client to resume a session with a server that it would not have resumed with during the initial handshake, or cause a server to resume a session with a client that it would not have resumed with during the initial handshake.\n\n|                                          |\n|Package         pkg:golang/stdlib@1.24.6  |\n|Affected range  <1.24.13                  |\n|Fixed version   1.24.13                   |\n"
+              },
+              "properties": {
+                "affected_version": "<1.24.13",
+                "cvssV3_severity": "CRITICAL",
+                "fixed_version": "1.24.13",
+                "purls": [
+                  "pkg:golang/stdlib@1.24.6"
+                ],
+                "security-severity": "10.0",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            }
+          ],
+          "version": "1.24.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2025-58187",
+          "ruleIndex": 0,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-58187            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.9                   \nFixed version    :1.24.9                    \nEPSS Score       :0.004060                  \nEPSS Percentile  :0.326690                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-58188",
+          "ruleIndex": 1,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-58188            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.8                   \nFixed version    :1.24.8                    \nEPSS Score       :0.003810                  \nEPSS Percentile  :0.299120                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-61723",
+          "ruleIndex": 2,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-61723            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.8                   \nFixed version    :1.24.8                    \nEPSS Score       :0.006610                  \nEPSS Percentile  :0.499920                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-61725",
+          "ruleIndex": 3,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-61725            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.8                   \nFixed version    :1.24.8                    \nEPSS Score       :0.006470                  \nEPSS Percentile  :0.493360                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-61726",
+          "ruleIndex": 4,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-61726            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.12                  \nFixed version    :1.24.12                   \nEPSS Score       :0.023260                  \nEPSS Percentile  :0.829460                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-61729",
+          "ruleIndex": 5,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-61729            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.11                  \nFixed version    :1.24.11                   \nEPSS Score       :0.004570                  \nEPSS Percentile  :0.375370                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-25679",
+          "ruleIndex": 6,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-25679            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.8                   \nFixed version    :1.25.8                    \nEPSS Score       :0.008340                  \nEPSS Percentile  :0.562820                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-32280",
+          "ruleIndex": 7,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-32280            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.9                   \nFixed version    :1.25.9                    \nEPSS Score       :0.006150                  \nEPSS Percentile  :0.477210                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-32281",
+          "ruleIndex": 8,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-32281            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.9                   \nFixed version    :1.25.9                    \nEPSS Score       :0.003550                  \nEPSS Percentile  :0.270800                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-32283",
+          "ruleIndex": 9,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-32283            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.9                   \nFixed version    :1.25.9                    \nEPSS Score       :0.006210                  \nEPSS Percentile  :0.480690                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-33811",
+          "ruleIndex": 10,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-33811            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.10                  \nFixed version    :1.25.10                   \nEPSS Score       :0.008130                  \nEPSS Percentile  :0.556170                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-33814",
+          "ruleIndex": 11,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-33814            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.10                  \nFixed version    :1.25.10                   \nEPSS Score       :0.007810                  \nEPSS Percentile  :0.545080                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-33818",
+          "ruleIndex": 12,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-33818            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.13                  \nFixed version    :1.25.13                   \nEPSS Score       :0.005680                  \nEPSS Percentile  :0.452060                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-39820",
+          "ruleIndex": 13,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-39820            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.10                  \nFixed version    :1.25.10                   \nEPSS Score       :0.007840                  \nEPSS Percentile  :0.545820                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-39836",
+          "ruleIndex": 14,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-39836            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.10                  \nFixed version    :1.25.10                   \nEPSS Score       :0.006200                  \nEPSS Percentile  :0.479760                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42499",
+          "ruleIndex": 15,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-42499            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.10                  \nFixed version    :1.25.10                   \nEPSS Score       :0.007980                  \nEPSS Percentile  :0.550700                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42504",
+          "ruleIndex": 16,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-42504            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.11                  \nFixed version    :1.25.11                   \nEPSS Score       :0.005600                  \nEPSS Percentile  :0.447650                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-56853",
+          "ruleIndex": 17,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-56853            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.13                  \nFixed version    :1.25.13                   \nEPSS Score       :0.005680                  \nEPSS Percentile  :0.452070                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-56859",
+          "ruleIndex": 18,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-56859            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.13                  \nFixed version    :1.25.13                   \nEPSS Score       :0.005680                  \nEPSS Percentile  :0.452070                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-56862",
+          "ruleIndex": 19,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-56862            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.13                  \nFixed version    :1.25.13                   \nEPSS Score       :0.005680                  \nEPSS Percentile  :0.452070                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-39822",
+          "ruleIndex": 20,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-39822            \nSeverity         :HIGH                      \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.12                  \nFixed version    :1.25.12                   \nEPSS Score       :0.002320                  \nEPSS Percentile  :0.129070                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-86140",
+          "ruleIndex": 21,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-86140                                                   \nSeverity         :HIGH                                                             \nPackage          :pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24  \nAffected range   :<=2.13.9-r2                                                      \nFixed version    :not fixed                                                        \nEPSS Score       :0.001570                                                         \nEPSS Percentile  :0.042610                                                         \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/libxml2.so.2.13.9"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-85091",
+          "ruleIndex": 22,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-85091                                               \nSeverity         :HIGH                                                         \nPackage          :pkg:apk/alpine/zlib@1.3.2-r0?os_name=alpine&os_version=3.24  \nAffected range   :<1.3.2-r1                                                    \nFixed version    :1.3.2-r1                                                     \nEPSS Score       :0.005920                                                     \nEPSS Percentile  :0.465260                                                     \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/lib/libz.so.1.3.2"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-39821",
+          "ruleIndex": 23,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2026-39821            \nSeverity         :CRITICAL                  \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.25.13                  \nFixed version    :1.25.13                   \nEPSS Score       :0.006920                  \nEPSS Percentile  :0.512750                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2025-68121",
+          "ruleIndex": 24,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "Vulnerability    :CVE-2025-68121            \nSeverity         :CRITICAL                  \nPackage          :pkg:golang/stdlib@1.24.6  \nAffected range   :<1.24.13                  \nFixed version    :1.24.13                   \nEPSS Score       :0.009150                  \nEPSS Percentile  :0.588520                  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bin/gosu"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+ Image polyhunter-dev:local Building
+ Image polyhunter-dev:local Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.04kB 0.1s done
+#1 DONE 0.1s
+
+#2 [web internal] load build definition from Dockerfile.dev
+#2 transferring dockerfile:
+#2 transferring dockerfile: 3.75kB 0.1s done
+#2 DONE 0.5s
+
+#2 [web internal] load build definition from Dockerfile.dev
+#2 DONE 0.5s
+
+#3 [worker internal] load metadata for docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [web internal] load metadata for docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#3 DONE 3.7s
+
+#5 [web internal] load .dockerignore
+#5 transferring context:
+#5 transferring context: 208B 0.1s done
+#5 DONE 0.5s
+
+#5 [web internal] load .dockerignore
+#5 DONE 0.5s
+
+#6 [worker internal] load build context
+#6 transferring context: 729B 0.0s done
+#6 DONE 0.7s
+
+#7 [worker  1/15] FROM docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#7 resolve docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#7 ...
+
+#6 [web internal] load build context
+#6 DONE 0.7s
+
+#7 [worker  1/15] FROM docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#7 resolve docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66 1.1s done
+#7 DONE 1.2s
+
+#7 [web  1/15] FROM docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66
+#7 resolve docker.io/library/node:24-trixie-slim@sha256:173f125896c3b47ddf056734c7ea789d04595a6a08769a8f78e0df642781fb66 1.1s done
+#7 DONE 1.2s
+
+#8 [web  2/15] WORKDIR /workspace
+#8 CACHED
+
+#9 [web  3/15] RUN mkdir -p /workspace && chown node:node /workspace
+#9 DONE 3.3s
+
+#9 [web  3/15] RUN mkdir -p /workspace && chown node:node /workspace
+#9 DONE 3.3s
+
+#10 [worker  4/15] COPY --chown=node:node package.json package-lock.json ./
+#10 DONE 10.4s
+
+#10 [web  4/15] COPY --chown=node:node package.json package-lock.json ./
+#10 DONE 10.4s
+
+#11 [worker  5/15] COPY --chown=node:node apps/web/package.json apps/web/package.json
+#11 DONE 2.8s
+
+#11 [web  5/15] COPY --chown=node:node apps/web/package.json apps/web/package.json
+#11 DONE 2.8s
+
+#12 [web  6/15] COPY --chown=node:node apps/worker/package.json apps/worker/package.json
+#12 DONE 2.7s
+
+#12 [worker  6/15] COPY --chown=node:node apps/worker/package.json apps/worker/package.json
+#12 DONE 2.7s
+
+#13 [web  7/15] COPY --chown=node:node packages/contracts/package.json packages/contracts/package.json
+#13 DONE 2.7s
+
+#13 [web  7/15] COPY --chown=node:node packages/contracts/package.json packages/contracts/package.json
+#13 DONE 2.7s
+
+#14 [worker  8/15] COPY --chown=node:node packages/domain/package.json packages/domain/package.json
+#14 DONE 3.1s
+
+#14 [worker  8/15] COPY --chown=node:node packages/domain/package.json packages/domain/package.json
+#14 DONE 3.1s
+
+#15 [worker  9/15] COPY --chown=node:node packages/db/package.json packages/db/package.json
+#15 DONE 2.6s
+
+#15 [web  9/15] COPY --chown=node:node packages/db/package.json packages/db/package.json
+#15 DONE 2.6s
+
+#16 [web 10/15] COPY --chown=node:node packages/testkit/package.json packages/testkit/package.json
+#16 DONE 2.7s
+
+#16 [worker 10/15] COPY --chown=node:node packages/testkit/package.json packages/testkit/package.json
+#16 DONE 2.7s
+
+#17 [worker 11/15] COPY --chown=node:node packages/polymarket/package.json packages/polymarket/package.json
+#17 DONE 2.7s
+
+#17 [web 11/15] COPY --chown=node:node packages/polymarket/package.json packages/polymarket/package.json
+#17 DONE 2.7s
+
+#18 [web 12/15] RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+#18 DONE 4.6s
+
+#18 [worker 12/15] RUN mkdir -p apps/web/.next && chown -R node:node /workspace
+#18 DONE 4.6s
+
+#19 [web 13/15] RUN set -eu;     npm install --global --no-audit --no-fund --ignore-scripts npm@12.2.0;     root="$(npm root --global)/npm/node_modules";     test "$root" = "/usr/local/lib/node_modules/npm/node_modules";     tmp="$(mktemp -d)";     cd "$tmp";     npm pack --ignore-scripts --json       brace-expansion@5.0.11       undici@6.28.1       http-cache-semantics@4.3.0 > pack.json;     node -e 'const fs=require("node:fs");const expected={"brace-expansion":["5.0.11","sha512-awigjhi6cLTh90bdw6+QJ9CtmJmyYhEIi70iCbc8Rozn04Fw9FeQIBjv/E22FFGuCGx1bLJyUfB64x/szUSXUg=="],"undici":["6.28.1","sha512-zWpdTVD54H48CIybL0rWQ3ukpb9d23wM7eH5RtfdmeP70cWHNjtfo7P4vZX+5CoDcO53J4Pu5uXp7lNfjc6DRA=="],"http-cache-semantics":["4.3.0","sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA=="]};const packed=JSON.parse(fs.readFileSync("pack.json","utf8"));for(const [name,[version,integrity]] of Object.entries(expected)){const item=packed[name];if(!item||item.version!==version||item.integrity!==integrity)throw new Error("npm tarball identity mismatch: "+name)}';     for spec in brace-expansion:5.0.11 undici:6.28.1 http-cache-semantics:4.3.0; do       package="${spec%%:*}";       version="${spec#*:}";       rm -rf "$root/$package";       mkdir -p "$root/$package";       tar -xzf "$tmp/$package-$version.tgz" --strip-components=1 -C "$root/$package";     done;     node -e 'const fs=require("node:fs");const path=require("node:path");const root="/usr/local/lib/node_modules/npm/node_modules";const semver=require(path.join(root,"semver"));const pkg=name=>JSON.parse(fs.readFileSync(path.join(root,name,"package.json"),"utf8"));const expected={"brace-expansion":"5.0.11",undici:"6.28.1","http-cache-semantics":"4.3.0",tar:"7.5.22","ip-address":"10.5.0"};for(const [name,version] of Object.entries(expected)){if(pkg(name).version!==version)throw new Error(name+" version mismatch")}for(const [parent,dependency] of [["minimatch","brace-expansion"],["node-gyp","undici"],["make-fetch-happen","http-cache-semantics"]]){if(!semver.satisfies(pkg(dependency).version,pkg(parent).dependencies[dependency]))throw new Error(dependency+" falls outside "+parent+" declared range")}if(!semver.satisfies(pkg("balanced-match").version,pkg("brace-expansion").dependencies["balanced-match"]))throw new Error("balanced-match falls outside brace-expansion declared range")';     npm --version;     npm ls --global --all brace-expansion undici tar ip-address http-cache-semantics balanced-match;     rm -rf "$tmp"
+#19 216.2
+#19 216.2 removed 8 packages, and changed 76 packages in 4m
+#19 220.1 12.2.0
+#19 221.9 /usr/local/lib
+#19 221.9 `-- npm@12.2.0
+#19 221.9   +-- libnpmdiff@9.0.3
+#19 221.9   | `-- tar@7.5.22 deduped
+#19 221.9   +-- make-fetch-happen@16.0.1
+#19 221.9   | +-- @npmcli/agent@5.0.2
+#19 221.9   | | `-- socks-proxy-agent@10.1.0
+#19 221.9   | |   `-- socks@2.8.9
+#19 221.9   | |     `-- ip-address@10.5.0
+#19 221.9   | `-- http-cache-semantics@4.3.0
+#19 221.9   +-- minimatch@10.2.5
+#19 221.9   | `-- brace-expansion@5.0.11
+#19 221.9   |   `-- balanced-match@4.0.4
+#19 221.9   +-- node-gyp@13.0.0
+#19 221.9   | +-- tar@7.5.22 deduped
+#19 221.9   | `-- undici@6.28.1
+#19 221.9   +-- pacote@22.0.0
+#19 221.9   | `-- tar@7.5.22 deduped
+#19 221.9   `-- tar@7.5.22
+#19 221.9
+#19 DONE 224.9s
+
+#19 [worker 13/15] RUN set -eu;     npm install --global --no-audit --no-fund --ignore-scripts npm@12.2.0;     root="$(npm root --global)/npm/node_modules";     test "$root" = "/usr/local/lib/node_modules/npm/node_modules";     tmp="$(mktemp -d)";     cd "$tmp";     npm pack --ignore-scripts --json       brace-expansion@5.0.11       undici@6.28.1       http-cache-semantics@4.3.0 > pack.json;     node -e 'const fs=require("node:fs");const expected={"brace-expansion":["5.0.11","sha512-awigjhi6cLTh90bdw6+QJ9CtmJmyYhEIi70iCbc8Rozn04Fw9FeQIBjv/E22FFGuCGx1bLJyUfB64x/szUSXUg=="],"undici":["6.28.1","sha512-zWpdTVD54H48CIybL0rWQ3ukpb9d23wM7eH5RtfdmeP70cWHNjtfo7P4vZX+5CoDcO53J4Pu5uXp7lNfjc6DRA=="],"http-cache-semantics":["4.3.0","sha512-M5t5LlJpS1UHMjvwRQVdFHvPISGeLAxNcrWuJkeGh0KxsqCHZ1O3NXZU/8x7cD0BDcGW8kapxMKTvwlqrNkHkA=="]};const packed=JSON.parse(fs.readFileSync("pack.json","utf8"));for(const [name,[version,integrity]] of Object.entries(expected)){const item=packed[name];if(!item||item.version!==version||item.integrity!==integrity)throw new Error("npm tarball identity mismatch: "+name)}';     for spec in brace-expansion:5.0.11 undici:6.28.1 http-cache-semantics:4.3.0; do       package="${spec%%:*}";       version="${spec#*:}";       rm -rf "$root/$package";       mkdir -p "$root/$package";       tar -xzf "$tmp/$package-$version.tgz" --strip-components=1 -C "$root/$package";     done;     node -e 'const fs=require("node:fs");const path=require("node:path");const root="/usr/local/lib/node_modules/npm/node_modules";const semver=require(path.join(root,"semver"));const pkg=name=>JSON.parse(fs.readFileSync(path.join(root,name,"package.json"),"utf8"));const expected={"brace-expansion":"5.0.11",undici:"6.28.1","http-cache-semantics":"4.3.0",tar:"7.5.22","ip-address":"10.5.0"};for(const [name,version] of Object.entries(expected)){if(pkg(name).version!==version)throw new Error(name+" version mismatch")}for(const [parent,dependency] of [["minimatch","brace-expansion"],["node-gyp","undici"],["make-fetch-happen","http-cache-semantics"]]){if(!semver.satisfies(pkg(dependency).version,pkg(parent).dependencies[dependency]))throw new Error(dependency+" falls outside "+parent+" declared range")}if(!semver.satisfies(pkg("balanced-match").version,pkg("brace-expansion").dependencies["balanced-match"]))throw new Error("balanced-match falls outside brace-expansion declared range")';     npm --version;     npm ls --global --all brace-expansion undici tar ip-address http-cache-semantics balanced-match;     rm -rf "$tmp"
+#19 DONE 224.9s
+
+#20 [worker 14/15] RUN npm ci --ignore-scripts
+#20 16.64 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.hirok.io
+#20 16.91 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.hirok.io
+#20 85.44
+#20 85.44 added 160 packages, and audited 168 packages in 1m
+#20 85.44
+#20 85.44 40 packages are looking for funding
+#20 85.44   run `npm fund` for details
+#20 85.44
+#20 85.44 found 0 vulnerabilities
+#20 DONE 98.4s
+
+#20 [web 14/15] RUN npm ci --ignore-scripts
+#20 DONE 98.4s
+
+#21 [worker 15/15] COPY --chown=node:node tsconfig.base.json ./
+#21 DONE 3.4s
+
+#21 [web 15/15] COPY --chown=node:node tsconfig.base.json ./
+#21 DONE 3.4s
+
+#22 [web] exporting to image
+#22 exporting layers
+#22 ...
+
+#23 [worker] exporting to image
+#23 ...
+
+#22 [web] exporting to image
+#22 exporting layers 111.8s done
+#22 exporting manifest sha256:e3b923cbb3bda396d20d4e41491b87d65cd9599ac0363e3450dddd9af7a9dcad
+#22 exporting manifest sha256:e3b923cbb3bda396d20d4e41491b87d65cd9599ac0363e3450dddd9af7a9dcad 0.9s done
+#22 exporting config sha256:92be4078cee8477eb30d68e9eec907aa7d3d36b719db01c4db6b9307d229ea15
+#22 exporting config sha256:92be4078cee8477eb30d68e9eec907aa7d3d36b719db01c4db6b9307d229ea15 1.0s done
+#22 exporting attestation manifest sha256:1ea997e3462398d68db7e46590079c8859d7636e89647d2224cc76bb2f8a1a19
+#22 exporting attestation manifest sha256:1ea997e3462398d68db7e46590079c8859d7636e89647d2224cc76bb2f8a1a19 1.2s done
+#22 exporting manifest list sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1
+#22 exporting manifest list sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1 0.9s done
+#22 naming to docker.io/library/polyhunter-dev:local
+#22 naming to docker.io/library/polyhunter-dev:local 0.2s done
+#22 unpacking to docker.io/library/polyhunter-dev:local
+#22 ...
+
+#23 [worker] exporting to image
+#23 exporting layers 111.7s done
+#23 exporting manifest sha256:191610346daf0ce01ba0f0ded4ee6a5fa933b845cf64c77589f20e81ae1459f1 0.8s done
+#23 exporting config sha256:6f5e69aa8da8b3141f50b7ffb244db223f92663eaff69665229360d3e53c5540 1.0s done
+#23 exporting attestation manifest sha256:34ffc95f03100842f073f1a4b729512f601b4518e5323b72aae3d1040b1c922f 1.3s done
+#23 exporting manifest list sha256:37ec9a599656270f7287bfbf43813ea51d23f3bec01a7ed58bb86b830ba6d720 0.8s done
+#23 naming to docker.io/library/polyhunter-dev:local 0.2s done
+#23 ...
+
+#22 [web] exporting to image
+#22 unpacking to docker.io/library/polyhunter-dev:local 56.6s done
+#22 DONE 173.9s
+
+#23 [worker] exporting to image
+#23 unpacking to docker.io/library/polyhunter-dev:local 57.0s done
+#23 DONE 174.0s
+
+#24 [web] resolving provenance for metadata file
+#24 DONE 0.6s
+
+#25 [worker] resolving provenance for metadata file
+#25 DONE 0.3s
+ Image polyhunter-dev:local Built
+ Image polyhunter-dev:local Built

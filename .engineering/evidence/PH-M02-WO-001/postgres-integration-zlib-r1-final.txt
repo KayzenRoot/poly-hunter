@@ -1,0 +1,12 @@
+
+> polyhunter@0.1.0 test:integration
+> vitest run --config vitest.integration.config.ts
+
+
+ RUN  v4.1.11 D:/Projects/poly-hunter
+
+
+ Test Files  4 passed (4)
+      Tests  66 passed (66)
+   Start at  09:12:00
+   Duration  129.46s (transform 2.59s, setup 0ms, import 14.38s, tests 110.98s, environment 2ms)

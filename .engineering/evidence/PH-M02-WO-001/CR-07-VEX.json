@@ -1,0 +1,2252 @@
+{
+  "schemaVersion": "1.0.0",
+  "workOrder": "PH-M02-WO-001",
+  "review": "5461309598",
+  "branch": "feat/ph-m02-public-provider-foundation",
+  "baseSha": "a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c",
+  "reviewedHeadSha": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+  "contentHeadSemantics": "Assessment is bound to exact image digests and evidence. Historical artifacts and proposals retain their original digest binding and are not transferred. Final commit SHA and exact-head CI are linked from PR #43 to avoid a self-referential bundle.",
+  "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
+  "statusRationale": "The 24 current PostgreSQL raw HIGH/CRITICAL occurrences (22 HIGH, 2 CRITICAL) now have individually audited and owner-approved NOT_AFFECTED dispositions for the exact documented local-development runtime and expiry. The current dev image has zero HIGH/CRITICAL findings. The fail-closed malformed-provider corrections are applied. Raw findings remain visible and unsuppressed; final review and exact-head CI remain mandatory before merge or checkpoint work.",
+  "scanner": {
+    "tool": "Docker Scout CLI",
+    "version": "1.24.0",
+    "suppressionPolicy": "No suppressions. SARIF per-result suppressions are zero."
+  },
+  "images": [
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+      "sarifSha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc",
+      "resultCount": 35,
+      "uniqueCveCount": 35,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 2,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-95619",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/gcc-14@14.2.0-19?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ]
+    },
+    {
+      "image": "polyhunter-postgres (local build)",
+      "digest": "sha256:5c07b04ab44ac72e8387efafb68bef3340785edc012761c1f81a62b9a5cc3aa0",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+      "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "resultCount": 57,
+      "uniqueCveCount": 57,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 7,
+        "MEDIUM": 26,
+        "HIGH": 22,
+        "CRITICAL": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2025-58187",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-58188",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61723",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61725",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61726",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61729",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-68121",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-25679",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32280",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32281",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32283",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33811",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33814",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33818",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39820",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39821",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39822",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39836",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42499",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42504",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56853",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56859",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56862",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-86140",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ]
+    },
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "resultCount": 34,
+      "uniqueCveCount": 34,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 26,
+        "MEDIUM": 7,
+        "HIGH": 1,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2026-85091",
+          "severity": "HIGH",
+          "package": "pkg:deb/debian/zlib@1%3A1.3.dfsg%2Breally1.3.1-1?os_distro=trixie&os_name=debian&os_version=13",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current rebuilt image for CR-07-AUD-02/-03/-04; previous digest snapshot retained above",
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+    },
+    {
+      "image": "polyhunter-postgres:local (locked reproducible local build)",
+      "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+      "configDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "resultCount": 57,
+      "uniqueCveCount": 57,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 7,
+        "MEDIUM": 26,
+        "HIGH": 22,
+        "CRITICAL": 2
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [
+        {
+          "cve": "CVE-2025-58187",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-58188",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61723",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61725",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61726",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-61729",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2025-68121",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.24.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-25679",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.8",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32280",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32281",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-32283",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.9",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33811",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33814",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-33818",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39820",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39821",
+          "severity": "CRITICAL",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39822",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.12",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-39836",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42499",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.10",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-42504",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.11",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56853",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56859",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-56862",
+          "severity": "HIGH",
+          "package": "pkg:golang/stdlib@1.24.6",
+          "fixedVersion": "1.25.13",
+          "epss": "not provided",
+          "suppressed": false
+        },
+        {
+          "cve": "CVE-2026-86140",
+          "severity": "HIGH",
+          "package": "pkg:apk/alpine/libxml2@2.13.9-r2?os_name=alpine&os_version=3.24",
+          "fixedVersion": "not fixed",
+          "epss": "not provided",
+          "suppressed": false
+        }
+      ],
+      "snapshotRole": "current locked image; exact artifacts and runtime validated; previous digest snapshot retained above"
+    },
+    {
+      "image": "polyhunter-dev:local",
+      "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "configDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "platform": "linux/amd64",
+      "baseImage": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "os": "Alpine Linux 3.24",
+      "node": "v24.21.0",
+      "npm": "12.2.0",
+      "zlib": "1.3.2-r1",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+      "sarifSha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "resultCount": 6,
+      "uniqueCveCount": 6,
+      "counts": {
+        "UNKNOWN": 0,
+        "LOW": 0,
+        "MEDIUM": 6,
+        "HIGH": 0,
+        "CRITICAL": 0
+      },
+      "suppressedResultCount": 0,
+      "highCritical": [],
+      "artifactStatus": "CURRENT"
+    }
+  ],
+  "summary": {
+    "developmentImageScoutHighCritical": 0,
+    "postgresImageScoutHighCritical": 24,
+    "postgresPreviousDigestHighCritical": 25,
+    "postgresFixedExactDigestFindings": 1,
+    "postgresFreshDigestProposals": 24,
+    "currentScoutOccurrencesWithProposal": 24,
+    "supplementalUtilLinuxOccurrencesWithProposal": 0,
+    "proposalsPendingIndependentAuditAndOwner": 3,
+    "legacyDevelopmentCveRowsReconciled": 23,
+    "legacyCveIds": [
+      "CVE-2026-102276",
+      "CVE-2026-102278",
+      "CVE-2026-12087",
+      "CVE-2026-13221",
+      "CVE-2026-14257",
+      "CVE-2026-19534",
+      "CVE-2026-42496",
+      "CVE-2026-42497",
+      "CVE-2026-48959",
+      "CVE-2026-48962",
+      "CVE-2026-57432",
+      "CVE-2026-69152",
+      "CVE-2026-69192",
+      "CVE-2026-73566",
+      "CVE-2026-76642",
+      "CVE-2026-78408",
+      "CVE-2026-78409",
+      "CVE-2026-78410",
+      "CVE-2026-82560",
+      "CVE-2026-8376",
+      "CVE-2026-85091",
+      "CVE-2026-93748",
+      "CVE-2026-95619"
+    ],
+    "allCurrentProposalsStatus": "NOT_AFFECTED",
+    "allProposedDispositionByClass": {
+      "NOT_AFFECTED": 27
+    },
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
+    "selfApproval": false,
+    "unproposedUnderInvestigationOccurrences": 0,
+    "developmentImagePreviousDigestHighCritical": 1,
+    "currentDevelopmentImageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+    "currentPostgresImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "supplementalCurrentProposalsPending": 0,
+    "historicalProposalsArchived": 1,
+    "legacyCveIdsSemantics": "Historical source-reconciliation identifiers only; not current proposal count.",
+    "currentVexRecordsUnderInvestigation": 0,
+    "currentScoutOccurrencesUnderInvestigation": 0,
+    "supersededDevelopmentImageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+    "historicalDevelopmentProposalsPending": 3,
+    "historicalDevelopmentUnproposedOccurrences": 1,
+    "currentFixedDevZlibOccurrences": 1,
+    "historicalDevZlibStatus": "UNDER_INVESTIGATION without proposal; prior Debian digest only",
+    "currentEvidenceAuditRowsReviewed": 24,
+    "currentEvidenceAuditVerdict": "SUPPORTS_ALL_24_PROPOSED_NOT_AFFECTED_POSITIONS_FOR_THE_BOUNDED_RUNTIME",
+    "currentAuditorQualification": "QUALIFIED_FORMAL_INDEPENDENT_AUDIT",
+    "conditionalOwnerApprovalRecorded": 24,
+    "operativeCurrentOwnerApprovals": 24
+  },
+  "findings": [
+    {
+      "occurrenceId": "dev-CVE-2026-85091",
+      "cve": "CVE-2026-85091",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "docker_scout_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
+      },
+      "component": {
+        "package": "pkg:deb/debian/zlib@1:1.3.dfsg+really1.3.1-1",
+        "detectedVersion": "1:1.3.dfsg+really1.3.1-1+b1",
+        "present": true,
+        "vulnerableCodeAssessment": "Exact Debian 1.3.1 source has no gz_vacate, but gz_write/gzputc/gzprintf/gzvprintf remain. Debian and Ubuntu leave the scope disputed because the reproducer also crashes older releases. This exact package therefore remains unresolved; absence of gz_vacate alone is not a NOT_AFFECTED basis."
+      },
+      "upstreamFix": {
+        "fixedVersion": "not fixed in current Debian Trixie repository",
+        "upstreamFix": "zlib commit df84af25dc1942490e1d1c899a07619152a46148; not backported in the exact Debian package."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.005920000",
+        "percentile": "0.466080000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Web request data and public provider responses are untrusted inputs. No application source path to node:zlib gzip or C gz* calls, and no subprocess invocation, was found. However, no claim is made that attacker-controlled input cannot reach every installed consumer or indirect dynamic lookup path.",
+      "exploitPrerequisites": [
+        "CVE-described path: a non-blocking gzwrite stalls, followed by gzprintf/gzvprintf operating on stale input state in gz_vacate; this function is absent from Debian zlib 1.3.1 source.",
+        "Ubuntu records that its reproducer also crashes zlib 1.3.0/1.3.1; Debian security maintainer has not determined whether this older-version behavior is a separate issue or within the CVE assignment.",
+        "Exact-runtime exploitability would require an attacker-controlled route to an affected C gzip operation or equivalent path; no application call was observed, but indirect dlsym/API paths are not proven unreachable."
+      ],
+      "reachability": "System zlib is installed but is not mapped by the current web/worker Node processes. /usr/bin/dpkg-deb and libapt-pkg directly import gz APIs; libcrypto imports deflate/inflate. The Node executable has no DT_NEEDED libz, but its embedded zlib symbols include gz APIs and the executable imports dlsym. The loaded Next SWC addon contains no literal gz API names; literal scanning cannot exclude computed lookup. No direct app C gzip path was found. This runtime evidence does not settle the disputed CVE scope.",
+      "networkExposure": "Web is bound to 127.0.0.1:3000; worker has no published port. Public provider payloads and local HTTP request data remain untrusted input.",
+      "privilegeContext": "Current web and worker Node processes run UID/GID 1000 with CapEff=0. This narrows impact but does not prove the vulnerable behavior unreachable.",
+      "mitigation": "No scanner suppression. Current app source and process map show no direct system-libz gzip path; Node uses its bundled streaming deflate/inflate binding. Exact installed system libz still exports related gz APIs, and other installed consumers/indirect symbol paths remain relevant. Runtime controls are supporting evidence only.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": null,
+        "justification": null,
+        "rationale": "The earlier NOT_AFFECTED proposal is withdrawn. The exact 1.3.1 source lacks gz_vacate, but Debian declined to mark this release not affected pending upstream scope and Ubuntu reports older-version reproducer behavior. Exact-runtime evidence narrows direct reachability but does not resolve CVE assignment scope or all indirect paths. No disposition is proposed.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ],
+        "executorSelfApproval": false
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-exact-image-native-runtime.txt",
+          "sha256": "037935c83c04dbef980f96dc1aacf5ff3d0d6943fc4d14f79e17090cd5eb9d76"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-runtime-review-5460654469.json",
+          "sha256": "02a1a6384f04b2031cafdbbc2b93bc5bb2aecb2d5bfab8813b6f7550d62c01d3"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-debian-source-archive-verification.json",
+          "sha256": "bd66e87ab96ceb9b7267cc298841eebc268374935e2e07ef0491247d01ec919e"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/debian-zlib-1.3.1-gzwrite.c",
+          "sha256": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-source-and-path-review-5460654469.json",
+          "sha256": "a7602ed8e7fb40e4f484b2ad0d5f5b50fc89947ff0bf9c3941fddbef321af24d"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-native-addon-marker-scan.json",
+          "sha256": "68908659ebb8252316efc18f94a1e58a4245e6311d29e6a62f16e15595031cf7"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-elf-inventory.txt",
+          "sha256": "bd6411e1df3ba1ce26fafad9e6422ac089342333944ea3efc883fde1ea9f1ab7"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-07-verify.json",
+          "sha256": "6d3eaca6b079ac397a2133d121e3c349b100a9f2f0517f36ac51cec827c2df7b"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "0ba9c3ac0d6f75e6642f56ef3dbb5b5cc4a0d3a7d78aaec4633fe32b2640a8a9"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-85091",
+        "https://sources.debian.org/src/zlib/1%3A1.3.dfsg%2Breally1.3.1-1/gzwrite.c/",
+        "https://github.com/madler/zlib/commit/81cc0bebedd935daeb81b0b6e475d8786b51af3d",
+        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148",
+        "https://github.com/nodejs/node/blob/v24.21.0/src/node_zlib.cc",
+        "https://lists.debian.org/debian-security-tracker/2026/10/msg00005.html",
+        "https://bugs.debian.org/1146895#36",
+        "https://ubuntu.com/security/CVE-2026-85091",
+        "https://github.com/madler/zlib/issues/1310",
+        "https://github.com/madler/zlib/issues/1292"
+      ],
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "historicalOnlyReason": "The old Debian zlib 1.3.1 artifact is no longer canonical. Its exact digest-specific status remains UNDER_INVESTIGATION with no proposal; do not transfer that status to Alpine zlib 1.3.2-r1."
+    },
+    {
+      "occurrenceId": "postgres-CVE-2026-85091",
+      "cve": "CVE-2026-85091",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "docker_scout_final_sarif",
+      "image": {
+        "reference": "polyhunter-postgres@sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+        "digest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744"
+      },
+      "component": {
+        "package": "pkg:apk/alpine/zlib@1.3.2-r1?os_name=alpine&os_version=3.24",
+        "detectedVersion": "1.3.2-r1",
+        "present": true,
+        "vulnerableCodeAssessment": "Package is fixed at 1.3.2-r1; current exact scan contains no zlib CVE result."
+      },
+      "upstreamFix": {
+        "fixedVersion": "1.3.2-r1",
+        "upstreamFix": "Alpine v3.24/main package revision; upstream zlib commit df84af25dc1942490e1d1c899a07619152a46148."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "cve": "CVE-2026-85091",
+        "epss": "0.005920000",
+        "percentile": "0.466080000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Not applicable to the fixed package. The prior image-specific finding is retained as historical baseline evidence.",
+      "exploitPrerequisites": [],
+      "reachability": "Current library is patched; the exact final scan has no CVE-2026-85091 occurrence.",
+      "networkExposure": "Project-scoped Compose network; PostgreSQL has no published host port. This limits ingress but does not establish absence of an in-process database function path.",
+      "privilegeContext": "PostgreSQL server is UID/GID 70 with CapEff/CapPrm zero and container privileged=false/capAdd=null. Current database login polyhunter has rolsuper=true; LANGUAGE C is untrusted. Only plpgsql is active; pgcrypto is installed but not active.",
+      "mitigation": "Fixed by zlib 1.3.2-r1; no suppression was used.",
+      "vex": {
+        "status": "FIXED",
+        "proposedDisposition": null,
+        "justification": null,
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "executorSelfApproval": false,
+        "expiry": null
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Exact Docker Scout SARIF for selected immutable image"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-image-revalidation-zlib-r1-final.txt",
+          "sha256": "48a8bce1b7eadbfc856c79a868bd7d18e8acdcc4a33a5e011c3534f4c794b6bf",
+          "source": "Package, library hashes, loader resolution, PG runtime and current role"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-build-final.log",
+          "sha256": "58ed2284be5f46a0e6b22e4c4a289b676835e61aa86ad644fbfc47170e3b1a3c",
+          "source": "Fresh --pull --no-cache build from committed Dockerfile"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-abi.txt",
+          "sha256": "9ec55a95b35296f0665c9ca40eb84d53c29d72c05458a6948ea5bc77183f3d38",
+          "source": "SONAME and exported ABI comparison"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-integration-zlib-r1-final.txt",
+          "sha256": "d576f91767eac73ae1f07a06b3710f4ff09893db716d2c6b0aca3228e9ca2b11",
+          "source": "PostgreSQL integration test result on disposable candidate database"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/db-migrate-zlib-r1-final.txt",
+          "sha256": "d2265b1e960641c5bfff91869d55108d6432fe3afe0ef61e7dfe9d1ae0debe6b",
+          "source": "Migration result on disposable candidate database"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-recovery-zlib-r1-final.txt",
+          "sha256": "c05f5b6a9c96eb8f58edfac6a0d49755ce2e976d46b8e1562b62d651b61a7cdd",
+          "source": "Crash/restart recovery and persistence on disposable database"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-compose-runtime-zlib-r1-final.txt",
+          "sha256": "2a0f902b1c6b6d5d1947e42924ba49034907068bd00c9011a57b44d19cdc8961",
+          "source": "Post-swap Compose runtime health snapshot"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cisa-kev-postgres-zlib-r1-final.json",
+          "sha256": "f51fed1c9213e7b797104fcd6dbeb1b0dc0c7073a80467b9d4b1fc25e7dd786b",
+          "source": "Fresh CISA KEV catalog"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
+          "sha256": "0927f311b11b677396b780aa9d0d2472c09eceb6a821ee1d0e3c4f81ea88343a",
+          "source": "Fresh FIRST EPSS lookup"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+          "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+          "source": "Fresh exact-digest Docker Scout SARIF"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+          "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+          "source": "Deterministic image build receipt and locked artifact identity"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+          "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68",
+          "source": "Exact current PostgreSQL runtime and startup identity"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-85091",
+        "https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148",
+        "https://github.com/postgres/postgres/blob/REL_17_11/src/backend/utils/fmgr/dfmgr.c",
+        "https://www.postgresql.org/docs/17/xfunc-c.html",
+        "https://github.com/madler/zlib/blob/v1.3.2/zlib.h",
+        "https://pubs.opengroup.org/onlinepubs/009604299/functions/dlsym.html"
+      ],
+      "revalidationEvidenceRefs": []
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-76642",
+      "cve": "CVE-2026-76642",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "Current exact digest contains mount/libmount 2.41.5-0+deb13u1 and the vulnerable X-mount post-hook code; /etc/fstab is root-owned mode 0644 with only the base comment and no helper/authorized entry; no executable application invocation exists."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.42.3-1 in Debian unstable; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.42.3 / Debian 2.42.3-1."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.002160000",
+        "percentile": "0.109850000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Web/provider input is not mapped to mount arguments or an application subprocess; the current services run UID 1000 with CapEff zero and cannot modify root-owned /etc/fstab. The SUID mount binary remains present, so the proposal relies on the absent fstab/helper prerequisites and absent application call path.",
+      "exploitPrerequisites": [
+        "SUID mount call using a root-controlled, fstab-authorized external-helper entry and X-mount.idmap or X-mount.owner/group/mode; attacker must be able to use the authorized entry."
+      ],
+      "reachability": "Current-digest runtime shows no mount process or application invocation; the advisory-specific fstab-authorized helper/post-hook path lacks its required root-controlled fstab entry and helper.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Current exact image: mount is SUID root; web/worker UID 1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd; /etc/fstab root:root 0644 has no entries.",
+      "mitigation": "Exact current fstab has no authorized mount/helper entry; application code has no mount call path; no suppression. Proposal remains unapproved.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ],
+        "executorSelfApproval": false
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "0ba9c3ac0d6f75e6642f56ef3dbb5b5cc4a0d3a7d78aaec4633fe32b2640a8a9"
+        }
+      ],
+      "sourceRefs": [
+        "https://security-tracker.debian.org/tracker/CVE-2026-76642",
+        "https://github.com/util-linux/util-linux/security/advisories/GHSA-m25x-3hj9-m26f",
+        "https://tracker.debian.org/news/1793594/accepted-util-linux-2423-1-source-into-unstable/"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
+      ],
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "historicalOnlyReason": "The unapproved proposal applies only to the prior Debian development image digest. The new Alpine image has no corresponding HIGH/CRITICAL scanner occurrence; this proposal is not transferred or treated as clearance for the new digest."
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-78408",
+      "cve": "CVE-2026-78408",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "Current exact digest contains util-linux/nsenter 2.41.5-0+deb13u1 and --join-cgroup support; nsenter is root:root mode 0755, not SUID."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.41.6 / 2.42.3."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.001860000",
+        "percentile": "0.075430000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "No application code invokes nsenter or accepts a process/namespace target; web/provider data cannot select a target PID or invoke the binary through the application.",
+      "exploitPrerequisites": [
+        "A privileged operator must invoke nsenter --join-cgroup against an attacker-controlled target; the target must expose relevant cgroup state."
+      ],
+      "reachability": "Current-digest web/worker process inventories contain no nsenter invocation; no application call site exists, CapEff is zero, and CAP_SYS_ADMIN is absent from CapBnd. This does not assess a privileged operator deliberately launching nsenter.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Current exact image: nsenter root:root 0755 and not SUID; web/worker UID/GID 1000:1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd.",
+      "mitigation": "No application target-selection/invocation path, nsenter is not SUID, and CAP_SYS_ADMIN is absent from the process bounding set; no suppression. Proposal remains unapproved.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ],
+        "executorSelfApproval": false
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "0ba9c3ac0d6f75e6642f56ef3dbb5b5cc4a0d3a7d78aaec4633fe32b2640a8a9"
+        }
+      ],
+      "sourceRefs": [
+        "https://access.redhat.com/security/cve/cve-2026-78408",
+        "https://github.com/util-linux/util-linux/security/advisories"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
+      ],
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "historicalOnlyReason": "The unapproved proposal applies only to the prior Debian development image digest. The new Alpine image has no corresponding HIGH/CRITICAL scanner occurrence; this proposal is not transferred or treated as clearance for the new digest."
+    },
+    {
+      "occurrenceId": "dev-CVE-2026-78410",
+      "cve": "CVE-2026-78410",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "official_source_reconciliation_not_reported_by_final_sarif",
+      "image": {
+        "reference": "polyhunter-dev:local@sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948"
+      },
+      "component": {
+        "package": "pkg:deb/debian/util-linux@2.41.5-0+deb13u1",
+        "detectedVersion": "2.41.5-0+deb13u1",
+        "present": true,
+        "vulnerableCodeAssessment": "Current exact digest contains mount and X-mount.owner/group/mode code in util-linux 2.41.5-0+deb13u1; current /etc/fstab is root:root 0644 with no authorized source entries."
+      },
+      "upstreamFix": {
+        "fixedVersion": "2.41.6 or 2.42.3 upstream; no newer Trixie candidate",
+        "upstreamFix": "util-linux 2.41.6 / 2.42.3."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.001560000",
+        "percentile": "0.041430000",
+        "date": "2026-10-07"
+      },
+      "attackerControlledInput": "Application input is not mapped to mount arguments or subprocess calls; UID 1000 cannot modify /etc/fstab or an authorized source entry in this runtime. The SUID mount binary remains present.",
+      "exploitPrerequisites": [
+        "A root-controlled fstab-authorized restricted bind entry with X-mount.owner/group/mode; attacker must be able to replace the authorized source path or an ancestor."
+      ],
+      "reachability": "Current-digest process inventory and source search show no application mount invocation; no fstab-authorized source entry/path exists for the post-hook operation.",
+      "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Current exact image: mount is SUID root; web/worker UID 1000, CapEff zero, CAP_SYS_ADMIN absent from CapBnd; /etc/fstab is root-owned 0644 with no entries.",
+      "mitigation": "No authorized fstab source entry/path and no application invocation; no suppression. Proposal remains unapproved.",
+      "vex": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "justification": "vulnerable_code_cannot_be_controlled_by_adversary",
+        "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": "2026-10-14T23:59:59Z",
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "KEV status change",
+          "runtime/configuration/exposure change",
+          "expiry date"
+        ],
+        "executorSelfApproval": false
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-runtime-context.txt",
+          "sha256": "2e48cb406fd4cde01bbbe3909d7a6219e968b91756973b6c6040b3343c45c861"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-util-linux-features.txt",
+          "sha256": "984d7124f48c3342ea5e25eadf710cdaebfe94fb3f24548e5adc9300d5f11d2f"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/provider-subprocess-reachability-cr07.txt",
+          "sha256": "5381a823014ff92af8669a8d5d0cc35e777eeb7a1cac0da94437c5491c0fdf41"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+          "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-source-revalidation.md",
+          "sha256": "e9e950db5aeb563b0d3ae5a0786eee509e8f89acb7b9bdb3547c6f7966a87523"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+          "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+          "sha256": "0ba9c3ac0d6f75e6642f56ef3dbb5b5cc4a0d3a7d78aaec4633fe32b2640a8a9"
+        }
+      ],
+      "sourceRefs": [
+        "https://github.com/util-linux/util-linux/security/advisories/GHSA-rh77-686x-2f2m",
+        "https://access.redhat.com/security/cve/cve-2026-78410"
+      ],
+      "exactCurrentDigestRevalidation": {
+        "imageDigest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+        "scannerResultPresent": false,
+        "scannerSarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+        "scannerSarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+        "runtimeReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+        "runtimeReceiptSha256": "d74939d197cea015414000a8c7f05cdae12a5395a6142ef9f3687c13c9d31539",
+        "packageVersion": "util-linux, libmount1, libblkid1 and libuuid1 2.41.5-0+deb13u1",
+        "runtimeEvidence": {
+          "fstab": "0644 root:root; only # UNCONFIGURED FSTAB FOR BASE SYSTEM",
+          "webAndWorkerUidGid": "1000:1000 (node)",
+          "capEff": "0000000000000000",
+          "capBnd": "00000000a80425fb; CAP_SYS_ADMIN bit 0x200000 absent",
+          "mount": "4755 root:root",
+          "nsenter": "0755 root:root, not SUID",
+          "invocation": "web and worker /proc command lines contain Node/Next/nodemon only; repository source search has no executable mount/nsenter call site"
+        },
+        "priorDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+        "proposalEffect": "Supports only the exact-image proposal; UNDER_INVESTIGATION / NOT_AFFECTED, no approval or scanner suppression."
+      },
+      "revalidationEvidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "source": "Current exact development image Docker Scout SARIF; records no util-linux result, current image has 1 HIGH and 0 CRITICAL."
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+          "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736",
+          "source": "Read-only current exact-digest package, fstab, UID/capability, process and invocation evidence."
+        }
+      ],
+      "artifactStatus": "HISTORICAL_SUPERSEDED",
+      "supersededByDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "historicalOnlyReason": "The unapproved proposal applies only to the prior Debian development image digest. The new Alpine image has no corresponding HIGH/CRITICAL scanner occurrence; this proposal is not transferred or treated as clearance for the new digest."
+    },
+    {
+      "occurrenceId": "dev-current-CVE-2026-85091",
+      "cve": "CVE-2026-85091",
+      "severity": "HIGH",
+      "environment": "local-dev",
+      "findingSource": "exact_image_scan_reconciliation",
+      "image": {
+        "reference": "polyhunter-dev:local",
+        "digest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2"
+      },
+      "component": {
+        "package": "pkg:apk/alpine/zlib@1.3.2-r1?os_name=alpine&os_version=3.24",
+        "detectedVersion": "1.3.2-r1",
+        "present": true,
+        "vulnerableCodeAssessment": "The exact current image contains the fixed Alpine v3.24/main zlib 1.3.2-r1 package. Exact-image Docker Scout SARIF has no CVE-2026-85091 result. This FIXED record applies only to this digest."
+      },
+      "upstreamFix": {
+        "fixedVersion": "1.3.2-r1",
+        "upstreamFix": "Official Alpine v3.24/main zlib 1.3.2-r1 incorporates the zlib fix for CVE-2026-85091."
+      },
+      "cisaKev": {
+        "listed": false,
+        "catalogVersion": "2026.10.04"
+      },
+      "epss": {
+        "score": "0.005920000",
+        "percentile": "0.466080000",
+        "date": "2026-10-07",
+        "source": "current EPSS receipt; prioritization only"
+      },
+      "attackerControlledInput": "Not applicable to the current fixed package disposition; this record is a digest-specific remediation and scan reconciliation, not a reachability-based exclusion.",
+      "exploitPrerequisites": [
+        "The vulnerable Debian zlib 1.3.1 package was removed from this image build; zlib is present at fixed 1.3.2-r1."
+      ],
+      "reachability": "No NOT_AFFECTED reachability claim is made. The current component version is the fixed Alpine package.",
+      "networkExposure": "Current local development Compose exposure is unchanged: web binds to 127.0.0.1:3000; worker has no published port.",
+      "privilegeContext": "Web and worker run as node (UID/GID 1000) with the existing Compose runtime settings.",
+      "mitigation": "Exact immutable official Node base digest plus a fail-closed package-inventory guard that updates only zlib from Alpine v3.24/main; no suppression or ignore rule.",
+      "vex": {
+        "status": "FIXED",
+        "proposedDisposition": null,
+        "justification": null,
+        "rationale": "The exact image includes Alpine zlib 1.3.2-r1, the fixed package version, and the exact Scout SARIF contains no CVE-2026-85091 occurrence. This does not approve any other VEX record.",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "expiry": null,
+        "revalidateOn": [
+          "new image digest",
+          "new scanner result",
+          "new vendor/upstream advisory",
+          "runtime/configuration change"
+        ],
+        "executorSelfApproval": false
+      },
+      "evidenceRefs": [
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+          "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json",
+          "sha256": "18e4492acac7b0084d4897360d1ef08f80a6395b062527efb01898fc79f58c99"
+        },
+        {
+          "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+          "sha256": "d284e0cbba6cddfa5169c96cc01ea730e757ea9e3afbcbae45f07ce1f50a0c0c"
+        },
+        {
+          "path": "Dockerfile.dev",
+          "sha256": "f4f44ec432ab17af89bf0ec23560ea49f13df559e025fbeb767bc9a0a6421e91"
+        }
+      ],
+      "sourceRefs": [
+        "https://osv.dev/vulnerability/ALPINE-CVE-2026-85091",
+        "https://pkgs.alpinelinux.org/package/v3.24/main/x86_64/zlib"
+      ],
+      "artifactStatus": "CURRENT"
+    }
+  ],
+  "historicalSourceReconciliation": [
+    {
+      "cve": "CVE-2026-78409",
+      "finalImageVersion": "util-linux 2.41.5-0+deb13u1",
+      "finalScoutResult": "absent",
+      "sourceConclusion": "Red Hat states versions v2.40/v2.41 are not affected; vulnerable detached-tree path begins in v2.42. Not a current final-image VEX finding."
+    }
+  ],
+  "approvalPolicy": {
+    "required": "Fresh independent security auditor and project owner approval under ADR-0007 and PH-SEC-VEX-POLICY.",
+    "approvalsRecorded": true,
+    "promotionAllowed": false,
+    "mergeAllowed": false,
+    "liveTradingAuthorized": false
+  },
+  "evidenceManifest": [
+    {
+      "path": ".engineering/checkpoint-deltas/PH-M02-WO-001.md",
+      "sha256": "f71b26b45c63e9d1eb4ed8d10b161d92a8dd28a3e195e4bfc4f3ed84bd17b996",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/ci-postgres-runtime-a8725.json",
+      "sha256": "5e88c4fc9c966fcbfd8e702235dc78021fc191771f5b3e359f0a130432afc986",
+      "source": "GitHub Actions run 37806245360 exact implementation-head PostgreSQL build, runtime, migrations and integration receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cisa-kev-postgres-zlib-r1-final.json",
+      "sha256": "f51fed1c9213e7b797104fcd6dbeb1b0dc0c7073a80467b9d4b1fc25e7dd786b",
+      "source": "Fresh CISA KEV data"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/CR-07-VEX.md",
+      "sha256": "5cea08e70dc6725f9563fdc6c87b223029a592b4579fcbc0054e6d4c98b23e1f",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+      "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736",
+      "source": "Exact-digest read-only PostgreSQL and development runtime evidence for CR-07-AUD-05/-06"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-07-evidence-integrity.txt",
+      "sha256": "b9b9f7e9e11ed4066ed44b9f5a31c799f3da1fd770c109e763a5d021c34f46f2",
+      "source": "Focused CR-07-AUD-07 evidence/VEX hash, count, status and local check validation receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-integration.txt",
+      "sha256": "89787a5e9ef9ab0a4cc03099de2ec03a237d71ce92d916f42f8c8d98c9c1a111",
+      "source": "Fresh disposable PostgreSQL integration test"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-migrations.txt",
+      "sha256": "333f436bcf7925810d5062d39c24a6d683ee286ab517f6ee03d018bcda717645",
+      "source": "Fresh disposable database migration test"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-candidate-recovery.txt",
+      "sha256": "820c93f136d45569dc07851d40b25b73eb7346b7e6d89d5bdca7ea3e5b4248c2",
+      "source": "Disposable persistence and restart recovery proof"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-ci-buildx-driver-failure.txt",
+      "sha256": "c0169bb1eb4b956e3c3c30087ff2652f962824ca3514bcdda4de88f8e051115e",
+      "source": "Sanitized exact-head hosted build failure and Buildx correction"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+      "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68",
+      "source": "Structured current local Compose runtime identity and health"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.txt",
+      "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68",
+      "source": "Exact current Compose image identity, health, HTTP and worker receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-evidence-integrity.txt",
+      "sha256": "116f28a2a43f8818405accfa36472d98a1cd98f59c94f3d05bbb97fe9b0b88c8",
+      "source": "Focused CR-07-AUD-05/-06 VEX, count, approval and receipt-hash integrity validation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+      "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5",
+      "source": "Previous PostgreSQL baseline scan and image summary"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-audit-final.txt",
+      "sha256": "6d8c5c8f3d7684adb070417bd608d01ae90aa3dc26a65af03ffda4955f38d9a3",
+      "source": "Explicit npm audit --audit-level=high output"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-ci-final.txt",
+      "sha256": "e41941ec30fb3cc96ffca4616d8a39c8156aa08312677cb8b81955ef7645a621",
+      "source": "Final clean npm ci raw output"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-ci-result.txt",
+      "sha256": "97efee9959d2b956bcd80f3ce885fb3429e27437ffd684e402e65853a3675341",
+      "source": "npm ci receipt for final dependency lock"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-evidence-update.txt",
+      "sha256": "5dca05a507ed04ff751f4646ae34566ae6be30c8e3871987871d026b5a8825af",
+      "source": "Local full repository validation after hosted CI evidence reconciliation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-final.txt",
+      "sha256": "3041e071d5a5c024ad1f0f247f168d3b77c572777fe1959a11d7ca0aa500ce55",
+      "source": "Final complete npm run validate raw output; exit code 0"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate-retry.txt",
+      "sha256": "6f4ba87c416d192a0bcda88db2aaee03620eedc6a3da9f2c810b7304fd23999e",
+      "source": "Complete local validate run after Docker export contention ended"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-npm-validate.txt",
+      "sha256": "efc53e19d2ccad0b22d7a50cbd697e9863a386f4a3a801d62af1dc6c67dca006",
+      "source": "Initial npm validation attempt; preserves timeout failures before retry"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-portability-build-receipt.json",
+      "sha256": "9b5bab2d08b393ad7e554e2c9801fc5d530af27e7ad96af135f818c346c7f500",
+      "source": "Canonical exact image build and runtime verification receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-security-boundary-evidence-update.txt",
+      "sha256": "982a5880c63fb0211796cc74a83cb2ef9354bb79cfc0e90b69453214b8293c71",
+      "source": "Focused secret/trading security boundary regression tests after evidence update"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/db-migrate-zlib-r1-final.txt",
+      "sha256": "d2265b1e960641c5bfff91869d55108d6432fe3afe0ef61e7dfe9d1ae0debe6b",
+      "source": "Disposable database migrations"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/debian-zlib-1.3.1-gzwrite.c",
+      "sha256": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47",
+      "source": "Exact gzwrite.c extracted from official Debian source archive"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate-experiment.md",
+      "sha256": "c39c2bbd3002a311035bd4830011e7ddd53ef4e8f4a1548bcb80bdec0d830415",
+      "source": "Isolated Node 24 Alpine 3.24 canary gates and results"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate-scan-receipt.json",
+      "sha256": "5fabd3327d96cff1998f97e29d368612a850bb97c3acdb9ab2175f5ee662d2ac",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate.sarif.json",
+      "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "source": "Raw isolated candidate Docker Scout SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-db-generate-container.txt",
+      "sha256": "a064aa9424fc8c4362f937ffba7b83f9a43a501d37b891631a6723e51c64d046",
+      "source": "Drizzle generation result on configured service"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-image-inspect.json",
+      "sha256": "c6087f960597554826c087a517aa90d39df2a9bac6ee0416c8e7036002d629a4",
+      "source": "Raw local canonical dev image metadata"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-integration-container.txt",
+      "sha256": "d0c0a54d4cdfada09332e9a0e21704fbe0734bb34155603a08002638f164c45d",
+      "source": "PostgreSQL integration result in configured service"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-migrations.txt",
+      "sha256": "f0d4a2d6b8050de94f97ae1e30661ea3c2d36a941ad769d515378cd010ddc7ba",
+      "source": "PostgreSQL migration result"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-npm-ci.txt",
+      "sha256": "7e4b4285c223a72355224962465988f500bc0666c27da490511f05b1ac6e4898",
+      "source": "Clean host npm ci output for the final correction state"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-npm-validate.txt",
+      "sha256": "49ff9fdea67254842f848c2653142bb9e653accfcc05d0906d2a44ffe5628a53",
+      "source": "Complete local npm validation output"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+      "sha256": "9a6d2debdc4ef35f1f0242da19db71195abd568fc5492e4c38e5b7101ab27797",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-scan-receipt.json",
+      "sha256": "18e4492acac7b0084d4897360d1ef08f80a6395b062527efb01898fc79f58c99",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-remediation-receipt.json",
+      "sha256": "f6cf8dae25b7504fd1ec403d717efcdb17ba3eadd8df482c235cfd07ef2ac700",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-debian-source-archive-verification.json",
+      "sha256": "bd66e87ab96ceb9b7267cc298841eebc268374935e2e07ef0491247d01ec919e",
+      "source": "Official Debian source package and exact gzwrite.c hash verification"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-elf-inventory.txt",
+      "sha256": "bd6411e1df3ba1ce26fafad9e6422ac089342333944ea3efc883fde1ea9f1ab7",
+      "source": "Read-only ELF dependency/import/export inventory for exact dev image"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-exact-image-native-runtime.txt",
+      "sha256": "037935c83c04dbef980f96dc1aacf5ff3d0d6943fc4d14f79e17090cd5eb9d76",
+      "source": "Exact-digest runtime transcript for CVE-2026-85091 review"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-native-addon-marker-scan.json",
+      "sha256": "68908659ebb8252316efc18f94a1e58a4245e6311d29e6a62f16e15595031cf7",
+      "source": "Literal marker scan of four exact-image Linux native addons; not semantic proof"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-runtime-review-5460654469.json",
+      "sha256": "02a1a6384f04b2031cafdbbc2b93bc5bb2aecb2d5bfab8813b6f7550d62c01d3",
+      "source": "Exact-digest Compose runtime, process mappings, Node runtime, image identity, HTTP and package hash receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-zlib-source-and-path-review-5460654469.json",
+      "sha256": "a7602ed8e7fb40e4f484b2ad0d5f5b50fc89947ff0bf9c3941fddbef321af24d",
+      "source": "Exact Node binding, ELF consumer and source-path reconciliation"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/epss-postgres-zlib-r1-final.json",
+      "sha256": "0927f311b11b677396b780aa9d0d2472c09eceb6a821ee1d0e3c4f81ea88343a",
+      "source": "Fresh FIRST EPSS data"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-02-04-gate.json",
+      "sha256": "2ab3c72ecaf4ae6cf06731d4160e0f0bdae4611c2140211c7d2e32da5b175e35",
+      "source": "TypeSafe JEV bounded pre-gate receipt; advisory only"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-05-06-verify.json",
+      "sha256": "506793037c121387a059f94e765029f169f63c89570b9997c2d804813dd46e66",
+      "source": "TypeSafe JEV bounded consistency verification; advisory only"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-07-verify.json",
+      "sha256": "6d3eaca6b079ac397a2133d121e3c349b100a9f2f0517f36ac51cec827c2df7b",
+      "source": "TypeSafe JEV bounded source/runtime claim verification; advisory, not a CVE approval"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-08-decision.json",
+      "sha256": "60222ce5bd2bcd1b3d7685bd66e9df21028d1b79cd787c3fdd695d9ca31e907c",
+      "source": "Raw bounded TypeSafe/JEV recommendation; advisory only"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/node24-alpine324-candidate.Dockerfile",
+      "sha256": "270f825b3fe778159fcecda5a3fe242c8f6089d3e58c295f630391cb8bcd51e6",
+      "source": "Preserved isolated candidate Dockerfile"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.json",
+      "sha256": "d64cd5522c22d014ea1f3e9796cb425515662840ea2b58f272218eeaac4cef1f",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/PH-M02-WO-001-INDEPENDENT-AUDIT-MATRIX.md",
+      "sha256": "45a211136bed753de39ea83b3c805088b3aef3c59e0d40a4675e25e38f7752ee",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+      "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "source": "Raw exact final development image Docker Scout SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+      "sha256": "db78446cf7f028706266e7256e9c036e6c879d782b332ac60fd6e11c6a4029e5",
+      "source": "Fresh rebuilt development image runtime package inspection"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-scan-receipt.json",
+      "sha256": "04b5e276d1281f6ca578525031c7135fea053028a2ee62f57bf328a1ea6081f9",
+      "source": "Fresh rebuilt development image scan invocation and digest receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-scout.log",
+      "sha256": "850560f0e79792b447f52f4aa6772e4c20af9334753588702e79f6d2127947e2",
+      "source": "Raw Docker Scout log for fresh development image"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+      "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc",
+      "source": "Current dev image raw SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-17.11-bookworm-official.sarif.json",
+      "sha256": "7f60e031b78669b2b817db7a6bb899d2ad41d772dbe24ca41bcc68812ffbe059",
+      "source": "Official PostgreSQL 17.11 Bookworm candidate raw SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-17.11-trixie-official.sarif.json",
+      "sha256": "511d2a6b11e3b1894cfd8149fbba55d5b8a65c3dbe3680a4b1ac977e41f9cf4b",
+      "source": "Official PostgreSQL 17.11 Trixie candidate raw SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-compose-runtime-zlib-r1-final.txt",
+      "sha256": "2a0f902b1c6b6d5d1947e42924ba49034907068bd00c9011a57b44d19cdc8961",
+      "source": "Final Compose health snapshot"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-a-metadata.json",
+      "sha256": "cc398966aea81d8f5fb724a45d86ce7f40e3780e088e8c16d42f3218111cb562",
+      "source": "Build A BuildKit manifest/config metadata"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-build-b-metadata.json",
+      "sha256": "4b08e85c2693f7e95404afc6c59b0ea190f491fe7619987f22e6c2b631daebc1",
+      "source": "Build B BuildKit manifest/config metadata"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+      "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "source": "Fresh exact locked PostgreSQL image Scout SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-reproducibility.json",
+      "sha256": "a51660aa1d3e5897c569fe71991c6328014f9cbc9157e1bb2cea9cb8eb69d064",
+      "source": "Two independent clean no-cache builds with matching manifest/config digests"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-scan-receipt.json",
+      "sha256": "db928dc9d5c34ceffc6376443ef1c0a70b8af7ce7f32a70bd473eb41beb63f0b",
+      "source": "Exact locked PostgreSQL image scan invocation and digest receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-scout.log",
+      "sha256": "13a44b4fbbec7f0f993027469ca83c78a2dc37617ff70796baf1cc74b03b179f",
+      "source": "Raw Docker Scout execution log for exact PostgreSQL digest"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-full-final.sarif.json",
+      "sha256": "307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6",
+      "source": "Previous exact official PostgreSQL image raw SARIF baseline"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-image-revalidation-zlib-r1-final.txt",
+      "sha256": "48a8bce1b7eadbfc856c79a868bd7d18e8acdcc4a33a5e011c3534f4c794b6bf",
+      "source": "Final image and runtime verification"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-integration-zlib-r1-final.txt",
+      "sha256": "d576f91767eac73ae1f07a06b3710f4ff09893db716d2c6b0aca3228e9ca2b11",
+      "source": "PostgreSQL integration tests"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-recovery-zlib-r1-final.txt",
+      "sha256": "c05f5b6a9c96eb8f58edfac6a0d49755ce2e976d46b8e1562b62d651b61a7cdd",
+      "source": "Disposable database persistence/recovery"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-superuser-risk.md",
+      "sha256": "14598fa19785f238727ee48581c3a5f9d668654c2eb14fe1648109a08c13ca4c",
+      "source": "Local application database superuser risk assessment"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-abi.txt",
+      "sha256": "9ec55a95b35296f0665c9ca40eb84d53c29d72c05458a6948ea5bc77183f3d38",
+      "source": "ABI comparison"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-build-final.log",
+      "sha256": "58ed2284be5f46a0e6b22e4c4a289b676835e61aa86ad644fbfc47170e3b1a3c",
+      "source": "Final package-only image build"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-final.sarif.json",
+      "sha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+      "source": "Current exact PostgreSQL image raw SARIF"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-scan-receipt.json",
+      "sha256": "a74f02f0a0314b7bfcce61f2acc1516b1fe33391aaece2663abdcd0e12734585",
+      "source": "Exact build/Scout command, archived image digest, archive and SARIF hashes"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+      "sha256": "b75fb5301f85493fdef659886ccf40d0bc72311cdf7adf3abd44bd8a0f9e979a",
+      "source": "Exact-digest VEX dispositions applied after per-occurrence audit and owner decision."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/security-review-5460654469-receipt.json",
+      "sha256": "032496d1d73f92cba1ef6ebaf5e70f4f0753eabceaf5e0f5aa7c8877ea3fe44f",
+      "source": "Receipt for the GitHub security review and bounded correction scope"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/security-scans.json",
+      "sha256": "776afb181c5c90c3472318a096793731b2c53ac17242939bc62ba68aa7c2e13a",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/security-scans.md",
+      "sha256": "b0276fe5f86a8af93ea474afdc31ce1a0f19d66433c9bcb8b8dfecd576aef24a",
+      "source": "Updated PH-M02-WO-001 evidence and proposed checkpoint delta"
+    },
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "09e3072d5c215a0693e564bdd171410bfb71f0de2383974518b221e5ff0c1530",
+      "source": "Exact PR-head checkout, locked image build, migration/integration validation and uploaded receipt"
+    },
+    {
+      "path": "compose.yaml",
+      "sha256": "d2ec3e59dd251c37a98210518b11a34bc90079806f7018187d8eb44a3c00d5ce",
+      "source": "Canonical local Compose image indirection and no implicit pull policy"
+    },
+    {
+      "path": "docker/postgres/Dockerfile",
+      "sha256": "87667706b5e69d8e27e171f7c3d4b992ddbe1019b2cbb3c3f548c7a8fd5aa622",
+      "source": "Corrected PostgreSQL base, deterministic package update and non-root runtime"
+    },
+    {
+      "path": "docker/postgres/image.lock.json",
+      "sha256": "d87477a06eb51249a6d17b3076fd05bf8bde0484a5dbe2723b3ae6889a4bb773",
+      "source": "Locked image manifest/config digests and package/runtime properties"
+    },
+    {
+      "path": "package.json",
+      "sha256": "b755240fc83ab732218d0ec682986684e8071ba71ea32a9268524f59743b9794",
+      "source": "Canonical docker:up/docker:rebuild command routing"
+    },
+    {
+      "path": "README.md",
+      "sha256": "238643ae11ddb7ecf20b6f9cf9e5545164e76f58858e47503703c57dd66d8539",
+      "source": "Clean-checkout Docker startup instructions"
+    },
+    {
+      "path": "scripts/postgres-image.mjs",
+      "sha256": "767db10d54322f21a4b1184736fa59f1c15732eac7ffbdcae8b7c03869ad0330",
+      "source": "Fail-closed image build, runtime verification, Compose startup and exact-head CI receipt helper"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-npm-audit.txt",
+      "sha256": "6d8c5c8f3d7684adb070417bd608d01ae90aa3dc26a65af03ffda4955f38d9a3",
+      "source": "Explicit final npm audit --audit-level=high receipt"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001-EVIDENCE.md",
+      "sha256": "f87b87fc93f1108fb0cf578a7c90d1fc28fcd0a9f8028ea4e5eeebc55c174c10",
+      "source": "Top-level PH-M02-WO-001 Evidence Bundle"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-evidence-integrity.json",
+      "sha256": "d42340144895a065c2bf9836fd072b1a508c0270011f03684d883c8f5063289a",
+      "source": "Final evidence-manifest integrity check receipt; records the non-self-referential pre-inclusion pass"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+      "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705",
+      "source": "Independent audit correction receipt: expiry arithmetic and preserved VEX approval boundary"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+      "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7",
+      "source": "Human-readable receipt for the exact seven-day expiry correction"
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+      "sha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+      "source": "Independent per-occurrence evidence review; no VEX approval."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+      "sha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+      "source": "Direct conditional Project Owner VEX decision receipt."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+      "sha256": "9feefe0c2fd0543842b2d784c582462180aa3b317a66a10118fa72870700caa1",
+      "source": "Advisory bounded JEV decision on auditor qualification; no CVE approval."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-20261010.json",
+      "sha256": "b901487d51fb273a0f42441a5d1d7ae13aff9a32df82ec822cad49ef90450831",
+      "source": "Superseded historical audit-qualification snapshot; resolution is recorded separately."
+    },
+    {
+      "path": ".engineering/decisions/ADR-0008-PARALLEL-IMPLEMENTATION-WAVES.md",
+      "sha256": "212fa04adea428bfd432dbcaa131d1a7bb9d0119485235d7bbe2fbe08172314a",
+      "source": "D-0024 effectiveness after PR #57 merge; G0 remains closed."
+    },
+    {
+      "path": ".engineering/DECISIONS-LEDGER.md",
+      "sha256": "76fedb16f94c7c2f26b56901e00ad503f1971dbb1c37e6f1ef0fe7610d883cea",
+      "source": "Current D-0024 ledger status."
+    },
+    {
+      "path": ".engineering/evidence/PH-GOV-PARALLEL-001-EVIDENCE.md",
+      "sha256": "481795284926e560783d5ab8d68ead7c6bb3a7b393b4f4b3b0138cc178699083",
+      "source": "PR #57 merge and PR #43 audit-qualification reconciliation."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+      "sha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+      "source": "Canonical qualification resolution for the role-separated independent per-occurrence audit."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/provider-malformed-shape-correction-20261010.json",
+      "sha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+      "source": "Fail-closed provider shape correction and final local validation receipt."
+    },
+    {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
+      "sha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380",
+      "source": "Current exact Git-blob VEX evidence/hash and approval reconciliation receipt."
+    }
+  ],
+  "postgresDigestRevalidation": {
+    "path": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+    "sha256": "b75fb5301f85493fdef659886ccf40d0bc72311cdf7adf3abd44bd8a0f9e979a",
+    "remainingHighCriticalOccurrences": 24,
+    "freshProposals": 24,
+    "allStatus": "NOT_AFFECTED",
+    "allProposedDisposition": "NOT_AFFECTED",
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
+    "priorApprovalTransferred": false,
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
+  },
+  "correctionDelta": {
+    "review": "5460224915",
+    "auditedHead": "3610088bf1c2183d46b1363af25a94b71f6378b8",
+    "scope": [
+      "CR-07-AUD-05",
+      "CR-07-AUD-06"
+    ],
+    "noScopeExpansion": true,
+    "status": "FINAL_EXACT_HEAD_CI_TRACKED_IN_PR",
+    "proposalCounts": {
+      "currentPending": 28,
+      "currentScoutOccurrencesWithProposal": 25,
+      "supplementalCurrentPending": 3,
+      "historicalArchived": 1,
+      "currentProposalStatus": "UNDER_INVESTIGATION",
+      "currentProposedDisposition": "NOT_AFFECTED",
+      "independentAuditor": null,
+      "ownerApproval": null,
+      "executorSelfApproval": false
+    },
+    "exactRuntimeReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-05-06-runtime-revalidation.txt",
+      "sha256": "3725b64ad9645ad5114b3c2eea06a34a6d008536f90a0050e1d35ed83a676736"
+    },
+    "jevVerifyReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-05-06-verify.json",
+      "sha256": "506793037c121387a059f94e765029f169f63c89570b9997c2d804813dd46e66",
+      "provider": "TypeSafe",
+      "model": "jev-1.13.0",
+      "result": "2 claims verified; advisory only; no VEX approval"
+    },
+    "currentDevImage": {
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+      "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+      "findings": {
+        "HIGH": 1,
+        "CRITICAL": 0
+      }
+    },
+    "priorAcceptedCorrection": {
+      "review": "5457414821",
+      "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+      "scope": [
+        "CR-07-AUD-02",
+        "CR-07-AUD-03",
+        "CR-07-AUD-04"
+      ]
+    },
+    "note": "No image rebuild/rescan, product change, VEX approval, merge, checkpoint promotion, signing, trading, or WO-002."
+  },
+  "historicalArchived": [
+    {
+      "occurrenceId": "dev-CVE-2026-95619",
+      "cve": "CVE-2026-95619",
+      "archiveStatus": "HISTORICAL_NOT_CURRENT",
+      "archiveReason": "CVE-2026-95619 is absent from Docker Scout SARIF for both the superseded Debian dev digest sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948 and the current Alpine dev digest sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2. Absence is not FIXED or NOT_AFFECTED evidence.",
+      "priorImageDigest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1",
+      "currentImageDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "currentScannerResultPresent": false,
+      "excludedFromCurrentProposalCounts": true,
+      "approvalStatePreserved": {
+        "status": "UNDER_INVESTIGATION",
+        "proposedDisposition": "NOT_AFFECTED",
+        "independentAuditor": null,
+        "ownerApproval": null,
+        "executorSelfApproval": false
+      },
+      "record": {
+        "occurrenceId": "dev-CVE-2026-95619",
+        "cve": "CVE-2026-95619",
+        "severity": "HIGH",
+        "environment": "local-dev",
+        "findingSource": "docker_scout_final_sarif",
+        "image": {
+          "reference": "polyhunter-dev:local",
+          "digest": "sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1"
+        },
+        "component": {
+          "package": "pkg:deb/debian/gcc-14@14.2.0-19",
+          "detectedVersion": "14.2.0-19",
+          "present": true,
+          "vulnerableCodeAssessment": "libstdc++.so.6 and aligned operator new symbol are present. The exact vulnerable size-rounding/overflow sequence is absent: alignment is validated and posix_memalign receives the requested size unchanged."
+        },
+        "upstreamFix": {
+          "fixedVersion": "not fixed in current Debian Trixie repository",
+          "upstreamFix": "No fixed Trixie package candidate; exact aligned operator new implementation takes the safe posix_memalign path."
+        },
+        "cisaKev": {
+          "listed": false,
+          "catalogVersion": "2026.10.04"
+        },
+        "epss": {
+          "score": "0.003630000",
+          "percentile": "0.280830000",
+          "date": "2026-10-07"
+        },
+        "attackerControlledInput": "Untrusted application/provider data may affect Node allocations, but no vulnerable size arithmetic exists in the exact operator implementation.",
+        "exploitPrerequisites": [
+          "An attacker must cause a C++ consumer to request a sufficiently large aligned allocation through the affected operator new."
+        ],
+        "reachability": "The libstdc++ symbol is linked into Node; the exact symbol implementation is inspected in the final image by matching SHA-256 to the selected candidate. The overflow operation from the advisory is absent.",
+        "networkExposure": "Web is host-bound to 127.0.0.1:3000; worker has no published port.",
+        "privilegeContext": "Services run as UID 1000/node with zero effective/permitted capabilities.",
+        "mitigation": "Safe alignment validation plus posix_memalign with original size; no scanner suppression. Candidate package refresh unavailable.",
+        "vex": {
+          "status": "UNDER_INVESTIGATION",
+          "proposedDisposition": "NOT_AFFECTED",
+          "justification": "vulnerable_code_not_present",
+          "rationale": "Evidence supports this proposed disposition for this exact image/runtime only. This proposal is not approved and does not clear the raw scanner finding.",
+          "independentAuditor": null,
+          "ownerApproval": null,
+          "expiry": "2026-10-14T23:59:59Z",
+          "revalidateOn": [
+            "new image digest",
+            "new scanner result",
+            "new vendor/upstream advisory",
+            "KEV status change",
+            "runtime/configuration/exposure change",
+            "expiry date"
+          ],
+          "executorSelfApproval": false
+        },
+        "evidenceRefs": [
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-full-final.sarif.json",
+            "sha256": "3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/dev-cr07-final-runtime-inspection.txt",
+            "sha256": "55e3f77316ec5ce54edfe64204680dc5002e385bf6eb1047ba8121bdd0805921"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/gcc-aligned-new-runtime.txt",
+            "sha256": "6a13542f15c59167477e3764cbbadb88f0b3225e1d269934c5c13e18658d0d47"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-native-library-revalidation.txt",
+            "sha256": "e1f4c79bcedb12fed45e3108f89bac4abb15af9d6a1293f20fa8d4399470b691"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/trixie-security-candidate-apt-policy.txt",
+            "sha256": "45d13268a4aa50747d4466b9515ef8a04bd1b1885dbd318445a1f85300e4c795"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-full-final-scan-reconciliation.txt",
+            "sha256": "df7b1876269002b0697378fb739deec0b7e5ae67cd937e911068fbfdc156cfd5"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-compose-runtime-final.json",
+            "sha256": "2ab0c5263c6c2609d7d02a2a585fed28fd2ff037946f3cc2e60b0b4e87614b68"
+          },
+          {
+            "path": ".engineering/evidence/PH-M02-WO-001/cr07-kev-epss-reconciliation.json",
+            "sha256": "0ba9c3ac0d6f75e6642f56ef3dbb5b5cc4a0d3a7d78aaec4633fe32b2640a8a9"
+          }
+        ],
+        "sourceRefs": [
+          "https://access.redhat.com/security/cve/cve-2026-95619"
+        ],
+        "latestScanReconciliation": {
+          "image": "polyhunter-dev:local",
+          "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+          "sarifPath": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-final.sarif.json",
+          "sarifSha256": "25a4020d28f8d5e3d55a19f9c52e02ddaa549aade93804cf92bebab6e4f68622",
+          "scannerResultPresent": false,
+          "currentHighCriticalCount": 1,
+          "status": "Historical proposal remains UNDER_INVESTIGATION and unapproved; disappearance from the fresh scan is not auto-classified as FIXED or NOT_AFFECTED.",
+          "evidence": [
+            {
+              "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-cr07-aud-02-04-runtime.txt",
+              "sha256": "db78446cf7f028706266e7256e9c036e6c879d782b332ac60fd6e11c6a4029e5",
+              "source": "Current image no longer contains gcc-14; runtime evidence for fresh scan"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "proposalCounts": {
+    "currentPending": 0,
+    "currentScoutOccurrencesWithProposal": 24,
+    "supplementalCurrentPending": 0,
+    "historicalPending": 3,
+    "totalPendingUnapproved": 3,
+    "historicalDevZlibWithoutProposal": 1,
+    "historicalArchived": 1,
+    "currentProposalStatus": "NOT_AFFECTED",
+    "currentProposedDisposition": "NOT_AFFECTED",
+    "independentAuditor": "APPROVED",
+    "ownerApproval": "APPROVED",
+    "executorSelfApproval": false,
+    "currentVexRecordsUnderInvestigation": 0,
+    "currentProposedDispositionCount": 24,
+    "unproposedUnderInvestigationOccurrences": 0,
+    "currentFixedOccurrences": 1,
+    "currentEvidenceAuditRowsReviewed": 24,
+    "currentAuditorQualification": "QUALIFIED_FORMAL_INDEPENDENT_AUDIT",
+    "conditionalOwnerApprovalRecorded": 24,
+    "operativeCurrentOwnerApprovals": 24
+  },
+  "priorCorrectionDelta": {
+    "review": "5457414821",
+    "auditedHead": "86a7ed6b0b6eea350a36873c1313c6f9db183176",
+    "scope": [
+      "CR-07-AUD-02",
+      "CR-07-AUD-03",
+      "CR-07-AUD-04"
+    ],
+    "noScopeExpansion": true,
+    "status": "IMPLEMENTATION_HEAD_VALIDATED; FINAL_EVIDENCE_HEAD_CHECKS_TRACKED_IN_PR",
+    "jevGate": {
+      "receiptPath": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-02-04-gate.json",
+      "receiptSha256": "2ab3c72ecaf4ae6cf06731d4160e0f0bdae4611c2140211c7d2e32da5b175e35",
+      "tool": "jev_gate",
+      "provider": "typesafe",
+      "model": "jev-1.13.0",
+      "action": "escalate",
+      "composite": 0.6941428571428573,
+      "safeToApply": 0.17,
+      "verified": 2,
+      "contradicted": 0,
+      "unsupported": 3,
+      "needsReview": 3,
+      "interpretation": "Advisory only; deterministic evidence and independent security/owner gates remain authoritative. No VEX proposal was approved."
+    },
+    "hostedValidationAttempts": [
+      {
+        "provider": "GitHub Actions",
+        "workflow": "Validate",
+        "runId": "37805774337",
+        "headSha": "add8d8b0d216fe756922f2b88da78ebc21f1fefa",
+        "result": "FAIL",
+        "step": "Build and verify the corrected PostgreSQL image",
+        "reason": "Default docker Buildx driver does not support the type=docker exporter; the build exited before image build and before downstream tests.",
+        "correction": "Create and bootstrap a dedicated docker-container Buildx builder; remove it in always-run cleanup.",
+        "finalHeadGate": "FAILURE_RECORDED_AND_CORRECTED"
+      },
+      {
+        "provider": "GitHub Actions",
+        "workflow": "Validate",
+        "runId": "37806245360",
+        "headSha": "a8725af302d7b7b21436ade68c49c360ecfb1aa2",
+        "result": "PASS",
+        "job": "Node 24 validation",
+        "steps": [
+          "exporter-capable Buildx builder setup",
+          "corrected PostgreSQL image build and verification",
+          "verified PostgreSQL image startup",
+          "npm ci",
+          "required validation gates",
+          "versioned PostgreSQL migrations",
+          "PostgreSQL tenancy integration tests",
+          "runtime receipt finalization and upload"
+        ],
+        "receiptPath": ".engineering/evidence/PH-M02-WO-001/ci-postgres-runtime-a8725.json",
+        "finalEvidenceHeadChecks": "tracked in PR #43 to avoid self-reference"
+      }
+    ]
+  },
+  "latestCorrectionDelta": {
+    "review": "5461309598",
+    "auditedHead": "ca0e7ec1d20b6dd4ff327024d239bdbb65aa77b0",
+    "scope": [
+      "one isolated official Node 24 Alpine 3.24 remediation-first candidate",
+      "promote only after all gates pass",
+      "reconcile exact-digest VEX and prepare the 27 existing proposals for independent audit"
+    ],
+    "status": "READY_FOR_PH_M02_WO_001_INDEPENDENT_AUDIT",
+    "noScopeExpansion": true,
+    "noPostgresImageChange": true,
+    "noVexApproval": true,
+    "candidate": {
+      "base": "node:24.21.0-alpine3.24@sha256:83f1c388c31fb2e51f7cbd4dea949b96260798c98f206e8e4696bc93bd964e3a",
+      "platform": "linux/amd64",
+      "manifestDigest": "sha256:c693fd1a325107969daf9dc4d2cfb06b10842fddbfe4f0304b06fd24bf149c32",
+      "finalDigest": "sha256:6a6c3d9dda7cd7c5d392d34cf28b00034909b4cae14af364a016aae46d7604e2",
+      "zlib": "1.3.2-r1",
+      "finalDockerfileSha256": "f4f44ec432ab17af89bf0ec23560ea49f13df559e025fbeb767bc9a0a6421e91"
+    },
+    "finalDevScan": {
+      "path": ".engineering/evidence/PH-M02-WO-001/polyhunter-dev-alpine-final.sarif.json",
+      "sha256": "231766fba900e68239ba50eae4f8c4328e054fa6552c3df02fa6736d79480ea9",
+      "high": 0,
+      "critical": 0,
+      "resultCount": 6,
+      "medium": 6
+    },
+    "baseline": {
+      "digest": "sha256:73513629a7f6f35aab1ce2c9565f3cdb03a37f90efdf8c530b4b4368a8ce7948",
+      "high": 1,
+      "critical": 0,
+      "fixedOccurrence": "CVE-2026-85091"
+    },
+    "candidateReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-candidate-experiment.md",
+      "sha256": "c39c2bbd3002a311035bd4830011e7ddd53ef4e8f4a1548bcb80bdec0d830415"
+    },
+    "finalRuntimeReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-final-runtime.txt",
+      "sha256": "d284e0cbba6cddfa5169c96cc01ea730e757ea9e3afbcbae45f07ce1f50a0c0c"
+    },
+    "validationReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/dev-alpine-remediation-receipt.json",
+      "sha256": "f6cf8dae25b7504fd1ec403d717efcdb17ba3eadd8df482c235cfd07ef2ac700"
+    },
+    "jevReceipt": {
+      "path": ".engineering/evidence/PH-M02-WO-001/jev-cr07-aud-08-decision.json",
+      "sha256": "60222ce5bd2bcd1b3d7685bd66e9df21028d1b79cd787c3fdd695d9ca31e907c",
+      "recommendation": "promote_candidate",
+      "confidence": 0.96,
+      "advisoryOnly": true,
+      "cvEsApproved": false
+    },
+    "proposalCount": {
+      "totalPendingUnapproved": 27,
+      "currentPostgresDigestPending": 24,
+      "historicalOldDevDigestPending": 3,
+      "allAuditorAndOwnerApprovalNull": true
+    },
+    "exactHeadCi": "Run on final commit; verify exact SHA and green result from PR #43 before the stop condition.",
+    "checkpointDelta": "PROPOSED / NOT_PROMOTED",
+    "restrictions": {
+      "merge": false,
+      "checkpointPromotion": false,
+      "wo002": false,
+      "signing": false,
+      "authenticatedTrading": false,
+      "liveTradingAuthorized": false
+    }
+  },
+  "expiryMetadataCorrection": {
+    "correctionId": "PH-M02-WO-001-AUDIT-A-EXPIRY-001",
+    "sourceHead": "97495b800f214f865e27ff1979652984731a52ed",
+    "findingCount": 24,
+    "severityCounts": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "dispositionTimestampUtc": "2026-10-08T13:00:00Z",
+    "previousExpiry": "2026-10-15T23:59:59Z",
+    "expiry": "2026-10-15T13:00:00Z",
+    "durationHours": 168,
+    "statusesRemain": [
+      "UNDER_INVESTIGATION"
+    ],
+    "proposedDispositionRemains": "NOT_AFFECTED",
+    "independentAuditorApprovals": 0,
+    "ownerApprovals": 0,
+    "selfApproval": false,
+    "requiresIndependentReaudit": true,
+    "evidenceRefs": [
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.json",
+        "sha256": "6b66ed49ad1f7ba84a7a50ef183dc86db73f52de583d0dde36f4cd4dfa40e705"
+      },
+      {
+        "path": ".engineering/evidence/PH-M02-WO-001/cr07-aud-09-vex-expiry-correction.txt",
+        "sha256": "c9ae3b5b16498db84c3b6026614f629dcdcd89d064049823601a0a3359ac4ab7"
+      }
+    ]
+  },
+  "currentAuditQualification": {
+    "auditReport": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditReportSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditedProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "occurrences": 24,
+    "severity": {
+      "HIGH": 22,
+      "CRITICAL": 2
+    },
+    "imageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "imageConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "sameCodexSystem": true,
+    "humanOrThirdParty": false,
+    "blind": false,
+    "qualification": "QUALIFIED",
+    "qualificationRationale": "The formal audit is per occurrence, was performed by a role-separated reviewer other than the implementation/execution task, and supports all 24 exact-digest proposals. The canonical criteria do not require a human/third-party reviewer or blind process. The reviewer did not implement the evidence or exercise VEX approval authority. The owner’s recorded condition is therefore met for this exact digest/runtime and expiry only.",
+    "sourceVexPath": ".engineering/evidence/PH-M02-WO-001/postgres-zlib-r1-vex.json",
+    "sourceVexSha256": "fe38d2b19edd8aaade332d4fc90633207452d1f9b9b154188c7800ef13077907",
+    "sourceSarifPath": ".engineering/evidence/PH-M02-WO-001/postgres-cr07-aud-02-04-final.sarif.json",
+    "sourceSarifSha256": "3f4d8afede798486bbb63be076a175fb0047d33116e2e3d94695862e88f89c14",
+    "ownerDecisionPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerDecisionSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "ownerApprovalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "ownerApprovalRecordedAtUtc": "2026-10-10T00:36:03Z",
+    "ownerApprovalConditional": true,
+    "ownerApprovalOperative": true,
+    "ownerApprovalExpiry": "2026-10-15T13:00:00Z",
+    "jevAdvisoryPath": ".engineering/evidence/PH-M02-WO-001/jev-audit-independence-bounded-decision-20261010.json",
+    "jevIndependenceDecision": "require_human_or_third_party",
+    "jevIndependenceConfidence": 0.9,
+    "jevIsAdvisoryOnly": true,
+    "qualificationReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationReceiptSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "approvalFieldsChanged": true,
+    "vexRowsChanged": true
+  },
+  "latestApprovalUpdate": {
+    "dateUtc": "2026-10-10",
+    "sourceProposalHead": "8a4cb2e6c91a5ff458e02dd64f877311a5af9665",
+    "exactImageDigest": "sha256:f9359595fb9e6fe86f20e64d73db8c3753b3e0828f72fe7093476ff49f2d2744",
+    "exactConfigDigest": "sha256:6cfbc1caf64a3c8a85c062ca25eec78a2db1b0edbdca55906ce3d0d376e23e93",
+    "auditId": "PH-M02-WO-001-PR43-PG-HC-AUDIT-20261009",
+    "auditPath": ".engineering/evidence/PH-M02-WO-001/cr07-independent-per-occurrence-audit-20261009.json",
+    "auditSha256": "4955638fa19eb027f76f1bc119af849b07f219e9a9c6a395d7f2ab1727b6b2c2",
+    "ownerApprovalId": "PH-M02-WO-001-OWNER-VEX-20261010",
+    "ownerApprovalPath": ".engineering/evidence/PH-M02-WO-001/owner-approval-postgres-vex-20261010.json",
+    "ownerApprovalSha256": "7752574a801af692003b6079705ca64af4cb2ba8cdfbf1b4227710db2ac329b9",
+    "qualificationReceipt": ".engineering/evidence/PH-M02-WO-001/cr07-vex-audit-qualification-resolution-20261010.json",
+    "qualificationSha256": "a714b71ad0b9dc0db54782fdad98c706ae798fde6c544a84c0fb28329a5548ad",
+    "appliedCurrentRows": 24,
+    "currentRowsStatus": "NOT_AFFECTED",
+    "rawHighCriticalRemainVisible": 24,
+    "rawFindingsSuppressed": 0,
+    "historicalPendingUnapproved": 3,
+    "providerShapeCorrectionReceipt": ".engineering/evidence/PH-M02-WO-001/provider-malformed-shape-correction-20261010.json",
+    "providerShapeCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "imageOrRuntimeChanged": false,
+    "mergeAllowed": false,
+    "checkpointPromotionAllowed": false,
+    "liveTradingAuthorized": false,
+    "finalExactHeadCi": "Record the exact post-push SHA and Validate run in PR #43 body.",
+    "providerCorrectionSha256": "687337b7d3e7f816ed018d020232a0b6258c1c16475db0664900b4ad5ae4548d",
+    "integrityReceiptPath": ".engineering/evidence/PH-M02-WO-001/cr07-vex-integrity-current-20261010.json",
+    "integrityReceiptSha256": "40b04a8d07799ef799002b07429086512373361b46975d091ef0a2c313ebb380"
+  },
+  "evidenceManifestReconciliation": {
+    "hashRule": "SHA-256 over the committed Git blob bytes for each referenced path.",
+    "selfReferenceExcluded": true,
+    "referencedFiles": 100,
+    "unresolvedPaths": 0,
+    "mismatchedHashes": 0,
+    "auditAndOwnerReceiptsBound": true,
+    "providerCorrectionReceiptBound": true,
+    "generatedAgainstStagedGitIndex": true,
+    "result": "PASS"
+  }
+}

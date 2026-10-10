@@ -1,0 +1,14 @@
+PH-M02-WO-001 CR-07 follow-up artifact validation
+Branch: feat/ph-m02-public-provider-foundation
+Prior pushed head before this follow-up: 82ce7816d78cd04377a20b17c33f3a644e08806e
+Base: a02a8f97ad0a2fe0847aecf24d302fb2c04e3a9c
+Image digests: dev sha256:1da515470671ec8175b1a1ff77dc408c333c0121f862f23f351288fb19d81fd1; PostgreSQL sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+Fresh scan: dev 35 results (LOW 26, MEDIUM 7, HIGH 2, CRITICAL 0, suppressed 0); PostgreSQL 58 results (LOW 7, MEDIUM 26, HIGH 23, CRITICAL 2, suppressed 0).
+SARIF SHA-256: dev 3e61ddbfbad2ca881db4de09a2668be4700ac1d83e2a3d7bd31571f37c061cbc; PostgreSQL 307df3f8cab60c17141e51d1f3237cc198f5e376aea2e4ad5581baec322a59c6.
+Machine JSON parse: PASS (20 standalone JSON files); legacy Compose NDJSON: PASS (3 rows).
+VEX state: PASS (6 exact-image proposals; all UNDER_INVESTIGATION / proposed NOT_AFFECTED; independentAuditor and ownerApproval null).
+VEX evidence references: PASS (49 exact SHA-256 references).
+VEX findings and SARIF bindings: PASS; zero suppressions.
+JEV MCP final gate: ESCALATE; model jev-1.13.0; composite 0.84425; safe_to_apply 0.12; claims 7 verified / 0 contradicted / 0 unsupported / 3 needing review; input/output tokens 38549/1193. No repeat call. Codex manually checked the low-confidence scope/control claims against the bounded staged diff and receipts; exact-head CI remains a separate required gate.
+Authored diff whitespace: PASS after text receipt LF/trailing-space normalization; raw SARIF files remain byte-preserved.
+Hosted exact-head CI and SonarCloud: pending follow-up push; see live PR #43 checks.
